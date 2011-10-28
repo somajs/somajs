@@ -38,16 +38,33 @@ var EmployeeWire = new Class({
 	},
 	selectEmployee: function(vo) {
 		console.log('selectEmployee', vo);
+		this.getView(EmployeeEditView.NAME).updateFields(vo);
 	},
 	createEmployee: function(vo) {
+		vo.id = new Date().getTime();
 		console.log('createEmployee', vo);
 		this.getModel(EmployeeModel.NAME).data.push(vo);
 	},
 	deleteEmployee: function(vo) {
 		console.log('deleteEmployee', vo);
+		var data = this.getModel(EmployeeModel.NAME).data;
+		for (var i = 0; i < data.length; i++) {
+			if (data[i].id == vo.id) {
+				this.getModel(EmployeeModel.NAME).data.splice(i, 1);
+				break;
+			}
+		}
 	},
 	editEmployee: function(vo) {
 		console.log('editEmployee', vo);
+		var data = this.getModel(EmployeeModel.NAME).data;
+		for (var i = 0; i < data.length; i++) {
+			if (data[i].id == vo.id) {
+				data[i].name = vo.name;
+				data[i].age = vo.age;
+				break;
+			}
+		}
 	}
 });
 EmployeeWire.NAME = "Wire::EmployeeWire";

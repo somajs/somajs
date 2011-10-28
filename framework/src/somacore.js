@@ -954,7 +954,7 @@ soma.core.Controller = new Class(
 	 */
 	instanceHandler: function( e )
 	{
-		d("instanceHandler");
+		//d("instanceHandler");
 		if( e.bubbles && this.hasCommand( e.type ) ) {
 			// if the event is equal to the lastEvent, this has already been dispatched for execution
 			if( this.lastEvent != e ) {

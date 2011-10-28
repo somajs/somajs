@@ -12,7 +12,7 @@ var LoginService = new Class({
 		setTimeout(this.complete.bind(this), 500);
 	},
 	complete: function() {
-		if (this.vo.username == 'flex' && this.vo.password == 'soma') {
+		if (this.vo.username == 'js' && this.vo.password == 'soma') {
 			this.responder.result({id:"LoginAttempt " + new Date().getTime(), result:"success"});
 		}
 		else {

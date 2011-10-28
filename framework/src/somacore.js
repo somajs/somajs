@@ -932,7 +932,7 @@ soma.core.Controller = new Class(
      */
 	domTreeHandler: function( e )
 	{
-		 d("domtreeHandler", e.eventPhase );
+		//d("domtreeHandler", e.eventPhase );
 		if( e.bubbles && this.hasCommand( e.type ) && !e.isCloned ) {
 
 			e.stopPropagation();

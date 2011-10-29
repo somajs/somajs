@@ -130,7 +130,7 @@ soma.core.Share = new Class(
 	/*
 	addEvent:function( commandEventName, fn )
 	{
-		this.core.addEvent.apply( this.core, [commandEventName, fn] );
+		this.instance.addEvent.apply( this.instance, [commandEventName, fn] );
 	},
 	*/
 
@@ -149,7 +149,7 @@ soma.core.Share = new Class(
 	/*
 	removeEvent: function( commandEventName, fn )
 	{
-		this.core.removeEvent( commandEventName, fn );
+		this.instance.removeEvent( commandEventName, fn );
 	},
 	*/
 
@@ -162,7 +162,7 @@ soma.core.Share = new Class(
 	/*
 	removeEvents: function( commandEventName )
 	{
-		this.core.removeEvents( commandEventName );
+		this.instance.removeEvents( commandEventName );
 	},
 	*/
 
@@ -664,7 +664,7 @@ soma.core.Controller = new Class(
 		var commandEventType = e.type;
 		if( this.hasCommand( commandEventType ) ) {
 			var command = soma.createClassInstance( this.commands[ commandEventType ] );
-			command.registerCore( this.instance );
+			command.registerInstance( this.instance );
 			command.execute( e );
 		}
 	},
@@ -982,9 +982,9 @@ soma.core.controller.Command = new Class(
 
     /**
      *
-     * @param {soma.core.Core} core
+     * @param {soma.core.Core} instance
      */
-	registerCore: function( instance )
+	registerInstance: function( instance )
 	{
 		this.instance = instance;
 	},
@@ -1038,7 +1038,7 @@ soma.core.controller.SequenceCommand = new Class
 		this.id = id;
 	},
 
-	registerCore: function( instance )
+	registerInstance: function( instance )
 	{
 		this.instance = instance;
 		this.initializeSubCommands();
@@ -1124,7 +1124,7 @@ soma.core.controller.ParallelCommand = new Class
 	{
 		this.commands = [];
 	},
-	registerCore: function( instance )
+	registerInstance: function( instance )
 	{
 		this.instance = instance;
 		this.initializeSubCommands();
@@ -1229,7 +1229,7 @@ soma.core.model.SomaModels = new Class
 			throw new Error( "Model \"" + modelName +"\" already exists" );
 		}
 		this.models[ modelName ] = model;
-		model.registerCore( this.instance );
+		model.registerInstance( this.instance );
 		model.registerDispatcher( this.instance.stage );
 		return model;
 	},
@@ -1271,7 +1271,7 @@ soma.core.model.Model = new Class
 		}
 	}
 
-	,registerCore: function( instance )
+	,registerInstance: function( instance )
 	{
 		this.instance = instance;
 	}
@@ -1448,7 +1448,7 @@ soma.core.wire.SomaWires = new Class
 			throw new Error( "Wire \"" + wireName +"\" already exists" );
 		}
 		this.wires[ wireName ] = wire;
-		wire.registerCore( this.instance );
+		wire.registerInstance( this.instance );
 		return wire;
 	},
 
@@ -1511,7 +1511,7 @@ soma.core.wire.Wire = new Class
 		}
 	},
 
-	registerCore: function( instance )
+	registerInstance: function( instance )
 	{
 		this.instance = instance;
 		this.init();

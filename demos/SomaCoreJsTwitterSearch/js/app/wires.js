@@ -4,8 +4,8 @@ var SearchWire = new Class({
 
 	init: function() {
 		this.addView(MainView.NAME, new MainView);
-		this.core.addEventListener(TwitterEvent.SEARCH, this.searchHandler.bind(this));
-		this.core.addEventListener(TwitterEvent.SEARCH_RESULT, this.searchResultHandler.bind(this));
+		this.instance.addEventListener(TwitterEvent.SEARCH, this.searchHandler.bind(this));
+		this.instance.addEventListener(TwitterEvent.SEARCH_RESULT, this.searchResultHandler.bind(this));
 	},
 
 	searchHandler: function(event) {

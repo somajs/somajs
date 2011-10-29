@@ -27,7 +27,7 @@ var EmployeeWire = new Class({
 		this.addCommand(EmployeeEvent.CREATE, EmployeeCommand);
 		this.addCommand(EmployeeEvent.EDIT, EmployeeCommand);
 		// listeners
-		this.core.addEventListener(NavigationEvent.SELECT, this.navigationHandler.bind(this));
+		this.instance.addEventListener(NavigationEvent.SELECT, this.navigationHandler.bind(this));
 	},
 	navigationHandler: function(event) {
 		console.log('UPDATE', event.navigationID);

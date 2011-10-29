@@ -9,7 +9,7 @@ var MessageWire = new Class({
 		this.addModel(MessageModel.NAME, new MessageModel);
 		view = this.addView(MessageView.NAME, new MessageView);
 		this.addCommand(MessageEvent.REQUEST, MessageCommand);
-        this.core.addEventListener(MessageEvent.READY, this.messageReady);
+        this.instance.addEventListener(MessageEvent.READY, this.messageReady);
 	},
 
     messageReady: function(event) {

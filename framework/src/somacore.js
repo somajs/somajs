@@ -116,7 +116,7 @@ soma.core.Share = new Class(
 	
 	 dispatchEvent: function()
 	 {
-	 	this.core.instanceElement.dispatchEvent.apply( this.core.instanceElement, arguments );
+	 	this.instance.instanceElement.dispatchEvent.apply( this.instance.instanceElement, arguments );
 	 },
 	
 
@@ -173,7 +173,7 @@ soma.core.Share = new Class(
 	 */
 	hasCommand: function( commandEventName )
 	{
-		return this.core.hasCommand( commandEventName );
+		return this.instance.hasCommand( commandEventName );
 	},
 
 	/**
@@ -183,7 +183,7 @@ soma.core.Share = new Class(
 	 */
 	getCommand: function( commandEventName )
 	{
-		return this.core.getCommand( commandEventName );
+		return this.instance.getCommand( commandEventName );
 	},
 
     /**
@@ -191,7 +191,7 @@ soma.core.Share = new Class(
      */
 	getCommands: function()
 	{
-		return this.core.getCommands();
+		return this.instance.getCommands();
 	},
 
 	/**
@@ -201,7 +201,7 @@ soma.core.Share = new Class(
 	 */
 	addCommand: function( commandEventName, commandClass )
 	{
-		this.core.controller.addCommand( commandEventName, commandClass );
+		this.instance.controller.addCommand( commandEventName, commandClass );
 	},
 
 	/**
@@ -211,7 +211,7 @@ soma.core.Share = new Class(
 	 */
 	removeCommand: function( commandEventName )
 	{
-		this.core.controller.removeCommand( commandEventName );
+		this.instance.controller.removeCommand( commandEventName );
 	},
 
 	/**
@@ -221,7 +221,7 @@ soma.core.Share = new Class(
 	 */
 	hasWire: function(wireName)
 	{
-		return this.core.hasWire( wireName );
+		return this.instance.hasWire( wireName );
 	},
 
 	/**
@@ -231,7 +231,7 @@ soma.core.Share = new Class(
 	 */
 	getWire: function( wireName )
 	{
-		return this.core.getWire( wireName );
+		return this.instance.getWire( wireName );
 	},
 
 	/**
@@ -242,7 +242,7 @@ soma.core.Share = new Class(
 	 */
 	addWire: function( wireName, wire )
 	{
-		return this.core.addWire( wireName, wire );
+		return this.instance.addWire( wireName, wire );
 	},
 
 	/**
@@ -252,7 +252,7 @@ soma.core.Share = new Class(
 	 */
 	removeWire: function( wireName )
 	{
-		this.core.removeWire( wireName );
+		this.instance.removeWire( wireName );
 	},
 
     /**
@@ -261,7 +261,7 @@ soma.core.Share = new Class(
      */
 	hasModel: function( modelName )
 	{
-		return this.core.hasModel( modelName );
+		return this.instance.hasModel( modelName );
 	},
 
     /**
@@ -270,42 +270,42 @@ soma.core.Share = new Class(
      */
 	getModel: function( modelName )
 	{
-		return this.core.getModel( modelName );
+		return this.instance.getModel( modelName );
 	},
 
 	getSequencer: function( commandEvent )
 	{
-		 return this.core.controller.getSequencer( commandEvent );
+		 return this.instance.controller.getSequencer( commandEvent );
 	},
 
 	stopSequencerWithEvent: function( commandEvent )
 	{
-		return this.core.controller.stopSequencerWithEvent( commandEvent );
+		return this.instance.controller.stopSequencerWithEvent( commandEvent );
 	},
 
 	stopSequencer: function( commandEvent )
 	{
-		return this.core.controller.stopSequencer( commandEvent );
+		return this.instance.controller.stopSequencer( commandEvent );
 	},
 
 	stopAllSequencers: function()
 	{
-		this.core.controller.stopAllSequencers();
+		this.instance.controller.stopAllSequencers();
 	},
 
 	isPartOfASequence: function( commandEvent )
 	{
-	 	return this.core.controller.isPartOfASequence( commandEvent );
+	 	return this.instance.controller.isPartOfASequence( commandEvent );
 	},
 
 	getLastSequencer: function()
 	{
-		return this.core.controller.getLastSequencer();
+		return this.instance.controller.getLastSequencer();
 	},
 
 	getRunningSequencers: function()
 	{
-		return this.core.controller.getRunningSequencers();
+		return this.instance.controller.getRunningSequencers();
 	},
 
     /**
@@ -315,32 +315,32 @@ soma.core.Share = new Class(
      */
 	addModel: function( modelName, model )
 	{
-		return this.core.addModel( modelName, model );
+		return this.instance.addModel( modelName, model );
 	},
 
 	removeModel: function( modelName )
 	{
-		this.core.removeModel( modelName );
+		this.instance.removeModel( modelName );
 	},
 
 	hasView: function( viewName )
 	{
-		return this.core.hasView( viewName );
+		return this.instance.hasView( viewName );
 	},
 
 	getView: function( viewName )
 	{
-		return this.core.getView( viewName );
+		return this.instance.getView( viewName );
 	},
 
 	addView: function( viewName, view )
 	{
-		return this.core.addView( viewName, view );
+		return this.instance.addView( viewName, view );
 	},
 
 	removeView: function( viewName )
 	{
-		this.core.removeView( viewName );
+		this.instance.removeView( viewName );
 	}
 });
 
@@ -575,7 +575,7 @@ soma.core.Controller = new Class(
      * @private
      * @type soma.core.Core
      */
-	core:null,
+	instance:null,
 
 	boundInstance:null,
 
@@ -611,9 +611,9 @@ soma.core.Controller = new Class(
      * @constructs
      * @param {soma.core.Core} core
      */
-	initialize:function( core )
+	initialize:function( instance )
 	{
-		this.core = core;
+		this.instance = instance;
 		this.commands = {};
 		this.sequencersInfo = {};
 		this.sequencers = {};
@@ -635,10 +635,10 @@ soma.core.Controller = new Class(
 		//this.core.stage.addEventListener( commandEventName, this.boundDomtree, false );    // TODO: check necissity to dispatch from stage
 
 		// handle events dispatched from the domTree
-		this.core.stage.addEventListener( commandEventName, this.boundDomtree, true );
+		this.instance.stage.addEventListener( commandEventName, this.boundDomtree, true );
 
 		// handle events dispatched from the Soma facade
-		this.core.instanceElement.addEventListener( commandEventName, this.boundInstance, false );
+		this.instance.instanceElement.addEventListener( commandEventName, this.boundInstance, false );
 
 
 	},
@@ -650,9 +650,9 @@ soma.core.Controller = new Class(
      */
 	removeInterceptor: function( commandEventName )
 	{
-		this.core.stage.removeEventListener( commandEventName, this.boundDomtree, false );
-		this.core.stage.removeEventListener( commandEventName, this.boundDomtree, true );
-		this.core.instanceElement.removeEventListener( commandEventName, this.boundInstance, false );
+		this.instance.stage.removeEventListener( commandEventName, this.boundDomtree, false );
+		this.instance.stage.removeEventListener( commandEventName, this.boundDomtree, true );
+		this.instance.instanceElement.removeEventListener( commandEventName, this.boundInstance, false );
 	},
 
     /**
@@ -664,7 +664,7 @@ soma.core.Controller = new Class(
 		var commandEventType = e.type;
 		if( this.hasCommand( commandEventType ) ) {
 			var command = soma.createClassInstance( this.commands[ commandEventType ] );
-			command.registerCore( this.core );
+			command.registerCore( this.instance );
 			command.execute( e );
 		}
 	},
@@ -938,7 +938,7 @@ soma.core.Controller = new Class(
 			// store a reference of the events not to dispatch it twice
 			// in case it is dispatched from the display list
 			this.lastEvent = clonedEvent;
-			this.core.instanceElement.dispatchEvent( clonedEvent );
+			this.instance.instanceElement.dispatchEvent( clonedEvent );
 			if( !clonedEvent.isDefaultPrevented() ) {
 				this.executeCommand( e );
 			}
@@ -978,15 +978,15 @@ soma.core.controller.Command = new Class(
 {
 	Implements:[ soma.core.Share ],
 
-	core: null,
+	instance: null,
 
     /**
      *
      * @param {soma.core.Core} core
      */
-	registerCore: function( core )
+	registerCore: function( instance )
 	{
-		this.core = core;
+		this.instance = instance;
 	},
 
     /**
@@ -1038,9 +1038,9 @@ soma.core.controller.SequenceCommand = new Class
 		this.id = id;
 	},
 
-	registerCore: function( core )
+	registerCore: function( instance )
 	{
-		this.core = core;
+		this.instance = instance;
 		this.initializeSubCommands();
 	},
 
@@ -1060,7 +1060,7 @@ soma.core.controller.SequenceCommand = new Class
 	{
 		var c = new soma.core.controller.SequenceCommandProxy( e );
 		this.commands.push( c );
-		this.core.controller.registerSequencedCommand( this, c );
+		this.instance.controller.registerSequencedCommand( this, c );
 	},
 
 	execute: function( commandEvent )
@@ -1078,7 +1078,7 @@ soma.core.controller.SequenceCommand = new Class
 		if( this.commands == null ) {
 			return;
 		}
-		this.core.controller.unregisterSequencedCommand( this, this.currentCommand.event.type );
+		this.instance.controller.unregisterSequencedCommand( this, this.currentCommand.event.type );
 		if( this.commands.length > 0 ) {
 			this.execute( this.commands[0].event );
 		}else{
@@ -1098,7 +1098,7 @@ soma.core.controller.SequenceCommand = new Class
 		this.commands = null;
 		this.commands = null;
 		this.currentCommand = null;
-		this.core.controller.unregisterSequencer( this );
+		this.instance.controller.unregisterSequencer( this );
 	},
 	getCurrentCommand: function()
 	{
@@ -1124,9 +1124,9 @@ soma.core.controller.ParallelCommand = new Class
 	{
 		this.commands = [];
 	},
-	registerCore: function( core )
+	registerCore: function( instance )
 	{
-		this.core = core;
+		this.instance = instance;
 		this.initializeSubCommands();
 	},
 	/**
@@ -1186,12 +1186,12 @@ soma.core.controller.ParallelCommand = new Class
 /*********************************************** # soma.model # ************************************************/
 soma.core.model.SomaModels = new Class
 ({
-	core:null,
+	instance:null,
 	models:null,
 
-	initialize:function( core )
+	initialize:function( instance )
 	{
-		this.core = core;
+		this.instance = instance;
 		this.models = {};
 	},
 
@@ -1229,8 +1229,8 @@ soma.core.model.SomaModels = new Class
 			throw new Error( "Model \"" + modelName +"\" already exists" );
 		}
 		this.models[ modelName ] = model;
-		model.registerCore( this.core );
-		model.registerDispatcher( this.core.stage );
+		model.registerCore( this.instance );
+		model.registerDispatcher( this.instance.stage );
 		return model;
 	},
 
@@ -1271,9 +1271,9 @@ soma.core.model.Model = new Class
 		}
 	}
 
-	,registerCore: function( core )
+	,registerCore: function( instance )
 	{
-		this.core = core;
+		this.instance = instance;
 	}
 
 	,registerDispatcher: function( dispatcher )
@@ -1417,12 +1417,12 @@ soma.core.view.SomaViews = new Class
 /*********************************************** # soma.wire # ************************************************/
 soma.core.wire.SomaWires = new Class
 ({
-	core:null,
+	instance:null,
 	wires:null,
 
-	initialize:function( core )
+	initialize:function( instance )
 	{
-		this.core = core;
+		this.instance = instance;
 		this.wires = {};
 	},
 
@@ -1448,7 +1448,7 @@ soma.core.wire.SomaWires = new Class
 			throw new Error( "Wire \"" + wireName +"\" already exists" );
 		}
 		this.wires[ wireName ] = wire;
-		wire.registerCore( this.core );
+		wire.registerCore( this.instance );
 		return wire;
 	},
 
@@ -1502,7 +1502,7 @@ soma.core.wire.Wire = new Class
 
 	Implements: [soma.core.Share],
 
-	core: null,
+	instance: null,
 
 	initialize: function( name )
 	{
@@ -1511,9 +1511,9 @@ soma.core.wire.Wire = new Class
 		}
 	},
 
-	registerCore: function( core )
+	registerCore: function( instance )
 	{
-		this.core = core;
+		this.instance = instance;
 		this.init();
 	},
 

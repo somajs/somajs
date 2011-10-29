@@ -7,15 +7,14 @@ var MessageWire = new Class({
 	init: function() {
 		console.log('init wire');
 		this.addModel(MessageModel.NAME, new MessageModel);
-		view = this.addView(MessageView.NAME, new MessageView);
+		this.view = this.addView(MessageView.NAME, new MessageView);
 		this.addCommand(MessageEvent.REQUEST, MessageCommand);
-        this.instance.addEventListener(MessageEvent.READY, this.messageReady);
+        this.addEventListener(MessageEvent.READY, this.messageReady.bind(this) );
 	},
 
     messageReady: function(event) {
         console.log('MessageWire received the message:', event.message);
-        //var view = this.getView(MessageView.NAME);
-        view.updateMessage(event.message);
+        this.view.updateMessage(event.message);
     }
 
 });

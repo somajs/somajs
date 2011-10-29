@@ -4,7 +4,6 @@ var MessageEvent = new Class ({
 
 	initialize: function(type, message) {
 		console.log(type);
-		//this.addProp('message', message);
 		if (message) console.log('message in event: ' + message);
 		return this.parent(type, true, false, {message:message});
 	}

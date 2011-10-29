@@ -116,17 +116,17 @@ soma.core.Share = new Class(
 	
 	dispatchEvent: function()
 	{
-		this.instance.instanceElement.dispatchEvent.apply( this.instance.instanceElement, arguments );
+		this.instance.dispatchEvent.apply( this.instance, arguments );
 	},
 	
 	addEventListener: function()
 	{
-		this.instance.instanceElement.addEventListener.apply( this.instance.instanceElement, arguments );
+		this.instance.addEventListener.apply( this.instance, arguments );
 	},
 
 	removeEventListener: function()
 	{
-		this.instance.instanceElement.addEventListener.apply( this.instance.instanceElement, arguments );
+		this.instance.addEventListener.apply( this.instance, arguments );
 	},
 
 	/**
@@ -542,8 +542,6 @@ soma.core.Controller = new Class(
 
 	boundInstance:null,
 
-	boundDomtree: null,
-
     /**
      * @private
      * @type Array
@@ -581,7 +579,6 @@ soma.core.Controller = new Class(
 		this.sequencersInfo = {};
 		this.sequencers = {};
 		this.boundInstance = this.instanceHandler.bind(this);
-		this.boundDomtree = this.domTreeHandler.bind(this);
 	},
 
 
@@ -598,10 +595,10 @@ soma.core.Controller = new Class(
 		//this.core.stage.addEventListener( commandEventName, this.boundDomtree, false );    // TODO: check necissity to dispatch from stage
 
 		// handle events dispatched from the domTree
-		this.instance.stage.addEventListener( commandEventName, this.boundDomtree, true );
+		this.instance.stage.addEventListener( commandEventName, this.domTreeHandler.bind(this), true );
 
 		// handle events dispatched from the Soma facade
-		this.instance.instanceElement.addEventListener( commandEventName, this.boundInstance, false );
+		this.instance.addEventListener( commandEventName, this.instanceHandler, false );
 
 
 	},
@@ -613,9 +610,9 @@ soma.core.Controller = new Class(
      */
 	removeInterceptor: function( commandEventName )
 	{
-		this.instance.stage.removeEventListener( commandEventName, this.boundDomtree, false );
-		this.instance.stage.removeEventListener( commandEventName, this.boundDomtree, true );
-		this.instance.instanceElement.removeEventListener( commandEventName, this.boundInstance, false );
+		this.instance.stage.removeEventListener( commandEventName, this.domTreeHandler.bind(this), false );
+		this.instance.stage.removeEventListener( commandEventName, this.domTreeHandler.bind(this), true );
+		this.instance.removeEventListener( commandEventName, this.instanceHandler, false );
 	},
 
     /**
@@ -901,7 +898,7 @@ soma.core.Controller = new Class(
 			// store a reference of the events not to dispatch it twice
 			// in case it is dispatched from the display list
 			this.lastEvent = clonedEvent;
-			this.instance.instanceElement.dispatchEvent( clonedEvent );
+			this.instance.dispatchEvent( clonedEvent );
 			if( !clonedEvent.isDefaultPrevented() ) {
 				this.executeCommand( e );
 			}

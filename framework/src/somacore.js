@@ -45,7 +45,7 @@ soma.Prepare =
 	},
     /**
      * @static
-     * @param {Array} aP Array of pathes
+     * @param {Array} aP Array of paths
      */
 	registerPackages: function(aP)
 	{
@@ -390,8 +390,6 @@ soma.core.Core = new Class(
 		this.registerViews();
 		this.registerCommands();
 		this.registerWires();
-
-		soma.core.Core.instance = this;
 
 		this.init();
 	},

@@ -4,7 +4,6 @@ var MessageCommand = new Class({
 
 	execute: function(event) {
 		console.log('MessageCommand::execute():', event.type, event.message);
-        var model = this.getModel(MessageModel.NAME);
-        model.requestMessage();
+        this.getModel(MessageModel.NAME).requestMessage();;
 	}
 });

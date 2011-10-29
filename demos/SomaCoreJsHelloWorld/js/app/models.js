@@ -11,7 +11,7 @@ var MessageModel = new Class({
     requestMessage: function() {
         message = "Hello SomaCore JS!";
         console.log('Request message and dispatch ready event');
-        this.instance.dispatchEvent(new MessageEvent(MessageEvent.READY, message));
+        this.dispatchEvent(new MessageEvent(MessageEvent.READY, message));
     }
 
 });

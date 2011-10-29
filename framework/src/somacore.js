@@ -114,57 +114,20 @@ soma.core.Share = new Class(
 /** @lends soma.core.Share.prototype */
 {
 	
-	 dispatchEvent: function()
-	 {
-	 	this.instance.instanceElement.dispatchEvent.apply( this.instance.instanceElement, arguments );
-	 },
+	dispatchEvent: function()
+	{
+		this.instance.instanceElement.dispatchEvent.apply( this.instance.instanceElement, arguments );
+	},
 	
-
-	/**
-	 *
-	 * @param {String} commandEventName
-	 * @param {Function} fn
-	 * @return (void)
-	 * @deprecated
-	 */
-	/*
-	addEvent:function( commandEventName, fn )
+	addEventListener: function()
 	{
-		this.instance.addEvent.apply( this.instance, [commandEventName, fn] );
+		this.instance.instanceElement.addEventListener.apply( this.instance.instanceElement, arguments );
 	},
-	*/
 
-	/**
-	 * @description
-     * Detaches a command. Be careful when removing events: the exact bound reference has to be given:
-	 * @example
-     * var boundDestroy = this.listener.bind( this );
-	 * this.removeEvent(commandEventName, boundDestroy);
-	 *
-	 * @param {String} commandEventName
-	 * @param {Function} fn listener closure
-	 * @return (void)
-	 *   @deprecated
-	 */
-	/*
-	removeEvent: function( commandEventName, fn )
+	removeEventListener: function()
 	{
-		this.instance.removeEvent( commandEventName, fn );
+		this.instance.instanceElement.addEventListener.apply( this.instance.instanceElement, arguments );
 	},
-	*/
-
-	/**
-	 *
-	 * @param {String} commandEventName (command key)
-	 * @return {void}
-	 * @deprecated
-	 */
-	/*
-	removeEvents: function( commandEventName )
-	{
-		this.instance.removeEvents( commandEventName );
-	},
-	*/
 
 	/**
 	 * @description checks if a command for the given key exists
@@ -1229,8 +1192,7 @@ soma.core.model.SomaModels = new Class
 			throw new Error( "Model \"" + modelName +"\" already exists" );
 		}
 		this.models[ modelName ] = model;
-		model.registerInstance( this.instance );
-		model.registerDispatcher( this.instance.stage );
+		model.registerDispatcher( this.instance );
 		return model;
 	},
 
@@ -1260,7 +1222,6 @@ soma.core.model.Model = new Class
 	name: null,
 	data: null,
 	dispatcher:null,
-	inited: false,
 
 	initialize: function( name, data, dispatcher )
 	{
@@ -1271,20 +1232,9 @@ soma.core.model.Model = new Class
 		}
 	}
 
-	,registerInstance: function( instance )
-	{
-		this.instance = instance;
-	}
-
 	,registerDispatcher: function( dispatcher )
 	{
-		if( this.inited ) {
-			return;
-		}
-		if( !this.dispatcher ) {
-			this.dispatcher = dispatcher;
-		}
-		this.inited = true;
+		this.dispatcher = dispatcher;
 		this.init();
 	}
 	/**
@@ -1298,7 +1248,29 @@ soma.core.model.Model = new Class
 	,dispose: function()
 	{
 
+	},
+
+	dispatchEvent: function()
+	{
+		if (this.dispatcher) {
+			this.dispatcher.dispatchEvent.apply( this.dispatcher, arguments );
+		}
+	},
+
+	addEventListener: function()
+	{
+		if (this.dispatcher) {
+			this.dispatcher.addEventListener.apply( this.dispatcher, arguments );
+		}
+	},
+
+	removeEventListener: function()
+	{
+		if (this.dispatcher) {
+			this.dispatcher.addEventListener.apply( this.dispatcher, arguments );
+		}
 	}
+
 });
 
 

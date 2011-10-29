@@ -1,27 +1,23 @@
 var MainView = new Class({
+
 	searchInput: null,
 	messageView: null,
 	listView: null,
 	listTemplate: null,
+
 	initialize: function() {
-		console.log('init main view');
-		this.searchInput = document.getElementById("search-input");
 		this.messageView = document.getElementById("message");
 		this.listView = document.getElementById("result-list");
 		this.listTemplate = document.getElementById("template-tweet");
-		this.setListeners();
+		this.searchInput = document.getElementById("search-input");
+		this.searchInput.addEventListener('keypress', function(event) {
+			if (event.keyCode == 13 && this.value != "") {
+				this.dispatchEvent(new TwitterEvent(TwitterEvent.SEARCH, this.value));
+			}
+		});
 	},
-	setListeners: function() {
-		this.searchInput.addEventListener('keypress', this.keypressHandler);
-	},
-	keypressHandler: function(event) {
-		if (event.keyCode == 13 && this.value != "") {
-			console.log('dispatch TwitterEvent.SEARCH with ', this.value);
-			this.dispatchEvent(new TwitterEvent(TwitterEvent.SEARCH, this.value));
-		}
-	},
+
 	updateTweets: function(data) {
-		console.log('update tweets', data.length);
 		$("#result-list").empty();
 		$.template("listTemplate", $("#template-tweet"));
 		$.tmpl("listTemplate", data).appendTo($("#result-list"));
@@ -33,5 +29,7 @@ var MainView = new Class({
 		$("#result-list li:even").css("background-color", "#F8F8F8");
 		this.messageView.innerHTML = "search result: " + data.length;
 	}
+
 });
+
 MainView.NAME = "View::MainView";

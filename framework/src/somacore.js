@@ -336,9 +336,7 @@ soma.core.Core = new Class(
 
 	,initialize:function()
 	{
-		var element = document.createElement( "div" );
-		element.setProperty( "id", "somaInstanceElement" + (++soma.core.Core.instanceCount));
-		this.instanceElement = element;
+		this.instanceElement = document.createElement( "div" );
 		this.stage = document.body;
 		//this.stage.dispatchEvent = function() { throw new Error("dispatching events from soma stage not allowed") };
 		if( !this.stage ) {
@@ -528,8 +526,6 @@ soma.core.Core = new Class(
 	}
 
 });
-soma.core.Core.instanceCount = 0;
-
 
 soma.core.Controller = new Class(
 /** @lends soma.core.Controller.prototype */

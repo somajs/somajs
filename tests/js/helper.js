@@ -163,7 +163,7 @@ var TestView = new Class
 	{
 		this.el = document.id("testSprite");
 	}
-	,initializeView: function()
+	,init: function()
 	{
 		this.el.setStyles( {width:100, height:100, background:"#ccc"} );
 	}

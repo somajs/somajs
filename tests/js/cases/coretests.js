@@ -145,7 +145,7 @@ var ViewTest = new Class
 		this.soma.addView( "testView", new TestView() );
 	}
 
-	,test_register_calls_initializeView: function()
+	,test_register_calls_init: function()
 	{
 	 	this.soma.addView( "testView", new TestView() );
 		this.assertTrue( document.id("testSprite").getStyle("background-color") == "#cccccc" );

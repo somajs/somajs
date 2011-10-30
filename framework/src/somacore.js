@@ -583,8 +583,6 @@ soma.core.Controller = new Class(
 		if( !soma["core"] ) {
 			throw new Error( "soma package has been overwritten by local variable");
 		}
-		// handle events dispatched from the root/body
-		//this.core.body.addEventListener( commandEventName, this.boundDomtree, false );    // TODO: check necissity to dispatch from body
 
 		// handle events dispatched from the domTree
 		this.instance.body.addEventListener( commandEventName, this.domTreeHandler.bind(this), true );

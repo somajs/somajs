@@ -4,12 +4,12 @@ var SearchWire = new Class({
 
 	init: function() {
 		this.addView(MainView.NAME, new MainView);
-		this.removeView(MainView.NAME)
 		this.addEventListener(TwitterEvent.SEARCH, this.searchHandler.bind(this));
 		this.addEventListener(TwitterEvent.SEARCH_RESULT, this.searchResultHandler.bind(this));
 	},
 
 	searchHandler: function(event) {
+		console.log(this.getView(MainView.NAME));
 		this.getView(MainView.NAME).messageView.innerHTML = "Searching...";
 	},
 

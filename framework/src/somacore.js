@@ -311,36 +311,32 @@ soma.core.Share = new Class(
 soma.core.Core = new Class(
 /** @lends soma.core.Core.prototype */
 {
-	stageId:"somaStage"
-	,stage:null
-	,instanceElement:null
-	,models:null
-	/**
-	 * @type soma.core.Controller
-	 */
-	,controller:null
-	,wires:null
-	,views:null
+	body:null,
+	instanceElement:null,
+	models:null,
+	controller:null,
+	wires:null,
+	views:null,
 
     /**
      *
      * @constructs
      * @description
      * This class acts as some sort of super wire orchestrating all core actor objects. A reference is stored in each core actor.
-	 * disabling the stage for dispatching events manually as at the lowest point in the display list dispatching an event
+	 * disabling the body for dispatching events manually as at the lowest point in the display list dispatching an event
 	 * a handler is not recognized for the capture phase
 	 *
      * @see soma.core.Share
      */
 
 
-	,initialize:function()
+	initialize:function()
 	{
 		this.instanceElement = document.createElement( "div" );
-		this.stage = document.body;
-		//this.stage.dispatchEvent = function() { throw new Error("dispatching events from soma stage not allowed") };
-		if( !this.stage ) {
-			throw new Error( "SomaCore requires stage of type Element");
+		this.body = document.body;
+		//this.body.dispatchEvent = function() { throw new Error("dispatching events from soma body not allowed") };
+		if( !this.body ) {
+			throw new Error( "SomaCore requires body of type Element");
 		}
 		this.controller = new soma.core.Controller( this );
 		this.models = new soma.core.model.SomaModels( this );
@@ -587,11 +583,11 @@ soma.core.Controller = new Class(
 		if( !soma["core"] ) {
 			throw new Error( "soma package has been overwritten by local variable");
 		}
-		// handle events dispatched from the root/stage
-		//this.core.stage.addEventListener( commandEventName, this.boundDomtree, false );    // TODO: check necissity to dispatch from stage
+		// handle events dispatched from the root/body
+		//this.core.body.addEventListener( commandEventName, this.boundDomtree, false );    // TODO: check necissity to dispatch from body
 
 		// handle events dispatched from the domTree
-		this.instance.stage.addEventListener( commandEventName, this.domTreeHandler.bind(this), true );
+		this.instance.body.addEventListener( commandEventName, this.domTreeHandler.bind(this), true );
 
 		// handle events dispatched from the Soma facade
 		this.instance.addEventListener( commandEventName, this.instanceHandler, false );
@@ -606,8 +602,8 @@ soma.core.Controller = new Class(
      */
 	removeInterceptor: function( commandEventName )
 	{
-		this.instance.stage.removeEventListener( commandEventName, this.domTreeHandler.bind(this), false );
-		this.instance.stage.removeEventListener( commandEventName, this.domTreeHandler.bind(this), true );
+		this.instance.body.removeEventListener( commandEventName, this.domTreeHandler.bind(this), false );
+		this.instance.body.removeEventListener( commandEventName, this.domTreeHandler.bind(this), true );
 		this.instance.removeEventListener( commandEventName, this.instanceHandler, false );
 	},
 

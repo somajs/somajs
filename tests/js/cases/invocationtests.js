@@ -6,7 +6,7 @@ var InvocationTest = new Class
 
 	,soma: null
 
-	,stage:null
+	,body:null
 
 	,somaViewTestObj: null
 
@@ -40,7 +40,7 @@ var InvocationTest = new Class
 	,_should: {
 		error: {
 			test_multiple_register_of_same_view_should_throw_Error: Error
-			,test_command_from_stage_should_fail: Error
+			,test_command_from_body_should_fail: Error
 		}
 	}
 
@@ -56,7 +56,7 @@ var InvocationTest = new Class
 		this.spriteTestAccess.addEventListener( InvocationCommandList.TEST,  this.setUserAccessFromDisplayListBound );
 		this.soma = new soma.core.Core( new Element("testooo") );
 		this.soma.addEventListener( InvocationCommandList.TEST, this.setUserAccessFromInstanceBound );
-		this.stage = this.soma.stage;
+		this.body = this.soma.body;
 		this.soma.addCommand( InvocationCommandList.TEST, TestCommand );
 
 
@@ -126,9 +126,9 @@ var InvocationTest = new Class
 	}
 
 
-	,test_command_from_stage: function()
+	,test_command_from_body: function()
 	{
-		this.stage.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this ) );
+		this.body.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this ) );
 		var f = this.defaultCheck();
 		if( f !== null )  {
 			this.fail( f );
@@ -136,9 +136,9 @@ var InvocationTest = new Class
 		this.assertTrue( this.executed );
 	}
 
-	,test_command_from_stage_bubbles_false: function()
+	,test_command_from_body_bubbles_false: function()
 	{
-		this.stage.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this, false ) );
+		this.body.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this, false ) );
 		var f = this.defaultCheck();
 		if( f !== null )  {
 			this.fail( f );
@@ -182,18 +182,18 @@ var InvocationTest = new Class
 	}
 
 
-	,test_cancel_event_dispatched_from_stage: function()
+	,test_cancel_event_dispatched_from_body: function()
 	{
 		this.soma.addEventListener( InvocationCommandList.TEST, this.cancelEventBound );
-		this.stage.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this )  );
+		this.body.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this )  );
 		this.assertFalse( this.executed );
    		this.soma.removeEventListener( InvocationCommandList.TEST, this.cancelEventBound );
 	}
 
-	,test_cannot_cancel_event_dispatched_from_stage: function()
+	,test_cannot_cancel_event_dispatched_from_body: function()
 	{
  		this.soma.addEventListener( InvocationCommandList.TEST, this.cancelEventBound );
-		this.stage.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this, true, false )  );
+		this.body.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this, true, false )  );
 		this.assertTrue( this.executed );
    		this.soma.removeEventListener( InvocationCommandList.TEST, this.cancelEventBound );
 	}

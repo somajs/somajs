@@ -1549,8 +1549,7 @@ soma.Event = new Class
 	}
 });
 
-
-
-
-
-
+soma.core.IResponder = new Class({
+	fault: function(info){},
+	result: function(data) {}
+});

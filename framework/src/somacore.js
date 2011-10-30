@@ -1190,6 +1190,7 @@ soma.core.model.SomaModels = new Class
 		}
 		this.models[ modelName ] = model;
 		model.registerDispatcher( this.instance );
+		model.init();
 		return model;
 	},
 
@@ -1232,7 +1233,6 @@ soma.core.model.Model = new Class
 	,registerDispatcher: function( dispatcher )
 	{
 		this.dispatcher = dispatcher;
-		this.init();
 	}
 	/**
 	 * to be overridden
@@ -1332,8 +1332,8 @@ soma.core.view.SomaViews = new Class
 		}
 		this.views[ viewName ] = view;
 
-		if( this.views[ viewName ][ "initializeView" ] != null ) {
-			this.views[ viewName ].initializeView();
+		if( this.views[ viewName ][ "init" ] != null ) {
+			this.views[ viewName ].init();
 		}
 		return view;
 	},
@@ -1366,7 +1366,7 @@ soma.core.view.SomaViews = new Class
 		if( !this.hasView( viewName ) ) {
 			throw new Error("Error in " + this + " View \"" + viewName + "\" not registered.");
 		}
-		if( this.views[ viewName ].hasOwnProperty( "dispose" ) ) {
+		if (this.views[viewName]["dispose"] != null) {
 			this.views[viewName].dispose();
 		}
 		this.views[ viewName ] = null;
@@ -1418,6 +1418,7 @@ soma.core.wire.SomaWires = new Class
 		}
 		this.wires[ wireName ] = wire;
 		wire.registerInstance( this.instance );
+		wire.init();
 		return wire;
 	},
 
@@ -1483,7 +1484,6 @@ soma.core.wire.Wire = new Class
 	registerInstance: function( instance )
 	{
 		this.instance = instance;
-		this.init();
 	},
 
 

@@ -30,6 +30,10 @@ var InvocationTest = new Class
 
 	,cancelEventBound: null
 
+	,asyncBound: null
+
+	,skipDispose:false
+
 	,initialize: function()
 	{
 		this.cancelEventBound = this.cancelEvent.bind( this );
@@ -54,7 +58,7 @@ var InvocationTest = new Class
 
 		this.spriteTestAccess = document.getElementById( "testSprite" );
 		this.spriteTestAccess.addEventListener( InvocationCommandList.TEST,  this.setUserAccessFromDisplayListBound );
-		this.soma = new soma.core.Core( new Element("testooo") );
+		this.soma = new soma.core.Core();
 		this.soma.addEventListener( InvocationCommandList.TEST, this.setUserAccessFromInstanceBound );
 		this.body = this.soma.body;
 		this.soma.addCommand( InvocationCommandList.TEST, TestCommand );
@@ -68,9 +72,9 @@ var InvocationTest = new Class
 		this.spriteTestAccess.removeEventListener( InvocationCommandList.TEST, this.setUserAccessFromDisplayListBound );
 		this.soma.removeEventListener( InvocationCommandList.TEST, this.setUserAccessFromInstanceBound );
 		this.soma.removeCommand( InvocationCommandList.TEST, TestCommand );
+		//this.soma.stopAllSequencers();
 		this.soma.dispose();
 		this.soma = null;
-
 	}
 
 
@@ -202,7 +206,7 @@ var InvocationTest = new Class
 	,test_parallel_command: function()
 	{
 		this.soma.dispose();
-		this.soma = new soma.core.Core( new Element("testooo222") );
+		this.soma = new soma.core.Core();
 
 		this.soma.addCommand( InvocationCommandList.TEST, TestCommand );
 		this.soma.addCommand( InvocationCommandList.PARALLEL, TestParallelCommand );
@@ -211,33 +215,34 @@ var InvocationTest = new Class
 		this.assertEquals( this.executedCount, 5 );
 	}
 
-	,_test_async_command: function()
+	,test_async_command: function()
 	{
 		this.soma.dispose();
+		this.soma = new soma.core.Core();
 		this.soma.addCommand( InvocationCommandList.TEST, TestAsyncCommand );
-		this.soma.addEventListener( InvocationCommandList.TEST_ASYNC_COMPLETE);
-		//this.wait( this.test_async_command_success.bind(this) );
-
-		// TODO implement async
-		//soma.addEventListener(TestEvent.TEST_ASYNC_COMPLETE, Async.asyncHandler(this, testAsyncCommandSuccess, 500, soma, testAsyncCommandFailed), false, 0, true);
-		//this.soma.dispatchEvent(new TestEvent(InvocationCommandList.TEST));
-
-	}
-
-	,_test_async_command_fail: function()
-	{
-		fail("AsyncCommand has not been executed under 500ms");
-	}
-
-	,_test_async_command_success: function()
-	{
-	   this.assertTrue( true );
+		this.asyncBound = this.asyncCommandSuccessHandler.bind(this);
+		this.soma.addEventListener( InvocationCommandList.TEST_ASYNC_COMPLETE, this.asyncBound );
+		this.soma.dispatchEvent( new TestEvent( InvocationCommandList.TEST ) );
+		this.skipDispose = true;
+		this.wait();
 	}
 
 	/*
+	,_test_async_command_fail: function()
+	{
+		//fail("AsyncCommand has not been executed under 500ms");
+	}
+    */
+
+	,asyncCommandSuccessHandler: function()
+	{
+		this.soma.removeEventListener( InvocationCommandList.TEST_ASYNC_COMPLETE, this.asyncBound );
+		this.assertTrue( true );
+		this.resume();
+
+	}
 
 
-	 */
 
 	 ,setToExecuted: function()
 	{

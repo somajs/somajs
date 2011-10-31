@@ -116,7 +116,7 @@ soma.core.Share = new Class(
 	
 	dispatchEvent: function()
 	{
-		this.instance.dispatchEvent.apply( this.instance, arguments );
+		this.instance.instanceElement.dispatchEvent.apply( this.instance.instanceElement, arguments );
 	},
 	
 	addEventListener: function()
@@ -571,6 +571,7 @@ soma.core.Controller = new Class(
 		this.sequencersInfo = {};
 		this.sequencers = {};
 		this.boundInstance = this.instanceHandler.bind(this);
+		this.boundDomtree = this.domTreeHandler.bind(this);
 	},
 
 
@@ -585,10 +586,10 @@ soma.core.Controller = new Class(
 		}
 
 		// handle events dispatched from the domTree
-		this.instance.body.addEventListener( commandEventName, this.domTreeHandler.bind(this), true );
+		this.instance.body.addEventListener( commandEventName, this.boundDomtree, true );
 
 		// handle events dispatched from the Soma facade
-		this.instance.addEventListener( commandEventName, this.instanceHandler, false );
+		this.instance.instanceElement.addEventListener( commandEventName, this.boundInstance, false );
 
 
 	},
@@ -600,9 +601,8 @@ soma.core.Controller = new Class(
      */
 	removeInterceptor: function( commandEventName )
 	{
-		this.instance.body.removeEventListener( commandEventName, this.domTreeHandler.bind(this), false );
-		this.instance.body.removeEventListener( commandEventName, this.domTreeHandler.bind(this), true );
-		this.instance.removeEventListener( commandEventName, this.instanceHandler, false );
+		this.instance.body.removeEventListener( commandEventName, this.boundDomtree, true );
+		this.instance.instanceElement.removeEventListener( commandEventName, this.boundInstance, false );
 	},
 
     /**
@@ -888,7 +888,7 @@ soma.core.Controller = new Class(
 			// store a reference of the events not to dispatch it twice
 			// in case it is dispatched from the display list
 			this.lastEvent = clonedEvent;
-			this.instance.dispatchEvent( clonedEvent );
+			this.instance.instanceElement.dispatchEvent( clonedEvent );
 			if( !clonedEvent.isDefaultPrevented() ) {
 				this.executeCommand( e );
 			}
@@ -902,7 +902,7 @@ soma.core.Controller = new Class(
 	 */
 	instanceHandler: function( e )
 	{
-		//d("instanceHandler");
+		//d(e);
 		if( e.bubbles && this.hasCommand( e.type ) ) {
 			// if the event is equal to the lastEvent, this has already been dispatched for execution
 			if( this.lastEvent != e ) {

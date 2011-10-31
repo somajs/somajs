@@ -9,7 +9,6 @@ var SearchWire = new Class({
 	},
 
 	searchHandler: function(event) {
-		console.log(this.getView(MainView.NAME));
 		this.getView(MainView.NAME).messageView.innerHTML = "Searching...";
 	},
 

@@ -77,18 +77,17 @@ var TestAsyncCommand = new Class
 	{
 		this.event = event;
 		this.sequencer = this.getSequencer(event);
-		this.timer = setTimeout( this.result.bind(this), 200, {});
+		this.timer = setTimeout( this.result.bind(this), 3000, {});
 	}
 	,result: function(data)
 	{
 		var dispatchEndSequence = false;
-		this.dispatchEvent(new TestEvent(InvocationCommandList.TEST_ASYNC_COMPLETE, this.event ) );
 		if (this.isPartOfASequence(this.event)) {
 			if (this.sequencer.length == 0) dispatchEndSequence = true;
 			this.sequencer.executeNextCommand();
 		}
 		if (dispatchEndSequence) this.dispatchEvent(new TestEvent(InvocationCommandList.TEST_SEQUENCE_COMPLETE, this.event));
-		this.dispose();
+		this.dispatchEvent(new TestEvent(InvocationCommandList.TEST_ASYNC_COMPLETE, this.event ) );
 	}
 
  });

@@ -1,7 +1,6 @@
 var LoginWire = new Class({
 	Extends: soma.core.wire.Wire,
 	init: function() {
-		console.log('init LoginWire');
 		// commands
 		this.addCommand(LoginEvent.LOGIN, LoginCommand);
 		this.addCommand(LoginEvent.LOGOUT, LoginCommand);
@@ -11,6 +10,9 @@ var LoginWire = new Class({
 	},
 	showMessage: function(message) {
 		this.getView(LoginView.NAME).showMessage(message);
+	},
+	showMessageError: function(message) {
+		this.getView(LoginView.NAME).showMessageError(message);
 	}
 });
 LoginWire.NAME = "Wire::LoginWire";
@@ -18,7 +20,6 @@ LoginWire.NAME = "Wire::LoginWire";
 var EmployeeWire = new Class({
 	Extends: soma.core.wire.Wire,
 	init: function() {
-		console.log('init EmployeeWire');
 		// models
 		this.addModel(EmployeeModel.NAME, new EmployeeModel);
 		// commands
@@ -30,23 +31,19 @@ var EmployeeWire = new Class({
 		this.instance.addEventListener(NavigationEvent.SELECT, this.navigationHandler.bind(this));
 	},
 	navigationHandler: function(event) {
-		console.log('UPDATE', event.navigationID);
 		if (event.navigationID == NavigationConstants.EMPLOYEE_LIST) {
 			var data = this.getModel(EmployeeModel.NAME).data;
 			this.getView(EmployeeListView.NAME).updateList(data);
 		}
 	},
 	selectEmployee: function(vo) {
-		console.log('selectEmployee', vo);
 		this.getView(EmployeeEditView.NAME).updateFields(vo);
 	},
 	createEmployee: function(vo) {
 		vo.id = new Date().getTime();
-		console.log('createEmployee', vo);
 		this.getModel(EmployeeModel.NAME).data.push(vo);
 	},
 	deleteEmployee: function(vo) {
-		console.log('deleteEmployee', vo);
 		var data = this.getModel(EmployeeModel.NAME).data;
 		for (var i = 0; i < data.length; i++) {
 			if (data[i].id == vo.id) {
@@ -56,7 +53,6 @@ var EmployeeWire = new Class({
 		}
 	},
 	editEmployee: function(vo) {
-		console.log('editEmployee', vo);
 		var data = this.getModel(EmployeeModel.NAME).data;
 		for (var i = 0; i < data.length; i++) {
 			if (data[i].id == vo.id) {

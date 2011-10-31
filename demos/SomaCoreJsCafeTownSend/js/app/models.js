@@ -1,7 +1,8 @@
 var EmployeeModel = new Class({
+
 	Extends: soma.core.model.Model,
+	
 	init: function() {
-		console.log('init EmployeeModel');
 		this.data = [
 			{
 				'id': '0',
@@ -20,5 +21,6 @@ var EmployeeModel = new Class({
 			}
 		];
 	}
+	
 });
 EmployeeModel.NAME = "Model::EmployeeModel";

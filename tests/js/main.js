@@ -4,10 +4,6 @@ function d()
 }
 
 
-var SOMA_STAGE_ID = "somaStage";
-
-
-
 function initTestScenario()
 {
 
@@ -31,12 +27,13 @@ function initTestScenario()
 	/**
 	 * test framework sequencer
 	 */
-	//var suiteSequenceTests = new YUITest.TestSuite("SuiteSequenceTests");
+	var suiteSequenceTests = new YUITest.TestSuite("SuiteSequenceTests");
+	suiteSequenceTests.add( new SequenceTest() );
 
 
 
-
-	//new UnitTestBuilder( [suiteCoreInvocationTests], false, false);
-	new UnitTestBuilder( [ suiteCoreTests, suiteCoreInvocationTests ], true, false );
+	new UnitTestBuilder( [suiteCoreInvocationTests], false, false );
+	//new UnitTestBuilder( [ suiteCoreTests, suiteCoreInvocationTests, suiteSequenceTests ], false, false );
+	//new UnitTestBuilder( [  suiteSequenceTests ], false, false );
 }
 

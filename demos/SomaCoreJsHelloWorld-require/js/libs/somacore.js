@@ -1008,7 +1008,7 @@ soma.core.controller.SequenceCommand = new Class
 	},
 	/**
 	 *
-	 * @param {soma.Event} commandEvent
+	 * @param {soma.Event} e
 	 */
 	addSubCommand: function( e )
 	{

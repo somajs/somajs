@@ -9,6 +9,7 @@ var InvocationCommandList =
 {
 	 TEST: "test"
 	,PARALLEL: "parallel"
+	,TEST_SEQUENCE: "sequence"
 	,TEST_ASYNC_COMPLETE: "testAsyncComplete"
 	,TEST_SEQUENCE_COMPLETE: "testSequenceComplete"
 };
@@ -77,17 +78,23 @@ var TestAsyncCommand = new Class
 	{
 		this.event = event;
 		this.sequencer = this.getSequencer(event);
-		this.timer = setTimeout( this.result.bind(this), 3000, {});
+		this.timer = setTimeout( this.result.bind(this), 3000, {} );
 	}
 	,result: function(data)
 	{
 		var dispatchEndSequence = false;
 		if (this.isPartOfASequence(this.event)) {
-			if (this.sequencer.length == 0) dispatchEndSequence = true;
+			if (this.sequencer.getLength() == 0) dispatchEndSequence = true;
 			this.sequencer.executeNextCommand();
 		}
 		if (dispatchEndSequence) this.dispatchEvent(new TestEvent(InvocationCommandList.TEST_SEQUENCE_COMPLETE, this.event));
-		this.dispatchEvent(new TestEvent(InvocationCommandList.TEST_ASYNC_COMPLETE, this.event ) );
+		this.dispatchEvent(new TestEvent( InvocationCommandList.TEST_ASYNC_COMPLETE, this.event ) );
+	}
+	,dispose: function()
+	{
+		this.event = null;
+		this.sequencer = null;
+		clearTimeout( this.timer );
 	}
 
  });

@@ -10,7 +10,7 @@ var ColorReceiver = new Class
 	bg:null,
 	
 
-	initializeView: function()
+	init: function()
 	{
 		this.panel = document.id("colorReceiver");
 		this.bg = document.id("colorShellBg");
@@ -82,7 +82,7 @@ var ColorSelector = new Class
 	color3:null,
 
 
-	initializeView: function()
+	init: function()
 	{
 		this.sprite1 = document.id("selCol1");
 		this.sprite2 = document.id("selCol2");

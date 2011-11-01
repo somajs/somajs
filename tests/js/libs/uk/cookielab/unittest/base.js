@@ -111,17 +111,50 @@
 		,Assert: YUITest.Assert
 		,ArrayAssert: YUITest.ArrayAssert
 		,ObjectAssert: YUITest.ObjectAssert
-		,assertEquals: YUITest.Assert.areEqual
-		,assertTrue: YUITest.Assert.isTrue
-		,assertFalse: YUITest.Assert.isFalse
-		,assertNaN: YUITest.Assert.isNaN
-		,assertNotNaN: YUITest.Assert.isNotNaN
-		,assertNull: YUITest.Assert.isNull
-		,assertUndefined: YUITest.Assert.isUndefined
-		,assertNotUndefined: YUITest.Assert.isNotUndefined
-		,assertInstanceOf: YUITest.Assert.isInstanceOf
-		,assertTypeOf: YUITest.Assert.isTypeOf
-		,assertHasProperty: YUITest.ObjectAssert.hasKey
+		,assertEquals: function( expected, actual, message )
+		{
+			return YUITest.Assert.areEqual( expected, actual, message );
+		}
+		,assertTrue: function( actual, message )
+		{
+			return YUITest.Assert.isTrue( actual, message );
+		}
+		,assertFalse: function( actual, message )
+		{
+			return YUITest.Assert.isFalse( actual, message );
+		}
+		,assertInstanceOf: function( expected, actual, message )
+		{
+			return YUITest.Assert.isInstanceOf( expected, actual, message );
+		}
+		,assertTypeOf: function( expectedType, actualValue, message )
+		{
+			return YUITest.Assert.isTypeOf( expectedType, actualValue, message );
+		}
+		,assertHasProperty: function( propertyName, object, message )
+		{
+			return YUITest.ObjectAssert.hasKey( propertyName, object, message );
+		}
+		,assertNull: function( actual, message )
+		{
+			return YUITest.Assert.isNull( actual, message );
+		}
+		,assertUndefined: function( actual, message )
+		{
+			return YUITest.Assert.isUndefined( actual, message );
+		}
+		,assertNaN: function( actual, message )
+		{
+			return YUITest.Assert.isNaN( actual, message );
+		}
+		,assertNotNaN: function( actual, message )
+		{
+			return YUITest.Assert.isNotNaN( actual, message );
+		}
+		,assertNotUndefined: function( actual, message )
+		{
+			return YUITest.Assert.isNotUndefined( actual, message );
+		}
 		,fail: YUITest.Assert.fail
 
 	});

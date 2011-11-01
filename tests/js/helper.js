@@ -78,7 +78,7 @@ var TestAsyncCommand = new Class
 	{
 		this.event = event;
 		this.sequencer = this.getSequencer(event);
-		this.timer = setTimeout( this.result.bind(this), 3000, {} );
+		this.timer = setTimeout( this.result.bind(this), 300, {} );
 	}
 	,result: function(data)
 	{

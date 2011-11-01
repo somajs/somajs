@@ -368,11 +368,16 @@ soma.core.Core = new Class(
 
 		// simulating event execution priority. user defined eventhandler gets always stacked in a way the soma intance eventhandler
 		// gets triggered after the user handler in any case, no matter of the order the listeners get added
+
+		//var el = this.instanceElement;
+		//var b = this.controller.boundInstance;
+		//el.addEventListener.apply( el, args );
+		//el.removeEventListener( args[0], b, false );
+		//el.addEventListener( args[0], b, false );
+
 		var el = this.instanceElement;
-		var b = this.controller.boundInstance;
-		el.addEventListener.apply( el, args );
-		el.removeEventListener( args[0], b, false );
-		el.addEventListener( args[0], b, false );
+  		el.addEventListener.apply( el, args );
+
 	},
 
 	removeEventListener: function()

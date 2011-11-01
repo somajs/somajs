@@ -234,12 +234,12 @@ var InvocationTest = new Class
 	}
     */
 
-	,asyncCommandSuccessHandler: function()
+	,asyncCommandSuccessHandler: function(event)
 	{
+		event.stopImmediatePropagation();
 		this.soma.removeEventListener( InvocationCommandList.TEST_ASYNC_COMPLETE, this.asyncBound );
 		this.assertTrue( true );
 		this.resume();
-
 	}
 
 

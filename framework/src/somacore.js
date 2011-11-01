@@ -236,39 +236,70 @@ soma.core.Share = new Class(
 		return this.instance.getModel( modelName );
 	},
 
+	/**
+	 *
+	 * @param {Event} commandEvent
+	 * @return soma.core.controller.SequenceCommand
+	 */
 	getSequencer: function( commandEvent )
 	{
-		 return this.instance.controller.getSequencer( commandEvent );
+		 return !!this.instance.controller ? this.instance.controller.getSequencer( commandEvent ) : null;
 	},
 
+	/**
+	 *
+	 * @param {Event} commandEvent
+	 * @return Boolean
+	 */
 	stopSequencerWithEvent: function( commandEvent )
 	{
-		return this.instance.controller.stopSequencerWithEvent( commandEvent );
+		return !!this.instance.controller ? this.instance.controller.stopSequencerWithEvent( commandEvent ) : null;
 	},
 
+	/**
+	 *
+	 * @param {Event} commandEvent
+	 */
 	stopSequencer: function( commandEvent )
 	{
-		return this.instance.controller.stopSequencer( commandEvent );
+ 		if( this.instance.controller ){
+			return this.instance.controller.stopSequencer( commandEvent );
+		 }
 	},
 
 	stopAllSequencers: function()
 	{
-		this.instance.controller.stopAllSequencers();
+ 		if( this.instance.controller ){
+			this.instance.controller.stopAllSequencers();
+		 }
 	},
 
+	/**
+	 * @see soma.core.Controller.isPartOfASequence
+	 * @param {Event} commandEvent
+	 * @return Boolean
+	 */
 	isPartOfASequence: function( commandEvent )
 	{
-	 	return this.instance.controller.isPartOfASequence( commandEvent );
+		return !!this.instance.controller ? this.instance.controller.isPartOfASequence( commandEvent ) : false;
 	},
 
+	/**
+	 * @see soma.core.Controller.getLastSequencer
+	 * @return soma.core.controller.SequenceCommand
+	 */
 	getLastSequencer: function()
 	{
-		return this.instance.controller.getLastSequencer();
+		return !!this.instance.controller ? this.instance.controller.getLastSequencer() : null;
 	},
 
+	/**
+	 * @see soma.core.Controller.getRunningSequencers
+	 * @return Array
+	 */
 	getRunningSequencers: function()
 	{
-		return this.instance.controller.getRunningSequencers();
+		return !!this.instance.controller ? this.instance.controller.getRunningSequencers() : null;
 	},
 
     /**
@@ -354,7 +385,7 @@ soma.core.Core = new Class(
 	
 	/**
 	 * @param {String} type
-	 * @param {soma.Event} event
+	 * @param {Event} event
 	 */
 	dispatchEvent: function()
 	{
@@ -369,6 +400,7 @@ soma.core.Core = new Class(
 		// simulating event execution priority. user defined eventhandler gets always stacked in a way the soma intance eventhandler
 		// gets triggered after the user handler in any case, no matter of the order the listeners get added
 
+		// TODO needs addressing!
 		//var el = this.instanceElement;
 		//var b = this.controller.boundInstance;
 		//el.addEventListener.apply( el, args );
@@ -511,9 +543,83 @@ soma.core.Core = new Class(
 
 	registerWires: function() {},
 
+	/**
+	 * @return Array
+	 */
+	getSequencers: function()
+	{
+		return !!this.controller ? this.controller.getSequencers() : null;
+	},
+
+	/**
+	 *
+	 * @param {Event} commandEvent
+	 * @return soma.core.controller.Command
+	 */
+	getSequencer: function( commandEvent )
+	{
+		return !!this.controller ? this.controller.getSequencer( commandEvent ) : null;
+	},
+
+	 /**
+	 *
+	 * @param {Event} commandEvent
+	 * @return Boolean
+	 */
+	isPartOfASequence: function( commandEvent )
+	{
+		return ( this.getSequencer( commandEvent ) != null );
+	},
+
+
+	/**
+	 * @see soma.core.Controller.stopSequencerWithEvent
+	 * @param {Event} commandEvent
+	 * @return Boolean
+	 */
+	stopSequencerWithEvent: function( commandEvent )
+	{
+		return !!this.controller ? this.controller.stopSequencerWithEvent( commandEvent ) : false;
+	},
+
+	/**
+	 * @param {soma.core.controller.Command} sequencer
+	 * @return Boolean
+	 */
+	stopSequencer: function( sequencer )
+	{
+		return !!this.controller ? this.controller.stopSequencer( sequencer ) : false;
+	},
+
+
+	stopAllSequencers: function()
+	{
+		if( this.controller ) {
+			this.controller.stopAllSequencers();
+		}
+	},
+
+
+	/**
+	 *  @return Array
+	 */
+	 getRunningSequencers: function()
+	 {
+		return !!this.controller ? this.controller.getRunningSequencers() : null;
+	 },
+
+	/**
+	 * @return soma.core.controller.Command
+	 */
+	getLastSequencer: function()
+	{
+		return !!this.controller ? this.controller.getLastSequencer() : null;
+	},
+
+
 	dispose: function()
 	{
-		if ( this.models) { this.models.dispose(); this.models = null; }
+		if ( this.models ) { this.models.dispose(); this.models = null; }
 		if ( this.views) { this.views.dispose(); this.views = null; }
 		if ( this.controller) { this.controller.dispose(); this.controller = null; }
 		if (this.wires) { this.wires.dispose(); this.wires = null; }
@@ -552,7 +658,7 @@ soma.core.Controller = new Class(
 
 	/**
 	 *
-	 * @type soma.Event
+	 * @type Event
 	 */
 	lastEvent: null,
 
@@ -612,7 +718,7 @@ soma.core.Controller = new Class(
 
     /**
      * @internal
-     * @param {soma.Event} e
+     * @param {Event} e
      */
 	executeCommand: function( e )
 	{
@@ -631,8 +737,7 @@ soma.core.Controller = new Class(
 	 */
 	registerSequencedCommand: function( sequencer, c )
 	{
-		// TODO remove Mootools dependency, replace instanceOf
-		if( !instanceOf( c, soma.core.controller.SequenceCommandProxy ) ) {
+		if( !( c instanceof soma.core.controller.SequenceCommandProxy ) ) {
 			throw new Error( "capsulate sequence commands in SequenceCommandProxy objects!");
 		}
 		var s = this.sequencersInfo;
@@ -676,7 +781,8 @@ soma.core.Controller = new Class(
 
 	/**
 	 *
-	 * @param sequencer
+	 * @param {soma.core.controller.SequenceCommand} sequencer
+	 * @return Boolean
 	 */
 	unregisterSequencer: function( sequencer )
 	{
@@ -690,15 +796,13 @@ soma.core.Controller = new Class(
 				for( var i=0; i<len; i++ )
 				{
 					s[sequencer.id][i] = null;
-					s[sequencer.id].splice(i, 1);
-					if( s[sequencer.id].length == 0 ) {
-						s[sequencer.id] = null;
-						delete s[sequencer.id];
-					}
-					break;
 				}
+				s[sequencer.id] = null;
+				delete s[sequencer.id];
+				return true;
 			}
 		}
+		return false;
 	},
 
 
@@ -761,7 +865,7 @@ soma.core.Controller = new Class(
 
 	/**
 	 *
-	 * @param {soma.Event} commandEvent
+	 * @param {Event} commandEvent
 	 * @return {soma.core.controller.SequenceCommand}
 	 */
 	getSequencer: function( commandEvent )
@@ -773,7 +877,8 @@ soma.core.Controller = new Class(
 			for (var i=0; i<len; i++)
 			{
 				if( ss[s][i] && ss[s][i].event.type === commandEvent.type ) {
-					return this.sequencers[ ss[s][i].sequenceId ];
+					var seq = this.sequencers[ ss[s][i].sequenceId ];
+					return !!seq ? seq : null;
 				}
 			}
 		}
@@ -781,8 +886,8 @@ soma.core.Controller = new Class(
 	},
 
 	/**
-	 *
-	 * @param {soma.Event} commandEvent
+	 *  Stops a sequence command using an event object that has been created from this sequence command.
+	 * @param {Event} commandEvent
 	 * @return Boolean
 	 */
 	stopSequencerWithEvent: function( commandEvent )
@@ -794,7 +899,11 @@ soma.core.Controller = new Class(
 			for( var i=0;  i<len; i++ )
 			{
 				if(ss[s][i].event.type === commandEvent.type ) {
-					this.sequencers[ ss[s][i].sequenceId ].stop();
+					try{
+						this.sequencers[ ss[s][i].sequenceId ].stop();
+					}catch( e ) {
+						return false;
+					}
 					return true;
 				}
 			}
@@ -838,7 +947,7 @@ soma.core.Controller = new Class(
 
 	/**
 	 *
-	 * @param {soma.Event} commandEvent
+	 * @param {Event} commandEvent
 	 */
 	isPartOfASequence: function( commandEvent )
 	{
@@ -946,7 +1055,7 @@ soma.core.controller.Command = new Class(
 
     /**
      *
-     * @param {soma.Event} e
+     * @param {Event} e
      */
 	execute: function( e )
 	{
@@ -959,7 +1068,7 @@ soma.core.controller.Command = new Class(
 
 soma.core.controller.SequenceCommandProxy = new Class
 ({
-	/** @type soma.Event **/
+	/** @type Event **/
 	event:null,
 	/** @type String **/
 	sequenceId:null,
@@ -1009,7 +1118,7 @@ soma.core.controller.SequenceCommand = new Class
 	},
 	/**
 	 *
-	 * @param {soma.Event} commandEvent
+	 * @param {Event} commandEvent
 	 */
 	addSubCommand: function( e )
 	{
@@ -1018,6 +1127,11 @@ soma.core.controller.SequenceCommand = new Class
 		this.instance.controller.registerSequencedCommand( this, c );
 	},
 
+	 /**
+	  *
+	  * @param {Event} commandEvent
+	  * @return void
+	  */
 	execute: function( commandEvent )
 	{
 		if( this.commands == null || this.commands.length === 0 ) {
@@ -1028,6 +1142,10 @@ soma.core.controller.SequenceCommand = new Class
 			this.dispatchEvent( this.currentCommand.event );
 		}
 	},
+
+	 /**
+	  * @return void
+	  */
 	executeNextCommand: function()
 	{
 		if( this.commands == null ) {
@@ -1041,6 +1159,10 @@ soma.core.controller.SequenceCommand = new Class
 			this.currentCommand = null;
 		}
 	},
+
+	 /**
+	  * @return Number
+	  */
 	getLength: function()
 	{
 		if( this.commands == null ) {
@@ -1048,17 +1170,29 @@ soma.core.controller.SequenceCommand = new Class
 		}
 		return this.commands.length;
 	},
+
+	 /**
+	  * @return Boolean
+	  */
 	stop: function()
 	{
 		this.commands = null;
 		this.commands = null;
 		this.currentCommand = null;
-		this.instance.controller.unregisterSequencer( this );
+		return this.instance.controller.unregisterSequencer( this );
 	},
+
+	 /**
+	  * @return soma.core.controller.SequenceCommand
+	  */
 	getCurrentCommand: function()
 	{
 		return this.currentCommand;
 	},
+
+	 /**
+	  * @return Array
+	  */
 	getCommands: function()
 	{
 		return this.commands;
@@ -1093,7 +1227,7 @@ soma.core.controller.ParallelCommand = new Class
 		throw new Error( "Subclasses of ParallelCommand must implement initializeSubCommands()" );
 	},
 	/**
-	 * @param {soma.Event} command associated event
+	 * @param {Event} command associated event
 	 */
 	addSubCommand: function( e )
 	{
@@ -1107,7 +1241,7 @@ soma.core.controller.ParallelCommand = new Class
 	execute: function()
 	{
 		while (this.commands.length > 0) {
-			/** @type soma.Event */
+			/** @type Event */
 			var c = this.commands.shift();
 			if (this.hasCommand( c.type ) ) {
 				this.dispatchEvent( c );

@@ -46,8 +46,8 @@ function initTestScenario()
 
 
 	//new UnitTestBuilder( [suiteCoreTests], false, false );
-	//new UnitTestBuilder( [ suiteCoreTests, suiteCoreInvocationTests ], false, false );
 	//new UnitTestBuilder( [  suiteSequenceTests ], false, false );
-	new UnitTestBuilder( [  suiteInvocationAsyncTests ], false, false );
+	//new UnitTestBuilder( [  suiteSequenceTests ], false, false );
+	new UnitTestBuilder( [ suiteCoreTests, suiteInvocationTests, suiteInvocationAsyncTests, suiteSequenceTests ], true, false );
 }
 

@@ -3,6 +3,12 @@ function d()
 	console.log( arguments );
 }
 
+var CommandEventList =
+{
+	STARTUP: "startup"
+};
+
+
 
 function initTestScenario()
 {
@@ -20,8 +26,15 @@ function initTestScenario()
 	/**
 	 * test framework players event flows
 	 */
-	var suiteCoreInvocationTests = new YUITest.TestSuite("SuiteCoreInvocationTests");
-	suiteCoreInvocationTests.add( new InvocationTest() );
+	var suiteInvocationTests = new YUITest.TestSuite("SuiteInvocationTests");
+	suiteInvocationTests.add( new InvocationTest() );
+
+
+	/**
+	 * test framework async
+	 */
+	var suiteInvocationAsyncTests = new YUITest.TestSuite("SuiteInvocationAsyncTests");
+	suiteInvocationAsyncTests.add( new InvocationAsyncTest() );
 
 
 	/**
@@ -32,8 +45,9 @@ function initTestScenario()
 
 
 
-	new UnitTestBuilder( [suiteCoreInvocationTests], false, false );
-	//new UnitTestBuilder( [ suiteCoreTests, suiteCoreInvocationTests, suiteSequenceTests ], false, false );
+	//new UnitTestBuilder( [suiteCoreTests], false, false );
+	//new UnitTestBuilder( [ suiteCoreTests, suiteCoreInvocationTests ], false, false );
 	//new UnitTestBuilder( [  suiteSequenceTests ], false, false );
+	new UnitTestBuilder( [  suiteInvocationAsyncTests ], false, false );
 }
 

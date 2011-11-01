@@ -25,9 +25,8 @@ var SequenceTest = new Class
 	,setUp: function()
 	{
 		this.soma = new soma.core.Core();
-		//this.soma.addCommand( InvocationCommandList.TEST, TestAsyncCommand );
-		this.soma.addCommand( InvocationCommandList.TEST, TestAsyncCommand2 );
-		this.soma.addCommand( InvocationCommandList.TEST_SEQUENCE, TestSequenceCommand );
+		this.soma.addCommand( cases.sequence.InvocationCommandList.TEST, cases.sequence.TestAsyncCommand );
+		this.soma.addCommand( cases.sequence.InvocationCommandList.TEST_SEQUENCE, cases.sequence.TestSequenceCommand );
 		this.stage = this.soma.stage;
 		this.asyncBound = this.asyncCommandSuccessHandler.bind(this);
 	}
@@ -42,14 +41,14 @@ var SequenceTest = new Class
 
 	,test_get_sequencer: function()
 	{
-		this.soma.addEventListener( InvocationCommandList.TEST_ASYNC_COMPLETE, this.asyncBound );
-		this.soma.dispatchEvent( new TestEvent( InvocationCommandList.TEST_SEQUENCE  ) );
+		this.soma.addEventListener( cases.sequence.InvocationCommandList.TEST_ASYNC_COMPLETE, this.asyncBound );
+		this.soma.dispatchEvent( new cases.sequence.TestEvent( InvocationCommandList.TEST_SEQUENCE  ) );
 		this.wait();
 	}
 
 	,asyncCommandSuccessHandler: function()
 	{
-		this.soma.removeEventListener( InvocationCommandList.TEST_ASYNC_COMPLETE, this.asyncBound );
+		this.soma.removeEventListener( cases.sequence.InvocationCommandList.TEST_ASYNC_COMPLETE, this.asyncBound );
 		this.assertTrue( true );
 		this.resume();
 

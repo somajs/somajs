@@ -30,9 +30,7 @@ var InvocationTest = new Class
 
 	,cancelEventBound: null
 
-	,asyncBound: null
 
-	,skipDispose:false
 
 	,initialize: function()
 	{
@@ -57,11 +55,11 @@ var InvocationTest = new Class
 		this.userAccessFromInstance = false;
 
 		this.spriteTestAccess = document.getElementById( "testSprite" );
-		this.spriteTestAccess.addEventListener( InvocationCommandList.TEST,  this.setUserAccessFromDisplayListBound );
+		this.spriteTestAccess.addEventListener( cases.invocation.InvocationCommandList.TEST,  this.setUserAccessFromDisplayListBound );
 		this.soma = new soma.core.Core();
-		this.soma.addEventListener( InvocationCommandList.TEST, this.setUserAccessFromInstanceBound );
+		this.soma.addEventListener( cases.invocation.InvocationCommandList.TEST, this.setUserAccessFromInstanceBound );
 		this.body = this.soma.body;
-		this.soma.addCommand( InvocationCommandList.TEST, TestCommand );
+		this.soma.addCommand( cases.invocation.InvocationCommandList.TEST, cases.invocation.TestCommand );
 
 
 
@@ -69,10 +67,9 @@ var InvocationTest = new Class
 
 	,tearDown: function()
 	{
-		this.spriteTestAccess.removeEventListener( InvocationCommandList.TEST, this.setUserAccessFromDisplayListBound );
-		this.soma.removeEventListener( InvocationCommandList.TEST, this.setUserAccessFromInstanceBound );
-		this.soma.removeCommand( InvocationCommandList.TEST, TestCommand );
-		//this.soma.stopAllSequencers();
+		this.spriteTestAccess.removeEventListener( cases.invocation.InvocationCommandList.TEST, this.setUserAccessFromDisplayListBound );
+		this.soma.removeEventListener( cases.invocation.InvocationCommandList.TEST, this.setUserAccessFromInstanceBound );
+		this.soma.removeCommand( cases.invocation.InvocationCommandList.TEST, cases.invocation.TestCommand );
 		this.soma.dispose();
 		this.soma = null;
 	}
@@ -80,7 +77,7 @@ var InvocationTest = new Class
 
 	,test_command_from_displayList: function()
 	{
-		this.spriteTestAccess.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this ) );
+		this.spriteTestAccess.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this ) );
 		var f = this.defaultCheck();
 		if( f !== null )  {
 			this.fail( f );
@@ -97,7 +94,7 @@ var InvocationTest = new Class
 	  */
 	,test_command_from_displayList_bubbles_false: function()
 	{
-		this.spriteTestAccess.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this, false ) );
+		this.spriteTestAccess.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this, false ) );
 		var f = this.defaultCheck();
 		if( f !== null )  {
 			this.fail( f );
@@ -109,7 +106,7 @@ var InvocationTest = new Class
 
 	,test_command_from_instance: function()
 	{
-		this.soma.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this ) );
+		this.soma.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this ) );
 		var f = this.defaultCheck();
 		if( f !== null )  {
 			this.fail( f );
@@ -121,7 +118,7 @@ var InvocationTest = new Class
 
 	,test_command_from_instance_bubbles_false: function()
 	{
-		this.soma.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this, false ) );
+		this.soma.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this, false ) );
 		var f = this.defaultCheck();
 		if( f !== null )  {
 			this.fail( f );
@@ -132,7 +129,7 @@ var InvocationTest = new Class
 
 	,test_command_from_body: function()
 	{
-		this.body.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this ) );
+		this.body.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this ) );
 		var f = this.defaultCheck();
 		if( f !== null )  {
 			this.fail( f );
@@ -142,7 +139,7 @@ var InvocationTest = new Class
 
 	,test_command_from_body_bubbles_false: function()
 	{
-		this.body.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this, false ) );
+		this.body.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this, false ) );
 		var f = this.defaultCheck();
 		if( f !== null )  {
 			this.fail( f );
@@ -152,54 +149,53 @@ var InvocationTest = new Class
 
 	,test_cancel_event_dispatched_from_instance: function()
 	{
-		this.soma.addEventListener( InvocationCommandList.TEST, this.cancelEventBound );
-		this.soma.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this ) );
+		this.soma.addEventListener( cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
+		this.soma.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this ) );
 		this.assertFalse( this.executed );
-		this.soma.removeEventListener(  InvocationCommandList.TEST, this.cancelEventBound );
+		this.soma.removeEventListener(  cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
 	}
 
 
 	,test_cannot_cancel_event_dispatched_from_instance: function()
 	{
-		this.soma.addEventListener( InvocationCommandList.TEST, this.cancelEventBound );
-		this.soma.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this, true, false ) );
+		this.soma.addEventListener( cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
+		this.soma.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this, true, false ) );
 		this.assertTrue( this.executed );
-		this.soma.removeEventListener(  InvocationCommandList.TEST, this.cancelEventBound );
+		this.soma.removeEventListener(  cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
 
 	}
 
 	,test_cancel_event_dispatched_from_displaylist: function()
 	{
-		this.soma.addEventListener( InvocationCommandList.TEST, this.cancelEventBound );
-		this.spriteTestAccess.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this ) );
+		this.soma.addEventListener( cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
+		this.spriteTestAccess.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this ) );
 		this.assertFalse( this.executed );
-		this.soma.removeEventListener( InvocationCommandList.TEST, this.cancelEventBound );
+		this.soma.removeEventListener( cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
 	}
 
 	,test_cannot_cancel_event_dispatched_from_displaylist: function()
 	{
-		this.soma.addEventListener( InvocationCommandList.TEST, this.cancelEventBound );
-		this.spriteTestAccess.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this, true, false ) );
+		this.soma.addEventListener( cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
+		this.spriteTestAccess.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this, true, false ) );
 		this.assertTrue( this.executed );
-		// TODO check via hasEventListener if sprite has Listener cancelEventBound
-		this.soma.removeEventListener( InvocationCommandList.TEST, this.cancelEventBound );
+		this.soma.removeEventListener( cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
 	}
 
 
 	,test_cancel_event_dispatched_from_body: function()
 	{
-		this.soma.addEventListener( InvocationCommandList.TEST, this.cancelEventBound );
-		this.body.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this )  );
+		this.soma.addEventListener( cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
+		this.body.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this )  );
 		this.assertFalse( this.executed );
-   		this.soma.removeEventListener( InvocationCommandList.TEST, this.cancelEventBound );
+   		this.soma.removeEventListener( cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
 	}
 
 	,test_cannot_cancel_event_dispatched_from_body: function()
 	{
- 		this.soma.addEventListener( InvocationCommandList.TEST, this.cancelEventBound );
-		this.body.dispatchEvent( new TestEvent( InvocationCommandList.TEST, this, true, false )  );
+ 		this.soma.addEventListener( cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
+		this.body.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this, true, false )  );
 		this.assertTrue( this.executed );
-   		this.soma.removeEventListener( InvocationCommandList.TEST, this.cancelEventBound );
+   		this.soma.removeEventListener( cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
 	}
 
 
@@ -208,41 +204,12 @@ var InvocationTest = new Class
 		this.soma.dispose();
 		this.soma = new soma.core.Core();
 
-		this.soma.addCommand( InvocationCommandList.TEST, TestCommand );
-		this.soma.addCommand( InvocationCommandList.PARALLEL, TestParallelCommand );
-		this.soma.addModel( EmptyModel.NAME, new EmptyModel( this ) );
-		this.soma.dispatchEvent( new TestEvent( InvocationCommandList.PARALLEL ) );
+		this.soma.addCommand( cases.invocation.InvocationCommandList.TEST, cases.invocation.TestCommand );
+		this.soma.addCommand( cases.invocation.InvocationCommandList.PARALLEL, cases.invocation.TestParallelCommand );
+		this.soma.addModel( cases.invocation.EmptyModel.NAME, new cases.invocation.EmptyModel( this ) );
+		this.soma.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.PARALLEL ) );
 		this.assertEquals( this.executedCount, 5 );
 	}
-
-	,test_async_command: function()
-	{
-		this.soma.dispose();
-		this.soma = new soma.core.Core();
-		this.soma.addCommand( InvocationCommandList.TEST, TestAsyncCommand );
-		this.asyncBound = this.asyncCommandSuccessHandler.bind(this);
-		this.soma.addEventListener( InvocationCommandList.TEST_ASYNC_COMPLETE, this.asyncBound );
-		this.soma.dispatchEvent( new TestEvent( InvocationCommandList.TEST ) );
-		this.skipDispose = true;
-		this.wait();
-	}
-
-	/*
-	,_test_async_command_fail: function()
-	{
-		//fail("AsyncCommand has not been executed under 500ms");
-	}
-    */
-
-	,asyncCommandSuccessHandler: function()
-	{
-		this.soma.removeEventListener( InvocationCommandList.TEST_ASYNC_COMPLETE, this.asyncBound );
-		this.assertTrue( true );
-		this.resume();
-
-	}
-
-
 
 	 ,setToExecuted: function()
 	{

@@ -150,11 +150,10 @@ var InvocationTest = new Class
 	,test_cancel_event_dispatched_from_instance: function()
 	{
 		this.soma.addEventListener( cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
-		this.soma.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this ) );
+		this.soma.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this, true, true ) );
 		this.assertFalse( this.executed );
 		this.soma.removeEventListener(  cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
 	}
-
 
 	,test_cannot_cancel_event_dispatched_from_instance: function()
 	{
@@ -168,7 +167,7 @@ var InvocationTest = new Class
 	,test_cancel_event_dispatched_from_displaylist: function()
 	{
 		this.soma.addEventListener( cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
-		this.spriteTestAccess.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this ) );
+		this.spriteTestAccess.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this, false, true ) );
 		this.assertFalse( this.executed );
 		this.soma.removeEventListener( cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
 	}
@@ -185,7 +184,7 @@ var InvocationTest = new Class
 	,test_cancel_event_dispatched_from_body: function()
 	{
 		this.soma.addEventListener( cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
-		this.body.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this )  );
+		this.body.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this, false, true )  );
 		this.assertFalse( this.executed );
    		this.soma.removeEventListener( cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
 	}

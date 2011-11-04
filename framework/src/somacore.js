@@ -3,12 +3,84 @@
  * Port of the AS3 MVC framework SomaCore by Romuald Quantin (http://www.soundstep.com/blog/downloads/somacore/)
  *
  * @author Henry Schmieder
+ * @author and a bit of me now? :D
  *
  */
 
-
 /** @namespace */
 var soma = {};
+
+soma.EventDispatcher = (function() {
+	var listeners = [];
+	return new Class({
+		addEventListener: function(type, listener, priority) {
+			if (!type || !listener) return;
+			console.log('priority check:', priority);
+			if (isNaN(priority)) priority = 0;
+			console.log('priority check:', priority);
+			listeners.push({type: type, listener: listener, priority: priority});
+			console.log('addEventListener', listeners[listeners.length-1]);
+		},
+		removeEventListener: function(type, listener) {
+			console.log('removeEventListener (attempt)', type);
+			if (!type || !listener) return;
+			var i = 0;
+			var l = listeners.length;
+			for (; i<l; ++i) {
+				var eventObj = listeners[i];
+				if (eventObj.type == type && eventObj.listener == listener) {
+					console.log('removeEventListener (found)', type);
+					listeners.splice(i, 1);
+					return;
+				}
+			}
+			return false;
+		},
+		hasEventListener: function(type) {
+			console.log('hasEventListener (attempt)', type);
+			if (!type) return false;
+			var i = 0;
+			var l = listeners.length;
+			for (; i<l; ++i) {
+				var eventObj = listeners[i];
+				if (eventObj.type == type) {
+					console.log('hasEventListener (found)', type);
+					return true;
+				}
+			}
+			return false;
+		},
+		dispatchEvent: function(event) {
+			console.log('dispatchEvent (attempt)', event);
+			if (!event) return;
+			var events = [];
+			for (var i=0; i<listeners.length; i++) {
+				var eventObj = listeners[i];
+				if (eventObj.type == event.type) {
+					console.log('isDefaultPrevented:', event.isDefaultPrevented());
+					console.log('cancelable:', event.cancelable);
+					console.log('result test:', !event.isDefaultPrevented() && !event.cancelable);
+					if (!event.isDefaultPrevented()) {
+						console.log('dispatchEvent (found)', event);
+						events.push(eventObj);
+					}
+				}
+			}
+			console.log('dispatchEvent (before sort)', events);
+			events.sort(function(a, b){
+				return b.priority - a.priority;
+			});
+			console.log('dispatchEvent (after sort)', events);
+			for (var i=0; i<events.length; i++) {
+				console.log('dispatchEvent (is about to dispatch)', events[i]);
+				events[i].listener.apply(event.currentTarget, [event]);
+			}
+		},
+		toString: function() {
+			return "[Class soma.EventDispatcher]";
+		}
+	});
+})();
 
 /**
  * @class
@@ -116,9 +188,9 @@ soma.core.Share = new Class(
 	
 	dispatchEvent: function()
 	{
-		this.instance.instanceElement.dispatchEvent.apply( this.instance.instanceElement, arguments );
+		this.instance.dispatchEvent.apply( this.instance, arguments );
 	},
-	
+
 	addEventListener: function()
 	{
 		this.instance.addEventListener.apply( this.instance, arguments );
@@ -342,8 +414,8 @@ soma.core.Share = new Class(
 soma.core.Core = new Class(
 /** @lends soma.core.Core.prototype */
 {
+	Extends: soma.EventDispatcher,
 	body:null,
-	instanceElement:null,
 	models:null,
 	controller:null,
 	wires:null,
@@ -363,7 +435,6 @@ soma.core.Core = new Class(
 
 	initialize:function()
 	{
-		this.instanceElement = document.createElement( "div" );
 		this.body = document.body;
 		//this.body.dispatchEvent = function() { throw new Error("dispatching events from soma body not allowed") };
 		if( !this.body ) {
@@ -382,44 +453,6 @@ soma.core.Core = new Class(
 		this.init();
 	},
 
-	
-	/**
-	 * @param {String} type
-	 * @param {Event} event
-	 */
-	dispatchEvent: function()
-	{
-		this.instanceElement.dispatchEvent.apply( this.instanceElement, arguments );
-	},
-
-	addEventListener: function()
-	{
-		var args = arguments;
-		args[2] = true;
-
-		// simulating event execution priority. user defined eventhandler gets always stacked in a way the soma intance eventhandler
-		// gets triggered after the user handler in any case, no matter of the order the listeners get added
-
-		// TODO needs addressing!
-		//var el = this.instanceElement;
-		//var b = this.controller.boundInstance;
-		//el.addEventListener.apply( el, args );
-		//el.removeEventListener( args[0], b, false );
-		//el.addEventListener( args[0], b, false );
-
-		var el = this.instanceElement;
-  		el.addEventListener.apply( el, args );
-
-	},
-
-	removeEventListener: function()
-	{
-		var args = arguments;
-		args[2] = true;
-		var el = this.instanceElement;
-  		el.removeEventListener.apply( el, args );
-	},
-	
 	hasCommand: function( commandEventName )
 	{
 		return this.controller.hasCommand( commandEventName );
@@ -700,8 +733,7 @@ soma.core.Controller = new Class(
 		this.instance.body.addEventListener( commandEventName, this.boundDomtree, true );
 
 		// handle events dispatched from the Soma facade
-		this.instance.instanceElement.addEventListener( commandEventName, this.boundInstance, false );
-
+		this.instance.addEventListener( commandEventName, this.boundInstance, Number.NEGATIVE_INFINITY);
 
 	},
 
@@ -713,7 +745,7 @@ soma.core.Controller = new Class(
 	removeInterceptor: function( commandEventName )
 	{
 		this.instance.body.removeEventListener( commandEventName, this.boundDomtree, true );
-		this.instance.instanceElement.removeEventListener( commandEventName, this.boundInstance, false );
+		this.instance.removeEventListener( commandEventName, this.boundInstance);
 	},
 
     /**
@@ -1002,7 +1034,7 @@ soma.core.Controller = new Class(
 			// store a reference of the events not to dispatch it twice
 			// in case it is dispatched from the display list
 			this.lastEvent = clonedEvent;
-			this.instance.instanceElement.dispatchEvent( clonedEvent );
+			this.instance.dispatchEvent( clonedEvent );
 			if( !clonedEvent.isDefaultPrevented() ) {
 				this.executeCommand( e );
 			}
@@ -1677,79 +1709,6 @@ soma.Event = new Class
 		}
 	}
 });
-
-soma.EventDispatcher = (function() {
-	var listeners = [];
-	return new Class({
-		initialize: function() {
-			
-		},
-		addEventListener: function(type, listener, priority) {
-			if (!type || !listener) return;
-			if (isNaN(priority)) priority = 0;
-			listeners.push({type: type, listener: listener, priority: priority});
-			console.log('addEventListener', listeners[listeners.length-1]);
-		},
-		removeEventListener: function(type, listener) {
-			console.log('removeEventListener (attempt)', type);
-			if (!type || !listener) return;
-			var i = 0;
-			var l = this.listeners.length;
-			for (; i<l; ++i) {
-				var eventObj = this.listeners[i];
-				if (eventObj.type == type && eventObj.listener == listener) {
-					console.log('removeEventListener (found)', type);
-					this.listeners.splice(i, 1);
-					return;
-				}
-			}
-			return false;
-		},
-		hasEventListener: function(type) {
-			console.log('hasEventListener (attempt)', type);
-			if (!type) return false;
-			var i = 0;
-			var l = listeners.length;
-			for (; i<l; ++i) {
-				var eventObj = listeners[i];
-				if (eventObj.type == type) {
-					console.log('hasEventListener (found)', type);
-					return true;
-				}
-			}
-			return false;
-		},
-		dispatchEvent: function(event) {
-			console.log('dispatchEvent (attempt)', event);
-			if (!event) return;
-			var events = [];
-			for (var i=0; i<listeners.length; i++) {
-				var eventObj = listeners[i];
-				if (eventObj.type == event.type) {
-					console.log('isDefaultPrevented:', event.isDefaultPrevented());
-					console.log('cancelable:', event.cancelable);
-					console.log('result test:', !event.isDefaultPrevented() && !event.cancelable);
-					if (!event.isDefaultPrevented() && !event.cancelable) {
-						console.log('dispatchEvent (found)', event);
-						events.push(eventObj);
-					}
-				}
-			}
-			console.log('dispatchEvent (before sort)', events);
-			events.sort(function(a, b){
-				return b.priority - a.priority;
-			});
-			console.log('dispatchEvent (after sort)', events);
-			for (var i=0; i<events.length; i++) {
-				console.log('dispatchEvent (dispatch)', events[i]);
-				events[i].listener.apply(event.currentTarget, [event]);
-			}
-		},
-		toString: function() {
-			return "[Class soma.EventDispatcher]";
-		}
-	});
-})();
 
 soma.core.IResponder = new Class({
 	fault: function(info){},

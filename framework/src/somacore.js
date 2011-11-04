@@ -1637,9 +1637,9 @@ soma.Event = new Class
 		e.initEvent(
 			type,
 			bubbles !== undefined ? bubbles : true,
-			cancelable !== undefined ? cancelable : true
+			cancelable !== undefined ? cancelable : false
 		);
-		e.cancelable = cancelable !== undefined ? cancelable : true;
+		e.cancelable = cancelable !== undefined ? cancelable : false;
 		for( var k in data )
 		{
 			e[k] = data[k];
@@ -1678,7 +1678,81 @@ soma.Event = new Class
 	}
 });
 
+soma.EventDispatcher = (function() {
+	var listeners = [];
+	return new Class({
+		initialize: function() {
+			
+		},
+		addEventListener: function(type, listener, priority) {
+			if (!type || !listener) return;
+			if (isNaN(priority)) priority = 0;
+			listeners.push({type: type, listener: listener, priority: priority});
+			console.log('addEventListener', listeners[listeners.length-1]);
+		},
+		removeEventListener: function(type, listener) {
+			console.log('removeEventListener (attempt)', type);
+			if (!type || !listener) return;
+			var i = 0;
+			var l = this.listeners.length;
+			for (; i<l; ++i) {
+				var eventObj = this.listeners[i];
+				if (eventObj.type == type && eventObj.listener == listener) {
+					console.log('removeEventListener (found)', type);
+					this.listeners.splice(i, 1);
+					return;
+				}
+			}
+			return false;
+		},
+		hasEventListener: function(type) {
+			console.log('hasEventListener (attempt)', type);
+			if (!type) return false;
+			var i = 0;
+			var l = listeners.length;
+			for (; i<l; ++i) {
+				var eventObj = listeners[i];
+				if (eventObj.type == type) {
+					console.log('hasEventListener (found)', type);
+					return true;
+				}
+			}
+			return false;
+		},
+		dispatchEvent: function(event) {
+			console.log('dispatchEvent (attempt)', event);
+			if (!event) return;
+			var events = [];
+			for (var i=0; i<listeners.length; i++) {
+				var eventObj = listeners[i];
+				if (eventObj.type == event.type) {
+					console.log('isDefaultPrevented:', event.isDefaultPrevented());
+					console.log('cancelable:', event.cancelable);
+					console.log('result test:', !event.isDefaultPrevented() && !event.cancelable);
+					if (!event.isDefaultPrevented() && !event.cancelable) {
+						console.log('dispatchEvent (found)', event);
+						events.push(eventObj);
+					}
+				}
+			}
+			console.log('dispatchEvent (before sort)', events);
+			events.sort(function(a, b){
+				return b.priority - a.priority;
+			});
+			console.log('dispatchEvent (after sort)', events);
+			for (var i=0; i<events.length; i++) {
+				console.log('dispatchEvent (dispatch)', events[i]);
+				events[i].listener.apply(event.currentTarget, [event]);
+			}
+		},
+		toString: function() {
+			return "[Class soma.EventDispatcher]";
+		}
+	});
+})();
+
 soma.core.IResponder = new Class({
 	fault: function(info){},
 	result: function(data) {}
 });
+

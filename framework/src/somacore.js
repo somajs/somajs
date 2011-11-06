@@ -13,7 +13,8 @@ var soma = {};
 soma.EventDispatcher = (function() {
 	var listeners = [];
 	return new Class({
-		addEventListener: function(type, listener, priority) {
+		addEventListener: function(type, listener, priority)
+		{
 			if (!type || !listener) return;
 			console.log('priority check:', priority);
 			if (isNaN(priority)) priority = 0;
@@ -21,7 +22,8 @@ soma.EventDispatcher = (function() {
 			listeners.push({type: type, listener: listener, priority: priority});
 			console.log('addEventListener', listeners[listeners.length-1]);
 		},
-		removeEventListener: function(type, listener) {
+		removeEventListener: function(type, listener)
+		{
 			console.log('removeEventListener (attempt)', type);
 			if (!type || !listener) return;
 			var i = 0;
@@ -36,7 +38,8 @@ soma.EventDispatcher = (function() {
 			}
 			return false;
 		},
-		hasEventListener: function(type) {
+		hasEventListener: function(type)
+		{
 			console.log('hasEventListener (attempt)', type);
 			if (!type) return false;
 			var i = 0;
@@ -50,11 +53,13 @@ soma.EventDispatcher = (function() {
 			}
 			return false;
 		},
-		dispatchEvent: function(event) {
+		dispatchEvent: function(event)
+		{
 			console.log('dispatchEvent (attempt)', event);
 			if (!event) return;
 			var events = [];
-			for (var i=0; i<listeners.length; i++) {
+			var i;
+			for ( i=0; i<listeners.length; i++) {
 				var eventObj = listeners[i];
 				if (eventObj.type == event.type) {
 					console.log('isDefaultPrevented:', event.isDefaultPrevented());
@@ -71,12 +76,13 @@ soma.EventDispatcher = (function() {
 				return b.priority - a.priority;
 			});
 			console.log('dispatchEvent (after sort)', events);
-			for (var i=0; i<events.length; i++) {
+			for (i=0; i<events.length; i++) {
 				console.log('dispatchEvent (is about to dispatch)', events[i]);
 				events[i].listener.apply(event.currentTarget, [event]);
 			}
 		},
-		toString: function() {
+		toString: function()
+		{
 			return "[Class soma.EventDispatcher]";
 		}
 	});

@@ -1668,15 +1668,15 @@ soma.core.mediator.Mediator = new Class({
 	
 	Extends: soma.core.wire.Wire,
 
-	viewElement: null,
+	viewComponent: null,
 
-	initialize: function(viewElement) {
-		this.viewElement = viewElement;
+	initialize: function(viewComponent) {
+		this.viewComponent = viewComponent;
 		this.parent();
 	},
 
 	dispose: function() {
-		this.viewElement = null;
+		this.viewComponent = null;
 		this.parent();
 	}
 });

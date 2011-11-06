@@ -2,6 +2,23 @@ Tests to do.
 
 - Facade
 
+testDisposeElements (https://raw.github.com/soundstep/somacore_framework/master/srcTest/com/soma/core/tests/suites/facade/DisposingTest.as)
+testWireDisposeCallFromGlobalDispose
+testWireDisposeCallFromRemove
+testModelDisposeCallFromGlobalDispose
+testModelDisposeCallFromRemove
+testViewDisposeCallFromGlobalDispose
+testViewDisposeCallFromRemove
+testMediatorCallDispose
+
+checkCoreComponentsSucess (https://raw.github.com/soundstep/somacore_framework/master/srcTest/com/soma/core/tests/suites/facade/FacadeTests.as)
+testCreationSuccess
+testCreationFailing
+testCreationSetupSuccess
+testCreationSetupFailing
+testStageIsNotNull
+testSetupStageIsNotNull
+
 - Commands
 
 test_StartCommand_is_registered (DONE)
@@ -10,6 +27,8 @@ test_removeCommand (DONE)
 test_commandsLength (DONE)
 test_add_prototypical_command (DONE)
 test_double_register_should_throw_Error (DONE)
+
+test to add a non-command class, should throw error
 
 - Commands (invocation)
 
@@ -40,6 +59,8 @@ test_get_running_sequencers (DONE)
 test_is_part_of_a_sequence (DONE)
 test_get_last_sequencer (DONE)
 test_sequence (DONE)
+
+testStopAllSequencers
 
 - Wires
 
@@ -73,6 +94,11 @@ test_viewsLength_after_registerView (DONE)
 test_multiple_register_of_same_view_should_throw_Error (DONE)
 test_register_calls_init (DONE)
 test_addView_and_removeView_shouldGive_null_For_GetView (DONE)
+
+- Mediator
+
+testMediatorViewComponentRegistered
+testMediatorViewComponentDisposed
 
 - EventDispatcher
 

@@ -2,6 +2,7 @@ Tests to do.
 
 - Facade
 
+test package creation
 testDisposeElements (https://raw.github.com/soundstep/somacore_framework/master/srcTest/com/soma/core/tests/suites/facade/DisposingTest.as)
 testWireDisposeCallFromGlobalDispose
 testWireDisposeCallFromRemove
@@ -18,6 +19,11 @@ testCreationSetupSuccess
 testCreationSetupFailing
 testStageIsNotNull
 testSetupStageIsNotNull
+
+- Utils
+
+test isElementInDisplayList
+test createClassInstance
 
 - Commands
 
@@ -118,5 +124,32 @@ test instance is correctly set (can be added in init called)
 
 - EventDispatcher
 
+test listeners not accessible
+test get to 1 listener
+test get to 1 listener twice (add event listener twice)
+test remove listener
+test has event listener
+test priority default
+test priority before default (set priority > 0)
+test priority after default (set priority < 0)
+
 - Event
+
+test create event works
+test type
+test bubbles
+test cancelable
+test clone 
+test clone type
+test clone bubbles
+test clone cancelable
+test is cloned property
+test clone property
+test is default prevented
+test data is null if not set
+test data is not null if set
+test data content
+test data content in clone
+
+
 

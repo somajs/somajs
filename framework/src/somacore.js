@@ -684,6 +684,7 @@ soma.core.Controller = new Class(
 	instance:null,
 
 	boundInstance:null,
+	boundDomtree:null,
 
     /**
      * @private
@@ -866,12 +867,7 @@ soma.core.Controller = new Class(
 
 	getCommands: function()
 	{
-		var a = [];
-		var cmds = this.commands;
-		for (var c in cmds) {
-			a.push(c);
-		}
-		return a;
+		return this.commands.concat();
 	},
 
 	addCommand: function( commandEventName, command )
@@ -892,15 +888,6 @@ soma.core.Controller = new Class(
 		delete this.commands[commandEventName];
 		this.removeInterceptor(commandEventName);
 	},
-
-	clearCommands: function()
-	{
-		for (var nameCommand in this.commands) {
-			this.removeCommand(nameCommand);
-		}
-	},
-
-
 
 	/**
 	 *
@@ -1014,7 +1001,9 @@ soma.core.Controller = new Class(
 
 	dispose: function()
 	{
-		this.clearCommands();
+		for (var nameCommand in this.commands) {
+			this.removeCommand(nameCommand);
+		}
 		for (var nameSequencer in this.sequencers) {
 			this.sequencers[nameSequencer] = null;
 			delete this.sequencers[nameSequencer];

@@ -46,6 +46,8 @@ test_cancel_event_dispatched_from_body (DONE)
 test_cannot_cancel_event_dispatched_from_body (DONE)
 test_parallel_command (DONE)
 
+test instance is correctly set (can be added in init called)
+
 - Commands (invocation async)
 
 test_async_command
@@ -73,6 +75,10 @@ test_multiple_register_of_same_wire_should_throw_Error (DONE)
 test_register_calls_init (DONE)
 test_addWire_and_removeWire_shouldGive_null_For_GetWire (DONE)
 
+test get name
+test set name
+test instance is correctly set (can be added in init called)
+
 - Models
 
 test_InitApp_GetModels_ShouldGive_EmptyObject (DONE)
@@ -83,6 +89,15 @@ test_modelsLength_after_registerModel (DONE)
 test_multiple_register_of_same_model_should_throw_Error (DONE)
 test_register_calls_init (DONE)
 test_addModel_and_removeModel_shouldGive_null_For_GetModel (DONE)
+
+test get name
+test set name
+test get data
+test set data
+test default dispatcher
+test get dispatcher
+test set dispatcher
+test instance is correctly set (can be added in init called)
 
 - Views
 
@@ -99,6 +114,7 @@ test_addView_and_removeView_shouldGive_null_For_GetView (DONE)
 
 testMediatorViewComponentRegistered
 testMediatorViewComponentDisposed
+test instance is correctly set (can be added in init called)
 
 - EventDispatcher
 

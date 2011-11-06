@@ -270,7 +270,7 @@ var ModelTest = new Class
 		this.soma.dispose();
 		this.soma = null;
 	}
-,_should: {
+	,_should: {
 		error: {
 			 test_multiple_register_of_same_model_should_throw_Error: Error
 		}

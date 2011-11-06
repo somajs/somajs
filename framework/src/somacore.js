@@ -867,7 +867,12 @@ soma.core.Controller = new Class(
 
 	getCommands: function()
 	{
-		return this.commands.concat();
+		var a = [];
+		var cmds = this.commands;
+		for (var c in cmds) {
+			a.push(c);
+		}
+		return a;
 	},
 
 	addCommand: function( commandEventName, command )

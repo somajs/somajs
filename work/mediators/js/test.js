@@ -11,7 +11,6 @@ console.log(m.viewElement);
 m.dispose()
 console.log(m.viewElement);
 
-
 //var mediators = new soma.core.mediator.SomaMediators;
 //mediators.mapView(MyView, MyMediator);
 

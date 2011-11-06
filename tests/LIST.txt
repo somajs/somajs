@@ -116,6 +116,14 @@ test_multiple_register_of_same_view_should_throw_Error (DONE)
 test_register_calls_init (DONE)
 test_addView_and_removeView_shouldGive_null_For_GetView (DONE)
 
+- Views (wrapper)
+
+test domElement default
+test domElement custom
+test dispatchEvent
+test add listener
+test remove listener
+
 - Mediator
 
 testMediatorViewComponentRegistered

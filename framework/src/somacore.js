@@ -138,7 +138,8 @@ soma.Prepare.registerPackages(
 		"soma.core.controller",
 		"soma.core.model",
 		"soma.core.view",
-		"soma.core.wire"
+		"soma.core.wire",
+		"soma.core.mediator"
 	]
 );
 
@@ -1441,31 +1442,29 @@ soma.core.model.Model = new Class
 /*********************************************** # soma.view # ************************************************/
 soma.View = new Class
 ({
-	viewElement: null,
+	domElement: null,
 	initialize: function( domElement )
 	{
 		if( domElement ) {
-			this.viewElement = domElement instanceof Element ? domElement : document.id( domElement );
+			this.domElement = domElement instanceof Element ? domElement : document.id( domElement );
 		}
-		if( !domElement || this.viewElement.parentNode === null || this.viewElement.parentNode === undefined ) {
-			throw new Error( "SomaView constructor has to be given a dom element, that is a node of the dom tree." );
+		if( !domElement) {
+			this.domElement = document.body;
 		}
 	},
 	dispatchEvent: function( event )
 	{
-		this.viewElement.dispatchEvent( event );
+		this.domElement.dispatchEvent( event );
 	},
 	addEventListener: function()
 	{
-		this.viewElement.addEventListener.apply( this.viewElement, arguments );
+		this.domElement.addEventListener.apply( this.domElement, arguments );
 	},
 	removeEventListener: function()
 	{
-		this.viewElement.removeEventListener.apply( this.viewElement, arguments );
+		this.domElement.removeEventListener.apply( this.domElement, arguments );
 	}
 });
-
-
 
 soma.core.view.SomaViews = new Class
 ({
@@ -1631,8 +1630,6 @@ soma.core.wire.SomaWires = new Class
 	}
 });
 
-
-
 soma.core.wire.Wire = new Class
 ({
 	name: null,
@@ -1664,6 +1661,27 @@ soma.core.wire.Wire = new Class
 
 	}
 });
+
+/*********************************************** # soma.mediator # ************************************************/
+
+soma.core.mediator.Mediator = new Class({
+	
+	Extends: soma.core.wire.Wire,
+
+	viewElement: null,
+
+	initialize: function(viewElement) {
+		this.viewElement = viewElement;
+		this.parent();
+	},
+
+	dispose: function() {
+		this.viewElement = null;
+		this.parent();
+	}
+});
+
+/*********************************************** # event # ************************************************/
 
 
 soma.Event = new Class

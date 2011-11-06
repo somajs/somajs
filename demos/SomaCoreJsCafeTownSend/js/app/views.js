@@ -1,11 +1,13 @@
 var LoginView = new Class({
 
+	Extends: soma.View,
+
 	message: null,
 	username: null,
 	password: null,
 	login: null,
 	
-	initialize: function() {
+	init: function() {
 		this.message = document.getElementById('message');
 		this.username = document.getElementById('username');
 		this.password = document.getElementById('password');
@@ -16,7 +18,7 @@ var LoginView = new Class({
 	clickHandler: function(event){
 		event.preventDefault();
 		var vo = new LoginVO(this.username.value, this.password.value);
-		this.login.dispatchEvent(new LoginEvent(LoginEvent.LOGIN, vo, "Please wait..."));
+		this.dispatchEvent(new LoginEvent(LoginEvent.LOGIN, vo, "Please wait..."));
 	},
 	
 	showMessage: function(message) {
@@ -34,13 +36,15 @@ var LoginView = new Class({
 LoginView.NAME = "View::LoginView";
 
 var EmployeeListView = new Class({
+	
+	Extends: soma.View,
 
 	logout: null,
 	tableList: null,
 	tableListContainer: null,
 	create: null,
 	
-	initialize: function() {
+	init: function() {
 		this.tableListContainer = document.getElementById('list-table-container');
 		this.logout = document.getElementById('buttonLogoutList');
 		this.logout.addEventListener('click', this.logoutClickHandler.bind(this));
@@ -50,12 +54,12 @@ var EmployeeListView = new Class({
 
 	logoutClickHandler: function(event){
 		event.preventDefault();
-		this.logout.dispatchEvent(new LoginEvent(LoginEvent.LOGOUT));
+		this.dispatchEvent(new LoginEvent(LoginEvent.LOGOUT));
 	},
 
 	createClickHandler: function(event){
 		event.preventDefault();
-		this.create.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_DETAILS));
+		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_DETAILS));
 	},
 	
 	updateList: function(data) {
@@ -95,6 +99,8 @@ EmployeeListView.NAME = "View::EmployeeListView";
 
 var EmployeeEditView = new Class({
 
+	Extends: soma.View,
+
 	employee:null,
 	logout: null,
 	cancel: null,
@@ -103,7 +109,7 @@ var EmployeeEditView = new Class({
 	inputName: null,
 	inputAge: null,
 
-	initialize: function() {
+	init: function() {
 		this.logout = document.getElementById('buttonLogoutEdit');
 		this.logout.addEventListener('click', this.logoutClickHandler.bind(this));
 		this.cancel = document.getElementById('button-edit-cancel');
@@ -118,18 +124,18 @@ var EmployeeEditView = new Class({
 
 	logoutClickHandler: function(event){
 		event.preventDefault();
-		this.logout.dispatchEvent(new LoginEvent(LoginEvent.LOGOUT));
+		this.dispatchEvent(new LoginEvent(LoginEvent.LOGOUT));
 	},
 
 	deleteClickHandler: function(event) {
 		event.preventDefault();
-		this.submit.dispatchEvent(new EmployeeEvent(EmployeeEvent.DELETE, this.employee));
+		this.dispatchEvent(new EmployeeEvent(EmployeeEvent.DELETE, this.employee));
 		this.leaveForm();
 	},
 
 	cancelClickHandler: function(event) {
 		event.preventDefault();
-		this.cancel.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_LIST));
+		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_LIST));
 	},
 
 	submitClickHandler: function(event) {
@@ -139,16 +145,16 @@ var EmployeeEditView = new Class({
 		this.employee.age = this.inputAge.value;
 		if (this.employee.name == null || this.employee.name == "" || this.employee.age == null || this.employee.age == "") return;
 		if (this.employee.id == null) {
-			this.submit.dispatchEvent(new EmployeeEvent(EmployeeEvent.CREATE, this.employee));
+			this.dispatchEvent(new EmployeeEvent(EmployeeEvent.CREATE, this.employee));
 		}
 		else {
-			this.submit.dispatchEvent(new EmployeeEvent(EmployeeEvent.EDIT, this.employee));
+			this.dispatchEvent(new EmployeeEvent(EmployeeEvent.EDIT, this.employee));
 		}
 		this.leaveForm();
 	},
 
 	leaveForm:function() {
-		this.submit.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_LIST));
+		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_LIST));
 		this.inputName.value = "";
 		this.inputAge.value = "";
 		this.employee = null;

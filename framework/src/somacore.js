@@ -16,23 +16,23 @@ soma.EventDispatcher = (function() {
 		addEventListener: function(type, listener, priority)
 		{
 			if (!type || !listener) return;
-			console.log('priority check:', priority);
+			//console.log('priority check:', priority);
 			if (isNaN(priority)) priority = 0;
-			console.log('priority check:', priority);
+			//console.log('priority check:', priority);
 			listeners.push({type: type, listener: listener, priority: priority});
-			console.log('addEventListener', listeners[listeners.length-1]);
+			//console.log('addEventListener', listeners[listeners.length-1]);
 		},
 		removeEventListener: function(type, listener)
 		{
-			console.log('removeEventListener (attempt)', type);
+			console.log('removeEventListener (attempt)', type, listeners );
 			if (!type || !listener) return;
 			var i = 0;
 			var l = listeners.length;
 			for (; i<l; ++i) {
 				var eventObj = listeners[i];
 				if (eventObj.type == type && eventObj.listener == listener) {
-					console.log('removeEventListener (found)', type);
 					listeners.splice(i, 1);
+					console.log('removeEventListener (found and removed)', type, listeners);
 					return;
 				}
 			}
@@ -40,14 +40,14 @@ soma.EventDispatcher = (function() {
 		},
 		hasEventListener: function(type)
 		{
-			console.log('hasEventListener (attempt)', type);
+			//console.log('hasEventListener (attempt)', type);
 			if (!type) return false;
 			var i = 0;
 			var l = listeners.length;
 			for (; i<l; ++i) {
 				var eventObj = listeners[i];
 				if (eventObj.type == type) {
-					console.log('hasEventListener (found)', type);
+					//console.log('hasEventListener (found)', type);
 					return true;
 				}
 			}
@@ -55,29 +55,29 @@ soma.EventDispatcher = (function() {
 		},
 		dispatchEvent: function(event)
 		{
-			console.log('dispatchEvent (attempt)', event);
+			//console.log('dispatchEvent (attempt)', event);
 			if (!event) return;
 			var events = [];
 			var i;
 			for ( i=0; i<listeners.length; i++) {
 				var eventObj = listeners[i];
 				if (eventObj.type == event.type) {
-					console.log('isDefaultPrevented:', event.isDefaultPrevented());
-					console.log('cancelable:', event.cancelable);
-					console.log('result test:', !event.isDefaultPrevented() && !event.cancelable);
+					//console.log('isDefaultPrevented:', event.isDefaultPrevented());
+					//console.log('cancelable:', event.cancelable);
+					//console.log('result test:', !event.isDefaultPrevented() && !event.cancelable);
 					if (!event.isDefaultPrevented()) {
-						console.log('dispatchEvent (found)', event);
+						//console.log('dispatchEvent (found)', event);
 						events.push(eventObj);
 					}
 				}
 			}
-			console.log('dispatchEvent (before sort)', events);
+			//console.log('dispatchEvent (before sort)', events);
 			events.sort(function(a, b){
 				return b.priority - a.priority;
 			});
-			console.log('dispatchEvent (after sort)', events);
+			//console.log('dispatchEvent (after sort)', events);
 			for (i=0; i<events.length; i++) {
-				console.log('dispatchEvent (is about to dispatch)', events[i]);
+				//console.log('dispatchEvent (is about to dispatch)', events[i]);
 				events[i].listener.apply(event.currentTarget, [event]);
 			}
 		},
@@ -104,19 +104,7 @@ soma.Prepare =
 		for (var i = 0; i < a.length; i++) {
 			var name = a[i];
 			if (o[name] == undefined) {
-				if (i == a.length - 1) {
-					var fChar = name.charAt(0);
-					if (fChar != fChar.toUpperCase()) { // lc first
-						o[name] = new Object();
-					}
-					else { // uc first
-						o[name] = function(){
-						};
-					}
-				}
-				else {
-					o[name] = new Object();
-				}
+				o[name] = new Object();
 			}
 			o = o[name];
 		}
@@ -134,15 +122,21 @@ soma.Prepare =
 };
 soma.Prepare.registerPackages(
 	[
-		"soma.core",
-		"soma.core.controller",
-		"soma.core.model",
-		"soma.core.view",
-		"soma.core.wire",
-		"soma.core.mediator"
+		"soma.core"
+		,"soma.core.controller"
+		,"soma.core.model"
+		,"soma.core.view"
+		,"soma.core.wire"
+		,"soma.core.mediator"
+		,"soma.util"
 	]
 );
 
+/**
+ * @deprecated
+ * TODO decide : Not used by core anymore. Maybe leave it as additional functionality
+ */
+/*
 soma.Util =
 {
 	isElementInDisplayList: function( element )
@@ -156,6 +150,7 @@ soma.Util =
     	return false;
 	}
 };
+*/
 
 
 /**
@@ -168,7 +163,7 @@ soma.Util =
  * @param {Object} constructorObj Object that gets passed as constructor argument
  * @return Object
  */
-soma.createClassInstance = function( clazz, constructorObj )
+soma.util.createClassInstance = function( clazz, constructorObj )
 {
 	var obj;
 	if( clazz.$constructor == Class  ) {
@@ -178,6 +173,54 @@ soma.createClassInstance = function( clazz, constructorObj )
 	}
 	return obj;
 };
+
+
+/**
+ * provides the functionality to autobind with implicit need to keep object scope like event listeners and handlers/callbacks
+ * ending with *Listener or *Handler
+ * Wires and Mediators are implementing instance scope autobinding upon registration
+ */
+soma.core.AutoBind = new Class
+({
+	wasAutoBound:false
+	,blackList: ["initialize", "parent", "$constructor", "addEventListener", "removeEventListener" ]
+	,autobind: function()
+	{
+		if( this.wasAutoBound ) {
+			return;
+		}
+		var o = this;
+		var ab = o["AutoBind"];
+		if( !ab ) {
+			ab = "([lL]istener|[hH]andler)$";
+		}
+		for( var k in o ){
+			if( typeof o[k] == "function" ) {
+				if( this.isBlacklisted( k ) ) {
+					continue;
+				}
+				if( !k.match( ab ) ) {
+					continue;
+				}
+				o[k] = o[k].bind( o );
+				console.log( "Autobound: ", k );
+			}
+		}
+		this.wasAutoBound = true;
+	}
+	,isBlacklisted: function( name )
+	{
+		var bl = this.blackList;
+		for( var i=0; i<bl.length; i++)
+		{
+			if( bl[i] == name ) {
+				return true;
+			}
+		}
+		return false;
+	}
+});
+
 
 
 
@@ -764,7 +807,7 @@ soma.core.Controller = new Class(
 	{
 		var commandEventType = e.type;
 		if( this.hasCommand( commandEventType ) ) {
-			var command = soma.createClassInstance( this.commands[ commandEventType ] );
+			var command = soma.util.createClassInstance( this.commands[ commandEventType ] );
 			command.registerInstance( this.instance );
 			command.execute( e );
 		}
@@ -1120,8 +1163,8 @@ soma.core.controller.SequenceCommandProxy = new Class
  */
 soma.core.controller.SequenceCommand = new Class
 ({
-	Implements:[ soma.core.Share ],
 	Extends:soma.core.controller.Command,
+ 	Implements:[ soma.core.Share ],
 	commands:null,
 	currentCommand:null,
 	id:null,
@@ -1238,8 +1281,8 @@ soma.core.controller.SequenceCommand = new Class
 
 soma.core.controller.ParallelCommand = new Class
 ({
-	Implements:[ soma.core.Share ],
-	Extends:soma.core.controller.Command,
+ 	Extends:soma.core.controller.Command,
+ 	Implements:[ soma.core.Share ],
 	commands:null,
 
 	initialize: function()
@@ -1436,8 +1479,11 @@ soma.core.model.Model = new Class
 /*********************************************** # soma.view # ************************************************/
 soma.View = new Class
 ({
+	Implements:[soma.core.AutoBind],
+
 	domElement: null,
-	initialize: function( domElement )
+
+	 initialize: function( domElement )
 	{
 		if( domElement ) {
 			this.domElement = domElement instanceof Element ? domElement : document.id( domElement );
@@ -1482,14 +1528,15 @@ soma.core.view.SomaViews = new Class
 	/**
 	 *
 	 * @param {String} viewName
-	 * @param {soma.core.view.View} wire
-	 * @return {soma.core.view.View}
+	 * @param {soma.View} view
+	 * @return {soma.View}
 	 */
 	addView: function( viewName, view )
 	{
 		if( this.hasView( viewName ) ) {
 			throw new Error( "View \"" + viewName +"\" already exists" );
 		}
+		view.autobind();
 		this.views[ viewName ] = view;
 
 		if( this.views[ viewName ][ "init" ] != null ) {
@@ -1576,6 +1623,7 @@ soma.core.wire.SomaWires = new Class
 		if( this.hasWire( wireName ) ) {
 			throw new Error( "Wire \"" + wireName +"\" already exists" );
 		}
+		wire.autobind();
 		this.wires[ wireName ] = wire;
 		wire.registerInstance( this.instance );
 		wire.init();
@@ -1628,7 +1676,7 @@ soma.core.wire.Wire = new Class
 ({
 	name: null,
 
-	Implements: [soma.core.Share],
+	Implements: [soma.core.Share, soma.core.AutoBind ],
 
 	instance: null,
 

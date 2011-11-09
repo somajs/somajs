@@ -32,20 +32,35 @@ cases.core.NativePrototypeCommand.prototype =
 
 cases.core.TestView = new Class
 ({
-	Implements:[Events]
+	Extends: soma.View,
 
-	,el:null
+	scopeConfirmed: false,
 
-	,initialize: function()
+	init: function()
 	{
-		this.el = document.id("testSprite");
-	}
-	,init: function()
+		if( this.domElement ) {
+		 	this.domElement.set("id", "testViewSprite" );
+			this.domElement.setStyles( {width:"100px", height:"100px", background:"#ccc"} );
+		}
+	},
+	dispose: function()
 	{
-		this.el.setStyles( {width:100, height:100, background:"#ccc"} );
+		if( this.domElement && this.domElement != document.body ) {
+			this.domElement.destroy();
+		}
+	},
+	viewListener: function( event )
+	{
+		this.scopeConfirmed = true;
 	}
 });
 cases.core.TestView.NAME = "cases.core.TestView";
+
+
+
+
+
+
 
 
 cases.core.TestWire = new Class
@@ -67,17 +82,26 @@ cases.core.TestAutobindWire = new Class
 ({
    	Extends: soma.core.wire.Wire
 
-	,scopeConfirmed: false
+	,AutoBind:"customBoundMethod"
+
+	 ,scopeConfirmed: false
 
 	,storedEvent:null
 
 	,invocationCount:0
+
+	,scopeConfirmedThroughCustom:false
 
 	,testListener: function( event )
 	{
    		this.scopeConfirmed = true;
 		this.storedEvent = event;
 		this.invocationCount++;
+	}
+
+	,customBoundMethod: function()
+	{
+		this.scopeConfirmedThroughCustom = true;
 	}
 
 });

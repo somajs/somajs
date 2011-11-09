@@ -17,11 +17,11 @@ function initTestScenario()
 	 * test core framework interface for commands, models and views
 	 */
 	var suiteCoreTests = new YUITest.TestSuite("SuiteCoreTests");
-	//suiteCoreTests.add( new CommandTest() );
-	//suiteCoreTests.add( new ViewTest() );
-	//suiteCoreTests.add( new WireTest() );
-	//suiteCoreTests.add( new ModelTest() );
-    suiteCoreTests.add( new AutobindTestFromClassMutator() );
+	suiteCoreTests.add( new CommandTest() );
+	suiteCoreTests.add( new ViewTest() );
+	suiteCoreTests.add( new WireTest() );
+	suiteCoreTests.add( new ModelTest() );
+    suiteCoreTests.add( new AutobindTest() );
 
 	/**
 	 * test framework players event flows
@@ -45,9 +45,9 @@ function initTestScenario()
 
 
 
-	new UnitTestBuilder( [suiteCoreTests], false, false );
+	//new UnitTestBuilder( [suiteCoreTests], false, false );
 	//new UnitTestBuilder( [  suiteSequenceTests ], false, false );
 	//new UnitTestBuilder( [  suiteSequenceTests ], false, false );
-	//new UnitTestBuilder( [ suiteCoreTests, suiteInvocationTests, suiteInvocationAsyncTests, suiteSequenceTests ], true, false );
+	new UnitTestBuilder( [ suiteCoreTests, suiteInvocationTests, suiteInvocationAsyncTests, suiteSequenceTests ], true, false );
 }
 

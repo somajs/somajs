@@ -15,7 +15,7 @@ var CommandTest = new Class
 
 	,setUp: function()
 	{
-		this.soma = new soma.core.Core( document.getElementById( "somaInstanceElememnt" ) );
+		this.soma = new soma.core.Core();
 		this.soma.addCommand( CommandEventList.STARTUP, cases.core.StartCommand );
 	}
 
@@ -90,7 +90,7 @@ var ViewTest = new Class
 	}
 	,setUp: function()
 	{
-		this.soma = new soma.core.Core( document.getElementById( "somaInstanceElememnt" ) );
+		this.soma = new soma.core.Core();
 	}
 
 	,tearDown: function()
@@ -179,7 +179,7 @@ var WireTest = new Class
 
 	,setUp: function()
 	{
-		this.soma = new soma.core.Core( document.getElementById( "somaInstanceElememnt" ) );
+		this.soma = new soma.core.Core();
 	}
 	,tearDown: function()
 	{
@@ -263,7 +263,7 @@ var ModelTest = new Class
 
 	,setUp: function()
 	{
-		this.soma = new soma.core.Core( document.getElementById( "somaInstanceElememnt" ) );
+		this.soma = new soma.core.Core();
 	}
 	,tearDown: function()
 	{
@@ -340,6 +340,130 @@ var ModelTest = new Class
 
 
 });
+
+
+var AutobindTestFromClassMutator = new Class
+({
+
+	 Extends: PyrTestCase
+
+	 ,Implements:[ soma.core.AutoBind ]
+
+	,name: "AutobindTestFromClassMutator"
+
+	,soma: null
+
+	,scopeConfirmed: false
+
+	,listenerInvocation:0
+
+
+	,initialize: function()
+	{
+		this.autobind();
+	}
+
+	,setUp: function()
+	{
+		this.soma = new soma.core.Core();
+		//this.soma.addEventListener( "test", this.autoBoundListener );
+	}
+
+	,tearDown: function()
+	{
+   		//this.soma.removeEventListener( "test", this.autoBoundListener );
+		this.listenerInvocation = 0;
+		this.scopeConfirmed = false;
+	}
+
+	,test1: function()
+	{
+		//this.soma.removeEventListener( "test", this.autoBoundListener );
+		 /*
+		this.soma.addEventListener( "test", this.autoBoundListener );
+		this.soma.dispatchEvent( new soma.Event("test") );
+		this.soma.removeEventListener( "test", this.autoBoundListener );
+		this.soma.dispatchEvent( new soma.Event("test") );
+        */
+
+
+		var wire = new cases.core.TestAutobindWire();
+		this.soma.addWire( cases.core.TestAutobindWire.NAME, wire  );
+		wire.addEventListener( "test", this.autoBoundListener );
+		this.soma.dispatchEvent( new soma.Event("test") );
+		wire.removeEventListener( "test", this.autoBoundListener );
+		this.soma.dispatchEvent( new soma.Event("test") );
+
+
+
+		this.assertTrue( true );
+	}
+
+	,_test_custom_autobind_rule: function()
+	{
+
+	}
+
+	,_test_wire_autobind: function()
+	{
+		var wire = new cases.core.TestAutobindWire();
+		this.soma.addWire( cases.core.TestAutobindWire.NAME, wire  );
+
+		wire.addEventListener( "test", wire.testListener );
+		this.soma.dispatchEvent( new soma.Event("test") );
+		this.assertTrue( wire.scopeConfirmed );
+		this.assertEquals( "test", wire.storedEvent.type );
+		this.assertEquals( 1, wire.invocationCount );
+		wire.invocationCount = 0;
+
+		wire.removeEventListener( "test", wire.testListener );
+
+
+		this.soma.dispatchEvent( new soma.Event("test") );
+		this.assertEquals( 0, wire.invocationCount );
+
+	}
+
+
+	,_test_first_listener_invocation: function()
+	{
+	   this.soma.dispatchEvent( new soma.Event("test") );
+	   this.assertTrue( this.scopeConfirmed );
+	}
+
+	,_test_second_listener_invocation: function()
+	{
+		this.soma.dispatchEvent( new soma.Event("test") );
+		this.assertTrue( this.scopeConfirmed );
+	}
+
+
+
+	,_test_view_autobind: function()
+	{
+		this.assertTrue( true );
+	}
+
+
+	,autoBoundListener: function()
+	{
+		console.log("called autoBoundListener")
+		this.listenerInvocation++;
+		this.confirmScope();
+	}
+
+	,confirmScope: function()
+	{
+		this.scopeConfirmed = true;
+	}
+
+ });
+
+
+
+
+
+
 
 
 

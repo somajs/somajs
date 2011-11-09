@@ -248,7 +248,7 @@ soma.core.Share = new Class(
 
 	removeEventListener: function()
 	{
-		this.instance.addEventListener.apply( this.instance, arguments );
+		this.instance.removeEventListener.apply( this.instance, arguments );
 	},
 
 	/**

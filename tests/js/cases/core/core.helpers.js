@@ -62,6 +62,30 @@ cases.core.TestWire = new Class
 cases.core.TestWire.NAME = "cases.core.TestWire";
 
 
+
+cases.core.TestAutobindWire = new Class
+({
+   	Extends: soma.core.wire.Wire
+
+	,scopeConfirmed: false
+
+	,storedEvent:null
+
+	,invocationCount:0
+
+	,testListener: function( event )
+	{
+   		this.scopeConfirmed = true;
+		this.storedEvent = event;
+		this.invocationCount++;
+	}
+
+});
+cases.core.TestAutobindWire.NAME = "cases.core.TestAutobindWire";
+
+
+
+
 cases.core.TestModel = new Class
 ({
 	Extends: soma.core.model.Model
@@ -74,6 +98,7 @@ cases.core.TestModel = new Class
 	}
 });
 cases.core.TestModel.NAME  = "cases.core.TestModel";
+
 
 
 

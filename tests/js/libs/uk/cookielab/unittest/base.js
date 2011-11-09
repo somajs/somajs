@@ -106,7 +106,7 @@
 (function(){
 	PyrTestCase = new Class
 	({
-		Extends: YUITest.TestCase
+		 Extends: YUITest.TestCase
 		,wasSetup: false
 		,Assert: YUITest.Assert
 		,ArrayAssert: YUITest.ArrayAssert

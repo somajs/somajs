@@ -20,10 +20,19 @@ testCreationSetupFailing
 testStageIsNotNull
 testSetupStageIsNotNull
 
+- Autobind
+test_custom_autobind_rule (DONE)
+test_first_listener_invocation  (DONE)
+test_second_listener_invocation  (DONE) // to test possible scope loss by multi execution
+test_wire_autobind_scope (DONE)
+test_view_autobind (DONE)
+
+
 - Utils
 
-test isElementInDisplayList
+test isElementInDisplayList  @deprecated?
 test createClassInstance
+
 
 - Commands
 
@@ -69,6 +78,8 @@ test_get_last_sequencer (DONE)
 test_sequence (DONE)
 
 testStopAllSequencers
+test parallel_registered_sequencers
+	...
 
 - Wires
 

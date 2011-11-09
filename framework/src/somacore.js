@@ -182,8 +182,7 @@ soma.util.createClassInstance = function( clazz, constructorObj )
  */
 soma.core.AutoBindProto =
 {
-	wasAutoBound:false
-	,blackList: ["initialize", "parent", "$constructor", "addEventListener", "removeEventListener" ]
+	blackList: ["initialize", "parent", "$constructor", "addEventListener", "removeEventListener" ]
 	,autobind: function()
 	{
 		if( this.wasAutoBound ) {
@@ -197,7 +196,6 @@ soma.core.AutoBindProto =
 		}else{
 			ab = coreAb + "|" + ab;
 		}
-		console.log( "Autobind Pattern:", ab );
 		for( var k in o ){
 			if( typeof o[k] == "function" ) {
 				if( this.isBlacklisted( k ) ) {
@@ -207,10 +205,9 @@ soma.core.AutoBindProto =
 					continue;
 				}
 				o[k] = o[k].bind( o );
-				console.log( "Autobound: ", k );
+				//console.log( "Autobound: ", k );
 			}
 		}
-		this.wasAutoBound = true;
 	}
 	,isBlacklisted: function( name )
 	{

@@ -24,7 +24,7 @@ soma.EventDispatcher = (function() {
 		},
 		removeEventListener: function(type, listener)
 		{
-			console.log('removeEventListener (attempt)', type, listeners );
+			//console.log('removeEventListener (attempt)', type, listeners );
 			if (!type || !listener) return;
 			var i = 0;
 			var l = listeners.length;
@@ -32,7 +32,7 @@ soma.EventDispatcher = (function() {
 				var eventObj = listeners[i];
 				if (eventObj.type == type && eventObj.listener == listener) {
 					listeners.splice(i, 1);
-					console.log('removeEventListener (found and removed)', type, listeners);
+					//console.log('removeEventListener (found and removed)', type, listeners);
 					return;
 				}
 			}
@@ -191,9 +191,13 @@ soma.core.AutoBind = new Class
 		}
 		var o = this;
 		var ab = o["AutoBind"];
+		var coreAb = "([lL]istener|[hH]andler)$";
 		if( !ab ) {
-			ab = "([lL]istener|[hH]andler)$";
+			ab = coreAb;
+		}else{
+			ab = coreAb + "|" + ab;
 		}
+		console.log( "Autobind Pattern:", ab );
 		for( var k in o ){
 			if( typeof o[k] == "function" ) {
 				if( this.isBlacklisted( k ) ) {
@@ -930,7 +934,7 @@ soma.core.Controller = new Class(
 	removeCommand: function( commandEventName )
 	{
 		if( !this.hasCommand( commandEventName ) ) {
-			throw new Error("Error in " + this + " Command \"" + commandEventName + "\" not registered.");
+			return;
 		}
 		this.commands[commandEventName] = null;
 		delete this.commands[commandEventName];
@@ -1402,7 +1406,7 @@ soma.core.model.SomaModels = new Class
 	removeModel: function( modelName )
 	{
 		if( !this.hasModel( modelName ) ) {
-			throw new Error("Error in " + this + " Model \"" + modelName + "\" not registered.");
+			return;
 		}
 		this.models[ modelName ].dispose();
 		this.models[ modelName ] = null;
@@ -1571,7 +1575,7 @@ soma.core.view.SomaViews = new Class
 	removeView: function( viewName )
 	{
 		if( !this.hasView( viewName ) ) {
-			throw new Error("Error in " + this + " View \"" + viewName + "\" not registered.");
+			return;
 		}
 		if (this.views[viewName]["dispose"] != null) {
 			this.views[viewName].dispose();
@@ -1656,7 +1660,7 @@ soma.core.wire.SomaWires = new Class
 	removeWire: function( wireName )
 	{
 		if( !this.hasWire( wireName ) ) {
-			throw new Error("Error in " + this + " Wire \"" + wireName + "\" not registered.");
+	  		return;
 		}
 		this.wires[ wireName ].dispose();
 		this.wires[ wireName ] = null;

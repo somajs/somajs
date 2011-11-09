@@ -180,8 +180,8 @@ soma.util.createClassInstance = function( clazz, constructorObj )
  * ending with *Listener or *Handler
  * Wires and Mediators are implementing instance scope autobinding upon registration
  */
-soma.core.AutoBind = new Class
-({
+soma.core.AutoBindProto =
+{
 	wasAutoBound:false
 	,blackList: ["initialize", "parent", "$constructor", "addEventListener", "removeEventListener" ]
 	,autobind: function()
@@ -223,7 +223,8 @@ soma.core.AutoBind = new Class
 		}
 		return false;
 	}
-});
+};
+soma.core.AutoBind = new Class( soma.core.AutoBindProto );
 
 
 
@@ -1483,11 +1484,9 @@ soma.core.model.Model = new Class
 /*********************************************** # soma.view # ************************************************/
 soma.View = new Class
 ({
-	Implements:[soma.core.AutoBind],
-
 	domElement: null,
 
-	 initialize: function( domElement )
+	initialize: function( domElement )
 	{
 		if( domElement ) {
 			this.domElement = domElement instanceof Element ? domElement : document.id( domElement );
@@ -1512,7 +1511,8 @@ soma.View = new Class
 
 soma.core.view.SomaViews = new Class
 ({
-   views: null,
+    views: null,
+	autoBound:false,
 
 	initialize:function()
 	{
@@ -1540,11 +1540,14 @@ soma.core.view.SomaViews = new Class
 		if( this.hasView( viewName ) ) {
 			throw new Error( "View \"" + viewName +"\" already exists" );
 		}
+		if( !this.autoBound ) {
+			soma.View.implement( soma.core.AutoBindProto );
+			this.autoBound = true;
+		}
 		view.autobind();
 		this.views[ viewName ] = view;
-
-		if( this.views[ viewName ][ "init" ] != null ) {
-			this.views[ viewName ].init();
+		if( view[ "init" ] != null ) {
+			view.init();
 		}
 		return view;
 	},

@@ -1,9 +1,19 @@
 /**
- * SomaCore MVC Framework for JavaScript and Mootools 1.3
+ * SomaCore MVC Framework for JavaScript and Mootools 1.3+
  * Port of the AS3 MVC framework SomaCore by Romuald Quantin (http://www.soundstep.com/blog/downloads/somacore/)
  *
  * @author Henry Schmieder
  * @author and a bit of me now? :D
+ *
+ * TODO
+ * discuss domElement in soma.View - maybe it should not default to document.body as many developers might tend to destroy the
+ * domElement in the dispose method. We might have a better protection of that if we just made a conditional in the eventlistener
+ * specific methods.
+ *
+ * var el =   !!this.domElement ? this.domElement : document.body;
+ * el.addEventListener.apply( el, arguments );
+ *
+ * ???
  *
  */
 
@@ -205,7 +215,6 @@ soma.core.AutoBindProto =
 					continue;
 				}
 				o[k] = o[k].bind( o );
-				//console.log( "Autobound: ", k );
 			}
 		}
 	}

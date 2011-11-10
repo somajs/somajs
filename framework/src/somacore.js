@@ -1542,7 +1542,7 @@ soma.core.view.SomaViews = new Class
 			soma.View.implement( soma.core.AutoBindProto );
 			this.autoBound = true;
 		}
-		view.autobind();
+		if (view['autobind']) view.autobind();
 		this.views[ viewName ] = view;
 		if( view[ "init" ] != null ) {
 			view.init();

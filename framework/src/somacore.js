@@ -23,26 +23,24 @@ var soma = {};
 soma.EventDispatcher = (function() {
 	var listeners = [];
 	return new Class({
+		initialize: function() {
+			listeners = [];
+		},
 		addEventListener: function(type, listener, priority)
 		{
-			if (!type || !listener) return;
-			//console.log('priority check:', priority);
+			if (!listeners || !type || !listener) return;
 			if (isNaN(priority)) priority = 0;
-			//console.log('priority check:', priority);
 			listeners.push({type: type, listener: listener, priority: priority});
-			//console.log('addEventListener', listeners[listeners.length-1]);
 		},
 		removeEventListener: function(type, listener)
 		{
-			//console.log('removeEventListener (attempt)', type, listeners );
-			if (!type || !listener) return;
+			if (!listeners || !type || !listener) return;
 			var i = 0;
 			var l = listeners.length;
 			for (; i<l; ++i) {
 				var eventObj = listeners[i];
 				if (eventObj.type == type && eventObj.listener == listener) {
 					listeners.splice(i, 1);
-					//console.log('removeEventListener (found and removed)', type, listeners);
 					return;
 				}
 			}
@@ -50,14 +48,12 @@ soma.EventDispatcher = (function() {
 		},
 		hasEventListener: function(type)
 		{
-			//console.log('hasEventListener (attempt)', type);
-			if (!type) return false;
+			if (!listeners || !type) return false;
 			var i = 0;
 			var l = listeners.length;
 			for (; i<l; ++i) {
 				var eventObj = listeners[i];
 				if (eventObj.type == type) {
-					//console.log('hasEventListener (found)', type);
 					return true;
 				}
 			}
@@ -65,35 +61,28 @@ soma.EventDispatcher = (function() {
 		},
 		dispatchEvent: function(event)
 		{
-			//console.log('dispatchEvent (attempt)', event);
-			if (!event) return;
+			if (!listeners || !event) return;
 			var events = [];
 			var i;
 			for ( i=0; i<listeners.length; i++) {
 				var eventObj = listeners[i];
 				if (eventObj.type == event.type) {
-					//console.log('isDefaultPrevented:', event.isDefaultPrevented());
-					//console.log('cancelable:', event.cancelable);
-					//console.log('result test:', !event.isDefaultPrevented() && !event.cancelable);
-					if (!event.isDefaultPrevented()) {
-						//console.log('dispatchEvent (found)', event);
-						events.push(eventObj);
-					}
+					events.push(eventObj);
 				}
 			}
-			//console.log('dispatchEvent (before sort)', events);
 			events.sort(function(a, b){
 				return b.priority - a.priority;
 			});
-			//console.log('dispatchEvent (after sort)', events);
 			for (i=0; i<events.length; i++) {
-				//console.log('dispatchEvent (is about to dispatch)', events[i]);
 				events[i].listener.apply(event.currentTarget, [event]);
 			}
 		},
 		toString: function()
 		{
 			return "[Class soma.EventDispatcher]";
+		},
+		dispose: function() {
+			listeners = null;
 		}
 	});
 })();

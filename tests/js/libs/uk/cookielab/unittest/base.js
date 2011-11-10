@@ -139,6 +139,10 @@
 		{
 			return YUITest.Assert.isNull( actual, message );
 		}
+		,assertNotNull: function( actual, message )
+		{
+			return YUITest.Assert.isNotNull( actual, message );
+		}
 		,assertUndefined: function( actual, message )
 		{
 			return YUITest.Assert.isUndefined( actual, message );
@@ -154,6 +158,10 @@
 		,assertNotUndefined: function( actual, message )
 		{
 			return YUITest.Assert.isNotUndefined( actual, message );
+		}
+		,assertAreNotSame: function( actual, message )
+		{
+			return YUITest.Assert.areNotSame( actual, message );
 		}
 		,fail: YUITest.Assert.fail
 

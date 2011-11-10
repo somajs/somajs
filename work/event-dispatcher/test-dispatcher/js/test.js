@@ -1,4 +1,10 @@
 var dispatcher = new soma.EventDispatcher;
+
+dispatcher.dispose();
+dispatcher = null;
+dispatcher = new soma.EventDispatcher;
+
+
 dispatcher.addEventListener('test', handlerSecond, 0);
 dispatcher.addEventListener('test', handlerFirst, 1); // should trigger first
 

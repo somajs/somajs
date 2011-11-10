@@ -2,6 +2,9 @@ Tests to do.
 
 - Facade
 
+test_create_instance (DONE)
+test_dispose (DONE)
+
 test package creation
 testDisposeElements (https://raw.github.com/soundstep/somacore_framework/master/srcTest/com/soma/core/tests/suites/facade/DisposingTest.as)
 testWireDisposeCallFromGlobalDispose
@@ -143,14 +146,32 @@ test instance is correctly set (can be added in init called)
 
 - EventDispatcher
 
-test listeners not accessible
-test get to 1 listener
-test get to 1 listener twice (add event listener twice)
-test remove listener
-test has event listener
-test priority default
-test priority before default (set priority > 0)
-test priority after default (set priority < 0)
+test_single_create_dispatcher (DONE)
+test_multiple_create_dispatcher (DONE)
+test_single_add_listener (DONE)
+test_multiple_add_listener (DONE)
+test_add_listener_with_different_type (DONE)
+test_add_listener_with_different_handler (DONE)
+test_multiple_add_listener (DONE)
+test_single_has_listener (DONE)
+test_multiple_has_listener (DONE)
+test_multiple_has_listener_with_different_type (DONE)
+test_multiple_has_listener_with_different_handler (DONE)
+test_single_remove_listener (DONE)
+test_multiple_remove_listener (DONE)
+test_multiple_remove_listener_should_fail (DONE)
+test_single_remove_listener_does_not_dispatch (DONE)
+test_multiple_remove_listener_does_not_dispatch (DONE)
+test_remove_listener_with_different_type (DONE)
+test_remove_listener_with_different_handler (DONE)
+test_single_dispatch (DONE)
+test_multiple_dispatch (DONE)
+test_dispatch_with_different_type (DONE)
+test_priority_default (DONE)
+test_priority_positive (DONE)
+test_priority_negative (DONE)
+test_priority_positive_and_negative (DONE)
+test_dispose (DONE)
 
 - Event
 

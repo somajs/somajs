@@ -23,7 +23,8 @@ var soma = {};
 soma.EventDispatcher = (function() {
 	var listeners = [];
 	return new Class({
-		initialize: function() {
+		initialize: function()
+		{
 			listeners = [];
 		},
 		addEventListener: function(type, listener, priority)
@@ -465,6 +466,7 @@ soma.core.Core = new Class(
 /** @lends soma.core.Core.prototype */
 {
 	Extends: soma.EventDispatcher,
+	
 	body:null,
 	models:null,
 	controller:null,
@@ -505,12 +507,12 @@ soma.core.Core = new Class(
 
 	hasCommand: function( commandEventName )
 	{
-		return this.controller.hasCommand( commandEventName );
+		return (!this.controller) ? false : this.controller.hasCommand( commandEventName );
 	},
 
 	getCommand: function( commandEventName )
 	{
-		return this.controller.getCommand( commandEventName );
+		return (!this.controller) ? null : this.controller.getCommand( commandEventName );
 	},
 
 	/**
@@ -518,7 +520,7 @@ soma.core.Core = new Class(
 	 */
 	getCommands: function()
 	{
-		return this.controller.getCommands();
+		return (!this.controller) ? null : this.controller.getCommands();
 	},
 
     /**
@@ -539,17 +541,17 @@ soma.core.Core = new Class(
 
 	hasWire: function( wireName )
 	{
-		return this.wires.hasWire( wireName );
+		return (!this.wires) ? false :  this.wires.hasWire( wireName );
 	},
 
 	getWire: function( wireName )
 	{
-		return this.wires.getWire( wireName );
+		return (!this.wires) ? null : this.wires.getWire( wireName );
 	},
 
 	getWires: function()
 	{
-		return this.wires.getWires();
+		return (!this.wires) ? null : this.wires.getWires();
 	},
 
 	/**
@@ -570,17 +572,17 @@ soma.core.Core = new Class(
 
     getModels: function()
 	{
-		return this.models.getModels();
+		return (!this.models) ? null : this.models.getModels();
 	},
 
 	hasModel: function( modelName )
 	{
-		return this.models.hasModel( modelName );
+		return (!this.models) ? false : this.models.hasModel( modelName );
 	},
 
 	getModel: function( modelName )
 	{
-		return this.models.getModel( modelName );
+		return (!this.models) ? null : this.models.getModel( modelName );
 	},
 
 	addModel: function( modelName, model )
@@ -595,17 +597,17 @@ soma.core.Core = new Class(
 
 	hasView: function( viewName )
 	{
-		return this.views.hasView( viewName );
+		return (!this.views) ? false : this.views.hasView( viewName );
 	},
 
 	getView: function( viewName )
 	{
-		return this.views.getView( viewName );
+		return (!this.views) ? null : this.views.getView( viewName );
 	},
 
 	getViews: function()
 	{
-		return this.views.getViews();
+		return (!this.views) ? null : this.views.getViews();
 	},
 
 	addView: function( viewName, view )
@@ -620,7 +622,7 @@ soma.core.Core = new Class(
 
 	registerModels: function() {},
 
-	registerCommands: function(){},
+	registerCommands: function() {},
 
 	registerViews: function() {},
 
@@ -707,6 +709,7 @@ soma.core.Core = new Class(
 		if ( this.controller) { this.controller.dispose(); this.controller = null; }
 		if (this.wires) { this.wires.dispose(); this.wires = null; }
 		if (this.mediators) { this.mediators.dispose(); this.mediators = null; }
+		this.body = null;
 	},
 
 

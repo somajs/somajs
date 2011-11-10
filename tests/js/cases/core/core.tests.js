@@ -1,3 +1,56 @@
+var FacadeTests = new Class({
+
+	Extends: PyrTestCase
+
+	,name: "FacadeTests"
+
+	,setUp: function() {
+
+	}
+
+	,tearDown: function() {
+	   
+	}
+
+	,test_create_instance: function() {
+		var soma1 = new soma.core.Core;
+		var soma2 = new soma.core.Core;
+		this.assertNotNull(soma1);
+		this.assertNotNull(soma2);
+		this.assertInstanceOf(soma.core.Core, soma1);
+		this.assertInstanceOf(soma.core.Core, soma2);
+		this.assertAreNotSame(soma1, soma2);
+	}
+
+	,test_dispose: function() {
+		var app = new soma.core.Core;
+		app.addCommand(CommandEventList.STARTUP, cases.core.StartCommand);
+		app.dispatchEvent(new soma.Event(CommandEventList.STARTUP));
+		app.addWire(cases.core.TestWire.NAME, new cases.core.TestWire);
+		app.addModel(cases.core.TestModel.NAME, new cases.core.TestModel);
+		app.addView(cases.core.TestView.NAME, new cases.core.TestView);
+
+		app.dispose();
+
+		this.assertNull(app.body);
+		this.assertNull(app.wires);
+		this.assertNull(app.getWires());
+		this.assertNull(app.getWire(cases.core.TestWire.NAME));
+		this.assertNull(app.controller);
+		this.assertNull(app.getCommands());
+		this.assertNull(app.getCommand(CommandEventList.STARTUP));
+		this.assertNull(app.models);
+		this.assertNull(app.getModels());
+		this.assertNull(app.getModel(cases.core.TestModel.NAME));
+		this.assertNull(app.views);
+		this.assertNull(app.getViews());
+		this.assertNull(app.getView(cases.core.TestView.NAME));
+		this.assertNull(app.getLastSequencer());
+		this.assertNull(app.getRunningSequencers());
+	}
+
+});
+
 var CommandTest = new Class
 ({
 	Extends: PyrTestCase

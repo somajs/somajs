@@ -17,6 +17,7 @@ function initTestScenario()
 	 * test core framework interface for commands, models and views
 	 */
 	var suiteCoreTests = new YUITest.TestSuite("SuiteCoreTests");
+	suiteCoreTests.add( new FacadeTests() );
 	suiteCoreTests.add( new CommandTest() );
 	suiteCoreTests.add( new ViewTest() );
 	suiteCoreTests.add( new WireTest() );

@@ -3,25 +3,9 @@ Tests to do.
 - Facade
 
 test_create_instance (DONE)
+test_component_creation (DONE)
 test_dispose (DONE)
-
-test package creation
-testDisposeElements (https://raw.github.com/soundstep/somacore_framework/master/srcTest/com/soma/core/tests/suites/facade/DisposingTest.as)
-testWireDisposeCallFromGlobalDispose
-testWireDisposeCallFromRemove
-testModelDisposeCallFromGlobalDispose
-testModelDisposeCallFromRemove
-testViewDisposeCallFromGlobalDispose
-testViewDisposeCallFromRemove
-testMediatorCallDispose
-
-checkCoreComponentsSucess (https://raw.github.com/soundstep/somacore_framework/master/srcTest/com/soma/core/tests/suites/facade/FacadeTests.as)
-testCreationSuccess
-testCreationFailing
-testCreationSetupSuccess
-testCreationSetupFailing
-testStageIsNotNull
-testSetupStageIsNotNull
+test_packages_creation (DONE)
 
 - Autobind
 test_custom_autobind_rule (DONE)
@@ -46,8 +30,6 @@ test_commandsLength (DONE)
 test_add_prototypical_command (DONE)
 test_double_register_should_throw_Error (DONE)
 
-test to add a non-command class, should throw error
-
 - Commands (invocation)
 
 test_command_from_displayList (DONE)
@@ -63,8 +45,7 @@ test_cannot_cancel_event_dispatched_from_displaylist (DONE)
 test_cancel_event_dispatched_from_body (DONE)
 test_cannot_cancel_event_dispatched_from_body (DONE)
 test_parallel_command (DONE)
-
-test instance is correctly set (can be added in init called)
+test_instance_is_set (DONE)
 
 - Commands (invocation async)
 
@@ -94,10 +75,9 @@ test_wiresLength_after_registerWire (DONE)
 test_multiple_register_of_same_wire_should_throw_Error (DONE)
 test_register_calls_init (DONE)
 test_addWire_and_removeWire_shouldGive_null_For_GetWire (DONE)
-
-test get name
-test set name
-test instance is correctly set (can be added in init called)
+test_get_name (DONE)
+test_set_name (DONE)
+test_instance_is_set (DONE)
 
 - Models
 
@@ -109,15 +89,14 @@ test_modelsLength_after_registerModel (DONE)
 test_multiple_register_of_same_model_should_throw_Error (DONE)
 test_register_calls_init (DONE)
 test_addModel_and_removeModel_shouldGive_null_For_GetModel (DONE)
-
-test get name
-test set name
-test get data
-test set data
-test default dispatcher
-test get dispatcher
-test set dispatcher
-test instance is correctly set (can be added in init called)
+test_get_name (DONE)
+test_set_name (DONE)
+test_instance_is_set (DONE)
+test_get_data (DONE)
+test_set_data (DONE)
+test_default_dispatcher (DONE)
+test_get_dispatcher (DONE)
+test_set_dispatcher (DONE)
 
 - Views
 

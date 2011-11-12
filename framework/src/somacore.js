@@ -1397,7 +1397,7 @@ soma.core.model.SomaModels = new Class
 			throw new Error( "Model \"" + modelName +"\" already exists" );
 		}
 		this.models[ modelName ] = model;
-		model.registerDispatcher( this.instance );
+		if (!model.dispatcher) model.dispatcher = this.instance;
 		model.init();
 		return model;
 	},
@@ -1438,10 +1438,6 @@ soma.core.model.Model = new Class
 		}
 	}
 
-	,registerDispatcher: function( dispatcher )
-	{
-		this.dispatcher = dispatcher;
-	}
 	/**
 	 * to be overridden
 	 */
@@ -1474,6 +1470,14 @@ soma.core.model.Model = new Class
 		if (this.dispatcher) {
 			this.dispatcher.addEventListener.apply( this.dispatcher, arguments );
 		}
+	},
+
+	getName: function() {
+		return this.name;
+	},
+
+	setName: function(name) {
+		this.name = name;
 	}
 
 });
@@ -1706,6 +1710,14 @@ soma.core.wire.Wire = new Class
 	dispose: function()
 	{
 
+	},
+
+	getName: function() {
+		return this.name;
+	},
+
+	setName: function(name) {
+		this.name = name;
 	}
 });
 

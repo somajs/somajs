@@ -1,12 +1,5 @@
 cases.core = {};
 
-
-cases.core.CommandList =
-{
-	 TEST: "cases.core.test"
-};
-
-
 cases.core.StartCommand = new Class
 ({
 	Extends: soma.core.controller.Command,
@@ -14,6 +7,16 @@ cases.core.StartCommand = new Class
 	execute: function()
 	{
 		d("startcommand exec");
+	}
+});
+
+cases.core.CommandAssertInstance = new Class
+({
+	Extends: soma.core.controller.Command,
+
+	execute: function(event)
+	{
+		event.test_case.assertNotNull(this.instance);
 	}
 });
 
@@ -55,12 +58,6 @@ cases.core.TestView = new Class
 	}
 });
 cases.core.TestView.NAME = "cases.core.TestView";
-
-
-
-
-
-
 
 
 cases.core.TestWire = new Class

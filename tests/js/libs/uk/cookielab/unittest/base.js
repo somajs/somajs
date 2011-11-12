@@ -115,6 +115,10 @@
 		{
 			return YUITest.Assert.areEqual( expected, actual, message );
 		}
+		,assertNotEquals: function( expected, actual, message )
+		{
+			return YUITest.Assert.areNotEqual( expected, actual, message );
+		}
 		,assertTrue: function( actual, message )
 		{
 			return YUITest.Assert.isTrue( actual, message );

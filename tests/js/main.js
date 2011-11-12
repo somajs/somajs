@@ -5,9 +5,9 @@ function d()
 
 var CommandEventList =
 {
-	STARTUP: "startup"
+	STARTUP: "startup",
+	TEST_INSTANCE: "cases.core.testInstance"
 };
-
 
 
 function initTestScenario()

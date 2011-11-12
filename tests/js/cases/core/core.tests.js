@@ -3,13 +3,15 @@ var FacadeTests = new Class({
 	Extends: PyrTestCase
 
 	,name: "FacadeTests"
+	,app: null
 
 	,setUp: function() {
-
+		this.app = new soma.core.Core;
 	}
 
 	,tearDown: function() {
-	   
+		this.app.dispose();
+		this.app = null;
 	}
 
 	,test_create_instance: function() {
@@ -20,6 +22,19 @@ var FacadeTests = new Class({
 		this.assertInstanceOf(soma.core.Core, soma1);
 		this.assertInstanceOf(soma.core.Core, soma2);
 		this.assertAreNotSame(soma1, soma2);
+		this.assertAreNotSame(soma1.controller, soma2.controller);
+		this.assertAreNotSame(soma1.wires, soma2.wires);
+		this.assertAreNotSame(soma1.models, soma2.models);
+		this.assertAreNotSame(soma1.views, soma2.views);
+	}
+
+	,test_component_creation: function() {
+		this.assertNotNull(this.app.body);
+		this.assertNotNull(this.app.wires);
+		this.assertNotNull(this.app.controller);
+		this.assertNotNull(this.app.wires);
+		this.assertNotNull(this.app.models);
+		this.assertNotNull(this.app.views);
 	}
 
 	,test_dispose: function() {
@@ -48,7 +63,17 @@ var FacadeTests = new Class({
 		this.assertNull(app.getLastSequencer());
 		this.assertNull(app.getRunningSequencers());
 	}
-
+	
+	,test_packages_creation: function() {
+		this.assertNotNull(soma);
+		this.assertNotNull(soma.core);
+		this.assertNotNull(soma.core.controller);
+		this.assertNotNull(soma.core.model);
+		this.assertNotNull(soma.core.view);
+		this.assertNotNull(soma.core.wire);
+		this.assertNotNull(soma.core.mediator);
+		this.assertNotNull(soma.util);
+	}
 });
 
 var CommandTest = new Class
@@ -63,6 +88,7 @@ var CommandTest = new Class
 		error: {
 			test_double_register_should_throw_Error: Error
 			,test_register_nonCommand_should_throw_Error: Error
+			//,test_add_non_command_should_throw_error: Error
 		}
 	}
 
@@ -110,6 +136,12 @@ var CommandTest = new Class
 	,test_double_register_should_throw_Error: function()
 	{
 		this.soma.addCommand( CommandEventList.STARTUP, cases.core.StartCommand );
+	}
+
+	,test_instance_is_set: function()
+	{
+		this.soma.addCommand( CommandEventList.TEST_INSTANCE, cases.core.CommandAssertInstance );
+		this.soma.dispatchEvent( new soma.Event(CommandEventList.TEST_INSTANCE, true, false, {test_case:this}) );
 	}
 
 	/**
@@ -295,7 +327,6 @@ var WireTest = new Class
 		this.assertTrue( wire.initCalled );
 	}
 
-
 	,test_addWire_and_removeWire_shouldGive_null_For_GetWire: function()
 	{
 		this.soma.addWire( cases.core.TestWire.NAME, new cases.core.TestWire() );
@@ -303,6 +334,27 @@ var WireTest = new Class
 		this.assertNull( this.soma.getWire( cases.core.TestWire.NAME ) );
 	}
 
+	,test_get_name: function() {
+		var name = "wire_name";
+		this.soma.addWire( name, new cases.core.TestWire(name) );
+		this.assertNotNull(this.soma.getWire(name).getName());
+		this.assertEquals(this.soma.getWire(name).getName(), name);
+	}
+
+	,test_set_name: function() {
+		var name = "new_name";
+		this.soma.addWire( name, new cases.core.TestWire('wire_name') );
+		this.assertNotNull(this.soma.getWire(name).getName());
+		this.assertNotEquals(this.soma.getWire(name).getName(), name);
+		this.soma.getWire(name).setName(name);
+		this.assertNotNull(this.soma.getWire(name).getName());
+		this.assertEquals(this.soma.getWire(name).getName(), name);
+	}
+
+	,test_instance_is_set: function() {
+		this.soma.addWire( cases.core.TestWire.NAME, new cases.core.TestWire() );
+		this.assertNotNull(this.soma.getWire(cases.core.TestWire.NAME).instance)
+	}
 
 });
 
@@ -383,8 +435,6 @@ var ModelTest = new Class
 		this.assertTrue( model.initCalled );
 	}
 
-
-
 	,test_addModel_and_removeModel_shouldGive_null_For_GetModel: function()
 	{
 		this.soma.addModel( cases.core.TestModel.NAME, new cases.core.TestModel() );
@@ -392,7 +442,68 @@ var ModelTest = new Class
 		this.assertNull( this.soma.getModel( cases.core.TestModel.NAME ));
 	}
 
+	,test_get_name: function() {
+		var name = "model_name";
+		this.soma.addModel( name, new cases.core.TestModel(name) );
+		this.assertNotNull(this.soma.getModel(name).getName());
+		this.assertEquals(this.soma.getModel(name).getName(), name);
+	}
 
+	,test_set_name: function() {
+		var name = "new_name";
+		this.soma.addModel( name, new cases.core.TestModel('model_name') );
+		this.assertNotNull(this.soma.getModel(name).getName());
+		this.assertNotEquals(this.soma.getModel(name).getName(), name);
+		this.soma.getModel(name).setName(name);
+		this.assertNotNull(this.soma.getModel(name).getName());
+		this.assertEquals(this.soma.getModel(name).getName(), name);
+	}
+
+	,test_instance_is_set: function() {
+		this.soma.addModel( cases.core.TestModel.NAME, new cases.core.TestModel() );
+		this.assertNotNull(this.soma.getModel(cases.core.TestModel.NAME).instance)
+	}
+
+	,test_get_data: function() {
+		var data = {sample:"data sample"};
+		this.soma.addModel( cases.core.TestModel.NAME, new cases.core.TestModel(null, data) );
+		this.assertNotNull(this.soma.getModel(cases.core.TestModel.NAME).data);
+		this.assertEquals(this.soma.getModel(cases.core.TestModel.NAME).data, data);
+	}
+
+	,test_set_data: function() {
+		var data = {sample:"data sample"};
+		this.soma.addModel( cases.core.TestModel.NAME, new cases.core.TestModel(null, {}) );
+		this.assertNotNull(this.soma.getModel(cases.core.TestModel.NAME).data);
+		this.assertNotEquals(this.soma.getModel(cases.core.TestModel.NAME).data, data);
+		this.soma.getModel(cases.core.TestModel.NAME).data = data;
+		this.assertNotNull(this.soma.getModel(cases.core.TestModel.NAME).data);
+		this.assertEquals(this.soma.getModel(cases.core.TestModel.NAME).data, data);
+	}
+
+	,test_default_dispatcher: function() {
+		this.soma.addModel( cases.core.TestModel.NAME, new cases.core.TestModel() );
+		this.assertNotNull(this.soma.getModel(cases.core.TestModel.NAME).dispatcher);
+		this.assertEquals(this.soma.getModel(cases.core.TestModel.NAME).dispatcher, this.soma);
+	}
+
+	,test_get_dispatcher: function() {
+		var dispatcher = new soma.EventDispatcher;
+		this.soma.addModel( cases.core.TestModel.NAME, new cases.core.TestModel(null, null, dispatcher) );
+		this.assertNotNull(this.soma.getModel(cases.core.TestModel.NAME).dispatcher);
+		this.assertNotEquals(this.soma.getModel(cases.core.TestModel.NAME).dispatcher, this.soma);
+		this.assertEquals(this.soma.getModel(cases.core.TestModel.NAME).dispatcher, dispatcher);
+	}
+
+	,test_set_dispatcher: function() {
+		var dispatcher = new soma.EventDispatcher;
+		this.soma.addModel( cases.core.TestModel.NAME, new cases.core.TestModel() );
+		this.assertNotNull(this.soma.getModel(cases.core.TestModel.NAME).dispatcher);
+		this.assertEquals(this.soma.getModel(cases.core.TestModel.NAME).dispatcher, this.soma);
+		this.soma.getModel(cases.core.TestModel.NAME).dispatcher = dispatcher
+		this.assertNotNull(this.soma.getModel(cases.core.TestModel.NAME).dispatcher);
+		this.assertEquals(this.soma.getModel(cases.core.TestModel.NAME).dispatcher, dispatcher);
+	}
 
 });
 

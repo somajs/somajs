@@ -50,11 +50,23 @@ function initTestScenario()
 	var suiteDispatcherTests = new YUITest.TestSuite("DispatcherTests");
 	suiteDispatcherTests.add( new DispatcherTest() );
 
+	/**
+	 * test framework wrappers
+	 */
+	var suiteWrappersTests = new YUITest.TestSuite("SomaViewTests");
+	suiteWrappersTests.add( new SomaViewTests() );
 
 
 	//new UnitTestBuilder( [suiteCoreTests], false, false );
 	//new UnitTestBuilder( [  suiteSequenceTests ], false, false );
 	//new UnitTestBuilder( [  suiteSequenceTests ], false, false );
-	new UnitTestBuilder( [ suiteCoreTests, suiteInvocationTests, suiteInvocationAsyncTests, suiteSequenceTests, suiteDispatcherTests ], true, false );
+	new UnitTestBuilder( [
+		suiteCoreTests,
+		suiteInvocationTests,
+		suiteInvocationAsyncTests,
+		suiteSequenceTests,
+		suiteDispatcherTests,
+		suiteWrappersTests
+	], true, false );
 }
 

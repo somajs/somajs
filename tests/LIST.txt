@@ -79,6 +79,8 @@ test_get_name (DONE)
 test_set_name (DONE)
 test_instance_is_set (DONE)
 
+test dispose
+
 - Models
 
 test_InitApp_GetModels_ShouldGive_EmptyObject (DONE)
@@ -98,6 +100,8 @@ test_default_dispatcher (DONE)
 test_get_dispatcher (DONE)
 test_set_dispatcher (DONE)
 
+test dispose
+
 - Views
 
 test_init_App_Get_Views_Should_Give_EmptyObject (DONE)
@@ -109,13 +113,19 @@ test_multiple_register_of_same_view_should_throw_Error (DONE)
 test_register_calls_init (DONE)
 test_addView_and_removeView_shouldGive_null_For_GetView (DONE)
 
-- Views (wrapper)
+test dispose
 
-test domElement default
-test domElement custom
-test dispatchEvent
-test add listener
-test remove listener
+- View (wrapper)
+
+test_create_view (DONE)
+test_dispose_view (DONE)
+test_default_domElement (DONE)
+test_get_domElement (DONE)
+test_set_domElement (DONE)
+test_dispatch_event (DONE)
+test_add_listener (DONE);
+test_remove_listener (DONE);
+test_dispatch_event (DONE);
 
 - Mediator
 

@@ -128,30 +128,8 @@ soma.Prepare.registerPackages(
 		,"soma.core.view"
 		,"soma.core.wire"
 		,"soma.core.mediator"
-		,"soma.util"
 	]
 );
-
-/**
- * @deprecated
- * TODO decide : Not used by core anymore. Maybe leave it as additional functionality
- */
-/*
-soma.Util =
-{
-	isElementInDisplayList: function( element )
-	{
-  		while (element) {
-        	if (element == document) {
-            	return true;
-        	}
-	 		element = element.parentNode;
-		}
-    	return false;
-	}
-};
-*/
-
 
 /**
  * to save instantiation latency for singular class libraries, I recommend not building the Class Objects upopn
@@ -163,7 +141,7 @@ soma.Util =
  * @param {Object} constructorObj Object that gets passed as constructor argument
  * @return Object
  */
-soma.util.createClassInstance = function( clazz, constructorObj )
+soma.createClassInstance = function( clazz, constructorObj )
 {
 	var obj;
 	if( clazz.$constructor == Class  ) {
@@ -466,6 +444,7 @@ soma.core.Core = new Class(
 /** @lends soma.core.Core.prototype */
 {
 	Extends: soma.EventDispatcher,
+	Implements: soma.IDisposable,
 	
 	body:null,
 	models:null,
@@ -723,6 +702,9 @@ soma.core.Core = new Class(
 soma.core.Controller = new Class(
 /** @lends soma.core.Controller.prototype */
 {
+
+	Implements: soma.IDisposable,
+	
     /**
      * @private
      * @type soma.core.Core
@@ -810,7 +792,7 @@ soma.core.Controller = new Class(
 	{
 		var commandEventType = e.type;
 		if( this.hasCommand( commandEventType ) ) {
-			var command = soma.util.createClassInstance( this.commands[ commandEventType ] );
+			var command = soma.createClassInstance( this.commands[ commandEventType ] );
 			command.registerInstance( this.instance );
 			command.execute( e );
 		}
@@ -1354,6 +1336,9 @@ soma.core.controller.ParallelCommand = new Class
 /*********************************************** # soma.model # ************************************************/
 soma.core.model.SomaModels = new Class
 ({
+
+	Implements: soma.IDisposable,
+	
 	instance:null,
 	models:null,
 
@@ -1513,6 +1498,9 @@ soma.View = new Class
 
 soma.core.view.SomaViews = new Class
 ({
+
+	Implements: soma.IDisposable,
+	
     views: null,
 	autoBound:false,
 
@@ -1602,6 +1590,9 @@ soma.core.view.SomaViews = new Class
 /*********************************************** # soma.wire # ************************************************/
 soma.core.wire.SomaWires = new Class
 ({
+
+	Implements: soma.IDisposable,
+	
 	instance:null,
 	wires:null,
 
@@ -1726,6 +1717,7 @@ soma.core.wire.Wire = new Class
 soma.core.mediator.Mediator = new Class({
 	
 	Extends: soma.core.wire.Wire,
+	Implements: soma.IDisposable,
 
 	viewComponent: null,
 
@@ -1798,3 +1790,7 @@ soma.core.IResponder = new Class({
 	result: function(data) {}
 });
 
+
+soma.core.IDisposable = new Class({
+	dispose: function(){}
+});

@@ -1,4 +1,6 @@
 cases.core = {};
+cases.core.globalModelTestDisposeCalled = false;
+cases.core.globalWireTestDisposeCalled = false;
 
 cases.core.StartCommand = new Class
 ({
@@ -70,6 +72,11 @@ cases.core.TestWire = new Class
 	{
 		this.initCalled = true;
 	}
+	
+	,dispose: function()
+	{
+		cases.core.globalWireTestDisposeCalled = true;
+	}
 });
 cases.core.TestWire.NAME = "cases.core.TestWire";
 
@@ -105,17 +112,21 @@ cases.core.TestAutobindWire = new Class
 cases.core.TestAutobindWire.NAME = "cases.core.TestAutobindWire";
 
 
-
-
 cases.core.TestModel = new Class
 ({
 	Extends: soma.core.model.Model
 
 	,initCalled: false
+	,disposeCalled: false
 
 	,init: function()
 	{
 		this.initCalled = true;
+	}
+
+	,dispose: function()
+	{
+		cases.core.globalModelTestDisposeCalled = true;
 	}
 });
 cases.core.TestModel.NAME  = "cases.core.TestModel";

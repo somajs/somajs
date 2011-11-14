@@ -55,7 +55,7 @@ function initTestScenario()
 	 */
 	var suiteWrappersTests = new YUITest.TestSuite("SomaViewTests");
 	suiteWrappersTests.add( new SomaViewTests() );
-
+	suiteWrappersTests.add( new SomaEventTests() );
 
 	//new UnitTestBuilder( [suiteCoreTests], false, false );
 	//new UnitTestBuilder( [  suiteSequenceTests ], false, false );

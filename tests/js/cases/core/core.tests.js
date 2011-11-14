@@ -74,6 +74,36 @@ var FacadeTests = new Class({
 		this.assertNotNull(soma.core.mediator);
 		this.assertNotNull(soma.util);
 	}
+
+	,test_create_class_instance: function() {
+		this.assertNotNull(soma.createClassInstance);
+		var TestClass = new Class({});
+		var instance = soma.createClassInstance(TestClass);
+		this.assertNotNull(instance);
+		this.assertInstanceOf(TestClass, instance);
+
+	}
+
+	,test_create_class_instance_parameters: function() {
+		this.assertNotNull(soma.createClassInstance);
+		var parameters = ["param1", "param2"];
+		var TestClass = new Class({
+			p1: null,
+			p2: null,
+			initialize: function(p1, p2) {
+				this.p1 = p1;
+				this.p2 = p2;
+			}
+		});
+		var instance = soma.createClassInstance(TestClass, parameters); //new TestClass("param1", "param2");
+		//var instance = new TestClass("param1", "param2");
+		this.assertNotNull(instance);
+		this.assertInstanceOf(TestClass, instance);
+		this.assertNotNull(instance.p1);
+		this.assertNotNull(instance.p2);
+		this.assertEquals(instance.p1, parameters[0]);
+		this.assertEquals(instance.p2, parameters[1]);
+	}
 });
 
 var CommandTest = new Class
@@ -356,6 +386,14 @@ var WireTest = new Class
 		this.assertNotNull(this.soma.getWire(cases.core.TestWire.NAME).instance)
 	}
 
+	,test_dispose_called: function() {
+		cases.core.globalWireTestDisposeCalled = false;
+		this.soma.addWire( cases.core.TestWire.NAME, new cases.core.TestWire() );
+		this.soma.getWire(cases.core.TestWire.NAME).dispose();
+		this.assertTrue(cases.core.globalWireTestDisposeCalled);
+		cases.core.globalWireTestDisposeCalled = false;
+	}
+
 });
 
 
@@ -503,6 +541,14 @@ var ModelTest = new Class
 		this.soma.getModel(cases.core.TestModel.NAME).dispatcher = dispatcher
 		this.assertNotNull(this.soma.getModel(cases.core.TestModel.NAME).dispatcher);
 		this.assertEquals(this.soma.getModel(cases.core.TestModel.NAME).dispatcher, dispatcher);
+	}
+
+	,test_dispose_called: function() {
+		cases.core.globalModelTestDisposeCalled = false;
+		this.soma.addModel( cases.core.TestModel.NAME, new cases.core.TestModel() );
+		this.soma.getModel(cases.core.TestModel.NAME).dispose();
+		this.assertTrue(cases.core.globalModelTestDisposeCalled);
+		cases.core.globalModelTestDisposeCalled = false;
 	}
 
 });

@@ -14,12 +14,10 @@ test_second_listener_invocation  (DONE) // to test possible scope loss by multi 
 test_wire_autobind_scope (DONE)
 test_view_autobind (DONE)
 
-
 - Utils
 
 test isElementInDisplayList  @deprecated?
 test createClassInstance
-
 
 - Commands
 
@@ -78,8 +76,7 @@ test_addWire_and_removeWire_shouldGive_null_For_GetWire (DONE)
 test_get_name (DONE)
 test_set_name (DONE)
 test_instance_is_set (DONE)
-
-test dispose
+test_dispose_called (DONE)
 
 - Models
 
@@ -99,8 +96,7 @@ test_set_data (DONE)
 test_default_dispatcher (DONE)
 test_get_dispatcher (DONE)
 test_set_dispatcher (DONE)
-
-test dispose
+test_dispose_called (DONE)
 
 - Views
 
@@ -126,12 +122,6 @@ test_dispatch_event (DONE)
 test_add_listener (DONE);
 test_remove_listener (DONE);
 test_dispatch_event (DONE);
-
-- Mediator
-
-testMediatorViewComponentRegistered
-testMediatorViewComponentDisposed
-test instance is correctly set (can be added in init called)
 
 - EventDispatcher
 
@@ -164,21 +154,24 @@ test_dispose (DONE)
 
 - Event
 
-test create event works
-test type
-test bubbles
-test cancelable
-test clone 
-test clone type
-test clone bubbles
-test clone cancelable
-test is cloned property
-test clone property
-test is default prevented
-test data is null if not set
-test data is not null if set
-test data content
-test data content in clone
+test_create (DONE)
+test_type (DONE)
+test_bubbles_default (DONE)
+test_bubbles_defined (DONE)
+test_cancelable_default (DONE)
+test_cancelable_defined (DONE)
+test_data (DONE)
+test_data_undefined (DONE)
+test_is_cloned (DONE)
+test_is_default_prevented_default (DONE)
+test_is_default_prevented_defined_success (DONE)
+test_is_default_prevented_defined_fail (DONE)
+
+
+
+
+
+
 
 
 

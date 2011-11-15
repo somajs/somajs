@@ -95,8 +95,7 @@ var FacadeTests = new Class({
 				this.p2 = p2;
 			}
 		});
-		var instance = soma.createClassInstance(TestClass, parameters); //new TestClass("param1", "param2");
-		//var instance = new TestClass("param1", "param2");
+		var instance = soma.createClassInstance(TestClass, parameters);
 		this.assertNotNull(instance);
 		this.assertInstanceOf(TestClass, instance);
 		this.assertNotNull(instance.p1);
@@ -104,6 +103,7 @@ var FacadeTests = new Class({
 		this.assertEquals(instance.p1, parameters[0]);
 		this.assertEquals(instance.p2, parameters[1]);
 	}
+
 });
 
 var CommandTest = new Class

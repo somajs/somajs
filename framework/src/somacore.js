@@ -141,13 +141,30 @@ soma.Prepare.registerPackages(
  * @param {Object} constructorObj Object that gets passed as constructor argument
  * @return Object
  */
-soma.createClassInstance = function( clazz, constructorObj )
+
+
+(function(Function){
+	function F(){}
+	Function.instantiate = function(func,params){
+		 F.prototype = func.prototype;
+		 var f = new F() , r = func.apply(f,params);
+		 return r || f;
+	};
+	Function.implement({
+		'instantiate' : function(params){
+			return Function.instantiate(this,params);
+		}
+	});
+})(Function);
+
+soma.createClassInstance = function( clazz, parameters )
 {
 	var obj;
 	if( clazz.$constructor == Class  ) {
-		obj = new clazz( constructorObj );
+		obj = clazz.instantiate(parameters);
+		//obj = new clazz( constructorObj );
 	}else{
-		obj = new ( new Class( new clazz() ) )( constructorObj );
+		obj = new ( new Class( new clazz() ) )( parameters );
 	}
 	return obj;
 };

@@ -105,7 +105,7 @@ var EmployeeEditView = new Class({
 	logout: null,
 	cancel: null,
 	submit: null,
-	delete: null,
+	deleteEmployee: null,
 	inputName: null,
 	inputAge: null,
 
@@ -116,8 +116,8 @@ var EmployeeEditView = new Class({
 		this.cancel.addEventListener('click', this.cancelClickHandler.bind(this));
 		this.submit = document.getElementById('button-edit-submit');
 		this.submit.addEventListener('click', this.submitClickHandler.bind(this));
-		this.delete = document.getElementById('buttonDelete');
-		this.delete.addEventListener('click', this.deleteClickHandler.bind(this));
+		this.deleteEmployee = document.getElementById('buttonDelete');
+		this.deleteEmployee.addEventListener('click', this.deleteClickHandler.bind(this));
 		this.inputName = document.getElementById('employeeName');
 		this.inputAge = document.getElementById('employeeAge');
 	},

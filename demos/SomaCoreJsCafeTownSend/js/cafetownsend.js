@@ -1,12 +1,12 @@
 var CommandList = {
 	START: "Event::Start"
-}
+};
 
 var NavigationConstants = {
 	LOGIN: 0,
 	EMPLOYEE_LIST: 1,
 	EMPLOYEE_DETAILS: 2
-}
+};
 
 var SomaApplication = new Class({
 

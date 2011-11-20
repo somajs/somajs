@@ -84,9 +84,54 @@ var FacadeTests = new Class({
 
 	}
 
+	,test_create_class_instance_from_prototype: function()
+	{
+   		this.assertNotNull(soma.createClassInstance);
+   		var TestClass = function() {};
+		TestClass.prototype = {
+			p1: null,
+			p2: null,
+			initialize: function(p1, p2) {
+				this.p1 = p1;
+				this.p2 = p2;
+			}
+		};
+
+		var instance = soma.createClassInstance( TestClass, "param1", "param2" );
+		this.assertNotNull(instance);
+		this.assertNotNull(instance.p1);
+		this.assertNotNull(instance.p2);
+		this.assertEquals(instance.p1, "param1");
+		this.assertEquals(instance.p2, "param2");
+	}
+
+
+	,test_create_class_instance_from_Function: function()
+	{
+   		this.assertNotNull(soma.createClassInstance);
+   		var TestClass = function()
+		{
+		    this.p1 = null,
+			this.p2 = null,
+
+			this.initialize = function(p1, p2) {
+				this.p1 = p1;
+				this.p2 = p2;
+			}
+	  	};
+
+
+		var instance = soma.createClassInstance( TestClass, "param1", "param2" );
+		this.assertNotNull(instance);
+		this.assertNotNull(instance.p1);
+		this.assertNotNull(instance.p2);
+		this.assertEquals(instance.p1, "param1");
+		this.assertEquals(instance.p2, "param2");
+	}
+
+
 	,test_create_class_instance_parameters: function() {
 		this.assertNotNull(soma.createClassInstance);
-		var parameters = ["param1", "param2"];
 		var TestClass = new Class({
 			p1: null,
 			p2: null,
@@ -95,13 +140,14 @@ var FacadeTests = new Class({
 				this.p2 = p2;
 			}
 		});
-		var instance = soma.createClassInstance(TestClass, parameters);
+
+		var instance = soma.createClassInstance(TestClass, "param1", "param2");
 		this.assertNotNull(instance);
 		this.assertInstanceOf(TestClass, instance);
 		this.assertNotNull(instance.p1);
 		this.assertNotNull(instance.p2);
-		this.assertEquals(instance.p1, parameters[0]);
-		this.assertEquals(instance.p2, parameters[1]);
+		this.assertEquals(instance.p1, "param1");
+		this.assertEquals(instance.p2, "param2");
 	}
 
 });
@@ -572,7 +618,7 @@ var AutobindTest = new Class
 
 	,initialize: function()
 	{
-		this.autobind();
+		this._somaAutobind();
 	}
 
 	,setUp: function()
@@ -636,6 +682,19 @@ var AutobindTest = new Class
 	}
 
 
+	,test_wire_no_autobind: function()
+	{
+		var wire = new cases.core.TestAutobindWire();
+		wire.autobind = false;
+		this.soma.addWire( cases.core.TestAutobindWire.NAME, wire  );
+
+		wire.addEventListener( "test", wire.testListener );
+		this.soma.dispatchEvent( new soma.Event("test") );
+		wire.removeEventListener( "test", wire.testListener );
+		this.assertEquals( window, cases.core.TestAutobindWire.scope );
+	}
+
+
 	,test_view_autobind: function()
 	{
 		var sprite = new Element("div");
@@ -648,7 +707,24 @@ var AutobindTest = new Class
 		view.removeEventListener( "testFromView", view.viewListener );
 		this.soma.removeView( "viewname" );
 		this.assertTrue( view.scopeConfirmed  );
+		cases.core.TestView.scope = null;
 
+	}
+
+
+	,test_view_no_autobind: function()
+	{
+		var sprite = new Element("div");
+		document.body.adopt( sprite );
+		var view = new cases.core.TestView( sprite );
+		view.autobind = false;
+		this.soma.addView( "viewname", view );
+		view.addEventListener( "testFromView", view.viewListener );
+		view.dispatchEvent( new soma.Event("testFromView") );
+		view.removeEventListener( "testFromView", view.viewListener );
+		this.soma.removeView( "viewname" );
+		this.assertEquals( sprite,  cases.core.TestView.scope  );
+		cases.core.TestView.scope = null;
 	}
 
 

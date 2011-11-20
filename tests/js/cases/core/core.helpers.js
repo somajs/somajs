@@ -41,6 +41,10 @@ cases.core.TestView = new Class
 
 	scopeConfirmed: false,
 
+	autobind:true,
+
+	scope:null,
+
 	init: function()
 	{
 		if( this.domElement ) {
@@ -57,8 +61,12 @@ cases.core.TestView = new Class
 	viewListener: function( event )
 	{
 		this.scopeConfirmed = true;
+		cases.core.TestView.scope = this;
 	}
 });
+cases.core.TestView.scope = null;
+
+
 cases.core.TestView.NAME = "cases.core.TestView";
 
 
@@ -86,7 +94,7 @@ cases.core.TestAutobindWire = new Class
 ({
    	Extends: soma.core.wire.Wire
 
-	,AutoBind:"customBoundMethod"
+	,AutoBindPattern:"customBoundMethod"
 
 	 ,scopeConfirmed: false
 
@@ -96,11 +104,14 @@ cases.core.TestAutobindWire = new Class
 
 	,scopeConfirmedThroughCustom:false
 
+	,autobind: true
+
 	,testListener: function( event )
 	{
    		this.scopeConfirmed = true;
 		this.storedEvent = event;
 		this.invocationCount++;
+		cases.core.TestAutobindWire.scope = this;
 	}
 
 	,customBoundMethod: function()
@@ -109,6 +120,7 @@ cases.core.TestAutobindWire = new Class
 	}
 
 });
+cases.core.TestAutobindWire.scope = null;
 cases.core.TestAutobindWire.NAME = "cases.core.TestAutobindWire";
 
 

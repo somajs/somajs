@@ -182,13 +182,13 @@ soma.createClassInstance = function( clazz, parameters )
 soma.core.AutoBindProto =
 {
 	blackList: ["initialize", "parent", "$constructor", "addEventListener", "removeEventListener" ]
-	,autobind: function()
+	,_somaAutobind: function()
 	{
 		if( this.wasAutoBound ) {
 			return;
 		}
 		var o = this;
-		var ab = o["AutoBind"];
+		var ab = o["AutoBindPattern"];
 		var coreAb = "([lL]istener|[hH]andler)$";
 		if( !ab ) {
 			ab = coreAb;
@@ -197,7 +197,7 @@ soma.core.AutoBindProto =
 		}
 		for( var k in o ){
 			if( typeof o[k] == "function" ) {
-				if( this.isBlacklisted( k ) ) {
+				if( this._autobindIsBlacklisted( k ) ) {
 					continue;
 				}
 				if( !k.match( ab ) ) {
@@ -207,7 +207,7 @@ soma.core.AutoBindProto =
 			}
 		}
 	}
-	,isBlacklisted: function( name )
+	,_autobindIsBlacklisted: function( name )
 	{
 		var bl = this.blackList;
 		for( var i=0; i<bl.length; i++)
@@ -725,7 +725,7 @@ soma.core.Controller = new Class(
 {
 
 	Implements: soma.IDisposable,
-	
+
     /**
      * @private
      * @type soma.core.Core
@@ -1122,7 +1122,7 @@ soma.core.controller.Command = new Class(
  * @lends soma.core.controller.Command.prototype
  */
 {
-	Implements:[ soma.core.Share ],
+	Implements: soma.core.Share,
 
 	instance: null,
 
@@ -1555,7 +1555,7 @@ soma.core.view.SomaViews = new Class
 			soma.View.implement( soma.core.AutoBindProto );
 			this.autoBound = true;
 		}
-		if (view['autobind']) view.autobind();
+		if (view['autobind']) view._somaAutobind();
 		this.views[ viewName ] = view;
 		if( view[ "init" ] != null ) {
 			view.init();
@@ -1644,7 +1644,7 @@ soma.core.wire.SomaWires = new Class
 		if( this.hasWire( wireName ) ) {
 			throw new Error( "Wire \"" + wireName +"\" already exists" );
 		}
-		wire.autobind();
+		if ( wire['autobind'] ) wire._somaAutobind();
 		this.wires[ wireName ] = wire;
 		wire.registerInstance( this.instance );
 		wire.init();

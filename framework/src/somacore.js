@@ -143,6 +143,7 @@ soma.Prepare.registerPackages(
  */
 
 
+
 (function(Function){
 	function F(){}
 	Function.instantiate = function(func,params){
@@ -156,17 +157,20 @@ soma.Prepare.registerPackages(
 		}
 	});
 })(Function);
-
 soma.createClassInstance = function( clazz, parameters )
 {
-	var obj;
-	if( clazz.$constructor == Class  ) {
-		obj = clazz.instantiate(parameters);
-		//obj = new clazz( constructorObj );
-	}else{
-		obj = new ( new Class( new clazz() ) )( parameters );
+	if( clazz.$constructor != Class  ) {
+		clazz = new Class( new clazz() );
 	}
-	return obj;
+	if( arguments.length == 1 ) {
+		return new clazz();
+	}
+	var a = [];
+	for( var i=1; i<arguments.length; i++)
+	{
+		a.push( arguments[i] );
+	}
+	return clazz.instantiate( a );
 };
 
 

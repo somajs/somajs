@@ -13,6 +13,8 @@ ColorWire.prototype =
 	selector: null,
 	square: null,
 
+	autobind: true,
+
 	initialize: function()
 	{
 		this.parent( ColorWire.NAME );
@@ -26,10 +28,10 @@ ColorWire.prototype =
 		this.addCommand( CommandEventList.MOVEVIEW_MOVE, MoveViewCommand );
 
 		var receiver = this.addView( ColorWire.NAME_RECEIVER, new ColorReceiver( "colorShell1" ) );
-		receiver.addEventListener( ColorReceiver.TWEEN_SEQUENCE_EVENT, this.startTweenSequenceListener.bind( this ), false );
+		receiver.addEventListener( ColorReceiver.TWEEN_SEQUENCE_EVENT, this.startTweenSequenceListener, false );
 
 		var selector = this.addView( ColorWire.NAME_SELECTOR, new ColorSelector( "colorSelector" ) );
-		selector.addEventListener( ColorSelector.EVENT_CLICKED_RANDOM, this.requestRandColorListener.bind(this), false );
+		selector.addEventListener( ColorSelector.EVENT_CLICKED_RANDOM, this.requestRandColorListener, false );
 
 		var square = this.addView( ColorWire.NAME_SQUARE, new ColorSquare( "colorSquare" ) );
 

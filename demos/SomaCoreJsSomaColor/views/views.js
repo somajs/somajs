@@ -8,17 +8,19 @@ var ColorReceiver = new Class
 
 	panel:null,
 	bg:null,
+
+	autobind: true,
 	
 
 	init: function()
 	{
 		this.panel = document.id("colorReceiver");
 		this.bg = document.id("colorShellBg");
-		document.id( "btnParallel").addEventListener( "click", this.chainListener.bind(this), false );
-		document.id( "btnAsync").addEventListener( "click", this.asyncListener.bind(this), false );
-		document.id( "btnSequence").addEventListener( "click", this.asyncChainListener.bind(this), false );
-		document.id( "btnTweenSequence").addEventListener( "click", this.tweenSequenceListener.bind(this), false );
-		document.id( "btnStopSequences").addEventListener( "click", this.stopAllSequencesListener.bind(this), false );
+		document.id( "btnParallel").addEventListener( "click", this.chainListener, false );
+		document.id( "btnAsync").addEventListener( "click", this.asyncListener, false );
+		document.id( "btnSequence").addEventListener( "click", this.asyncChainListener, false );
+		document.id( "btnTweenSequence").addEventListener( "click", this.tweenSequenceListener, false );
+		document.id( "btnStopSequences").addEventListener( "click", this.stopAllSequencesListener, false );
 	},
 
 	setColor: function( col )
@@ -68,6 +70,8 @@ var ColorSelector = new Class
 ({
 	Extends: soma.View,
 
+	autobind: true,
+
 	sprite1:null,
 	sprite2:null,
 	sprite3:null,
@@ -97,10 +101,10 @@ var ColorSelector = new Class
 		this.sprite2.addEventListener( "click", this.clickedColListener.bind( this ), false );
 		this.sprite3.addEventListener( "click", this.clickedColListener.bind( this ), false );
 
-		this.btnCol1.addEventListener( "click", this.clickedRandomColorListener.bind(this), false );
-		this.btnCol2.addEventListener( "click", this.clickedMoveViewListener.bind(this), false );
-		this.btnCol3.addEventListener( "click", this.clickedResetViewListener.bind(this), false );
-		this.btnCol4.addEventListener( "click", this.clickedLoadDataListener.bind(this), false );
+		this.btnCol1.addEventListener( "click", this.clickedRandomColorListener, false );
+		this.btnCol2.addEventListener( "click", this.clickedMoveViewListener, false );
+		this.btnCol3.addEventListener( "click", this.clickedResetViewListener, false );
+		this.btnCol4.addEventListener( "click", this.clickedLoadDataListener, false );
 
 	},
 

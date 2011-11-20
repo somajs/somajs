@@ -205,9 +205,9 @@ var SequenceStopCommand = new Class
 ({
 	Extends:soma.core.controller.Command,
 
-	execute: function( type, data )
+	execute: function( e )
 	{
-		console.log( "SequenceStopCommand::execute(): ", type, data );
+		console.log( "SequenceStopCommand::execute(): ", e.type, e.data );
 		var v = this.getView( ColorWire.NAME_SQUARE );
 		v.domElement.eliminate( "morphInitialised" );
 		v.morph = null;

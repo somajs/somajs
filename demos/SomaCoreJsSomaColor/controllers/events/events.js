@@ -4,7 +4,7 @@ var ColorEvent = new Class
 
 	initialize: function( type, color )
 	{
-		return this.parent( type, true, true, {color:color} );
+		return this.parent( type, {color:color}, true, true );
 	}
 });
 var MoveEvent = new Class
@@ -13,7 +13,7 @@ var MoveEvent = new Class
 
 	initialize: function( type, coords )
 	{
-		return this.parent( type, true, true, {coords:coords} );
+		return this.parent( type, {coords:coords}, true, true );
 	}
 });
 var ChainEvent = new Class
@@ -22,7 +22,7 @@ var ChainEvent = new Class
 
 	initialize: function( type )
 	{
-		return this.parent( type, true, true );
+		return this.parent( type, null, true, true );
 	}
 });
 var TweenEvent = new Class
@@ -31,6 +31,6 @@ var TweenEvent = new Class
 
 	initialize: function( type, tweenData )
 	{
-		return this.parent( type, true, true, {tweenData:tweenData} );
+		return this.parent( type, {tweenData:tweenData}, true, true );
 	}
 });

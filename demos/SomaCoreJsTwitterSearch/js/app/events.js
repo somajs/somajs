@@ -3,7 +3,7 @@ var TwitterEvent = new Class({
 	Extends: soma.Event,
 
 	initialize: function(type, keywords) {
-		return this.parent(type, true, true, {keywords:keywords});
+		return this.parent(type, {keywords:keywords}, true, true );
 	}
 
 });

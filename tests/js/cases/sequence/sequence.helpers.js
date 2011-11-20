@@ -10,12 +10,7 @@ cases.sequence.InvocationCommandList =
 
 cases.sequence.TestEvent = new Class
 ({
-	Extends: soma.Event,
-
-	initialize: function( type, data, bubbles, cancelable )
-	{
-		return this.parent( type, bubbles, cancelable, data );
-	}
+	Extends: soma.Event
 });
 
 cases.sequence.SequenceCommand = new Class

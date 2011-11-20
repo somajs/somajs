@@ -29,7 +29,7 @@ var ColorReceiver = new Class
 
 	updatePosition: function(x, y)
 	{
-		this.viewElement.setStyles({left:x, top:y});
+		this.domElement.setStyles({left:x, top:y});
 	},
 
 	chainListener: function()
@@ -179,6 +179,6 @@ var ColorSquare = new Class
 
 	setColor: function( col )
 	{
-		this.viewElement.setStyle( "background-color", col );
+		this.domElement.setStyle( "background-color", col );
 	}
 });

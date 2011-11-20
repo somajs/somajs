@@ -150,8 +150,8 @@ var SomaEventTests = new Class ({
 	}
 
 	,test_bubbles_defined: function() {
-		var wrapperEvent = new soma.Event(EVENT_TYPE, false);
-		var customEvent = new TestCustomEvent(EVENT_TYPE, false);
+		var wrapperEvent = new soma.Event(EVENT_TYPE, null, false);
+		var customEvent = new TestCustomEvent(EVENT_TYPE, null, false);
 		var wrapperEventClone = wrapperEvent.clone();
 		var customEventClone = customEvent.clone();
 		this.assertFalse(wrapperEvent.bubbles);
@@ -168,8 +168,8 @@ var SomaEventTests = new Class ({
 	}
 
 	,test_cancelable_defined: function() {
-		var wrapperEvent = new soma.Event(EVENT_TYPE, true, true);
-		var customEvent = new TestCustomEvent(EVENT_TYPE, true, true);
+		var wrapperEvent = new soma.Event(EVENT_TYPE, null, true, true);
+		var customEvent = new TestCustomEvent(EVENT_TYPE, null, true, true);
 		var wrapperEventClone = wrapperEvent.clone();
 		var customEventClone = customEvent.clone();
 		this.assertTrue(wrapperEvent.cancelable);
@@ -180,8 +180,8 @@ var SomaEventTests = new Class ({
 
 	,test_data: function() {
 		var data = {message: "message"};
-		var wrapperEvent = new soma.Event(EVENT_TYPE, true, true, data);
-		var customEvent = new TestCustomEvent(EVENT_TYPE, true, true, data);
+		var wrapperEvent = new soma.Event(EVENT_TYPE, data, true, true );
+		var customEvent = new TestCustomEvent(EVENT_TYPE, data, true, true );
 		var wrapperEventClone = wrapperEvent.clone();
 		var customEventClone = customEvent.clone();
 		this.assertNotNull(wrapperEvent.data);
@@ -195,8 +195,8 @@ var SomaEventTests = new Class ({
 	}
 
 	,test_data_undefined: function() {
-		var wrapperEvent = new soma.Event(EVENT_TYPE, true, true);
-		var customEvent = new TestCustomEvent(EVENT_TYPE, true, true);
+		var wrapperEvent = new soma.Event(EVENT_TYPE, null, true, true);
+		var customEvent = new TestCustomEvent(EVENT_TYPE, null, true, true);
 		var wrapperEventClone = wrapperEvent.clone();
 		var customEventClone = customEvent.clone();
 		this.assertUndefined(wrapperEvent.data);
@@ -220,8 +220,8 @@ var SomaEventTests = new Class ({
 	,test_is_default_prevented_defined_success: function() {
 		var el = new Element('div');
 		el.addEventListener(EVENT_TYPE, this.handlerPreventDefault);
-		var eventWrapper = new soma.Event(EVENT_TYPE, true, true);
-		var eventCustom = new TestCustomEvent(EVENT_TYPE, true, true);
+		var eventWrapper = new soma.Event(EVENT_TYPE, null, true, true);
+		var eventCustom = new TestCustomEvent(EVENT_TYPE, null, true, true);
 		el.dispatchEvent(eventWrapper);
 		el.dispatchEvent(eventCustom);
 		this.assertTrue(eventWrapper.isDefaultPrevented());
@@ -231,8 +231,8 @@ var SomaEventTests = new Class ({
 	,test_is_default_prevented_defined_fail: function() {
 		var el = new Element('div');
 		el.addEventListener(EVENT_TYPE, this.handlerPreventDefault);
-		var eventWrapper = new soma.Event(EVENT_TYPE, true, false);
-		var eventCustom = new TestCustomEvent(EVENT_TYPE, true, false);
+		var eventWrapper = new soma.Event(EVENT_TYPE, null, true, false);
+		var eventCustom = new TestCustomEvent(EVENT_TYPE, null, true, false);
 		el.dispatchEvent(eventWrapper);
 		el.dispatchEvent(eventCustom);
 		this.assertFalse(eventWrapper.isDefaultPrevented());

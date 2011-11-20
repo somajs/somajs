@@ -182,12 +182,12 @@ var TweenSequenceCommand = new Class
 	{
 		var v = this.getView( ColorWire.NAME_SQUARE );
 		if( v.morph != null ) {
-			v.viewElement.eliminate( "morphInitialised" );
+			v.domElement.eliminate( "morphInitialised" );
 			v.morph.cancel();
 			v.morph = null;
 		}
 
-		var square = this.getView( ColorWire.NAME_SQUARE ).viewElement;
+		var square = this.getView( ColorWire.NAME_SQUARE ).domElement;
 		this.addSubCommand( new TweenEvent( CommandEventList.TWEEN_TWEEN, [ square, 1, this.getRandomTween() ] ) );
 		this.addSubCommand( new TweenEvent( CommandEventList.TWEEN_TWEEN, [ square, 1, this.getRandomTween() ] ) );
 		this.addSubCommand( new TweenEvent( CommandEventList.TWEEN_TWEEN, [ square, 1, this.getRandomTween() ] ) );
@@ -209,7 +209,7 @@ var SequenceStopCommand = new Class
 	{
 		console.log( "SequenceStopCommand::execute(): ", type, data );
 		var v = this.getView( ColorWire.NAME_SQUARE );
-		v.viewElement.eliminate( "morphInitialised" );
+		v.domElement.eliminate( "morphInitialised" );
 		v.morph = null;
 		this.stopAllSequencers();
 	}
@@ -228,6 +228,7 @@ var TweenCommand = new Class
 	 */
 	execute: function( e )
 	{
+		console.log( e );
 		var data = e.tweenData;
 		var tweenTarget = data[0];
 		var obj = data[2];
@@ -239,7 +240,7 @@ var TweenCommand = new Class
 
 		if( tweenTarget.retrieve( "morphInitialised" ) == null ) {
 			tweenTarget.store( "morphInitialised", true );
-			v.morph = new Fx.Morph( v.viewElement );
+			v.morph = new Fx.Morph( v.domElement );
 			v.morph.setOptions( { duration:400, onComplete: this.moveComplete.bind(this), transition:obj.ease } );
 		}
 		v.morph.start( {left:obj.x+"px",  top:obj.y+"px" } );

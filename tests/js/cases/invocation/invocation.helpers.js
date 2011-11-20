@@ -67,12 +67,7 @@ cases.invocation.EmptyModel.NAME = "cases.invocation.EmptyModel";
 
 cases.invocation.TestEvent = new Class
 ({
-	Extends: soma.Event,
-
-	initialize: function( type, data, bubbles, cancelable )
-	{
-		return this.parent( type, bubbles, cancelable, data );
-	}
+	Extends: soma.Event
 });
 
 

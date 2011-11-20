@@ -3,7 +3,7 @@ var LoginEvent = new Class({
 	Extends: soma.Event,
 
 	initialize: function(type, loginVO, info) {
-		return this.parent(type, true, true, {loginVO:loginVO, info:info});
+		return this.parent(type, {loginVO:loginVO, info:info}, true, true );
 	}
 
 });
@@ -18,7 +18,7 @@ var EmployeeEvent = new Class({
 	Extends: soma.Event,
 
 	initialize: function(type, employee) {
-		return this.parent(type, true, true, {employee:employee});
+		return this.parent(type, {employee:employee}, true, true );
 	}
 	
 });
@@ -32,7 +32,7 @@ var NavigationEvent = new Class({
 	Extends: soma.Event,
 
 	initialize: function(type, navigationID) {
-		return this.parent(type, true, true, {navigationID:navigationID});
+		return this.parent(type, {navigationID:navigationID}, true, true );
 	}
 	
 });

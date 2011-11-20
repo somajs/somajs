@@ -1759,7 +1759,7 @@ soma.core.mediator.Mediator = new Class({
 soma.Event = new Class
 ({
 	props: {},
-	initialize: function( type, bubbles, cancelable, data )
+	initialize: function( type, data, bubbles, cancelable )
 	{
 		var e = document.createEvent("Event");
 		e.initEvent(
@@ -1768,11 +1768,13 @@ soma.Event = new Class
 			cancelable !== undefined ? cancelable : false
 		);
 		e.cancelable = cancelable !== undefined ? cancelable : false;
-		for( var k in data )
-		{
-			e[k] = data[k];
+		if( data ) {
+			for( var k in data )
+			{
+				e[k] = data[k];
+			}
+			e.data = data;
 		}
-		e.data = data;
 		e.clone = this.clone.bind(e);
 		e.isDefaultPrevented = this.isDefaultPrevented;
 		return e;

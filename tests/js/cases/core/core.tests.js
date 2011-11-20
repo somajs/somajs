@@ -217,7 +217,7 @@ var CommandTest = new Class
 	,test_instance_is_set: function()
 	{
 		this.soma.addCommand( CommandEventList.TEST_INSTANCE, cases.core.CommandAssertInstance );
-		this.soma.dispatchEvent( new soma.Event(CommandEventList.TEST_INSTANCE, true, false, {test_case:this}) );
+		this.soma.dispatchEvent( new soma.Event(CommandEventList.TEST_INSTANCE, {test_case:this}, true, false ) );
 	}
 
 	/**

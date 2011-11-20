@@ -253,22 +253,22 @@ soma.core.Share = new Class(
 
 	/**
 	 * @description checks if a command for the given key exists
-	 * @param {String} commandEventName
+	 * @param {String} commandName
 	 * @return {Boolean}
 	 */
-	hasCommand: function( commandEventName )
+	hasCommand: function( commandName )
 	{
-		return this.instance.hasCommand( commandEventName );
+		return this.instance.hasCommand( commandName );
 	},
 
 	/**
 	 * @description get a command object reference
-	 * @param {String} commandEventName
+	 * @param {String} commandName
 	 * @return {soma.core.controller.Command}
 	 */
-	getCommand: function( commandEventName )
+	getCommand: function( commandName )
 	{
-		return this.instance.getCommand( commandEventName );
+		return this.instance.getCommand( commandName );
 	},
 
     /**
@@ -284,19 +284,19 @@ soma.core.Share = new Class(
 	 * @param {String} command name
 	 * @param {Class} command class
 	 */
-	addCommand: function( commandEventName, commandClass )
+	addCommand: function( commandName, commandClass )
 	{
-		this.instance.controller.addCommand( commandEventName, commandClass );
+		this.instance.controller.addCommand( commandName, commandClass );
 	},
 
 	/**
 	 * @description unsubscribes a command
-	 * @param {String} commandEventName
+	 * @param {String} commandName
 	 * @return (void)
 	 */
-	removeCommand: function( commandEventName )
+	removeCommand: function( commandName )
 	{
-		this.instance.controller.removeCommand( commandEventName );
+		this.instance.controller.removeCommand( commandName );
 	},
 
 	/**
@@ -360,32 +360,32 @@ soma.core.Share = new Class(
 
 	/**
 	 *
-	 * @param {Event} commandEvent
+	 * @param {Event} event
 	 * @return soma.core.controller.SequenceCommand
 	 */
-	getSequencer: function( commandEvent )
+	getSequencer: function( event )
 	{
-		 return !!this.instance.controller ? this.instance.controller.getSequencer( commandEvent ) : null;
+		 return !!this.instance.controller ? this.instance.controller.getSequencer( event ) : null;
 	},
 
 	/**
 	 *
-	 * @param {Event} commandEvent
+	 * @param {Event} event
 	 * @return Boolean
 	 */
-	stopSequencerWithEvent: function( commandEvent )
+	stopSequencerWithEvent: function( event )
 	{
-		return !!this.instance.controller ? this.instance.controller.stopSequencerWithEvent( commandEvent ) : null;
+		return !!this.instance.controller ? this.instance.controller.stopSequencerWithEvent( event ) : null;
 	},
 
 	/**
 	 *
-	 * @param {Event} commandEvent
+	 * @param {Event} event
 	 */
-	stopSequencer: function( commandEvent )
+	stopSequencer: function( event )
 	{
  		if( this.instance.controller ){
-			return this.instance.controller.stopSequencer( commandEvent );
+			return this.instance.controller.stopSequencer( event );
 		 }
 	},
 
@@ -398,12 +398,12 @@ soma.core.Share = new Class(
 
 	/**
 	 * @see soma.core.Controller.isPartOfASequence
-	 * @param {Event} commandEvent
+	 * @param {Event} event
 	 * @return Boolean
 	 */
-	isPartOfASequence: function( commandEvent )
+	isPartOfASequence: function( event )
 	{
-		return !!this.instance.controller ? this.instance.controller.isPartOfASequence( commandEvent ) : false;
+		return !!this.instance.controller ? this.instance.controller.isPartOfASequence( event ) : false;
 	},
 
 	/**
@@ -505,14 +505,14 @@ soma.core.Core = new Class(
 		this.init();
 	},
 
-	hasCommand: function( commandEventName )
+	hasCommand: function( commandName )
 	{
-		return (!this.controller) ? false : this.controller.hasCommand( commandEventName );
+		return (!this.controller) ? false : this.controller.hasCommand( commandName );
 	},
 
-	getCommand: function( commandEventName )
+	getCommand: function( commandName )
 	{
-		return (!this.controller) ? null : this.controller.getCommand( commandEventName );
+		return (!this.controller) ? null : this.controller.getCommand( commandName );
 	},
 
 	/**
@@ -525,17 +525,17 @@ soma.core.Core = new Class(
 
     /**
      *
-     * @param {String} commandEventName Unique key that identifies the command
+     * @param {String} commandName Unique key that identifies the command
      * @param {soma.core.controller.Command} command
      */
-	addCommand: function( commandEventName, command )
+	addCommand: function( commandName, command )
 	{
-		this.controller.addCommand( commandEventName, command );
+		this.controller.addCommand( commandName, command );
 	},
 
-	removeCommand: function( commandEventName )
+	removeCommand: function( commandName )
 	{
-		this.controller.removeCommand( commandEventName );
+		this.controller.removeCommand( commandName );
 	},
 
 
@@ -638,33 +638,33 @@ soma.core.Core = new Class(
 
 	/**
 	 *
-	 * @param {Event} commandEvent
+	 * @param {Event} event
 	 * @return soma.core.controller.Command
 	 */
-	getSequencer: function( commandEvent )
+	getSequencer: function( event )
 	{
-		return !!this.controller ? this.controller.getSequencer( commandEvent ) : null;
+		return !!this.controller ? this.controller.getSequencer( event ) : null;
 	},
 
 	 /**
 	 *
-	 * @param {Event} commandEvent
+	 * @param {Event} event
 	 * @return Boolean
 	 */
-	isPartOfASequence: function( commandEvent )
+	isPartOfASequence: function( event )
 	{
-		return ( this.getSequencer( commandEvent ) != null );
+		return ( this.getSequencer( event ) != null );
 	},
 
 
 	/**
 	 * @see soma.core.Controller.stopSequencerWithEvent
-	 * @param {Event} commandEvent
+	 * @param {Event} event
 	 * @return Boolean
 	 */
-	stopSequencerWithEvent: function( commandEvent )
+	stopSequencerWithEvent: function( event )
 	{
-		return !!this.controller ? this.controller.stopSequencerWithEvent( commandEvent ) : false;
+		return !!this.controller ? this.controller.stopSequencerWithEvent( event ) : false;
 	},
 
 	/**
@@ -778,31 +778,31 @@ soma.core.Controller = new Class(
 
     /**
      * @private
-     * @param {String} commandEventName
+     * @param {String} commandName
      */
-	addInterceptor: function( commandEventName )
+	addInterceptor: function( commandName )
 	{
 		if( !soma["core"] ) {
 			throw new Error( "soma package has been overwritten by local variable");
 		}
 
 		// handle events dispatched from the domTree
-		this.instance.body.addEventListener( commandEventName, this.boundDomtree, true );
+		this.instance.body.addEventListener( commandName, this.boundDomtree, true );
 
 		// handle events dispatched from the Soma facade
-		this.instance.addEventListener( commandEventName, this.boundInstance, Number.NEGATIVE_INFINITY);
+		this.instance.addEventListener( commandName, this.boundInstance, Number.NEGATIVE_INFINITY);
 
 	},
 
 
     /**
      * @private
-     * @param {String} commandEventName
+     * @param {String} commandName
      */
-	removeInterceptor: function( commandEventName )
+	removeInterceptor: function( commandName )
 	{
-		this.instance.body.removeEventListener( commandEventName, this.boundDomtree, true );
-		this.instance.removeEventListener( commandEventName, this.boundInstance);
+		this.instance.body.removeEventListener( commandName, this.boundDomtree, true );
+		this.instance.removeEventListener( commandName, this.boundInstance);
 	},
 
     /**
@@ -811,9 +811,9 @@ soma.core.Controller = new Class(
      */
 	executeCommand: function( e )
 	{
-		var commandEventType = e.type;
-		if( this.hasCommand( commandEventType ) ) {
-			var command = soma.createClassInstance( this.commands[ commandEventType ] );
+		var commandName = e.type;
+		if( this.hasCommand( commandName ) ) {
+			var command = soma.createClassInstance( this.commands[ commandName ] );
 			command.registerInstance( this.instance );
 			command.execute( e );
 		}
@@ -843,19 +843,19 @@ soma.core.Controller = new Class(
 	 *
 	 *
 	 * @param sequencer
-	 * @param {String} commandEventName unique command id
+	 * @param {String} commandName unique command id
 	 */
-	unregisterSequencedCommand: function( sequencer, commandEventName )
+	unregisterSequencedCommand: function( sequencer, commandName )
 	{
-		if( typeof commandEventName  != "string" ) {
-			throw new Error( "Controller::unregisterSequencedCommand() expects commandEventName to be of type String, given:" + commandEventName );
+		if( typeof commandName  != "string" ) {
+			throw new Error( "Controller::unregisterSequencedCommand() expects commandName to be of type String, given:" + commandName );
 		}
 		var s = this.sequencersInfo;
 		if( s[sequencer.id] != null && s[sequencer.id] != undefined ) {
 			var len = s[sequencer.id].length;
 			for( var i=0; i<len; i++ )
 			{
-				if( s[sequencer.id][i].event.type == commandEventName ) {
+				if( s[sequencer.id][i].event.type == commandName ) {
 					s[sequencer.id][i] = null;
 					s[sequencer.id].splice(i, 1);
 					if( s[sequencer.id].length == 0 ) {
@@ -896,20 +896,20 @@ soma.core.Controller = new Class(
 
 
 
-	hasCommand: function( commandEventName )
+	hasCommand: function( commandName )
 	{
-		return this.commands[ commandEventName ] != null;
+		return this.commands[ commandName ] != null;
 	},
 
     /**
      *
-     * @param {String} commandEventName
+     * @param {String} commandName
      *
      */
-	getCommand: function( commandEventName )
+	getCommand: function( commandName )
 	{
-		if( this.hasCommand(commandEventName)) {
-			return this.commands[commandEventName];
+		if( this.hasCommand(commandName)) {
+			return this.commands[commandName];
 		}
 		return null;
 	},
@@ -924,31 +924,31 @@ soma.core.Controller = new Class(
 		return a;
 	},
 
-	addCommand: function( commandEventName, command )
+	addCommand: function( commandName, command )
 	{
-		if( this.hasCommand( commandEventName ) ) {
-			throw new Error("Error in " + this + " Command \"" + commandEventName + "\" already registered.");
+		if( this.hasCommand( commandName ) ) {
+			throw new Error("Error in " + this + " Command \"" + commandName + "\" already registered.");
 		}
-		this.commands[ commandEventName ] = command;
-		this.addInterceptor( commandEventName );
+		this.commands[ commandName ] = command;
+		this.addInterceptor( commandName );
 	},
 
-	removeCommand: function( commandEventName )
+	removeCommand: function( commandName )
 	{
-		if( !this.hasCommand( commandEventName ) ) {
+		if( !this.hasCommand( commandName ) ) {
 			return;
 		}
-		this.commands[commandEventName] = null;
-		delete this.commands[commandEventName];
-		this.removeInterceptor(commandEventName);
+		this.commands[commandName] = null;
+		delete this.commands[commandName];
+		this.removeInterceptor(commandName);
 	},
 
 	/**
 	 *
-	 * @param {Event} commandEvent
+	 * @param {Event} event
 	 * @return {soma.core.controller.SequenceCommand}
 	 */
-	getSequencer: function( commandEvent )
+	getSequencer: function( event )
 	{
 		var ss = this.sequencersInfo;
 		for( var s  in ss )
@@ -956,7 +956,7 @@ soma.core.Controller = new Class(
 			var len = ss[s].length;
 			for (var i=0; i<len; i++)
 			{
-				if( ss[s][i] && ss[s][i].event.type === commandEvent.type ) {
+				if( ss[s][i] && ss[s][i].event.type === event.type ) {
 					var seq = this.sequencers[ ss[s][i].sequenceId ];
 					return !!seq ? seq : null;
 				}
@@ -967,10 +967,10 @@ soma.core.Controller = new Class(
 
 	/**
 	 *  Stops a sequence command using an event object that has been created from this sequence command.
-	 * @param {Event} commandEvent
+	 * @param {Event} event
 	 * @return Boolean
 	 */
-	stopSequencerWithEvent: function( commandEvent )
+	stopSequencerWithEvent: function( event )
 	{
 		var ss = this.sequencersInfo;
 		for( var s in ss )
@@ -978,7 +978,7 @@ soma.core.Controller = new Class(
 			var len = ss[s].length;
 			for( var i=0;  i<len; i++ )
 			{
-				if(ss[s][i].event.type === commandEvent.type ) {
+				if(ss[s][i].event.type === event.type ) {
 					try{
 						this.sequencers[ ss[s][i].sequenceId ].stop();
 					}catch( e ) {
@@ -1027,11 +1027,11 @@ soma.core.Controller = new Class(
 
 	/**
 	 *
-	 * @param {Event} commandEvent
+	 * @param {Event} event
 	 */
-	isPartOfASequence: function( commandEvent )
+	isPartOfASequence: function( event )
 	{
-		return ( this.getSequencer( commandEvent ) != null );
+		return ( this.getSequencer( event ) != null );
 	},
 
 	/**
@@ -1200,21 +1200,21 @@ soma.core.controller.SequenceCommand = new Class
 	},
 	/**
 	 *
-	 * @param {Event} commandEvent
+	 * @param {Event} event
 	 */
-	addSubCommand: function( e )
+	addSubCommand: function( event )
 	{
-		var c = new soma.core.controller.SequenceCommandProxy( e );
+		var c = new soma.core.controller.SequenceCommandProxy( event );
 		this.commands.push( c );
 		this.instance.controller.registerSequencedCommand( this, c );
 	},
 
 	 /**
 	  *
-	  * @param {Event} commandEvent
+	  * @param {Event} event
 	  * @return void
 	  */
-	execute: function( commandEvent )
+	execute: function( event )
 	{
 		if( this.commands == null || this.commands.length === 0 ) {
 			return;

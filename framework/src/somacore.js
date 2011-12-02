@@ -20,85 +20,15 @@
 /** @namespace */
 var soma = {};
 
-soma.EventDispatcher = (function() {
-	var listeners = [];
-	return new Class({
-		initialize: function()
-		{
-			listeners = [];
-		},
-		addEventListener: function(type, listener, priority)
-		{
-			if (!listeners || !type || !listener) return;
-			if (isNaN(priority)) priority = 0;
-			listeners.push({type: type, listener: listener, priority: priority});
-		},
-		removeEventListener: function(type, listener)
-		{
-			if (!listeners || !type || !listener) return;
-			var i = 0;
-			var l = listeners.length;
-			for (; i<l; ++i) {
-				var eventObj = listeners[i];
-				if (eventObj.type == type && eventObj.listener == listener) {
-					listeners.splice(i, 1);
-					return;
-				}
-			}
-			return false;
-		},
-		hasEventListener: function(type)
-		{
-			if (!listeners || !type) return false;
-			var i = 0;
-			var l = listeners.length;
-			for (; i<l; ++i) {
-				var eventObj = listeners[i];
-				if (eventObj.type == type) {
-					return true;
-				}
-			}
-			return false;
-		},
-		dispatchEvent: function(event)
-		{
-			if (!listeners || !event) return;
-			var events = [];
-			var i;
-			for ( i=0; i<listeners.length; i++) {
-				var eventObj = listeners[i];
-				if (eventObj.type == event.type) {
-					events.push(eventObj);
-				}
-			}
-			events.sort(function(a, b){
-				return b.priority - a.priority;
-			});
-			for (i=0; i<events.length; i++) {
-				events[i].listener.apply(event.currentTarget, [event]);
-			}
-		},
-		toString: function()
-		{
-			return "[Class soma.EventDispatcher]";
-		},
-		dispose: function() {
-			listeners = null;
-		}
-	});
-})();
-
 /**
  * @class
  */
-soma.Prepare =
-{
-    /**
-     * @static
-     * @param {String} path
-     */
-	registerPackage: function(path)
-	{
+soma.Prepare = {
+	/**
+	 * @static
+	 * @param {String} path
+	 */
+	registerPackage: function(path) {
 		var a = path.split(".");
 		var o = window;
 		for (var i = 0; i < a.length; i++) {
@@ -109,27 +39,24 @@ soma.Prepare =
 			o = o[name];
 		}
 	},
-    /**
-     * @static
-     * @param {Array} aP Array of paths
-     */
-	registerPackages: function(aP)
-	{
+	/**
+	 * @static
+	 * @param {Array} aP Array of paths
+	 */
+	registerPackages: function(aP) {
 		for (var i = 0; i < aP.length; i++) {
 			this.registerPackage(aP[i]);
 		}
 	}
 };
-soma.Prepare.registerPackages(
-	[
-		"soma.core"
-		,"soma.core.controller"
-		,"soma.core.model"
-		,"soma.core.view"
-		,"soma.core.wire"
-		,"soma.core.mediator"
-	]
-);
+soma.Prepare.registerPackages([
+	"soma.core"
+	,"soma.core.controller"
+	,"soma.core.model"
+	,"soma.core.view"
+	,"soma.core.wire"
+	,"soma.core.mediator"
+]);
 
 /**
  * to save instantiation latency for singular class libraries, I recommend not building the Class Objects upopn
@@ -142,88 +69,139 @@ soma.Prepare.registerPackages(
  * @return Object
  */
 
+(function(Function) {
+	function F() {
+	}
 
-
-(function(Function){
-	function F(){}
-	Function.instantiate = function(func,params){
-		 F.prototype = func.prototype;
-		 var f = new F() , r = func.apply(f,params);
-		 return r || f;
+	Function.instantiate = function(func, params) {
+		F.prototype = func.prototype;
+		var f = new F() , r = func.apply(f, params);
+		return r || f;
 	};
 	Function.implement({
-		'instantiate' : function(params){
-			return Function.instantiate(this,params);
+		'instantiate' : function(params) {
+			return Function.instantiate(this, params);
 		}
 	});
 })(Function);
-soma.createClassInstance = function( clazz, parameters )
-{
-	if( clazz.$constructor != Class  ) {
-		clazz = new Class( new clazz() );
+soma.createClassInstance = function(clazz, parameters) {
+	if (clazz.$constructor != Class) {
+		clazz = new Class(new clazz());
 	}
-	if( arguments.length == 1 ) {
+	if (arguments.length == 1) {
 		return new clazz();
 	}
 	var a = [];
-	for( var i=1; i<arguments.length; i++)
-	{
-		a.push( arguments[i] );
+	for (var i = 1; i < arguments.length; i++) {
+		a.push(arguments[i]);
 	}
-	return clazz.instantiate( a );
+	return clazz.instantiate(a);
 };
-
 
 /**
  * provides the functionality to autobind with implicit need to keep object scope like event listeners and handlers/callbacks
  * ending with *Listener or *Handler
  * Wires and Mediators are implementing instance scope autobinding upon registration
  */
-soma.core.AutoBindProto =
-{
+soma.core.AutoBindProto = {
 	blackList: ["initialize", "parent", "$constructor", "addEventListener", "removeEventListener" ]
-	,_somaAutobind: function()
-	{
-		if( this.wasAutoBound ) {
+	,_somaAutobind: function() {
+		if (this.wasAutoBound) {
 			return;
 		}
 		var o = this;
 		var ab = o["AutoBindPattern"];
 		var coreAb = "([lL]istener|[hH]andler)$";
-		if( !ab ) {
+		if (!ab) {
 			ab = coreAb;
-		}else{
+		} else {
 			ab = coreAb + "|" + ab;
 		}
-		for( var k in o ){
-			if( typeof o[k] == "function" ) {
-				if( this._autobindIsBlacklisted( k ) ) {
+		for (var k in o) {
+			if (typeof o[k] == "function") {
+				if (this._autobindIsBlacklisted(k)) {
 					continue;
 				}
-				if( !k.match( ab ) ) {
+				if (!k.match(ab)) {
 					continue;
 				}
-				o[k] = o[k].bind( o );
+				o[k] = o[k].bind(o);
 			}
 		}
 	}
-	,_autobindIsBlacklisted: function( name )
-	{
+	,_autobindIsBlacklisted: function(name) {
 		var bl = this.blackList;
-		for( var i=0; i<bl.length; i++)
-		{
-			if( bl[i] == name ) {
+		for (var i = 0; i < bl.length; i++) {
+			if (bl[i] == name) {
 				return true;
 			}
 		}
 		return false;
 	}
 };
-soma.core.AutoBind = new Class( soma.core.AutoBindProto );
+soma.core.AutoBind = new Class(soma.core.AutoBindProto);
 
-
-
-
+soma.EventDispatcher = (function() {
+	var listeners = [];
+	return new Class({
+		initialize: function() {
+			listeners = [];
+		},
+		addEventListener: function(type, listener, priority) {
+			if (!listeners || !type || !listener) return;
+			if (isNaN(priority)) priority = 0;
+			listeners.push({type: type, listener: listener, priority: priority});
+		},
+		removeEventListener: function(type, listener) {
+			if (!listeners || !type || !listener) return;
+			var i = 0;
+			var l = listeners.length;
+			for (; i < l; ++i) {
+				var eventObj = listeners[i];
+				if (eventObj.type == type && eventObj.listener == listener) {
+					listeners.splice(i, 1);
+					return;
+				}
+			}
+			return false;
+		},
+		hasEventListener: function(type) {
+			if (!listeners || !type) return false;
+			var i = 0;
+			var l = listeners.length;
+			for (; i < l; ++i) {
+				var eventObj = listeners[i];
+				if (eventObj.type == type) {
+					return true;
+				}
+			}
+			return false;
+		},
+		dispatchEvent: function(event) {
+			if (!listeners || !event) return;
+			var events = [];
+			var i;
+			for (i = 0; i < listeners.length; i++) {
+				var eventObj = listeners[i];
+				if (eventObj.type == event.type) {
+					events.push(eventObj);
+				}
+			}
+			events.sort(function(a, b) {
+				return b.priority - a.priority;
+			});
+			for (i = 0; i < events.length; i++) {
+				events[i].listener.apply(event.currentTarget, [event]);
+			}
+		},
+		toString: function() {
+			return "[Class soma.EventDispatcher]";
+		},
+		dispose: function() {
+			listeners = null;
+		}
+	});
+})();
 
 /**
  * @class
@@ -232,23 +210,18 @@ soma.core.AutoBind = new Class( soma.core.AutoBindProto );
  * Acts as base class for other framework actors by providing common shared accessor functionality.
  * This class is used by the framework itself only - internal -
  */
-soma.core.Share = new Class(
-/** @lends soma.core.Share.prototype */
-{
-	
-	dispatchEvent: function()
-	{
-		this.instance.dispatchEvent.apply( this.instance, arguments );
+soma.core.Share = new Class({
+
+	dispatchEvent: function() {
+		this.instance.dispatchEvent.apply(this.instance, arguments);
 	},
 
-	addEventListener: function()
-	{
-		this.instance.addEventListener.apply( this.instance, arguments );
+	addEventListener: function() {
+		this.instance.addEventListener.apply(this.instance, arguments);
 	},
 
-	removeEventListener: function()
-	{
-		this.instance.removeEventListener.apply( this.instance, arguments );
+	removeEventListener: function() {
+		this.instance.removeEventListener.apply(this.instance, arguments);
 	},
 
 	/**
@@ -256,9 +229,8 @@ soma.core.Share = new Class(
 	 * @param {String} commandName
 	 * @return {Boolean}
 	 */
-	hasCommand: function( commandName )
-	{
-		return this.instance.hasCommand( commandName );
+	hasCommand: function(commandName) {
+		return this.instance.hasCommand(commandName);
 	},
 
 	/**
@@ -266,16 +238,14 @@ soma.core.Share = new Class(
 	 * @param {String} commandName
 	 * @return {soma.core.controller.Command}
 	 */
-	getCommand: function( commandName )
-	{
-		return this.instance.getCommand( commandName );
+	getCommand: function(commandName) {
+		return this.instance.getCommand(commandName);
 	},
 
-    /**
-     * @return {Array} list of command object references
-     */
-	getCommands: function()
-	{
+	/**
+	 * @return {Array} list of command object references
+	 */
+	getCommands: function() {
 		return this.instance.getCommands();
 	},
 
@@ -284,9 +254,8 @@ soma.core.Share = new Class(
 	 * @param {String} command name
 	 * @param {Class} command class
 	 */
-	addCommand: function( commandName, commandClass )
-	{
-		this.instance.controller.addCommand( commandName, commandClass );
+	addCommand: function(commandName, commandClass) {
+		this.instance.controller.addCommand(commandName, commandClass);
 	},
 
 	/**
@@ -294,9 +263,8 @@ soma.core.Share = new Class(
 	 * @param {String} commandName
 	 * @return (void)
 	 */
-	removeCommand: function( commandName )
-	{
-		this.instance.controller.removeCommand( commandName );
+	removeCommand: function(commandName) {
+		this.instance.controller.removeCommand(commandName);
 	},
 
 	/**
@@ -304,9 +272,8 @@ soma.core.Share = new Class(
 	 * @param {String} wireName the unique wire name, the wire was registered for
 	 * @return {Boolean}
 	 */
-	hasWire: function(wireName)
-	{
-		return this.instance.hasWire( wireName );
+	hasWire: function(wireName) {
+		return this.instance.hasWire(wireName);
 	},
 
 	/**
@@ -314,9 +281,8 @@ soma.core.Share = new Class(
 	 * @param {String} wireName the unique wire name, the wire was registered for
 	 * @return {soma.wire.Wire}
 	 */
-	getWire: function( wireName )
-	{
-		return this.instance.getWire( wireName );
+	getWire: function(wireName) {
+		return this.instance.getWire(wireName);
 	},
 
 	/**
@@ -325,9 +291,8 @@ soma.core.Share = new Class(
 	 * @param {soma.core.Wire} wire
 	 * @return {soma.core.Wire}
 	 */
-	addWire: function( wireName, wire )
-	{
-		return this.instance.addWire( wireName, wire );
+	addWire: function(wireName, wire) {
+		return this.instance.addWire(wireName, wire);
 	},
 
 	/**
@@ -335,27 +300,24 @@ soma.core.Share = new Class(
 	 * @param {String} wireName
 	 * @return {void}
 	 */
-	removeWire: function( wireName )
-	{
-		this.instance.removeWire( wireName );
+	removeWire: function(wireName) {
+		this.instance.removeWire(wireName);
 	},
 
-    /**
-     *
-     * @param {String} modelName
-     */
-	hasModel: function( modelName )
-	{
-		return this.instance.hasModel( modelName );
+	/**
+	 *
+	 * @param {String} modelName
+	 */
+	hasModel: function(modelName) {
+		return this.instance.hasModel(modelName);
 	},
 
-    /**
-     *
-     * @param {String} modelName
-     */
-	getModel: function( modelName )
-	{
-		return this.instance.getModel( modelName );
+	/**
+	 *
+	 * @param {String} modelName
+	 */
+	getModel: function(modelName) {
+		return this.instance.getModel(modelName);
 	},
 
 	/**
@@ -363,9 +325,8 @@ soma.core.Share = new Class(
 	 * @param {Event} event
 	 * @return soma.core.controller.SequenceCommand
 	 */
-	getSequencer: function( event )
-	{
-		 return !!this.instance.controller ? this.instance.controller.getSequencer( event ) : null;
+	getSequencer: function(event) {
+		return !!this.instance.controller ? this.instance.controller.getSequencer(event) : null;
 	},
 
 	/**
@@ -373,27 +334,24 @@ soma.core.Share = new Class(
 	 * @param {Event} event
 	 * @return Boolean
 	 */
-	stopSequencerWithEvent: function( event )
-	{
-		return !!this.instance.controller ? this.instance.controller.stopSequencerWithEvent( event ) : null;
+	stopSequencerWithEvent: function(event) {
+		return !!this.instance.controller ? this.instance.controller.stopSequencerWithEvent(event) : null;
 	},
 
 	/**
 	 *
 	 * @param {Event} event
 	 */
-	stopSequencer: function( event )
-	{
- 		if( this.instance.controller ){
-			return this.instance.controller.stopSequencer( event );
-		 }
+	stopSequencer: function(event) {
+		if (this.instance.controller) {
+			return this.instance.controller.stopSequencer(event);
+		}
 	},
 
-	stopAllSequencers: function()
-	{
- 		if( this.instance.controller ){
+	stopAllSequencers: function() {
+		if (this.instance.controller) {
 			this.instance.controller.stopAllSequencers();
-		 }
+		}
 	},
 
 	/**
@@ -401,17 +359,15 @@ soma.core.Share = new Class(
 	 * @param {Event} event
 	 * @return Boolean
 	 */
-	isPartOfASequence: function( event )
-	{
-		return !!this.instance.controller ? this.instance.controller.isPartOfASequence( event ) : false;
+	isPartOfASequence: function(event) {
+		return !!this.instance.controller ? this.instance.controller.isPartOfASequence(event) : false;
 	},
 
 	/**
 	 * @see soma.core.Controller.getLastSequencer
 	 * @return soma.core.controller.SequenceCommand
 	 */
-	getLastSequencer: function()
-	{
+	getLastSequencer: function() {
 		return !!this.instance.controller ? this.instance.controller.getLastSequencer() : null;
 	},
 
@@ -419,82 +375,71 @@ soma.core.Share = new Class(
 	 * @see soma.core.Controller.getRunningSequencers
 	 * @return Array
 	 */
-	getRunningSequencers: function()
-	{
+	getRunningSequencers: function() {
 		return !!this.instance.controller ? this.instance.controller.getRunningSequencers() : null;
 	},
 
-    /**
-     *
-     * @param {String} modelName
-     * @param {soma.core.model.Model} model
-     */
-	addModel: function( modelName, model )
-	{
-		return this.instance.addModel( modelName, model );
+	/**
+	 *
+	 * @param {String} modelName
+	 * @param {soma.core.model.Model} model
+	 */
+	addModel: function(modelName, model) {
+		return this.instance.addModel(modelName, model);
 	},
 
-	removeModel: function( modelName )
-	{
-		this.instance.removeModel( modelName );
+	removeModel: function(modelName) {
+		this.instance.removeModel(modelName);
 	},
 
-	hasView: function( viewName )
-	{
-		return this.instance.hasView( viewName );
+	hasView: function(viewName) {
+		return this.instance.hasView(viewName);
 	},
 
-	getView: function( viewName )
-	{
-		return this.instance.getView( viewName );
+	getView: function(viewName) {
+		return this.instance.getView(viewName);
 	},
 
-	addView: function( viewName, view )
-	{
-		return this.instance.addView( viewName, view );
+	addView: function(viewName, view) {
+		return this.instance.addView(viewName, view);
 	},
 
-	removeView: function( viewName )
-	{
-		this.instance.removeView( viewName );
+	removeView: function(viewName) {
+		this.instance.removeView(viewName);
 	}
 });
 
-
-soma.core.Core = new Class(
-/** @lends soma.core.Core.prototype */
-{
+soma.core.Core = new Class({
 	Extends: soma.EventDispatcher,
 	Implements: soma.IDisposable,
-	
+
 	body:null,
 	models:null,
 	controller:null,
 	wires:null,
 	views:null,
 
-    /**
-     *
-     * @constructs
-     * @description
-     * This class acts as some sort of super wire orchestrating all core actor objects. A reference is stored in each core actor.
+	/**
+	 *
+	 * @constructs
+	 * @description
+	 * This class acts as some sort of super wire orchestrating all core actor objects. A reference is stored in each core actor.
 	 * disabling the body for dispatching events manually as at the lowest point in the display list dispatching an event
 	 * a handler is not recognized for the capture phase
 	 *
-     * @see soma.core.Share
-     */
+	 * @see soma.core.Share
+	 */
 
 
-	initialize:function()
-	{
+	initialize:function() {
 		this.body = document.body;
 		//this.body.dispatchEvent = function() { throw new Error("dispatching events from soma body not allowed") };
-		if( !this.body ) {
-			throw new Error( "SomaCore requires body of type Element");
+		if (!this.body) {
+			throw new Error("SomaCore requires body of type Element");
 		}
-		this.controller = new soma.core.Controller( this );
-		this.models = new soma.core.model.SomaModels( this );
-		this.wires = new soma.core.wire.SomaWires( this );
+		this.controller = new soma.core.Controller(this);
+		this.models = new soma.core.model.SomaModels(this);
+		this.wires = new soma.core.wire.SomaWires(this);
 		this.views = new soma.core.view.SomaViews();
 
 		this.init();
@@ -507,52 +452,44 @@ soma.core.Core = new Class(
 		this.start();
 	},
 
-	hasCommand: function( commandName )
-	{
-		return (!this.controller) ? false : this.controller.hasCommand( commandName );
+	hasCommand: function(commandName) {
+		return (!this.controller) ? false : this.controller.hasCommand(commandName);
 	},
 
-	getCommand: function( commandName )
-	{
-		return (!this.controller) ? null : this.controller.getCommand( commandName );
+	getCommand: function(commandName) {
+		return (!this.controller) ? null : this.controller.getCommand(commandName);
 	},
 
 	/**
 	 * @return {Array} list of registered commands
 	 */
-	getCommands: function()
-	{
+	getCommands: function() {
 		return (!this.controller) ? null : this.controller.getCommands();
 	},
 
-    /**
-     *
-     * @param {String} commandName Unique key that identifies the command
-     * @param {soma.core.controller.Command} command
-     */
-	addCommand: function( commandName, command )
-	{
-		this.controller.addCommand( commandName, command );
+	/**
+	 *
+	 * @param {String} commandName Unique key that identifies the command
+	 * @param {soma.core.controller.Command} command
+	 */
+	addCommand: function(commandName, command) {
+		this.controller.addCommand(commandName, command);
 	},
 
-	removeCommand: function( commandName )
-	{
-		this.controller.removeCommand( commandName );
+	removeCommand: function(commandName) {
+		this.controller.removeCommand(commandName);
 	},
 
 
-	hasWire: function( wireName )
-	{
-		return (!this.wires) ? false :  this.wires.hasWire( wireName );
+	hasWire: function(wireName) {
+		return (!this.wires) ? false : this.wires.hasWire(wireName);
 	},
 
-	getWire: function( wireName )
-	{
-		return (!this.wires) ? null : this.wires.getWire( wireName );
+	getWire: function(wireName) {
+		return (!this.wires) ? null : this.wires.getWire(wireName);
 	},
 
-	getWires: function()
-	{
+	getWires: function() {
 		return (!this.wires) ? null : this.wires.getWires();
 	},
 
@@ -562,79 +499,70 @@ soma.core.Core = new Class(
 	 * @param {soma.core.Wire} wire
 	 * @return {soma.core.Wire}
 	 */
-	addWire: function( wireName, wire )
-	{
-		return this.wires.addWire( wireName, wire );
+	addWire: function(wireName, wire) {
+		return this.wires.addWire(wireName, wire);
 	},
 
-	removeWire: function( wireName )
-	{
-		this.wires.removeWire( wireName );
+	removeWire: function(wireName) {
+		this.wires.removeWire(wireName);
 	},
 
-    getModels: function()
-	{
+	getModels: function() {
 		return (!this.models) ? null : this.models.getModels();
 	},
 
-	hasModel: function( modelName )
-	{
-		return (!this.models) ? false : this.models.hasModel( modelName );
+	hasModel: function(modelName) {
+		return (!this.models) ? false : this.models.hasModel(modelName);
 	},
 
-	getModel: function( modelName )
-	{
-		return (!this.models) ? null : this.models.getModel( modelName );
+	getModel: function(modelName) {
+		return (!this.models) ? null : this.models.getModel(modelName);
 	},
 
-	addModel: function( modelName, model )
-	{
-		return this.models.addModel( modelName, model );
+	addModel: function(modelName, model) {
+		return this.models.addModel(modelName, model);
 	},
 
-	removeModel: function( modelName )
-	{
-		this.models.removeModel( modelName );
+	removeModel: function(modelName) {
+		this.models.removeModel(modelName);
 	},
 
-	hasView: function( viewName )
-	{
-		return (!this.views) ? false : this.views.hasView( viewName );
+	hasView: function(viewName) {
+		return (!this.views) ? false : this.views.hasView(viewName);
 	},
 
-	getView: function( viewName )
-	{
-		return (!this.views) ? null : this.views.getView( viewName );
+	getView: function(viewName) {
+		return (!this.views) ? null : this.views.getView(viewName);
 	},
 
-	getViews: function()
-	{
+	getViews: function() {
 		return (!this.views) ? null : this.views.getViews();
 	},
 
-	addView: function( viewName, view )
-	{
-		return this.views.addView( viewName, view );
+	addView: function(viewName, view) {
+		return this.views.addView(viewName, view);
 	},
 
-	removeView: function( viewName )
-	{
-		this.views.removeView( viewName );
+	removeView: function(viewName) {
+		this.views.removeView(viewName);
 	},
 
-	registerModels: function() {},
+	registerModels: function() {
+	},
 
-	registerCommands: function() {},
+	registerCommands: function() {
+	},
 
-	registerViews: function() {},
+	registerViews: function() {
+	},
 
-	registerWires: function() {},
+	registerWires: function() {
+	},
 
 	/**
 	 * @return Array
 	 */
-	getSequencers: function()
-	{
+	getSequencers: function() {
 		return !!this.controller ? this.controller.getSequencers() : null;
 	},
 
@@ -643,19 +571,17 @@ soma.core.Core = new Class(
 	 * @param {Event} event
 	 * @return soma.core.controller.Command
 	 */
-	getSequencer: function( event )
-	{
-		return !!this.controller ? this.controller.getSequencer( event ) : null;
+	getSequencer: function(event) {
+		return !!this.controller ? this.controller.getSequencer(event) : null;
 	},
 
-	 /**
+	/**
 	 *
 	 * @param {Event} event
 	 * @return Boolean
 	 */
-	isPartOfASequence: function( event )
-	{
-		return ( this.getSequencer( event ) != null );
+	isPartOfASequence: function(event) {
+		return ( this.getSequencer(event) != null );
 	},
 
 
@@ -664,24 +590,21 @@ soma.core.Core = new Class(
 	 * @param {Event} event
 	 * @return Boolean
 	 */
-	stopSequencerWithEvent: function( event )
-	{
-		return !!this.controller ? this.controller.stopSequencerWithEvent( event ) : false;
+	stopSequencerWithEvent: function(event) {
+		return !!this.controller ? this.controller.stopSequencerWithEvent(event) : false;
 	},
 
 	/**
 	 * @param {soma.core.controller.Command} sequencer
 	 * @return Boolean
 	 */
-	stopSequencer: function( sequencer )
-	{
-		return !!this.controller ? this.controller.stopSequencer( sequencer ) : false;
+	stopSequencer: function(sequencer) {
+		return !!this.controller ? this.controller.stopSequencer(sequencer) : false;
 	},
 
 
-	stopAllSequencers: function()
-	{
-		if( this.controller ) {
+	stopAllSequencers: function() {
+		if (this.controller) {
 			this.controller.stopAllSequencers();
 		}
 	},
@@ -690,508 +613,446 @@ soma.core.Core = new Class(
 	/**
 	 *  @return Array
 	 */
-	 getRunningSequencers: function()
-	 {
+	getRunningSequencers: function() {
 		return !!this.controller ? this.controller.getRunningSequencers() : null;
-	 },
+	},
 
 	/**
 	 * @return soma.core.controller.Command
 	 */
-	getLastSequencer: function()
-	{
+	getLastSequencer: function() {
 		return !!this.controller ? this.controller.getLastSequencer() : null;
 	},
 
 
-	dispose: function()
-	{
-		if ( this.models ) { this.models.dispose(); this.models = null; }
-		if ( this.views) { this.views.dispose(); this.views = null; }
-		if ( this.controller) { this.controller.dispose(); this.controller = null; }
-		if (this.wires) { this.wires.dispose(); this.wires = null; }
-		if (this.mediators) { this.mediators.dispose(); this.mediators = null; }
+	dispose: function() {
+		if (this.models) {
+			this.models.dispose();
+			this.models = null;
+		}
+		if (this.views) {
+			this.views.dispose();
+			this.views = null;
+		}
+		if (this.controller) {
+			this.controller.dispose();
+			this.controller = null;
+		}
+		if (this.wires) {
+			this.wires.dispose();
+			this.wires = null;
+		}
+		if (this.mediators) {
+			this.mediators.dispose();
+			this.mediators = null;
+		}
 		this.body = null;
 	},
 
-	init: function()
-	{
+	init: function() {
 
 	},
 
-	start: function()
-	{
+	start: function() {
 
 	}
 
 });
 
-soma.core.Controller = new Class(
-/** @lends soma.core.Controller.prototype */
-{
+soma.core.Controller = (function() {
+	var boundInstance = null;
+	var boundDomtree = null;
+	var commands = null;
+	var sequencers = null;
+	var sequencersInfo = null;
+	var lastEvent = null;
+	var lastSequencer = null;
+	return new Class({
+		Implements: soma.IDisposable,
+		/**
+		 * @private
+		 * @type soma.core.Core
+		 */
+		instance:null,
+		/**
+		 * @constructs
+		 * @param {soma.core.Core} core
+		 */
+		initialize:function(instance) {
+			this.instance = instance;
+			commands = {};
+			sequencersInfo = {};
+			sequencers = {};
+			boundInstance = this.instanceHandler.bind(this);
+			boundDomtree = this.domTreeHandler.bind(this);
+		},
 
-	Implements: soma.IDisposable,
+		/**
+		 * @private
+		 * @param {String} commandName
+		 */
+		addInterceptor: function(commandName) {
+			if (!soma["core"]) {
+				throw new Error("soma package has been overwritten by local variable");
+			}
 
-    /**
-     * @private
-     * @type soma.core.Core
-     */
-	instance:null,
+			// handle events dispatched from the domTree
+			this.instance.body.addEventListener(commandName, boundDomtree, true);
 
-	boundInstance:null,
-	boundDomtree:null,
+			// handle events dispatched from the Soma facade
+			this.instance.addEventListener(commandName, boundInstance, Number.NEGATIVE_INFINITY);
 
-    /**
-     * @private
-     * @type Array
-     * */
-	commands: null,
-	/**
-     * @private
-     * @type Object
-     * */
-	sequencers:null,
+		},
 
-	/**
-	 *
-	 * @type Event
-	 */
-	lastEvent: null,
+		/**
+		 * @private
+		 * @param {String} commandName
+		 */
+		removeInterceptor: function(commandName) {
+			this.instance.body.removeEventListener(commandName, boundDomtree, true);
+			this.instance.removeEventListener(commandName, boundInstance);
+		},
 
+		/**
+		 * @internal
+		 * @param {Event} e
+		 */
+		executeCommand: function(e) {
+			var commandName = e.type;
+			if (this.hasCommand(commandName)) {
+				var command = soma.createClassInstance(commands[ commandName ]);
+				command.registerInstance(this.instance);
+				command.execute(e);
+			}
+		},
 
-	/**
-     * @private
-     * @type Object
-     * */
-	sequencersInfo:null,
-	lastSequencer:null,
+		/**
+		 *
+		 * @param sequencer
+		 * @param {soma.core.controller.SequenceCommandProxy} c
+		 */
+		registerSequencedCommand: function(sequencer, c) {
+			if (!( c instanceof soma.core.controller.SequenceCommandProxy )) {
+				throw new Error("capsulate sequence commands in SequenceCommandProxy objects!");
+			}
+			var s = sequencersInfo;
+			if (s[sequencer.id] == null || sequencers[sequencer.id] == null) {
+				lastSequencer = sequencer;
+				s[sequencer.id] = [];
+				sequencers[sequencer.id] = sequencer;
+			}
+			c.sequenceId = sequencer.id;
+			s[sequencer.id].push(c);
+		},
 
-
-    /**
-     * @constructs
-     * @param {soma.core.Core} core
-     */
-	initialize:function( instance )
-	{
-		this.instance = instance;
-		this.commands = {};
-		this.sequencersInfo = {};
-		this.sequencers = {};
-		this.boundInstance = this.instanceHandler.bind(this);
-		this.boundDomtree = this.domTreeHandler.bind(this);
-	},
-
-
-    /**
-     * @private
-     * @param {String} commandName
-     */
-	addInterceptor: function( commandName )
-	{
-		if( !soma["core"] ) {
-			throw new Error( "soma package has been overwritten by local variable");
-		}
-
-		// handle events dispatched from the domTree
-		this.instance.body.addEventListener( commandName, this.boundDomtree, true );
-
-		// handle events dispatched from the Soma facade
-		this.instance.addEventListener( commandName, this.boundInstance, Number.NEGATIVE_INFINITY);
-
-	},
-
-
-    /**
-     * @private
-     * @param {String} commandName
-     */
-	removeInterceptor: function( commandName )
-	{
-		this.instance.body.removeEventListener( commandName, this.boundDomtree, true );
-		this.instance.removeEventListener( commandName, this.boundInstance);
-	},
-
-    /**
-     * @internal
-     * @param {Event} e
-     */
-	executeCommand: function( e )
-	{
-		var commandName = e.type;
-		if( this.hasCommand( commandName ) ) {
-			var command = soma.createClassInstance( this.commands[ commandName ] );
-			command.registerInstance( this.instance );
-			command.execute( e );
-		}
-	},
-
-	/**
-	 *
-	 * @param sequencer
-	 * @param {soma.core.controller.SequenceCommandProxy} c
-	 */
-	registerSequencedCommand: function( sequencer, c )
-	{
-		if( !( c instanceof soma.core.controller.SequenceCommandProxy ) ) {
-			throw new Error( "capsulate sequence commands in SequenceCommandProxy objects!");
-		}
-		var s = this.sequencersInfo;
-		if( s[sequencer.id] == null || this.sequencers[sequencer.id] == null ) {
-			this.lastSequencer = sequencer;
-			s[sequencer.id] = [];
-			this.sequencers[sequencer.id] = sequencer;
-		}
-		c.sequenceId = sequencer.id;
-		s[sequencer.id].push( c );
-	},
-
-	/**
-	 *
-	 *
-	 * @param sequencer
-	 * @param {String} commandName unique command id
-	 */
-	unregisterSequencedCommand: function( sequencer, commandName )
-	{
-		if( typeof commandName  != "string" ) {
-			throw new Error( "Controller::unregisterSequencedCommand() expects commandName to be of type String, given:" + commandName );
-		}
-		var s = this.sequencersInfo;
-		if( s[sequencer.id] != null && s[sequencer.id] != undefined ) {
-			var len = s[sequencer.id].length;
-			for( var i=0; i<len; i++ )
-			{
-				if( s[sequencer.id][i].event.type == commandName ) {
-					s[sequencer.id][i] = null;
-					s[sequencer.id].splice(i, 1);
-					if( s[sequencer.id].length == 0 ) {
-						s[sequencer.id] = null;
-						delete s[sequencer.id];
+		/**
+		 *
+		 *
+		 * @param sequencer
+		 * @param {String} commandName unique command id
+		 */
+		unregisterSequencedCommand: function(sequencer, commandName) {
+			if (typeof commandName != "string") {
+				throw new Error("Controller::unregisterSequencedCommand() expects commandName to be of type String, given:" + commandName);
+			}
+			var s = sequencersInfo;
+			if (s[sequencer.id] != null && s[sequencer.id] != undefined) {
+				var len = s[sequencer.id].length;
+				for (var i = 0; i < len; i++) {
+					if (s[sequencer.id][i].event.type == commandName) {
+						s[sequencer.id][i] = null;
+						s[sequencer.id].splice(i, 1);
+						if (s[sequencer.id].length == 0) {
+							s[sequencer.id] = null;
+							delete s[sequencer.id];
+						}
+						break;
 					}
-					break;
 				}
 			}
-		}
-	},
+		},
 
-	/**
-	 *
-	 * @param {soma.core.controller.SequenceCommand} sequencer
-	 * @return Boolean
-	 */
-	unregisterSequencer: function( sequencer )
-	{
-		var s = this.sequencers;
-		if( s[sequencer.id] != null && s[sequencer.id] != undefined ) {
-			s[sequencer.id] = null;
-			delete s[sequencer.id];
-			s =  this.sequencersInfo;
-			if( s[sequencer.id] != null ) {
-				var len = s[sequencer.id].length;
-				for( var i=0; i<len; i++ )
-				{
-					s[sequencer.id][i] = null;
-				}
+		/**
+		 *
+		 * @param {soma.core.controller.SequenceCommand} sequencer
+		 * @return Boolean
+		 */
+		unregisterSequencer: function(sequencer) {
+			var s = sequencers;
+			if (s[sequencer.id] != null && s[sequencer.id] != undefined) {
 				s[sequencer.id] = null;
 				delete s[sequencer.id];
-				return true;
-			}
-		}
-		return false;
-	},
-
-
-
-	hasCommand: function( commandName )
-	{
-		return this.commands[ commandName ] != null;
-	},
-
-    /**
-     *
-     * @param {String} commandName
-     *
-     */
-	getCommand: function( commandName )
-	{
-		if( this.hasCommand(commandName)) {
-			return this.commands[commandName];
-		}
-		return null;
-	},
-
-	getCommands: function()
-	{
-		var a = [];
-		var cmds = this.commands;
-		for (var c in cmds) {
-			a.push(c);
-		}
-		return a;
-	},
-
-	addCommand: function( commandName, command )
-	{
-		if( this.hasCommand( commandName ) ) {
-			throw new Error("Error in " + this + " Command \"" + commandName + "\" already registered.");
-		}
-		this.commands[ commandName ] = command;
-		this.addInterceptor( commandName );
-	},
-
-	removeCommand: function( commandName )
-	{
-		if( !this.hasCommand( commandName ) ) {
-			return;
-		}
-		this.commands[commandName] = null;
-		delete this.commands[commandName];
-		this.removeInterceptor(commandName);
-	},
-
-	/**
-	 *
-	 * @param {Event} event
-	 * @return {soma.core.controller.SequenceCommand}
-	 */
-	getSequencer: function( event )
-	{
-		var ss = this.sequencersInfo;
-		for( var s  in ss )
-		{
-			var len = ss[s].length;
-			for (var i=0; i<len; i++)
-			{
-				if( ss[s][i] && ss[s][i].event.type === event.type ) {
-					var seq = this.sequencers[ ss[s][i].sequenceId ];
-					return !!seq ? seq : null;
-				}
-			}
-		}
-		return null;
-	},
-
-	/**
-	 *  Stops a sequence command using an event object that has been created from this sequence command.
-	 * @param {Event} event
-	 * @return Boolean
-	 */
-	stopSequencerWithEvent: function( event )
-	{
-		var ss = this.sequencersInfo;
-		for( var s in ss )
-		{
-			var len = ss[s].length;
-			for( var i=0;  i<len; i++ )
-			{
-				if(ss[s][i].event.type === event.type ) {
-					try{
-						this.sequencers[ ss[s][i].sequenceId ].stop();
-					}catch( e ) {
-						return false;
+				s = sequencersInfo;
+				if (s[sequencer.id] != null) {
+					var len = s[sequencer.id].length;
+					for (var i = 0; i < len; i++) {
+						s[sequencer.id][i] = null;
 					}
+					s[sequencer.id] = null;
+					delete s[sequencer.id];
 					return true;
 				}
 			}
-		}
-		return false;
-	},
+			return false;
+		},
 
-	/**
-	 *
-	 * @param {soma.core.controller.SequenceCommand} sequencer
-	 */
-	stopSequencer: function( sequencer )
-	{
-   		if (sequencer == null) {
-	   		return false;
-   		}
-		sequencer.stop();
-		return true;
-	},
 
-	/**
-	 * @return void
-	 */
-	stopAllSequencers: function()
-	{
-		var ss = this.sequencers;
-		var sis = this.sequencersInfo;
-		for( var s in ss )
-		{
-			if( sis[s] == null ) {
-				continue;
+
+		hasCommand: function(commandName) {
+			return commands[ commandName ] != null;
+		},
+
+		/**
+		 *
+		 * @param {String} commandName
+		 *
+		 */
+		getCommand: function(commandName) {
+			if (this.hasCommand(commandName)) {
+				return commands[commandName];
 			}
-			var cl = sis[s].length;
-			sis[s] = null;
-			delete sis[s];
-	 		ss[s].stop();
-			ss[s] = null;
-			delete ss[s];
-		}
-	},
+			return null;
+		},
 
-	/**
-	 *
-	 * @param {Event} event
-	 */
-	isPartOfASequence: function( event )
-	{
-		return ( this.getSequencer( event ) != null );
-	},
-
-	/**
-	 * @return Array array of running sequencers
-	 */
-	getRunningSequencers: function()
-	{
-		var a = [];
-		var ss = this.sequencers;
-		for( var s in ss )
-		{
-			a.push( ss[s] );
-		}
-		return a;
-	},
-
-	getLastSequencer: function()
-	{
-		return this.lastSequencer;
-	},
-
-	dispose: function()
-	{
-		for (var nameCommand in this.commands) {
-			this.removeCommand(nameCommand);
-		}
-		for (var nameSequencer in this.sequencers) {
-			this.sequencers[nameSequencer] = null;
-			delete this.sequencers[nameSequencer];
-		}
-		this.commands = null;
-		this.sequencers = null;
-		this.lastEvent = null;
-		this.lastSequencer = null;
-	},
-
-	// ================= LISTENERS ================
-
-    /**
-     * @private
-     *
-     */
-	domTreeHandler: function( e )
-	{
-		//d("domtreeHandler", e.eventPhase );
-		if( e.bubbles && this.hasCommand( e.type ) && !e.isCloned ) {
-
-			e.stopPropagation();
-			var clonedEvent = e.clone();
-			// store a reference of the events not to dispatch it twice
-			// in case it is dispatched from the display list
-			this.lastEvent = clonedEvent;
-			this.instance.dispatchEvent( clonedEvent );
-			if( !clonedEvent.isDefaultPrevented() ) {
-				this.executeCommand( e );
+		getCommands: function() {
+			var a = [];
+			var cmds = commands;
+			for (var c in cmds) {
+				a.push(c);
 			}
-			this.lastEvent = null;
-		}
-	},
+			return a;
+		},
 
+		addCommand: function(commandName, command) {
+			if (this.hasCommand(commandName)) {
+				throw new Error("Error in " + this + " Command \"" + commandName + "\" already registered.");
+			}
+			commands[ commandName ] = command;
+			this.addInterceptor(commandName);
+		},
 
-	/**
-	 * @private
-	 */
-	instanceHandler: function( e )
-	{
-		//d(e);
-		if( e.bubbles && this.hasCommand( e.type ) ) {
-			// if the event is equal to the lastEvent, this has already been dispatched for execution
-			if( this.lastEvent != e ) {
-				if( !e.isDefaultPrevented() ) {
-					this.executeCommand( e );
+		removeCommand: function(commandName) {
+			if (!this.hasCommand(commandName)) {
+				return;
+			}
+			commands[commandName] = null;
+			delete commands[commandName];
+			this.removeInterceptor(commandName);
+		},
+
+		/**
+		 *
+		 * @param {Event} event
+		 * @return {soma.core.controller.SequenceCommand}
+		 */
+		getSequencer: function(event) {
+			var ss = sequencersInfo;
+			for (var s  in ss) {
+				var len = ss[s].length;
+				for (var i = 0; i < len; i++) {
+					if (ss[s][i] && ss[s][i].event.type === event.type) {
+						var seq = sequencers[ ss[s][i].sequenceId ];
+						return !!seq ? seq : null;
+					}
 				}
 			}
+			return null;
+		},
+
+		/**
+		 *  Stops a sequence command using an event object that has been created from this sequence command.
+		 * @param {Event} event
+		 * @return Boolean
+		 */
+		stopSequencerWithEvent: function(event) {
+			var ss = sequencersInfo;
+			for (var s in ss) {
+				var len = ss[s].length;
+				for (var i = 0; i < len; i++) {
+					if (ss[s][i].event.type === event.type) {
+						try {
+							sequencers[ ss[s][i].sequenceId ].stop();
+						} catch(e) {
+							return false;
+						}
+						return true;
+					}
+				}
+			}
+			return false;
+		},
+
+		/**
+		 *
+		 * @param {soma.core.controller.SequenceCommand} sequencer
+		 */
+		stopSequencer: function(sequencer) {
+			if (sequencer == null) {
+				return false;
+			}
+			sequencer.stop();
+			return true;
+		},
+
+		/**
+		 * @return void
+		 */
+		stopAllSequencers: function() {
+			var ss = sequencers;
+			var sis = sequencersInfo;
+			for (var s in ss) {
+				if (sis[s] == null) {
+					continue;
+				}
+				var cl = sis[s].length;
+				sis[s] = null;
+				delete sis[s];
+				ss[s].stop();
+				ss[s] = null;
+				delete ss[s];
+			}
+		},
+
+		/**
+		 *
+		 * @param {Event} event
+		 */
+		isPartOfASequence: function(event) {
+			return ( this.getSequencer(event) != null );
+		},
+
+		/**
+		 * @return Array array of running sequencers
+		 */
+		getRunningSequencers: function() {
+			var a = [];
+			var ss = sequencers;
+			for (var s in ss) {
+				a.push(ss[s]);
+			}
+			return a;
+		},
+
+		getLastSequencer: function() {
+			return lastSequencer;
+		},
+
+		dispose: function() {
+			for (var nameCommand in commands) {
+				this.removeCommand(nameCommand);
+			}
+			for (var nameSequencer in sequencers) {
+				sequencers[nameSequencer] = null;
+				delete sequencers[nameSequencer];
+			}
+			commands = null;
+			sequencers = null;
+			lastEvent = null;
+			lastSequencer = null;
+		},
+
+		// ================= LISTENERS ================
+
+		/**
+		 * @private
+		 *
+		 */
+		domTreeHandler: function(e) {
+			//d("domtreeHandler", e.eventPhase );
+			if (e.bubbles && this.hasCommand(e.type) && !e.isCloned) {
+
+				e.stopPropagation();
+				var clonedEvent = e.clone();
+				// store a reference of the events not to dispatch it twice
+				// in case it is dispatched from the display list
+				lastEvent = clonedEvent;
+				this.instance.dispatchEvent(clonedEvent);
+				if (!clonedEvent.isDefaultPrevented()) {
+					this.executeCommand(e);
+				}
+				lastEvent = null;
+			}
+		},
+
+
+		/**
+		 * @private
+		 */
+		instanceHandler: function(e) {
+			//d(e);
+			if (e.bubbles && this.hasCommand(e.type)) {
+				// if the event is equal to the lastEvent, this has already been dispatched for execution
+				if (lastEvent != e) {
+					if (!e.isDefaultPrevented()) {
+						this.executeCommand(e);
+					}
+				}
+			}
+			lastEvent = null;
 		}
-	   this.lastEvent = null;
-	}
 
-});
-
+	});
+})();
 
 /**
  * @class
  * @augments soma.core.Share
  */
-soma.core.controller.Command = new Class(
-/**
- * @lends soma.core.controller.Command.prototype
- */
-{
+soma.core.controller.Command = new Class({
 	Implements: soma.core.Share,
 
 	instance: null,
 
-    /**
-     *
-     * @param {soma.core.Core} instance
-     */
-	registerInstance: function( instance )
-	{
+	/**
+	 *
+	 * @param {soma.core.Core} instance
+	 */
+	registerInstance: function(instance) {
 		this.instance = instance;
 	},
 
-    /**
-     *
-     * @param {Event} e
-     */
-	execute: function( e )
-	{
-		throw new Error( "Command.execute has to be implemented for \"" + e + "\"" );
+	/**
+	 *
+	 * @param {Event} e
+	 */
+	execute: function(e) {
+		throw new Error("Command.execute has to be implemented for \"" + e + "\"");
 	}
 
 
 });
 
-
-soma.core.controller.SequenceCommandProxy = new Class
-({
+soma.core.controller.SequenceCommandProxy = new Class({
 	/** @type Event **/
 	event:null,
 	/** @type String **/
 	sequenceId:null,
 
-	initialize: function( event )
-	{
-   		this.event = event;
+	initialize: function(event) {
+		this.event = event;
 	}
 });
-
-
 
 /**
  * @class
  * @augments soma.core.Share
  */
-soma.core.controller.SequenceCommand = new Class
-({
+soma.core.controller.SequenceCommand = new Class({
 	Extends:soma.core.controller.Command,
- 	Implements:[ soma.core.Share ],
+	Implements:[ soma.core.Share ],
 	commands:null,
 	currentCommand:null,
 	id:null,
 
-	initialize: function( id )
-	{
-		if( id == null ) {
-			throw new Error( "SequenceCommand Children expect an unique id as constructor arg");
+	initialize: function(id) {
+		if (id == null) {
+			throw new Error("SequenceCommand Children expect an unique id as constructor arg");
 		}
 		this.commands = [];
 		this.id = id;
 	},
 
-	registerInstance: function( instance )
-	{
+	registerInstance: function(instance) {
 		this.instance = instance;
 		this.initializeSubCommands();
 	},
@@ -1200,89 +1061,81 @@ soma.core.controller.SequenceCommand = new Class
 	 * @private protected
 	 * To be overridden
 	 */
-	initializeSubCommands: function()
-	{
-		throw new Error( "Subclasses of SequenceCommand must implement initializeSubCommands()" );
+	initializeSubCommands: function() {
+		throw new Error("Subclasses of SequenceCommand must implement initializeSubCommands()");
 	},
 	/**
 	 *
 	 * @param {Event} event
 	 */
-	addSubCommand: function( event )
-	{
-		var c = new soma.core.controller.SequenceCommandProxy( event );
-		this.commands.push( c );
-		this.instance.controller.registerSequencedCommand( this, c );
+	addSubCommand: function(event) {
+		var c = new soma.core.controller.SequenceCommandProxy(event);
+		this.commands.push(c);
+		this.instance.controller.registerSequencedCommand(this, c);
 	},
 
-	 /**
-	  *
-	  * @param {Event} event
-	  * @return void
-	  */
-	execute: function( event )
-	{
-		if( this.commands == null || this.commands.length === 0 ) {
+	/**
+	 *
+	 * @param {Event} event
+	 * @return void
+	 */
+	execute: function(event) {
+		if (this.commands == null || this.commands.length === 0) {
 			return;
 		}
 		this.currentCommand = this.commands.shift();
-		if( this.hasCommand( this.currentCommand.event.type ) ) {
-			this.dispatchEvent( this.currentCommand.event );
+		if (this.hasCommand(this.currentCommand.event.type)) {
+			this.dispatchEvent(this.currentCommand.event);
 		}
 	},
 
-	 /**
-	  * @return void
-	  */
-	executeNextCommand: function()
-	{
-		if( this.commands == null ) {
+	/**
+	 * @return void
+	 */
+	executeNextCommand: function() {
+		if (this.commands == null) {
 			return;
 		}
-		this.instance.controller.unregisterSequencedCommand( this, this.currentCommand.event.type );
-		if( this.commands.length > 0 ) {
-			this.execute( this.commands[0].event );
-		}else{
+		this.instance.controller.unregisterSequencedCommand(this, this.currentCommand.event.type);
+		if (this.commands.length > 0) {
+			this.execute(this.commands[0].event);
+		} else {
 			this.commands = null;
 			this.currentCommand = null;
 		}
 	},
 
-	 /**
-	  * @return Number
-	  */
-	getLength: function()
-	{
-		if( this.commands == null ) {
+	/**
+	 * @return Number
+	 */
+	getLength: function() {
+		if (this.commands == null) {
 			return -1;
 		}
 		return this.commands.length;
 	},
 
-	 /**
-	  * @return Boolean
-	  */
-	stop: function()
-	{
+	/**
+	 * @return Boolean
+	 */
+	stop: function() {
 		this.commands = null;
 		this.commands = null;
 		this.currentCommand = null;
-		return this.instance.controller.unregisterSequencer( this );
+		return this.instance.controller.unregisterSequencer(this);
 	},
 
-	 /**
-	  * @return soma.core.controller.SequenceCommand
-	  */
-	getCurrentCommand: function()
-	{
+	/**
+	 * @return soma.core.controller.SequenceCommand
+	 */
+	getCurrentCommand: function() {
 		return this.currentCommand;
 	},
 
-	 /**
-	  * @return Array
-	  */
-	getCommands: function()
-	{
+	/**
+	 * @return Array
+	 */
+	getCommands: function() {
 		return this.commands;
 	}
 
@@ -1290,19 +1143,15 @@ soma.core.controller.SequenceCommand = new Class
 
 });
 
-
-soma.core.controller.ParallelCommand = new Class
-({
- 	Extends:soma.core.controller.Command,
- 	Implements:[ soma.core.Share ],
+soma.core.controller.ParallelCommand = new Class({
+	Extends:soma.core.controller.Command,
+	Implements:[ soma.core.Share ],
 	commands:null,
 
-	initialize: function()
-	{
+	initialize: function() {
 		this.commands = [];
 	},
-	registerInstance: function( instance )
-	{
+	registerInstance: function(instance) {
 		this.instance = instance;
 		this.initializeSubCommands();
 	},
@@ -1310,29 +1159,26 @@ soma.core.controller.ParallelCommand = new Class
 	 * @private protected
 	 * To be overridden
 	 */
-	initializeSubCommands: function()
-	{
-		throw new Error( "Subclasses of ParallelCommand must implement initializeSubCommands()" );
+	initializeSubCommands: function() {
+		throw new Error("Subclasses of ParallelCommand must implement initializeSubCommands()");
 	},
 	/**
 	 * @param {Event} command associated event
 	 */
-	addSubCommand: function( e )
-	{
-		this.commands.push( e );
+	addSubCommand: function(e) {
+		this.commands.push(e);
 	},
 
 	/**
 	 * @final
 	 * @return void
-	*/
-	execute: function()
-	{
+	 */
+	execute: function() {
 		while (this.commands.length > 0) {
 			/** @type Event */
 			var c = this.commands.shift();
-			if (this.hasCommand( c.type ) ) {
-				this.dispatchEvent( c );
+			if (this.hasCommand(c.type)) {
+				this.dispatchEvent(c);
 			}
 		}
 		this.commands = null;
@@ -1342,8 +1188,7 @@ soma.core.controller.ParallelCommand = new Class
 	 * @final
 	 * @return int
 	 */
-	getLength: function()
-	{
+	getLength: function() {
 		return this.commands != null ? this.commands.length : -1;
 	},
 
@@ -1351,101 +1196,88 @@ soma.core.controller.ParallelCommand = new Class
 	 * @final
 	 * @return Array array of registered commands
 	 */
-	getCommands: function()
-	{
+	getCommands: function() {
 		return this.commands;
 	}
 
 });
 
-
-
 /*********************************************** # soma.model # ************************************************/
-soma.core.model.SomaModels = new Class
-({
+soma.core.model.SomaModels = (function() {
+	var models = null;
+	return new Class({
 
-	Implements: soma.IDisposable,
-	
-	instance:null,
-	models:null,
+		Implements: soma.IDisposable,
 
-	initialize:function( instance )
-	{
-		this.instance = instance;
-		this.models = {};
-	},
+		instance:null,
 
-	hasModel: function( modelName )
-	{
-		return this.models[ modelName ] != null;
-	},
+		initialize:function(instance) {
+			this.instance = instance;
+			models = {};
+		},
 
-	/**
-	 *
-	 * @param {String} modelName
-	 * @return {soma.core.model.Model}
-	 */
-	getModel: function( modelName )
-	{
-		if( this.hasModel( modelName ) ) {
-			return this.models[ modelName ];
+		hasModel: function(modelName) {
+			return models[ modelName ] != null;
+		},
+
+		/**
+		 *
+		 * @param {String} modelName
+		 * @return {soma.core.model.Model}
+		 */
+		getModel: function(modelName) {
+			if (this.hasModel(modelName)) {
+				return models[ modelName ];
+			}
+			return null;
+		},
+
+		getModels: function() {
+			var clone = {};
+			var ms = models;
+			for (var name in ms) {
+				clone[name] = ms[name];
+			}
+			return clone;
+		},
+
+		addModel: function(modelName, model) {
+			if (this.hasModel(modelName)) {
+				throw new Error("Model \"" + modelName + "\" already exists");
+			}
+			models[ modelName ] = model;
+			if (!model.dispatcher) model.dispatcher = this.instance;
+			model.init();
+			return model;
+		},
+
+		removeModel: function(modelName) {
+			if (!this.hasModel(modelName)) {
+				return;
+			}
+			models[ modelName ].dispose();
+			models[ modelName ] = null;
+			delete models[ modelName ];
+		},
+
+		dispose: function() {
+			for (var name in this.models) {
+				this.removeModel(name);
+			}
+			models = null;
 		}
-		return null;
-	},
+	});
+})();
 
-	getModels: function()
-	{
-		var clone = {};
-		var ms = this.models;
-		for( var name in ms ) {
-			clone[name] = ms[name];
-		}
-		return clone;
-	},
-
-	addModel: function( modelName, model )
-	{
-		if( this.hasModel( modelName ) ) {
-			throw new Error( "Model \"" + modelName +"\" already exists" );
-		}
-		this.models[ modelName ] = model;
-		if (!model.dispatcher) model.dispatcher = this.instance;
-		model.init();
-		return model;
-	},
-
-	removeModel: function( modelName )
-	{
-		if( !this.hasModel( modelName ) ) {
-			return;
-		}
-		this.models[ modelName ].dispose();
-		this.models[ modelName ] = null;
-		delete this.models[ modelName ];
-	},
-
-	dispose: function()
-	{
-		for (var name in this.models) {
-			this.removeModel(name);
-		}
-		this.models = null;
-	}
-});
-
-
-
-soma.core.model.Model = new Class
-({
+soma.core.model.Model = new Class({
 	name: null,
 	data: null,
 	dispatcher:null,
 
-	initialize: function( name, data, dispatcher )
-	{
+	initialize: function(name, data, dispatcher) {
 		this.data = data;
 		this.dispatcher = dispatcher;
-		if ( name != null ) {
+		if (name != null) {
 			this.name = name;
 		}
 	}
@@ -1453,34 +1285,29 @@ soma.core.model.Model = new Class
 	/**
 	 * to be overridden
 	 */
-	,init: function()
-	{
+	,init: function() {
 
 	}
 
-	,dispose: function()
-	{
+	,dispose: function() {
 
 	},
 
-	dispatchEvent: function()
-	{
+	dispatchEvent: function() {
 		if (this.dispatcher) {
-			this.dispatcher.dispatchEvent.apply( this.dispatcher, arguments );
+			this.dispatcher.dispatchEvent.apply(this.dispatcher, arguments);
 		}
 	},
 
-	addEventListener: function()
-	{
+	addEventListener: function() {
 		if (this.dispatcher) {
-			this.dispatcher.addEventListener.apply( this.dispatcher, arguments );
+			this.dispatcher.addEventListener.apply(this.dispatcher, arguments);
 		}
 	},
 
-	removeEventListener: function()
-	{
+	removeEventListener: function() {
 		if (this.dispatcher) {
-			this.dispatcher.addEventListener.apply( this.dispatcher, arguments );
+			this.dispatcher.addEventListener.apply(this.dispatcher, arguments);
 		}
 	},
 
@@ -1494,239 +1321,214 @@ soma.core.model.Model = new Class
 
 });
 
-
 /*********************************************** # soma.view # ************************************************/
-soma.View = new Class
-({
+soma.View = new Class({
 	domElement: null,
 
-	initialize: function( domElement )
-	{
-		if( domElement ) {
-			this.domElement = domElement instanceof Element ? domElement : document.id( domElement );
+	initialize: function(domElement) {
+		if (domElement) {
+			this.domElement = domElement instanceof Element ? domElement : document.id(domElement);
 		}
-		if( !domElement) {
+		if (!domElement) {
 			this.domElement = document.body;
 		}
 	},
-	dispatchEvent: function( event )
-	{
-		this.domElement.dispatchEvent( event );
+	dispatchEvent: function(event) {
+		this.domElement.dispatchEvent(event);
 	},
-	addEventListener: function()
-	{
-		this.domElement.addEventListener.apply( this.domElement, arguments );
+	addEventListener: function() {
+		this.domElement.addEventListener.apply(this.domElement, arguments);
 	},
-	removeEventListener: function()
-	{
-		this.domElement.removeEventListener.apply( this.domElement, arguments );
+	removeEventListener: function() {
+		this.domElement.removeEventListener.apply(this.domElement, arguments);
 	}
 });
 
-soma.core.view.SomaViews = new Class
-({
+soma.core.view.SomaViews = (function() {
+	var views = null;
+	return new Class({
 
-	Implements: soma.IDisposable,
-	
-    views: null,
-	autoBound:false,
+		Implements: soma.IDisposable,
+		autoBound:false,
 
-	initialize:function()
-	{
-		this.views = {};
-	},
+		initialize:function() {
+			views = {};
+		},
 
-	/**
-	 *
-	 * @param {String} viewName
-	 * @return {Boolean}
-	 */
-	hasView: function( viewName )
-	{
-		return this.views[ viewName ] != null;
-	},
+		/**
+		 *
+		 * @param {String} viewName
+		 * @return {Boolean}
+		 */
+		hasView: function(viewName) {
+			return views[ viewName ] != null;
+		},
 
-	/**
-	 *
-	 * @param {String} viewName
-	 * @param {soma.View} view
-	 * @return {soma.View}
-	 */
-	addView: function( viewName, view )
-	{
-		if( this.hasView( viewName ) ) {
-			throw new Error( "View \"" + viewName +"\" already exists" );
+		/**
+		 *
+		 * @param {String} viewName
+		 * @param {soma.View} view
+		 * @return {soma.View}
+		 */
+		addView: function(viewName, view) {
+			if (this.hasView(viewName)) {
+				throw new Error("View \"" + viewName + "\" already exists");
+			}
+			if (!this.autoBound) {
+				soma.View.implement(soma.core.AutoBindProto);
+				this.autoBound = true;
+			}
+			if (view['autobind']) view._somaAutobind();
+			views[ viewName ] = view;
+			if (view[ "init" ] != null) {
+				view.init();
+			}
+			return view;
+		},
+
+		/**
+		 *
+		 * @param {String} viewName
+		 * @return {soma.core.view.View}
+		 */
+		getView: function(viewName) {
+			if (this.hasView(viewName)) {
+				return views[ viewName ];
+			}
+			return null;
+		},
+
+		getViews: function() {
+			var clone = {};
+			var vs = views;
+			for (var name in vs) {
+				clone[name] = vs[name];
+			}
+			return clone;
+		},
+
+		removeView: function(viewName) {
+			if (!this.hasView(viewName)) {
+				return;
+			}
+			if (views[viewName]["dispose"] != null) {
+				views[viewName].dispose();
+			}
+			views[ viewName ] = null;
+			delete views[ viewName ];
+		},
+
+		dispose: function() {
+			for (var name in views) {
+				this.removeView(name);
+			}
+			views = null;
 		}
-		if( !this.autoBound ) {
-			soma.View.implement( soma.core.AutoBindProto );
-			this.autoBound = true;
-		}
-		if (view['autobind']) view._somaAutobind();
-		this.views[ viewName ] = view;
-		if( view[ "init" ] != null ) {
-			view.init();
-		}
-		return view;
-	},
-
-	/**
-	 *
-	 * @param {String} viewName
-	 * @return {soma.core.view.View}
-	 */
-	getView: function( viewName )
-	{
-		if( this.hasView( viewName ) ) {
-			return this.views[ viewName ];
-		}
-		return null;
-	},
-
-	getViews: function()
-	{
-		var clone = {};
-		var vs = this.views;
-		for( var name in vs ) {
-			clone[name] = vs[name];
-		}
-		return clone;
-	},
-
-	removeView: function( viewName )
-	{
-		if( !this.hasView( viewName ) ) {
-			return;
-		}
-		if (this.views[viewName]["dispose"] != null) {
-			this.views[viewName].dispose();
-		}
-		this.views[ viewName ] = null;
-		delete this.views[ viewName ];
-	},
-
-	dispose: function()
-	{
-	 	for (var name in this.views) {
-			this.removeView(name);
-		}
-		this.views = null;
-	}
-});
-
+	});
+})();
 
 /*********************************************** # soma.wire # ************************************************/
-soma.core.wire.SomaWires = new Class
-({
+soma.core.wire.SomaWires = (function() {
+	var wires = null;
+	return new Class({
 
-	Implements: soma.IDisposable,
-	
-	instance:null,
-	wires:null,
+		Implements: soma.IDisposable,
 
-	initialize:function( instance )
-	{
-		this.instance = instance;
-		this.wires = {};
-	},
+		instance:null,
 
-	/**
-	 *
-	 * @param {String} wireName
-	 * @return {Boolean}
-	 */
-	hasWire: function( wireName )
-	{
-		return this.wires[ wireName ] != null;
-	},
+		initialize:function(instance) {
+			this.instance = instance;
+			wires = {};
+		},
 
-	/**
-	 *
-	 * @param {String} wireName
-	 * @param {soma.core.wire.Wire} wire
-	 * @return {soma.core.wire.Wire}
-	 */
-	addWire: function( wireName, wire )
-	{
-		if( this.hasWire( wireName ) ) {
-			throw new Error( "Wire \"" + wireName +"\" already exists" );
+		/**
+		 *
+		 * @param {String} wireName
+		 * @return {Boolean}
+		 */
+		hasWire: function(wireName) {
+			return wires[ wireName ] != null;
+		},
+
+		/**
+		 *
+		 * @param {String} wireName
+		 * @param {soma.core.wire.Wire} wire
+		 * @return {soma.core.wire.Wire}
+		 */
+		addWire: function(wireName, wire) {
+			if (this.hasWire(wireName)) {
+				throw new Error("Wire \"" + wireName + "\" already exists");
+			}
+			if (wire['autobind']) wire._somaAutobind();
+			wires[ wireName ] = wire;
+			wire.registerInstance(this.instance);
+			wire.init();
+			return wire;
+		},
+
+		/**
+		 *
+		 * @param {String} wireName
+		 * @return {soma.core.wire.Wire}
+		 */
+		getWire: function(wireName) {
+			if (this.hasWire(wireName)) {
+				return wires[ wireName ];
+			}
+			return null;
+		},
+
+		getWires: function() {
+			var clone = {};
+			var ws = wires;
+			for (var name in ws) {
+				clone[name] = ws[name];
+			}
+			return clone;
+		},
+
+		removeWire: function(wireName) {
+			if (!this.hasWire(wireName)) {
+				return;
+			}
+			wires[ wireName ].dispose();
+			wires[ wireName ] = null;
+			delete wires[ wireName ];
+		},
+
+		dispose: function() {
+			for (var name in wires) {
+				this.removeWire(name);
+			}
+			wires = null;
 		}
-		if ( wire['autobind'] ) wire._somaAutobind();
-		this.wires[ wireName ] = wire;
-		wire.registerInstance( this.instance );
-		wire.init();
-		return wire;
-	},
+	});
+})();
 
-	/**
-	 *
-	 * @param {String} wireName
-	 * @return {soma.core.wire.Wire}
-	 */
-	getWire: function( wireName )
-	{
-		if( this.hasWire( wireName ) ) {
-			return this.wires[ wireName ];
-		}
-		return null;
-	},
-
-	getWires: function()
-	{
-		var clone = {};
-		var ws = this.wires;
-		for( var name in ws ) {
-			clone[name] = ws[name];
-		}
-		return clone;
-	},
-
-	removeWire: function( wireName )
-	{
-		if( !this.hasWire( wireName ) ) {
-	  		return;
-		}
-		this.wires[ wireName ].dispose();
-		this.wires[ wireName ] = null;
-		delete this.wires[ wireName ];
-	},
-
-	dispose: function()
-	{
-	 	for (var name in this.wires) {
-			this.removeWire(name);
-		}
-		this.wires = null;
-	}
-});
-
-soma.core.wire.Wire = new Class
-({
+soma.core.wire.Wire = new Class({
 	name: null,
 
 	Implements: [soma.core.Share, soma.core.AutoBind ],
 
 	instance: null,
 
-	initialize: function( name )
-	{
-		if ( name != null ) {
+	initialize: function(name) {
+		if (name != null) {
 			this.name = name;
 		}
 	},
 
-	registerInstance: function( instance )
-	{
+	registerInstance: function(instance) {
 		this.instance = instance;
 	},
 
 
-	init: function()
-	{
+	init: function() {
 
 	},
 
-	dispose: function()
-	{
+	dispose: function() {
 
 	},
 
@@ -1742,7 +1544,7 @@ soma.core.wire.Wire = new Class
 /*********************************************** # soma.mediator # ************************************************/
 
 soma.core.mediator.Mediator = new Class({
-	
+
 	Extends: soma.core.wire.Wire,
 	Implements: soma.IDisposable,
 
@@ -1761,22 +1563,13 @@ soma.core.mediator.Mediator = new Class({
 
 /*********************************************** # event # ************************************************/
 
-
-soma.Event = new Class
-({
-	props: {},
-	initialize: function( type, data, bubbles, cancelable )
-	{
+soma.Event = new Class({
+	initialize: function(type, data, bubbles, cancelable) {
 		var e = document.createEvent("Event");
-		e.initEvent(
-			type,
-			bubbles !== undefined ? bubbles : true,
-			cancelable !== undefined ? cancelable : false
-		);
+		e.initEvent(type, bubbles !== undefined ? bubbles : true, cancelable !== undefined ? cancelable : false);
 		e.cancelable = cancelable !== undefined ? cancelable : false;
-		if( data ) {
-			for( var k in data )
-			{
+		if (data) {
+			for (var k in data) {
 				e[k] = data[k];
 			}
 			e.data = data;
@@ -1784,18 +1577,12 @@ soma.Event = new Class
 		e.clone = this.clone.bind(e);
 		e.isDefaultPrevented = this.isDefaultPrevented;
 		return e;
-	 },
-	clone: function()
-	{
+	},
+	clone: function() {
 		var e = document.createEvent("Event");
-		e.initEvent(
-			this.type,
-			this.bubbles,
-			this.cancelable
-		);
+		e.initEvent(this.type, this.bubbles, this.cancelable);
 		var d = this.data;
-		for( var k in d )
-		{
+		for (var k in d) {
 			e[k] = d[k];
 		}
 		e.data = d;
@@ -1804,22 +1591,23 @@ soma.Event = new Class
 		e.isDefaultPrevented = this.isDefaultPrevented;
 		return e;
 	},
-	isDefaultPrevented: function()
-	{
-		if( this.getDefaultPrevented ) {
+	isDefaultPrevented: function() {
+		if (this.getDefaultPrevented) {
 			return this.getDefaultPrevented();
-		}else{
+		} else {
 			return this.defaultPrevented;
 		}
 	}
 });
 
 soma.core.IResponder = new Class({
-	fault: function(info){},
-	result: function(data) {}
+	fault: function(info) {
+	},
+	result: function(data) {
+	}
 });
 
-
 soma.core.IDisposable = new Class({
-	dispose: function(){}
+	dispose: function() {
+	}
 });

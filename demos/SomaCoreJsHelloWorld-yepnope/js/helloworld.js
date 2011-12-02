@@ -28,7 +28,7 @@ yepnope([
 				}
 			});
 			new SomaApplication();
-
+			
 		}
 	}
 ]);

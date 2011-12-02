@@ -58,7 +58,7 @@ ColorCommand.prototype =
 		}
 		if( this.isPartOfASequence( e ) ) {
 			var sequencer = this.getSequencer( e );
-			d("Sequence continue, " + sequencer.getLength() + " left!");
+			console.log("Sequence continue, " + sequencer.getLength() + " left!");
 			sequencer.executeNextCommand();
 		}
 	}

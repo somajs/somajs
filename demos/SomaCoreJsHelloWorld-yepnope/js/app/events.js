@@ -3,7 +3,7 @@ var MessageEvent = new Class ({
 	Extends: soma.Event,
 
 	initialize: function(type, message) {
-		return this.parent(type, true, false, {message:message});
+		return this.parent(type, {message:message});
 	}
 	
 });

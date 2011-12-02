@@ -497,12 +497,14 @@ soma.core.Core = new Class(
 		this.wires = new soma.core.wire.SomaWires( this );
 		this.views = new soma.core.view.SomaViews();
 
+		this.init();
+
 		this.registerModels();
 		this.registerViews();
 		this.registerCommands();
 		this.registerWires();
 
-		this.init();
+		this.start();
 	},
 
 	hasCommand: function( commandName )
@@ -712,8 +714,12 @@ soma.core.Core = new Class(
 		this.body = null;
 	},
 
-
 	init: function()
+	{
+
+	},
+
+	start: function()
 	{
 
 	}

@@ -1,3 +1,4 @@
+/*
 var EventList = {TEST: "test_event"};
 
 TestCommand = new Class ({
@@ -5,7 +6,7 @@ TestCommand = new Class ({
 	execute: function(event) {
 		switch(event.type) {
 			case EventList.TEST:
-				console.log('EXECUTED');
+//				console.log('EXECUTED');
 				break;
 		}
 	}
@@ -21,3 +22,24 @@ function handlerFirst(event) {
 	console.log('handler', event);
 	event.preventDefault();
 }
+*/
+
+var somaApp = new soma.core.Core;
+
+var TestWire = new Class({
+	Extends: soma.core.wire.Wire
+	,init: function() {
+		console.log('OK');
+	}
+});
+
+function listenerBound(event) {
+	console.log('RECEIVED');
+}
+
+var wire = new TestWire();
+this.somaApp.addWire( "wirename", wire  );
+wire.addEventListener( "test", this.listenerBound );
+this.somaApp.dispatchEvent( new soma.Event("test") );
+wire.removeEventListener( "test", this.listenerBound );
+this.somaApp.dispatchEvent( new soma.Event("test") );

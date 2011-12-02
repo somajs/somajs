@@ -34,7 +34,10 @@ var SomaApp = new Class
 ( {
 		Extends: soma.core.Core,
 
+		init: function() {
 
+		},
+		
 		registerCommands: function()
 		{
 			this.addCommand( CommandEventList.STARTUP, StartCommand );
@@ -59,7 +62,7 @@ var SomaApp = new Class
 		{
 		
 		},
-		init: function()
+		start: function()
 		{
 			this.dispatchEvent( new soma.Event( CommandEventList.STARTUP ) );
 		}

@@ -299,8 +299,8 @@ soma.core.Share = new Class(
 });
 
 
-soma.core.Core = new Class(
-/** @lends soma.core.Core.prototype */
+soma.core.Application = new Class(
+/** @lends soma.core.Application.prototype */
 {
 	stageId:"somaStage"
 	,stage:null
@@ -328,7 +328,7 @@ soma.core.Core = new Class(
 	,initialize:function()
 	{
 		var element = document.createElement( "div" );
-		element.setProperty( "id", "somaInstanceElement" + (++soma.core.Core.instanceCount));
+		element.setProperty( "id", "somaInstanceElement" + (++soma.core.Application.instanceCount));
 		this.instanceElement = element;
 		this.stage = document.body;
 		//this.stage.dispatchEvent = function() { throw new Error("dispatching events from soma stage not allowed") };
@@ -345,7 +345,7 @@ soma.core.Core = new Class(
 		this.registerCommands();
 		this.registerWires();
 
-		soma.core.Core.instance = this;
+		soma.core.Application.instance = this;
 
 		this.init();
 	},
@@ -521,7 +521,7 @@ soma.core.Core = new Class(
 	}
 
 });
-soma.core.Core.instanceCount = 0;
+soma.core.Application.instanceCount = 0;
 
 
 soma.core.Controller = new Class(
@@ -529,7 +529,7 @@ soma.core.Controller = new Class(
 {
     /**
      * @private
-     * @type soma.core.Core
+     * @type soma.core.Application
      */
 	core:null,
 
@@ -565,7 +565,7 @@ soma.core.Controller = new Class(
 
     /**
      * @constructs
-     * @param {soma.core.Core} core
+     * @param {soma.core.Application} core
      */
 	initialize:function( core )
 	{
@@ -936,7 +936,7 @@ soma.core.controller.Command = new Class(
 
     /**
      *
-     * @param {soma.core.Core} core
+     * @param {soma.core.Application} core
      */
 	registerCore: function( core )
 	{

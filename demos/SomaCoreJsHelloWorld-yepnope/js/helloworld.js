@@ -22,7 +22,7 @@ yepnope([
 		complete: function() {
 
 			var SomaApplication = new Class({
-				Extends: soma.core.Core,
+				Extends: soma.core.Application,
 				registerWires: function() {
 					this.addWire(MessageWire.NAME, new MessageWire);
 				}

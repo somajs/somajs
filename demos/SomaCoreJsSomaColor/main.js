@@ -6,7 +6,10 @@ window.addEventListener( "load", function() { new SomaApp( new Element("somaInst
 
 function d()
 {
-	console.log( arguments );
+	if( window["console"] ) {
+		console.log( arguments );
+	}
+
 }
 
 
@@ -32,7 +35,7 @@ var CommandEventList =
 /** @class */
 var SomaApp = new Class
 ( {
-		Extends: soma.core.Core,
+		Extends: soma.core.Application,
 
 		init: function() {
 

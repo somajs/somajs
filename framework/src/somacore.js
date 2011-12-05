@@ -16,60 +16,17 @@
  * ???
  *
  */
+(function() {
 
-/** @namespace */
-var soma = {};
+	soma = {};
+	soma.core = {};
+	soma.core.controller = {};
+	soma.core.model = {};
+	soma.core.view = {};
+	soma.core.wire = {};
+	soma.core.mediator = {};
 
-/**
- * @class
- */
-soma.Prepare = {
-	/**
-	 * @static
-	 * @param {String} path
-	 */
-	registerPackage: function(path) {
-		var a = path.split(".");
-		var o = window;
-		for (var i = 0; i < a.length; i++) {
-			var name = a[i];
-			if (o[name] == undefined) {
-				o[name] = new Object();
-			}
-			o = o[name];
-		}
-	},
-	/**
-	 * @static
-	 * @param {Array} aP Array of paths
-	 */
-	registerPackages: function(aP) {
-		for (var i = 0; i < aP.length; i++) {
-			this.registerPackage(aP[i]);
-		}
-	}
-};
-soma.Prepare.registerPackages([
-	"soma.core"
-	,"soma.core.controller"
-	,"soma.core.model"
-	,"soma.core.view"
-	,"soma.core.wire"
-	,"soma.core.mediator"
-]);
 
-/**
- * to save instantiation latency for singular class libraries, I recommend not building the Class Objects upopn
- * request, if they are not used in each page where they get loaded in.
- * This static method creates a class instance by either taking the class object or the Function, that
- * is base for the class object creation
- *
- * @param {Class | Function} clazz Mootools Class Object or Function
- * @param {Object} constructorObj Object that gets passed as constructor argument
- * @return Object
- */
-
-(function(Function) {
 	function F() {
 	}
 
@@ -83,7 +40,23 @@ soma.Prepare.registerPackages([
 			return Function.instantiate(this, params);
 		}
 	});
-})(Function);
+
+})();
+
+
+
+/**
+ * to save instantiation latency for singular class libraries, I recommend not building the Class Objects upopn
+ * request, if they are not used in each page where they get loaded in.
+ * This static method creates a class instance by either taking the class object or the Function, that
+ * is base for the class object creation
+ *
+ * @param {Class | Function} clazz Mootools Class Object or Function
+ * @param {Object} constructorObj Object that gets passed as constructor argument
+ * @return Object
+ */
+
+
 soma.createClassInstance = function(clazz, parameters) {
 	if (clazz.$constructor != Class) {
 		clazz = new Class(new clazz());
@@ -409,7 +382,7 @@ soma.core.Share = new Class({
 	}
 });
 
-soma.core.Core = new Class({
+soma.core.Application = new Class({
 	Extends: soma.EventDispatcher,
 	Implements: soma.IDisposable,
 
@@ -671,12 +644,12 @@ soma.core.Controller = (function() {
 		Implements: soma.IDisposable,
 		/**
 		 * @private
-		 * @type soma.core.Core
+		 * @type soma.core.Application
 		 */
 		instance:null,
 		/**
 		 * @constructs
-		 * @param {soma.core.Core} core
+		 * @param {soma.core.Application} core
 		 */
 		initialize:function(instance) {
 			this.instance = instance;
@@ -1005,7 +978,7 @@ soma.core.controller.Command = new Class({
 
 	/**
 	 *
-	 * @param {soma.core.Core} instance
+	 * @param {soma.core.Application} instance
 	 */
 	registerInstance: function(instance) {
 		this.instance = instance;
@@ -1344,9 +1317,9 @@ soma.View = new Class({
 	}
 });
 
-soma.core.view.SomaViews = (function() {
+(function() {
 	var views = null;
-	return new Class({
+	soma.core.view.SomaViews = new Class({
 
 		Implements: soma.IDisposable,
 		autoBound:false,
@@ -1400,9 +1373,8 @@ soma.core.view.SomaViews = (function() {
 
 		getViews: function() {
 			var clone = {};
-			var vs = views;
-			for (var name in vs) {
-				clone[name] = vs[name];
+			for (var name in views) {
+				clone[name] = views[name];
 			}
 			return clone;
 		},
@@ -1428,9 +1400,9 @@ soma.core.view.SomaViews = (function() {
 })();
 
 /*********************************************** # soma.wire # ************************************************/
-soma.core.wire.SomaWires = (function() {
+(function() {
 	var wires = null;
-	return new Class({
+	soma.core.wire.SomaWires = new Class({
 
 		Implements: soma.IDisposable,
 
@@ -1481,9 +1453,8 @@ soma.core.wire.SomaWires = (function() {
 
 		getWires: function() {
 			var clone = {};
-			var ws = wires;
-			for (var name in ws) {
-				clone[name] = ws[name];
+			for (var name in wires) {
+				clone[name] = wires[name];
 			}
 			return clone;
 		},

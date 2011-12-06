@@ -278,19 +278,20 @@ var ViewTest = new Class
 
 	,test_has_View_after_registerView: function()
 	{
-		this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView( new Element("div") ) );
+		var el = document.createElement("div");
+		this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView( el ) );
 		this.assertTrue( this.soma.hasView( cases.core.TestView.NAME ) );
 	}
 
 	,test_get_View_after_registerView: function()
 	{
-	 	this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView( new Element("div") ) );
+	 	this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView( document.createElement("div") ) );
 		this.assertInstanceOf(  cases.core.TestView, this.soma.getView( cases.core.TestView.NAME ) );
 	}
 
 	,test_viewsLength_after_registerView: function()
 	{
-	   this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView( new Element("div") ) );
+	   this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView( document.createElement("div") ) );
 		var views = this.soma.getViews();
 		var l = 0, i;
 		for( i in views )
@@ -302,22 +303,22 @@ var ViewTest = new Class
 
 	,test_multiple_register_of_same_view_should_throw_Error: function()
 	{
-		this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView( new Element("div") ) );
-		this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView( new Element("div") ) );
+		this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView( document.createElement("div") ) );
+		this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView( document.createElement("div") ) );
 	}
 
 	,test_register_calls_init: function()
 	{
-		var view = new cases.core.TestView( new Element("div") );
+		var view = new cases.core.TestView( document.createElement("div") );
 	 	this.soma.addView( cases.core.TestView.NAME, view );
 
-		this.assertTrue( view.domElement.get( "id" ) == "testViewSprite" );
+		this.assertTrue( view.domElement.getAttribute( "id" ) == "testViewSprite" );
 	}
 
 
 	,test_addView_and_removeView_shouldGive_null_For_GetView: function()
 	{
-		this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView( new Element("div") ) );
+		this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView( document.createElement("div") ) );
 		this.soma.removeView( cases.core.TestView.NAME );
 		this.assertNull( this.soma.getView(cases.core.TestView.NAME) );
 	}
@@ -681,7 +682,6 @@ var AutobindTest = new Class
 
 	}
 
-
 	,test_wire_no_autobind: function()
 	{
 		var wire = new cases.core.TestAutobindWire();
@@ -694,11 +694,10 @@ var AutobindTest = new Class
 		this.assertEquals( window, cases.core.TestAutobindWire.scope );
 	}
 
-
 	,test_view_autobind: function()
 	{
-		var sprite = new Element("div");
-		document.body.adopt( sprite );
+		var sprite = document.createElement("div");
+		document.body.appendChild( sprite );
 		var view = new cases.core.TestView( sprite );
 		this.soma.addView( "viewname", view );
 		view.addEventListener( "testFromView", view.viewListener );
@@ -711,11 +710,10 @@ var AutobindTest = new Class
 
 	}
 
-
 	,test_view_no_autobind: function()
 	{
-		var sprite = new Element("div");
-		document.body.adopt( sprite );
+		var sprite = document.createElement("div");
+		document.body.appendChild( sprite );
 		var view = new cases.core.TestView( sprite );
 		view.autobind = false;
 		this.soma.addView( "viewname", view );

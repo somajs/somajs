@@ -5,15 +5,9 @@
  * @author Henry Schmieder
  * @author and a bit of me now? :D
  *
- * TODO
- * discuss domElement in soma.View - maybe it should not default to document.body as many developers might tend to destroy the
- * domElement in the dispose method. We might have a better protection of that if we just made a conditional in the eventlistener
- * specific methods.
  *
- * var el =   !!this.domElement ? this.domElement : document.body;
- * el.addEventListener.apply( el, arguments );
  *
- * ???
+ *
  *
  */
 (function() {
@@ -52,7 +46,7 @@
  * is base for the class object creation
  *
  * @param {Class | Function} clazz Mootools Class Object or Function
- * @param {Object} constructorObj Object that gets passed as constructor argument
+ * @param {Object} parameters that get passed to the constructor
  * @return Object
  */
 
@@ -70,6 +64,7 @@ soma.createClassInstance = function(clazz, parameters) {
 	}
 	return clazz.instantiate(a);
 };
+
 
 /**
  * provides the functionality to autobind with implicit need to keep object scope like event listeners and handlers/callbacks

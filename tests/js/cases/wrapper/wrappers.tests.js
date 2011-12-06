@@ -51,7 +51,7 @@ var SomaViewTests = new Class ({
 	}
 
 	,test_get_domElement: function() {
-		var element = new Element('div');
+		var element = document.createElement("div");
 		var view = new soma.View(element);
 		this.assertNotNull(view.domElement);
 		this.assertNotEquals(view.domElement, document.body);
@@ -59,7 +59,7 @@ var SomaViewTests = new Class ({
 	}
 
 	,test_set_domElement: function() {
-		var element = new Element('div');
+		var element = document.createElement("div");
 		var view = new soma.View;
 		this.assertNotNull(view.domElement);
 		this.assertEquals(view.domElement, document.body);
@@ -211,14 +211,14 @@ var SomaEventTests = new Class ({
 	}
 
 	,test_is_default_prevented_default: function() {
-		var el = new Element('div');
+		var el = document.createElement("div");
 		el.addEventListener(EVENT_TYPE, this.handlerEmpty);
 		el.dispatchEvent(this.wrapperEvent);
 		this.assertFalse(this.wrapperEvent.isDefaultPrevented());
 	}
 
 	,test_is_default_prevented_defined_success: function() {
-		var el = new Element('div');
+		var el = document.createElement("div");
 		el.addEventListener(EVENT_TYPE, this.handlerPreventDefault);
 		var eventWrapper = new soma.Event(EVENT_TYPE, null, true, true);
 		var eventCustom = new TestCustomEvent(EVENT_TYPE, null, true, true);
@@ -229,7 +229,7 @@ var SomaEventTests = new Class ({
 	}
 
 	,test_is_default_prevented_defined_fail: function() {
-		var el = new Element('div');
+		var el = document.createElement("div");
 		el.addEventListener(EVENT_TYPE, this.handlerPreventDefault);
 		var eventWrapper = new soma.Event(EVENT_TYPE, null, true, false);
 		var eventCustom = new TestCustomEvent(EVENT_TYPE, null, true, false);

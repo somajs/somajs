@@ -48,14 +48,14 @@ cases.core.TestView = new Class
 	init: function()
 	{
 		if( this.domElement ) {
-		 	this.domElement.set("id", "testViewSprite" );
-			this.domElement.setStyles( {width:"100px", height:"100px", background:"#ccc"} );
+		 	this.domElement.setAttribute("id", "testViewSprite" );
+			//this.domElement.setStyles( {width:"100px", height:"100px", background:"#ccc"} );
 		}
 	},
 	dispose: function()
 	{
 		if( this.domElement && this.domElement != document.body ) {
-			this.domElement.destroy();
+			this.domElement = null;
 		}
 	},
 	viewListener: function( event )

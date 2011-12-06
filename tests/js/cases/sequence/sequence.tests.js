@@ -11,6 +11,8 @@ var SequenceTest = new Class
 	,stage:null
 	,asyncBound: null
 	,sequenceflowTestDoneBound:null
+	,stopSequencerHandlerBound:null
+	,stopAllSequencersHandlerBound:null
 	,stopSequencerWithEventHandlerBound: null
 	,getRunningSequencersHandlerBound: null
 	,isPartOfASequenceHandlerBound: null
@@ -24,7 +26,8 @@ var SequenceTest = new Class
 		this.asyncBound = this.asyncCommandSuccessHandler.bind(this);
 		this.sequenceflowTestDoneBound = this.sequenceFlowTestDoneHandler.bind(this);
 		this.stopSequencerWithEventHandlerBound = this.stopSequencerWithEventHandler.bind(this);
-		this.stopSequncerHandlerBound = this.stopSequencerHandler.bind(this);
+		this.stopSequencerHandlerBound = this.stopSequencerHandler.bind(this);
+		this.stopAllSequencersHandlerBound = this.stopAllSequencersHandler.bind(this);
 		this.getRunningSequencersHandlerBound = this.getRunningSequencersHandler.bind(this);
 		this.isPartOfASequenceHandlerBound = this.isPartOfASequenceHandler.bind(this);
 		this.getLastSequencerHandlerBound = this.getLastSequencerHandler.bind(this);
@@ -52,8 +55,9 @@ var SequenceTest = new Class
 	{
 		this.soma.removeEventListener( cases.sequence.InvocationCommandList.TEST_ASYNC_COMPLETE, this.asyncBound );
 		this.soma.removeEventListener( cases.sequence.InvocationCommandList.TEST_SEQUENCE_COMPLETE, this.sequenceflowTestDoneBound );
-		this.soma.removeEventListener( cases.sequence.InvocationCommandList.TEST_ASYNC_COMPLETE, this.stopSequencerWithEventHandlerBound )
-		this.soma.removeEventListener( cases.sequence.InvocationCommandList.TEST_ASYNC_COMPLETE, this.stopSequncerHandlerBound );
+		this.soma.removeEventListener( cases.sequence.InvocationCommandList.TEST_ASYNC_COMPLETE, this.stopSequencerWithEventHandlerBound );
+		this.soma.removeEventListener( cases.sequence.InvocationCommandList.TEST_ASYNC_COMPLETE, this.stopSequencerHandlerBound );
+		this.soma.removeEventListener( cases.sequence.InvocationCommandList.TEST_ASYNC_COMPLETE, this.stopAllSequencersHandlerBound );
 		this.soma.removeEventListener( cases.sequence.InvocationCommandList.TEST_ASYNC_COMPLETE, this.getRunningSequencersHandlerBound );
 		this.soma.removeEventListener( cases.sequence.InvocationCommandList.TEST_ASYNC_COMPLETE, this.isPartOfASequenceHandlerBound );
 		this.soma.removeEventListener( cases.sequence.InvocationCommandList.TEST_ASYNC_COMPLETE, this.getLastSequencerHandlerBound );
@@ -82,8 +86,16 @@ var SequenceTest = new Class
 
 	,test_stop_sequencer: function()
 	{
-		this.soma.addEventListener( cases.sequence.InvocationCommandList.TEST_ASYNC_COMPLETE, this.stopSequncerHandlerBound );
+		this.soma.addEventListener( cases.sequence.InvocationCommandList.TEST_ASYNC_COMPLETE, this.stopSequencerHandlerBound );
 		this.soma.dispatchEvent( new cases.sequence.TestEvent( cases.sequence.InvocationCommandList.TEST_SEQUENCE ) );
+		this.wait();
+	}
+
+
+	,test_stop_all_sequencers: function()
+	{
+	 	this.soma.addEventListener( cases.sequence.InvocationCommandList.TEST_ASYNC_COMPLETE, this.stopAllSequencersHandlerBound );
+	    this.soma.dispatchEvent( new cases.sequence.TestEvent( cases.sequence.InvocationCommandList.TEST_SEQUENCE ) );
 		this.wait();
 	}
 
@@ -154,6 +166,18 @@ var SequenceTest = new Class
 		var sequencer = this.soma.getSequencer( originalEvent );
 		var wasStopped = sequencer.stop();
 		this.assertTrue( wasStopped );
+		this.resume();
+	}
+
+
+	,stopAllSequencersHandler: function( event )
+	{
+	  	this.soma.stopAllSequencers();
+		var originalEvent = event.data;
+		var sequencer = this.soma.getSequencer( originalEvent );
+	    var array = this.soma.getRunningSequencers();
+		this.assertEquals( 0, array.length );
+		this.assertNull( sequencer );
 		this.resume();
 	}
 

@@ -1,26 +1,26 @@
 Tests to do.
 
-- Facade
-
+- Facade  ##DONE
 test_create_instance (DONE)
 test_component_creation (DONE)
 test_dispose (DONE)
 test_packages_creation (DONE)
 
+
 - Autobind
 test_custom_autobind_rule (DONE)
 test_first_listener_invocation  (DONE)
-test_second_listener_invocation  (DONE) // to test possible scope loss by multi execution
+test_second_listener_invocation  (DONE)
 test_wire_autobind_scope (DONE)
 test_view_autobind (DONE)
+test possible scope loss by multi execution
 
 - Utils
-
-test isElementInDisplayList  @deprecated?
+test isElementInDisplayList  @deprecated
 test createClassInstance
 
-- Commands
 
+- Commands  ##DONE
 test_StartCommand_is_registered (DONE)
 test_getCommand (DONE)
 test_removeCommand (DONE)
@@ -28,8 +28,8 @@ test_commandsLength (DONE)
 test_add_prototypical_command (DONE)
 test_double_register_should_throw_Error (DONE)
 
-- Commands (invocation)
 
+- Commands (invocation)  ##DONE
 test_command_from_displayList (DONE)
 test_command_from_displayList_bubbles_false (DONE)
 test_command_from_instance (DONE)
@@ -45,12 +45,12 @@ test_cannot_cancel_event_dispatched_from_body (DONE)
 test_parallel_command (DONE)
 test_instance_is_set (DONE)
 
-- Commands (invocation async)
 
+- Commands (invocation async)
 test_async_command
 
-- Commands (sequencer)
 
+- Commands (sequencer)  ##DONE
 test_sequencer_flow (DONE)
 test_stop_sequencer_with_event (DONE)
 test_stop_sequencer (DONE)
@@ -58,13 +58,15 @@ test_get_running_sequencers (DONE)
 test_is_part_of_a_sequence (DONE)
 test_get_last_sequencer (DONE)
 test_sequence (DONE)
+testStopAllSequencers  (DONE)
 
-testStopAllSequencers
+
+- Commands (mulitple sequencers)
 test parallel_registered_sequencers
-	...
 
-- Wires
 
+
+- Wires  ##DONE
 test_initApp_GetWires_ShouldGive_EmptyObject (DONE)
 test_initApp_shouldGive_ZeroLength (DONE)
 test_hasWire_after_registerWire (DONE)
@@ -78,8 +80,8 @@ test_set_name (DONE)
 test_instance_is_set (DONE)
 test_dispose_called (DONE)
 
-- Models
 
+- Models  ##DONE
 test_InitApp_GetModels_ShouldGive_EmptyObject (DONE)
 test_InitApp_shouldGive_ZeroLength (DONE)
 test_has_model_after_registerModel (DONE)
@@ -98,8 +100,8 @@ test_get_dispatcher (DONE)
 test_set_dispatcher (DONE)
 test_dispose_called (DONE)
 
-- Views
 
+- Views
 test_init_App_Get_Views_Should_Give_EmptyObject (DONE)
 test_initApp_shouldGive_ZeroLength (DONE)
 test_has_View_after_registerView (DONE)
@@ -108,23 +110,22 @@ test_viewsLength_after_registerView (DONE)
 test_multiple_register_of_same_view_should_throw_Error (DONE)
 test_register_calls_init (DONE)
 test_addView_and_removeView_shouldGive_null_For_GetView (DONE)
+test dispose  #TODO
 
-test dispose
 
-- View (wrapper)
-
+- View (wrapper)  ##DONE
 test_create_view (DONE)
 test_dispose_view (DONE)
 test_default_domElement (DONE)
 test_get_domElement (DONE)
 test_set_domElement (DONE)
 test_dispatch_event (DONE)
-test_add_listener (DONE);
-test_remove_listener (DONE);
-test_dispatch_event (DONE);
+test_add_listener (DONE)
+test_remove_listener (DONE)
+test_dispatch_event (DONE)
 
-- EventDispatcher
 
+- EventDispatcher  ##DONE
 test_single_create_dispatcher (DONE)
 test_multiple_create_dispatcher (DONE)
 test_single_add_listener (DONE)
@@ -152,8 +153,8 @@ test_priority_negative (DONE)
 test_priority_positive_and_negative (DONE)
 test_dispose (DONE)
 
-- Event
 
+- Event  ##DONE
 test_create (DONE)
 test_type (DONE)
 test_bubbles_default (DONE)

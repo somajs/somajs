@@ -323,6 +323,16 @@ var ViewTest = new Class
 		this.assertNull( this.soma.getView(cases.core.TestView.NAME) );
 	}
 
+	,test_dispose: function()
+	{
+		var element = document.createElement("div");
+		var view = this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView( element ) );
+		this.assertNotNull( view );
+		this.assertEquals( "testViewSprite", view.domElement.getAttribute( "id" ) );
+		this.soma.removeView( cases.core.TestView.NAME );
+		this.assertNull( view.domElement );
+	}
+
 
 });
 
@@ -620,6 +630,7 @@ var AutobindTest = new Class
 	,initialize: function()
 	{
 		this._somaAutobind();
+		this._somaAutobind();  // make sure following tests are not affected by double call of _somaAutobind
 	}
 
 	,setUp: function()
@@ -644,7 +655,7 @@ var AutobindTest = new Class
 		this.soma.removeEventListener( "test", this.autoBoundListener );
 		this.soma.addEventListener( "test", wire.customBoundMethod );
 		this.soma.dispatchEvent( new soma.Event("test") );
-		 this.soma.removeEventListener( "test", wire.customBoundMethod );
+		this.soma.removeEventListener( "test", wire.customBoundMethod );
 		this.assertTrue( wire.scopeConfirmedThroughCustom );
 
 	}

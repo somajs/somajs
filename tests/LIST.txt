@@ -7,17 +7,17 @@ test_dispose (DONE)
 test_packages_creation (DONE)
 
 
-- Autobind
+- Autobind  ##DONE
 test_custom_autobind_rule (DONE)
 test_first_listener_invocation  (DONE)
 test_second_listener_invocation  (DONE)
 test_wire_autobind_scope (DONE)
 test_view_autobind (DONE)
-test possible scope loss by multi execution
 
-- Utils
-test isElementInDisplayList  @deprecated
-test createClassInstance
+
+
+- Utils  ##DONE
+test createClassInstance (DONE)
 
 
 - Commands  ##DONE
@@ -101,7 +101,7 @@ test_set_dispatcher (DONE)
 test_dispose_called (DONE)
 
 
-- Views
+- Views  ##DONE
 test_init_App_Get_Views_Should_Give_EmptyObject (DONE)
 test_initApp_shouldGive_ZeroLength (DONE)
 test_has_View_after_registerView (DONE)
@@ -110,7 +110,7 @@ test_viewsLength_after_registerView (DONE)
 test_multiple_register_of_same_view_should_throw_Error (DONE)
 test_register_calls_init (DONE)
 test_addView_and_removeView_shouldGive_null_For_GetView (DONE)
-test dispose  #TODO
+test dispose  (DONE)
 
 
 - View (wrapper)  ##DONE

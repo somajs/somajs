@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<project name="somacore.js" basedir="." default="minify">
+
+	<property file="user.properties"/>
+	<property file="build.properties"/>
+	
+	<target name="minify" description="compress somacore.js">
+		<echo message="start minifying"/>
+		<echo message="source: ${build.dir.source}/${build.project.name}.js"/>
+		<echo message="target: ${build.dir.min}/${build.project.fullname.min}.js"/>
+		<java jar="libs/yuicompressor-2.4.7.jar" fork="true">
+			<arg value="${build.dir.source}/${build.project.name}.js"/>
+			<arg value="-o"/>
+			<arg value="${build.dir.min}/${build.project.fullname.min}.js"/>
+	    </java>
+		<mapper type="glob" from="*.js" to="*-min.js"/>
+		<echo message="end minifying"/>
+	</target>
+
+</project>

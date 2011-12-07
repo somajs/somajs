@@ -684,9 +684,7 @@ var AutobindTest = new Class
 		this.assertEquals( "test", wire.storedEvent.type );
 		this.assertEquals( 1, wire.invocationCount );
 		wire.invocationCount = 0;
-
 		wire.removeEventListener( "test", wire.testListener );
-
 
 		this.soma.dispatchEvent( new soma.Event("test") );
 		this.assertEquals( 0, wire.invocationCount );
@@ -698,7 +696,7 @@ var AutobindTest = new Class
 		var wire = new cases.core.TestAutobindWire();
 		wire.autobind = false;
 		this.soma.addWire( cases.core.TestAutobindWire.NAME, wire  );
-
+		
 		wire.addEventListener( "test", wire.testListener );
 		this.soma.dispatchEvent( new soma.Event("test") );
 		wire.removeEventListener( "test", wire.testListener );

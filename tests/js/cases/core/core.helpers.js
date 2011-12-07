@@ -96,7 +96,7 @@ cases.core.TestAutobindWire = new Class
 
 	,AutoBindPattern:"customBoundMethod"
 
-	 ,scopeConfirmed: false
+	,scopeConfirmed: false
 
 	,storedEvent:null
 
@@ -108,6 +108,7 @@ cases.core.TestAutobindWire = new Class
 
 	,testListener: function( event )
 	{
+		alert(this)
    		this.scopeConfirmed = true;
 		this.storedEvent = event;
 		this.invocationCount++;

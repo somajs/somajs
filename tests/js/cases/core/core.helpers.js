@@ -108,7 +108,6 @@ cases.core.TestAutobindWire = new Class
 
 	,testListener: function( event )
 	{
-		alert(this)
    		this.scopeConfirmed = true;
 		this.storedEvent = event;
 		this.invocationCount++;

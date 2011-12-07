@@ -247,8 +247,11 @@ var ViewTest = new Class
 	,_should: {
 		error: {
 			test_multiple_register_of_same_view_should_throw_Error: Error
+			,test_domelement_wrong_type_should_fail: Error
 		}
 	}
+
+
 	,setUp: function()
 	{
 		this.soma = new soma.core.Application();
@@ -322,6 +325,20 @@ var ViewTest = new Class
 		this.soma.removeView( cases.core.TestView.NAME );
 		this.assertNull( this.soma.getView(cases.core.TestView.NAME) );
 	}
+
+	,test_domelement_wrong_type_should_fail: function()
+	{
+		this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView( "myString" ) );
+		this.soma.removeView( cases.core.TestView.NAME );
+
+	}
+
+	,test_domElement_null_defaults_to_body: function()
+	{
+		var view = this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView() );
+		this.assertEquals( document.body, view.domElement );
+	}
+
 
 	,test_dispose: function()
 	{

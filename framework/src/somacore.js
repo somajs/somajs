@@ -1418,15 +1418,21 @@ soma.core.model.Model = new Class({
 
 /*********************************************** # soma.view # ************************************************/
 soma.View = new Class({
+
 	domElement: null,
 
 	initialize: function(domElement) {
-		if (domElement) {
-			this.domElement = domElement instanceof Element ? domElement : document.id(domElement);
+		var d;
+		if( domElement != undefined ) {
+			if( domElement instanceof Element ) {
+				d = domElement;
+			}else{
+				throw Error( "domElement has to be a DOM-ELement");
+			}
+		}else{
+			d = document.body;
 		}
-		if (!domElement) {
-			this.domElement = document.body;
-		}
+		this.domElement = d;
 	},
 	dispatchEvent: function(event) {
 		this.domElement.dispatchEvent(event);

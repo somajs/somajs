@@ -5,7 +5,7 @@ ___APPLICATION_NAMESPACE___.Constants = {
 	APPLICATION_WIRE_NAME: "Wire::ApplicationWire",
 	APPLICATION_MODEL_NAME: "Model::ApplicationModel",
 	APPLICATION_VIEW_NAME: "View::ApplicationView"
-}
+};
 
 ___APPLICATION_NAMESPACE___.somaApplication = new soma.core.Application();
 

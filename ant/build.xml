@@ -1,9 +1,17 @@
 <?xml version="1.0"?>
-<project name="somacore.js" basedir="." default="minify">
+<project name="somacore.js" basedir="." default="build">
 
 	<property file="user.properties"/>
 	<property file="build.properties"/>
-	
+
+	<taskdef resource="net/sf/antcontrib/antlib.xml" >
+		<classpath>
+			<pathelement location="libs/ant-contrib-1.0b3.jar" />
+		</classpath>
+	</taskdef>
+
+	<target name="build" description="build somacore" depends="minify, template"/>
+
 	<target name="minify" description="compress somacore.js">
 		<echo message="start minifying"/>
 		<echo message="source: ${build.dir.source}/${build.project.name}.js"/>
@@ -15,6 +23,20 @@
 	    </java>
 		<mapper type="glob" from="*.js" to="*-min.js"/>
 		<echo message="end minifying"/>
+	</target>
+
+	<target name="template" description="compress somacore.js">
+		<echo message="start templates"/>
+		<for list="compact,compact-namespace,standard,standard-namespace" param="templateName">
+			<sequential>
+				<echo message="    > copy framework to template '@{templateName}'"/>
+				<echo>      source: ${build.dir.min}/${build.file.framework.min}</echo>
+				<echo>      target: ${build.dir.templates.build}/@{templateName}/js/libs/${build.file.framework.export}</echo>
+				<copy overwrite="true" file="${build.dir.min}/${build.file.framework.min}" tofile="${build.dir.templates.build}/@{templateName}/js/libs/${build.file.framework.export}"/>
+			</sequential>
+		</for>
+		<zip destfile="${build.dir.templates.export}/${build.file.templates.export}" basedir="${build.dir.templates.build}"/>
+		<echo message="end templates"/>
 	</target>
 
 </project>

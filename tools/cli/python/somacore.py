@@ -1,6 +1,7 @@
 #!/usr/bin/env python
-import os, sys, urllib2
+import os, os.path, sys, urllib2, zipfile, errno
 import cli.app, cli.log
+from urlgrabber import *
 
 # print "Hello world"
 
@@ -56,16 +57,21 @@ def do_stuff(app):
 
 def download_templates(path, template_name):
 	file_name = template_name + ".zip"
+	file_url = template_url_location + "/" + file_name
+	local_filename = urlgrab(file_url)
+	data = urlread(file_url)
+	# print data
+	print path+"/blah"
+	unzip_file_into_dir(local_filename, path+"/temp")
+	
+	
+	"""
+	file_name = template_name + ".zip"
 	# file_name = "test.zip"
-	print file_name
 	u = urllib2.urlopen(template_url_location + "/" + file_name)
-	print u
 	f = open(file_name, 'wb')
-	print f
 	meta = u.info()
-	print meta
 	file_size = int(meta.getheaders("Content-Length")[0])
-	print file_size
 	file_size_dl = 10
 	block_sz = 8192
 	print message_start_download + "(" + template_name + ")"
@@ -80,6 +86,25 @@ def download_templates(path, template_name):
 		print status,
 	f.close()
 	print message_end_download
+	"""
+
+def unzip_file_into_dir(file, dir):
+    os.mkdir(dir, 0777)
+    zfobj = zipfile.ZipFile(file)
+    for name in zfobj.namelist():
+        if name.endswith('/'):
+            os.mkdir(os.path.join(dir, name))
+        else:
+            outfile = open(os.path.join(dir, name), 'wb')
+            outfile.write(zfobj.read(name))
+            outfile.close()
+
+def mkdir_path(path):
+    try:
+        os.mkdirs(path)
+    except os.error, e:
+        if e.errno != errno.EEXIST:
+            raise
 
 def commands_are_valid(app):
 	result = template_is_valid(app.params.template)

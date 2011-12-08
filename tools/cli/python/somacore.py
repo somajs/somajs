@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import os, sys
+import os, sys, urllib2
 import cli.app, cli.log
 
 # print "Hello world"
@@ -26,6 +26,9 @@ def somacore(app):
 
 template_names = ['standard', 'compact', 'standard-namespace', 'compact-namespace']
 message_error_tni = "ERROR: Template name doesn't exist. Here are the templates available:"
+message_start_download = "downloading template..."
+message_end_download = "download Successful"
+template_url_location = "http://www.soundstep.com/somacorejs/templates"
 
 somacore.add_param("-n", "--name", default="my_app", help="application name")
 somacore.add_param("-ns", "--namespace", default="app", help="application namespace")
@@ -34,21 +37,49 @@ somacore.add_param("-t", "--template", default="standard", help="template used t
 
 def do_stuff(app):
 	# app.log.info("About to daemonize")
-	if app.params.name:
-		print app.params
-	else:
-		print "no"
+	# if app.params.name:
+	# 	print app.params
+	# else:
+	# 	print "no"
 	
 	if commands_are_valid(app) == False:
 		return
 	
 	current_path = get_current_path(app.params.output)
+	download_templates(current_path, app.params.template)
 	
 	# LOG INFO
 	print "name: ", app.params.name
 	print "namespace: ", app.params.namespace
 	print "path: ", current_path
 	print "template: ", app.params.template
+
+def download_templates(path, template_name):
+	file_name = template_name + ".zip"
+	# file_name = "test.zip"
+	print file_name
+	u = urllib2.urlopen(template_url_location + "/" + file_name)
+	print u
+	f = open(file_name, 'wb')
+	print f
+	meta = u.info()
+	print meta
+	file_size = int(meta.getheaders("Content-Length")[0])
+	print file_size
+	file_size_dl = 10
+	block_sz = 8192
+	print message_start_download + "(" + template_name + ")"
+	while True:
+		buffer = u.read(block_sz)
+		if not buffer:
+		        break
+		file_size_dl += len(buffer)
+		f.write(buffer)
+		status = r"%10d  [%3.2f%%]" % (file_size_dl, file_size_dl * 100. / file_size)
+		status = status + chr(8)*(len(status)+1)
+		print status,
+	f.close()
+	print message_end_download
 
 def commands_are_valid(app):
 	result = template_is_valid(app.params.template)
@@ -63,7 +94,6 @@ def get_current_path(value):
 def template_is_valid(value):
 	result = False
 	for t in template_names:
-		print t
 		if t == value:
 			result = True
 			break

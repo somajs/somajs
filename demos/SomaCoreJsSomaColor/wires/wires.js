@@ -27,13 +27,13 @@ ColorWire.prototype =
 		this.addCommand( CommandEventList.COLOR_CHANGE, ColorCommand );
 		this.addCommand( CommandEventList.MOVEVIEW_MOVE, MoveViewCommand );
 
-		var receiver = this.addView( ColorWire.NAME_RECEIVER, new ColorReceiver( "colorShell1" ) );
+		var receiver = this.addView( ColorWire.NAME_RECEIVER, new ColorReceiver( document.id("colorShell1") ) );
 		receiver.addEventListener( ColorReceiver.TWEEN_SEQUENCE_EVENT, this.startTweenSequenceListener, false );
 
-		var selector = this.addView( ColorWire.NAME_SELECTOR, new ColorSelector( "colorSelector" ) );
+		var selector = this.addView( ColorWire.NAME_SELECTOR, new ColorSelector( document.id("colorSelector") ) );
 		selector.addEventListener( ColorSelector.EVENT_CLICKED_RANDOM, this.requestRandColorListener, false );
 
-		var square = this.addView( ColorWire.NAME_SQUARE, new ColorSquare( "colorSquare" ) );
+		var square = this.addView( ColorWire.NAME_SQUARE, new ColorSquare( document.id("colorSquare") ) );
 
 		this.receiver = receiver;
 		this.selector = selector;

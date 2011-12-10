@@ -1,9 +1,13 @@
 package com.soma.core.tools.cli;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,16 +21,17 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class Main {
 	
 	private static final String DEFAULT_TEMPLATE_PATH = "http://www.soundstep.com/somacorejs/templates";
 	private static final String DEFAULT_TEMPLATE_EXTENSION = ".zip";
-	private static final String DEFAULT_TEMPORARY_FOLDER_NAME = "build-template-temp";
+	private static final String DDEFAULT_TEMPORARY_FOLDER_NAME = "build-template-temp";
 	
 	private static final String TOKEN_APPLICATION_NAME = "___APPLICATION_NAME___";
-	private static final String TOKEN_MOOTOOLS_VERSION = "___MOOTOOLS_VERSION___";
-	private static final String TOKEN_SOMACORE_VERSION = "___SOMACORE_VERSION___";
+	private static final String TOKEN_APPLICATION_NAME_FORMATTED = "___APPLICATION_NAME_FORMATTED___";
+	private static final String TOKEN_APPLICATION_NAMESPACE = "___APPLICATION_NAMESPACE___";
 
 	private static final String OPTION_NAME = "n";
 	private static final String OPTION_NAMESPACE = "ns";
@@ -49,6 +54,8 @@ public class Main {
 	private static CommandLineParser _parser;
 	private static HelpFormatter _formatter;
 	
+	private static File _temporaryFolder;
+	
 	private static ArrayList<String> _templateNames;
 	private static Option[] _userOptions;
 	
@@ -57,22 +64,50 @@ public class Main {
 	private static String _currentTemplate;
 	private static String _currentOutput;
 	private static String _currentTemplateLocation;
+	private static String _applicationDirName;
 
 	public static void main(String[] args) {
 		_args = args;
+		printBeginning();
 		createElements();
+		createTempFolder();
 		createTemplateNames();
 		createOptions();
-		process();
+		processArguments();
+		setApplicationDir();
 		getTemplate();
 		processFiles();
 		processTokens();
+		printEnd();
 		
-		System.out.println("name: " + _currentApplicationName);
-		System.out.println("namespace: " + _currentNamespace);
-		System.out.println("template: " + _currentTemplate);
-		System.out.println("output: " + _currentOutput);
-		System.out.println("output: " + _currentTemplateLocation);
+//		System.out.println("name: " + _currentApplicationName);
+//		System.out.println("namespace: " + _currentNamespace);
+//		System.out.println("template: " + _currentTemplate);
+//		System.out.println("output: " + _currentOutput);
+//		System.out.println("location: " + _currentTemplateLocation);
+	}
+
+	private static void printBeginning() {
+		System.out.println("somacorejs application creation in progress");
+	}
+
+	private static void printEnd() {
+		System.out.println("somacorejs application created in:");
+		System.out.println(new File(getCurrentOutput() + _applicationDirName).getAbsolutePath());
+	}
+
+	private static void createTempFolder() {
+		_temporaryFolder = new File(FileUtils.getUserDirectoryPath() + "/" + DDEFAULT_TEMPORARY_FOLDER_NAME);
+		_temporaryFolder.mkdir();
+	}
+
+	private static void deleteTempFolder() {
+		try {
+			FileUtils.deleteDirectory(_temporaryFolder);
+		} catch (IOException e) {
+			System.out.println("an error has occured: " + e.getMessage());
+			System.exit(0);
+		}
 	}
 
 	private static void createElements() {
@@ -92,15 +127,19 @@ public class Main {
 	private static void createOptions() {
 		_options.addOption(OPTION_NAME, "name", true, "application name");
 		_options.addOption(OPTION_NAMESPACE, "namespace", true, "javascript namespace");
-		_options.addOption(OPTION_OUTPUT, "output", true, "path used to create the application");
+		_options.addOption(OPTION_OUTPUT, "output", true, "directory used to create the application");
 		_options.addOption(OPTION_TEMPLATE, "template", true, "template used to create the application, templates available: " + getFormattedTemplateNames());
-		_options.addOption(OPTION_TEMPLATE_LOCATION, "template-location", true, "location of the templates");
-		_options.addOption(OPTION_HELP, "help", false, "how to use the somacorejs command line interface");
+		_options.addOption(OPTION_TEMPLATE_LOCATION, "template-location", true, "location of the templates (optional)");
+		_options.addOption(OPTION_HELP, "help", false, "help");
 	}
 
-	private static void process() {
+	private static void processArguments() {
 		try {
 			_cli = _parser.parse(_options, _args);
+			if (_cli.hasOption(OPTION_HELP)) {
+				printHelp();
+				System.exit(0);
+			}
 			if (_cli.getOptions().length > 0) {
 				_userOptions = _cli.getOptions();
 				for (Option option : _userOptions) {
@@ -110,7 +149,20 @@ public class Main {
 			setDefaultValues();
 		} catch (ParseException e) {
 			System.out.println( "Unexpected exception:" + e.getMessage() );
+			System.exit(0);
 		}
+	}
+
+	private static void printHelp() {
+		StringBuilder str = new StringBuilder();
+		str.append("somacorejs command line interface\n");
+		str.append("usage examples:\n");
+		str.append(" >java jar somacorejs.jar -n my_application -ns my_app\n");
+		str.append(" >java jar somacorejs.jar -o /Users/my_user/Desktop\n");
+		str.append(" >java jar somacorejs.jar -t compact-namespace\n");
+		str.append(" >java jar somacorejs.jar -l http://domain.com/templates\n");
+		str.append(" >java jar somacorejs.jar -l /Users/my_user/templates\n");
+		_formatter.printHelp(str.toString(), _options);
 	}
 
 	private static void setDefaultValues() {
@@ -119,6 +171,12 @@ public class Main {
 		if (_currentTemplate == null) _currentTemplate = TEMPLATE_STANDARD;
 		if (_currentOutput == null) _currentOutput = "";
 		if (_currentTemplateLocation == null) _currentTemplateLocation = DEFAULT_TEMPLATE_PATH;
+	}
+	
+	private static String getApplicationNameFormatted() {
+		String appname = _currentApplicationName.toLowerCase();
+		appname = StringUtils.replace(appname, " ", "_");
+		return appname;
 	}
 
 	private static void processArgument(String arg) {
@@ -161,7 +219,7 @@ public class Main {
 		}
 		String templateFileName = _currentTemplate + DEFAULT_TEMPLATE_EXTENSION;
 		String templateFilePathSource = location + "/" + templateFileName;
-		String templateFilePathDestination = DEFAULT_TEMPORARY_FOLDER_NAME + "/" + templateFileName;
+		String templateFilePathDestination = getTempFolder() + "/" + templateFileName;
 		try {
 			FileUtils.copyFile(new File(templateFilePathSource), new File(templateFilePathDestination));
 		} catch (IOException e) {
@@ -170,13 +228,17 @@ public class Main {
 		}
 	}
 
+	private static File getTempFolder() {
+		return _temporaryFolder;
+	}
+
 	private static void downloadTemplate() {
 		try {
 			String templateFileName = _currentTemplate + DEFAULT_TEMPLATE_EXTENSION;
 			String templateFileUrlString = _currentTemplateLocation + "/" + templateFileName;
-			String templateFilePath = DEFAULT_TEMPORARY_FOLDER_NAME + "/" + templateFileName;
+			String templateFilePath = getTempFolder().getPath() + "/" + templateFileName;
 			File templateFile = new File(templateFilePath);
-			new File(DEFAULT_TEMPORARY_FOLDER_NAME).mkdir();
+			new File(getTempFolder().getPath()).mkdir();
 			URL url = new URL(templateFileUrlString);
 			InputStream reader = url.openStream();
             HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
@@ -203,37 +265,92 @@ public class Main {
 		}
 	}
 	
-	private static String getApplicationDir() {
-		String applicationDirName = _currentApplicationName;
+	private static void setApplicationDir() {
+		if (_applicationDirName != null) throw new Error("This method should not be called twice");
+		String appDirName = _currentApplicationName;
 		int count = 1;
 		while (true) {
-			applicationDirName = (count == 1) ? _currentApplicationName : _currentApplicationName + Integer.toString(count);
-			if (!new File(applicationDirName).exists()) {
+			appDirName = (count == 1) ? _currentApplicationName : _currentApplicationName + Integer.toString(count);
+			if (!new File(getCurrentOutput() + appDirName).exists()) {
 				break;
 			}
 			count++;
 		}
-		return applicationDirName;
+		_applicationDirName = appDirName;
 	}
 	
 	private static void processFiles() {
 		String templateFileName = _currentTemplate + DEFAULT_TEMPLATE_EXTENSION;
-		String templateFilePath = DEFAULT_TEMPORARY_FOLDER_NAME + "/" + templateFileName;
+		String templateFilePath = getTempFolder().getPath() + "/" + templateFileName;
 		File templateFile = new File(templateFilePath);
-		String applicationDirName = getApplicationDir();
 		try {
-			ZipUtils.unzipArchive(templateFile, new File(DEFAULT_TEMPORARY_FOLDER_NAME));
-			new File(DEFAULT_TEMPORARY_FOLDER_NAME + "/" + _currentTemplate).renameTo(new File(DEFAULT_TEMPORARY_FOLDER_NAME + "/" + applicationDirName));
-			FileUtils.moveDirectory(new File(DEFAULT_TEMPORARY_FOLDER_NAME + "/" + applicationDirName), new File(applicationDirName));
-			FileUtils.deleteDirectory(new File(DEFAULT_TEMPORARY_FOLDER_NAME));
+			ZipUtils.unzipArchive(templateFile, new File(getTempFolder().getPath() + "/" + _currentTemplate));
+			new File(getTempFolder().getPath() + "/" + _currentTemplate).renameTo(new File(getTempFolder().getPath() + "/" + _applicationDirName));
+			FileUtils.moveDirectory(new File(getTempFolder().getPath() + "/" + _applicationDirName), new File(getCurrentOutput() + _applicationDirName));
+			deleteTempFolder();
 		} catch (IOException e) {
 			System.out.println("an error has occured (cleaning): " + e.getMessage());
 			System.exit(0);
 		}
 	}
 	
+	private static String getCurrentOutput() {
+		return _currentOutput == "" ? "" : _currentOutput + "/";
+	}
+	
 	private static void processTokens() {
-		
+		renameFiles(new File(getCurrentOutput() + _applicationDirName), TOKEN_APPLICATION_NAME_FORMATTED, getApplicationNameFormatted());
+		renameFiles(new File(getCurrentOutput() + _applicationDirName), TOKEN_APPLICATION_NAME, _currentApplicationName);
+		replaceTokens(new File(getCurrentOutput() + _applicationDirName), TOKEN_APPLICATION_NAME_FORMATTED, getApplicationNameFormatted());
+		replaceTokens(new File(getCurrentOutput() + _applicationDirName), TOKEN_APPLICATION_NAME, _currentApplicationName);
+		replaceTokens(new File(getCurrentOutput() + _applicationDirName), TOKEN_APPLICATION_NAMESPACE, _currentNamespace);
+	}
+
+	private static void renameFiles(File file, String token, String targetValue) {
+		String name = file.getName();
+		name = StringUtils.replace(name, token, targetValue);
+		if (!name.equals(file.getName())) {
+			String parentPath = file.getParentFile().getPath();
+			file.renameTo(new File(parentPath + "/" + name));
+		}
+		// next
+		if (file.isDirectory()) {
+			File[] files = file.listFiles();
+			for (int i = 0; i < files.length; i++) {
+				renameFiles(files[i], token, targetValue);
+			}
+		}
+	}
+	
+	private static void replaceTokens(File file, String token, String targetValue) {
+		if (file.isFile()) {
+			try {
+				replaceInFile(file, token, targetValue);
+			} catch (IOException e) {
+				System.out.println("an error has occured (cleaning): " + e.getMessage());
+				System.exit(0);
+			}
+		}
+		else {
+			File[] files = file.listFiles();
+			for (int i = 0; i < files.length; i++) {
+				replaceTokens(files[i], token, targetValue);
+			}
+		}
+	}
+
+	public static void replaceInFile(File file, String token, String targetValue) throws IOException {
+	    File tempFile = File.createTempFile("buffer", ".tmp");
+	    FileWriter fw = new FileWriter(tempFile);
+	    Reader fr = new FileReader(file);
+	    BufferedReader br = new BufferedReader(fr);
+	    while(br.ready()) {
+	        fw.write(br.readLine().replaceAll(token, targetValue) + "\n");
+	    }
+	    fw.close();
+	    br.close();
+	    fr.close();
+	    tempFile.renameTo(file);
 	}
 
 	public static void printProgress(double bytesLoaded, double totalBytes){
@@ -259,10 +376,6 @@ public class Main {
 
 	private static String getFormattedTemplateNames() {
 		return _templateNames.toString();
-	}
-
-	private static void printLine(String value) {
-		System.out.println(value);
 	}
 
 }

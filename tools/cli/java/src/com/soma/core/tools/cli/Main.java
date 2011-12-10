@@ -97,7 +97,7 @@ public class Main {
 	}
 
 	private static void createTempFolder() {
-		_temporaryFolder = new File(FileUtils.getUserDirectoryPath() + "/" + DDEFAULT_TEMPORARY_FOLDER_NAME);
+		_temporaryFolder = new File(FileUtils.getTempDirectory() + "/" + DDEFAULT_TEMPORARY_FOLDER_NAME);
 		_temporaryFolder.mkdir();
 	}
 
@@ -176,6 +176,11 @@ public class Main {
 	private static String getApplicationNameFormatted() {
 		String appname = _currentApplicationName.toLowerCase();
 		appname = StringUtils.replace(appname, " ", "_");
+		appname = StringUtils.replace(appname, "/", "");
+		appname = StringUtils.replace(appname, "\\", "");
+		appname = StringUtils.replace(appname, "%", "");
+		appname = StringUtils.replace(appname, "&", "");
+		appname = StringUtils.replace(appname, "&", "");
 		return appname;
 	}
 

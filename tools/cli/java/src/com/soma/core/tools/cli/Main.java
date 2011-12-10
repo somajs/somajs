@@ -23,11 +23,16 @@ public class Main {
 	private static final String DEFAULT_TEMPLATE_PATH = "http://www.soundstep.com/somacorejs/templates";
 	private static final String DEFAULT_TEMPLATE_EXTENSION = ".zip";
 	private static final String DEFAULT_TEMPORARY_FOLDER_NAME = "build-template-temp";
+	
+	private static final String TOKEN_APPLICATION_NAME = "___APPLICATION_NAME___";
+	private static final String TOKEN_MOOTOOLS_VERSION = "___MOOTOOLS_VERSION___";
+	private static final String TOKEN_SOMACORE_VERSION = "___SOMACORE_VERSION___";
 
 	private static final String OPTION_NAME = "n";
 	private static final String OPTION_NAMESPACE = "ns";
 	private static final String OPTION_OUTPUT = "o";
 	private static final String OPTION_TEMPLATE = "t";
+	private static final String OPTION_TEMPLATE_LOCATION = "l";
 	private static final String OPTION_HELP = "h";
 	
 	private static final String TEMPLATE_STANDARD = "standard";
@@ -51,6 +56,7 @@ public class Main {
 	private static String _currentNamespace;
 	private static String _currentTemplate;
 	private static String _currentOutput;
+	private static String _currentTemplateLocation;
 
 	public static void main(String[] args) {
 		_args = args;
@@ -58,13 +64,15 @@ public class Main {
 		createTemplateNames();
 		createOptions();
 		process();
-		downloadTemplate();
+		getTemplate();
 		processFiles();
+		processTokens();
 		
 		System.out.println("name: " + _currentApplicationName);
 		System.out.println("namespace: " + _currentNamespace);
 		System.out.println("template: " + _currentTemplate);
 		System.out.println("output: " + _currentOutput);
+		System.out.println("output: " + _currentTemplateLocation);
 	}
 
 	private static void createElements() {
@@ -86,6 +94,7 @@ public class Main {
 		_options.addOption(OPTION_NAMESPACE, "namespace", true, "javascript namespace");
 		_options.addOption(OPTION_OUTPUT, "output", true, "path used to create the application");
 		_options.addOption(OPTION_TEMPLATE, "template", true, "template used to create the application, templates available: " + getFormattedTemplateNames());
+		_options.addOption(OPTION_TEMPLATE_LOCATION, "template-location", true, "location of the templates");
 		_options.addOption(OPTION_HELP, "help", false, "how to use the somacorejs command line interface");
 	}
 
@@ -109,6 +118,7 @@ public class Main {
 		if (_currentNamespace == null) _currentNamespace = "app";
 		if (_currentTemplate == null) _currentTemplate = TEMPLATE_STANDARD;
 		if (_currentOutput == null) _currentOutput = "";
+		if (_currentTemplateLocation == null) _currentTemplateLocation = DEFAULT_TEMPLATE_PATH;
 	}
 
 	private static void processArgument(String arg) {
@@ -119,22 +129,51 @@ public class Main {
 			_currentNamespace = _cli.getOptionValue(arg);
 		}
 		else if (arg.equals(OPTION_TEMPLATE)) {
-			System.out.println("Main.processArgument()" + isValidTemplate(_cli.getOptionValue(arg)));
 			if (!isValidTemplate(_cli.getOptionValue(arg))) {
 				System.out.println("Invalid template name, options available: " + getFormattedTemplateNames());
 				System.exit(0);
 			}
 			_currentTemplate = _cli.getOptionValue(arg);
 		}
+		else if (arg.equals(OPTION_TEMPLATE_LOCATION)) {
+			_currentTemplateLocation = _cli.getOptionValue(arg);
+		}
 		else if (arg.equals(OPTION_OUTPUT)) {
 			_currentOutput = (arg.equals(".") || arg.equals("./")) ? "" : _cli.getOptionValue(arg);
+		}
+	}
+
+	private static void getTemplate() {
+		if (_currentTemplateLocation.indexOf("http") == -1) {
+			copyTemplate();
+		}
+		else {
+			downloadTemplate();
+		}
+		
+	}
+
+	private static void copyTemplate() {
+		String lastCharacter = _currentTemplateLocation.substring(_currentTemplateLocation.length() - 1, _currentTemplateLocation.length());
+		String location = _currentTemplateLocation;
+		if (lastCharacter.equals("/") || lastCharacter.equals("\\")) {
+			location = location.substring(0, location.length()-1);
+		}
+		String templateFileName = _currentTemplate + DEFAULT_TEMPLATE_EXTENSION;
+		String templateFilePathSource = location + "/" + templateFileName;
+		String templateFilePathDestination = DEFAULT_TEMPORARY_FOLDER_NAME + "/" + templateFileName;
+		try {
+			FileUtils.copyFile(new File(templateFilePathSource), new File(templateFilePathDestination));
+		} catch (IOException e) {
+			System.out.println("an error has occured: " + e.getMessage());
+			System.exit(0);
 		}
 	}
 
 	private static void downloadTemplate() {
 		try {
 			String templateFileName = _currentTemplate + DEFAULT_TEMPLATE_EXTENSION;
-			String templateFileUrlString = DEFAULT_TEMPLATE_PATH + "/" + templateFileName;
+			String templateFileUrlString = _currentTemplateLocation + "/" + templateFileName;
 			String templateFilePath = DEFAULT_TEMPORARY_FOLDER_NAME + "/" + templateFileName;
 			File templateFile = new File(templateFilePath);
 			new File(DEFAULT_TEMPORARY_FOLDER_NAME).mkdir();
@@ -193,6 +232,10 @@ public class Main {
 		}
 	}
 	
+	private static void processTokens() {
+		
+	}
+
 	public static void printProgress(double bytesLoaded, double totalBytes){
 		int percent = (int)((bytesLoaded / totalBytes) * 100);
 		StringBuilder bar = new StringBuilder();

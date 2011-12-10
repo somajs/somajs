@@ -43,13 +43,21 @@
 				<copy overwrite="true" file="${build.dir.libs}/${build.file.mootools}" tofile="${build.dir.templates.temp}/@{templateName}/js/libs/${build.file.mootools}"/>
 			</sequential>
 		</for>
-		<echo message="replace tokens in ${build.dir.templates.build}/@{templateName}"/>
-		<!--<replace dir="${build.dir.templates.build}">-->
-			<!--<include name="**/*.html"/>-->
-			<!--<replacefilter token="${build.token.framework.path}" value="js/libs/${build.file.framework.export}"/>-->
-			<!--<replacefilter token="${build.token.mootools.path}" value="js/libs/${build.file.mootools}"/>-->
-		<!--</replace>-->
-		<zip destfile="${build.dir.templates.export}/${build.file.templates.export}" basedir="${build.dir.templates.build}"/>
+		<echo message="replace tokens in ${build.dir.templates.temp}"/>
+		<replace dir="${build.dir.templates.temp}">
+			<include name="**/*.html"/>
+			<replacefilter token="${build.token.framework.path}" value="js/libs/${build.file.framework.export}"/>
+			<replacefilter token="${build.token.mootools.path}" value="js/libs/${build.file.mootools}"/>
+		</replace>
+		<echo message="compress templates"/>
+		<for list="compact,compact-namespace,standard,standard-namespace" param="templateName">
+			<sequential>
+				<zip destfile="${build.dir.templates.temp}/@{templateName}.zip" basedir="${build.dir.templates.temp}/@{templateName}"/>
+				<copy overwrite="true" file="${build.dir.templates.temp}/@{templateName}.zip" tofile="${build.dir.templates.export}/@{templateName}.zip"/>
+			</sequential>
+		</for>
+		<echo message="cleanup directories"/>
+		<delete dir="${build.dir.templates.temp}"/>
 		<echo message="end templates"/>
 	</target>
 

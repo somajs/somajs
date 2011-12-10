@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project name="somacore.js" basedir="." default="build">
 
 	<property file="user.properties"/>
@@ -27,14 +27,28 @@
 
 	<target name="template" description="compress somacore.js">
 		<echo message="start templates"/>
+		<echo message="copy templates"/>
+		<copydir src="${build.dir.templates.build}" dest="${build.dir.templates.temp}"/>
 		<for list="compact,compact-namespace,standard,standard-namespace" param="templateName">
 			<sequential>
+				<!--framework-->
 				<echo message="    > copy framework to template '@{templateName}'"/>
 				<echo>      source: ${build.dir.min}/${build.file.framework.min}</echo>
-				<echo>      target: ${build.dir.templates.build}/@{templateName}/js/libs/${build.file.framework.export}</echo>
-				<copy overwrite="true" file="${build.dir.min}/${build.file.framework.min}" tofile="${build.dir.templates.build}/@{templateName}/js/libs/${build.file.framework.export}"/>
+				<echo>      target: ${build.dir.templates.temp}/@{templateName}/js/libs/${build.file.framework.export}</echo>
+				<copy overwrite="true" file="${build.dir.min}/${build.file.framework.min}" tofile="${build.dir.templates.temp}/@{templateName}/js/libs/${build.file.framework.export}"/>
+				<!--mootools-->
+				<echo message="    > copy mootools to template '@{templateName}'"/>
+				<echo>      source: ${build.dir.libs}/${build.file.mootools}</echo>
+				<echo>      target: ${build.dir.templates.temp}/@{templateName}/js/libs/${build.file.mootools}</echo>
+				<copy overwrite="true" file="${build.dir.libs}/${build.file.mootools}" tofile="${build.dir.templates.temp}/@{templateName}/js/libs/${build.file.mootools}"/>
 			</sequential>
 		</for>
+		<echo message="replace tokens in ${build.dir.templates.build}/@{templateName}"/>
+		<!--<replace dir="${build.dir.templates.build}">-->
+			<!--<include name="**/*.html"/>-->
+			<!--<replacefilter token="${build.token.framework.path}" value="js/libs/${build.file.framework.export}"/>-->
+			<!--<replacefilter token="${build.token.mootools.path}" value="js/libs/${build.file.mootools}"/>-->
+		<!--</replace>-->
 		<zip destfile="${build.dir.templates.export}/${build.file.templates.export}" basedir="${build.dir.templates.build}"/>
 		<echo message="end templates"/>
 	</target>

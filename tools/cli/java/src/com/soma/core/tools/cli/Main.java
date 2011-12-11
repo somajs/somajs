@@ -1,13 +1,9 @@
 package com.soma.core.tools.cli;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -27,7 +23,7 @@ public class Main {
 	
 	private static final String DEFAULT_TEMPLATE_PATH = "http://www.soundstep.com/somacorejs/templates";
 	private static final String DEFAULT_TEMPLATE_EXTENSION = ".zip";
-	private static final String DDEFAULT_TEMPORARY_FOLDER_NAME = "build-template-temp";
+	private static final String DDEFAULT_TEMPORARY_FOLDER_NAME = "scjs-btt";
 	
 	private static final String TOKEN_APPLICATION_NAME = "___APPLICATION_NAME___";
 	private static final String TOKEN_APPLICATION_NAME_FORMATTED = "___APPLICATION_NAME_FORMATTED___";
@@ -65,6 +61,8 @@ public class Main {
 	private static String _currentOutput;
 	private static String _currentTemplateLocation;
 	private static String _applicationDirName;
+	private static InputStream _reader;
+	private static FileOutputStream _writer;
 
 	public static void main(String[] args) {
 		_args = args;
@@ -79,12 +77,17 @@ public class Main {
 		processFiles();
 		processTokens();
 		printEnd();
+		cleanup();
 		
 //		System.out.println("name: " + _currentApplicationName);
 //		System.out.println("namespace: " + _currentNamespace);
 //		System.out.println("template: " + _currentTemplate);
 //		System.out.println("output: " + _currentOutput);
 //		System.out.println("location: " + _currentTemplateLocation);
+	}
+
+	private static void cleanup() {
+		deleteTempFolder();
 	}
 
 	private static void printBeginning() {
@@ -102,12 +105,7 @@ public class Main {
 	}
 
 	private static void deleteTempFolder() {
-		try {
-			FileUtils.deleteDirectory(_temporaryFolder);
-		} catch (IOException e) {
-			System.out.println("an error has occured: " + e.getMessage());
-			System.exit(0);
-		}
+		_temporaryFolder.deleteOnExit();
 	}
 
 	private static void createElements() {
@@ -245,21 +243,19 @@ public class Main {
 			File templateFile = new File(templateFilePath);
 			new File(getTempFolder().getPath()).mkdir();
 			URL url = new URL(templateFileUrlString);
-			InputStream reader = url.openStream();
+			_reader = url.openStream();
             HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
             int totalBytes = httpConn.getContentLength();
-			FileOutputStream writer = new FileOutputStream(templateFile);
+			_writer = new FileOutputStream(templateFile);
 	        byte[] buffer = new byte[FILE_CHUNK];
 	        double totalBytesRead = 0;
 	        double bytesRead = 0;
-	        while ((bytesRead = reader.read(buffer)) > 0) {  
-	           writer.write(buffer, 0, (int)bytesRead);
+	        while ((bytesRead = _reader.read(buffer)) > 0) {  
+	           _writer.write(buffer, 0, (int)bytesRead);
 	           buffer = new byte[FILE_CHUNK];
 	           totalBytesRead += bytesRead;
 	           printProgress(totalBytesRead, totalBytes);
 	        }
-	        writer.close();
-	        reader.close();
 	        System.out.print("\n");
 		} catch (MalformedURLException e) {
 			System.out.println("template url is invalid: " + e.getMessage());
@@ -267,6 +263,18 @@ public class Main {
 		} catch (IOException e) {
 			System.out.println("an error has occured: " + e.getMessage());
 			System.exit(0);
+		} finally {
+			try {
+				_reader.close();
+				_writer.close();
+				_writer.flush();
+				_reader = null;
+				_writer = null;
+				System.gc();
+			} catch (IOException e) {
+				System.out.println("an error has occured: " + e.getMessage());
+				System.exit(0);
+			}
 		}
 	}
 	
@@ -292,7 +300,6 @@ public class Main {
 			ZipUtils.unzipArchive(templateFile, new File(getTempFolder().getPath() + "/" + _currentTemplate));
 			new File(getTempFolder().getPath() + "/" + _currentTemplate).renameTo(new File(getTempFolder().getPath() + "/" + _applicationDirName));
 			FileUtils.moveDirectory(new File(getTempFolder().getPath() + "/" + _applicationDirName), new File(getCurrentOutput() + _applicationDirName));
-			deleteTempFolder();
 		} catch (IOException e) {
 			System.out.println("an error has occured (cleaning): " + e.getMessage());
 			System.exit(0);
@@ -343,19 +350,10 @@ public class Main {
 			}
 		}
 	}
-
+	
 	public static void replaceInFile(File file, String token, String targetValue) throws IOException {
-	    File tempFile = File.createTempFile("buffer", ".tmp");
-	    FileWriter fw = new FileWriter(tempFile);
-	    Reader fr = new FileReader(file);
-	    BufferedReader br = new BufferedReader(fr);
-	    while(br.ready()) {
-	        fw.write(br.readLine().replaceAll(token, targetValue) + "\n");
-	    }
-	    fw.close();
-	    br.close();
-	    fr.close();
-	    tempFile.renameTo(file);
+		String content = FileUtils.readFileToString(file);
+	    FileUtils.writeStringToFile(file, content.replaceAll(token, targetValue));
 	}
 
 	public static void printProgress(double bytesLoaded, double totalBytes){

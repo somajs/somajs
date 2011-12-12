@@ -25,6 +25,11 @@ Format: 1.52
 #   yyyy  - Four digit year.  2006 is "2006"
 #   year  - Four digit year.  2006 is "2006"
 
+# These are indexes you deleted, so Natural Docs will not add them again
+# unless you remove them from this line.
+
+Don't Index: Variables
+
 
 # --------------------------------------------------------------------------
 # 
@@ -46,11 +51,12 @@ Format: 1.52
 # --------------------------------------------------------------------------
 
 
-File: Multiply  (somacore.js)
+File: Command  (somacore.js)
 
 Group: Index  {
 
    Index: Everything
+   Class Index: Classes
    Function Index: Functions
    }  # Group: Index
 

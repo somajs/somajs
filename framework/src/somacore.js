@@ -20,26 +20,6 @@
 	soma.core.wire = {};
 	soma.core.mediator = {};
 	
-	/*
-	   Function: Multiply
-	
-		Simple example for Natural Docs, please leave it there for now
-
-	   Multiplies two integers.
-
-	   Parameters:
-
-	      x - The first integer.
-	      y - The second integer.
-
-	   Returns:
-
-	      The two integers multiplied together.
-
-	   See Also:
-
-	      <Divide>
-	*/
 	/**
 	 * used for dynamic class instantiation with passing arbitrary amount of arguments to their constructors
 	 */
@@ -176,6 +156,19 @@
 
 		/**
 		 *
+		 * @param {String} modelName
+		 * @param {soma.core.model.Model} model
+		 */
+		addModel: function(modelName, model) {
+			return this.instance.addModel(modelName, model);
+		},
+
+		removeModel: function(modelName) {
+			this.instance.removeModel(modelName);
+		},
+
+		/**
+		 *
 		 * @param {Event} event
 		 * @return soma.core.controller.SequenceCommand
 		 */
@@ -231,19 +224,6 @@
 		 */
 		getRunningSequencers: function() {
 			return !!this.instance.controller ? this.instance.controller.getRunningSequencers() : null;
-		},
-
-		/**
-		 *
-		 * @param {String} modelName
-		 * @param {soma.core.model.Model} model
-		 */
-		addModel: function(modelName, model) {
-			return this.instance.addModel(modelName, model);
-		},
-
-		removeModel: function(modelName) {
-			this.instance.removeModel(modelName);
 		},
 
 		hasView: function(viewName) {
@@ -307,31 +287,142 @@
 	};
 	soma.core.AutoBind = new Class( AutoBindProto );
 
+	/*
+	Class: soma.core.controller.Command
+	Class that will be instantiated when a registered event is dispatched, the framework will automatically call the execute method.
 
-	/**
-	 * @class
-	 * @augments soma.core.Share
-	 */
+	Example:
+
+	*Register a command*
+	> this.addCommand("eventType", MyCommand);
+
+	*Create a command class*
+	>	var MyCommand = new Class({
+	>		Extends:soma.core.controller.Command,
+	>		execute: function(event) {
+	>			// do something
+	>		}
+	>	});
+	*/
+
 	soma.core.controller.Command = new Class({
 		Implements: SomaSharedCore,
 
 		instance: null,
 
-		/**
-		 *
-		 * @param {soma.core.Application} instance
-		 */
 		registerInstance: function(instance) {
 			this.instance = instance;
 		},
 
-		/**
-		 *
-		 * @param {Event} e
-		 */
-		execute: function(e) {
-			throw new Error("Command.execute has to be implemented for \"" + e + "\"");
+		/*
+		Function: execute
+		Called automatically when the framework execute the command.
+		
+		Parameter:
+			event (soma.Event) - event sent to the framework to trigger the command execution.
+		*/
+		execute: function(event) {
+			
 		}
+
+		/*
+		Variable: body (DOM element)
+		Get the body of the document.
+		> this.body
+
+		Variable: instance (soma.core.Application)
+		Retrieves the instance of the framework.
+		> this.instance
+
+		Function: dispatchEvent
+		Dispatches an event into the framework.
+		
+		Parameter:
+			event (soma.Event) - event instance
+		> this.dispatchEvent(new soma.Event("eventType")); // generic event
+		> this.dispatchEvent(new MyEvent("eventType")); // custom event
+
+		Function: addEventListener
+		Registers an event listener object with an EventDispatcher object so that the listener receives notification of an event.
+		
+		Parameter:
+			type (string) - The type of event.
+			listener (function) - The listener function that processes the event.
+			priority (int) - The priority level of the event listener (default: 0).
+		> this.addEventListener("eventType", this.eventHandler.bind(this));
+		
+		> function eventHandler(event) {
+		>     // do something
+		> }
+
+		Function: removeEventListener
+		Removes a listener from the EventDispatcher object. If there is no matching listener registered with the EventDispatcher object, a call to this method has no effect.
+
+		Parameter:
+			type (string) - The type of event.
+			listener (function) - The listener to remove.
+		> this.removeEventListener("eventType", this.eventHandler);
+
+		Function: hasWire
+		Indicates whether a wire has been registered to the framework.
+
+		*Returns:* a boolean
+
+		Parameter:
+			wireName (string) - Name of the wire.
+		> this.hasWire("myWireName");
+
+		Function: getWire
+		Retrieves the wire instance that has been registered using its name.
+
+		*Returns:* a wire instance.
+
+		Parameter:
+			wireName (string) - Name of the wire.
+		> var myWire = this.getWire("myWireName");
+		
+		Function: addWire
+		Registers a wire to the framework.
+
+		*Returns:* the wire instance.
+		
+		Parameter:
+			wireName (string) - Name of the wire.
+			wire (soma.core.wire.Wire) - A wire instance
+		> this.addWire("myWireName", new MyWire());
+
+		Function: removeWire
+		Removes a wire from the framework and call the dispose method of this wire.
+
+		Parameter:
+			wireName (string) - Name of the wire.
+		> this.removeWire("myWireName");
+
+		Function: hasModel
+		Function: getModel
+		Function: addModel
+		Function: removeModel
+
+		Function: hasView
+		Function: getView
+		Function: addView
+		Function: removeView
+
+		Function: hasCommand
+		Function: getCommand
+		Function: getCommands
+		Function: addCommand
+		Function: removeCommand
+
+		Function: getSequencer
+		Function: stopSequencerWithEvent
+		Function: stopSequencer
+		Function: stopAllSequencers
+		Function: isPartOfASequence
+		Function: getLastSequencer
+		Function: getRunningSequencers
+
+		*/
 
 
 	});

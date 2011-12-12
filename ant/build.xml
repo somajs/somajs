@@ -56,6 +56,8 @@
 			<arg value="${build.docs.export}"/>
 			<arg value="-p"/>
 			<arg value="${build.docs.config}"/>
+			<arg value="-s"/>
+			<arg value="Small"/>
 			<arg value="-ro"/>
 		</exec>
 		<echo message="doc complete"/>

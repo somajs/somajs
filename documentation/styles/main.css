@@ -20,7 +20,7 @@
 */
 
 body {
-    font: 10pt Verdana, Arial, sans-serif;
+    font: 8pt Verdana, Arial, sans-serif;
     color: #000000;
     margin: 0; padding: 0;
     }
@@ -63,7 +63,6 @@ p {
 	content: "\00200B";
 	}
 
-
 /*  Blockquotes are used as containers for things that may need to scroll.  */
 blockquote {
     padding: 0;
@@ -89,7 +88,7 @@ blockquote {
 
 
 #Menu {
-    font-size: 9pt;
+    font-size: 8pt;
     padding: 10px 0 0 0;
     }
 .ContentPage #Menu,
@@ -180,7 +179,7 @@ blockquote {
 
 
     #MSearchField {
-        font: italic 9pt Verdana, sans-serif;
+        font: italic 8pt Verdana, sans-serif;
         color: #606060;
         background-color: #E8E8E8;
         border: none;
@@ -282,7 +281,7 @@ blockquote {
     border-style: solid;
     border-color: #000000;
     background-color: #FFFFFF;
-    font-size: 9pt;  /* To make 31ex match the menu's 31ex. */
+    font-size: 8pt;  /* To make 31ex match the menu's 31ex. */
     margin-left: 31ex;
     }
 .ContentPage .Firefox #Content {
@@ -292,13 +291,13 @@ blockquote {
 
 
     .CTopic {
-        font-size: 10pt;
+        font-size: 8pt;
         margin-bottom: 3em;
         }
 
 
     .CTitle {
-        font-size: 12pt; font-weight: bold;
+        font-size: 11pt; font-weight: bold;
         border-width: 0 0 1px 0; border-style: solid; border-color: #A0A0A0;
         margin: 0 15px .5em 15px }
 
@@ -352,12 +351,12 @@ blockquote {
         }
 
     .CHeading {
-        font-weight: bold; font-size: 10pt;
+        font-weight: bold; font-size: 9pt;
         margin: 1.5em 0 .5em 0;
         }
 
     .CBody pre {
-        font: 10pt "Courier New", Courier, monospace;
+        font: 8pt "Courier New", Courier, monospace;
 	    background-color: #FCFCFC;
 	    margin: 1em 35px;
 	    padding: 10px 15px 10px 10px;
@@ -377,12 +376,12 @@ blockquote {
         margin: .5em 5ex 0 5ex }
 
         .CDLEntry {
-            font: 10pt "Courier New", Courier, monospace; color: #808080;
+            font: 8pt "Courier New", Courier, monospace; color: #808080;
             padding-bottom: .25em;
             white-space: nowrap }
 
         .CDLDescription {
-            font-size: 10pt;  /*  For browsers that don't inherit correctly, like Opera 5.  */
+            font-size: 8pt;  /*  For browsers that don't inherit correctly, like Opera 5.  */
             padding-bottom: .5em; padding-left: 5ex }
 
 
@@ -413,14 +412,14 @@ blockquote {
 
 
 .Prototype {
-    font: 10pt "Courier New", Courier, monospace;
+    font: 8pt "Courier New", Courier, monospace;
     padding: 5px 3ex;
     border-width: 1px; border-style: solid;
     margin: 0 5ex 1.5em 5ex;
     }
 
     .Prototype td {
-        font-size: 10pt;
+        font-size: 8pt;
         }
 
     .PDefaultValue,
@@ -480,7 +479,7 @@ blockquote {
     margin: 1.5em 5ex 0 5ex }
 
     .STitle {
-        font-size: 12pt; font-weight: bold;
+        font-size: 11pt; font-weight: bold;
         margin-bottom: .5em }
 
 
@@ -501,7 +500,7 @@ blockquote {
 
 
     .STable {
-        font-size: 9pt; width: 100% }
+        font-size: 8pt; width: 100% }
 
     .SEntry {
         width: 30% }
@@ -577,7 +576,7 @@ blockquote {
         border-width: 1px 2px 2px 1px; border-style: solid; border-color: #A0A0A0;
         margin-bottom: 3px;
         padding: 2px 2ex;
-        font-size: 10pt;
+        font-size: 8pt;
         background-color: #F4F4F4; color: #606060;
         }
 
@@ -628,7 +627,7 @@ blockquote {
     border-width: 0 0 1px 1px;
     border-style: solid;
     border-color: #000000;
-    font-size: 9pt;  /* To make 27ex match the menu's 27ex. */
+    font-size: 8pt;  /* To make 27ex match the menu's 27ex. */
     margin-left: 27ex;
     }
 
@@ -645,7 +644,6 @@ blockquote {
         }
 
     .INavigationBar {
-        font-size: 10pt;
         text-align: center;
         background-color: #FFFFF0;
         padding: 5px;
@@ -657,7 +655,7 @@ blockquote {
         font-weight: bold }
 
     .IHeading {
-        font-size: 16pt; font-weight: bold;
+        font-size: 14pt; font-weight: bold;
         padding: 2.5em 0 .5em 0;
         text-align: center;
         width: 3.5ex;
@@ -667,7 +665,6 @@ blockquote {
         }
 
     .IEntry {
-        font-size: 10pt;
         padding-left: 1ex;
         }
     .PopupSearchResultsPage .IEntry {
@@ -695,7 +692,6 @@ blockquote {
 
     .IndexPage .ISymbolPrefix,
     .FramedIndexPage .ISymbolPrefix {
-        font-size: 10pt;
         text-align: right;
         color: #C47C7C;
         background-color: #F8F8F8;
@@ -736,7 +732,7 @@ blockquote {
         font-style: italic;
         }
     .FramedSearchResultsPage .SRStatus {
-        font-size: 10pt;
+        font-size: 8pt;
         font-style: italic;
         }
 

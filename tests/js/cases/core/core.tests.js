@@ -646,8 +646,8 @@ var AutobindTest = new Class
 
 	,initialize: function()
 	{
-		this._somaAutobind();
-		this._somaAutobind();  // make sure following tests are not affected by double call of _somaAutobind
+		this.autobind();
+		this.autobind();  // make sure following tests are not affected by double call of _somaAutobind
 	}
 
 	,setUp: function()
@@ -711,7 +711,7 @@ var AutobindTest = new Class
 	,test_wire_no_autobind: function()
 	{
 		var wire = new cases.core.TestAutobindWire();
-		wire.autobind = false;
+		wire.shouldAutobind = false;
 		this.soma.addWire( cases.core.TestAutobindWire.NAME, wire  );
 		
 		wire.addEventListener( "test", wire.testListener );
@@ -741,7 +741,7 @@ var AutobindTest = new Class
 		var sprite = document.createElement("div");
 		document.body.appendChild( sprite );
 		var view = new cases.core.TestView( sprite );
-		view.autobind = false;
+		view.shouldAutobind = false;
 		this.soma.addView( "viewname", view );
 		view.addEventListener( "testFromView", view.viewListener );
 		view.dispatchEvent( new soma.Event("testFromView") );

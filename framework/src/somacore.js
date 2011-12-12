@@ -271,13 +271,13 @@
 	 */
 	var AutoBindProto = {
 		blackList: ["initialize", "parent", "$constructor", "addEventListener", "removeEventListener" ]
-		,_somaAutobind: function() {
+		,autobind: function() {
 			if (this.wasAutoBound) {
 				return;
 			}
 			var o = this;
 			var ab = o["AutoBindPattern"];
-			var coreAb = "([lL]istener|[hH]andler)$";
+			var coreAb = "([lL]istener|[hH]andler|[cB]allback)$";
 			if (!ab) {
 				ab = coreAb;
 			} else {
@@ -926,7 +926,7 @@
 					soma.View.implement(AutoBindProto);
 					this.autoBound = true;
 				}
-				if (view['autobind']) view._somaAutobind();
+				if (view['shouldAutobind']) view.autobind();
 				views[ viewName ] = view;
 				if (view[ "init" ] != null) {
 					view.init();
@@ -1499,7 +1499,7 @@ soma.core.wire.SomaWires = (function() {
 			if (this.hasWire(wireName)) {
 				throw new Error("Wire \"" + wireName + "\" already exists");
 			}
-			if (wire['autobind']) wire._somaAutobind();
+			if (wire['shouldAutobind']) wire.autobind();
 			wires[ wireName ] = wire;
 			wire.registerInstance(this.instance);
 			wire.init();

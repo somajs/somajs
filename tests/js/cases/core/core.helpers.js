@@ -41,7 +41,7 @@ cases.core.TestView = new Class
 
 	scopeConfirmed: false,
 
-	autobind:true,
+	shouldAutobind:true,
 
 	scope:null,
 
@@ -104,7 +104,7 @@ cases.core.TestAutobindWire = new Class
 
 	,scopeConfirmedThroughCustom:false
 
-	,autobind: true
+	,shouldAutobind: true
 
 	,testListener: function( event )
 	{

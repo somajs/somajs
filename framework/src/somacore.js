@@ -19,7 +19,27 @@
 	soma.core.view = {};
 	soma.core.wire = {};
 	soma.core.mediator = {};
+	
+	/*
+	   Function: Multiply
+	
+		Simple example for Natural Docs, please leave it there for now
 
+	   Multiplies two integers.
+
+	   Parameters:
+
+	      x - The first integer.
+	      y - The second integer.
+
+	   Returns:
+
+	      The two integers multiplied together.
+
+	   See Also:
+
+	      <Divide>
+	*/
 	/**
 	 * used for dynamic class instantiation with passing arbitrary amount of arguments to their constructors
 	 */

@@ -3,17 +3,31 @@
 
 	<property file="user.properties"/>
 	<property file="build.properties"/>
-
+	
 	<taskdef resource="net/sf/antcontrib/antlib.xml" >
 		<classpath>
 			<pathelement location="libs/ant-contrib-1.0b3.jar" />
 		</classpath>
 	</taskdef>
+	
+	<condition property="naturalDocs" value="${build.docs.executable}.bat">
+		<os family="windows" />
+	</condition>
+	<condition property="naturalDocs" value="${build.docs.executable}">
+		<os name="Mac OS X"/>
+	</condition>
 
-	<target name="build" description="build somacore" depends="minify, template"/>
+	<condition property="naturalDocsExists">
+		<available file="${naturalDocs}"/>
+	</condition>
+	
+	<echo>${naturalDocsExists}</echo>
+	<echo>${naturalDocsExists}</echo>
+
+	<target name="build" description="build somacore" depends="minify, nodocs, docs, template"/>
 
 	<target name="minify" description="compress somacore.js">
-		<echo message="start minifying"/>
+		<echo message="minify start"/>
 		<echo message="source: ${build.dir.source}/${build.project.name}.js"/>
 		<echo message="target: ${build.dir.min}/${build.project.fullname.min}.js"/>
 		<java jar="libs/yuicompressor-2.4.7.jar" fork="true">
@@ -22,13 +36,37 @@
 			<arg value="${build.dir.min}/${build.project.fullname.min}.js"/>
 	    </java>
 		<mapper type="glob" from="*.js" to="*-min.js"/>
-		<echo message="end minifying"/>
+		<echo message="minify complete"/>
+	</target>
+	
+	<target name="nodocs" description="generate somacore.js documentation" unless="naturalDocsExists">
+		<echo>To generate the documentation, you must:</echo>
+		<echo>    - install perl on your system</echo>
+		<echo>    - download Natural Docs at this url: http://naturaldocs.org/</echo>
+		<echo>    - insert Natural Docs in: ${build.docs.library}</echo>
+	</target>
+	
+	<target name="docs" description="generate somacore.js documentation" if="naturalDocsExists">
+		<echo message="doc start"/>
+		<exec executable="${naturalDocs}">
+			<arg value="-i"/>
+			<arg value="${build.docs.source}"/>
+			<arg value="-o"/>
+			<arg value="FramedHTML"/>
+			<arg value="${build.docs.export}"/>
+			<arg value="-p"/>
+			<arg value="${build.docs.config}"/>
+			<arg value="-ro"/>
+		</exec>
+		<echo message="doc complete"/>
 	</target>
 
 	<target name="template" description="compress somacore.js">
-		<echo message="start templates"/>
+		<echo message="template start"/>
 		<echo message="copy templates"/>
-		<copydir src="${build.dir.templates.build}" dest="${build.dir.templates.temp}"/>
+		<copy todir="${build.dir.templates.temp}">
+			<fileset dir="${build.dir.templates.build}"/>
+		</copy>
 		<for list="compact,compact-namespace,standard,standard-namespace" param="templateName">
 			<sequential>
 				<!--framework-->
@@ -58,7 +96,7 @@
 		</for>
 		<echo message="cleanup directories"/>
 		<delete dir="${build.dir.templates.temp}"/>
-		<echo message="end templates"/>
+		<echo message="template complete"/>
 	</target>
 
 </project>

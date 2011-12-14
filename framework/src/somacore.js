@@ -304,7 +304,10 @@
 	>		}
 	>	});
 	*/
-
+	/**
+	    Creates a new Person.
+	    @class Represents a person. 
+	 */
 	soma.core.controller.Command = new Class({
 		Implements: SomaSharedCore,
 
@@ -329,23 +332,28 @@
 
 	});
 
-
 	var SequenceCommandProxy = new Class({
-		/** @type Event **/
 		event:null,
-		/** @type String **/
 		sequenceId:null,
-
 		initialize: function(event) {
 			this.event = event;
 		}
 	});
 
+	/*
+	Class: soma.core.controller.SequenceCommand
+	The SequenceCommand class is used to execute a list of commands one after the other. The command added can be asynchronous or synchronous.
 
-	/**
-	 * @class
-	 * @augments soma.core.Share
-	 */
+	Example:
+
+	*Register commands and a sequence command.*
+	> this.addCommand("eventTypeDoSomethingAsync", CommandASyncExample);
+	> this.addCommand("eventTypeDoAnotherThingAsync", CommandASyncExample);
+	>
+	> this.addCommand("eventTypeExcuteMysequence", SequenceCommandExample);
+	> this.dispatchEvent(new MyEvent("eventTypeExcuteMysequence"));
+
+	*/
 	soma.core.controller.SequenceCommand = new Class({
 		Extends: soma.core.controller.Command,
 		Implements: SomaSharedCore,
@@ -448,7 +456,7 @@
 			return this.commands;
 		}
 
-
+		//___INSERT_SHARED_DOC___
 
 	});
 
@@ -509,6 +517,8 @@
 		getCommands: function() {
 			return this.commands;
 		}
+		
+		//___INSERT_SHARED_DOC___
 
 	});
 
@@ -546,6 +556,8 @@
 		setName: function(name) {
 			this.name = name;
 		}
+		
+		//___INSERT_SHARED_DOC___
 	});
 
 	soma.core.Controller = (function() {
@@ -1306,6 +1318,8 @@ soma.core.Application = new Class({
 	start: function() {
 
 	}
+	
+	//___INSERT_SHARED_DOC___
 
 });
 
@@ -1426,6 +1440,8 @@ soma.core.model.Model = new Class({
 	setName: function(name) {
 		this.name = name;
 	}
+	
+	//___INSERT_SHARED_DOC___
 
 });
 
@@ -1556,6 +1572,8 @@ soma.core.mediator.Mediator = new Class({
 		this.viewComponent = null;
 		this.parent();
 	}
+	
+	//___INSERT_SHARED_DOC___
 });
 
 /*********************************************** # event # ************************************************/

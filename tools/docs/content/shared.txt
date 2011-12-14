@@ -72,7 +72,7 @@ Parameter:
 > this.removeWire("myWireName");
 
 Function: hasModel
-Indicates wether a model has been registered to the framework.
+Indicates whether a model has been registered to the framework.
 
 Parameter:
 	modelName (string) - Name of the model.
@@ -105,22 +105,132 @@ Parameter:
 > this.removeModel("myModelName");
 
 Function: hasView
+Indicates whether a view has been registered to the framework.
+
+*Returns:* a boolean
+
+Parameter:
+	viewName (string) - Name of the view.
+> this.hasView("myViewName");
+
 Function: getView
+Retrieves the view instance that has been registered using its name.
+
+*Returns:* a view instance.
+
+Parameter:
+	viewName (string) - Name of the view.
+> var myView = this.getView("myViewName");
+
 Function: addView
+Registers a view to the framework.
+
+*Returns:* the view instance.
+
+Parameter:
+	viewName (string) - Name of the view.
+	view (soma.core.view.View) - A view instance.
+> this.addView("myViewName", new MyView());
+
 Function: removeView
+Removes a view from the framework and call the (optional) dispose method of this view.
+
+Parameter:
+	viewName (string) - Name of the view.
+> this.removeView("myViewName");
 
 Function: hasCommand
+Indicates wether a command has been registered to the framework.
+
+*Returns:* a boolean
+
+Parameter:
+	commandName (string) - Event type that is used as a command name.
+> this.hasCommand("eventType");
+
 Function: getCommand
+Retrieves the command class that has been registered with a command name.
+
+*Returns:* a class
+
+Parameter:
+	commandName (string) - Event type that is used as a command name.
+var commandClass = this.getCommand("eventType");
+
 Function: getCommands
+Retrieves all the command names (event type) that have been registered to the framework.
+
+*Returns:* an array of string
+
+> var commands = this.getCommands();
+
 Function: addCommand
+Registers a command to the framework.
+
+Parameter:
+	commandName (string) - Event type that is used as a command name.
+	command (class) - Class that will be executed when a command has been dispatched.
+> this.addCommand("eventType", MyCommand);
+
 Function: removeCommand
+Removes a command from the framework.
+
+Parameter:
+	commandName (string) - Event type that is used as a command name.
+> this.removeCommand("eventType");
 
 Function: getSequencer
+Retrieves the sequence command instance using an event instance that has been created from this sequence command.
+
+*Returns:* A sequencer instance
+
+Parameter:
+	event (event) - Event instance.
+> var sequencer = this.getSequencer(myEvent);
+
 Function: stopSequencerWithEvent
+Stops a sequence command using an event instance that has been created from this sequence command.
+
+*Returns:* A boolean
+
+Parameter:
+	event (event) - Event instance.
+> var success = this.stopSequencerWithEvent(myEvent);
+
 Function: stopSequencer
+Stops a sequence command using the sequence command instance itself.
+
+*Returns:* A boolean
+
+Parameter:
+	sequencer (sequence) - The sequence command instance.
+> var success = this.stopSequencer(mySequenceCommand);
+
 Function: stopAllSequencers
+Stops all the sequence command instances that are running.
+
+> this.stopAllSequencers();
+
 Function: isPartOfASequence
+Indicates wether an event has been instantiated from a ISequenceCommand class.
+
+*Returns:* A boolean
+
+Parameter:
+	event (event) - Event instance.
+> var inSequence = this.isPartOfASequence(myEvent);
+
 Function: getLastSequencer
+Retrieves the last sequence command that has been instantiated in the framework.
+
+*Returns:* a sequencer command
+
+> var lastSequencer = this.getLastSequencer();
+
 Function: getRunningSequencers
+Retrieves all the sequence command instances that are running.
+
+*Returns:* an array of sequencer command
+> var sequencers = this.getRunningSequencers();
 
 */

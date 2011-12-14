@@ -2,7 +2,8 @@
 .classpath*
 user.properties*
 
-/tools/cli/java/bin
+/tools/cli/java/bin/*
+/tools/docs/NaturalDocs/library/*
 
 .DS_Store*
 ehthumbs.db*

@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>soma.core.controller.Command | JsDoc Reference</title>
+		<title>soma.core.view | JsDoc Reference</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<meta name="mobileoptimized" content="0" />
@@ -78,12 +78,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Class <span>soma.core.controller.Command</span>
+					Namespace <span>soma.core.view</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						Class that will be instantiated when a registered event is dispatched, the framework will automatically call the execute method.
+						Contains the views manager and a View abstract class (no framework dependency).
 					</p>
 						
 					
@@ -102,8 +102,8 @@
 			
 				<section>
 					<div class="props">
-						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.core.controller.Command.">
-							<caption class="sectionTitle">Class Summary</caption>
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.core.view.">
+							<caption class="sectionTitle">Namespace Summary</caption>
 							<thead>
 								<tr>
 									<th scope="col">Constructor Attributes</th>
@@ -115,9 +115,9 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/soma.core.controller.Command.html#constructor">soma.core.controller.Command</a></b>()
+											<b><a href="../symbols/soma.core.view.html#constructor">soma.core.view</a></b>
 										</div>
-										<div class="description">Creates a new Command, should be instantiated by the framework only.</div>
+										<div class="description"></div>
 									</td>
 								</tr>
 							</tbody>
@@ -130,45 +130,6 @@
 	<!--
 	#### METHODS SUMMARY
 	-->
-			
-				<section>
-					
-					
-					<div class="props">
-						<h2 class="sectionTitle">Method Summary</h2>
-						
-						
-							<nav>
-								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.core.controller.Command.">
-									<thead>
-										<tr>
-											<th scope="col">Method Attributes</th>
-											<th scope="col">Method Name and Description</th>
-										</tr>
-									</thead>
-									
-									<tbody>
-										
-										
-											<tr
-												 class='item0'
-											>
-												<td class="attributes">&nbsp;</td>
-												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#addWire">addWire</a></b>(wireName, wire)
-													</div>
-													<div class="description"></div>
-												</td>
-											</tr>
-										
-									</tbody>
-								</table>
-							</nav>
-						
-					
-						
-					</div>
-				</section>
 			
 			
 	<!--
@@ -183,24 +144,18 @@
 					<div class="details props">
 						<div class="innerProps">
 							<h2 class="sectionTitle" id="constructor">
-								Class Detail
+								Namespace Detail
 							</h2>
 							
 							<div class="fixedFont">
-								<b>soma.core.controller.Command</b>()
+								<b>soma.core.view</b>
 							</div>
 							
 							<div class="description">
-								Creates a new Command, should be instantiated by the framework only.
+								
 								
 							</div>
 							
-							
-								
-									<pre class="code">this.addCommand("eventType", MyCommand);</pre>
-								
-									<pre class="code">var MyCommand = new Class({	Extends:soma.core.controller.Command,	execute: function(event) {		// do something	}});</pre>
-								
 							
 						
 							
@@ -217,88 +172,6 @@
 	<!--
 	#### METHOD DETAILS
 	-->		
-			
-				<section>
-					<div class="details props">
-						<div class="innerProps">
-							<h2 class="sectionTitle">
-								Method Detail
-							</h2>
-							
-							<ul class="methodDetail" id="MethodDetail">
-								
-								
-									<li 
-										 class='item0'
-									>
-										<div class="fixedFont heading" id="addWire">
-											<span class='lighter'>
-											
-											</span>
-											
-											<span class="light">{soma.core.Wire}</span>
-											
-											<b>addWire</b>(wireName, wire)
-										</div>
-										
-										<div class="description">
-											
-											
-											
-											
-											
-										</div>
-										
-										
-										
-										
-											<dl class="detailList params">
-												<dt class="heading">Parameters:</dt>
-												
-													<dt>
-														<span class="light fixedFont">{String}</span> <b>wireName</b>
-														
-													</dt>
-													<dd></dd>
-												
-													<dt>
-														<span class="light fixedFont">{soma.core.Wire}</span> <b>wire</b>
-														
-													</dt>
-													<dd></dd>
-												
-											</dl>
-										
-										
-										
-											<dl class="detailList nomargin">
-											
-												
-												
-												
-												
-												
-												
-												
-													<dt class="heading">Returns:</dt>
-													
-														<dd><span class="light fixedFont">{soma.core.Wire}</span> </dd>
-													
-												
-												
-												
-												
-												
-											
-											</dl>
-										
-										
-									</li>
-								
-							</ul>
-						</div>
-					</div>
-				</section>
 			
 			
 	<!--

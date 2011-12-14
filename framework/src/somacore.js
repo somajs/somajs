@@ -1,27 +1,50 @@
 /**
- * SomaCore MVC Framework for JavaScript and Mootools 1.3+
- * Port of the AS3 MVC framework SomaCore by Romuald Quantin (http://www.soundstep.com/blog/downloads/somacore/)
- *
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ * 
+ * http://www.mozilla.org/MPL/
+ * 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied.
+ * See the License for the specific language governing rights and
+ * limitations under the License.
+ * 
+ * The Original Code is SomaCore.
+ * 
+ * The Initial Developer of the Original Code is Romuald Quantin (original actionscript version).
+ * romu@soundstep.com (www.soundstep.com).
+ * 
+ * Javascript port of the AS3 MVC framework SomaCore (http://www.soundstep.com/blog/downloads/somacore/).
+ * The Initial Developer of the port is Henry Schmieder (javascript version).
  * @author Henry Schmieder
- * @author and a bit of me now? :D
- *
- *
- *
- *
- *
+ * @contributors:
+ * 		Romuald Quantin
+ * 
+ * Initial Developer are Copyright (C) 2008-2012 Soundstep. All Rights Reserved.
+ * All Rights Reserved.
+ * 
  */
-(function() {
 
+(function() {
+	
+	/** @namespace Global namespace and contains some helpers. */
 	soma = {};
+	/** @namespace Contains the SomaCore class Application (entry point of the framework).  */
 	soma.core = {};
+	/** @namespace Contains classes related to commands and events. */
 	soma.core.controller = {};
+	/** @namespace Contains the models manager and a Model abstract class. */
 	soma.core.model = {};
+	/** @namespace Contains the views manager and a View abstract class (no framework dependency). */
 	soma.core.view = {};
+	/** @namespace Contains the wires manager and a Wire abstract class. */
 	soma.core.wire = {};
+	/** @namespace Contains a Mediator abstract class. */
 	soma.core.mediator = {};
 	
 	/**
-	 * used for dynamic class instantiation with passing arbitrary amount of arguments to their constructors
+	 * Used for dynamic class instantiation with passing arbitrary amount of arguments to their constructors.
 	 */
 	function F() {
 	}
@@ -36,14 +59,6 @@
 		}
 	});
 
-
-	/**
-	 * @class
-	 * @internal
-	 * @description
-	 * Acts as base class for other framework actors by providing common shared accessor functionality.
-	 * This class is used by the framework itself only - internal -
-	 */
 	var SomaSharedCore = new Class({
 
 		dispatchEvent: function() {
@@ -287,26 +302,19 @@
 	};
 	soma.core.AutoBind = new Class( AutoBindProto );
 
-	/*
-	Class: soma.core.controller.Command
-	Class that will be instantiated when a registered event is dispatched, the framework will automatically call the execute method.
-
-	Example:
-
-	*Register a command*
-	> this.addCommand("eventType", MyCommand);
-
-	*Create a command class*
-	>	var MyCommand = new Class({
-	>		Extends:soma.core.controller.Command,
-	>		execute: function(event) {
-	>			// do something
-	>		}
-	>	});
-	*/
 	/**
-	    Creates a new Person.
-	    @class Represents a person. 
+	 * @class Class that will be instantiated when a registered event is dispatched, the framework will automatically call the execute method.
+	 * @description Creates a new Command, should be instantiated by the framework only.
+	 * @borrows soma.core.Application#addWire
+	 * @example
+	 * this.addCommand("eventType", MyCommand);
+	 * @example
+	 * var MyCommand = new Class({
+	 * 	Extends:soma.core.controller.Command,
+	 * 	execute: function(event) {
+	 * 		// do something
+	 * 	}
+	 * });
 	 */
 	soma.core.controller.Command = new Class({
 		Implements: SomaSharedCore,
@@ -1007,7 +1015,10 @@ soma.createClassInstance = function(clazz, parameters) {
 	return clazz.instantiate(a);
 };
 
-
+/**
+ * EventDispatcher
+ * @class EventDispatcher
+ */
 soma.EventDispatcher = (function() {
 	var listeners = [];
 	return new Class({
@@ -1070,12 +1081,42 @@ soma.EventDispatcher = (function() {
 	});
 })();
 
+/**
+ * @class Class that can be extended to create a framework instance and start the application.
+ * @description Creates a new Application and acts as the facade and main entry point of the application.
+ * @extends soma.EventDispatcher
+ * @example
+var SomaApplication = new Class({
+	Extends: soma.core.Application,
+	init: function() {
 
-soma.core.Application = new Class({
+	},
+	registerModels: function() {
+		
+	},
+	registerViews: function() {
+		
+	},
+	registerCommands: function() {
+		
+	},
+	registerWires: function() {
+		
+	},
+	start: function() {
+		
+	}
+});
+new SomaApplication();
+ */
+soma.core.Application = new Class(
+	/** @lends soma.core.Application.prototype */
+	{
 	Extends: soma.EventDispatcher,
 	Implements: soma.IDisposable,
-
+	/** Gets the document.body (DOM Element). */
 	body:null,
+	/** Gets the model manager instance (soma.core.model.SomaModel). */
 	models:null,
 	controller:null,
 	wires:null,
@@ -1083,7 +1124,6 @@ soma.core.Application = new Class({
 
 	/**
 	 *
-	 * @constructs
 	 * @description
 	 * This class acts as some sort of super wire orchestrating all core actor objects. A reference is stored in each core actor.
 	 * disabling the body for dispatching events manually as at the lowest point in the display list dispatching an event

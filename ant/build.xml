@@ -40,12 +40,15 @@
 	</target>
 	
 	<target name="docs" description="generate somacore.js documentation">
+		<echo message="doc start"/>
 		<java jar="${build.docs.executable}" fork="true">
 			<arg value="${build.docs.app}"/>
 			<arg value="-t=${build.docs.template}"/>
 			<arg value="${build.docs.source}"/>
 			<arg value="-d=${build.docs.export}"/>
+			<arg value="-D=noGlobal:true"/>
 	    </java>
+		<echo message="doc complete"/>
 	</target>
 	
 	<target name="template" description="compress somacore.js">

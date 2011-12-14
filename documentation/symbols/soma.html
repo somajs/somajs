@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>soma.core.controller.Command | JsDoc Reference</title>
+		<title>soma | JsDoc Reference</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<meta name="mobileoptimized" content="0" />
@@ -78,12 +78,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Class <span>soma.core.controller.Command</span>
+					Namespace <span>soma</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						Class that will be instantiated when a registered event is dispatched, the framework will automatically call the execute method.
+						Global namespace and contains some helpers.
 					</p>
 						
 					
@@ -102,8 +102,8 @@
 			
 				<section>
 					<div class="props">
-						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.core.controller.Command.">
-							<caption class="sectionTitle">Class Summary</caption>
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.">
+							<caption class="sectionTitle">Namespace Summary</caption>
 							<thead>
 								<tr>
 									<th scope="col">Constructor Attributes</th>
@@ -115,9 +115,9 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/soma.core.controller.Command.html#constructor">soma.core.controller.Command</a></b>()
+											<b><a href="../symbols/soma.html#constructor">soma</a></b>
 										</div>
-										<div class="description">Creates a new Command, should be instantiated by the framework only.</div>
+										<div class="description"></div>
 									</td>
 								</tr>
 							</tbody>
@@ -126,6 +126,52 @@
 				</section>
 			
 			
+			
+				
+				<section>
+					
+						<nav>
+							<div class="props">
+								<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class soma.">
+									<caption class="sectionTitle">Field Summary</caption>
+									
+									<thead>
+										<tr>
+											<th scope="col">Field Attributes</th>
+											<th scope="col">Field Name and Description</th>
+										</tr>
+									</thead>
+									
+									<tbody>
+										
+											<tr>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">
+													soma.<b><a href="../symbols/soma.html#.Event">Event</a></b>
+													</div>
+													<div class="description">******************************************** # event # ***********************************************</div>
+												</td>
+											</tr>
+										
+											<tr>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">
+													soma.<b><a href="../symbols/soma.html#.View">View</a></b>
+													</div>
+													<div class="description">******************************************** # soma.view # ***********************************************</div>
+												</td>
+											</tr>
+										
+									</tbody>
+								</table>
+							</div>
+						</nav>
+					
+					
+					
+				</section>
 			
 	<!--
 	#### METHODS SUMMARY
@@ -139,7 +185,7 @@
 						
 						
 							<nav>
-								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.core.controller.Command.">
+								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.">
 									<thead>
 										<tr>
 											<th scope="col">Method Attributes</th>
@@ -153,11 +199,11 @@
 											<tr
 												 class='item0'
 											>
-												<td class="attributes">&nbsp;</td>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#addWire">addWire</a></b>(wireName, wire)
+													<div class="fixedFont">soma.<b><a href="../symbols/soma.html#.createClassInstance">createClassInstance</a></b>(clazz, parameters)
 													</div>
-													<div class="description"></div>
+													<div class="description">to save instantiation latency for singular class libraries, I recommend not building the Class Objects upopnrequest, if they are not used in each page where they get loaded in.</div>
 												</td>
 											</tr>
 										
@@ -183,24 +229,18 @@
 					<div class="details props">
 						<div class="innerProps">
 							<h2 class="sectionTitle" id="constructor">
-								Class Detail
+								Namespace Detail
 							</h2>
 							
 							<div class="fixedFont">
-								<b>soma.core.controller.Command</b>()
+								<b>soma</b>
 							</div>
 							
 							<div class="description">
-								Creates a new Command, should be instantiated by the framework only.
+								
 								
 							</div>
 							
-							
-								
-									<pre class="code">this.addCommand("eventType", MyCommand);</pre>
-								
-									<pre class="code">var MyCommand = new Class({	Extends:soma.core.controller.Command,	execute: function(event) {		// do something	}});</pre>
-								
 							
 						
 							
@@ -213,6 +253,62 @@
 	<!--
 	#### FIELD DETAILS
 	-->
+			
+				<section>
+					<div class="details props">
+						<div class="innerProps">
+							<h2 class="sectionTitle">
+								Field Detail
+							</h2>
+							
+							
+								<div class="fixedFont heading" id=".Event">
+									<span class='lighter'>
+									&lt;static&gt; 
+									</span>
+									
+									
+									
+									<span class="light">soma.</span><b>Event</b>							
+								</div>
+								
+								<div class="description">
+									******************************************** # event # ***********************************************
+									
+									
+									
+								</div>
+								
+								
+									
+								
+								<div class="hr"></div>
+							
+								<div class="fixedFont heading" id=".View">
+									<span class='lighter'>
+									&lt;static&gt; 
+									</span>
+									
+									
+									
+									<span class="light">soma.</span><b>View</b>							
+								</div>
+								
+								<div class="description">
+									******************************************** # soma.view # ***********************************************
+									
+									
+									
+								</div>
+								
+								
+									
+								
+								
+							
+						</div>
+					</div>
+				</section>
 			
 	<!--
 	#### METHOD DETAILS
@@ -231,18 +327,18 @@
 									<li 
 										 class='item0'
 									>
-										<div class="fixedFont heading" id="addWire">
+										<div class="fixedFont heading" id=".createClassInstance">
 											<span class='lighter'>
-											
+											&lt;static&gt; 
 											</span>
 											
-											<span class="light">{soma.core.Wire}</span>
 											
-											<b>addWire</b>(wireName, wire)
+											
+											<span class="light">soma.</span><b>createClassInstance</b>(clazz, parameters)
 										</div>
 										
 										<div class="description">
-											
+											to save instantiation latency for singular class libraries, I recommend not building the Class Objects upopnrequest, if they are not used in each page where they get loaded in.This static method creates a class instance by either taking the class object or the Function, thatis base for the class object creation
 											
 											
 											
@@ -256,16 +352,16 @@
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{String}</span> <b>wireName</b>
+														<span class="light fixedFont">{Class | Function}</span> <b>clazz</b>
 														
 													</dt>
-													<dd></dd>
+													<dd>Mootools Class Object or Function</dd>
 												
 													<dt>
-														<span class="light fixedFont">{soma.core.Wire}</span> <b>wire</b>
+														<span class="light fixedFont">{Object}</span> <b>parameters</b>
 														
 													</dt>
-													<dd></dd>
+													<dd>that get passed to the constructor</dd>
 												
 											</dl>
 										
@@ -282,7 +378,7 @@
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd><span class="light fixedFont">{soma.core.Wire}</span> </dd>
+														<dd>Object</dd>
 													
 												
 												

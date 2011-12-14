@@ -1,7 +1,10 @@
-*.project
-*user.properties
+.project*
+.classpath*
+user.properties*
 
-.DS_Store?
-ehthumbs.db
-Icon?
-Thumbs.db
+/tools/cli/java/bin
+
+.DS_Store*
+ehthumbs.db*
+Icon*
+Thumbs.db*

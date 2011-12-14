@@ -306,6 +306,9 @@
 	 * @class Class that will be instantiated when a registered event is dispatched, the framework will automatically call the execute method.
 	 * @description Creates a new Command, should be instantiated by the framework only.
 	 * @borrows soma.core.Application#addWire
+	 * @borrows soma.core.Application#getWire
+	 * @borrows soma.core.Application#hasWire
+	 * @borrows soma.core.Application#removeWire
 	 * @example
 	 * this.addCommand("eventType", MyCommand);
 	 * @example
@@ -1081,34 +1084,6 @@ soma.EventDispatcher = (function() {
 	});
 })();
 
-/**
- * @class Class that can be extended to create a framework instance and start the application.
- * @description Creates a new Application and acts as the facade and main entry point of the application.
- * @extends soma.EventDispatcher
- * @example
-var SomaApplication = new Class({
-	Extends: soma.core.Application,
-	init: function() {
-
-	},
-	registerModels: function() {
-		
-	},
-	registerViews: function() {
-		
-	},
-	registerCommands: function() {
-		
-	},
-	registerWires: function() {
-		
-	},
-	start: function() {
-		
-	}
-});
-new SomaApplication();
- */
 soma.core.Application = new Class(
 	/** @lends soma.core.Application.prototype */
 	{
@@ -1116,26 +1091,46 @@ soma.core.Application = new Class(
 	Implements: soma.IDisposable,
 	/** Gets the document.body (DOM Element). */
 	body:null,
-	/** Gets the model manager instance (soma.core.model.SomaModel). */
+	/** Gets the models manager instance (soma.core.model.SomaModel). */
 	models:null,
+	/** Gets the commands manager instance (soma.core.controller.SomaController). */
 	controller:null,
+	/** Gets the wires manager instance (soma.core.wire.SomaWire). */
 	wires:null,
+	/** Gets the views manager instance (soma.core.views.SomaViews). */
 	views:null,
 
 	/**
-	 *
-	 * @description
-	 * This class acts as some sort of super wire orchestrating all core actor objects. A reference is stored in each core actor.
-	 * disabling the body for dispatching events manually as at the lowest point in the display list dispatching an event
-	 * a handler is not recognized for the capture phase
-	 *
-	 * @see soma.core.Share
+	 * @constructs
+	 * @class Class that can be extended to create a framework instance and start the application.
+	 * @description Creates a new Application and acts as the facade and main entry point of the application.
+	 * @extends soma.EventDispatcher
+	 * @example
+var SomaApplication = new Class({
+	Extends: soma.core.Application,
+	init: function() {
+
+	},
+	registerModels: function() {
+
+	},
+	registerViews: function() {
+
+	},
+	registerCommands: function() {
+
+	},
+	registerWires: function() {
+
+	},
+	start: function() {
+
+	}
+});
+new SomaApplication();
 	 */
-
-
 	initialize:function() {
 		this.body = document.body;
-		//this.body.dispatchEvent = function() { throw new Error("dispatching events from soma body not allowed") };
 		if (!this.body) {
 			throw new Error("SomaCore requires body of type Element");
 		}
@@ -1143,14 +1138,11 @@ soma.core.Application = new Class(
 		this.models = new soma.core.model.SomaModels(this);
 		this.wires = new soma.core.wire.SomaWires(this);
 		this.views = new soma.core.view.SomaViews();
-
 		this.init();
-
 		this.registerModels();
 		this.registerViews();
 		this.registerCommands();
 		this.registerWires();
-
 		this.start();
 	},
 
@@ -1162,18 +1154,10 @@ soma.core.Application = new Class(
 		return (!this.controller) ? null : this.controller.getCommand(commandName);
 	},
 
-	/**
-	 * @return {Array} list of registered commands
-	 */
 	getCommands: function() {
 		return (!this.controller) ? null : this.controller.getCommands();
 	},
 
-	/**
-	 *
-	 * @param {String} commandName Unique key that identifies the command
-	 * @param {soma.core.controller.Command} command
-	 */
 	addCommand: function(commandName, command) {
 		this.controller.addCommand(commandName, command);
 	},
@@ -1182,7 +1166,13 @@ soma.core.Application = new Class(
 		this.controller.removeCommand(commandName);
 	},
 
-
+	/**
+	 * Indicates wether a wire has been registered to the framework.
+	 * @param {string} wireName The name of the wire.
+	 * @returns {boolean}
+	 * @example
+	 * this.hasWire("myWireName");
+	 */
 	hasWire: function(wireName) {
 		return (!this.wires) ? false : this.wires.hasWire(wireName);
 	},
@@ -1195,12 +1185,6 @@ soma.core.Application = new Class(
 		return (!this.wires) ? null : this.wires.getWires();
 	},
 
-	/**
-	 *
-	 * @param {String} wireName
-	 * @param {soma.core.Wire} wire
-	 * @return {soma.core.Wire}
-	 */
 	addWire: function(wireName, wire) {
 		return this.wires.addWire(wireName, wire);
 	},
@@ -1261,49 +1245,25 @@ soma.core.Application = new Class(
 	registerWires: function() {
 	},
 
-	/**
-	 * @return Array
-	 */
 	getSequencers: function() {
 		return !!this.controller ? this.controller.getSequencers() : null;
 	},
 
-	/**
-	 *
-	 * @param {Event} event
-	 * @return soma.core.controller.Command
-	 */
 	getSequencer: function(event) {
 		return !!this.controller ? this.controller.getSequencer(event) : null;
 	},
 
-	/**
-	 *
-	 * @param {Event} event
-	 * @return Boolean
-	 */
 	isPartOfASequence: function(event) {
 		return ( this.getSequencer(event) != null );
 	},
 
-
-	/**
-	 * @see soma.core.Controller.stopSequencerWithEvent
-	 * @param {Event} event
-	 * @return Boolean
-	 */
 	stopSequencerWithEvent: function(event) {
 		return !!this.controller ? this.controller.stopSequencerWithEvent(event) : false;
 	},
 
-	/**
-	 * @param {soma.core.controller.Command} sequencer
-	 * @return Boolean
-	 */
 	stopSequencer: function(sequencer) {
 		return !!this.controller ? this.controller.stopSequencer(sequencer) : false;
 	},
-
 
 	stopAllSequencers: function() {
 		if (this.controller) {
@@ -1311,21 +1271,13 @@ soma.core.Application = new Class(
 		}
 	},
 
-
-	/**
-	 *  @return Array
-	 */
 	getRunningSequencers: function() {
 		return !!this.controller ? this.controller.getRunningSequencers() : null;
 	},
 
-	/**
-	 * @return soma.core.controller.Command
-	 */
 	getLastSequencer: function() {
 		return !!this.controller ? this.controller.getLastSequencer() : null;
 	},
-
 
 	dispose: function() {
 		if (this.models) {
@@ -1359,8 +1311,6 @@ soma.core.Application = new Class(
 
 	}
 	
-	//___INSERT_SHARED_DOC___
-
 });
 
 

@@ -1,5 +1,6 @@
 .project*
 .classpath*
+.idea*
 user.properties*
 
 /tools/cli/java/bin/*

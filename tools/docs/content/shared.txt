@@ -1,0 +1,126 @@
+/*
+Variable: body (DOM element)
+Get the body of the document.
+> this.body
+
+Variable: instance (soma.core.Application)
+Retrieves the instance of the framework.
+> this.instance
+
+Function: dispatchEvent
+Dispatches an event into the framework.
+
+Parameter:
+	event (soma.Event) - event instance
+> this.dispatchEvent(new soma.Event("eventType")); // generic event
+> this.dispatchEvent(new MyEvent("eventType")); // custom event
+
+Function: addEventListener
+Registers an event listener object with an EventDispatcher object so that the listener receives notification of an event.
+
+Parameter:
+	type (string) - The type of event.
+	listener (function) - The listener function that processes the event.
+	priority (int) - The priority level of the event listener (default: 0).
+> this.addEventListener("eventType", this.eventHandler.bind(this));
+
+> function eventHandler(event) {
+>     // do something
+> }
+
+Function: removeEventListener
+Removes a listener from the EventDispatcher object. If there is no matching listener registered with the EventDispatcher object, a call to this method has no effect.
+
+Parameter:
+	type (string) - The type of event.
+	listener (function) - The listener to remove.
+> this.removeEventListener("eventType", this.eventHandler);
+
+Function: hasWire
+Indicates whether a wire has been registered to the framework.
+
+*Returns:* a boolean
+
+Parameter:
+	wireName (string) - Name of the wire.
+> this.hasWire("myWireName");
+
+Function: getWire
+Retrieves the wire instance that has been registered using its name.
+
+*Returns:* a wire instance.
+
+Parameter:
+	wireName (string) - Name of the wire.
+> var myWire = this.getWire("myWireName");
+
+Function: addWire
+Registers a wire to the framework.
+
+*Returns:* the wire instance.
+
+Parameter:
+	wireName (string) - Name of the wire.
+	wire (soma.core.wire.Wire) - A wire instance.
+> this.addWire("myWireName", new MyWire());
+
+Function: removeWire
+Removes a wire from the framework and call the dispose method of this wire.
+
+Parameter:
+	wireName (string) - Name of the wire.
+> this.removeWire("myWireName");
+
+Function: hasModel
+Indicates wether a model has been registered to the framework.
+
+Parameter:
+	modelName (string) - Name of the model.
+> this.hasModel("myModelName");
+
+Function: getModel
+Retrieves the model instance that has been registered using its name.
+
+*Returns:* a model instance.
+
+Parameter:
+	modelName (string) - Name of the model.
+> var myModel = this.getModel("myModelName");
+
+Function: addModel
+Registers a model to the framework.
+
+*Returns:* the model instance.
+
+Parameter:
+	modelName (string) - Name of the model.
+	model (soma.core.model.Model) - A model instance'
+> this.addModel("myModelName", new Model());
+
+Function: removeModel
+Removes a model from the framework and call the dispose method of this model.
+
+Parameter:
+	modelName (string) - Name of the model.
+> this.removeModel("myModelName");
+
+Function: hasView
+Function: getView
+Function: addView
+Function: removeView
+
+Function: hasCommand
+Function: getCommand
+Function: getCommands
+Function: addCommand
+Function: removeCommand
+
+Function: getSequencer
+Function: stopSequencerWithEvent
+Function: stopSequencer
+Function: stopAllSequencers
+Function: isPartOfASequence
+Function: getLastSequencer
+Function: getRunningSequencers
+
+*/

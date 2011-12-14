@@ -48,9 +48,20 @@
 	
 	<target name="docs" description="generate somacore.js documentation" if="naturalDocsExists">
 		<echo message="doc start"/>
+		<copy todir="${build.dir.docs.temp}">
+			<fileset dir="${build.dir.source}"/>
+		</copy>
+		<echo message="insert shared doc"/>
+		<loadfile srcfile="${build.docs.content.shared}" property="docShared"/> 
+		<replace dir="${build.dir.docs.temp}">
+			<include name="**/*.js"/>
+			<replacefilter token="${build.token.docs.shared}" value="${docShared}"/>
+		</replace>
+		<echo message="${docShared}"/>
+		<echo message="generate doc"/>
 		<exec executable="${naturalDocs}">
 			<arg value="-i"/>
-			<arg value="${build.docs.source}"/>
+			<arg value="${build.dir.docs.temp}"/>
 			<arg value="-o"/>
 			<arg value="FramedHTML"/>
 			<arg value="${build.docs.export}"/>
@@ -60,6 +71,7 @@
 			<arg value="Small"/>
 			<arg value="-ro"/>
 		</exec>
+		<delete dir="${build.dir.docs.temp}"/>
 		<echo message="doc complete"/>
 	</target>
 

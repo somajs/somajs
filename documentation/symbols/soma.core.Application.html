@@ -65,7 +65,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2011-11-14' pubdate>2011-11-14 21:10</time>
+			<time datetime='2011-11-15' pubdate>2011-11-15 0:17</time>
 		</footer>
 	</div>
 </div>
@@ -239,9 +239,108 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.Application.html#addEventListener">addEventListener</a></b>(type, listener, priority)
+													</div>
+													<div class="description">Registers an event listener with an EventDispatcher object so that the listener receives notification of an event.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item1'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.Application.html#addWire">addWire</a></b>(wireName, wire)
+													</div>
+													<div class="description">Registers a wire to the framework.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item2'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.Application.html#dispatchEvent">dispatchEvent</a></b>(event)
+													</div>
+													<div class="description">Dispatches an event into the event flow.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item3'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.Application.html#dispose">dispose</a></b>()
+													</div>
+													<div class="description">Destroy the elements of the instance.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item4'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.Application.html#getWire">getWire</a></b>(wireName)
+													</div>
+													<div class="description">Retrieves the wire instance that has been registered using its name.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item5'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.Application.html#getWires">getWires</a></b>()
+													</div>
+													<div class="description">Retrieves an array of the registered wires.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item6'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.Application.html#hasEventListener">hasEventListener</a></b>(type)
+													</div>
+													<div class="description">Checks whether the EventDispatcher object has any listeners registered for a specific type of event.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item7'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
 													<div class="fixedFont"><b><a href="../symbols/soma.core.Application.html#hasWire">hasWire</a></b>(wireName)
 													</div>
 													<div class="description">Indicates wether a wire has been registered to the framework.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item8'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.Application.html#removeEventListener">removeEventListener</a></b>(type, listener)
+													</div>
+													<div class="description">Removes a listener from the EventDispatcher object.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item9'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.Application.html#removeWire">removeWire</a></b>(wireName)
+													</div>
+													<div class="description">Removes a wire from the framework and calls the dispose method of this wire.</div>
 												</td>
 											</tr>
 										
@@ -463,6 +562,402 @@ new SomaApplication();</pre>
 									<li 
 										 class='item0'
 									>
+										<div class="fixedFont heading" id="addEventListener">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>addEventListener</b>(type, listener, priority)
+										</div>
+										
+										<div class="description">
+											Registers an event listener with an EventDispatcher object so that the listener receives notification of an event.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">
+dispatcher.addEventListener("eventType", eventHandler);
+function eventHandler(event) {
+	// alert(event.type)
+}</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>type</b>
+														
+													</dt>
+													<dd>The type of event.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{function}</span> <b>listener</b>
+														
+													</dt>
+													<dd>The listener function that processes the event. This function must accept an Event object as its only parameter and must return nothing.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{int}</span> <b>priority</b>
+														
+													</dt>
+													<dd>The priority level of the event listener (default 0). The higher the number, the higher the priority (can take negative number).</dd>
+												
+											</dl>
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item1'
+									>
+										<div class="fixedFont heading" id="addWire">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{soma.core.wire.Wire}</span>
+											
+											<b>addWire</b>(wireName, wire)
+										</div>
+										
+										<div class="description">
+											Registers a wire to the framework.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">this.addWire("myWireName", new MyWire());</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>wireName</b>
+														
+													</dt>
+													<dd>The name of the wire.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{soma.core.wire.Wire}</span> <b>wire</b>
+														
+													</dt>
+													<dd>A wire instance.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{soma.core.wire.Wire}</span> The wire instance.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item2'
+									>
+										<div class="fixedFont heading" id="dispatchEvent">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>dispatchEvent</b>(event)
+										</div>
+										
+										<div class="description">
+											Dispatches an event into the event flow. The event target is the EventDispatcher object upon which the dispatchEvent() method is called.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">
+dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{soma.Event}</span> <b>event</b>
+														
+													</dt>
+													<dd>The Event object that is dispatched into the event flow. If the event is being redispatched, a clone of the event is created automatically.</dd>
+												
+											</dl>
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item3'
+									>
+										<div class="fixedFont heading" id="dispose">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>dispose</b>()
+										</div>
+										
+										<div class="description">
+											Destroy the elements of the instance. The instance still needs to be nullified.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">
+instance.dispose();
+instance = null;</pre>
+											
+										
+										
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item4'
+									>
+										<div class="fixedFont heading" id="getWire">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{soma.core.wire.Wire}</span>
+											
+											<b>getWire</b>(wireName)
+										</div>
+										
+										<div class="description">
+											Retrieves the wire instance that has been registered using its name.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">var myWire = this.getWire("myWireName");</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>wireName</b>
+														
+													</dt>
+													<dd>The name of the wire.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{soma.core.wire.Wire}</span> A wire instance.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item5'
+									>
+										<div class="fixedFont heading" id="getWires">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{array}</span>
+											
+											<b>getWires</b>()
+										</div>
+										
+										<div class="description">
+											Retrieves an array of the registered wires.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">var wires = this.getWires();</pre>
+											
+										
+										
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{array}</span> An array of wires.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item6'
+									>
+										<div class="fixedFont heading" id="hasEventListener">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{boolean}</span>
+											
+											<b>hasEventListener</b>(type)
+										</div>
+										
+										<div class="description">
+											Checks whether the EventDispatcher object has any listeners registered for a specific type of event.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">
+dispatcher.hasEventListener("eventType");</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>type</b>
+														
+													</dt>
+													<dd>The type of event.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{boolean}</span> </dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item7'
+									>
 										<div class="fixedFont heading" id="hasWire">
 											<span class='lighter'>
 											
@@ -521,6 +1016,101 @@ new SomaApplication();</pre>
 												
 											
 											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item8'
+									>
+										<div class="fixedFont heading" id="removeEventListener">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>removeEventListener</b>(type, listener)
+										</div>
+										
+										<div class="description">
+											Removes a listener from the EventDispatcher object. If there is no matching listener registered with the EventDispatcher object, a call to this method has no effect.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">
+dispatcher.removeEventListener("eventType", eventHandler);</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>type</b>
+														
+													</dt>
+													<dd>The type of event.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{function}</span> <b>listener</b>
+														
+													</dt>
+													<dd>The listener object to remove.</dd>
+												
+											</dl>
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item9'
+									>
+										<div class="fixedFont heading" id="removeWire">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>removeWire</b>(wireName)
+										</div>
+										
+										<div class="description">
+											Removes a wire from the framework and calls the dispose method of this wire.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">this.removeWire("myWireName");</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>wireName</b>
+														
+													</dt>
+													<dd>The name of the wire.</dd>
+												
+											</dl>
+										
+										
 										
 										
 									</li>

@@ -58,7 +58,7 @@
 			return Function.instantiate(this, params);
 		}
 	});
-
+	
 	var SomaSharedCore = new Class({
 
 		dispatchEvent: function() {
@@ -73,107 +73,50 @@
 			this.instance.removeEventListener.apply(this.instance, arguments);
 		},
 
-		/**
-		 * @description checks if a command for the given key exists
-		 * @param {String} commandName
-		 * @return {Boolean}
-		 */
 		hasCommand: function(commandName) {
 			return this.instance.hasCommand(commandName);
 		},
 
-		/**
-		 * @description get a command object reference
-		 * @param {String} commandName
-		 * @return {soma.core.controller.Command}
-		 */
 		getCommand: function(commandName) {
 			return this.instance.getCommand(commandName);
 		},
 
-		/**
-		 * @return {Array} list of command object references
-		 */
 		getCommands: function() {
 			return this.instance.getCommands();
 		},
 
-		/**
-		 * @description subsribes a command by a unique name/key and its class object
-		 * @param {String} command name
-		 * @param {Class} command class
-		 */
 		addCommand: function(commandName, commandClass) {
 			this.instance.controller.addCommand(commandName, commandClass);
 		},
 
-		/**
-		 * @description unsubscribes a command
-		 * @param {String} commandName
-		 * @return (void)
-		 */
 		removeCommand: function(commandName) {
 			this.instance.controller.removeCommand(commandName);
 		},
 
-		/**
-		 * @description checks if a wire with the given wire name exists
-		 * @param {String} wireName the unique wire name, the wire was registered for
-		 * @return {Boolean}
-		 */
 		hasWire: function(wireName) {
 			return this.instance.hasWire(wireName);
 		},
 
-		/**
-		 *
-		 * @param {String} wireName the unique wire name, the wire was registered for
-		 * @return {soma.wire.Wire}
-		 */
 		getWire: function(wireName) {
 			return this.instance.getWire(wireName);
 		},
 
-		/**
-		 * @description subsribes a wire object by a uique name and its class object
-		 * @param {String} wireName
-		 * @param {soma.core.Wire} wire
-		 * @return {soma.core.Wire}
-		 */
 		addWire: function(wireName, wire) {
 			return this.instance.addWire(wireName, wire);
 		},
 
-		/**
-		 * @description unsubscribes wire by its unique name
-		 * @param {String} wireName
-		 * @return {void}
-		 */
 		removeWire: function(wireName) {
 			this.instance.removeWire(wireName);
 		},
 
-		/**
-		 *
-		 * @param {String} modelName
-		 */
 		hasModel: function(modelName) {
 			return this.instance.hasModel(modelName);
 		},
 
-		/**
-		 *
-		 * @param {String} modelName
-		 */
 		getModel: function(modelName) {
 			return this.instance.getModel(modelName);
 		},
 
-		/**
-		 *
-		 * @param {String} modelName
-		 * @param {soma.core.model.Model} model
-		 */
 		addModel: function(modelName, model) {
 			return this.instance.addModel(modelName, model);
 		},
@@ -182,28 +125,14 @@
 			this.instance.removeModel(modelName);
 		},
 
-		/**
-		 *
-		 * @param {Event} event
-		 * @return soma.core.controller.SequenceCommand
-		 */
 		getSequencer: function(event) {
 			return !!this.instance.controller ? this.instance.controller.getSequencer(event) : null;
 		},
 
-		/**
-		 *
-		 * @param {Event} event
-		 * @return Boolean
-		 */
 		stopSequencerWithEvent: function(event) {
 			return !!this.instance.controller ? this.instance.controller.stopSequencerWithEvent(event) : null;
 		},
 
-		/**
-		 *
-		 * @param {Event} event
-		 */
 		stopSequencer: function(event) {
 			if (this.instance.controller) {
 				return this.instance.controller.stopSequencer(event);
@@ -216,27 +145,14 @@
 			}
 		},
 
-		/**
-		 * @see soma.core.Controller.isPartOfASequence
-		 * @param {Event} event
-		 * @return Boolean
-		 */
 		isPartOfASequence: function(event) {
 			return !!this.instance.controller ? this.instance.controller.isPartOfASequence(event) : false;
 		},
 
-		/**
-		 * @see soma.core.Controller.getLastSequencer
-		 * @return soma.core.controller.SequenceCommand
-		 */
 		getLastSequencer: function() {
 			return !!this.instance.controller ? this.instance.controller.getLastSequencer() : null;
 		},
 
-		/**
-		 * @see soma.core.Controller.getRunningSequencers
-		 * @return Array
-		 */
 		getRunningSequencers: function() {
 			return !!this.instance.controller ? this.instance.controller.getRunningSequencers() : null;
 		},
@@ -257,7 +173,6 @@
 			this.instance.removeView(viewName);
 		}
 	});
-
 
 	/**
 	 * provides the functionality to autobind with implicit need to keep object scope like event listeners and handlers/callbacks
@@ -312,12 +227,15 @@
 	 * @example
 	 * this.addCommand("eventType", MyCommand);
 	 * @example
-	 * var MyCommand = new Class({
-	 * 	Extends:soma.core.controller.Command,
-	 * 	execute: function(event) {
-	 * 		// do something
-	 * 	}
-	 * });
+var MyCommand = new Class({
+	Extends:soma.core.controller.Command,
+	execute: function(event) {
+		// access framework elements examples:
+		// alert(this.instance)
+		// alert(getWire("myWireName"))
+		// addModel("myModelName", new Model());
+	}
+});
 	 */
 	soma.core.controller.Command = new Class({
 		Implements: SomaSharedCore,
@@ -328,18 +246,19 @@
 			this.instance = instance;
 		},
 
-		/*
-		Function: execute
-		Called automatically when the framework execute the command.
-		
-		Parameter:
-			event (soma.Event) - event sent to the framework to trigger the command execution.
-		*/
+		/**
+		 * Method called by the framework when the command is executed by the framework. All the framework elements are accessible in this method (wires, commands, models, views, instance of the framework and body).
+		 * @param {soma.Event} event The event dispatched to triggered the command.
+var MyCommand = new Class({
+ 	Extends:soma.core.controller.Command,
+	execute: function(event) {
+		// alert(event.type)
+	}
+});
+		 */
 		execute: function(event) {
 			
 		}
-		
-		//___INSERT_SHARED_DOC___
 
 	});
 
@@ -1019,20 +938,50 @@ soma.createClassInstance = function(clazz, parameters) {
 };
 
 /**
- * EventDispatcher
- * @class EventDispatcher
+ * @name soma.EventDispatcher
+ * @class asdsdf
+ * @namespace Class on which on you can add and remove listeners of an event. A event can be dispatched from it and a notification will be sent to all registered listeners.
+ * @example
+var dispatcher = new soma.EventDispatcher();
+
+dispatcher.addEventListener("eventType", eventHandler);
+
+function eventHandler(event) {
+	 // alert(event.type);
+}
+
+dispatcher.dispatchEvent(new soma.Event("eventType"));
  */
 soma.EventDispatcher = (function() {
+	/** @lends soma.EventDispatcher.prototype */
 	var listeners = [];
 	return new Class({
 		initialize: function() {
 			listeners = [];
 		},
+		/**
+		 * Registers an event listener with an EventDispatcher object so that the listener receives notification of an event.
+		 * @param {string} type The type of event.
+		 * @param {function} listener The listener function that processes the event. This function must accept an Event object as its only parameter and must return nothing.
+		 * @param {int} priority The priority level of the event listener (default 0). The higher the number, the higher the priority (can take negative number).
+		 * @example
+dispatcher.addEventListener("eventType", eventHandler);
+function eventHandler(event) {
+	// alert(event.type)
+}
+		 */
 		addEventListener: function(type, listener, priority) {
 			if (!listeners || !type || !listener) return;
 			if (isNaN(priority)) priority = 0;
 			listeners.push({type: type, listener: listener, priority: priority});
 		},
+		/**
+		 * Removes a listener from the EventDispatcher object. If there is no matching listener registered with the EventDispatcher object, a call to this method has no effect.
+		 * @param {string} type The type of event.
+		 * @param {function} listener The listener object to remove.
+		 * @example
+dispatcher.removeEventListener("eventType", eventHandler);
+		 */
 		removeEventListener: function(type, listener) {
 			if (!listeners || !type || !listener) return;
 			var i = 0;
@@ -1046,6 +995,13 @@ soma.EventDispatcher = (function() {
 			}
 			return false;
 		},
+		/**
+		 * Checks whether the EventDispatcher object has any listeners registered for a specific type of event.
+		 * @param {string} type The type of event.
+		 * @return {boolean}
+		 * @example
+dispatcher.hasEventListener("eventType");
+		 */
 		hasEventListener: function(type) {
 			if (!listeners || !type) return false;
 			var i = 0;
@@ -1058,6 +1014,12 @@ soma.EventDispatcher = (function() {
 			}
 			return false;
 		},
+		/**
+		 * Dispatches an event into the event flow. The event target is the EventDispatcher object upon which the dispatchEvent() method is called.
+		 * @param {soma.Event} event The Event object that is dispatched into the event flow. If the event is being redispatched, a clone of the event is created automatically.
+		 * @example
+dispatcher.dispatchEvent(new soma.Event("eventType"));
+		 */
 		dispatchEvent: function(event) {
 			if (!listeners || !event) return;
 			var events = [];
@@ -1078,6 +1040,12 @@ soma.EventDispatcher = (function() {
 		toString: function() {
 			return "[Class soma.EventDispatcher]";
 		},
+		/**
+		 * Destroy the elements of the instance. The instance still needs to be nullified.
+		 * @example
+instance.dispose();
+instance = null;
+		 */
 		dispose: function() {
 			listeners = null;
 		}
@@ -1105,6 +1073,11 @@ soma.core.Application = new Class(
 	 * @class Class that can be extended to create a framework instance and start the application.
 	 * @description Creates a new Application and acts as the facade and main entry point of the application.
 	 * @extends soma.EventDispatcher
+	 * @borrows soma.EventDispatcher#addEventListener
+	 * @borrows soma.EventDispatcher#removeEventListener
+	 * @borrows soma.EventDispatcher#hasEventListener
+	 * @borrows soma.EventDispatcher#dispatchEvent
+	 * @borrows soma.EventDispatcher#dispose
 	 * @example
 var SomaApplication = new Class({
 	Extends: soma.core.Application,
@@ -1177,18 +1150,45 @@ new SomaApplication();
 		return (!this.wires) ? false : this.wires.hasWire(wireName);
 	},
 
+	/**
+	 * Retrieves the wire instance that has been registered using its name.
+	 * @param {string} wireName The name of the wire.
+	 * @returns {soma.core.wire.Wire} A wire instance.
+	 * @example
+	 * var myWire = this.getWire("myWireName");
+	 */
 	getWire: function(wireName) {
 		return (!this.wires) ? null : this.wires.getWire(wireName);
 	},
 
+	/**
+	 * Retrieves an array of the registered wires.
+	 * @returns {array} An array of wires.
+	 * @example
+	 * var wires = this.getWires();
+	 */
 	getWires: function() {
 		return (!this.wires) ? null : this.wires.getWires();
 	},
 
+	/**
+	 * Registers a wire to the framework.
+	 * @param {string} wireName The name of the wire.
+	 * @param {soma.core.wire.Wire} wire A wire instance.
+	 * @returns {soma.core.wire.Wire} The wire instance.
+	 * @example
+	 * this.addWire("myWireName", new MyWire());
+	 */
 	addWire: function(wireName, wire) {
 		return this.wires.addWire(wireName, wire);
 	},
 
+	/**
+	 * Removes a wire from the framework and calls the dispose method of this wire.
+	 * @param {string} wireName The name of the wire.
+	 * @example
+	 * this.removeWire("myWireName");
+	 */
 	removeWire: function(wireName) {
 		this.wires.removeWire(wireName);
 	},
@@ -1313,8 +1313,6 @@ new SomaApplication();
 	
 });
 
-
-/*********************************************** # soma.model # ************************************************/
 soma.core.model.SomaModels = (function() {
 	var models = null;
 	return new Class({
@@ -1431,11 +1429,8 @@ soma.core.model.Model = new Class({
 		this.name = name;
 	}
 	
-	//___INSERT_SHARED_DOC___
-
 });
 
-/*********************************************** # soma.view # ************************************************/
 soma.View = new Class({
 
 	domElement: null,
@@ -1465,7 +1460,6 @@ soma.View = new Class({
 });
 
 
-/*********************************************** # soma.wire # ************************************************/
 soma.core.wire.SomaWires = (function() {
 	var wires = null;
 	return new Class({
@@ -1543,9 +1537,6 @@ soma.core.wire.SomaWires = (function() {
 	});
 })();
 
-
-/*********************************************** # soma.mediator # ************************************************/
-
 soma.core.mediator.Mediator = new Class({
 
 	Extends: soma.core.wire.Wire,
@@ -1563,10 +1554,7 @@ soma.core.mediator.Mediator = new Class({
 		this.parent();
 	}
 	
-	//___INSERT_SHARED_DOC___
 });
-
-/*********************************************** # event # ************************************************/
 
 soma.Event = new Class({
 	initialize: function(type, data, bubbles, cancelable) {

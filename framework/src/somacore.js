@@ -646,41 +646,108 @@ this.addSubCommand(new soma.Event("eventType"));
 		
 	});
 
-	soma.core.wire.Wire = new Class({
+	soma.core.wire.Wire = new Class(
+		/** @lends soma.core.wire.Wire.prototype */
+		{
+		Implements: [SomaSharedCore, soma.core.AutoBind],
+		/** {string} The name of the wire */
 		name: null,
-
-		Implements: [SomaSharedCore, soma.core.AutoBind ],
-
 		instance: null,
 
+		/**
+		 * @constructs
+		 * @class
+		 * A Wire is a class that will hold the logic of the Application.
+		 * Wires can be used in many ways, depending on how you want to manage your views, commands and models. A wire can be used as a manager and handle many models, views or other wires. A wire can also be used in a one-to-one way (as a proxy), a single wire that handles a single view, a single wire that handles a single model, and so on.
+		 * Wires can be flexible or rigid depending on how your build your application.
+		 * A wire has access to everything in the framework: you can create views, add and dispatch commands, create models, access to the framework instance, access to the stage, and so on.
+		 * A wire can also be in control of the commands that are dispatched by listening to them and even stop their execution if needed (see the examples in this page).
+		 * @description Create an instance of a Wire class.
+		 * @borrows soma.core.Application#addWire
+		 * @borrows soma.core.Application#getWire
+		 * @borrows soma.core.Application#getWires
+		 * @borrows soma.core.Application#hasWire
+		 * @borrows soma.core.Application#removeWire
+		 * @borrows soma.core.Application#addModel
+		 * @borrows soma.core.Application#getModel
+		 * @borrows soma.core.Application#getModels
+		 * @borrows soma.core.Application#hasModel
+		 * @borrows soma.core.Application#removeModel
+		 * @borrows soma.core.Application#addView
+		 * @borrows soma.core.Application#getView
+		 * @borrows soma.core.Application#getViews
+		 * @borrows soma.core.Application#hasView
+		 * @borrows soma.core.Application#removeView
+		 * @borrows soma.core.Application#addCommand
+		 * @borrows soma.core.Application#getCommand
+		 * @borrows soma.core.Application#getCommands
+		 * @borrows soma.core.Application#hasCommand
+		 * @borrows soma.core.Application#removeCommand
+		 * @borrows soma.core.Application#getSequencer
+		 * @borrows soma.core.Application#stopSequencerWithEvent
+		 * @borrows soma.core.Application#stopSequencer
+		 * @borrows soma.core.Application#stopAllSequencers
+		 * @borrows soma.core.Application#isPartOfASequence
+		 * @borrows soma.core.Application#getLastSequencer
+		 * @borrows soma.core.Application#getRunningSequencers
+		 * @borrows soma.EventDispatcher#addEventListener
+		 * @borrows soma.EventDispatcher#removeEventListener
+		 * @borrows soma.EventDispatcher#hasEventListener
+		 * @borrows soma.EventDispatcher#dispatchEvent
+		 * @example
+var MyWire = new Class({
+	Extends: soma.core.wire.Wire,
+
+	init: function() {
+		// starting point
+	},
+
+	dispose: function() {
+		// called when the wire is removed from the framework
+	}
+});
+MyWire.NAME = "Wire::MyWire";
+		 */
 		initialize: function(name) {
 			if (name != null) {
 				this.name = name;
 			}
 		},
-
+		
 		registerInstance: function(instance) {
 			this.instance = instance;
 		},
 
-
+		/**
+		 * Method that can you can override, called when the wire has been registered to the framework.
+		 */
 		init: function() {
 
 		},
 
+		/**
+		 * Method that can you can override, called when the wire has been removed from the framework.
+		 */
 		dispose: function() {
 
 		},
 
+		/**
+		 * Retrieves the name of the wire.
+		 * @returns {string} The name of the wire.
+		 */
 		getName: function() {
 			return this.name;
 		},
 
+		/**
+		 * Sets the name of the wire.
+		 * @param {string} The name of the wire.
+		 */
 		setName: function(name) {
 			this.name = name;
 		}
 		
-		//___INSERT_SHARED_DOC___
 	});
 
 	soma.core.Controller = (function() {

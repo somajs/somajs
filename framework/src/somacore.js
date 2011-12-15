@@ -1119,28 +1119,61 @@ new SomaApplication();
 		this.start();
 	},
 
+	/**
+	 * Indicates whether a command has been registered to the framework.
+	 * @param {string} commandName Event type that is used as a command name.
+	 * @returns {boolean}
+	 * @example
+	 * this.hasCommand("eventType");
+	 */
 	hasCommand: function(commandName) {
 		return (!this.controller) ? false : this.controller.hasCommand(commandName);
 	},
 
+	/**
+	 * Retrieves the command class that has been registered with a command name.
+	 * @param {string} commandName Event type that is used as a command name.
+	 * @returns {class} A command Class.
+	 * @example
+	 * var commandClass = this.getCommand("eventType");
+	 */
 	getCommand: function(commandName) {
 		return (!this.controller) ? null : this.controller.getCommand(commandName);
 	},
 
+	/**
+	 * Retrieves all the command names (event type) that have been registered to the framework.
+	 * @returns {array} An array of command names (string).
+	 * @example
+	 * var commands = this.getCommands();
+	 */
 	getCommands: function() {
 		return (!this.controller) ? null : this.controller.getCommands();
 	},
 
+	/**
+	 * Registers a command to the framework.
+	 * @param {string} commandName Event type that is used as a command name.
+	 * @param {class} command Class that will be executed when a command has been dispatched.
+	 * @example
+	 * this.addCommand("eventType", MyCommand);
+	 */
 	addCommand: function(commandName, command) {
 		this.controller.addCommand(commandName, command);
 	},
 
+	/**
+	 * Removes a command from the framework.
+	 * @param {string} commandName Event type that is used as a command name.
+	 * @example
+	 * this.removeCommand("eventType");
+	 */
 	removeCommand: function(commandName) {
 		this.controller.removeCommand(commandName);
 	},
 
 	/**
-	 * Indicates wether a wire has been registered to the framework.
+	 * Indicates whether a wire has been registered to the framework.
 	 * @param {string} wireName The name of the wire.
 	 * @returns {boolean}
 	 * @example
@@ -1233,18 +1266,6 @@ new SomaApplication();
 		this.views.removeView(viewName);
 	},
 
-	registerModels: function() {
-	},
-
-	registerCommands: function() {
-	},
-
-	registerViews: function() {
-	},
-
-	registerWires: function() {
-	},
-
 	getSequencers: function() {
 		return !!this.controller ? this.controller.getSequencers() : null;
 	},
@@ -1303,10 +1324,28 @@ new SomaApplication();
 		this.body = null;
 	},
 
+	/** Method that you can optionally overwrite to initialize elements before anything else, this method is the first one called after that the framework is ready (init > registerModels > registerViews > registerCommands > registerWires > start). */
 	init: function() {
 
 	},
 
+	/** Method that you can optionally overwrite to register models to the framework (init > registerModels > registerViews > registerCommands > registerWires > start). */
+	registerModels: function() {
+	},
+
+	/** Method that you can optionally overwrite to register views to the framework (init > registerModels > registerViews > registerCommands > registerWires > start). */
+	registerViews: function() {
+	},
+
+	/** Method that you can optionally overwrite to register commands (mapping events to command classes) to the framework (init > registerModels > registerViews > registerCommands > registerWires > start). */
+	registerCommands: function() {
+	},
+
+	/** Method that you can optionally overwrite to register wires to the framework (init > registerModels > registerViews > registerCommands > registerWires > start). */
+	registerWires: function() {
+	},
+
+	/** Method that you can optionally overwrite, this method is the last one called by the framework and comes after all the registration methods (init > registerModels > registerViews > registerCommands > registerWires > start). */
 	start: function() {
 
 	}

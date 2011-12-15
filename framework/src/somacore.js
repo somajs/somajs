@@ -44,6 +44,7 @@
 	soma.core.mediator = {};
 	
 	/**
+	 * @function
 	 * Used for dynamic class instantiation with passing arbitrary amount of arguments to their constructors.
 	 */
 	function F() {
@@ -58,7 +59,10 @@
 			return Function.instantiate(this, params);
 		}
 	});
-	
+
+	/**
+	 * @private
+	 */
 	var SomaSharedCore = new Class({
 
 		dispatchEvent: function() {
@@ -175,6 +179,7 @@
 	});
 
 	/**
+	 * 
 	 * provides the functionality to autobind with implicit need to keep object scope like event listeners and handlers/callbacks
 	 * ending with *Listener or *Handler
 	 * Wires and Mediators are implementing instance scope autobinding upon registration
@@ -222,8 +227,35 @@
 	 * @description Creates a new Command, should be instantiated by the framework only.
 	 * @borrows soma.core.Application#addWire
 	 * @borrows soma.core.Application#getWire
+	 * @borrows soma.core.Application#getWires
 	 * @borrows soma.core.Application#hasWire
 	 * @borrows soma.core.Application#removeWire
+	 * @borrows soma.core.Application#addModel
+	 * @borrows soma.core.Application#getModel
+	 * @borrows soma.core.Application#getModels
+	 * @borrows soma.core.Application#hasModel
+	 * @borrows soma.core.Application#removeModel
+	 * @borrows soma.core.Application#addView
+	 * @borrows soma.core.Application#getView
+	 * @borrows soma.core.Application#getViews
+	 * @borrows soma.core.Application#hasView
+	 * @borrows soma.core.Application#removeView
+	 * @borrows soma.core.Application#addCommand
+	 * @borrows soma.core.Application#getCommand
+	 * @borrows soma.core.Application#getCommands
+	 * @borrows soma.core.Application#hasCommand
+	 * @borrows soma.core.Application#removeCommand
+	 * @borrows soma.core.Application#getSequencer
+	 * @borrows soma.core.Application#stopSequencerWithEvent
+	 * @borrows soma.core.Application#stopSequencer
+	 * @borrows soma.core.Application#stopAllSequencers
+	 * @borrows soma.core.Application#isPartOfASequence
+	 * @borrows soma.core.Application#getLastSequencer
+	 * @borrows soma.core.Application#getRunningSequencers
+	 * @borrows soma.EventDispatcher#addEventListener
+	 * @borrows soma.EventDispatcher#removeEventListener
+	 * @borrows soma.EventDispatcher#hasEventListener
+	 * @borrows soma.EventDispatcher#dispatchEvent
 	 * @example
 	 * this.addCommand("eventType", MyCommand);
 	 * @example
@@ -237,7 +269,9 @@ var MyCommand = new Class({
 	}
 });
 	 */
-	soma.core.controller.Command = new Class({
+	soma.core.controller.Command = new Class(
+		/** @lends soma.core.controller.Command.prototype */
+		{
 		Implements: SomaSharedCore,
 
 		instance: null,
@@ -249,6 +283,7 @@ var MyCommand = new Class({
 		/**
 		 * Method called by the framework when the command is executed by the framework. All the framework elements are accessible in this method (wires, commands, models, views, instance of the framework and body).
 		 * @param {soma.Event} event The event dispatched to triggered the command.
+		 * @example
 var MyCommand = new Class({
  	Extends:soma.core.controller.Command,
 	execute: function(event) {
@@ -270,27 +305,93 @@ var MyCommand = new Class({
 		}
 	});
 
-	/*
-	Class: soma.core.controller.SequenceCommand
-	The SequenceCommand class is used to execute a list of commands one after the other. The command added can be asynchronous or synchronous.
-
-	Example:
-
-	*Register commands and a sequence command.*
-	> this.addCommand("eventTypeDoSomethingAsync", CommandASyncExample);
-	> this.addCommand("eventTypeDoAnotherThingAsync", CommandASyncExample);
-	>
-	> this.addCommand("eventTypeExcuteMysequence", SequenceCommandExample);
-	> this.dispatchEvent(new MyEvent("eventTypeExcuteMysequence"));
-
-	*/
-	soma.core.controller.SequenceCommand = new Class({
+	soma.core.controller.SequenceCommand = new Class(
+		/** @lends soma.core.controller.SequenceCommand.prototype */
+		{
 		Extends: soma.core.controller.Command,
 		Implements: SomaSharedCore,
+		/** {array} List of commands */
 		commands: null,
+		/** {soma.Event} The current command in progress. */
 		currentCommand: null,
+		/** {string} The id of the sequence. */
 		id:null,
+		
+		/**
+		 * @constructs
+		 * @class The SequenceCommand class is used to execute a list of commands one after the other. The commands added can be asynchronous or synchronous.
+		 * @description Creates a new SequenceCommand, should be instantiated by the framework only.
+		 * @param {string} id The id of the sequence.
+		 * @extends soma.core.controller.Command
+		 * @borrows soma.core.controller.Command#execute
+		 * @borrows soma.core.Application#addWire
+		 * @borrows soma.core.Application#getWire
+		 * @borrows soma.core.Application#getWires
+		 * @borrows soma.core.Application#hasWire
+		 * @borrows soma.core.Application#removeWire
+		 * @borrows soma.core.Application#addModel
+		 * @borrows soma.core.Application#getModel
+		 * @borrows soma.core.Application#getModels
+		 * @borrows soma.core.Application#hasModel
+		 * @borrows soma.core.Application#removeModel
+		 * @borrows soma.core.Application#addView
+		 * @borrows soma.core.Application#getView
+		 * @borrows soma.core.Application#getViews
+		 * @borrows soma.core.Application#hasView
+		 * @borrows soma.core.Application#removeView
+		 * @borrows soma.core.Application#addCommand
+		 * @borrows soma.core.Application#getCommand
+		 * @borrows soma.core.Application#getCommands
+		 * @borrows soma.core.Application#hasCommand
+		 * @borrows soma.core.Application#removeCommand
+		 * @borrows soma.core.Application#getSequencer
+		 * @borrows soma.core.Application#stopSequencerWithEvent
+		 * @borrows soma.core.Application#stopSequencer
+		 * @borrows soma.core.Application#stopAllSequencers
+		 * @borrows soma.core.Application#isPartOfASequence
+		 * @borrows soma.core.Application#getLastSequencer
+		 * @borrows soma.core.Application#getRunningSequencers
+		 * @borrows soma.EventDispatcher#addEventListener
+		 * @borrows soma.EventDispatcher#removeEventListener
+		 * @borrows soma.EventDispatcher#hasEventListener
+		 * @borrows soma.EventDispatcher#dispatchEvent
+		 * @example
+this.addCommand("doSomethingAsync", CommandASyncExample);
+this.addCommand("doSomethingElseAsync", CommandASyncExample);
+this.addCommand("doSomething", CommandExample);
+		 * @example
+this.addCommand("excuteMySequence", SequenceCommandExample);
+this.dispatchEvent(new MyEvent("excuteMysequence"));
+		 * @example
+var SequenceTestCommand = new Class ({
+	Extends: soma.core.controller.SequenceCommand,
 
+	initialize: function() {
+		this.parent("sequencer.test.id");
+	},
+
+	initializeSubCommands: function() {
+
+		 this.addSubCommand(new soma.Event("doSomethingAsync"));
+		 this.addSubCommand(new soma.Event("doSomethingElseAsync"));
+		 this.addSubCommand(new soma.Event("doSomething"));
+
+	}
+
+});
+		 * @example
+var CommandExample = new Class {{
+	   Extends: soma.core.controller.Command,
+
+	execute: function(event) {
+		// do something
+		if(this.isPartOfASequence(event)) {
+			// execute the next command
+			this.getSequencer(event).executeNextCommand();
+		}
+	}
+});
+		 */
 		initialize: function(id) {
 			if (id == null) {
 				throw new Error("SequenceCommand Children expect an unique id as constructor arg");
@@ -305,15 +406,33 @@ var MyCommand = new Class({
 		},
 
 		/**
-		 * @private protected
-		 * To be overridden
+		 * Method that you can overwrite to add commands to the sequence command.
+		 * @example
+var SequenceTestCommand = new Class ({
+	Extends: soma.core.controller.SequenceCommand,
+
+	initialize: function() {
+		this.parent("sequencer.test.id");
+	},
+
+	initializeSubCommands: function() {
+
+		 this.addSubCommand(new soma.Event("doSomethingAsync"));
+		 this.addSubCommand(new soma.Event("doSomethingElseAsync"));
+		 this.addSubCommand(new soma.Event("doSomething"));
+
+	}
+
+});
 		 */
 		initializeSubCommands: function() {
 			throw new Error("Subclasses of SequenceCommand must implement initializeSubCommands()");
 		},
 		/**
-		 *
-		 * @param {Event} event
+		 * Add a command to the list of commands to execute one after the other.
+		 * @param {soma.Event} event The event that will trigger a command.
+		 * @example
+this.addSubCommand(new soma.Event("eventType"));
 		 */
 		addSubCommand: function(event) {
 			var c = new SequenceCommandProxy(event);
@@ -321,11 +440,6 @@ var MyCommand = new Class({
 			this.instance.controller.registerSequencedCommand(this, c);
 		},
 
-		/**
-		 *
-		 * @param {Event} event
-		 * @return void
-		 */
 		execute: function(event) {
 			if (this.commands == null || this.commands.length === 0) {
 				return;
@@ -337,7 +451,19 @@ var MyCommand = new Class({
 		},
 
 		/**
-		 * @return void
+		 * Method used to execute the next command in the list of subcommands. If a command is part of a sequence, you must call the executeNextCommand in the command itself.
+		 * @example
+var CommandExample = new Class {{
+	   Extends: soma.core.controller.Command,
+
+	execute: function(event) {
+		// do something
+		if(this.isPartOfASequence(event)) {
+			// execute the next command
+			this.getSequencer(event).executeNextCommand();
+		}
+	}
+});
 		 */
 		executeNextCommand: function() {
 			if (this.commands == null) {
@@ -353,7 +479,8 @@ var MyCommand = new Class({
 		},
 
 		/**
-		 * @return Number
+		 * Gets the numbers of commands to be executed.
+		 * @return {int}
 		 */
 		getLength: function() {
 			if (this.commands == null) {
@@ -363,6 +490,7 @@ var MyCommand = new Class({
 		},
 
 		/**
+		 * Stops the current sequence.
 		 * @return Boolean
 		 */
 		stop: function() {
@@ -373,29 +501,86 @@ var MyCommand = new Class({
 		},
 
 		/**
-		 * @return soma.core.controller.SequenceCommand
+		 * Returns the current command in progress.
+		 * @return {soma.core.controller.SequenceCommand}
 		 */
 		getCurrentCommand: function() {
 			return this.currentCommand;
 		},
 
 		/**
-		 * @return Array
+		 * Gets the list of commands to be executed.
+		 * @return {array} An array of commands.
 		 */
 		getCommands: function() {
 			return this.commands;
 		}
 
-		//___INSERT_SHARED_DOC___
-
 	});
 
-
-	soma.core.controller.ParallelCommand = new Class({
+	soma.core.controller.ParallelCommand = new Class(
+		/** @lends soma.core.controller.ParallelCommand.prototype */
+		{
 		Extends: soma.core.controller.Command,
 		Implements: SomaSharedCore,
+		/** List of commands to be executed. */
 		commands:null,
 
+		/**
+		 * @constructs
+		 * @class The ParallelCommand class is used to execute a list of commands, they will all start at the same time.
+		 * @description Creates a new ParallelCommand, should be instantiated by the framework only.
+		 * @extends soma.core.controller.Command
+		 * @borrows soma.core.controller.Command#execute
+		 * @borrows soma.core.Application#addWire
+		 * @borrows soma.core.Application#getWire
+		 * @borrows soma.core.Application#getWires
+		 * @borrows soma.core.Application#hasWire
+		 * @borrows soma.core.Application#removeWire
+		 * @borrows soma.core.Application#addModel
+		 * @borrows soma.core.Application#getModel
+		 * @borrows soma.core.Application#getModels
+		 * @borrows soma.core.Application#hasModel
+		 * @borrows soma.core.Application#removeModel
+		 * @borrows soma.core.Application#addView
+		 * @borrows soma.core.Application#getView
+		 * @borrows soma.core.Application#getViews
+		 * @borrows soma.core.Application#hasView
+		 * @borrows soma.core.Application#removeView
+		 * @borrows soma.core.Application#addCommand
+		 * @borrows soma.core.Application#getCommand
+		 * @borrows soma.core.Application#getCommands
+		 * @borrows soma.core.Application#hasCommand
+		 * @borrows soma.core.Application#removeCommand
+		 * @borrows soma.core.Application#getSequencer
+		 * @borrows soma.core.Application#stopSequencerWithEvent
+		 * @borrows soma.core.Application#stopSequencer
+		 * @borrows soma.core.Application#stopAllSequencers
+		 * @borrows soma.core.Application#isPartOfASequence
+		 * @borrows soma.core.Application#getLastSequencer
+		 * @borrows soma.core.Application#getRunningSequencers
+		 * @borrows soma.EventDispatcher#addEventListener
+		 * @borrows soma.EventDispatcher#removeEventListener
+		 * @borrows soma.EventDispatcher#hasEventListener
+		 * @borrows soma.EventDispatcher#dispatchEvent
+		 * @example
+this.addCommand("doSomethingAsync", CommandASyncExample);
+this.addCommand("doSomethingElseAsync", CommandASyncExample);
+this.addCommand("doSomething", CommandExample);
+		 * @example
+this.addCommand("excuteMyCommands", ParallelCommandExample);
+this.dispatchEvent(new MyEvent("excuteMyCommands"));
+		 * @example
+var ParallelTestCommand = new Class({
+	Extends: soma.core.controller.ParallelCommand,
+
+	initializeSubCommands: function(){
+		this.addSubCommand(new soma.Event("doSomethingAsync"));
+		this.addSubCommand(new soma.Event("doSomethingElseAsync"));
+		this.addSubCommand(new soma.Event("doSomething"));
+	}
+});
+		 */
 		initialize: function() {
 			this.commands = [];
 		},
@@ -404,22 +589,33 @@ var MyCommand = new Class({
 			this.initializeSubCommands();
 		},
 		/**
-		 * @private protected
-		 * To be overridden
+		 * Method that you can overwrite to add commands to the parallel command.
+		 * @example
+var ParallelTestCommand = new Class({
+	Extends: soma.core.controller.ParallelCommand,
+
+	initializeSubCommands: function(){
+		this.addSubCommand(new soma.Event("doSomethingAsync"));
+		this.addSubCommand(new soma.Event("doSomethingElseAsync"));
+		this.addSubCommand(new soma.Event("doSomething"));
+	}
+});
 		 */
 		initializeSubCommands: function() {
 			throw new Error("Subclasses of ParallelCommand must implement initializeSubCommands()");
 		},
 		/**
-		 * @param {Event} command associated event
+		 * Add a command to the list of commands to execute in parallel.
+		 * @param {soma.Event} event The event that will trigger a command.
+		 * @example
+this.addSubCommand(new soma.Event("eventType"));
 		 */
 		addSubCommand: function(e) {
 			this.commands.push(e);
 		},
 
 		/**
-		 * @final
-		 * @return void
+		 * Should not be overriden in a parallel class.
 		 */
 		execute: function() {
 			while (this.commands.length > 0) {
@@ -433,25 +629,22 @@ var MyCommand = new Class({
 		},
 
 		/**
-		 * @final
-		 * @return int
+		 * Gets the numbers of commands to be executed.
+		 * @return {int}
 		 */
 		getLength: function() {
 			return this.commands != null ? this.commands.length : -1;
 		},
 
 		/**
-		 * @final
-		 * @return Array array of registered commands
+		 * Gets the list of commands to be executed.
+		 * @return {array} An array of commands.
 		 */
 		getCommands: function() {
 			return this.commands;
 		}
 		
-		//___INSERT_SHARED_DOC___
-
 	});
-
 
 	soma.core.wire.Wire = new Class({
 		name: null,
@@ -1226,76 +1419,185 @@ new SomaApplication();
 		this.wires.removeWire(wireName);
 	},
 
-	getModels: function() {
-		return (!this.models) ? null : this.models.getModels();
-	},
-
+	/**
+	 * Indicates whether a model has been registered to the framework.
+	 * @param {string} modelName The name of the model.
+	 * @returns {boolean}
+	 * @example
+	 * this.hasModel("myModelName");
+	 */
 	hasModel: function(modelName) {
 		return (!this.models) ? false : this.models.hasModel(modelName);
 	},
 
+	/**
+	 * Retrieves the model instance that has been registered using its name.
+	 * @param {string} modelName The name of the model.
+	 * @returns {soma.core.model.Model} A model instance.
+	 * @example
+	 * var myModel = this.getModel("myModelName");
+	 */
 	getModel: function(modelName) {
 		return (!this.models) ? null : this.models.getModel(modelName);
 	},
 
+	/**
+	 * Retrieves an array of the registered models.
+	 * @returns {array} An array of models.
+	 * @example
+	 * var models = this.getModels();
+	 */
+	getModels: function() {
+		return (!this.models) ? null : this.models.getModels();
+	},
+
+	/**
+	 * Registers a model to the framework.
+	 * @param {string} modelName The name of the model.
+	 * @param {soma.core.model.Model} model A model instance.
+	 * @returns {soma.core.model.Model} The model instance.
+	 * @example
+	 * this.addModel("myModelName", new MyModel());
+	 */
 	addModel: function(modelName, model) {
 		return this.models.addModel(modelName, model);
 	},
 
+	/**
+	 * Removes a model from the framework and call the dispose method of this model.
+	 * @param {string} modelName The name of the model.
+	 * @example
+	 * this.removeModel("myModelName");
+	 */
 	removeModel: function(modelName) {
 		this.models.removeModel(modelName);
 	},
 
+	/**
+	 * Indicates whether a view has been registered to the framework.
+	 * @param {string} viewName The name of the view.
+	 * @returns {boolean}
+	 * @example
+	 * this.hasView("myViewName");
+	 */
 	hasView: function(viewName) {
 		return (!this.views) ? false : this.views.hasView(viewName);
 	},
 
+	/**
+	 * Retrieves the view instance that has been registered using its name.
+	 * @param {string} viewName The name of the view.
+	 * @returns {soma.View or custom class} A view instance.
+	 * @example
+	 * var myView = this.getView("myViewName");
+	 */
 	getView: function(viewName) {
 		return (!this.views) ? null : this.views.getView(viewName);
 	},
 
+	/**
+	 * Retrieves an array of the registered views.
+	 * @returns {array} An array of views.
+	 * @example
+	 * var views = this.getViews();
+	 */
 	getViews: function() {
 		return (!this.views) ? null : this.views.getViews();
 	},
 
+	/**
+	 * Registers a view to the framework.
+	 * @param {string} viewName The name of the view.
+	 * @param {soma.View or custom class} view A view instance.
+	 * @returns {soma.View or custom class} The view instance.
+	 * @example
+	 * this.addView("myViewName", new MyView());
+	 */
 	addView: function(viewName, view) {
 		return this.views.addView(viewName, view);
 	},
 
+	/**
+	 * Removes a view from the framework and call the (optional) dispose method of this view.
+	 * @param {string} viewName The name of the view.
+	 * @example
+	 * this.removeView("myViewName");
+	 */
 	removeView: function(viewName) {
 		this.views.removeView(viewName);
 	},
 
-	getSequencers: function() {
-		return !!this.controller ? this.controller.getSequencers() : null;
-	},
-
+	/**
+	 * Retrieves the sequence command instance using an event instance that has been created from this sequence command.
+	 * @param {soma.Event} event Event instance.
+	 * @returns {soma.core.controller.SequenceCommand} A sequence command.
+	 * @example
+	 * var sequencer = this.getSequencer(myEvent);
+	 */
 	getSequencer: function(event) {
 		return !!this.controller ? this.controller.getSequencer(event) : null;
 	},
 
+	/**
+	 * Indicates whether an event has been instantiated from a ISequenceCommand class.
+	 * @param {soma.Event} event Event instance.
+	 * @returns {boolean}
+	 * @example
+	 * var inSequence = this.isPartOfASequence(myEvent);
+	 */
 	isPartOfASequence: function(event) {
 		return ( this.getSequencer(event) != null );
 	},
 
+	/**
+	 * Stops a sequence command using an event instance that has been created from this sequence command.
+	 * @param {soma.Event} event Event instance.
+	 * @returns {boolean}
+	 * @example
+	 * var success = this.stopSequencerWithEvent(myEvent);
+	 */
 	stopSequencerWithEvent: function(event) {
 		return !!this.controller ? this.controller.stopSequencerWithEvent(event) : false;
 	},
 
+	/**
+	 * Stops a sequence command using the sequence command instance itself.
+	 * @param {soma.core.controller.SequenceCommand} sequencer A sequence command.
+	 * @returns {boolean}
+	 * @example
+	 * var success = this.stopSequencer(mySequenceCommand);
+	 */
 	stopSequencer: function(sequencer) {
 		return !!this.controller ? this.controller.stopSequencer(sequencer) : false;
 	},
 
+	/**
+	 * Stops all the sequence command instances that are running.
+	 * @example
+	 * this.stopAllSequencers();
+	 */
 	stopAllSequencers: function() {
 		if (this.controller) {
 			this.controller.stopAllSequencers();
 		}
 	},
 
+	/**
+	 * Retrieves all the sequence command instances that are running.
+	 * @returns {array} An array of sequence commands.
+	 * @example
+	 * var sequencers = this.getRunningSequencers();
+	 */
 	getRunningSequencers: function() {
 		return !!this.controller ? this.controller.getRunningSequencers() : null;
 	},
 
+	/**
+	 * Retrieves the last sequence command that has been instantiated in the framework.
+	 * @returns {soma.core.controller.SequenceCommand} A sequence command.
+	 * @example
+	 * var lastSequencer = this.getLastSequencer();
+	 */
 	getLastSequencer: function() {
 		return !!this.controller ? this.controller.getLastSequencer() : null;
 	},

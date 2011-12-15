@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>soma.core.controller.Command | JsDoc Reference</title>
+		<title>soma.core.controller.ParallelCommand | JsDoc Reference</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<meta name="mobileoptimized" content="0" />
@@ -82,12 +82,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Class <span>soma.core.controller.Command</span>
+					Class <span>soma.core.controller.ParallelCommand</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						Class that will be instantiated when a registered event is dispatched, the framework will automatically call the execute method.
+						The ParallelCommand class is used to execute a list of commands, they will all start at the same time.
 					</p>
 						
 					
@@ -97,6 +97,8 @@
 							
 								<li>Defined in: <a href="../symbols/src/framework_src_somacore.js.html">somacore.js</a></li>
 							
+							<li>Extends <span class="fixedFont">
+								<a href="../symbols/soma.core.controller.Command.html">soma.core.controller.Command</a></span></li>
 							
 						</ul>
 					
@@ -106,7 +108,7 @@
 			
 				<section>
 					<div class="props">
-						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.core.controller.Command.">
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.core.controller.ParallelCommand.">
 							<caption class="sectionTitle">Class Summary</caption>
 							<thead>
 								<tr>
@@ -119,9 +121,9 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/soma.core.controller.Command.html#constructor">soma.core.controller.Command</a></b>()
+											<b><a href="../symbols/soma.core.controller.ParallelCommand.html#constructor">soma.core.controller.ParallelCommand</a></b>()
 										</div>
-										<div class="description">Creates a new Command, should be instantiated by the framework only.</div>
+										<div class="description">Creates a new ParallelCommand, should be instantiated by the framework only.</div>
 									</td>
 								</tr>
 							</tbody>
@@ -130,6 +132,48 @@
 				</section>
 			
 			
+			
+				
+				<section>
+					
+						<nav>
+							<div class="props">
+								<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class soma.core.controller.ParallelCommand.">
+									<caption class="sectionTitle">Field Summary</caption>
+									
+									<thead>
+										<tr>
+											<th scope="col">Field Attributes</th>
+											<th scope="col">Field Name and Description</th>
+										</tr>
+									</thead>
+									
+									<tbody>
+										
+											<tr>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">
+													<b><a href="../symbols/soma.core.controller.ParallelCommand.html#commands">commands</a></b>
+													</div>
+													<div class="description">List of commands to be executed.</div>
+												</td>
+											</tr>
+										
+									</tbody>
+								</table>
+							</div>
+						</nav>
+					
+					
+					
+						<nav>
+							<dl class="inheritsList">
+							
+							</dl>
+						</nav>
+					
+				</section>
 			
 	<!--
 	#### METHODS SUMMARY
@@ -143,7 +187,7 @@
 						
 						
 							<nav>
-								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.core.controller.Command.">
+								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.core.controller.ParallelCommand.">
 									<thead>
 										<tr>
 											<th scope="col">Method Attributes</th>
@@ -159,7 +203,7 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#addCommand">addCommand</a></b>(commandName, command)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#addCommand">addCommand</a></b>(commandName, command)
 													</div>
 													<div class="description">Registers a command to the framework.</div>
 												</td>
@@ -170,7 +214,7 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#addEventListener">addEventListener</a></b>(type, listener, priority)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#addEventListener">addEventListener</a></b>(type, listener, priority)
 													</div>
 													<div class="description">Registers an event listener with an EventDispatcher object so that the listener receives notification of an event.</div>
 												</td>
@@ -181,7 +225,7 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#addModel">addModel</a></b>(modelName, model)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#addModel">addModel</a></b>(modelName, model)
 													</div>
 													<div class="description">Registers a model to the framework.</div>
 												</td>
@@ -192,9 +236,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#addView">addView</a></b>(viewName, view)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#addSubCommand">addSubCommand</a></b>(event)
 													</div>
-													<div class="description">Registers a view to the framework.</div>
+													<div class="description">Add a command to the list of commands to execute in parallel.</div>
 												</td>
 											</tr>
 										
@@ -203,9 +247,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#addWire">addWire</a></b>(wireName, wire)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#addView">addView</a></b>(viewName, view)
 													</div>
-													<div class="description">Registers a wire to the framework.</div>
+													<div class="description">Registers a view to the framework.</div>
 												</td>
 											</tr>
 										
@@ -214,9 +258,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#dispatchEvent">dispatchEvent</a></b>(event)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#addWire">addWire</a></b>(wireName, wire)
 													</div>
-													<div class="description">Dispatches an event into the event flow.</div>
+													<div class="description">Registers a wire to the framework.</div>
 												</td>
 											</tr>
 										
@@ -225,9 +269,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#execute">execute</a></b>(event)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#dispatchEvent">dispatchEvent</a></b>(event)
 													</div>
-													<div class="description">Method called by the framework when the command is executed by the framework.</div>
+													<div class="description">Dispatches an event into the event flow.</div>
 												</td>
 											</tr>
 										
@@ -236,9 +280,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#getCommand">getCommand</a></b>(commandName)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#execute">execute</a></b>()
 													</div>
-													<div class="description">Retrieves the command class that has been registered with a command name.</div>
+													<div class="description">Should not be override in a parallel class.</div>
 												</td>
 											</tr>
 										
@@ -247,9 +291,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#getCommands">getCommands</a></b>()
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#getCommand">getCommand</a></b>(commandName)
 													</div>
-													<div class="description">Retrieves all the command names (event type) that have been registered to the framework.</div>
+													<div class="description">Retrieves the command class that has been registered with a command name.</div>
 												</td>
 											</tr>
 										
@@ -258,9 +302,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#getLastSequencer">getLastSequencer</a></b>()
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#getCommands">getCommands</a></b>()
 													</div>
-													<div class="description">Retrieves the last sequence command that has been instantiated in the framework.</div>
+													<div class="description">Gets the list of commands to be executed.</div>
 												</td>
 											</tr>
 										
@@ -269,9 +313,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#getModel">getModel</a></b>(modelName)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#getLastSequencer">getLastSequencer</a></b>()
 													</div>
-													<div class="description">Retrieves the model instance that has been registered using its name.</div>
+													<div class="description">Retrieves the last sequence command that has been instantiated in the framework.</div>
 												</td>
 											</tr>
 										
@@ -280,9 +324,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#getModels">getModels</a></b>()
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#getLength">getLength</a></b>()
 													</div>
-													<div class="description">Retrieves an array of the registered models.</div>
+													<div class="description">Gets the numbers of commands to be executed.</div>
 												</td>
 											</tr>
 										
@@ -291,9 +335,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#getRunningSequencers">getRunningSequencers</a></b>()
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#getModel">getModel</a></b>(modelName)
 													</div>
-													<div class="description">Retrieves all the sequence command instances that are running.</div>
+													<div class="description">Retrieves the model instance that has been registered using its name.</div>
 												</td>
 											</tr>
 										
@@ -302,9 +346,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#getSequencer">getSequencer</a></b>(event)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#getModels">getModels</a></b>()
 													</div>
-													<div class="description">Retrieves the sequence command instance using an event instance that has been created from this sequence command.</div>
+													<div class="description">Retrieves an array of the registered models.</div>
 												</td>
 											</tr>
 										
@@ -313,9 +357,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#getView">getView</a></b>(viewName)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#getRunningSequencers">getRunningSequencers</a></b>()
 													</div>
-													<div class="description">Retrieves the view instance that has been registered using its name.</div>
+													<div class="description">Retrieves all the sequence command instances that are running.</div>
 												</td>
 											</tr>
 										
@@ -324,9 +368,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#getViews">getViews</a></b>()
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#getSequencer">getSequencer</a></b>(event)
 													</div>
-													<div class="description">Retrieves an array of the registered views.</div>
+													<div class="description">Retrieves the sequence command instance using an event instance that has been created from this sequence command.</div>
 												</td>
 											</tr>
 										
@@ -335,9 +379,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#getWire">getWire</a></b>(wireName)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#getView">getView</a></b>(viewName)
 													</div>
-													<div class="description">Retrieves the wire instance that has been registered using its name.</div>
+													<div class="description">Retrieves the view instance that has been registered using its name.</div>
 												</td>
 											</tr>
 										
@@ -346,9 +390,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#getWires">getWires</a></b>()
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#getViews">getViews</a></b>()
 													</div>
-													<div class="description">Retrieves an array of the registered wires.</div>
+													<div class="description">Retrieves an array of the registered views.</div>
 												</td>
 											</tr>
 										
@@ -357,9 +401,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#hasCommand">hasCommand</a></b>(commandName)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#getWire">getWire</a></b>(wireName)
 													</div>
-													<div class="description">Indicates whether a command has been registered to the framework.</div>
+													<div class="description">Retrieves the wire instance that has been registered using its name.</div>
 												</td>
 											</tr>
 										
@@ -368,9 +412,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#hasEventListener">hasEventListener</a></b>(type)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#getWires">getWires</a></b>()
 													</div>
-													<div class="description">Checks whether the EventDispatcher object has any listeners registered for a specific type of event.</div>
+													<div class="description">Retrieves an array of the registered wires.</div>
 												</td>
 											</tr>
 										
@@ -379,9 +423,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#hasModel">hasModel</a></b>(modelName)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#hasCommand">hasCommand</a></b>(commandName)
 													</div>
-													<div class="description">Indicates whether a model has been registered to the framework.</div>
+													<div class="description">Indicates whether a command has been registered to the framework.</div>
 												</td>
 											</tr>
 										
@@ -390,9 +434,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#hasView">hasView</a></b>(viewName)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#hasEventListener">hasEventListener</a></b>(type)
 													</div>
-													<div class="description">Indicates whether a view has been registered to the framework.</div>
+													<div class="description">Checks whether the EventDispatcher object has any listeners registered for a specific type of event.</div>
 												</td>
 											</tr>
 										
@@ -401,9 +445,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#hasWire">hasWire</a></b>(wireName)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#hasModel">hasModel</a></b>(modelName)
 													</div>
-													<div class="description">Indicates whether a wire has been registered to the framework.</div>
+													<div class="description">Indicates whether a model has been registered to the framework.</div>
 												</td>
 											</tr>
 										
@@ -412,9 +456,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#isPartOfASequence">isPartOfASequence</a></b>(event)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#hasView">hasView</a></b>(viewName)
 													</div>
-													<div class="description">Indicates whether an event has been instantiated from a ISequenceCommand class.</div>
+													<div class="description">Indicates whether a view has been registered to the framework.</div>
 												</td>
 											</tr>
 										
@@ -423,9 +467,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#removeCommand">removeCommand</a></b>(commandName)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#hasWire">hasWire</a></b>(wireName)
 													</div>
-													<div class="description">Removes a command from the framework.</div>
+													<div class="description">Indicates whether a wire has been registered to the framework.</div>
 												</td>
 											</tr>
 										
@@ -434,9 +478,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#removeEventListener">removeEventListener</a></b>(type, listener)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#initializeSubCommands">initializeSubCommands</a></b>()
 													</div>
-													<div class="description">Removes a listener from the EventDispatcher object.</div>
+													<div class="description">Method that you can overwrite to add commands to the parallel command.</div>
 												</td>
 											</tr>
 										
@@ -445,9 +489,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#removeModel">removeModel</a></b>(modelName)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#isPartOfASequence">isPartOfASequence</a></b>(event)
 													</div>
-													<div class="description">Removes a model from the framework and call the dispose method of this model.</div>
+													<div class="description">Indicates whether an event has been instantiated from a ISequenceCommand class.</div>
 												</td>
 											</tr>
 										
@@ -456,9 +500,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#removeView">removeView</a></b>(viewName)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#removeCommand">removeCommand</a></b>(commandName)
 													</div>
-													<div class="description">Removes a view from the framework and call the (optional) dispose method of this view.</div>
+													<div class="description">Removes a command from the framework.</div>
 												</td>
 											</tr>
 										
@@ -467,9 +511,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#removeWire">removeWire</a></b>(wireName)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#removeEventListener">removeEventListener</a></b>(type, listener)
 													</div>
-													<div class="description">Removes a wire from the framework and calls the dispose method of this wire.</div>
+													<div class="description">Removes a listener from the EventDispatcher object.</div>
 												</td>
 											</tr>
 										
@@ -478,9 +522,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#stopAllSequencers">stopAllSequencers</a></b>()
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#removeModel">removeModel</a></b>(modelName)
 													</div>
-													<div class="description">Stops all the sequence command instances that are running.</div>
+													<div class="description">Removes a model from the framework and call the dispose method of this model.</div>
 												</td>
 											</tr>
 										
@@ -489,9 +533,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#stopSequencer">stopSequencer</a></b>(sequencer)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#removeView">removeView</a></b>(viewName)
 													</div>
-													<div class="description">Stops a sequence command using the sequence command instance itself.</div>
+													<div class="description">Removes a view from the framework and call the (optional) dispose method of this view.</div>
 												</td>
 											</tr>
 										
@@ -500,7 +544,40 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.Command.html#stopSequencerWithEvent">stopSequencerWithEvent</a></b>(event)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#removeWire">removeWire</a></b>(wireName)
+													</div>
+													<div class="description">Removes a wire from the framework and calls the dispose method of this wire.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item32'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#stopAllSequencers">stopAllSequencers</a></b>()
+													</div>
+													<div class="description">Stops all the sequence command instances that are running.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item33'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#stopSequencer">stopSequencer</a></b>(sequencer)
+													</div>
+													<div class="description">Stops a sequence command using the sequence command instance itself.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item34'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.ParallelCommand.html#stopSequencerWithEvent">stopSequencerWithEvent</a></b>(event)
 													</div>
 													<div class="description">Stops a sequence command using an event instance that has been created from this sequence command.</div>
 												</td>
@@ -511,6 +588,12 @@
 							</nav>
 						
 					
+						
+							<nav>
+								<dl class="inheritsList" id="MethodsListInherited">
+								
+								</dl>
+							</nav>
 						
 					</div>
 				</section>
@@ -532,26 +615,33 @@
 							</h2>
 							
 							<div class="fixedFont">
-								<b>soma.core.controller.Command</b>()
+								<b>soma.core.controller.ParallelCommand</b>()
 							</div>
 							
 							<div class="description">
-								Creates a new Command, should be instantiated by the framework only.
+								Creates a new ParallelCommand, should be instantiated by the framework only.
 								
 							</div>
 							
 							
 								
-									<pre class="code">this.addCommand("eventType", MyCommand);</pre>
+									<pre class="code">
+this.addCommand("doSomethingAsync", CommandASyncExample);
+this.addCommand("doSomethingElseAsync", CommandASyncExample);
+this.addCommand("doSomething", CommandExample);</pre>
 								
 									<pre class="code">
-var MyCommand = new Class({
-	Extends:soma.core.controller.Command,
-	execute: function(event) {
-		// access framework elements examples:
-		// alert(this.instance)
-		// alert(getWire("myWireName"))
-		// addModel("myModelName", new Model());
+this.addCommand("excuteMyCommands", ParallelCommandExample);
+this.dispatchEvent(new MyEvent("excuteMyCommands"));</pre>
+								
+									<pre class="code">
+var ParallelTestCommand = new Class({
+	Extends: soma.core.controller.ParallelCommand,
+
+	initializeSubCommands: function(){
+		this.addSubCommand(new soma.Event("doSomethingAsync"));
+		this.addSubCommand(new soma.Event("doSomethingElseAsync"));
+		this.addSubCommand(new soma.Event("doSomething"));
 	}
 });</pre>
 								
@@ -567,6 +657,40 @@ var MyCommand = new Class({
 	<!--
 	#### FIELD DETAILS
 	-->
+			
+				<section>
+					<div class="details props">
+						<div class="innerProps">
+							<h2 class="sectionTitle">
+								Field Detail
+							</h2>
+							
+							
+								<div class="fixedFont heading" id="commands">
+									<span class='lighter'>
+									
+									</span>
+									
+									
+									
+									<b>commands</b>							
+								</div>
+								
+								<div class="description">
+									List of commands to be executed.
+									
+									
+									
+								</div>
+								
+								
+									
+								
+								
+							
+						</div>
+					</div>
+				</section>
 			
 	<!--
 	#### METHOD DETAILS
@@ -766,6 +890,51 @@ function eventHandler(event) {
 									<li 
 										 class='item3'
 									>
+										<div class="fixedFont heading" id="addSubCommand">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>addSubCommand</b>(event)
+										</div>
+										
+										<div class="description">
+											Add a command to the list of commands to execute in parallel.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">
+this.addSubCommand(new soma.Event("eventType"));</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{soma.Event}</span> <b>event</b>
+														
+													</dt>
+													<dd>The event that will trigger a command.</dd>
+												
+											</dl>
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item4'
+									>
 										<div class="fixedFont heading" id="addView">
 											<span class='lighter'>
 											
@@ -835,7 +1004,7 @@ function eventHandler(event) {
 									</li>
 								
 									<li 
-										 class='item4'
+										 class='item5'
 									>
 										<div class="fixedFont heading" id="addWire">
 											<span class='lighter'>
@@ -906,7 +1075,7 @@ function eventHandler(event) {
 									</li>
 								
 									<li 
-										 class='item5'
+										 class='item6'
 									>
 										<div class="fixedFont heading" id="dispatchEvent">
 											<span class='lighter'>
@@ -951,7 +1120,7 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
 									</li>
 								
 									<li 
-										 class='item6'
+										 class='item7'
 									>
 										<div class="fixedFont heading" id="execute">
 											<span class='lighter'>
@@ -960,11 +1129,11 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
 											
 											
 											
-											<b>execute</b>(event)
+											<b>execute</b>()
 										</div>
 										
 										<div class="description">
-											Method called by the framework when the command is executed by the framework. All the framework elements are accessible in this method (wires, commands, models, views, instance of the framework and body).
+											Should not be override in a parallel class.
 											
 											
 											
@@ -972,28 +1141,7 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
 										</div>
 										
 										
-											
-												<pre class="code">
-var MyCommand = new Class({
- 	Extends:soma.core.controller.Command,
-	execute: function(event) {
-		// alert(event.type)
-	}
-});</pre>
-											
 										
-										
-										
-											<dl class="detailList params">
-												<dt class="heading">Parameters:</dt>
-												
-													<dt>
-														<span class="light fixedFont">{soma.Event}</span> <b>event</b>
-														
-													</dt>
-													<dd>The event dispatched to triggered the command.</dd>
-												
-											</dl>
 										
 										
 										
@@ -1001,7 +1149,7 @@ var MyCommand = new Class({
 									</li>
 								
 									<li 
-										 class='item7'
+										 class='item8'
 									>
 										<div class="fixedFont heading" id="getCommand">
 											<span class='lighter'>
@@ -1066,7 +1214,7 @@ var MyCommand = new Class({
 									</li>
 								
 									<li 
-										 class='item8'
+										 class='item9'
 									>
 										<div class="fixedFont heading" id="getCommands">
 											<span class='lighter'>
@@ -1079,17 +1227,13 @@ var MyCommand = new Class({
 										</div>
 										
 										<div class="description">
-											Retrieves all the command names (event type) that have been registered to the framework.
+											Gets the list of commands to be executed.
 											
 											
 											
 											
 										</div>
 										
-										
-											
-												<pre class="code">var commands = this.getCommands();</pre>
-											
 										
 										
 										
@@ -1106,7 +1250,7 @@ var MyCommand = new Class({
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd><span class="light fixedFont">{array}</span> An array of command names (string).</dd>
+														<dd><span class="light fixedFont">{array}</span> An array of commands.</dd>
 													
 												
 												
@@ -1120,7 +1264,7 @@ var MyCommand = new Class({
 									</li>
 								
 									<li 
-										 class='item9'
+										 class='item10'
 									>
 										<div class="fixedFont heading" id="getLastSequencer">
 											<span class='lighter'>
@@ -1174,7 +1318,57 @@ var MyCommand = new Class({
 									</li>
 								
 									<li 
-										 class='item10'
+										 class='item11'
+									>
+										<div class="fixedFont heading" id="getLength">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{int}</span>
+											
+											<b>getLength</b>()
+										</div>
+										
+										<div class="description">
+											Gets the numbers of commands to be executed.
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{int}</span> </dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item12'
 									>
 										<div class="fixedFont heading" id="getModel">
 											<span class='lighter'>
@@ -1239,7 +1433,7 @@ var MyCommand = new Class({
 									</li>
 								
 									<li 
-										 class='item11'
+										 class='item13'
 									>
 										<div class="fixedFont heading" id="getModels">
 											<span class='lighter'>
@@ -1293,7 +1487,7 @@ var MyCommand = new Class({
 									</li>
 								
 									<li 
-										 class='item12'
+										 class='item14'
 									>
 										<div class="fixedFont heading" id="getRunningSequencers">
 											<span class='lighter'>
@@ -1347,7 +1541,7 @@ var MyCommand = new Class({
 									</li>
 								
 									<li 
-										 class='item13'
+										 class='item15'
 									>
 										<div class="fixedFont heading" id="getSequencer">
 											<span class='lighter'>
@@ -1412,7 +1606,7 @@ var MyCommand = new Class({
 									</li>
 								
 									<li 
-										 class='item14'
+										 class='item16'
 									>
 										<div class="fixedFont heading" id="getView">
 											<span class='lighter'>
@@ -1477,7 +1671,7 @@ var MyCommand = new Class({
 									</li>
 								
 									<li 
-										 class='item15'
+										 class='item17'
 									>
 										<div class="fixedFont heading" id="getViews">
 											<span class='lighter'>
@@ -1531,7 +1725,7 @@ var MyCommand = new Class({
 									</li>
 								
 									<li 
-										 class='item16'
+										 class='item18'
 									>
 										<div class="fixedFont heading" id="getWire">
 											<span class='lighter'>
@@ -1596,7 +1790,7 @@ var MyCommand = new Class({
 									</li>
 								
 									<li 
-										 class='item17'
+										 class='item19'
 									>
 										<div class="fixedFont heading" id="getWires">
 											<span class='lighter'>
@@ -1650,7 +1844,7 @@ var MyCommand = new Class({
 									</li>
 								
 									<li 
-										 class='item18'
+										 class='item20'
 									>
 										<div class="fixedFont heading" id="hasCommand">
 											<span class='lighter'>
@@ -1715,7 +1909,7 @@ var MyCommand = new Class({
 									</li>
 								
 									<li 
-										 class='item19'
+										 class='item21'
 									>
 										<div class="fixedFont heading" id="hasEventListener">
 											<span class='lighter'>
@@ -1781,7 +1975,7 @@ dispatcher.hasEventListener("eventType");</pre>
 									</li>
 								
 									<li 
-										 class='item20'
+										 class='item22'
 									>
 										<div class="fixedFont heading" id="hasModel">
 											<span class='lighter'>
@@ -1846,7 +2040,7 @@ dispatcher.hasEventListener("eventType");</pre>
 									</li>
 								
 									<li 
-										 class='item21'
+										 class='item23'
 									>
 										<div class="fixedFont heading" id="hasView">
 											<span class='lighter'>
@@ -1911,7 +2105,7 @@ dispatcher.hasEventListener("eventType");</pre>
 									</li>
 								
 									<li 
-										 class='item22'
+										 class='item24'
 									>
 										<div class="fixedFont heading" id="hasWire">
 											<span class='lighter'>
@@ -1976,7 +2170,49 @@ dispatcher.hasEventListener("eventType");</pre>
 									</li>
 								
 									<li 
-										 class='item23'
+										 class='item25'
+									>
+										<div class="fixedFont heading" id="initializeSubCommands">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>initializeSubCommands</b>()
+										</div>
+										
+										<div class="description">
+											Method that you can overwrite to add commands to the parallel command.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">
+var ParallelTestCommand = new Class({
+	Extends: soma.core.controller.ParallelCommand,
+
+	initializeSubCommands: function(){
+		this.addSubCommand(new soma.Event("doSomethingAsync"));
+		this.addSubCommand(new soma.Event("doSomethingElseAsync"));
+		this.addSubCommand(new soma.Event("doSomething"));
+	}
+});</pre>
+											
+										
+										
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item26'
 									>
 										<div class="fixedFont heading" id="isPartOfASequence">
 											<span class='lighter'>
@@ -2041,7 +2277,7 @@ dispatcher.hasEventListener("eventType");</pre>
 									</li>
 								
 									<li 
-										 class='item24'
+										 class='item27'
 									>
 										<div class="fixedFont heading" id="removeCommand">
 											<span class='lighter'>
@@ -2085,7 +2321,7 @@ dispatcher.hasEventListener("eventType");</pre>
 									</li>
 								
 									<li 
-										 class='item25'
+										 class='item28'
 									>
 										<div class="fixedFont heading" id="removeEventListener">
 											<span class='lighter'>
@@ -2136,7 +2372,7 @@ dispatcher.removeEventListener("eventType", eventHandler);</pre>
 									</li>
 								
 									<li 
-										 class='item26'
+										 class='item29'
 									>
 										<div class="fixedFont heading" id="removeModel">
 											<span class='lighter'>
@@ -2180,7 +2416,7 @@ dispatcher.removeEventListener("eventType", eventHandler);</pre>
 									</li>
 								
 									<li 
-										 class='item27'
+										 class='item30'
 									>
 										<div class="fixedFont heading" id="removeView">
 											<span class='lighter'>
@@ -2224,7 +2460,7 @@ dispatcher.removeEventListener("eventType", eventHandler);</pre>
 									</li>
 								
 									<li 
-										 class='item28'
+										 class='item31'
 									>
 										<div class="fixedFont heading" id="removeWire">
 											<span class='lighter'>
@@ -2268,7 +2504,7 @@ dispatcher.removeEventListener("eventType", eventHandler);</pre>
 									</li>
 								
 									<li 
-										 class='item29'
+										 class='item32'
 									>
 										<div class="fixedFont heading" id="stopAllSequencers">
 											<span class='lighter'>
@@ -2301,7 +2537,7 @@ dispatcher.removeEventListener("eventType", eventHandler);</pre>
 									</li>
 								
 									<li 
-										 class='item30'
+										 class='item33'
 									>
 										<div class="fixedFont heading" id="stopSequencer">
 											<span class='lighter'>
@@ -2366,7 +2602,7 @@ dispatcher.removeEventListener("eventType", eventHandler);</pre>
 									</li>
 								
 									<li 
-										 class='item31'
+										 class='item34'
 									>
 										<div class="fixedFont heading" id="stopSequencerWithEvent">
 											<span class='lighter'>

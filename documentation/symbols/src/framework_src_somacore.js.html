@@ -839,7 +839,7 @@
 <span class='line'>832</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">lastSequencer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>833</span> 
 <span class='line'>834</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>835</span> </span><span class="WHIT">			</span><span class="NAME">Implements</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">soma.IDisposable</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>835</span> </span><span class="WHIT">			</span><span class="NAME">Implements</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">soma.core.IDisposable</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>836</span> </span><span class="WHIT">			</span><span class="WHIT">
 <span class='line'>837</span> </span><span class="WHIT">			</span><span class="NAME">instance</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>838</span> 
@@ -1118,7 +1118,7 @@
 <span class='line'>1111</span> </span><span class="WHIT">		</span><span class="WHIT">
 <span class='line'>1112</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>1113</span> 
-<span class='line'>1114</span> </span><span class="WHIT">			</span><span class="NAME">Implements</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">soma.IDisposable</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1114</span> </span><span class="WHIT">			</span><span class="NAME">Implements</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">soma.core.IDisposable</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>1115</span> </span><span class="WHIT">			</span><span class="WHIT">
 <span class='line'>1116</span> </span><span class="WHIT">			</span><span class="NAME">autoBound</span><span class="PUNC">:</span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>1117</span> 
@@ -1324,7 +1324,7 @@
 <span class='line'>1317</span> </span><span class="WHIT">	</span><span class="COMM">/** @lends soma.core.Application.prototype */</span><span class="WHIT">
 <span class='line'>1318</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>1319</span> </span><span class="WHIT">	</span><span class="NAME">Extends</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">soma.EventDispatcher</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>1320</span> </span><span class="WHIT">	</span><span class="NAME">Implements</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">soma.IDisposable</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1320</span> </span><span class="WHIT">	</span><span class="NAME">Implements</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">soma.core.IDisposable</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>1321</span> </span><span class="WHIT">	</span><span class="COMM">/** Gets the document.body (DOM Element). */</span><span class="WHIT">
 <span class='line'>1322</span> </span><span class="WHIT">	</span><span class="NAME">body</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>1323</span> </span><span class="WHIT">	</span><span class="COMM">/** Gets the models manager instance (soma.core.model.SomaModel). */</span><span class="WHIT">
@@ -1760,7 +1760,7 @@
 <span class='line'>1753</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">models</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>1754</span> </span><span class="WHIT">	</span><span class="WHIT">
 <span class='line'>1755</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1756</span> </span><span class="WHIT">		</span><span class="NAME">Implements</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">soma.IDisposable</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1756</span> </span><span class="WHIT">		</span><span class="NAME">Implements</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">soma.core.IDisposable</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>1757</span> 
 <span class='line'>1758</span> </span><span class="WHIT">		</span><span class="NAME">instance</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>1759</span> 
@@ -1817,390 +1817,468 @@
 <span class='line'>1810</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>1811</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>1812</span> 
-<span class='line'>1813</span> </span><span class="NAME">soma.core.model.Model</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1814</span> </span><span class="WHIT">	</span><span class="COMM">/** @lends soma.core.model.Model.prototype */</span><span class="WHIT">
-<span class='line'>1815</span> 
-<span class='line'>1816</span> </span><span class="WHIT">	</span><span class="COMM">/** Name of the model. */</span><span class="WHIT">
-<span class='line'>1817</span> </span><span class="WHIT">	</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>1818</span> </span><span class="WHIT">	</span><span class="COMM">/** Variable that can be used to hold you data. */</span><span class="WHIT">
-<span class='line'>1819</span> </span><span class="WHIT">	</span><span class="NAME">data</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>1820</span> </span><span class="WHIT">	</span><span class="COMM">/** Instance of a EventDispatcher that can be used to dispatch commands. */</span><span class="WHIT">
-<span class='line'>1821</span> </span><span class="WHIT">	</span><span class="NAME">dispatcher</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>1822</span> 
-<span class='line'>1823</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>1824</span> 	 * @constructs
-<span class='line'>1825</span> 	 * @class
-<span class='line'>1826</span> 	 * The model is the class used to manage you application's data model.
-<span class='line'>1827</span> 	 * The data can be XML, local data, data retrieved from a server or anything.
-<span class='line'>1828</span> 	 * Ideally, the data should be set to the data property of the model instance, but you are free to create specific getters.
-<span class='line'>1829</span> 	 * @description Create an instance of a Model class.
-<span class='line'>1830</span> 	 * @param {string} name The name of the wire.
-<span class='line'>1831</span> 	 * @borrows soma.EventDispatcher#addEventListener
-<span class='line'>1832</span> 	 * @borrows soma.EventDispatcher#removeEventListener
-<span class='line'>1833</span> 	 * @borrows soma.EventDispatcher#hasEventListener
-<span class='line'>1834</span> 	 * @borrows soma.EventDispatcher#dispatchEvent
-<span class='line'>1835</span> 	 * @example
-<span class='line'>1836</span> // add a model to the framework
-<span class='line'>1837</span> this.addModel("myModelName", new MyModel());
-<span class='line'>1838</span> 	 * @example
-<span class='line'>1839</span> // remove a model from the framework
-<span class='line'>1840</span> this.removeModel("myModelName");
-<span class='line'>1841</span> 	 * @example
-<span class='line'>1842</span> // retrieve a model
-<span class='line'>1843</span> var model = this.getModel("myModelName");
-<span class='line'>1844</span> 	 * @example
-<span class='line'>1845</span> var MyModel = new Class({
-<span class='line'>1846</span> 	Extends: soma.core.model.Model,
-<span class='line'>1847</span> 
-<span class='line'>1848</span> 	init: function() {
-<span class='line'>1849</span> 		this.data = "my data example";
-<span class='line'>1850</span> 		// the model can be used as a dispatcher (default dispatcher is the framework instance) to dispatch commands, example:
-<span class='line'>1851</span>         this.dispatchEvent(new soma.Event("dataReady"));
-<span class='line'>1852</span> 	},
-<span class='line'>1853</span> 
-<span class='line'>1854</span> 	dispose: function() {
-<span class='line'>1855</span> 		this.data = null;
-<span class='line'>1856</span> 	}
-<span class='line'>1857</span> 
-<span class='line'>1858</span> });
-<span class='line'>1859</span> MyModel.NAME = "Model::MyModel";
-<span class='line'>1860</span> 	 */</span><span class="WHIT">
-<span class='line'>1861</span> </span><span class="WHIT">	</span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">dispatcher</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1862</span> </span><span class="WHIT">		</span><span class="NAME">this.data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1863</span> </span><span class="WHIT">		</span><span class="NAME">this.dispatcher</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">dispatcher</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1864</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1865</span> </span><span class="WHIT">			</span><span class="NAME">this.name</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1866</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1867</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1868</span> 
-<span class='line'>1869</span> </span><span class="WHIT">	</span><span class="COMM">/** Method that can you can override, called when the model has been registered to the framework. */</span><span class="WHIT">
-<span class='line'>1870</span> </span><span class="WHIT">	</span><span class="PUNC">,</span><span class="NAME">init</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1871</span> 
-<span class='line'>1872</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1873</span> 
-<span class='line'>1874</span> </span><span class="WHIT">	</span><span class="COMM">/** Method that can you can override, called when the model has been removed from the framework. */</span><span class="WHIT">
-<span class='line'>1875</span> </span><span class="WHIT">	</span><span class="PUNC">,</span><span class="NAME">dispose</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1876</span> 
-<span class='line'>1877</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>1878</span> 
-<span class='line'>1879</span> </span><span class="WHIT">	</span><span class="NAME">dispatchEvent</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1880</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.dispatcher</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1881</span> </span><span class="WHIT">			</span><span class="NAME">this.dispatcher.dispatchEvent.apply</span><span class="PUNC">(</span><span class="NAME">this.dispatcher</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1882</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1883</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>1884</span> 
-<span class='line'>1885</span> </span><span class="WHIT">	</span><span class="NAME">addEventListener</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1886</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.dispatcher</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1887</span> </span><span class="WHIT">			</span><span class="NAME">this.dispatcher.addEventListener.apply</span><span class="PUNC">(</span><span class="NAME">this.dispatcher</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1888</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1889</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>1890</span> 
-<span class='line'>1891</span> </span><span class="WHIT">	</span><span class="NAME">removeEventListener</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1892</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.dispatcher</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1893</span> </span><span class="WHIT">			</span><span class="NAME">this.dispatcher.addEventListener.apply</span><span class="PUNC">(</span><span class="NAME">this.dispatcher</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1894</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1895</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>1896</span> 
-<span class='line'>1897</span> </span><span class="WHIT">	</span><span class="COMM">/** Retrieves the name of the model. */</span><span class="WHIT">
-<span class='line'>1898</span> </span><span class="WHIT">	</span><span class="NAME">getName</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1899</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.name</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1900</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>1901</span> 
-<span class='line'>1902</span> </span><span class="WHIT">	</span><span class="COMM">/** Sets the name of the model. */</span><span class="WHIT">
-<span class='line'>1903</span> </span><span class="WHIT">	</span><span class="NAME">setName</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1904</span> </span><span class="WHIT">		</span><span class="NAME">this.name</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1905</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>1906</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>1907</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>1908</span> 
+<span class='line'>1813</span> </span><span class="NAME">soma.core.model.Model</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>1814</span> </span><span class="WHIT">    </span><span class="COMM">/** @lends soma.core.model.Model.prototype */</span><span class="WHIT">
+<span class='line'>1815</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1816</span> 
+<span class='line'>1817</span> </span><span class="WHIT">	</span><span class="COMM">/** Name of the model. */</span><span class="WHIT">
+<span class='line'>1818</span> </span><span class="WHIT">	</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1819</span> </span><span class="WHIT">	</span><span class="COMM">/** Variable that can be used to hold you data. */</span><span class="WHIT">
+<span class='line'>1820</span> </span><span class="WHIT">	</span><span class="NAME">data</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1821</span> </span><span class="WHIT">	</span><span class="COMM">/** Instance of a EventDispatcher that can be used to dispatch commands. */</span><span class="WHIT">
+<span class='line'>1822</span> </span><span class="WHIT">	</span><span class="NAME">dispatcher</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1823</span> 
+<span class='line'>1824</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1825</span> 	 * @constructs
+<span class='line'>1826</span> 	 * @class
+<span class='line'>1827</span> 	 * The model is the class used to manage you application's data model.
+<span class='line'>1828</span> 	 * The data can be XML, local data, data retrieved from a server or anything.
+<span class='line'>1829</span> 	 * Ideally, the data should be set to the data property of the model instance, but you are free to create specific getters.
+<span class='line'>1830</span> 	 * @description Create an instance of a Model class.
+<span class='line'>1831</span> 	 * @param {string} name The name of the wire.
+<span class='line'>1832</span> 	 * @borrows soma.EventDispatcher#addEventListener
+<span class='line'>1833</span> 	 * @borrows soma.EventDispatcher#removeEventListener
+<span class='line'>1834</span> 	 * @borrows soma.EventDispatcher#hasEventListener
+<span class='line'>1835</span> 	 * @borrows soma.EventDispatcher#dispatchEvent
+<span class='line'>1836</span> 	 * @example
+<span class='line'>1837</span> // add a model to the framework
+<span class='line'>1838</span> this.addModel("myModelName", new MyModel());
+<span class='line'>1839</span> 	 * @example
+<span class='line'>1840</span> // remove a model from the framework
+<span class='line'>1841</span> this.removeModel("myModelName");
+<span class='line'>1842</span> 	 * @example
+<span class='line'>1843</span> // retrieve a model
+<span class='line'>1844</span> var model = this.getModel("myModelName");
+<span class='line'>1845</span> 	 * @example
+<span class='line'>1846</span> var MyModel = new Class({
+<span class='line'>1847</span> 	Extends: soma.core.model.Model,
+<span class='line'>1848</span> 
+<span class='line'>1849</span> 	init: function() {
+<span class='line'>1850</span> 		this.data = "my data example";
+<span class='line'>1851</span> 		// the model can be used as a dispatcher (default dispatcher is the framework instance) to dispatch commands, example:
+<span class='line'>1852</span>         this.dispatchEvent(new soma.Event("dataReady"));
+<span class='line'>1853</span> 	},
+<span class='line'>1854</span> 
+<span class='line'>1855</span> 	dispose: function() {
+<span class='line'>1856</span> 		this.data = null;
+<span class='line'>1857</span> 	}
+<span class='line'>1858</span> 
+<span class='line'>1859</span> });
+<span class='line'>1860</span> MyModel.NAME = "Model::MyModel";
+<span class='line'>1861</span> 	 */</span><span class="WHIT">
+<span class='line'>1862</span> </span><span class="WHIT">	</span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">dispatcher</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1863</span> </span><span class="WHIT">		</span><span class="NAME">this.data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1864</span> </span><span class="WHIT">		</span><span class="NAME">this.dispatcher</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">dispatcher</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1865</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1866</span> </span><span class="WHIT">			</span><span class="NAME">this.name</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1867</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1868</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1869</span> 
+<span class='line'>1870</span> </span><span class="WHIT">	</span><span class="COMM">/** Method that can you can override, called when the model has been registered to the framework. */</span><span class="WHIT">
+<span class='line'>1871</span> </span><span class="WHIT">	</span><span class="PUNC">,</span><span class="NAME">init</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1872</span> 
+<span class='line'>1873</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1874</span> 
+<span class='line'>1875</span> </span><span class="WHIT">	</span><span class="COMM">/** Method that can you can override, called when the model has been removed from the framework. */</span><span class="WHIT">
+<span class='line'>1876</span> </span><span class="WHIT">	</span><span class="PUNC">,</span><span class="NAME">dispose</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1877</span> 
+<span class='line'>1878</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1879</span> 
+<span class='line'>1880</span> </span><span class="WHIT">	</span><span class="NAME">dispatchEvent</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1881</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.dispatcher</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1882</span> </span><span class="WHIT">			</span><span class="NAME">this.dispatcher.dispatchEvent.apply</span><span class="PUNC">(</span><span class="NAME">this.dispatcher</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1883</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1884</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1885</span> 
+<span class='line'>1886</span> </span><span class="WHIT">	</span><span class="NAME">addEventListener</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1887</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.dispatcher</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1888</span> </span><span class="WHIT">			</span><span class="NAME">this.dispatcher.addEventListener.apply</span><span class="PUNC">(</span><span class="NAME">this.dispatcher</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1889</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1890</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1891</span> 
+<span class='line'>1892</span> </span><span class="WHIT">	</span><span class="NAME">removeEventListener</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1893</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.dispatcher</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1894</span> </span><span class="WHIT">			</span><span class="NAME">this.dispatcher.addEventListener.apply</span><span class="PUNC">(</span><span class="NAME">this.dispatcher</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1895</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1896</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1897</span> 
+<span class='line'>1898</span> </span><span class="WHIT">	</span><span class="COMM">/** Retrieves the name of the model. */</span><span class="WHIT">
+<span class='line'>1899</span> </span><span class="WHIT">	</span><span class="NAME">getName</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1900</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.name</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1901</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1902</span> 
+<span class='line'>1903</span> </span><span class="WHIT">	</span><span class="COMM">/** Sets the name of the model. */</span><span class="WHIT">
+<span class='line'>1904</span> </span><span class="WHIT">	</span><span class="NAME">setName</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1905</span> </span><span class="WHIT">		</span><span class="NAME">this.name</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1906</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1907</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>1908</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>1909</span> 
-<span class='line'>1910</span> </span><span class="NAME">soma.View</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>1911</span> </span><span class="WHIT">	</span><span class="COMM">/** @lends soma.View.prototype */</span><span class="WHIT">
-<span class='line'>1912</span> 
-<span class='line'>1913</span> </span><span class="WHIT">	</span><span class="COMM">/** {DOM Element} An optional DOM Element. */</span><span class="WHIT">
-<span class='line'>1914</span> </span><span class="WHIT">	</span><span class="NAME">domElement</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>1915</span> 
-<span class='line'>1916</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>1917</span> 	 * @constructs
-<span class='line'>1918</span> 	 * @class
-<span class='line'>1919</span> 	 * The View class is not dependant of the framework and is completely optional.
-<span class='line'>1920</span> 	 * Its purpose is to dispatch commands in an easier way.
-<span class='line'>1921</span> 	 * Commands can be dispatched from views and will not tight your views to the framework as they are simple native events (with a property bubbles set to true to be considered as command by the framework).
-<span class='line'>1922</span> 	 * The commmands must be dispatched from a DOM Element in order for the framework to catch them (see the examples).
-<span class='line'>1923</span> 	 * @description Create an instance of a View class.
-<span class='line'>1924</span> 	 * @param {DOM Element optional} domElement A DOM Element.
-<span class='line'>1925</span> 	 * @example
-<span class='line'>1926</span> // add a view to the framework
-<span class='line'>1927</span> this.addView("myViewName", new MyView());
-<span class='line'>1928</span> 	 * @example
-<span class='line'>1929</span> // remove a view from the framework
-<span class='line'>1930</span> this.removeView("myViewName");
-<span class='line'>1931</span> 	 * @example
-<span class='line'>1932</span> // retrieve a view
-<span class='line'>1933</span> var view = this.getView("myViewName");
-<span class='line'>1934</span> 	 * @example
-<span class='line'>1935</span> // view that extends soma.View
-<span class='line'>1936</span> // the event "eventType" is considered a command in this example.
-<span class='line'>1937</span> var MyView = new Class({
-<span class='line'>1938</span> 	Extends: soma.View,
-<span class='line'>1939</span> 
-<span class='line'>1940</span> 	init: function() {
-<span class='line'>1941</span> 		this.dispatchEvent(new soma.Event("eventType"))
-<span class='line'>1942</span> 	},
-<span class='line'>1943</span> 
-<span class='line'>1944</span> 	dispose: function() {
-<span class='line'>1945</span> 
-<span class='line'>1946</span> 	}
-<span class='line'>1947</span> });
-<span class='line'>1948</span> MyView.NAME = "View::MyView";
-<span class='line'>1949</span> 
-<span class='line'>1950</span> var view = new MyView();
-<span class='line'>1951</span> 	 * @example
-<span class='line'>1952</span> // view that does not extends soma.View and uses the domElement property.
-<span class='line'>1953</span> // the event "eventType" is considered a command in this example.
-<span class='line'>1954</span> var MyView = new Class({
-<span class='line'>1955</span> 
-<span class='line'>1956</span> 	init: function() {
-<span class='line'>1957</span> 		this.domElement.dispatchEvent(new soma.Event("eventType"))
-<span class='line'>1958</span> 	},
-<span class='line'>1959</span> 
-<span class='line'>1960</span> 	dispose: function() {
-<span class='line'>1961</span> 
-<span class='line'>1962</span> 	}
-<span class='line'>1963</span> });
-<span class='line'>1964</span> MyView.NAME = "View::MyView";
-<span class='line'>1965</span> 
-<span class='line'>1966</span> var view = new MyView(document.getElementById("myDomElement"));
-<span class='line'>1967</span> 	 * @example
-<span class='line'>1968</span> // view that does not extends soma.View and does not use the domElement property.
-<span class='line'>1969</span> // the event "eventType" is considered a command in this example.
-<span class='line'>1970</span> var MyView = new Class({
-<span class='line'>1971</span> 
-<span class='line'>1972</span> 	init: function() {
-<span class='line'>1973</span> 		var myDomElement = document.getElementById("myDomElement")
-<span class='line'>1974</span> 		myDomElement.dispatchEvent(new soma.Event("eventType"))
-<span class='line'>1975</span> 	},
-<span class='line'>1976</span> 
-<span class='line'>1977</span> 	dispose: function() {
-<span class='line'>1978</span> 
-<span class='line'>1979</span> 	}
-<span class='line'>1980</span> });
-<span class='line'>1981</span> MyView.NAME = "View::MyView";
-<span class='line'>1982</span> var view = new MyView();
-<span class='line'>1983</span> 
-<span class='line'>1984</span> // another example
-<span class='line'>1985</span> // the event "eventType" is considered a command in this example.
-<span class='line'>1986</span> var MyView = new Class({
-<span class='line'>1987</span> 
-<span class='line'>1988</span> 	init: function() {
-<span class='line'>1989</span> 		var button = document.getElementById("requestMessageButton");
-<span class='line'>1990</span> 		button.addEventListener("click", function() {
-<span class='line'>1991</span> 			this.dispatchEvent(new soma.Event("eventType"))
-<span class='line'>1992</span> 		});
-<span class='line'>1993</span> 	},
-<span class='line'>1994</span> 
-<span class='line'>1995</span> 	dispose: function() {
-<span class='line'>1996</span> 
-<span class='line'>1997</span> 	}
-<span class='line'>1998</span> });
-<span class='line'>1999</span> MyView.NAME = "View::MyView";
-<span class='line'>2000</span> var view = new MyView();
-<span class='line'>2001</span> 	 */</span><span class="WHIT">
-<span class='line'>2002</span> </span><span class="WHIT">	</span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">domElement</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2003</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">d</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2004</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">domElement</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2005</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">domElement</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Element</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2006</span> </span><span class="WHIT">				</span><span class="NAME">d</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">domElement</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2007</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="KEYW">else</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2008</span> </span><span class="WHIT">				</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="STRN">"domElement has to be a DOM-ELement"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2009</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>2010</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="KEYW">else</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2011</span> </span><span class="WHIT">			</span><span class="NAME">d</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.body</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2012</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>2013</span> </span><span class="WHIT">		</span><span class="NAME">this.domElement</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">d</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2014</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>2015</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>2016</span> 	 * DOM native method. The soma.Event class can be used as a shortcut to create the event.
-<span class='line'>2017</span> 	 * @param {event or soma.Event} An event instance.
-<span class='line'>2018</span> 	 * @example
-<span class='line'>2019</span> object.dispatchEvent(new soma.Event("eventType"));
-<span class='line'>2020</span> 	 */</span><span class="WHIT">
-<span class='line'>2021</span> </span><span class="WHIT">	</span><span class="NAME">dispatchEvent</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2022</span> </span><span class="WHIT">		</span><span class="NAME">this.domElement.dispatchEvent</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2023</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>2024</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>2025</span> 	 * DOM native method.
-<span class='line'>2026</span> 	 * @param {string} type Type of the event.
-<span class='line'>2027</span> 	 * @param {function} function The listener that will be notified.
-<span class='line'>2028</span> 	 * @param {boolean} capture Capture phase of the event.
-<span class='line'>2029</span> 	 * @example
-<span class='line'>2030</span> object.addEventListener("eventType", eventHandler, false);
-<span class='line'>2031</span> 	 */</span><span class="WHIT">
-<span class='line'>2032</span> </span><span class="WHIT">	</span><span class="NAME">addEventListener</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2033</span> </span><span class="WHIT">		</span><span class="NAME">this.domElement.addEventListener.apply</span><span class="PUNC">(</span><span class="NAME">this.domElement</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2034</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>2035</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>2036</span> 	 * DOM native method.
-<span class='line'>2037</span> 	 * @param {string} type Type of the event.
-<span class='line'>2038</span> 	 * @param {function} function The listener that will be notified.
-<span class='line'>2039</span> 	 * @param {boolean} capture Capture phase of the event.
-<span class='line'>2040</span> 	 * @example
-<span class='line'>2041</span> object.removeEventListener("eventType", eventHandler, false);
-<span class='line'>2042</span> 	 */</span><span class="WHIT">
-<span class='line'>2043</span> </span><span class="WHIT">	</span><span class="NAME">removeEventListener</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2044</span> </span><span class="WHIT">		</span><span class="NAME">this.domElement.removeEventListener.apply</span><span class="PUNC">(</span><span class="NAME">this.domElement</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2045</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>2046</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>2047</span> 	 * Optional method that will be called by the framework (if it exists) when the view is removed from the framework.
-<span class='line'>2048</span> 	 */</span><span class="WHIT">
-<span class='line'>2049</span> </span><span class="WHIT">	</span><span class="NAME">dispose</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2050</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>2051</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>2052</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2053</span> 
+<span class='line'>1910</span> </span><span class="NAME">soma.View</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>1911</span> </span><span class="WHIT">    </span><span class="COMM">/** @lends soma.View.prototype */</span><span class="WHIT">
+<span class='line'>1912</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1913</span> 
+<span class='line'>1914</span> </span><span class="WHIT">	</span><span class="COMM">/** {DOM Element} An optional DOM Element. */</span><span class="WHIT">
+<span class='line'>1915</span> </span><span class="WHIT">	</span><span class="NAME">domElement</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1916</span> 
+<span class='line'>1917</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1918</span> 	 * @constructs
+<span class='line'>1919</span> 	 * @class
+<span class='line'>1920</span> 	 * The View class is not dependant of the framework and is completely optional.
+<span class='line'>1921</span> 	 * Its purpose is to dispatch commands in an easier way.
+<span class='line'>1922</span> 	 * Commands can be dispatched from views and will not tight your views to the framework as they are simple native events (with a property bubbles set to true to be considered as command by the framework).
+<span class='line'>1923</span> 	 * The commmands must be dispatched from a DOM Element in order for the framework to catch them (see the examples).
+<span class='line'>1924</span> 	 * @description Create an instance of a View class.
+<span class='line'>1925</span> 	 * @param {DOM Element optional} domElement A DOM Element.
+<span class='line'>1926</span> 	 * @example
+<span class='line'>1927</span> // add a view to the framework
+<span class='line'>1928</span> this.addView("myViewName", new MyView());
+<span class='line'>1929</span> 	 * @example
+<span class='line'>1930</span> // remove a view from the framework
+<span class='line'>1931</span> this.removeView("myViewName");
+<span class='line'>1932</span> 	 * @example
+<span class='line'>1933</span> // retrieve a view
+<span class='line'>1934</span> var view = this.getView("myViewName");
+<span class='line'>1935</span> 	 * @example
+<span class='line'>1936</span> // view that extends soma.View
+<span class='line'>1937</span> // the event "eventType" is considered a command in this example.
+<span class='line'>1938</span> var MyView = new Class({
+<span class='line'>1939</span> 	Extends: soma.View,
+<span class='line'>1940</span> 
+<span class='line'>1941</span> 	init: function() {
+<span class='line'>1942</span> 		this.dispatchEvent(new soma.Event("eventType"))
+<span class='line'>1943</span> 	},
+<span class='line'>1944</span> 
+<span class='line'>1945</span> 	dispose: function() {
+<span class='line'>1946</span> 
+<span class='line'>1947</span> 	}
+<span class='line'>1948</span> });
+<span class='line'>1949</span> MyView.NAME = "View::MyView";
+<span class='line'>1950</span> 
+<span class='line'>1951</span> var view = new MyView();
+<span class='line'>1952</span> 	 * @example
+<span class='line'>1953</span> // view that does not extends soma.View and uses the domElement property.
+<span class='line'>1954</span> // the event "eventType" is considered a command in this example.
+<span class='line'>1955</span> var MyView = new Class({
+<span class='line'>1956</span> 
+<span class='line'>1957</span> 	init: function() {
+<span class='line'>1958</span> 		this.domElement.dispatchEvent(new soma.Event("eventType"))
+<span class='line'>1959</span> 	},
+<span class='line'>1960</span> 
+<span class='line'>1961</span> 	dispose: function() {
+<span class='line'>1962</span> 
+<span class='line'>1963</span> 	}
+<span class='line'>1964</span> });
+<span class='line'>1965</span> MyView.NAME = "View::MyView";
+<span class='line'>1966</span> 
+<span class='line'>1967</span> var view = new MyView(document.getElementById("myDomElement"));
+<span class='line'>1968</span> 	 * @example
+<span class='line'>1969</span> // view that does not extends soma.View and does not use the domElement property.
+<span class='line'>1970</span> // the event "eventType" is considered a command in this example.
+<span class='line'>1971</span> var MyView = new Class({
+<span class='line'>1972</span> 
+<span class='line'>1973</span> 	init: function() {
+<span class='line'>1974</span> 		var myDomElement = document.getElementById("myDomElement")
+<span class='line'>1975</span> 		myDomElement.dispatchEvent(new soma.Event("eventType"))
+<span class='line'>1976</span> 	},
+<span class='line'>1977</span> 
+<span class='line'>1978</span> 	dispose: function() {
+<span class='line'>1979</span> 
+<span class='line'>1980</span> 	}
+<span class='line'>1981</span> });
+<span class='line'>1982</span> MyView.NAME = "View::MyView";
+<span class='line'>1983</span> var view = new MyView();
+<span class='line'>1984</span> 
+<span class='line'>1985</span> // another example
+<span class='line'>1986</span> // the event "eventType" is considered a command in this example.
+<span class='line'>1987</span> var MyView = new Class({
+<span class='line'>1988</span> 
+<span class='line'>1989</span> 	init: function() {
+<span class='line'>1990</span> 		var button = document.getElementById("requestMessageButton");
+<span class='line'>1991</span> 		button.addEventListener("click", function() {
+<span class='line'>1992</span> 			this.dispatchEvent(new soma.Event("eventType"))
+<span class='line'>1993</span> 		});
+<span class='line'>1994</span> 	},
+<span class='line'>1995</span> 
+<span class='line'>1996</span> 	dispose: function() {
+<span class='line'>1997</span> 
+<span class='line'>1998</span> 	}
+<span class='line'>1999</span> });
+<span class='line'>2000</span> MyView.NAME = "View::MyView";
+<span class='line'>2001</span> var view = new MyView();
+<span class='line'>2002</span> 	 */</span><span class="WHIT">
+<span class='line'>2003</span> </span><span class="WHIT">	</span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">domElement</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2004</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">d</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2005</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">domElement</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2006</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">domElement</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Element</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2007</span> </span><span class="WHIT">				</span><span class="NAME">d</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">domElement</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2008</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="KEYW">else</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2009</span> </span><span class="WHIT">				</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="STRN">"domElement has to be a DOM-ELement"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2010</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2011</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="KEYW">else</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2012</span> </span><span class="WHIT">			</span><span class="NAME">d</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.body</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2013</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2014</span> </span><span class="WHIT">		</span><span class="NAME">this.domElement</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">d</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2015</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2016</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>2017</span> 	 * DOM native method. The soma.Event class can be used as a shortcut to create the event.
+<span class='line'>2018</span> 	 * @param {event or soma.Event} An event instance.
+<span class='line'>2019</span> 	 * @example
+<span class='line'>2020</span> object.dispatchEvent(new soma.Event("eventType"));
+<span class='line'>2021</span> 	 */</span><span class="WHIT">
+<span class='line'>2022</span> </span><span class="WHIT">	</span><span class="NAME">dispatchEvent</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2023</span> </span><span class="WHIT">		</span><span class="NAME">this.domElement.dispatchEvent</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2024</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2025</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>2026</span> 	 * DOM native method.
+<span class='line'>2027</span> 	 * @param {string} type Type of the event.
+<span class='line'>2028</span> 	 * @param {function} function The listener that will be notified.
+<span class='line'>2029</span> 	 * @param {boolean} capture Capture phase of the event.
+<span class='line'>2030</span> 	 * @example
+<span class='line'>2031</span> object.addEventListener("eventType", eventHandler, false);
+<span class='line'>2032</span> 	 */</span><span class="WHIT">
+<span class='line'>2033</span> </span><span class="WHIT">	</span><span class="NAME">addEventListener</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2034</span> </span><span class="WHIT">		</span><span class="NAME">this.domElement.addEventListener.apply</span><span class="PUNC">(</span><span class="NAME">this.domElement</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2035</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2036</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>2037</span> 	 * DOM native method.
+<span class='line'>2038</span> 	 * @param {string} type Type of the event.
+<span class='line'>2039</span> 	 * @param {function} function The listener that will be notified.
+<span class='line'>2040</span> 	 * @param {boolean} capture Capture phase of the event.
+<span class='line'>2041</span> 	 * @example
+<span class='line'>2042</span> object.removeEventListener("eventType", eventHandler, false);
+<span class='line'>2043</span> 	 */</span><span class="WHIT">
+<span class='line'>2044</span> </span><span class="WHIT">	</span><span class="NAME">removeEventListener</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2045</span> </span><span class="WHIT">		</span><span class="NAME">this.domElement.removeEventListener.apply</span><span class="PUNC">(</span><span class="NAME">this.domElement</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2046</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2047</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>2048</span> 	 * Optional method that will be called by the framework (if it exists) when the view is removed from the framework.
+<span class='line'>2049</span> 	 */</span><span class="WHIT">
+<span class='line'>2050</span> </span><span class="WHIT">	</span><span class="NAME">dispose</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2051</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>2052</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2053</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>2054</span> 
-<span class='line'>2055</span> </span><span class="NAME">soma.core.wire.SomaWires</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2056</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">wires</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2057</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2058</span> 
-<span class='line'>2059</span> </span><span class="WHIT">		</span><span class="NAME">Implements</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">soma.IDisposable</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>2060</span> 
-<span class='line'>2061</span> </span><span class="WHIT">		</span><span class="NAME">instance</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>2062</span> 
-<span class='line'>2063</span> </span><span class="WHIT">		</span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">instance</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2064</span> </span><span class="WHIT">			</span><span class="NAME">this.instance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">instance</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2065</span> </span><span class="WHIT">			</span><span class="NAME">wires</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2066</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>2067</span> 
-<span class='line'>2068</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>2069</span> 		 *
-<span class='line'>2070</span> 		 * @param {String} wireName
-<span class='line'>2071</span> 		 * @return {Boolean}
-<span class='line'>2072</span> 		 */</span><span class="WHIT">
-<span class='line'>2073</span> </span><span class="WHIT">		</span><span class="NAME">hasWire</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">wireName</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2074</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">wires</span><span class="PUNC">[</span><span class="WHIT"> </span><span class="NAME">wireName</span><span class="WHIT"> </span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2075</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2055</span> </span><span class="COMM">/**
+<span class='line'>2056</span>  * @name soma.core.wire.SomaWires
+<span class='line'>2057</span>  * @namespace The SomaWires class handles the wires of the application. See the Wire class documentation for implementation.
+<span class='line'>2058</span>  * @borrows soma.core.Application#addWire
+<span class='line'>2059</span>  * @borrows soma.core.Application#getWire
+<span class='line'>2060</span>  * @borrows soma.core.Application#getWires
+<span class='line'>2061</span>  * @borrows soma.core.Application#hasWire
+<span class='line'>2062</span>  * @borrows soma.core.Application#removeWire
+<span class='line'>2063</span>  * @example
+<span class='line'>2064</span>  this.addWire("myWireName", new MyWire());
+<span class='line'>2065</span>  this.removeWire("myWireName");
+<span class='line'>2066</span>  var wire = this.getWire("myWireName");
+<span class='line'>2067</span>  */</span><span class="WHIT">
+<span class='line'>2068</span> </span><span class="NAME">soma.core.wire.SomaWires</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2069</span> </span><span class="WHIT">    </span><span class="COMM">/** @lends soma.core.wire.SomaWires.prototype */</span><span class="WHIT">
+<span class='line'>2070</span> 
+<span class='line'>2071</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">wires</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2072</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2073</span> </span><span class="WHIT">		</span><span class="NAME">Implements</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">soma.core.IDisposable</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2074</span> 
+<span class='line'>2075</span> </span><span class="WHIT">		</span><span class="NAME">instance</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>2076</span> 
-<span class='line'>2077</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>2078</span> 		 *
-<span class='line'>2079</span> 		 * @param {String} wireName
-<span class='line'>2080</span> 		 * @param {soma.core.wire.Wire} wire
-<span class='line'>2081</span> 		 * @return {soma.core.wire.Wire}
-<span class='line'>2082</span> 		 */</span><span class="WHIT">
-<span class='line'>2083</span> </span><span class="WHIT">		</span><span class="NAME">addWire</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">wireName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">wire</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2084</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.hasWire</span><span class="PUNC">(</span><span class="NAME">wireName</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2085</span> </span><span class="WHIT">				</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">"Wire \""</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">wireName</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"\" already exists"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2086</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>2087</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">wire</span><span class="PUNC">[</span><span class="STRN">'shouldAutobind'</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">wire.autobind</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2088</span> </span><span class="WHIT">			</span><span class="NAME">wires</span><span class="PUNC">[</span><span class="WHIT"> </span><span class="NAME">wireName</span><span class="WHIT"> </span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">wire</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2089</span> </span><span class="WHIT">			</span><span class="NAME">wire.registerInstance</span><span class="PUNC">(</span><span class="NAME">this.instance</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2090</span> </span><span class="WHIT">			</span><span class="NAME">wire.init</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2091</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">wire</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2092</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>2093</span> 
-<span class='line'>2094</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>2095</span> 		 *
-<span class='line'>2096</span> 		 * @param {String} wireName
-<span class='line'>2097</span> 		 * @return {soma.core.wire.Wire}
-<span class='line'>2098</span> 		 */</span><span class="WHIT">
-<span class='line'>2099</span> </span><span class="WHIT">		</span><span class="NAME">getWire</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">wireName</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2100</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.hasWire</span><span class="PUNC">(</span><span class="NAME">wireName</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2101</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">wires</span><span class="PUNC">[</span><span class="WHIT"> </span><span class="NAME">wireName</span><span class="WHIT"> </span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2102</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>2103</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2104</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>2105</span> 
-<span class='line'>2106</span> </span><span class="WHIT">		</span><span class="NAME">getWires</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2107</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">clone</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2108</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">name</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">wires</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2109</span> </span><span class="WHIT">				</span><span class="NAME">clone</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">wires</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2110</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>2111</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">clone</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2112</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>2113</span> 
-<span class='line'>2114</span> </span><span class="WHIT">		</span><span class="NAME">removeWire</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">wireName</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2115</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.hasWire</span><span class="PUNC">(</span><span class="NAME">wireName</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2116</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2117</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>2118</span> </span><span class="WHIT">			</span><span class="NAME">wires</span><span class="PUNC">[</span><span class="WHIT"> </span><span class="NAME">wireName</span><span class="WHIT"> </span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">dispose</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2119</span> </span><span class="WHIT">			</span><span class="NAME">wires</span><span class="PUNC">[</span><span class="WHIT"> </span><span class="NAME">wireName</span><span class="WHIT"> </span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2120</span> </span><span class="WHIT">			</span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">wires</span><span class="PUNC">[</span><span class="WHIT"> </span><span class="NAME">wireName</span><span class="WHIT"> </span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2121</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>2122</span> 
-<span class='line'>2123</span> </span><span class="WHIT">		</span><span class="NAME">dispose</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2124</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">name</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">wires</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2125</span> </span><span class="WHIT">				</span><span class="NAME">this.removeWire</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2126</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>2127</span> </span><span class="WHIT">			</span><span class="NAME">wires</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2128</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>2129</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2130</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2077</span> </span><span class="WHIT">		</span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">instance</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2078</span> </span><span class="WHIT">			</span><span class="NAME">this.instance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">instance</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2079</span> </span><span class="WHIT">			</span><span class="NAME">wires</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2080</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2081</span> 
+<span class='line'>2082</span> </span><span class="WHIT">		</span><span class="NAME">hasWire</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">wireName</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2083</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">wires</span><span class="PUNC">[</span><span class="WHIT"> </span><span class="NAME">wireName</span><span class="WHIT"> </span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2084</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2085</span> 
+<span class='line'>2086</span> </span><span class="WHIT">		</span><span class="NAME">addWire</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">wireName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">wire</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2087</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.hasWire</span><span class="PUNC">(</span><span class="NAME">wireName</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2088</span> </span><span class="WHIT">				</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">"Wire \""</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">wireName</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"\" already exists"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2089</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2090</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">wire</span><span class="PUNC">[</span><span class="STRN">'shouldAutobind'</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">wire.autobind</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2091</span> </span><span class="WHIT">			</span><span class="NAME">wires</span><span class="PUNC">[</span><span class="WHIT"> </span><span class="NAME">wireName</span><span class="WHIT"> </span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">wire</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2092</span> </span><span class="WHIT">			</span><span class="NAME">wire.registerInstance</span><span class="PUNC">(</span><span class="NAME">this.instance</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2093</span> </span><span class="WHIT">			</span><span class="NAME">wire.init</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2094</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">wire</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2095</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2096</span> 
+<span class='line'>2097</span> </span><span class="WHIT">		</span><span class="NAME">getWire</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">wireName</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2098</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.hasWire</span><span class="PUNC">(</span><span class="NAME">wireName</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2099</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">wires</span><span class="PUNC">[</span><span class="WHIT"> </span><span class="NAME">wireName</span><span class="WHIT"> </span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2100</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2101</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2102</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2103</span> 
+<span class='line'>2104</span> </span><span class="WHIT">		</span><span class="NAME">getWires</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2105</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">clone</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2106</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">name</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">wires</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2107</span> </span><span class="WHIT">				</span><span class="NAME">clone</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">wires</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2108</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2109</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">clone</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2110</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2111</span> 
+<span class='line'>2112</span> </span><span class="WHIT">		</span><span class="NAME">removeWire</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">wireName</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2113</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.hasWire</span><span class="PUNC">(</span><span class="NAME">wireName</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2114</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2115</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2116</span> </span><span class="WHIT">			</span><span class="NAME">wires</span><span class="PUNC">[</span><span class="WHIT"> </span><span class="NAME">wireName</span><span class="WHIT"> </span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">dispose</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2117</span> </span><span class="WHIT">			</span><span class="NAME">wires</span><span class="PUNC">[</span><span class="WHIT"> </span><span class="NAME">wireName</span><span class="WHIT"> </span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2118</span> </span><span class="WHIT">			</span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">wires</span><span class="PUNC">[</span><span class="WHIT"> </span><span class="NAME">wireName</span><span class="WHIT"> </span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2119</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2120</span> 
+<span class='line'>2121</span> </span><span class="WHIT">		</span><span class="NAME">dispose</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2122</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">name</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">wires</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2123</span> </span><span class="WHIT">				</span><span class="NAME">this.removeWire</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2124</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2125</span> </span><span class="WHIT">			</span><span class="NAME">wires</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2126</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2127</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2128</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2129</span> 
+<span class='line'>2130</span> </span><span class="NAME">soma.core.mediator.Mediator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>2131</span> 
-<span class='line'>2132</span> </span><span class="NAME">soma.core.mediator.Mediator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2133</span> 
-<span class='line'>2134</span> </span><span class="WHIT">	</span><span class="NAME">Extends</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">soma.core.wire.Wire</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>2135</span> </span><span class="WHIT">	</span><span class="NAME">Implements</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">soma.IDisposable</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2132</span> </span><span class="WHIT">	</span><span class="NAME">Extends</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">soma.core.wire.Wire</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2133</span> </span><span class="WHIT">	</span><span class="NAME">Implements</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">soma.core.IDisposable</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2134</span> 
+<span class='line'>2135</span> </span><span class="WHIT">	</span><span class="NAME">viewComponent</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>2136</span> 
-<span class='line'>2137</span> </span><span class="WHIT">	</span><span class="NAME">viewComponent</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>2138</span> 
-<span class='line'>2139</span> </span><span class="WHIT">	</span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">viewComponent</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2140</span> </span><span class="WHIT">		</span><span class="NAME">this.viewComponent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">viewComponent</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2141</span> </span><span class="WHIT">		</span><span class="NAME">this.parent</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2142</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>2143</span> 
-<span class='line'>2144</span> </span><span class="WHIT">	</span><span class="NAME">dispose</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2145</span> </span><span class="WHIT">		</span><span class="NAME">this.viewComponent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2146</span> </span><span class="WHIT">		</span><span class="NAME">this.parent</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2147</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>2148</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>2149</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2150</span> 
-<span class='line'>2151</span> </span><span class="NAME">soma.Event</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2152</span> </span><span class="WHIT">	</span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">bubbles</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cancelable</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2153</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">e</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createEvent</span><span class="PUNC">(</span><span class="STRN">"Event"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2154</span> </span><span class="WHIT">		</span><span class="NAME">e.initEvent</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">bubbles</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">bubbles</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cancelable</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">cancelable</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2155</span> </span><span class="WHIT">		</span><span class="NAME">e.cancelable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cancelable</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">cancelable</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2156</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2157</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">k</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2158</span> </span><span class="WHIT">				</span><span class="NAME">e</span><span class="PUNC">[</span><span class="NAME">k</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">[</span><span class="NAME">k</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2159</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>2160</span> </span><span class="WHIT">			</span><span class="NAME">e.data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2161</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>2162</span> </span><span class="WHIT">		</span><span class="NAME">e.clone</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.clone.bind</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2163</span> </span><span class="WHIT">		</span><span class="NAME">e.isDefaultPrevented</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.isDefaultPrevented</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2164</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2165</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>2166</span> </span><span class="WHIT">	</span><span class="NAME">clone</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2167</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">e</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createEvent</span><span class="PUNC">(</span><span class="STRN">"Event"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2168</span> </span><span class="WHIT">		</span><span class="NAME">e.initEvent</span><span class="PUNC">(</span><span class="NAME">this.type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.bubbles</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.cancelable</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2169</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">d</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.data</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2170</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">k</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">d</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2171</span> </span><span class="WHIT">			</span><span class="NAME">e</span><span class="PUNC">[</span><span class="NAME">k</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">d</span><span class="PUNC">[</span><span class="NAME">k</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2172</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>2173</span> </span><span class="WHIT">		</span><span class="NAME">e.data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">d</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2174</span> </span><span class="WHIT">		</span><span class="NAME">e.isCloned</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2175</span> </span><span class="WHIT">		</span><span class="NAME">e.clone</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.clone</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2176</span> </span><span class="WHIT">		</span><span class="NAME">e.isDefaultPrevented</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.isDefaultPrevented</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2177</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2178</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>2179</span> </span><span class="WHIT">	</span><span class="NAME">isDefaultPrevented</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2180</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.getDefaultPrevented</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2181</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.getDefaultPrevented</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2182</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2183</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.defaultPrevented</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2184</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>2185</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>2186</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2187</span> 
-<span class='line'>2188</span> </span><span class="NAME">soma.core.IResponder</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2189</span> </span><span class="WHIT">	</span><span class="NAME">fault</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">info</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2190</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>2191</span> </span><span class="WHIT">	</span><span class="NAME">result</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2192</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>2193</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2194</span> 
-<span class='line'>2195</span> </span><span class="NAME">soma.core.IDisposable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2196</span> </span><span class="WHIT">	</span><span class="NAME">dispose</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>2197</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>2198</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>2199</span> </span></pre></body></html>
+<span class='line'>2137</span> </span><span class="WHIT">	</span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">viewComponent</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2138</span> </span><span class="WHIT">		</span><span class="NAME">this.viewComponent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">viewComponent</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2139</span> </span><span class="WHIT">		</span><span class="NAME">this.parent</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2140</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2141</span> 
+<span class='line'>2142</span> </span><span class="WHIT">	</span><span class="NAME">dispose</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2143</span> </span><span class="WHIT">		</span><span class="NAME">this.viewComponent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2144</span> </span><span class="WHIT">		</span><span class="NAME">this.parent</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2145</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2146</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>2147</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2148</span> 
+<span class='line'>2149</span> </span><span class="NAME">soma.Event</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>2150</span> </span><span class="WHIT">    </span><span class="COMM">/** @lends soma.Event.prototype */</span><span class="WHIT">
+<span class='line'>2151</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2152</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>2153</span>      * @constructs
+<span class='line'>2154</span>      * @class Event wrapper class for the native event created with "document.createEvent".
+<span class='line'>2155</span>      * @description Create an instance of an soma.Event class.
+<span class='line'>2156</span>      * @param {string} type The type of the event.
+<span class='line'>2157</span>      * @param {object} data An object for a custom use and that can hold data.
+<span class='line'>2158</span>      * @param {boolean} bubbles Indicates whether an event is a bubbling event. If the event can bubble, this value is true; otherwise it is false. The default is true for framework purposes: the commands are mapped with events types, the framework will ignore events that are commands if the bubbles property is set to false.
+<span class='line'>2159</span>      * @param {boolean} cancelable Indicates whether the behavior associated with the event can be prevented (using event.preventDefault()). If the behavior can be canceled, this value is true; otherwise it is false.
+<span class='line'>2160</span>      * @returns {event} A event instance.
+<span class='line'>2161</span>      * @example
+<span class='line'>2162</span> // create an event
+<span class='line'>2163</span> var event = new soma.Event("eventType");
+<span class='line'>2164</span> var event = new soma.Event("eventType", {myData:"my data"}, true, true);
+<span class='line'>2165</span>      * @example
+<span class='line'>2166</span> // create an event class
+<span class='line'>2167</span> var MyEvent = new Class({
+<span class='line'>2168</span>     Extends: soma.Event,
+<span class='line'>2169</span> 
+<span class='line'>2170</span>     initialize: function(type, data, bubbles, cancelable) {
+<span class='line'>2171</span>         // alert(data.myData)
+<span class='line'>2172</span>         return this.parent(type, data, bubbles, cancelable);
+<span class='line'>2173</span>     }
+<span class='line'>2174</span> 
+<span class='line'>2175</span> });
+<span class='line'>2176</span> MyEvent.DO_SOMETHING = "ApplicationEvent.DO_SOMETHING"; // constant use as an event type
+<span class='line'>2177</span> var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
+<span class='line'>2178</span>       */</span><span class="WHIT">
+<span class='line'>2179</span> </span><span class="WHIT">    </span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">bubbles</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cancelable</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2180</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">e</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createEvent</span><span class="PUNC">(</span><span class="STRN">"Event"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2181</span> </span><span class="WHIT">		</span><span class="NAME">e.initEvent</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">bubbles</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">bubbles</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cancelable</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">cancelable</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2182</span> </span><span class="WHIT">		</span><span class="NAME">e.cancelable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cancelable</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">cancelable</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2183</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2184</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">k</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2185</span> </span><span class="WHIT">				</span><span class="NAME">e</span><span class="PUNC">[</span><span class="NAME">k</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">[</span><span class="NAME">k</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2186</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2187</span> </span><span class="WHIT">			</span><span class="NAME">e.data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2188</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2189</span> </span><span class="WHIT">		</span><span class="NAME">e.clone</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.clone.bind</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2190</span> </span><span class="WHIT">		</span><span class="NAME">e.isDefaultPrevented</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.isDefaultPrevented</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2191</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2192</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2193</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>2194</span>      * Duplicates an instance of an Event subclass.
+<span class='line'>2195</span>      * @returns {event} A event instance.
+<span class='line'>2196</span>      */</span><span class="WHIT">
+<span class='line'>2197</span> </span><span class="WHIT">	</span><span class="NAME">clone</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2198</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">e</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createEvent</span><span class="PUNC">(</span><span class="STRN">"Event"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2199</span> </span><span class="WHIT">		</span><span class="NAME">e.initEvent</span><span class="PUNC">(</span><span class="NAME">this.type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.bubbles</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.cancelable</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2200</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">d</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.data</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2201</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">k</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">d</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2202</span> </span><span class="WHIT">			</span><span class="NAME">e</span><span class="PUNC">[</span><span class="NAME">k</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">d</span><span class="PUNC">[</span><span class="NAME">k</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2203</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2204</span> </span><span class="WHIT">		</span><span class="NAME">e.data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">d</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2205</span> </span><span class="WHIT">		</span><span class="NAME">e.isCloned</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2206</span> </span><span class="WHIT">		</span><span class="NAME">e.clone</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.clone</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2207</span> </span><span class="WHIT">		</span><span class="NAME">e.isDefaultPrevented</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.isDefaultPrevented</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2208</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2209</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2210</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>2211</span>      * Checks whether the preventDefault() method has been called on the event. If the preventDefault() method has been called, returns true; otherwise, returns false.
+<span class='line'>2212</span>      * @returns {boolean}
+<span class='line'>2213</span>      */</span><span class="WHIT">
+<span class='line'>2214</span> </span><span class="WHIT">	</span><span class="NAME">isDefaultPrevented</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2215</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.getDefaultPrevented</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2216</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.getDefaultPrevented</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2217</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2218</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.defaultPrevented</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2219</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2220</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2221</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2222</span> 
+<span class='line'>2223</span> </span><span class="COMM">/**
+<span class='line'>2224</span>  * @name soma.core.IResponder
+<span class='line'>2225</span>  * @namespace This interface provides the contract for any service that needs to respond to remote or asynchronous calls.
+<span class='line'>2226</span>  * @example
+<span class='line'>2227</span> var MyAsyncClass = new Class({
+<span class='line'>2228</span> 	Implements: soma.core.IResponder,
+<span class='line'>2229</span> 	fault: function(info) {
+<span class='line'>2230</span> 	},
+<span class='line'>2231</span> 	result: function(data) {
+<span class='line'>2232</span> 	},
+<span class='line'>2233</span> });
+<span class='line'>2234</span>  */</span><span class="WHIT">
+<span class='line'>2235</span> </span><span class="NAME">soma.core.IResponder</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>2236</span> </span><span class="WHIT">    </span><span class="COMM">/** @lends soma.core.IResponder.prototype **/</span><span class="WHIT">
+<span class='line'>2237</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2238</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>2239</span>      * This method is called by a service when an error has been received.
+<span class='line'>2240</span>      * @param {object} info Description of the error.
+<span class='line'>2241</span>      * @name fault
+<span class='line'>2242</span>      * @methodOf soma.core.IResponder#
+<span class='line'>2243</span>      */</span><span class="WHIT">
+<span class='line'>2244</span> </span><span class="WHIT">	</span><span class="NAME">fault</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">info</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2245</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>2246</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>2247</span>      * This method is called by a service when the return value has been received.
+<span class='line'>2248</span>      * @param {object} data Object containing the result.
+<span class='line'>2249</span>      * @name result
+<span class='line'>2250</span>      * @methodOf soma.core.IResponder#
+<span class='line'>2251</span>      */</span><span class="WHIT">
+<span class='line'>2252</span> </span><span class="WHIT">	</span><span class="NAME">result</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2253</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2254</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2255</span> 
+<span class='line'>2256</span> </span><span class="COMM">/**
+<span class='line'>2257</span>  * @name soma.core.IDisposable
+<span class='line'>2258</span>  * @namespace This interface provides the method that can be called to dispose the elements created inside this instance.
+<span class='line'>2259</span>  * @example
+<span class='line'>2260</span> var MyDisposableClass = new Class({
+<span class='line'>2261</span> 	Implements: soma.core.IDisposable,
+<span class='line'>2262</span> 	dispose: function() {
+<span class='line'>2263</span> 	},
+<span class='line'>2264</span> });
+<span class='line'>2265</span> */</span><span class="WHIT">
+<span class='line'>2266</span> </span><span class="NAME">soma.core.IDisposable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Class</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>2267</span> </span><span class="WHIT">	</span><span class="COMM">/** @lends soma.core.IDisposable.prototype **/</span><span class="WHIT">
+<span class='line'>2268</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2269</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>2270</span> 	 * Method will dispose the elements created.
+<span class='line'>2271</span> 	 * @name dispose
+<span class='line'>2272</span> 	 * @methodOf soma.core.IDisposable#
+<span class='line'>2273</span> 	 */</span><span class="WHIT">
+<span class='line'>2274</span> </span><span class="WHIT">	</span><span class="NAME">dispose</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>2275</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>2276</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>2277</span> </span></pre></body></html>

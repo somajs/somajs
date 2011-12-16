@@ -832,7 +832,7 @@ removeCommand("eventType");
 		var lastSequencer = null;
 
 		return new Class({
-			Implements: soma.IDisposable,
+			Implements: soma.core.IDisposable,
 			
 			instance:null,
 
@@ -1111,7 +1111,7 @@ var view = this.getView("myViewName");
 		
 		return new Class({
 
-			Implements: soma.IDisposable,
+			Implements: soma.core.IDisposable,
 			
 			autoBound:false,
 
@@ -1317,7 +1317,7 @@ soma.core.Application = new Class(
 	/** @lends soma.core.Application.prototype */
 	{
 	Extends: soma.EventDispatcher,
-	Implements: soma.IDisposable,
+	Implements: soma.core.IDisposable,
 	/** Gets the document.body (DOM Element). */
 	body:null,
 	/** Gets the models manager instance (soma.core.model.SomaModel). */
@@ -1753,7 +1753,7 @@ soma.core.model.SomaModels = (function() {
 	var models = null;
 	
 	return new Class({
-		Implements: soma.IDisposable,
+		Implements: soma.core.IDisposable,
 
 		instance:null,
 
@@ -1810,8 +1810,9 @@ soma.core.model.SomaModels = (function() {
 	});
 })();
 
-soma.core.model.Model = new Class({
-	/** @lends soma.core.model.Model.prototype */
+soma.core.model.Model = new Class(
+    /** @lends soma.core.model.Model.prototype */
+    {
 
 	/** Name of the model. */
 	name: null,
@@ -1906,9 +1907,9 @@ MyModel.NAME = "Model::MyModel";
 	
 });
 
-
-soma.View = new Class({
-	/** @lends soma.View.prototype */
+soma.View = new Class(
+    /** @lends soma.View.prototype */
+    {
 
 	/** {DOM Element} An optional DOM Element. */
 	domElement: null,
@@ -2051,12 +2052,25 @@ object.removeEventListener("eventType", eventHandler, false);
 	}
 });
 
-
+/**
+ * @name soma.core.wire.SomaWires
+ * @namespace The SomaWires class handles the wires of the application. See the Wire class documentation for implementation.
+ * @borrows soma.core.Application#addWire
+ * @borrows soma.core.Application#getWire
+ * @borrows soma.core.Application#getWires
+ * @borrows soma.core.Application#hasWire
+ * @borrows soma.core.Application#removeWire
+ * @example
+ this.addWire("myWireName", new MyWire());
+ this.removeWire("myWireName");
+ var wire = this.getWire("myWireName");
+ */
 soma.core.wire.SomaWires = (function() {
+    /** @lends soma.core.wire.SomaWires.prototype */
+
 	var wires = null;
 	return new Class({
-
-		Implements: soma.IDisposable,
+		Implements: soma.core.IDisposable,
 
 		instance:null,
 
@@ -2065,21 +2079,10 @@ soma.core.wire.SomaWires = (function() {
 			wires = {};
 		},
 
-		/**
-		 *
-		 * @param {String} wireName
-		 * @return {Boolean}
-		 */
 		hasWire: function(wireName) {
 			return wires[ wireName ] != null;
 		},
 
-		/**
-		 *
-		 * @param {String} wireName
-		 * @param {soma.core.wire.Wire} wire
-		 * @return {soma.core.wire.Wire}
-		 */
 		addWire: function(wireName, wire) {
 			if (this.hasWire(wireName)) {
 				throw new Error("Wire \"" + wireName + "\" already exists");
@@ -2091,11 +2094,6 @@ soma.core.wire.SomaWires = (function() {
 			return wire;
 		},
 
-		/**
-		 *
-		 * @param {String} wireName
-		 * @return {soma.core.wire.Wire}
-		 */
 		getWire: function(wireName) {
 			if (this.hasWire(wireName)) {
 				return wires[ wireName ];
@@ -2132,7 +2130,7 @@ soma.core.wire.SomaWires = (function() {
 soma.core.mediator.Mediator = new Class({
 
 	Extends: soma.core.wire.Wire,
-	Implements: soma.IDisposable,
+	Implements: soma.core.IDisposable,
 
 	viewComponent: null,
 
@@ -2148,9 +2146,38 @@ soma.core.mediator.Mediator = new Class({
 	
 });
 
-soma.Event = new Class({
-	initialize: function(type, data, bubbles, cancelable) {
-		var e = document.createEvent("Event");
+soma.Event = new Class(
+    /** @lends soma.Event.prototype */
+    {
+    /**
+     * @constructs
+     * @class Event wrapper class for the native event created with "document.createEvent".
+     * @description Create an instance of an soma.Event class.
+     * @param {string} type The type of the event.
+     * @param {object} data An object for a custom use and that can hold data.
+     * @param {boolean} bubbles Indicates whether an event is a bubbling event. If the event can bubble, this value is true; otherwise it is false. The default is true for framework purposes: the commands are mapped with events types, the framework will ignore events that are commands if the bubbles property is set to false.
+     * @param {boolean} cancelable Indicates whether the behavior associated with the event can be prevented (using event.preventDefault()). If the behavior can be canceled, this value is true; otherwise it is false.
+     * @returns {event} A event instance.
+     * @example
+// create an event
+var event = new soma.Event("eventType");
+var event = new soma.Event("eventType", {myData:"my data"}, true, true);
+     * @example
+// create an event class
+var MyEvent = new Class({
+    Extends: soma.Event,
+
+    initialize: function(type, data, bubbles, cancelable) {
+        // alert(data.myData)
+        return this.parent(type, data, bubbles, cancelable);
+    }
+
+});
+MyEvent.DO_SOMETHING = "ApplicationEvent.DO_SOMETHING"; // constant use as an event type
+var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
+      */
+    initialize: function(type, data, bubbles, cancelable) {
+        var e = document.createEvent("Event");
 		e.initEvent(type, bubbles !== undefined ? bubbles : true, cancelable !== undefined ? cancelable : false);
 		e.cancelable = cancelable !== undefined ? cancelable : false;
 		if (data) {
@@ -2163,6 +2190,10 @@ soma.Event = new Class({
 		e.isDefaultPrevented = this.isDefaultPrevented;
 		return e;
 	},
+    /**
+     * Duplicates an instance of an Event subclass.
+     * @returns {event} A event instance.
+     */
 	clone: function() {
 		var e = document.createEvent("Event");
 		e.initEvent(this.type, this.bubbles, this.cancelable);
@@ -2176,6 +2207,10 @@ soma.Event = new Class({
 		e.isDefaultPrevented = this.isDefaultPrevented;
 		return e;
 	},
+    /**
+     * Checks whether the preventDefault() method has been called on the event. If the preventDefault() method has been called, returns true; otherwise, returns false.
+     * @returns {boolean}
+     */
 	isDefaultPrevented: function() {
 		if (this.getDefaultPrevented) {
 			return this.getDefaultPrevented();
@@ -2185,14 +2220,57 @@ soma.Event = new Class({
 	}
 });
 
-soma.core.IResponder = new Class({
+/**
+ * @name soma.core.IResponder
+ * @namespace This interface provides the contract for any service that needs to respond to remote or asynchronous calls.
+ * @example
+var MyAsyncClass = new Class({
+	Implements: soma.core.IResponder,
 	fault: function(info) {
 	},
+	result: function(data) {
+	},
+});
+ */
+soma.core.IResponder = new Class(
+    /** @lends soma.core.IResponder.prototype **/
+    {
+    /**
+     * This method is called by a service when an error has been received.
+     * @param {object} info Description of the error.
+     * @name fault
+     * @methodOf soma.core.IResponder#
+     */
+	fault: function(info) {
+	},
+    /**
+     * This method is called by a service when the return value has been received.
+     * @param {object} data Object containing the result.
+     * @name result
+     * @methodOf soma.core.IResponder#
+     */
 	result: function(data) {
 	}
 });
 
-soma.core.IDisposable = new Class({
+/**
+ * @name soma.core.IDisposable
+ * @namespace This interface provides the method that can be called to dispose the elements created inside this instance.
+ * @example
+var MyDisposableClass = new Class({
+	Implements: soma.core.IDisposable,
+	dispose: function() {
+	},
+});
+*/
+soma.core.IDisposable = new Class(
+	/** @lends soma.core.IDisposable.prototype **/
+	{
+	/**
+	 * Method will dispose the elements created.
+	 * @name dispose
+	 * @methodOf soma.core.IDisposable#
+	 */
 	dispose: function() {
 	}
 });

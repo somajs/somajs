@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>soma.View | somacore.js</title>
+		<title>soma.core.wire.SomaWires | somacore.js</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<meta name="mobileoptimized" content="0" />
@@ -102,12 +102,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Class <span>soma.View</span>
+					Namespace <span>soma.core.wire.SomaWires</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						The View class is not dependant of the framework and is completely optional.Its purpose is to dispatch commands in an easier way.Commands can be dispatched from views and will not tight your views to the framework as they are simple native events (with a property bubbles set to true to be considered as command by the framework).The commmands must be dispatched from a DOM Element in order for the framework to catch them (see the examples).
+						The SomaWires class handles the wires of the application. See the Wire class documentation for implementation.
 					</p>
 						
 					
@@ -126,8 +126,8 @@
 			
 				<section>
 					<div class="props">
-						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.View.">
-							<caption class="sectionTitle">Class Summary</caption>
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.core.wire.SomaWires.">
+							<caption class="sectionTitle">Namespace Summary</caption>
 							<thead>
 								<tr>
 									<th scope="col">Constructor Attributes</th>
@@ -139,9 +139,9 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/soma.View.html#constructor">soma.View</a></b>(domElement)
+											<b><a href="../symbols/soma.core.wire.SomaWires.html#constructor">soma.core.wire.SomaWires</a></b>
 										</div>
-										<div class="description">Create an instance of a View class.</div>
+										<div class="description"></div>
 									</td>
 								</tr>
 							</tbody>
@@ -150,42 +150,6 @@
 				</section>
 			
 			
-			
-				
-				<section>
-					
-						<nav>
-							<div class="props">
-								<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class soma.View.">
-									<caption class="sectionTitle">Field Summary</caption>
-									
-									<thead>
-										<tr>
-											<th scope="col">Field Attributes</th>
-											<th scope="col">Field Name and Description</th>
-										</tr>
-									</thead>
-									
-									<tbody>
-										
-											<tr>
-												<td class="attributes">&nbsp;</td>
-												<td class="nameDescription">
-													<div class="fixedFont">
-													<b><a href="../symbols/soma.View.html#domElement">domElement</a></b>
-													</div>
-													<div class="description">An optional DOM Element.</div>
-												</td>
-											</tr>
-										
-									</tbody>
-								</table>
-							</div>
-						</nav>
-					
-					
-					
-				</section>
 			
 	<!--
 	#### METHODS SUMMARY
@@ -199,7 +163,7 @@
 						
 						
 							<nav>
-								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.View.">
+								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.core.wire.SomaWires.">
 									<thead>
 										<tr>
 											<th scope="col">Method Attributes</th>
@@ -215,9 +179,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.View.html#addEventListener">addEventListener</a></b>(type, function, capture)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.wire.SomaWires.html#addWire">addWire</a></b>(wireName, wire)
 													</div>
-													<div class="description">DOM native method.</div>
+													<div class="description">Registers a wire to the framework.</div>
 												</td>
 											</tr>
 										
@@ -226,9 +190,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.View.html#dispatchEvent">dispatchEvent</a></b>(An)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.wire.SomaWires.html#getWire">getWire</a></b>(wireName)
 													</div>
-													<div class="description">DOM native method.</div>
+													<div class="description">Retrieves the wire instance that has been registered using its name.</div>
 												</td>
 											</tr>
 										
@@ -237,9 +201,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.View.html#dispose">dispose</a></b>()
+													<div class="fixedFont"><b><a href="../symbols/soma.core.wire.SomaWires.html#getWires">getWires</a></b>()
 													</div>
-													<div class="description">Optional method that will be called by the framework (if it exists) when the view is removed from the framework.</div>
+													<div class="description">Retrieves an array of the registered wires.</div>
 												</td>
 											</tr>
 										
@@ -248,9 +212,20 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.View.html#removeEventListener">removeEventListener</a></b>(type, function, capture)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.wire.SomaWires.html#hasWire">hasWire</a></b>(wireName)
 													</div>
-													<div class="description">DOM native method.</div>
+													<div class="description">Indicates whether a wire has been registered to the framework.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item4'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.wire.SomaWires.html#removeWire">removeWire</a></b>(wireName)
+													</div>
+													<div class="description">Removes a wire from the framework and calls the dispose method of this wire.</div>
 												</td>
 											</tr>
 										
@@ -276,115 +251,27 @@
 					<div class="details props">
 						<div class="innerProps">
 							<h2 class="sectionTitle" id="constructor">
-								Class Detail
+								Namespace Detail
 							</h2>
 							
 							<div class="fixedFont">
-								<b>soma.View</b>(domElement)
+								<b>soma.core.wire.SomaWires</b>
 							</div>
 							
 							<div class="description">
-								Create an instance of a View class.
+								
 								
 							</div>
 							
 							
 								
 									<pre class="code">
-// add a view to the framework
-this.addView("myViewName", new MyView());</pre>
-								
-									<pre class="code">
-// remove a view from the framework
-this.removeView("myViewName");</pre>
-								
-									<pre class="code">
-// retrieve a view
-var view = this.getView("myViewName");</pre>
-								
-									<pre class="code">
-// view that extends soma.View
-// the event "eventType" is considered a command in this example.
-var MyView = new Class({
-	Extends: soma.View,
-
-	init: function() {
-		this.dispatchEvent(new soma.Event("eventType"))
-	},
-
-	dispose: function() {
-
-	}
-});
-MyView.NAME = "View::MyView";
-
-var view = new MyView();</pre>
-								
-									<pre class="code">
-// view that does not extends soma.View and uses the domElement property.
-// the event "eventType" is considered a command in this example.
-var MyView = new Class({
-
-	init: function() {
-		this.domElement.dispatchEvent(new soma.Event("eventType"))
-	},
-
-	dispose: function() {
-
-	}
-});
-MyView.NAME = "View::MyView";
-
-var view = new MyView(document.getElementById("myDomElement"));</pre>
-								
-									<pre class="code">
-// view that does not extends soma.View and does not use the domElement property.
-// the event "eventType" is considered a command in this example.
-var MyView = new Class({
-
-	init: function() {
-		var myDomElement = document.getElementById("myDomElement")
-		myDomElement.dispatchEvent(new soma.Event("eventType"))
-	},
-
-	dispose: function() {
-
-	}
-});
-MyView.NAME = "View::MyView";
-var view = new MyView();
-
-// another example
-// the event "eventType" is considered a command in this example.
-var MyView = new Class({
-
-	init: function() {
-		var button = document.getElementById("requestMessageButton");
-		button.addEventListener("click", function() {
-			this.dispatchEvent(new soma.Event("eventType"))
-		});
-	},
-
-	dispose: function() {
-
-	}
-});
-MyView.NAME = "View::MyView";
-var view = new MyView();</pre>
+ this.addWire("myWireName", new MyWire());
+ this.removeWire("myWireName");
+ var wire = this.getWire("myWireName");</pre>
 								
 							
 						
-							
-								<dl class="detailList params">
-									<dt class="heading">Parameters:</dt>
-									
-										<dt>
-											<span class="light fixedFont">{DOM Element optional}</span>  <b>domElement</b>
-											
-										</dt>
-										<dd>A DOM Element.</dd>
-									
-								</dl>
 							
 							
 							
@@ -395,40 +282,6 @@ var view = new MyView();</pre>
 	<!--
 	#### FIELD DETAILS
 	-->
-			
-				<section>
-					<div class="details props">
-						<div class="innerProps">
-							<h2 class="sectionTitle">
-								Field Detail
-							</h2>
-							
-							
-								<div class="fixedFont heading" id="domElement">
-									<span class='lighter'>
-									
-									</span>
-									
-									
-									
-									<b>domElement</b>							
-								</div>
-								
-								<div class="description">
-									An optional DOM Element.
-									
-									
-									
-								</div>
-								
-								
-									
-								
-								
-							
-						</div>
-					</div>
-				</section>
 			
 	<!--
 	#### METHOD DETAILS
@@ -447,18 +300,18 @@ var view = new MyView();</pre>
 									<li 
 										 class='item0'
 									>
-										<div class="fixedFont heading" id="addEventListener">
+										<div class="fixedFont heading" id="addWire">
 											<span class='lighter'>
 											
 											</span>
 											
+											<span class="light">{<a href="../symbols/soma.core.wire.Wire.html">soma.core.wire.Wire</a>}</span>
 											
-											
-											<b>addEventListener</b>(type, function, capture)
+											<b>addWire</b>(wireName, wire)
 										</div>
 										
 										<div class="description">
-											DOM native method.
+											Registers a wire to the framework.
 											
 											
 											
@@ -467,8 +320,7 @@ var view = new MyView();</pre>
 										
 										
 											
-												<pre class="code">
-object.addEventListener("eventType", eventHandler, false);</pre>
+												<pre class="code">this.addWire("myWireName", new MyWire());</pre>
 											
 										
 										
@@ -477,26 +329,41 @@ object.addEventListener("eventType", eventHandler, false);</pre>
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{string}</span> <b>type</b>
+														<span class="light fixedFont">{string}</span> <b>wireName</b>
 														
 													</dt>
-													<dd>Type of the event.</dd>
+													<dd>The name of the wire.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{function}</span> <b>function</b>
+														<span class="light fixedFont">{<a href="../symbols/soma.core.wire.Wire.html">soma.core.wire.Wire</a>}</span> <b>wire</b>
 														
 													</dt>
-													<dd>The listener that will be notified.</dd>
-												
-													<dt>
-														<span class="light fixedFont">{boolean}</span> <b>capture</b>
-														
-													</dt>
-													<dd>Capture phase of the event.</dd>
+													<dd>A wire instance.</dd>
 												
 											</dl>
 										
 										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{<a href="../symbols/soma.core.wire.Wire.html">soma.core.wire.Wire</a>}</span> The wire instance.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
 										
 										<div class="hr"></div>
 									</li>
@@ -504,18 +371,18 @@ object.addEventListener("eventType", eventHandler, false);</pre>
 									<li 
 										 class='item1'
 									>
-										<div class="fixedFont heading" id="dispatchEvent">
+										<div class="fixedFont heading" id="getWire">
 											<span class='lighter'>
 											
 											</span>
 											
+											<span class="light">{<a href="../symbols/soma.core.wire.Wire.html">soma.core.wire.Wire</a>}</span>
 											
-											
-											<b>dispatchEvent</b>(An)
+											<b>getWire</b>(wireName)
 										</div>
 										
 										<div class="description">
-											DOM native method. The soma.Event class can be used as a shortcut to create the event.
+											Retrieves the wire instance that has been registered using its name.
 											
 											
 											
@@ -524,8 +391,7 @@ object.addEventListener("eventType", eventHandler, false);</pre>
 										
 										
 											
-												<pre class="code">
-object.dispatchEvent(new soma.Event("eventType"));</pre>
+												<pre class="code">var myWire = this.getWire("myWireName");</pre>
 											
 										
 										
@@ -534,14 +400,35 @@ object.dispatchEvent(new soma.Event("eventType"));</pre>
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{event or soma.Event}</span> <b>An</b>
+														<span class="light fixedFont">{string}</span> <b>wireName</b>
 														
 													</dt>
-													<dd>event instance.</dd>
+													<dd>The name of the wire.</dd>
 												
 											</dl>
 										
 										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{<a href="../symbols/soma.core.wire.Wire.html">soma.core.wire.Wire</a>}</span> A wire instance.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
 										
 										<div class="hr"></div>
 									</li>
@@ -549,18 +436,18 @@ object.dispatchEvent(new soma.Event("eventType"));</pre>
 									<li 
 										 class='item2'
 									>
-										<div class="fixedFont heading" id="dispose">
+										<div class="fixedFont heading" id="getWires">
 											<span class='lighter'>
 											
 											</span>
 											
+											<span class="light">{array}</span>
 											
-											
-											<b>dispose</b>()
+											<b>getWires</b>()
 										</div>
 										
 										<div class="description">
-											Optional method that will be called by the framework (if it exists) when the view is removed from the framework.
+											Retrieves an array of the registered wires.
 											
 											
 											
@@ -568,9 +455,34 @@ object.dispatchEvent(new soma.Event("eventType"));</pre>
 										</div>
 										
 										
+											
+												<pre class="code">var wires = this.getWires();</pre>
+											
 										
 										
 										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{array}</span> An array of wires.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
 										
 										<div class="hr"></div>
 									</li>
@@ -578,18 +490,18 @@ object.dispatchEvent(new soma.Event("eventType"));</pre>
 									<li 
 										 class='item3'
 									>
-										<div class="fixedFont heading" id="removeEventListener">
+										<div class="fixedFont heading" id="hasWire">
 											<span class='lighter'>
 											
 											</span>
 											
+											<span class="light">{boolean}</span>
 											
-											
-											<b>removeEventListener</b>(type, function, capture)
+											<b>hasWire</b>(wireName)
 										</div>
 										
 										<div class="description">
-											DOM native method.
+											Indicates whether a wire has been registered to the framework.
 											
 											
 											
@@ -598,8 +510,7 @@ object.dispatchEvent(new soma.Event("eventType"));</pre>
 										
 										
 											
-												<pre class="code">
-object.removeEventListener("eventType", eventHandler, false);</pre>
+												<pre class="code">this.hasWire("myWireName");</pre>
 											
 										
 										
@@ -608,22 +519,75 @@ object.removeEventListener("eventType", eventHandler, false);</pre>
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{string}</span> <b>type</b>
+														<span class="light fixedFont">{string}</span> <b>wireName</b>
 														
 													</dt>
-													<dd>Type of the event.</dd>
+													<dd>The name of the wire.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{boolean}</span> </dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item4'
+									>
+										<div class="fixedFont heading" id="removeWire">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>removeWire</b>(wireName)
+										</div>
+										
+										<div class="description">
+											Removes a wire from the framework and calls the dispose method of this wire.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">this.removeWire("myWireName");</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{function}</span> <b>function</b>
+														<span class="light fixedFont">{string}</span> <b>wireName</b>
 														
 													</dt>
-													<dd>The listener that will be notified.</dd>
-												
-													<dt>
-														<span class="light fixedFont">{boolean}</span> <b>capture</b>
-														
-													</dt>
-													<dd>Capture phase of the event.</dd>
+													<dd>The name of the wire.</dd>
 												
 											</dl>
 										

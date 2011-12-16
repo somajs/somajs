@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>soma.core | somacore.js</title>
+		<title>soma.core.IResponder | somacore.js</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<meta name="mobileoptimized" content="0" />
@@ -102,12 +102,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Namespace <span>soma.core</span>
+					Namespace <span>soma.core.IResponder</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						Contains the SomaCore class Application (entry point of the framework).
+						This interface provides the contract for any service that needs to respond to remote or asynchronous calls.
 					</p>
 						
 					
@@ -126,7 +126,7 @@
 			
 				<section>
 					<div class="props">
-						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.core.">
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.core.IResponder.">
 							<caption class="sectionTitle">Namespace Summary</caption>
 							<thead>
 								<tr>
@@ -139,7 +139,7 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/soma.core.html#constructor">soma.core</a></b>
+											<b><a href="../symbols/soma.core.IResponder.html#constructor">soma.core.IResponder</a></b>
 										</div>
 										<div class="description"></div>
 									</td>
@@ -151,16 +151,59 @@
 			
 			
 			
-				
-				<section>
-					
-					
-					
-				</section>
-			
 	<!--
 	#### METHODS SUMMARY
 	-->
+			
+				<section>
+					
+					
+					<div class="props">
+						<h2 class="sectionTitle">Method Summary</h2>
+						
+						
+							<nav>
+								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.core.IResponder.">
+									<thead>
+										<tr>
+											<th scope="col">Method Attributes</th>
+											<th scope="col">Method Name and Description</th>
+										</tr>
+									</thead>
+									
+									<tbody>
+										
+										
+											<tr
+												 class='item0'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.IResponder.html#fault">fault</a></b>(info)
+													</div>
+													<div class="description">This method is called by a service when an error has been received.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item1'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.IResponder.html#result">result</a></b>(data)
+													</div>
+													<div class="description">This method is called by a service when the return value has been received.</div>
+												</td>
+											</tr>
+										
+									</tbody>
+								</table>
+							</nav>
+						
+					
+						
+					</div>
+				</section>
 			
 			
 	<!--
@@ -179,7 +222,7 @@
 							</h2>
 							
 							<div class="fixedFont">
-								<b>soma.core</b>
+								<b>soma.core.IResponder</b>
 							</div>
 							
 							<div class="description">
@@ -187,6 +230,17 @@
 								
 							</div>
 							
+							
+								
+									<pre class="code">
+var MyAsyncClass = new Class({
+	Implements: soma.core.IResponder,
+	fault: function(info) {
+	},
+	result: function(data) {
+	},
+});</pre>
+								
 							
 						
 							
@@ -203,6 +257,101 @@
 	<!--
 	#### METHOD DETAILS
 	-->		
+			
+				<section>
+					<div class="details props">
+						<div class="innerProps">
+							<h2 class="sectionTitle">
+								Method Detail
+							</h2>
+							
+							<ul class="methodDetail" id="MethodDetail">
+								
+								
+									<li 
+										 class='item0'
+									>
+										<div class="fixedFont heading" id="fault">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>fault</b>(info)
+										</div>
+										
+										<div class="description">
+											This method is called by a service when an error has been received.
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{object}</span> <b>info</b>
+														
+													</dt>
+													<dd>Description of the error.</dd>
+												
+											</dl>
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item1'
+									>
+										<div class="fixedFont heading" id="result">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>result</b>(data)
+										</div>
+										
+										<div class="description">
+											This method is called by a service when the return value has been received.
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{object}</span> <b>data</b>
+														
+													</dt>
+													<dd>Object containing the result.</dd>
+												
+											</dl>
+										
+										
+										
+										
+									</li>
+								
+							</ul>
+						</div>
+					</div>
+				</section>
 			
 			
 	<!--

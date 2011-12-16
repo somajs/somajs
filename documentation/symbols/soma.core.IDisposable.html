@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>soma.core | somacore.js</title>
+		<title>soma.core.IDisposable | somacore.js</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<meta name="mobileoptimized" content="0" />
@@ -102,12 +102,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Namespace <span>soma.core</span>
+					Namespace <span>soma.core.IDisposable</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						Contains the SomaCore class Application (entry point of the framework).
+						This interface provides the method that can be called to dispose the elements created inside this instance.
 					</p>
 						
 					
@@ -126,7 +126,7 @@
 			
 				<section>
 					<div class="props">
-						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.core.">
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.core.IDisposable.">
 							<caption class="sectionTitle">Namespace Summary</caption>
 							<thead>
 								<tr>
@@ -139,7 +139,7 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/soma.core.html#constructor">soma.core</a></b>
+											<b><a href="../symbols/soma.core.IDisposable.html#constructor">soma.core.IDisposable</a></b>
 										</div>
 										<div class="description"></div>
 									</td>
@@ -151,16 +151,48 @@
 			
 			
 			
-				
-				<section>
-					
-					
-					
-				</section>
-			
 	<!--
 	#### METHODS SUMMARY
 	-->
+			
+				<section>
+					
+					
+					<div class="props">
+						<h2 class="sectionTitle">Method Summary</h2>
+						
+						
+							<nav>
+								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.core.IDisposable.">
+									<thead>
+										<tr>
+											<th scope="col">Method Attributes</th>
+											<th scope="col">Method Name and Description</th>
+										</tr>
+									</thead>
+									
+									<tbody>
+										
+										
+											<tr
+												 class='item0'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.IDisposable.html#dispose">dispose</a></b>()
+													</div>
+													<div class="description">Method will dispose the elements created.</div>
+												</td>
+											</tr>
+										
+									</tbody>
+								</table>
+							</nav>
+						
+					
+						
+					</div>
+				</section>
 			
 			
 	<!--
@@ -179,7 +211,7 @@
 							</h2>
 							
 							<div class="fixedFont">
-								<b>soma.core</b>
+								<b>soma.core.IDisposable</b>
 							</div>
 							
 							<div class="description">
@@ -187,6 +219,15 @@
 								
 							</div>
 							
+							
+								
+									<pre class="code">
+var MyDisposableClass = new Class({
+	Implements: soma.core.IDisposable,
+	dispose: function() {
+	},
+});</pre>
+								
 							
 						
 							
@@ -203,6 +244,50 @@
 	<!--
 	#### METHOD DETAILS
 	-->		
+			
+				<section>
+					<div class="details props">
+						<div class="innerProps">
+							<h2 class="sectionTitle">
+								Method Detail
+							</h2>
+							
+							<ul class="methodDetail" id="MethodDetail">
+								
+								
+									<li 
+										 class='item0'
+									>
+										<div class="fixedFont heading" id="dispose">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>dispose</b>()
+										</div>
+										
+										<div class="description">
+											Method will dispose the elements created.
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+										
+										
+										
+									</li>
+								
+							</ul>
+						</div>
+					</div>
+				</section>
 			
 			
 	<!--

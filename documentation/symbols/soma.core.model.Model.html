@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>soma.EventDispatcher | somacore.js</title>
+		<title>soma.core.model.Model | somacore.js</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<meta name="mobileoptimized" content="0" />
@@ -94,12 +94,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Namespace <span>soma.EventDispatcher</span>
+					Class <span>soma.core.model.Model</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						Class on which on you can add and remove listeners of an event. A event can be dispatched from it and a notification will be sent to all registered listeners.
+						The model is the class used to manage you application's data model.The data can be XML, local data, data retrieved from a server or anything.Ideally, the data should be set to the data property of the model instance, but you are free to create specific getters.
 					</p>
 						
 					
@@ -118,8 +118,8 @@
 			
 				<section>
 					<div class="props">
-						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.EventDispatcher.">
-							<caption class="sectionTitle">Namespace Summary</caption>
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.core.model.Model.">
+							<caption class="sectionTitle">Class Summary</caption>
 							<thead>
 								<tr>
 									<th scope="col">Constructor Attributes</th>
@@ -131,9 +131,9 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/soma.EventDispatcher.html#constructor">soma.EventDispatcher</a></b>
+											<b><a href="../symbols/soma.core.model.Model.html#constructor">soma.core.model.Model</a></b>(name, data, dispatcher)
 										</div>
-										<div class="description"></div>
+										<div class="description">Create an instance of a Model class.</div>
 									</td>
 								</tr>
 							</tbody>
@@ -142,6 +142,62 @@
 				</section>
 			
 			
+			
+				
+				<section>
+					
+						<nav>
+							<div class="props">
+								<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class soma.core.model.Model.">
+									<caption class="sectionTitle">Field Summary</caption>
+									
+									<thead>
+										<tr>
+											<th scope="col">Field Attributes</th>
+											<th scope="col">Field Name and Description</th>
+										</tr>
+									</thead>
+									
+									<tbody>
+										
+											<tr>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">
+													<b><a href="../symbols/soma.core.model.Model.html#data">data</a></b>
+													</div>
+													<div class="description">Variable that can be used to hold you data.</div>
+												</td>
+											</tr>
+										
+											<tr>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">
+													<b><a href="../symbols/soma.core.model.Model.html#dispatcher">dispatcher</a></b>
+													</div>
+													<div class="description">Instance of a EventDispatcher that can be used to dispatch commands.</div>
+												</td>
+											</tr>
+										
+											<tr>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">
+													<b><a href="../symbols/soma.core.model.Model.html#name">name</a></b>
+													</div>
+													<div class="description">Name of the model.</div>
+												</td>
+											</tr>
+										
+									</tbody>
+								</table>
+							</div>
+						</nav>
+					
+					
+					
+				</section>
 			
 	<!--
 	#### METHODS SUMMARY
@@ -155,7 +211,7 @@
 						
 						
 							<nav>
-								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.EventDispatcher.">
+								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.core.model.Model.">
 									<thead>
 										<tr>
 											<th scope="col">Method Attributes</th>
@@ -171,7 +227,7 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.EventDispatcher.html#addEventListener">addEventListener</a></b>(type, listener, priority)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.model.Model.html#addEventListener">addEventListener</a></b>(type, listener, priority)
 													</div>
 													<div class="description">Registers an event listener with an EventDispatcher object so that the listener receives notification of an event.</div>
 												</td>
@@ -182,7 +238,7 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.EventDispatcher.html#dispatchEvent">dispatchEvent</a></b>(event)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.model.Model.html#dispatchEvent">dispatchEvent</a></b>(event)
 													</div>
 													<div class="description">Dispatches an event into the event flow.</div>
 												</td>
@@ -193,9 +249,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.EventDispatcher.html#dispose">dispose</a></b>()
+													<div class="fixedFont"><b><a href="../symbols/soma.core.model.Model.html#dispose">dispose</a></b>()
 													</div>
-													<div class="description">Destroy the elements of the instance.</div>
+													<div class="description">Method that can you can override, called when the model has been removed from the framework.</div>
 												</td>
 											</tr>
 										
@@ -204,9 +260,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.EventDispatcher.html#hasEventListener">hasEventListener</a></b>(type)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.model.Model.html#getName">getName</a></b>()
 													</div>
-													<div class="description">Checks whether the EventDispatcher object has any listeners registered for a specific type of event.</div>
+													<div class="description">Retrieves the name of the model.</div>
 												</td>
 											</tr>
 										
@@ -215,9 +271,42 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.EventDispatcher.html#removeEventListener">removeEventListener</a></b>(type, listener)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.model.Model.html#hasEventListener">hasEventListener</a></b>(type)
+													</div>
+													<div class="description">Checks whether the EventDispatcher object has any listeners registered for a specific type of event.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item5'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.model.Model.html#init">init</a></b>()
+													</div>
+													<div class="description">Method that can you can override, called when the model has been registered to the framework.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item6'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.model.Model.html#removeEventListener">removeEventListener</a></b>(type, listener)
 													</div>
 													<div class="description">Removes a listener from the EventDispatcher object.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item7'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.model.Model.html#setName">setName</a></b>(name)
+													</div>
+													<div class="description">Sets the name of the model.</div>
 												</td>
 											</tr>
 										
@@ -243,33 +332,74 @@
 					<div class="details props">
 						<div class="innerProps">
 							<h2 class="sectionTitle" id="constructor">
-								Namespace Detail
+								Class Detail
 							</h2>
 							
 							<div class="fixedFont">
-								<b>soma.EventDispatcher</b>
+								<b>soma.core.model.Model</b>(name, data, dispatcher)
 							</div>
 							
 							<div class="description">
-								
+								Create an instance of a Model class.
 								
 							</div>
 							
 							
 								
 									<pre class="code">
-var dispatcher = new soma.EventDispatcher();
+// add a model to the framework
+this.addModel("myModelName", new MyModel());</pre>
+								
+									<pre class="code">
+// remove a model from the framework
+this.removeModel("myModelName");</pre>
+								
+									<pre class="code">
+// retrieve a model
+var model = this.getModel("myModelName");</pre>
+								
+									<pre class="code">
+var MyModel = new Class({
+	Extends: soma.core.model.Model,
 
-dispatcher.addEventListener("eventType", eventHandler);
+	init: function() {
+		this.data = "my data example";
+		// the model can be used as a dispatcher (default dispatcher is the framework instance) to dispatch commands, example:
+        this.dispatchEvent(new soma.Event("dataReady"));
+	},
 
-function eventHandler(event) {
-	 // alert(event.type);
-}
+	dispose: function() {
+		this.data = null;
+	}
 
-dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
+});
+MyModel.NAME = "Model::MyModel";</pre>
 								
 							
 						
+							
+								<dl class="detailList params">
+									<dt class="heading">Parameters:</dt>
+									
+										<dt>
+											<span class="light fixedFont">{string}</span>  <b>name</b>
+											
+										</dt>
+										<dd>The name of the wire.</dd>
+									
+										<dt>
+											 <b>data</b>
+											
+										</dt>
+										<dd></dd>
+									
+										<dt>
+											 <b>dispatcher</b>
+											
+										</dt>
+										<dd></dd>
+									
+								</dl>
 							
 							
 							
@@ -280,6 +410,84 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
 	<!--
 	#### FIELD DETAILS
 	-->
+			
+				<section>
+					<div class="details props">
+						<div class="innerProps">
+							<h2 class="sectionTitle">
+								Field Detail
+							</h2>
+							
+							
+								<div class="fixedFont heading" id="data">
+									<span class='lighter'>
+									
+									</span>
+									
+									
+									
+									<b>data</b>							
+								</div>
+								
+								<div class="description">
+									Variable that can be used to hold you data.
+									
+									
+									
+								</div>
+								
+								
+									
+								
+								<div class="hr"></div>
+							
+								<div class="fixedFont heading" id="dispatcher">
+									<span class='lighter'>
+									
+									</span>
+									
+									
+									
+									<b>dispatcher</b>							
+								</div>
+								
+								<div class="description">
+									Instance of a EventDispatcher that can be used to dispatch commands.
+									
+									
+									
+								</div>
+								
+								
+									
+								
+								<div class="hr"></div>
+							
+								<div class="fixedFont heading" id="name">
+									<span class='lighter'>
+									
+									</span>
+									
+									
+									
+									<b>name</b>							
+								</div>
+								
+								<div class="description">
+									Name of the model.
+									
+									
+									
+								</div>
+								
+								
+									
+								
+								
+							
+						</div>
+					</div>
+				</section>
 			
 	<!--
 	#### METHOD DETAILS
@@ -414,19 +622,13 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
 										</div>
 										
 										<div class="description">
-											Destroy the elements of the instance. The instance still needs to be nullified.
+											Method that can you can override, called when the model has been removed from the framework.
 											
 											
 											
 											
 										</div>
 										
-										
-											
-												<pre class="code">
-instance.dispose();
-instance = null;</pre>
-											
 										
 										
 										
@@ -437,6 +639,35 @@ instance = null;</pre>
 								
 									<li 
 										 class='item3'
+									>
+										<div class="fixedFont heading" id="getName">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>getName</b>()
+										</div>
+										
+										<div class="description">
+											Retrieves the name of the model.
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item4'
 									>
 										<div class="fixedFont heading" id="hasEventListener">
 											<span class='lighter'>
@@ -502,7 +733,36 @@ dispatcher.hasEventListener("eventType");</pre>
 									</li>
 								
 									<li 
-										 class='item4'
+										 class='item5'
+									>
+										<div class="fixedFont heading" id="init">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>init</b>()
+										</div>
+										
+										<div class="description">
+											Method that can you can override, called when the model has been registered to the framework.
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item6'
 									>
 										<div class="fixedFont heading" id="removeEventListener">
 											<span class='lighter'>
@@ -544,6 +804,46 @@ dispatcher.removeEventListener("eventType", eventHandler);</pre>
 														
 													</dt>
 													<dd>The listener object to remove.</dd>
+												
+											</dl>
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item7'
+									>
+										<div class="fixedFont heading" id="setName">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>setName</b>(name)
+										</div>
+										
+										<div class="description">
+											Sets the name of the model.
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<b>name</b>
+														
+													</dt>
+													<dd></dd>
 												
 											</dl>
 										

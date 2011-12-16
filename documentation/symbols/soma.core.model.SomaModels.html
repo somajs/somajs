@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>soma | somacore.js</title>
+		<title>soma.core.model.SomaModels | somacore.js</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<meta name="mobileoptimized" content="0" />
@@ -94,12 +94,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Namespace <span>soma</span>
+					Namespace <span>soma.core.model.SomaModels</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						Global namespace and contains some helpers.
+						The SomaModels class handles the models of the application. See the Model class documentation for implementation.
 					</p>
 						
 					
@@ -118,7 +118,7 @@
 			
 				<section>
 					<div class="props">
-						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.">
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.core.model.SomaModels.">
 							<caption class="sectionTitle">Namespace Summary</caption>
 							<thead>
 								<tr>
@@ -131,7 +131,7 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/soma.html#constructor">soma</a></b>
+											<b><a href="../symbols/soma.core.model.SomaModels.html#constructor">soma.core.model.SomaModels</a></b>
 										</div>
 										<div class="description"></div>
 									</td>
@@ -142,13 +142,6 @@
 				</section>
 			
 			
-			
-				
-				<section>
-					
-					
-					
-				</section>
 			
 	<!--
 	#### METHODS SUMMARY
@@ -162,7 +155,7 @@
 						
 						
 							<nav>
-								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.">
+								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.core.model.SomaModels.">
 									<thead>
 										<tr>
 											<th scope="col">Method Attributes</th>
@@ -176,11 +169,55 @@
 											<tr
 												 class='item0'
 											>
-												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">soma.<b><a href="../symbols/soma.html#.createClassInstance">createClassInstance</a></b>(clazz, parameters)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.model.SomaModels.html#addModel">addModel</a></b>(modelName, model)
 													</div>
-													<div class="description">To save instantiation latency for singular class libraries, It is recommended not to build the Class Objects upon request, if they are not used in each page where they get loaded in.</div>
+													<div class="description">Registers a model to the framework.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item1'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.model.SomaModels.html#getModel">getModel</a></b>(modelName)
+													</div>
+													<div class="description">Retrieves the model instance that has been registered using its name.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item2'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.model.SomaModels.html#getModels">getModels</a></b>()
+													</div>
+													<div class="description">Retrieves an array of the registered models.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item3'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.model.SomaModels.html#hasModel">hasModel</a></b>(modelName)
+													</div>
+													<div class="description">Indicates whether a model has been registered to the framework.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item4'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.model.SomaModels.html#removeModel">removeModel</a></b>(modelName)
+													</div>
+													<div class="description">Removes a model from the framework and call the dispose method of this model.</div>
 												</td>
 											</tr>
 										
@@ -210,7 +247,7 @@
 							</h2>
 							
 							<div class="fixedFont">
-								<b>soma</b>
+								<b>soma.core.model.SomaModels</b>
 							</div>
 							
 							<div class="description">
@@ -218,6 +255,13 @@
 								
 							</div>
 							
+							
+								
+									<pre class="code">
+this.addModel("myModelName", new MyModel());
+this.removeModel("myModelName");
+var model = this.getModel("myModelName");</pre>
+								
 							
 						
 							
@@ -248,18 +292,18 @@
 									<li 
 										 class='item0'
 									>
-										<div class="fixedFont heading" id=".createClassInstance">
+										<div class="fixedFont heading" id="addModel">
 											<span class='lighter'>
-											&lt;static&gt; 
+											
 											</span>
 											
+											<span class="light">{<a href="../symbols/soma.core.model.Model.html">soma.core.model.Model</a>}</span>
 											
-											
-											<span class="light">soma.</span><b>createClassInstance</b>(clazz, parameters)
+											<b>addModel</b>(modelName, model)
 										</div>
 										
 										<div class="description">
-											To save instantiation latency for singular class libraries, It is recommended not to build the Class Objects upon request, if they are not used in each page where they get loaded in.<br/>This static method creates a class instance by either taking the class object or the Function, that is the base for the class object creation.<br/>
+											Registers a model to the framework.
 											
 											
 											
@@ -268,8 +312,7 @@
 										
 										
 											
-												<pre class="code">
-this.addWire("myWireName", soma.createClassInstance(MyWire));</pre>
+												<pre class="code">this.addModel("myModelName", new MyModel());</pre>
 											
 										
 										
@@ -278,16 +321,16 @@ this.addWire("myWireName", soma.createClassInstance(MyWire));</pre>
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{class | function}</span> <b>clazz</b>
+														<span class="light fixedFont">{string}</span> <b>modelName</b>
 														
 													</dt>
-													<dd>Mootools Class Object or Function.</dd>
+													<dd>The name of the model.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{object}</span> <b>parameters</b>
+														<span class="light fixedFont">{<a href="../symbols/soma.core.model.Model.html">soma.core.model.Model</a>}</span> <b>model</b>
 														
 													</dt>
-													<dd>Parameters that get passed to the constructor.</dd>
+													<dd>A model instance.</dd>
 												
 											</dl>
 										
@@ -304,7 +347,7 @@ this.addWire("myWireName", soma.createClassInstance(MyWire));</pre>
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd>object</dd>
+														<dd><span class="light fixedFont">{<a href="../symbols/soma.core.model.Model.html">soma.core.model.Model</a>}</span> The model instance.</dd>
 													
 												
 												
@@ -313,6 +356,234 @@ this.addWire("myWireName", soma.createClassInstance(MyWire));</pre>
 												
 											
 											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item1'
+									>
+										<div class="fixedFont heading" id="getModel">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{<a href="../symbols/soma.core.model.Model.html">soma.core.model.Model</a>}</span>
+											
+											<b>getModel</b>(modelName)
+										</div>
+										
+										<div class="description">
+											Retrieves the model instance that has been registered using its name.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">var myModel = this.getModel("myModelName");</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>modelName</b>
+														
+													</dt>
+													<dd>The name of the model.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{<a href="../symbols/soma.core.model.Model.html">soma.core.model.Model</a>}</span> A model instance.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item2'
+									>
+										<div class="fixedFont heading" id="getModels">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{array}</span>
+											
+											<b>getModels</b>()
+										</div>
+										
+										<div class="description">
+											Retrieves an array of the registered models.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">var models = this.getModels();</pre>
+											
+										
+										
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{array}</span> An array of models.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item3'
+									>
+										<div class="fixedFont heading" id="hasModel">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{boolean}</span>
+											
+											<b>hasModel</b>(modelName)
+										</div>
+										
+										<div class="description">
+											Indicates whether a model has been registered to the framework.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">this.hasModel("myModelName");</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>modelName</b>
+														
+													</dt>
+													<dd>The name of the model.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{boolean}</span> </dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item4'
+									>
+										<div class="fixedFont heading" id="removeModel">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>removeModel</b>(modelName)
+										</div>
+										
+										<div class="description">
+											Removes a model from the framework and call the dispose method of this model.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">this.removeModel("myModelName");</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>modelName</b>
+														
+													</dt>
+													<dd>The name of the model.</dd>
+												
+											</dl>
+										
+										
 										
 										
 									</li>

@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>soma | somacore.js</title>
+		<title>soma.core.view.SomaViews | somacore.js</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<meta name="mobileoptimized" content="0" />
@@ -94,12 +94,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Namespace <span>soma</span>
+					Namespace <span>soma.core.view.SomaViews</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						Global namespace and contains some helpers.
+						The SomaViews class handles the views of the application.
 					</p>
 						
 					
@@ -118,7 +118,7 @@
 			
 				<section>
 					<div class="props">
-						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.">
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.core.view.SomaViews.">
 							<caption class="sectionTitle">Namespace Summary</caption>
 							<thead>
 								<tr>
@@ -131,7 +131,7 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/soma.html#constructor">soma</a></b>
+											<b><a href="../symbols/soma.core.view.SomaViews.html#constructor">soma.core.view.SomaViews</a></b>
 										</div>
 										<div class="description"></div>
 									</td>
@@ -142,13 +142,6 @@
 				</section>
 			
 			
-			
-				
-				<section>
-					
-					
-					
-				</section>
 			
 	<!--
 	#### METHODS SUMMARY
@@ -162,7 +155,7 @@
 						
 						
 							<nav>
-								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.">
+								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.core.view.SomaViews.">
 									<thead>
 										<tr>
 											<th scope="col">Method Attributes</th>
@@ -176,11 +169,55 @@
 											<tr
 												 class='item0'
 											>
-												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">soma.<b><a href="../symbols/soma.html#.createClassInstance">createClassInstance</a></b>(clazz, parameters)
+													<div class="fixedFont"><b><a href="../symbols/soma.core.view.SomaViews.html#addView">addView</a></b>(viewName, view)
 													</div>
-													<div class="description">To save instantiation latency for singular class libraries, It is recommended not to build the Class Objects upon request, if they are not used in each page where they get loaded in.</div>
+													<div class="description">Registers a view to the framework.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item1'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.view.SomaViews.html#getView">getView</a></b>(viewName)
+													</div>
+													<div class="description">Retrieves the view instance that has been registered using its name.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item2'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.view.SomaViews.html#getViews">getViews</a></b>()
+													</div>
+													<div class="description">Retrieves an array of the registered views.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item3'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.view.SomaViews.html#hasView">hasView</a></b>(viewName)
+													</div>
+													<div class="description">Indicates whether a view has been registered to the framework.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item4'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.view.SomaViews.html#removeView">removeView</a></b>(viewName)
+													</div>
+													<div class="description">Removes a view from the framework and call the (optional) dispose method of this view.</div>
 												</td>
 											</tr>
 										
@@ -210,7 +247,7 @@
 							</h2>
 							
 							<div class="fixedFont">
-								<b>soma</b>
+								<b>soma.core.view.SomaViews</b>
 							</div>
 							
 							<div class="description">
@@ -218,6 +255,13 @@
 								
 							</div>
 							
+							
+								
+									<pre class="code">
+this.addView("myViewName", new MyView());
+this.removeView("myViewName");
+var view = this.getView("myViewName");</pre>
+								
 							
 						
 							
@@ -248,18 +292,18 @@
 									<li 
 										 class='item0'
 									>
-										<div class="fixedFont heading" id=".createClassInstance">
+										<div class="fixedFont heading" id="addView">
 											<span class='lighter'>
-											&lt;static&gt; 
+											
 											</span>
 											
+											<span class="light">{<a href="../symbols/soma.View.html">soma.View</a> or custom class}</span>
 											
-											
-											<span class="light">soma.</span><b>createClassInstance</b>(clazz, parameters)
+											<b>addView</b>(viewName, view)
 										</div>
 										
 										<div class="description">
-											To save instantiation latency for singular class libraries, It is recommended not to build the Class Objects upon request, if they are not used in each page where they get loaded in.<br/>This static method creates a class instance by either taking the class object or the Function, that is the base for the class object creation.<br/>
+											Registers a view to the framework.
 											
 											
 											
@@ -268,8 +312,7 @@
 										
 										
 											
-												<pre class="code">
-this.addWire("myWireName", soma.createClassInstance(MyWire));</pre>
+												<pre class="code">this.addView("myViewName", new MyView());</pre>
 											
 										
 										
@@ -278,16 +321,16 @@ this.addWire("myWireName", soma.createClassInstance(MyWire));</pre>
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{class | function}</span> <b>clazz</b>
+														<span class="light fixedFont">{string}</span> <b>viewName</b>
 														
 													</dt>
-													<dd>Mootools Class Object or Function.</dd>
+													<dd>The name of the view.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{object}</span> <b>parameters</b>
+														<span class="light fixedFont">{<a href="../symbols/soma.View.html">soma.View</a> or custom class}</span> <b>view</b>
 														
 													</dt>
-													<dd>Parameters that get passed to the constructor.</dd>
+													<dd>A view instance.</dd>
 												
 											</dl>
 										
@@ -304,7 +347,7 @@ this.addWire("myWireName", soma.createClassInstance(MyWire));</pre>
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd>object</dd>
+														<dd><span class="light fixedFont">{<a href="../symbols/soma.View.html">soma.View</a> or custom class}</span> The view instance.</dd>
 													
 												
 												
@@ -313,6 +356,234 @@ this.addWire("myWireName", soma.createClassInstance(MyWire));</pre>
 												
 											
 											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item1'
+									>
+										<div class="fixedFont heading" id="getView">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{<a href="../symbols/soma.View.html">soma.View</a> or custom class}</span>
+											
+											<b>getView</b>(viewName)
+										</div>
+										
+										<div class="description">
+											Retrieves the view instance that has been registered using its name.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">var myView = this.getView("myViewName");</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>viewName</b>
+														
+													</dt>
+													<dd>The name of the view.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{<a href="../symbols/soma.View.html">soma.View</a> or custom class}</span> A view instance.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item2'
+									>
+										<div class="fixedFont heading" id="getViews">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{array}</span>
+											
+											<b>getViews</b>()
+										</div>
+										
+										<div class="description">
+											Retrieves an array of the registered views.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">var views = this.getViews();</pre>
+											
+										
+										
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{array}</span> An array of views.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item3'
+									>
+										<div class="fixedFont heading" id="hasView">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{boolean}</span>
+											
+											<b>hasView</b>(viewName)
+										</div>
+										
+										<div class="description">
+											Indicates whether a view has been registered to the framework.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">this.hasView("myViewName");</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>viewName</b>
+														
+													</dt>
+													<dd>The name of the view.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{boolean}</span> </dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item4'
+									>
+										<div class="fixedFont heading" id="removeView">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>removeView</b>(viewName)
+										</div>
+										
+										<div class="description">
+											Removes a view from the framework and call the (optional) dispose method of this view.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">this.removeView("myViewName");</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>viewName</b>
+														
+													</dt>
+													<dd>The name of the view.</dd>
+												
+											</dl>
+										
+										
 										
 										
 									</li>

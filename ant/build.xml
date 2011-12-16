@@ -47,6 +47,7 @@
 			<arg value="${build.docs.source}"/>
 			<arg value="-d=${build.docs.export}"/>
 			<arg value="-D=noGlobal:true"/>
+			<arg value="-D=title:somacore.js"/>
 	    </java>
 		<echo message="doc complete"/>
 	</target>

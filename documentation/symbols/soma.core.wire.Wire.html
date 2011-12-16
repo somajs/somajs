@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>soma.core.wire.Wire | JsDoc Reference</title>
+		<title>soma.core.wire.Wire | somacore.js</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<meta name="mobileoptimized" content="0" />
@@ -50,17 +50,27 @@
 				
 					<li><a href="../symbols/soma.core.controller.SequenceCommand.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>controller<span class='break'> </span>.<span class='break'> </span>SequenceCommand</a></li>
 				
+					<li><a href="../symbols/soma.core.controller.SomaController.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>controller<span class='break'> </span>.<span class='break'> </span>SomaController</a></li>
+				
 					<li><a href="../symbols/soma.core.mediator.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>mediator</a></li>
 				
 					<li><a href="../symbols/soma.core.model.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>model</a></li>
 				
+					<li><a href="../symbols/soma.core.model.Model.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>model<span class='break'> </span>.<span class='break'> </span>Model</a></li>
+				
+					<li><a href="../symbols/soma.core.model.SomaModels.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>model<span class='break'> </span>.<span class='break'> </span>SomaModels</a></li>
+				
 					<li><a href="../symbols/soma.core.view.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>view</a></li>
+				
+					<li><a href="../symbols/soma.core.view.SomaViews.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>view<span class='break'> </span>.<span class='break'> </span>SomaViews</a></li>
 				
 					<li><a href="../symbols/soma.core.wire.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>wire</a></li>
 				
 					<li><a href="../symbols/soma.core.wire.Wire.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>wire<span class='break'> </span>.<span class='break'> </span>Wire</a></li>
 				
 					<li><a href="../symbols/soma.EventDispatcher.html">soma<span class='break'> </span>.<span class='break'> </span>EventDispatcher</a></li>
+				
+					<li><a href="../symbols/soma.View.html">soma<span class='break'> </span>.<span class='break'> </span>View</a></li>
 				
 			</ul>
 		</nav>
@@ -71,7 +81,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2011-11-15' pubdate>2011-11-15 23:11</time>
+			<time datetime='2011-11-16' pubdate>2011-11-16 1:28</time>
 		</footer>
 	</div>
 </div>
@@ -89,7 +99,7 @@
 				
 				<div class="intro">
 					<p class="description summary">
-						A Wire is a class that will hold the logic of the Application.Wires can be used in many ways, depending on how you want to manage your views, commands and models. A wire can be used as a manager and handle many models, views or other wires. A wire can also be used in a one-to-one way (as a proxy), a single wire that handles a single view, a single wire that handles a single model, and so on.Wires can be flexible or rigid depending on how your build your application.A wire has access to everything in the framework: you can create views, add and dispatch commands, create models, access to the framework instance, access to the stage, and so on.A wire can also be in control of the commands that are dispatched by listening to them and even stop their execution if needed (see the examples in this page).
+						A Wire is a class that will hold the logic of the Application.<br/>Wires can be used in many ways, depending on how you want to manage your views, commands and models. A wire can be used as a manager and handle many models, views or other wires. A wire can also be used in a one-to-one way (as a proxy), a single wire that handles a single view, a single wire that handles a single model, and so on.<br/>Wires can be flexible or rigid depending on how your build your application.<br/>A wire has access to everything in the framework: you can create views, add and dispatch commands, create models, access to the framework instance, access to the stage, and so on.<br/>A wire can also be in control of the commands that are dispatched by listening to them and even stop their execution if needed (see the examples in this page).<br/>
 					</p>
 						
 					
@@ -614,6 +624,19 @@
 							
 								
 									<pre class="code">
+// add a wire to the framework
+this.addWire("myWireName", new MyWire());</pre>
+								
+									<pre class="code">
+// remove a wire from the framework
+this.removeWire("myWireName");</pre>
+								
+									<pre class="code">
+// retrieve a wire
+var wire = this.getWire("myWireName");</pre>
+								
+									<pre class="code">
+// create a wire
 var MyWire = new Class({
 	Extends: soma.core.wire.Wire,
 
@@ -627,6 +650,39 @@ var MyWire = new Class({
 });
 MyWire.NAME = "Wire::MyWire";</pre>
 								
+									<pre class="code">
+// listening to a command in a wire.
+var MyWire = new Class({
+	Extends: soma.core.wire.Wire,
+
+	init: function() {
+		this.addEventListener("eventType", eventHandler);
+	},
+
+	eventHandler: function(event) {
+		
+	}
+});
+MyWire.NAME = "Wire::MyWire";</pre>
+								
+									<pre class="code">
+// Stopping the execution of a command in a wire.
+// The cancelable property of the event need to be set to true when you dispatch it.
+// Any command can be stopped using the native event built-in method: preventDefault.
+var MyWire = new Class({
+	Extends: soma.core.wire.Wire,
+
+	init: function() {
+		this.addEventListener("eventType", eventHandler);
+	},
+
+	eventHandler: function(event) {
+		// stops the execution of the command
+		event.preventDefault();
+	}
+});
+MyWire.NAME = "Wire::MyWire";</pre>
+								
 							
 						
 							
@@ -634,10 +690,10 @@ MyWire.NAME = "Wire::MyWire";</pre>
 									<dt class="heading">Parameters:</dt>
 									
 										<dt>
-											 <b>name</b>
+											<span class="light fixedFont">{string}</span>  <b>name</b>
 											
 										</dt>
-										<dd></dd>
+										<dd>The name of the wire.</dd>
 									
 								</dl>
 							
@@ -817,7 +873,7 @@ function eventHandler(event) {
 											
 											</span>
 											
-											<span class="light">{soma.core.model.Model}</span>
+											<span class="light">{<a href="../symbols/soma.core.model.Model.html">soma.core.model.Model</a>}</span>
 											
 											<b>addModel</b>(modelName, model)
 										</div>
@@ -847,7 +903,7 @@ function eventHandler(event) {
 													<dd>The name of the model.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{soma.core.model.Model}</span> <b>model</b>
+														<span class="light fixedFont">{<a href="../symbols/soma.core.model.Model.html">soma.core.model.Model</a>}</span> <b>model</b>
 														
 													</dt>
 													<dd>A model instance.</dd>
@@ -867,7 +923,7 @@ function eventHandler(event) {
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd><span class="light fixedFont">{soma.core.model.Model}</span> The model instance.</dd>
+														<dd><span class="light fixedFont">{<a href="../symbols/soma.core.model.Model.html">soma.core.model.Model</a>}</span> The model instance.</dd>
 													
 												
 												
@@ -888,7 +944,7 @@ function eventHandler(event) {
 											
 											</span>
 											
-											<span class="light">{soma.View or custom class}</span>
+											<span class="light">{<a href="../symbols/soma.View.html">soma.View</a> or custom class}</span>
 											
 											<b>addView</b>(viewName, view)
 										</div>
@@ -918,7 +974,7 @@ function eventHandler(event) {
 													<dd>The name of the view.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{soma.View or custom class}</span> <b>view</b>
+														<span class="light fixedFont">{<a href="../symbols/soma.View.html">soma.View</a> or custom class}</span> <b>view</b>
 														
 													</dt>
 													<dd>A view instance.</dd>
@@ -938,7 +994,7 @@ function eventHandler(event) {
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd><span class="light fixedFont">{soma.View or custom class}</span> The view instance.</dd>
+														<dd><span class="light fixedFont">{<a href="../symbols/soma.View.html">soma.View</a> or custom class}</span> The view instance.</dd>
 													
 												
 												
@@ -1277,7 +1333,7 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
 											
 											</span>
 											
-											<span class="light">{soma.core.model.Model}</span>
+											<span class="light">{<a href="../symbols/soma.core.model.Model.html">soma.core.model.Model</a>}</span>
 											
 											<b>getModel</b>(modelName)
 										</div>
@@ -1321,7 +1377,7 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd><span class="light fixedFont">{soma.core.model.Model}</span> A model instance.</dd>
+														<dd><span class="light fixedFont">{<a href="../symbols/soma.core.model.Model.html">soma.core.model.Model</a>}</span> A model instance.</dd>
 													
 												
 												
@@ -1565,7 +1621,7 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
 											
 											</span>
 											
-											<span class="light">{soma.View or custom class}</span>
+											<span class="light">{<a href="../symbols/soma.View.html">soma.View</a> or custom class}</span>
 											
 											<b>getView</b>(viewName)
 										</div>
@@ -1609,7 +1665,7 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd><span class="light fixedFont">{soma.View or custom class}</span> A view instance.</dd>
+														<dd><span class="light fixedFont">{<a href="../symbols/soma.View.html">soma.View</a> or custom class}</span> A view instance.</dd>
 													
 												
 												

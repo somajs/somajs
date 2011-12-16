@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>soma.EventDispatcher | somacore.js</title>
+		<title>soma.View | somacore.js</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<meta name="mobileoptimized" content="0" />
@@ -94,12 +94,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Namespace <span>soma.EventDispatcher</span>
+					Class <span>soma.View</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						Class on which on you can add and remove listeners of an event. A event can be dispatched from it and a notification will be sent to all registered listeners.
+						The View class is not dependant of the framework and is completely optional.Its purpose is to dispatch commands in an easier way.Commands can be dispatched from views and will not tight your views to the framework as they are simple native events (with a property bubbles set to true to be considered as command by the framework).The commmands must be dispatched from a DOM Element in order for the framework to catch them (see the examples).
 					</p>
 						
 					
@@ -118,8 +118,8 @@
 			
 				<section>
 					<div class="props">
-						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.EventDispatcher.">
-							<caption class="sectionTitle">Namespace Summary</caption>
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.View.">
+							<caption class="sectionTitle">Class Summary</caption>
 							<thead>
 								<tr>
 									<th scope="col">Constructor Attributes</th>
@@ -131,9 +131,9 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/soma.EventDispatcher.html#constructor">soma.EventDispatcher</a></b>
+											<b><a href="../symbols/soma.View.html#constructor">soma.View</a></b>(domElement)
 										</div>
-										<div class="description"></div>
+										<div class="description">Create an instance of a View class.</div>
 									</td>
 								</tr>
 							</tbody>
@@ -142,6 +142,42 @@
 				</section>
 			
 			
+			
+				
+				<section>
+					
+						<nav>
+							<div class="props">
+								<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class soma.View.">
+									<caption class="sectionTitle">Field Summary</caption>
+									
+									<thead>
+										<tr>
+											<th scope="col">Field Attributes</th>
+											<th scope="col">Field Name and Description</th>
+										</tr>
+									</thead>
+									
+									<tbody>
+										
+											<tr>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">
+													<b><a href="../symbols/soma.View.html#domElement">domElement</a></b>
+													</div>
+													<div class="description">An optional DOM Element.</div>
+												</td>
+											</tr>
+										
+									</tbody>
+								</table>
+							</div>
+						</nav>
+					
+					
+					
+				</section>
 			
 	<!--
 	#### METHODS SUMMARY
@@ -155,7 +191,7 @@
 						
 						
 							<nav>
-								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.EventDispatcher.">
+								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.View.">
 									<thead>
 										<tr>
 											<th scope="col">Method Attributes</th>
@@ -171,9 +207,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.EventDispatcher.html#addEventListener">addEventListener</a></b>(type, listener, priority)
+													<div class="fixedFont"><b><a href="../symbols/soma.View.html#addEventListener">addEventListener</a></b>(type, function, capture)
 													</div>
-													<div class="description">Registers an event listener with an EventDispatcher object so that the listener receives notification of an event.</div>
+													<div class="description">DOM native method.</div>
 												</td>
 											</tr>
 										
@@ -182,9 +218,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.EventDispatcher.html#dispatchEvent">dispatchEvent</a></b>(event)
+													<div class="fixedFont"><b><a href="../symbols/soma.View.html#dispatchEvent">dispatchEvent</a></b>(An)
 													</div>
-													<div class="description">Dispatches an event into the event flow.</div>
+													<div class="description">DOM native method.</div>
 												</td>
 											</tr>
 										
@@ -193,9 +229,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.EventDispatcher.html#dispose">dispose</a></b>()
+													<div class="fixedFont"><b><a href="../symbols/soma.View.html#dispose">dispose</a></b>()
 													</div>
-													<div class="description">Destroy the elements of the instance.</div>
+													<div class="description">Optional method that will be called by the framework (if it exists) when the view is removed from the framework.</div>
 												</td>
 											</tr>
 										
@@ -204,9 +240,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.EventDispatcher.html#hasEventListener">hasEventListener</a></b>(type)
+													<div class="fixedFont"><b>initialize</b>(viewComponent)
 													</div>
-													<div class="description">Checks whether the EventDispatcher object has any listeners registered for a specific type of event.</div>
+													<div class="description"></div>
 												</td>
 											</tr>
 										
@@ -215,9 +251,9 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont"><b><a href="../symbols/soma.EventDispatcher.html#removeEventListener">removeEventListener</a></b>(type, listener)
+													<div class="fixedFont"><b><a href="../symbols/soma.View.html#removeEventListener">removeEventListener</a></b>(type, function, capture)
 													</div>
-													<div class="description">Removes a listener from the EventDispatcher object.</div>
+													<div class="description">DOM native method.</div>
 												</td>
 											</tr>
 										
@@ -243,33 +279,115 @@
 					<div class="details props">
 						<div class="innerProps">
 							<h2 class="sectionTitle" id="constructor">
-								Namespace Detail
+								Class Detail
 							</h2>
 							
 							<div class="fixedFont">
-								<b>soma.EventDispatcher</b>
+								<b>soma.View</b>(domElement)
 							</div>
 							
 							<div class="description">
-								
+								Create an instance of a View class.
 								
 							</div>
 							
 							
 								
 									<pre class="code">
-var dispatcher = new soma.EventDispatcher();
+// add a view to the framework
+this.addView("myViewName", new MyView());</pre>
+								
+									<pre class="code">
+// remove a view from the framework
+this.removeView("myViewName");</pre>
+								
+									<pre class="code">
+// retrieve a view
+var view = this.getView("myViewName");</pre>
+								
+									<pre class="code">
+// view that extends soma.View
+// the event "eventType" is considered a command in this example.
+var MyView = new Class({
+	Extends: soma.View,
 
-dispatcher.addEventListener("eventType", eventHandler);
+	init: function() {
+		this.dispatchEvent(new soma.Event("eventType"))
+	},
 
-function eventHandler(event) {
-	 // alert(event.type);
-}
+	dispose: function() {
 
-dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
+	}
+});
+MyView.NAME = "View::MyView";
+
+var view = new MyView();</pre>
+								
+									<pre class="code">
+// view that does not extends soma.View and uses the domElement property.
+// the event "eventType" is considered a command in this example.
+var MyView = new Class({
+
+	init: function() {
+		this.domElement.dispatchEvent(new soma.Event("eventType"))
+	},
+
+	dispose: function() {
+
+	}
+});
+MyView.NAME = "View::MyView";
+
+var view = new MyView(document.getElementById("myDomElement"));</pre>
+								
+									<pre class="code">
+// view that does not extends soma.View and does not use the domElement property.
+// the event "eventType" is considered a command in this example.
+var MyView = new Class({
+
+	init: function() {
+		var myDomElement = document.getElementById("myDomElement")
+		myDomElement.dispatchEvent(new soma.Event("eventType"))
+	},
+
+	dispose: function() {
+
+	}
+});
+MyView.NAME = "View::MyView";
+var view = new MyView();
+
+// another example
+// the event "eventType" is considered a command in this example.
+var MyView = new Class({
+
+	init: function() {
+		var button = document.getElementById("requestMessageButton");
+		button.addEventListener("click", function() {
+			this.dispatchEvent(new soma.Event("eventType"))
+		});
+	},
+
+	dispose: function() {
+
+	}
+});
+MyView.NAME = "View::MyView";
+var view = new MyView();</pre>
 								
 							
 						
+							
+								<dl class="detailList params">
+									<dt class="heading">Parameters:</dt>
+									
+										<dt>
+											<span class="light fixedFont">{DOM Element optional}</span>  <b>domElement</b>
+											
+										</dt>
+										<dd>A DOM Element.</dd>
+									
+								</dl>
 							
 							
 							
@@ -280,6 +398,40 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
 	<!--
 	#### FIELD DETAILS
 	-->
+			
+				<section>
+					<div class="details props">
+						<div class="innerProps">
+							<h2 class="sectionTitle">
+								Field Detail
+							</h2>
+							
+							
+								<div class="fixedFont heading" id="domElement">
+									<span class='lighter'>
+									
+									</span>
+									
+									
+									
+									<b>domElement</b>							
+								</div>
+								
+								<div class="description">
+									An optional DOM Element.
+									
+									
+									
+								</div>
+								
+								
+									
+								
+								
+							
+						</div>
+					</div>
+				</section>
 			
 	<!--
 	#### METHOD DETAILS
@@ -305,11 +457,11 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
 											
 											
 											
-											<b>addEventListener</b>(type, listener, priority)
+											<b>addEventListener</b>(type, function, capture)
 										</div>
 										
 										<div class="description">
-											Registers an event listener with an EventDispatcher object so that the listener receives notification of an event.
+											DOM native method.
 											
 											
 											
@@ -319,10 +471,7 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
 										
 											
 												<pre class="code">
-dispatcher.addEventListener("eventType", eventHandler);
-function eventHandler(event) {
-	// alert(event.type)
-}</pre>
+object.addEventListener("eventType", eventHandler, false);</pre>
 											
 										
 										
@@ -334,19 +483,19 @@ function eventHandler(event) {
 														<span class="light fixedFont">{string}</span> <b>type</b>
 														
 													</dt>
-													<dd>The type of event.</dd>
+													<dd>Type of the event.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{function}</span> <b>listener</b>
+														<span class="light fixedFont">{function}</span> <b>function</b>
 														
 													</dt>
-													<dd>The listener function that processes the event. This function must accept an Event object as its only parameter and must return nothing.</dd>
+													<dd>The listener that will be notified.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{int}</span> <b>priority</b>
+														<span class="light fixedFont">{boolean}</span> <b>capture</b>
 														
 													</dt>
-													<dd>The priority level of the event listener (default 0). The higher the number, the higher the priority (can take negative number).</dd>
+													<dd>Capture phase of the event.</dd>
 												
 											</dl>
 										
@@ -365,11 +514,11 @@ function eventHandler(event) {
 											
 											
 											
-											<b>dispatchEvent</b>(event)
+											<b>dispatchEvent</b>(An)
 										</div>
 										
 										<div class="description">
-											Dispatches an event into the event flow. The event target is the EventDispatcher object upon which the dispatchEvent() method is called.
+											DOM native method. The soma.Event class can be used as a shortcut to create the event.
 											
 											
 											
@@ -379,7 +528,7 @@ function eventHandler(event) {
 										
 											
 												<pre class="code">
-dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
+object.dispatchEvent(new soma.Event("eventType"));</pre>
 											
 										
 										
@@ -388,10 +537,10 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{soma.Event}</span> <b>event</b>
+														<span class="light fixedFont">{event or soma.Event}</span> <b>An</b>
 														
 													</dt>
-													<dd>The Event object that is dispatched into the event flow. If the event is being redispatched, a clone of the event is created automatically.</dd>
+													<dd>event instance.</dd>
 												
 											</dl>
 										
@@ -414,19 +563,13 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
 										</div>
 										
 										<div class="description">
-											Destroy the elements of the instance. The instance still needs to be nullified.
+											Optional method that will be called by the framework (if it exists) when the view is removed from the framework.
 											
 											
 											
 											
 										</div>
 										
-										
-											
-												<pre class="code">
-instance.dispose();
-instance = null;</pre>
-											
 										
 										
 										
@@ -438,29 +581,24 @@ instance = null;</pre>
 									<li 
 										 class='item3'
 									>
-										<div class="fixedFont heading" id="hasEventListener">
+										<div class="fixedFont heading" id="initialize">
 											<span class='lighter'>
 											
 											</span>
 											
-											<span class="light">{boolean}</span>
 											
-											<b>hasEventListener</b>(type)
+											
+											<b>initialize</b>(viewComponent)
 										</div>
 										
 										<div class="description">
-											Checks whether the EventDispatcher object has any listeners registered for a specific type of event.
+											
 											
 											
 											
 											
 										</div>
 										
-										
-											
-												<pre class="code">
-dispatcher.hasEventListener("eventType");</pre>
-											
 										
 										
 										
@@ -468,35 +606,14 @@ dispatcher.hasEventListener("eventType");</pre>
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{string}</span> <b>type</b>
+														<b>viewComponent</b>
 														
 													</dt>
-													<dd>The type of event.</dd>
+													<dd></dd>
 												
 											</dl>
 										
 										
-										
-											<dl class="detailList nomargin">
-											
-												
-												
-												
-												
-												
-												
-												
-													<dt class="heading">Returns:</dt>
-													
-														<dd><span class="light fixedFont">{boolean}</span> </dd>
-													
-												
-												
-												
-												
-												
-											
-											</dl>
 										
 										<div class="hr"></div>
 									</li>
@@ -511,11 +628,11 @@ dispatcher.hasEventListener("eventType");</pre>
 											
 											
 											
-											<b>removeEventListener</b>(type, listener)
+											<b>removeEventListener</b>(type, function, capture)
 										</div>
 										
 										<div class="description">
-											Removes a listener from the EventDispatcher object. If there is no matching listener registered with the EventDispatcher object, a call to this method has no effect.
+											DOM native method.
 											
 											
 											
@@ -525,7 +642,7 @@ dispatcher.hasEventListener("eventType");</pre>
 										
 											
 												<pre class="code">
-dispatcher.removeEventListener("eventType", eventHandler);</pre>
+object.removeEventListener("eventType", eventHandler, false);</pre>
 											
 										
 										
@@ -537,13 +654,19 @@ dispatcher.removeEventListener("eventType", eventHandler);</pre>
 														<span class="light fixedFont">{string}</span> <b>type</b>
 														
 													</dt>
-													<dd>The type of event.</dd>
+													<dd>Type of the event.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{function}</span> <b>listener</b>
+														<span class="light fixedFont">{function}</span> <b>function</b>
 														
 													</dt>
-													<dd>The listener object to remove.</dd>
+													<dd>The listener that will be notified.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{boolean}</span> <b>capture</b>
+														
+													</dt>
+													<dd>Capture phase of the event.</dd>
 												
 											</dl>
 										

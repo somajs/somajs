@@ -1,0 +1,1068 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		<title>soma.core.controller.SomaController | somacore.js</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<meta name="mobileoptimized" content="0" />
+	
+		<link rel="stylesheet" href="../css/all.css" media="all" />
+		<link rel="stylesheet" href="../css/handheld.css" media="only screen and (max-width: 660px)" />
+		<link rel="stylesheet" href="../css/handheld.css" media="handheld" />
+		<link rel="stylesheet" href="../css/screen.css" media="screen and (min-width: 661px)" />
+
+		<script src="../javascript/all.js"></script>
+		<!--[if lt IE 9]>
+			<script src="../javascript/html5.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+<div class="index">
+	<div class="menu">
+		<div class="indexLinks">
+			<a href="../index.html">Classes</a>
+			<a href="../files.html">Files</a>
+		</div>
+	
+		<h2 class="heading1">Classes</h2>
+		
+		<input type="text" name="classFilter" class="classFilter" id="ClassFilter" placeholder="Filter"></input>
+		
+		<nav>
+			<ul class="classList" id="ClassList">
+				
+					<li><a href="../symbols/soma.html">soma</a></li>
+				
+					<li><a href="../symbols/soma.core.html">soma<span class='break'> </span>.<span class='break'> </span>core</a></li>
+				
+					<li><a href="../symbols/soma.core.Application.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>Application</a></li>
+				
+					<li><a href="../symbols/soma.core.controller.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>controller</a></li>
+				
+					<li><a href="../symbols/soma.core.controller.Command.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>controller<span class='break'> </span>.<span class='break'> </span>Command</a></li>
+				
+					<li><a href="../symbols/soma.core.controller.ParallelCommand.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>controller<span class='break'> </span>.<span class='break'> </span>ParallelCommand</a></li>
+				
+					<li><a href="../symbols/soma.core.controller.SequenceCommand.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>controller<span class='break'> </span>.<span class='break'> </span>SequenceCommand</a></li>
+				
+					<li><a href="../symbols/soma.core.controller.SomaController.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>controller<span class='break'> </span>.<span class='break'> </span>SomaController</a></li>
+				
+					<li><a href="../symbols/soma.core.mediator.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>mediator</a></li>
+				
+					<li><a href="../symbols/soma.core.model.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>model</a></li>
+				
+					<li><a href="../symbols/soma.core.model.Model.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>model<span class='break'> </span>.<span class='break'> </span>Model</a></li>
+				
+					<li><a href="../symbols/soma.core.model.SomaModels.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>model<span class='break'> </span>.<span class='break'> </span>SomaModels</a></li>
+				
+					<li><a href="../symbols/soma.core.view.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>view</a></li>
+				
+					<li><a href="../symbols/soma.core.view.SomaViews.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>view<span class='break'> </span>.<span class='break'> </span>SomaViews</a></li>
+				
+					<li><a href="../symbols/soma.core.wire.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>wire</a></li>
+				
+					<li><a href="../symbols/soma.core.wire.Wire.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>wire<span class='break'> </span>.<span class='break'> </span>Wire</a></li>
+				
+					<li><a href="../symbols/soma.EventDispatcher.html">soma<span class='break'> </span>.<span class='break'> </span>EventDispatcher</a></li>
+				
+					<li><a href="../symbols/soma.View.html">soma<span class='break'> </span>.<span class='break'> </span>View</a></li>
+				
+			</ul>
+		</nav>
+	</div>
+	<div class="fineprint" style="clear:both">
+		<footer>
+			
+			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0<br />
+			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
+			Generated on:
+			<time datetime='2011-11-16' pubdate>2011-11-16 1:28</time>
+		</footer>
+	</div>
+</div>
+
+<div class="index indexStatic"></div>
+
+<div class="content">
+	<div class="innerContent">
+		<article>
+			<header>
+				<h1 class="classTitle">
+					
+					Namespace <span>soma.core.controller.SomaController</span>
+				</h1>
+				
+				<div class="intro">
+					<p class="description summary">
+						The SomaController handles the commands added to the framework and the events dispatched from either a display list or a framework element (instance of the framework, commands or wires).<br/>All the events dispatched with a property bubbles set to false will be ignored, that is why the event mapped to a command class must have this property set to true.<br/>You can add commands, remove commands and dispatch commands from: the framework instance, the stage, a view, a wire, a command or a model.<br/>You can create 4 types of commands: synchronous (Command), asynchronous, parallel (ParallelCommand) and sequence (SequenceCommand). See each class for a detailed explanation and examples.<br/>You can use the properties of a custom event to send parameters and receive them in the commands.<br/>
+					</p>
+						
+					
+						<ul class="summary">
+							
+							
+							
+								<li>Defined in: <a href="../symbols/src/framework_src_somacore.js.html">somacore.js</a></li>
+							
+							
+						</ul>
+					
+				</div>
+			</header>
+			
+			
+				<section>
+					<div class="props">
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.core.controller.SomaController.">
+							<caption class="sectionTitle">Namespace Summary</caption>
+							<thead>
+								<tr>
+									<th scope="col">Constructor Attributes</th>
+									<th scope="col">Constructor Name and Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="attributes">&nbsp;</td>
+									<td class="nameDescription" >
+										<div class="fixedFont">
+											<b><a href="../symbols/soma.core.controller.SomaController.html#constructor">soma.core.controller.SomaController</a></b>
+										</div>
+										<div class="description"></div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</section>
+			
+			
+			
+	<!--
+	#### METHODS SUMMARY
+	-->
+			
+				<section>
+					
+					
+					<div class="props">
+						<h2 class="sectionTitle">Method Summary</h2>
+						
+						
+							<nav>
+								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.core.controller.SomaController.">
+									<thead>
+										<tr>
+											<th scope="col">Method Attributes</th>
+											<th scope="col">Method Name and Description</th>
+										</tr>
+									</thead>
+									
+									<tbody>
+										
+										
+											<tr
+												 class='item0'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.SomaController.html#addCommand">addCommand</a></b>(commandName, command)
+													</div>
+													<div class="description">Registers a command to the framework.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item1'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.SomaController.html#getCommand">getCommand</a></b>(commandName)
+													</div>
+													<div class="description">Retrieves the command class that has been registered with a command name.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item2'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.SomaController.html#getCommands">getCommands</a></b>()
+													</div>
+													<div class="description">Retrieves all the command names (event type) that have been registered to the framework.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item3'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.SomaController.html#getLastSequencer">getLastSequencer</a></b>()
+													</div>
+													<div class="description">Retrieves the last sequence command that has been instantiated in the framework.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item4'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.SomaController.html#getRunningSequencers">getRunningSequencers</a></b>()
+													</div>
+													<div class="description">Retrieves all the sequence command instances that are running.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item5'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.SomaController.html#getSequencer">getSequencer</a></b>(event)
+													</div>
+													<div class="description">Retrieves the sequence command instance using an event instance that has been created from this sequence command.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item6'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.SomaController.html#hasCommand">hasCommand</a></b>(commandName)
+													</div>
+													<div class="description">Indicates whether a command has been registered to the framework.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item7'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.SomaController.html#isPartOfASequence">isPartOfASequence</a></b>(event)
+													</div>
+													<div class="description">Indicates whether an event has been instantiated from a ISequenceCommand class.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item8'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.SomaController.html#removeCommand">removeCommand</a></b>(commandName)
+													</div>
+													<div class="description">Removes a command from the framework.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item9'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.SomaController.html#stopAllSequencers">stopAllSequencers</a></b>()
+													</div>
+													<div class="description">Stops all the sequence command instances that are running.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item10'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.SomaController.html#stopSequencer">stopSequencer</a></b>(sequencer)
+													</div>
+													<div class="description">Stops a sequence command using the sequence command instance itself.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item11'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.controller.SomaController.html#stopSequencerWithEvent">stopSequencerWithEvent</a></b>(event)
+													</div>
+													<div class="description">Stops a sequence command using an event instance that has been created from this sequence command.</div>
+												</td>
+											</tr>
+										
+									</tbody>
+								</table>
+							</nav>
+						
+					
+						
+					</div>
+				</section>
+			
+			
+	<!--
+	#### EVENTS SUMMARY
+	-->
+			
+	<!--
+	#### CONSTRUCTOR DETAILS
+	-->
+			
+				<section>
+					<div class="details props">
+						<div class="innerProps">
+							<h2 class="sectionTitle" id="constructor">
+								Namespace Detail
+							</h2>
+							
+							<div class="fixedFont">
+								<b>soma.core.controller.SomaController</b>
+							</div>
+							
+							<div class="description">
+								
+								
+							</div>
+							
+							
+								
+									<pre class="code">
+addCommand("eventType", CommandExample);
+dispatchEvent(new soma.Event("eventType"));
+removeCommand("eventType");</pre>
+								
+							
+						
+							
+							
+							
+						</div>
+					</div>
+				</section>
+			
+	<!--
+	#### FIELD DETAILS
+	-->
+			
+	<!--
+	#### METHOD DETAILS
+	-->		
+			
+				<section>
+					<div class="details props">
+						<div class="innerProps">
+							<h2 class="sectionTitle">
+								Method Detail
+							</h2>
+							
+							<ul class="methodDetail" id="MethodDetail">
+								
+								
+									<li 
+										 class='item0'
+									>
+										<div class="fixedFont heading" id="addCommand">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>addCommand</b>(commandName, command)
+										</div>
+										
+										<div class="description">
+											Registers a command to the framework.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">this.addCommand("eventType", MyCommand);</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>commandName</b>
+														
+													</dt>
+													<dd>Event type that is used as a command name.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{class}</span> <b>command</b>
+														
+													</dt>
+													<dd>Class that will be executed when a command has been dispatched.</dd>
+												
+											</dl>
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item1'
+									>
+										<div class="fixedFont heading" id="getCommand">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{class}</span>
+											
+											<b>getCommand</b>(commandName)
+										</div>
+										
+										<div class="description">
+											Retrieves the command class that has been registered with a command name.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">var commandClass = this.getCommand("eventType");</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>commandName</b>
+														
+													</dt>
+													<dd>Event type that is used as a command name.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{class}</span> A command Class.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item2'
+									>
+										<div class="fixedFont heading" id="getCommands">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{array}</span>
+											
+											<b>getCommands</b>()
+										</div>
+										
+										<div class="description">
+											Retrieves all the command names (event type) that have been registered to the framework.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">var commands = this.getCommands();</pre>
+											
+										
+										
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{array}</span> An array of command names (string).</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item3'
+									>
+										<div class="fixedFont heading" id="getLastSequencer">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{<a href="../symbols/soma.core.controller.SequenceCommand.html">soma.core.controller.SequenceCommand</a>}</span>
+											
+											<b>getLastSequencer</b>()
+										</div>
+										
+										<div class="description">
+											Retrieves the last sequence command that has been instantiated in the framework.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">var lastSequencer = this.getLastSequencer();</pre>
+											
+										
+										
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{<a href="../symbols/soma.core.controller.SequenceCommand.html">soma.core.controller.SequenceCommand</a>}</span> A sequence command.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item4'
+									>
+										<div class="fixedFont heading" id="getRunningSequencers">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{array}</span>
+											
+											<b>getRunningSequencers</b>()
+										</div>
+										
+										<div class="description">
+											Retrieves all the sequence command instances that are running.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">var sequencers = this.getRunningSequencers();</pre>
+											
+										
+										
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{array}</span> An array of sequence commands.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item5'
+									>
+										<div class="fixedFont heading" id="getSequencer">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{<a href="../symbols/soma.core.controller.SequenceCommand.html">soma.core.controller.SequenceCommand</a>}</span>
+											
+											<b>getSequencer</b>(event)
+										</div>
+										
+										<div class="description">
+											Retrieves the sequence command instance using an event instance that has been created from this sequence command.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">var sequencer = this.getSequencer(myEvent);</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{soma.Event}</span> <b>event</b>
+														
+													</dt>
+													<dd>Event instance.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{<a href="../symbols/soma.core.controller.SequenceCommand.html">soma.core.controller.SequenceCommand</a>}</span> A sequence command.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item6'
+									>
+										<div class="fixedFont heading" id="hasCommand">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{boolean}</span>
+											
+											<b>hasCommand</b>(commandName)
+										</div>
+										
+										<div class="description">
+											Indicates whether a command has been registered to the framework.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">this.hasCommand("eventType");</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>commandName</b>
+														
+													</dt>
+													<dd>Event type that is used as a command name.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{boolean}</span> </dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item7'
+									>
+										<div class="fixedFont heading" id="isPartOfASequence">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{boolean}</span>
+											
+											<b>isPartOfASequence</b>(event)
+										</div>
+										
+										<div class="description">
+											Indicates whether an event has been instantiated from a ISequenceCommand class.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">var inSequence = this.isPartOfASequence(myEvent);</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{soma.Event}</span> <b>event</b>
+														
+													</dt>
+													<dd>Event instance.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{boolean}</span> </dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item8'
+									>
+										<div class="fixedFont heading" id="removeCommand">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>removeCommand</b>(commandName)
+										</div>
+										
+										<div class="description">
+											Removes a command from the framework.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">this.removeCommand("eventType");</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>commandName</b>
+														
+													</dt>
+													<dd>Event type that is used as a command name.</dd>
+												
+											</dl>
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item9'
+									>
+										<div class="fixedFont heading" id="stopAllSequencers">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>stopAllSequencers</b>()
+										</div>
+										
+										<div class="description">
+											Stops all the sequence command instances that are running.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">this.stopAllSequencers();</pre>
+											
+										
+										
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item10'
+									>
+										<div class="fixedFont heading" id="stopSequencer">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{boolean}</span>
+											
+											<b>stopSequencer</b>(sequencer)
+										</div>
+										
+										<div class="description">
+											Stops a sequence command using the sequence command instance itself.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">var success = this.stopSequencer(mySequenceCommand);</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{<a href="../symbols/soma.core.controller.SequenceCommand.html">soma.core.controller.SequenceCommand</a>}</span> <b>sequencer</b>
+														
+													</dt>
+													<dd>A sequence command.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{boolean}</span> </dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item11'
+									>
+										<div class="fixedFont heading" id="stopSequencerWithEvent">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{boolean}</span>
+											
+											<b>stopSequencerWithEvent</b>(event)
+										</div>
+										
+										<div class="description">
+											Stops a sequence command using an event instance that has been created from this sequence command.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">var success = this.stopSequencerWithEvent(myEvent);</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{soma.Event}</span> <b>event</b>
+														
+													</dt>
+													<dd>Event instance.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{boolean}</span> </dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										
+									</li>
+								
+							</ul>
+						</div>
+					</div>
+				</section>
+			
+			
+	<!--
+	#### EVENT DETAILS
+	-->		
+			
+		</article>
+	</div>
+</div>
+
+		<script type="text/javascript">
+			wbos.CssTools.MediaQueryFallBack.LoadCss('../css/screen.css', '../css/handheld.css', 660)
+			codeview.classFilter.Init()
+		</script>
+	</body>
+</html>
+

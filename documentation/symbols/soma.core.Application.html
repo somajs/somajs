@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>soma.core.Application | JsDoc Reference</title>
+		<title>soma.core.Application | somacore.js</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<meta name="mobileoptimized" content="0" />
@@ -50,17 +50,27 @@
 				
 					<li><a href="../symbols/soma.core.controller.SequenceCommand.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>controller<span class='break'> </span>.<span class='break'> </span>SequenceCommand</a></li>
 				
+					<li><a href="../symbols/soma.core.controller.SomaController.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>controller<span class='break'> </span>.<span class='break'> </span>SomaController</a></li>
+				
 					<li><a href="../symbols/soma.core.mediator.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>mediator</a></li>
 				
 					<li><a href="../symbols/soma.core.model.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>model</a></li>
 				
+					<li><a href="../symbols/soma.core.model.Model.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>model<span class='break'> </span>.<span class='break'> </span>Model</a></li>
+				
+					<li><a href="../symbols/soma.core.model.SomaModels.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>model<span class='break'> </span>.<span class='break'> </span>SomaModels</a></li>
+				
 					<li><a href="../symbols/soma.core.view.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>view</a></li>
+				
+					<li><a href="../symbols/soma.core.view.SomaViews.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>view<span class='break'> </span>.<span class='break'> </span>SomaViews</a></li>
 				
 					<li><a href="../symbols/soma.core.wire.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>wire</a></li>
 				
 					<li><a href="../symbols/soma.core.wire.Wire.html">soma<span class='break'> </span>.<span class='break'> </span>core<span class='break'> </span>.<span class='break'> </span>wire<span class='break'> </span>.<span class='break'> </span>Wire</a></li>
 				
 					<li><a href="../symbols/soma.EventDispatcher.html">soma<span class='break'> </span>.<span class='break'> </span>EventDispatcher</a></li>
+				
+					<li><a href="../symbols/soma.View.html">soma<span class='break'> </span>.<span class='break'> </span>View</a></li>
 				
 			</ul>
 		</nav>
@@ -71,7 +81,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2011-11-15' pubdate>2011-11-15 23:11</time>
+			<time datetime='2011-11-16' pubdate>2011-11-16 1:28</time>
 		</footer>
 	</div>
 </div>
@@ -89,7 +99,7 @@
 				
 				<div class="intro">
 					<p class="description summary">
-						Class that can be extended to create a framework instance and start the application.
+						<b>Introduction</b><br/>SomaCore is a lightweight event-based MVC framework written in javascript that provides a structure, models, views management and commands.<br/>SomaCore is completely event-based and uses a concept of wires to code in a efficient decoupled way.<br/>SomaCore can be used for anything, except to include/distribute it in another framework, application, template, component or structure that is meant to build, scaffold or generate source files.<br/><br/><b>Few things to know</b><br/>    - Wires are the glue of the frameworks elements (models, commands, views, wires) and can be used the way you wish, as proxy/mediators or managers.<br/>    - Wires can manage one class or multiple classes.<br/>    - Parallel and sequence commands are built-in.<br/>    - You can access to all the framework elements that you have registered (framework instance, wires, models, views, injector, reflector, mediators and commands) from commands, wires and mediators.<br/>    - Commands are native events with the bubbles property set to true.<br/>    - Commands can be executed, monitored, and stopped using native methods (dispatchEvent, addEventListener, removeEventListener, preventDefault, and so on).<br/>
 					</p>
 						
 					
@@ -694,7 +704,7 @@
 							</div>
 							
 							<div class="description">
-								Creates a new Application and acts as the facade and main entry point of the application.
+								Creates a new Application and acts as the facade and main entry point of the application.<br/>The Application class can be extended to create a framework instance and start the application.
 								
 							</div>
 							
@@ -991,7 +1001,7 @@ function eventHandler(event) {
 											
 											</span>
 											
-											<span class="light">{soma.core.model.Model}</span>
+											<span class="light">{<a href="../symbols/soma.core.model.Model.html">soma.core.model.Model</a>}</span>
 											
 											<b>addModel</b>(modelName, model)
 										</div>
@@ -1021,7 +1031,7 @@ function eventHandler(event) {
 													<dd>The name of the model.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{soma.core.model.Model}</span> <b>model</b>
+														<span class="light fixedFont">{<a href="../symbols/soma.core.model.Model.html">soma.core.model.Model</a>}</span> <b>model</b>
 														
 													</dt>
 													<dd>A model instance.</dd>
@@ -1041,7 +1051,7 @@ function eventHandler(event) {
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd><span class="light fixedFont">{soma.core.model.Model}</span> The model instance.</dd>
+														<dd><span class="light fixedFont">{<a href="../symbols/soma.core.model.Model.html">soma.core.model.Model</a>}</span> The model instance.</dd>
 													
 												
 												
@@ -1062,7 +1072,7 @@ function eventHandler(event) {
 											
 											</span>
 											
-											<span class="light">{soma.View or custom class}</span>
+											<span class="light">{<a href="../symbols/soma.View.html">soma.View</a> or custom class}</span>
 											
 											<b>addView</b>(viewName, view)
 										</div>
@@ -1092,7 +1102,7 @@ function eventHandler(event) {
 													<dd>The name of the view.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{soma.View or custom class}</span> <b>view</b>
+														<span class="light fixedFont">{<a href="../symbols/soma.View.html">soma.View</a> or custom class}</span> <b>view</b>
 														
 													</dt>
 													<dd>A view instance.</dd>
@@ -1112,7 +1122,7 @@ function eventHandler(event) {
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd><span class="light fixedFont">{soma.View or custom class}</span> The view instance.</dd>
+														<dd><span class="light fixedFont">{<a href="../symbols/soma.View.html">soma.View</a> or custom class}</span> The view instance.</dd>
 													
 												
 												
@@ -1457,7 +1467,7 @@ instance = null;</pre>
 											
 											</span>
 											
-											<span class="light">{soma.core.model.Model}</span>
+											<span class="light">{<a href="../symbols/soma.core.model.Model.html">soma.core.model.Model</a>}</span>
 											
 											<b>getModel</b>(modelName)
 										</div>
@@ -1501,7 +1511,7 @@ instance = null;</pre>
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd><span class="light fixedFont">{soma.core.model.Model}</span> A model instance.</dd>
+														<dd><span class="light fixedFont">{<a href="../symbols/soma.core.model.Model.html">soma.core.model.Model</a>}</span> A model instance.</dd>
 													
 												
 												
@@ -1695,7 +1705,7 @@ instance = null;</pre>
 											
 											</span>
 											
-											<span class="light">{soma.View or custom class}</span>
+											<span class="light">{<a href="../symbols/soma.View.html">soma.View</a> or custom class}</span>
 											
 											<b>getView</b>(viewName)
 										</div>
@@ -1739,7 +1749,7 @@ instance = null;</pre>
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd><span class="light fixedFont">{soma.View or custom class}</span> A view instance.</dd>
+														<dd><span class="light fixedFont">{<a href="../symbols/soma.View.html">soma.View</a> or custom class}</span> A view instance.</dd>
 													
 												
 												

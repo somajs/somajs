@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+</head>
+<link rel="stylesheet" href="lib/codemirror.css">
+<link rel="stylesheet" href="theme/default.css">
+<link rel="stylesheet" href="theme/eclipse.css">
+<style>
+	body {
+		font-family: Helvetica, Arial, sans-serif;
+	}
+	#code {
+		height: 500px;
+	}
+	#log {
+		font-size: 0.9em;
+		border: 1px solid black;
+		width: 400px;
+		height: 250px;
+		overflow: auto;
+		padding: 5px;
+	}
+</style>
+<body>
+
+<form><textarea id="code" name="code">
+// Edit me
+
+var ApplicationWire = new Class({
+	Extends: soma.core.wire.Wire,
+	init:function() {
+		log('init wire');
+	}
+});
+ApplicationWire.NAME = "Wire::ApplicationWire";
+
+var SomaApplication = new Class({
+	Extends: soma.core.Application,
+
+	init: function() {
+		log('init application');
+	},
+
+	registerWires: function() {
+		this.addWire(ApplicationWire.NAME, new ApplicationWire())
+	},
+
+	start: function() {
+		log('start application');
+	}
+
+});
+var app = new SomaApplication();
+
+
+
+</textarea>
+
+<div style="float: left;">
+	<button id="run">Run</button>
+	<button id="clear">Clear</button>
+</div>
+	
+<div id="log" style="clear: both;">
+
+</div>
+
+</form>
+
+<script src="lib/codemirror.js"></script>
+<script src="mode/javascript/javascript.js"></script>
+<script src="js/mootools-core-1.4.2.js"></script>
+<script src="js/somacore_v0.1-BETA_min.js"></script>
+
+<script>
+	var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+		mode: "javascript",
+		theme: "eclipse",
+		lineNumbers: true,
+		onCursorActivity: function() {
+			editor.setLineClass(hlLine, null);
+			hlLine = editor.setLineClass(editor.getCursor().line, "activeline");
+		}
+	});
+	var hlLine = editor.setLineClass(0, "activeline");
+
+	var logCount = 0;
+
+	function log(value) {
+		logCount++;
+		var logEl = document.getElementById('log');
+		logEl.innerHTML += logCount + ". " + value + "<br/>";
+	}
+
+	var bt = document.getElementById("run");
+	bt.addEventListener('click', function(event) {
+		event.preventDefault();
+
+		eval(editor.getValue());
+
+	}, false);
+
+	var btClear = document.getElementById("clear");
+	btClear.addEventListener('click', function(event) {
+		event.preventDefault();
+
+		var log = document.getElementById("log");
+		log.innerHTML = "";
+		logCount = 0;
+
+	}, false);
+
+</script>
+
+</body>
+</html>

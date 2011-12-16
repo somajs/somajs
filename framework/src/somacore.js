@@ -178,14 +178,22 @@
 		}
 	});
 
-	/**
-	 * 
-	 * provides the functionality to autobind with implicit need to keep object scope like event listeners and handlers/callbacks
-	 * ending with *Listener or *Handler
-	 * Wires and Mediators are implementing instance scope autobinding upon registration
-	 */
 	var AutoBindProto = {
+		/** @private */
 		blackList: ["initialize", "parent", "$constructor", "addEventListener", "removeEventListener" ]
+		/**
+		 * AutoBind the object.
+		 * @name autobind
+		 * @methodOf soma.core.AutoBind#
+		 * @example
+MyAutoBoundClass = new Class({
+	Implements: soma.core.AutoBind,
+	initialize: function() {
+		this.autobind();
+	}
+ });
+
+		 */
 		,autobind: function() {
 			if (this.wasAutoBound) {
 				return;
@@ -210,6 +218,7 @@
 				}
 			}
 		}
+		/** @private */
 		,_autobindIsBlacklisted: function(name) {
 			var bl = this.blackList;
 			for (var i = 0; i < bl.length; i++) {
@@ -220,7 +229,38 @@
 			return false;
 		}
 	};
-	soma.core.AutoBind = new Class( AutoBindProto );
+	/**
+	 * @class
+	 * Provides the functionality to autobind with implicit need to keep object scope like event listeners and handlers/callbacks ending with *Listener or *Handler.
+	 * Wires and Mediators are implementing instance scope autobinding upon registration.
+	 * @description Creates a new AutoBind class.
+	 * @example
+// wire not autobound
+var MyWire = new Class({
+	Extends: soma.core.wire.Wire,
+	init: function() {
+		this.addEventListener("eventType", this.eventHandler.bind(this));
+	},
+	eventHandler: function(event) {
+		// "this" keyword is this wire.
+	}
+});
+
+// wire autobound
+var MyWire = new Class({
+	Extends: soma.core.wire.Wire,
+	shouldAutoBind: true,
+	init: function() {
+		this.addEventListener("eventType", this.eventHandler);
+	},
+	eventHandler: function(event) {
+		// "this" keyword is this wire.
+	}
+});
+	 */
+	soma.core.AutoBind = new Class(
+		/** @lends soma.core.AutoBind.prototype */
+		AutoBindProto);
 
 	/**
 	 * @class Class that will be instantiated when a registered event is dispatched, the framework will automatically call the execute method.
@@ -1131,7 +1171,7 @@ var view = this.getView("myViewName");
 					soma.View.implement(AutoBindProto);
 					this.autoBound = true;
 				}
-				if (view['shouldAutobind']) view.autobind();
+				if (view['shouldAutoBind']) view.autobind();
 				views[ viewName ] = view;
 				if (view[ "init" ] != null) {
 					view.init();
@@ -2087,7 +2127,7 @@ soma.core.wire.SomaWires = (function() {
 			if (this.hasWire(wireName)) {
 				throw new Error("Wire \"" + wireName + "\" already exists");
 			}
-			if (wire['shouldAutobind']) wire.autobind();
+			if (wire['shouldAutoBind']) wire.autobind();
 			wires[ wireName ] = wire;
 			wire.registerInstance(this.instance);
 			wire.init();

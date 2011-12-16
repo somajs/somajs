@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>soma.core.mediator | somacore.js</title>
+		<title>soma.core.AutoBind | somacore.js</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<meta name="mobileoptimized" content="0" />
@@ -104,12 +104,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Namespace <span>soma.core.mediator</span>
+					Class <span>soma.core.AutoBind</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						Contains a Mediator abstract class.
+						Provides the functionality to autobind with implicit need to keep object scope like event listeners and handlers/callbacks ending with *Listener or *Handler.Wires and Mediators are implementing instance scope autobinding upon registration.
 					</p>
 						
 					
@@ -128,8 +128,8 @@
 			
 				<section>
 					<div class="props">
-						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.core.mediator.">
-							<caption class="sectionTitle">Namespace Summary</caption>
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.core.AutoBind.">
+							<caption class="sectionTitle">Class Summary</caption>
 							<thead>
 								<tr>
 									<th scope="col">Constructor Attributes</th>
@@ -141,9 +141,9 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/soma.core.mediator.html#constructor">soma.core.mediator</a></b>
+											<b><a href="../symbols/soma.core.AutoBind.html#constructor">soma.core.AutoBind</a></b>()
 										</div>
-										<div class="description"></div>
+										<div class="description">Creates a new AutoBind class.</div>
 									</td>
 								</tr>
 							</tbody>
@@ -156,6 +156,45 @@
 	<!--
 	#### METHODS SUMMARY
 	-->
+			
+				<section>
+					
+					
+					<div class="props">
+						<h2 class="sectionTitle">Method Summary</h2>
+						
+						
+							<nav>
+								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.core.AutoBind.">
+									<thead>
+										<tr>
+											<th scope="col">Method Attributes</th>
+											<th scope="col">Method Name and Description</th>
+										</tr>
+									</thead>
+									
+									<tbody>
+										
+										
+											<tr
+												 class='item0'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.core.AutoBind.html#autobind">autobind</a></b>()
+													</div>
+													<div class="description">AutoBind the object.</div>
+												</td>
+											</tr>
+										
+									</tbody>
+								</table>
+							</nav>
+						
+					
+						
+					</div>
+				</section>
 			
 			
 	<!--
@@ -170,18 +209,44 @@
 					<div class="details props">
 						<div class="innerProps">
 							<h2 class="sectionTitle" id="constructor">
-								Namespace Detail
+								Class Detail
 							</h2>
 							
 							<div class="fixedFont">
-								<b>soma.core.mediator</b>
+								<b>soma.core.AutoBind</b>()
 							</div>
 							
 							<div class="description">
-								
+								Creates a new AutoBind class.
 								
 							</div>
 							
+							
+								
+									<pre class="code">
+// wire not autobound
+var MyWire = new Class({
+	Extends: soma.core.wire.Wire,
+	init: function() {
+		this.addEventListener("eventType", this.eventHandler.bind(this));
+	},
+	eventHandler: function(event) {
+		// "this" keyword is this wire.
+	}
+});
+
+// wire autobound
+var MyWire = new Class({
+	Extends: soma.core.wire.Wire,
+	shouldAutoBind: true,
+	init: function() {
+		this.addEventListener("eventType", this.eventHandler);
+	},
+	eventHandler: function(event) {
+		// "this" keyword is this wire.
+	}
+});</pre>
+								
 							
 						
 							
@@ -198,6 +263,60 @@
 	<!--
 	#### METHOD DETAILS
 	-->		
+			
+				<section>
+					<div class="details props">
+						<div class="innerProps">
+							<h2 class="sectionTitle">
+								Method Detail
+							</h2>
+							
+							<ul class="methodDetail" id="MethodDetail">
+								
+								
+									<li 
+										 class='item0'
+									>
+										<div class="fixedFont heading" id="autobind">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>autobind</b>()
+										</div>
+										
+										<div class="description">
+											AutoBind the object.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">
+MyAutoBoundClass = new Class({
+	Implements: soma.core.AutoBind,
+	initialize: function() {
+		this.autobind();
+	}
+ });</pre>
+											
+										
+										
+										
+										
+										
+										
+									</li>
+								
+							</ul>
+						</div>
+					</div>
+				</section>
 			
 			
 	<!--

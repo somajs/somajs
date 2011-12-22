@@ -755,7 +755,6 @@ var AutobindTest = new Class
 
 	,autoBoundListener: function()
 	{
-		console.log("called autoBoundListener");
 		this.listenerInvocation++;
 		this.confirmScope();
 	}

@@ -2,6 +2,27 @@
  * @author Henry Schmieder
  * 
  */
+function testlog()
+{
+	if( window["console"] ) {
+         console.log( arguments[0] );
+         return;
+     }
+    var out = document.getElementById( "test-output" );
+    if( !out ) {
+        return;
+    }
+    var value = arguments[0];
+    if( typeof value == "object" )  {
+        var _v = value;
+        value = "";
+        for( var i in _v )
+        {
+            value += i + " : " + _v[i] + "<br>";
+        }
+    }
+    out.innerHTML =  out.innerHTML +  "<br>" + value;
+}
 
 (function() {
 	UnitTestBuilder = new Class
@@ -49,13 +70,22 @@
 		suiteBeginListener: function( e )
 		{
 		    if( e.testSuite.name.match(/^yuitests/) ) return;
-			console.log( "############################ " + e.testSuite.name + " ################################### " );
-			console.group();
+
+			if( window["console"] ) {
+               console.group();
+               console.log( "############################ " + e.testSuite.name + " ################################### " );
+            }else{
+                testlog( "############################ " + e.testSuite.name + " ################################### " );
+            }
+
 		},
 
 		caseStartListener: function( e )
 		{
-			console.time( "time" );
+            if( !window["console"] ) {
+               return;
+            }
+            console.time( "time" );
 			var meth = this.showCollapsed ? "groupCollapsed" : "group";
 			console[meth]( "TESTCASE: " + e.testCase.name );
 			this.cases++;
@@ -63,7 +93,9 @@
 		},
 		caseCompleteListener: function( e )
 		{
-			console.groupEnd();
+			 if( window["console"] ) {
+                console.groupEnd();
+             }
 		},
 		completeListener: function( e )
 		{
@@ -76,9 +108,11 @@
 			}
 			var resultsXML = e.results;
 			var assertions = this.failed + this.passed;
-			console.groupEnd();
-			console[meth]( "\n+++++++++++++++++++++++++++++++ RESULTS ++++++++++++++++++++++++++++++++++++++\nCases:"+ this.cases + " | Assertions:" + assertions + " | Passed:" + this.passed + " | Failed:" + this.failed + "\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n\n" );
-			this.allPassed += this.passed;
+			if( window["console"] ) {
+                console.groupEnd();
+			    console[meth]( "\n+++++++++++++++++++++++++++++++ RESULTS ++++++++++++++++++++++++++++++++++++++\nCases:"+ this.cases + " | Assertions:" + assertions + " | Passed:" + this.passed + " | Failed:" + this.failed + "\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n\n" );
+            }
+            this.allPassed += this.passed;
 			this.allFailed += this.failed;
 			this.failed = 0;
 			this.passed = 0;
@@ -88,14 +122,20 @@
 		passListener: function( e )
 		{
 			if( !this.showOnlyFailed ) {
-				console.info( "OK:",  e.testName );
+				if( window["console"] ) {
+                    console.info( "OK:",  e.testName );
+                }
 			}
 			this.passed++;
 		},
 		failListener: function( e )
 		{
-			console.error( "FAILED: " +  e.testName + " (`"+e.error.message+"`) " + " - " + e.error.name + " (Given:" + e.error.expected+")" );
-			this.failed++;
+			if( window["console"] ) {
+                console.error( "FAILED: " +  e.testName + " (`"+e.error.message+"`) " + " - " + e.error.name + " (Given:" + e.error.expected+")" );
+            }else{
+               testlog( "<span style=\"color:red;\">FAILED: " +  e.testName + " (`"+e.error.message+"`) " + " - " + e.error.name + " (Given:" + e.error.expected+")</span>" );
+            }
+            this.failed++;
 			//console.groupCollapsed ( "FAIL DETAIL: ", e.error  );
 			//console.trace();
 		}

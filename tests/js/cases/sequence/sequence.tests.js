@@ -138,7 +138,7 @@ var SequenceTest = new Class
 		this.assertEquals( cases.sequence.InvocationCommandList.TEST_ASYNC, originalEvent.type );
 		this.assertInstanceOf( cases.sequence.SequenceCommand, this.soma.getSequencer( originalEvent ) );
 		this.assertTrue( this.soma.isPartOfASequence( originalEvent ) );
-		d( "asyncCommandSuccessHandler" );
+		//testlog( "asyncCommandSuccessHandler" );
 	}
 
 	,sequenceFlowTestDoneHandler: function( event )
@@ -204,7 +204,7 @@ var SequenceTest = new Class
 	,sequenceHandler: function( event )
 	{
 		++this.sCount;
-		d("sequence step: ",this.sCount );
+		//testlog("sequence step: ",this.sCount );
 	}
 
 	,sequenceDoneHandler: function( event )

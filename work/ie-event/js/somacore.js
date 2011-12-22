@@ -249,7 +249,7 @@ var MyWire = new Class({
 // wire autobound
 var MyWire = new Class({
 	Extends: soma.core.wire.Wire,
-	shouldAutoBind: true,
+	shouldAutobind: true,
 	init: function() {
 		this.addEventListener("eventType", this.eventHandler);
 	},
@@ -1102,9 +1102,12 @@ removeCommand("eventType");
 
 			/** @private */
 			domTreeHandler: function(e) {
-				//d("domtreeHandler", e.eventPhase );
 				if (e.bubbles && this.hasCommand(e.type) && !e.isCloned) {
-					e.stopPropagation();
+					if( e.stopPropagation ) {
+                        e.stopPropagation();
+                    }else{
+                        e.cancelBubble = true;
+                    }
 					var clonedEvent = e.clone();
 					// store a reference of the events not to dispatch it twice
 					// in case it is dispatched from the display list
@@ -1177,7 +1180,7 @@ var view = this.getView("myViewName");
 					soma.View.implement(AutoBindProto);
 					this.autoBound = true;
 				}
-				if (view['shouldAutoBind']) view.autobind();
+				if (view['shouldAutobind']) view.autobind();
 				views[ viewName ] = view;
 				if (view[ "init" ] != null) {
 					view.init();
@@ -2141,7 +2144,7 @@ soma.core.wire.SomaWires = (function() {
 			if (this.hasWire(wireName)) {
 				throw new Error("Wire \"" + wireName + "\" already exists");
 			}
-			if (wire['shouldAutoBind']) wire.autobind();
+			if (wire['shouldAutobind']) wire.autobind();
 			wires[ wireName ] = wire;
 			wire.registerInstance(this.instance);
 			wire.init();
@@ -2279,14 +2282,17 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
  */
 soma.Event.createGenericEvent = function (type, bubbles, cancelable) {
     var e;
+    bubbles = bubbles !== undefined ? bubbles : true;
     if (document.createEvent) {
         e = document.createEvent("Event");
-        e.initEvent(type, !!bubbles, !!cancelable);
+        e.initEvent(type, bubbles, !!cancelable);
     } else {
         e = document.createEventObject();
         e.type = type;
-        e.bubbles = !!bubbles;
+
     }
+    e.bubbles = !!bubbles;
+    e.cancelable = !!cancelable;
 
     return e;
 };

@@ -249,7 +249,7 @@ var MyWire = new Class({
 // wire autobound
 var MyWire = new Class({
 	Extends: soma.core.wire.Wire,
-	shouldAutoBind: true,
+	shouldAutobind: true,
 	init: function() {
 		this.addEventListener("eventType", this.eventHandler);
 	},
@@ -892,7 +892,9 @@ removeCommand("eventType");
 				}
 
 				// handle events dispatched from the domTree
-				this.instance.body.addEventListener(commandName, boundDomtree, true);
+				if (this.instance.body.addEventListener) {
+					this.instance.body.addEventListener(commandName, boundDomtree, true);
+				}
 
 				// handle events dispatched from the Soma facade
 				this.instance.addEventListener(commandName, boundInstance, Number.NEGATIVE_INFINITY);
@@ -901,7 +903,9 @@ removeCommand("eventType");
 
 			/** @private */
 			removeInterceptor: function(commandName) {
-				this.instance.body.removeEventListener(commandName, boundDomtree, true);
+				if (this.instance.body.removeEventListener) {
+					this.instance.body.removeEventListener(commandName, boundDomtree, true);
+				}
 				this.instance.removeEventListener(commandName, boundInstance);
 			},
 
@@ -1099,13 +1103,11 @@ removeCommand("eventType");
 			/** @private */
 			domTreeHandler: function(e) {
 				if (e.bubbles && this.hasCommand(e.type) && !e.isCloned) {
-
-                    if( e.stopPropagation ) {
+					if( e.stopPropagation ) {
                         e.stopPropagation();
                     }else{
                         e.cancelBubble = true;
                     }
-
 					var clonedEvent = e.clone();
 					// store a reference of the events not to dispatch it twice
 					// in case it is dispatched from the display list
@@ -1170,11 +1172,16 @@ var view = this.getView("myViewName");
 				if (this.hasView(viewName)) {
 					throw new Error("View \"" + viewName + "\" already exists");
 				}
+				if (document.attachEvent) {
+					view.instance = this.instance;
+				}
 				if (!this.autoBound) {
 					soma.View.implement(AutoBindProto);
 					this.autoBound = true;
 				}
-				if (view['shouldAutoBind']) view.autobind();
+				if (view['shouldAutobind']) {
+                    view.autobind();
+                }
 				views[ viewName ] = view;
 				if (view[ "init" ] != null) {
 					view.init();
@@ -1338,7 +1345,7 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));
 				return b.priority - a.priority;
 			});
 			for (i = 0; i < events.length; i++) {
-				events[i].listener.apply(event.currentTarget, [event]);
+				events[i].listener.apply((event.srcElement) ? event.srcElement : event.currentTarget, [event]);
 			}
 		},
 		toString: function() {
@@ -1427,6 +1434,9 @@ new SomaApplication();
 		this.models = new soma.core.model.SomaModels(this);
 		this.wires = new soma.core.wire.SomaWires(this);
 		this.views = new soma.core.view.SomaViews();
+		if (document.attachEvent) {
+            this.views.instance = this;
+        }
 		this.init();
 		this.registerModels();
 		this.registerViews();
@@ -1954,6 +1964,7 @@ soma.View = new Class(
     /** @lends soma.View.prototype */
     {
 
+	instance: null,
 	/** {DOM Element} An optional DOM Element. */
 	domElement: null,
 
@@ -2063,7 +2074,13 @@ var view = new MyView();
 object.dispatchEvent(new soma.Event("eventType"));
 	 */
 	dispatchEvent: function(event) {
-		this.domElement.dispatchEvent(event);
+		if (this.domElement.dispatchEvent) {
+			this.domElement.dispatchEvent(event);
+		} else if (this.instance) {
+			this.instance.dispatchEvent(event);
+		} else {
+			throw new Error("WEIRD SETUP? need to check");
+		}
 	},
 	/**
 	 * DOM native method.
@@ -2074,7 +2091,12 @@ object.dispatchEvent(new soma.Event("eventType"));
 object.addEventListener("eventType", eventHandler, false);
 	 */
 	addEventListener: function() {
-		this.domElement.addEventListener.apply(this.domElement, arguments);
+        if( this.domElement.addEventListener ) {
+           this.domElement.addEventListener.apply(this.domElement, arguments);
+        }else{
+            // TODO IE problem : target is now document.body
+            this.instance.addEventListener.apply(this.instance, arguments);
+        }
 	},
 	/**
 	 * DOM native method.
@@ -2085,7 +2107,12 @@ object.addEventListener("eventType", eventHandler, false);
 object.removeEventListener("eventType", eventHandler, false);
 	 */
 	removeEventListener: function() {
-		this.domElement.removeEventListener.apply(this.domElement, arguments);
+        if( this.domElement.addEventListener ) {
+		    this.domElement.removeEventListener.apply(this.domElement, arguments);
+        }else{
+            // TODO IE problem : target is now document.body
+             this.instance.removeEventListener.apply(this.instance, arguments);
+        }
 	},
 	/**
 	 * Optional method that will be called by the framework (if it exists) when the view is removed from the framework.
@@ -2130,7 +2157,7 @@ soma.core.wire.SomaWires = (function() {
 			if (this.hasWire(wireName)) {
 				throw new Error("Wire \"" + wireName + "\" already exists");
 			}
-			if (wire['shouldAutoBind']) wire.autobind();
+			if (wire['shouldAutobind']) wire.autobind();
 			wires[ wireName ] = wire;
 			wire.registerInstance(this.instance);
 			wire.init();
@@ -2220,9 +2247,7 @@ MyEvent.DO_SOMETHING = "ApplicationEvent.DO_SOMETHING"; // constant use as an ev
 var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
       */
     initialize: function(type, data, bubbles, cancelable) {
-        var e = document.createEvent("Event");
-		e.initEvent(type, bubbles !== undefined ? bubbles : true, cancelable !== undefined ? cancelable : false);
-		e.cancelable = cancelable !== undefined ? cancelable : false;
+        var e = soma.Event.createGenericEvent(type, bubbles, cancelable);
 		if (data) {
 			for (var k in data) {
 				e[k] = data[k];
@@ -2238,8 +2263,7 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
      * @returns {event} A event instance.
      */
 	clone: function() {
-		var e = document.createEvent("Event");
-		e.initEvent(this.type, this.bubbles, this.cancelable);
+		var e = soma.Event.createGenericEvent(this.type, this.bubbles, this.cancelable);
 		var d = this.data;
 		for (var k in d) {
 			e[k] = d[k];
@@ -2262,6 +2286,30 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 		}
 	}
 });
+/**
+ * @static
+ * @param {string} type
+ * @param {boolean} bubbles
+ * @param {boolean} cancelable
+ * @returns {event} a generic event object
+ */
+soma.Event.createGenericEvent = function (type, bubbles, cancelable) {
+    var e;
+    bubbles = bubbles !== undefined ? bubbles : true;
+    if (document.createEvent) {
+        e = document.createEvent("Event");
+        e.initEvent(type, bubbles, !!cancelable);
+    } else {
+        e = document.createEventObject();
+        e.type = type;
+
+    }
+    e.bubbles = !!bubbles;
+    e.cancelable = !!cancelable;
+
+    return e;
+};
+
 
 /**
  * @name soma.core.IResponder

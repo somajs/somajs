@@ -218,20 +218,20 @@ var InvocationTest = new Class
 
 	,setUserAccessFromDisplayList: function( e )
 	{
-		d("setUserAccessFromDisplayList");
+		//testlog("setUserAccessFromDisplayList");
 		this.userAccessFromDisplayList = true;
 	}
 
 	,setUserAccessFromInstance: function( e )
 	{
-		d("setUserAccessFromInstance");
+		//testlog("setUserAccessFromInstance");
 		this.userAccessFromInstance = true;
 		this.userAccessFromInstanceCount++;
 	}
 
 	,cancelEvent: function( e )
 	{
- 		d("cancelEvent");
+ 		//testlog("cancelEvent");
 		e.preventDefault();
 	}
 

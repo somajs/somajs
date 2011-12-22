@@ -18,7 +18,6 @@ cases.invocation.TestCommand = new Class
 			case cases.invocation.InvocationCommandList.TEST :
 				var suite = e.data;
 				suite.setToExecuted();
-				d( "TestCommand::execute" );
 				break;
 		}
 	}

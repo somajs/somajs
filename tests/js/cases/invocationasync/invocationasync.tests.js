@@ -35,7 +35,7 @@ InvocationAsyncTest = new Class
 
 	,test_async_command: function()
 	{
-		d("test_async_command");
+		//testlog("test_async_command");
 		this.soma.dispatchEvent( new cases.invocationasync.TestEvent( cases.invocationasync.InvocationCommandList.TEST ) );
 		this.wait();
 	}
@@ -48,7 +48,7 @@ InvocationAsyncTest = new Class
 
 	,asyncCommandSuccessHandler: function()
 	{
-		d("asyncCommandSuccessHandler");
+		//testlog("asyncCommandSuccessHandler");
 		this.assertTrue( true );
 		this.resume();
 

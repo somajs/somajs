@@ -1104,7 +1104,6 @@ removeCommand("eventType");
 			domTreeHandler: function(e) {
 				//d("domtreeHandler", e.eventPhase );
 				if (e.bubbles && this.hasCommand(e.type) && !e.isCloned) {
-
 					e.stopPropagation();
 					var clonedEvent = e.clone();
 					// store a reference of the events not to dispatch it twice
@@ -2240,6 +2239,7 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 		    e = document.createEventObject();
 		    e.type = type;
 		    e.bubbles = bubbles !== undefined ? bubbles : true;
+		    // TODO ASSIGN = e.currentTarget
 	    }
 	    e.cancelable = cancelable !== undefined ? cancelable : false;
 		if (data) {

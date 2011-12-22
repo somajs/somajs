@@ -13,6 +13,19 @@ var MyCommand = new Class({
 
 app.addCommand(COMMANDS_LIST.My_EVENT, MyCommand);
 
+var MyWire = new Class({
+	Extends: soma.core.wire.Wire,
+	init: function(event) {
+		alert('init wire')
+		this.addEventListener(COMMANDS_LIST, this.handler);
+	},
+	handler: function(event) {
+		alert("handler: " + event.type)
+	}
+});
+
+app.addWire("myWire", new MyWire());
+
 var MyView = new Class({
 	Extends: soma.View,
 	button: null,

@@ -20,7 +20,7 @@
  * @author Henry Schmieder
  * @contributors:
  * 		Romuald Quantin
- * 
+ *
  * Initial Developer are Copyright (C) 2008-2012 Soundstep. All Rights Reserved.
  * All Rights Reserved.
  * 
@@ -892,7 +892,9 @@ removeCommand("eventType");
 				}
 
 				// handle events dispatched from the domTree
-				this.instance.body.addEventListener(commandName, boundDomtree, true);
+				if (this.instance.body.addEventListener) {
+					this.instance.body.addEventListener(commandName, boundDomtree, true);
+				}
 
 				// handle events dispatched from the Soma facade
 				this.instance.addEventListener(commandName, boundInstance, Number.NEGATIVE_INFINITY);
@@ -901,7 +903,9 @@ removeCommand("eventType");
 
 			/** @private */
 			removeInterceptor: function(commandName) {
-				this.instance.body.removeEventListener(commandName, boundDomtree, true);
+				if (this.instance.body.removeEventListener) {
+					this.instance.body.removeEventListener(commandName, boundDomtree, true);
+				}
 				this.instance.removeEventListener(commandName, boundInstance);
 			},
 
@@ -1098,6 +1102,7 @@ removeCommand("eventType");
 
 			/** @private */
 			domTreeHandler: function(e) {
+				//d("domtreeHandler", e.eventPhase );
 				if (e.bubbles && this.hasCommand(e.type) && !e.isCloned) {
 
 					e.stopPropagation();
@@ -1152,6 +1157,7 @@ var view = this.getView("myViewName");
 			Implements: soma.core.IDisposable,
 			
 			autoBound:false,
+			instance: null,
 
 			initialize:function() {
 				views = {};
@@ -1164,6 +1170,9 @@ var view = this.getView("myViewName");
 			addView: function(viewName, view) {
 				if (this.hasView(viewName)) {
 					throw new Error("View \"" + viewName + "\" already exists");
+				}
+				if (document.attachEvent) {
+					view.instance = this.instance;
 				}
 				if (!this.autoBound) {
 					soma.View.implement(AutoBindProto);
@@ -1422,6 +1431,7 @@ new SomaApplication();
 		this.models = new soma.core.model.SomaModels(this);
 		this.wires = new soma.core.wire.SomaWires(this);
 		this.views = new soma.core.view.SomaViews();
+		if (document.attachEvent) this.views.instance = this;
 		this.init();
 		this.registerModels();
 		this.registerViews();
@@ -1949,6 +1959,7 @@ soma.View = new Class(
     /** @lends soma.View.prototype */
     {
 
+	instance: null,
 	/** {DOM Element} An optional DOM Element. */
 	domElement: null,
 
@@ -2058,7 +2069,13 @@ var view = new MyView();
 object.dispatchEvent(new soma.Event("eventType"));
 	 */
 	dispatchEvent: function(event) {
-		this.domElement.dispatchEvent(event);
+		if (this.domElement.dispatchEvent) {
+			this.domElement.dispatchEvent(event);
+		} else if (this.instance) {
+			this.instance.dispatchEvent(event);
+		} else {
+			throw new Error("WEIRD SETUP? need to check");
+		}
 	},
 	/**
 	 * DOM native method.
@@ -2215,9 +2232,16 @@ MyEvent.DO_SOMETHING = "ApplicationEvent.DO_SOMETHING"; // constant use as an ev
 var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
       */
     initialize: function(type, data, bubbles, cancelable) {
-        var e = document.createEvent("Event");
-		e.initEvent(type, bubbles !== undefined ? bubbles : true, cancelable !== undefined ? cancelable : false);
-		e.cancelable = cancelable !== undefined ? cancelable : false;
+	    if (document.createEvent) {
+		    var e = document.createEvent("Event");
+		    e.initEvent(type, bubbles !== undefined ? bubbles : true, cancelable !== undefined ? cancelable : false);
+	    }
+	    else {
+		    e = document.createEventObject();
+		    e.type = type;
+		    e.bubbles = bubbles !== undefined ? bubbles : true;
+	    }
+	    e.cancelable = cancelable !== undefined ? cancelable : false;
 		if (data) {
 			for (var k in data) {
 				e[k] = data[k];

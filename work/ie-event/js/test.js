@@ -16,7 +16,7 @@ app.addCommand(COMMANDS_LIST.My_EVENT, MyCommand);
 var MyWire = new Class({
 	Extends: soma.core.wire.Wire,
 	init: function(event) {
-		this.addEventListener(COMMANDS_LIST, this.handler);
+		this.addEventListener(COMMANDS_LIST.My_EVENT, this.handler);
 	},
 	handler: function(event) {
 		alert("handler: " + event.type)

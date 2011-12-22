@@ -1341,7 +1341,6 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));
 				return b.priority - a.priority;
 			});
 			for (i = 0; i < events.length; i++) {
-				alert(event.target)
 				events[i].listener.apply((event.srcElement) ? event.srcElement : event.currentTarget, [event]);
 			}
 		},

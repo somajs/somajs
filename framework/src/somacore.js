@@ -1100,7 +1100,12 @@ removeCommand("eventType");
 			domTreeHandler: function(e) {
 				if (e.bubbles && this.hasCommand(e.type) && !e.isCloned) {
 
-					e.stopPropagation();
+                    if( e.stopPropagation ) {
+                        e.stopPropagation();
+                    }else{
+                        e.cancelBubble = true;
+                    }
+
 					var clonedEvent = e.clone();
 					// store a reference of the events not to dispatch it twice
 					// in case it is dispatched from the display list

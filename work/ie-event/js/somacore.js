@@ -2231,16 +2231,7 @@ MyEvent.DO_SOMETHING = "ApplicationEvent.DO_SOMETHING"; // constant use as an ev
 var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
       */
     initialize: function(type, data, bubbles, cancelable) {
-	    if (document.createEvent) {
-		    var e = document.createEvent("Event");
-		    e.initEvent(type, bubbles !== undefined ? bubbles : true, cancelable !== undefined ? cancelable : false);
-	    }
-	    else {
-		    e = document.createEventObject();
-		    e.type = type;
-		    e.bubbles = bubbles !== undefined ? bubbles : true;
-	    }
-	    e.cancelable = cancelable !== undefined ? cancelable : false;
+        var e = soma.Event.createGenericEvent(type, bubbles, cancelable);
 		if (data) {
 			for (var k in data) {
 				e[k] = data[k];
@@ -2256,8 +2247,7 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
      * @returns {event} A event instance.
      */
 	clone: function() {
-		var e = document.createEvent("Event");
-		e.initEvent(this.type, this.bubbles, this.cancelable);
+		var e = soma.Event.createGenericEvent(this.type, this.bubbles, this.cancelable);
 		var d = this.data;
 		for (var k in d) {
 			e[k] = d[k];
@@ -2280,6 +2270,27 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 		}
 	}
 });
+/**
+ * @static
+ * @param {string} type
+ * @param {boolean} bubbles
+ * @param {boolean} cancelable
+ * @returns {event} a generic event object
+ */
+soma.Event.createGenericEvent = function (type, bubbles, cancelable) {
+    var e;
+    if (document.createEvent) {
+        e = document.createEvent("Event");
+        e.initEvent(type, !!bubbles, !!cancelable);
+    } else {
+        e = document.createEventObject();
+        e.type = type;
+        e.bubbles = !!bubbles;
+    }
+
+    return e;
+};
+
 
 /**
  * @name soma.core.IResponder

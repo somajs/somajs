@@ -1341,7 +1341,8 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));
 				return b.priority - a.priority;
 			});
 			for (i = 0; i < events.length; i++) {
-				events[i].listener.apply(event.currentTarget, [event]);
+				alert(event.target)
+				events[i].listener.apply((event.srcElement) ? event.srcElement : event.currentTarget, [event]);
 			}
 		},
 		toString: function() {
@@ -2239,7 +2240,6 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 		    e = document.createEventObject();
 		    e.type = type;
 		    e.bubbles = bubbles !== undefined ? bubbles : true;
-		    // TODO ASSIGN = e.currentTarget
 	    }
 	    e.cancelable = cancelable !== undefined ? cancelable : false;
 		if (data) {

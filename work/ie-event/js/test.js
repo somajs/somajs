@@ -17,7 +17,8 @@ function log( value )
             value += i + " : " + _v[i] + "<br>";
         }
     }
-    $("output").set( "html",  $("output").get("html") +  "<br>" + value );
+    var out = document.getElementById("output");
+    out.innerHTML =  out.innerHTML +  "<br>" + value;
 }
 
 
@@ -49,8 +50,13 @@ var MyView = new Class({
 	button: null,
 	init: function() {
 		this.button = document.getElementById('bt');
-		//this.button.attachEvent('onclick', this.clickHandler.bind(this));
-        $(this.button).addEvent( "click", this.clickHandler.bind( this ) );
+        if( this.button.attachEvent ) {
+           this.button.attachEvent('onclick', this.clickHandler.bind(this));
+        }else{
+            this.button.addEventListener( "click", this.clickHandler.bind(this) );
+        }
+
+        //this.button.addEvent( "click", this.clickHandler.bind( this ) );
 	},
 	clickHandler: function(event) {
 		this.dispatchEvent( new soma.Event( COMMANDS_LIST.My_EVENT, {prop1:"value1", prop2:"value2"}, true, true  ) );

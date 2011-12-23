@@ -1363,7 +1363,9 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));
                 //testlog( (event.srcElement) ? event.srcEleme  nt : ( event.currentTarget ? event.currentTarget : event.scope ) )  ;
                 //testlog( event.srcElement )
 				//events[i].listener.apply((event.srcElement) ? event.srcElement : ( event.currentTarget ? event.currentTarget : events[i].scope ), [event]);
-				events[i].listener.apply((event.srcElement) ? event.srcElement : event.currentTarget, [event]);
+				//testlog(  event.currentTarget );
+				//testlog(  events[i].scope);
+                events[i].listener.apply((event.srcElement) ? event.srcElement : event.currentTarget, [event]);
 			}
 		},
 		toString: function() {
@@ -2271,6 +2273,7 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 				e.parameters[k] = parameters[k];
 			}
 		}
+        //testlog( e.currentTarget );
 		e.clone = this.clone.bind(e);
 		e.isDefaultPrevented = this.isDefaultPrevented;
 	    if (!e.preventDefault) e.preventDefault = this.preventDefault.bind(e);

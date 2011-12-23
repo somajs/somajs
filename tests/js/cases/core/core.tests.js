@@ -727,7 +727,7 @@ var AutobindTest = new Class
 		var view = new cases.core.TestView( sprite );
 		this.soma.addView( "viewname", view );
 		view.addEventListener( "testFromView", view.viewListener );
-		view.dispatchEvent( new soma.Event("testFromView") );
+		view.dispatchEvent( new soma.Event("testFromView", {test:"test"}) );
 
 		view.removeEventListener( "testFromView", view.viewListener );
 		this.soma.removeView( "viewname" );
@@ -736,13 +736,18 @@ var AutobindTest = new Class
 
 	}
 
-
 	,test_view_no_autobind: function()
 	{
 		var sprite = document.createElement("div");
 		document.body.appendChild( sprite );
 		var view = new cases.core.TestView( sprite );
 		view.shouldAutobind = false;
+        /*
+         var vL =     view.viewListener.bind( sprite )
+		view.addEventListener( "testFromView", vL );
+		view.dispatchEvent( new soma.Event("testFromView") );
+		view.removeEventListener( "testFromView", vL );
+         */
 		this.soma.addView( "viewname", view );
 		view.addEventListener( "testFromView", view.viewListener );
 		view.dispatchEvent( new soma.Event("testFromView") );

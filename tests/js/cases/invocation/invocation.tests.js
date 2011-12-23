@@ -77,14 +77,11 @@ var InvocationTest = new Class
 
 	,test_command_from_displayList: function()
 	{
-		alert('start')
 		this.spriteTestAccess.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this ) );
-		alert("default check: " + this.defaultCheck())
 		var f = this.defaultCheck();
 		if( f !== null )  {
 			this.fail( f );
 		}
-		alert(this.executed)
 		this.assertTrue( this.executed );
 	}
 

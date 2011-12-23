@@ -39,11 +39,11 @@ var MyWire = new Class({
 	},
 	handler: function(event) {
 		//event.preventDefault();
-        log( "handler: " + event.type + ", parameters.prop1:" + event.parameters.prop1 );
+        log( "handler: " + event.type + ", params.prop1:" + event.params.prop1 );
 	}
 });
 
-app.addWire("myWire", new MyWire());
+app.addWire( "myWire", new MyWire() );
 
 var MyView = new Class({
 	Extends: soma.View,

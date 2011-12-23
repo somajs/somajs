@@ -18,7 +18,7 @@ cases.core.CommandAssertInstance = new Class
 
 	execute: function(event)
 	{
-		event.parameters.test_case.assertNotNull(this.instance);
+		event.params.test_case.assertNotNull(this.instance);
 	}
 });
 

@@ -184,14 +184,14 @@ var SomaEventTests = new Class ({
 		var customEvent = new TestCustomEvent(EVENT_TYPE, parameters, true, true );
 		var wrapperEventClone = wrapperEvent.clone();
 		var customEventClone = customEvent.clone();
-		this.assertNotNull(wrapperEvent.parameters);
-		this.assertEquals(wrapperEvent.parameters.message, parameters.message);
-		this.assertNotNull(customEvent.parameters);
-		this.assertEquals(customEvent.parameters.message, parameters.message);
-		this.assertNotNull(wrapperEventClone.parameters);
-		this.assertEquals(wrapperEventClone.parameters.message, parameters.message);
-		this.assertNotNull(customEventClone.parameters);
-		this.assertEquals(customEventClone.parameters.message, parameters.message);
+		this.assertNotNull(wrapperEvent.params);
+		this.assertEquals(wrapperEvent.params.message, parameters.message);
+		this.assertNotNull(customEvent.params);
+		this.assertEquals(customEvent.params.message, parameters.message);
+		this.assertNotNull(wrapperEventClone.params);
+		this.assertEquals(wrapperEventClone.params.message, parameters.message);
+		this.assertNotNull(customEventClone.params);
+		this.assertEquals(customEventClone.params.message, parameters.message);
 	}
 
 	,test_parameters_undefined: function() {
@@ -199,10 +199,10 @@ var SomaEventTests = new Class ({
 		var customEvent = new TestCustomEvent(EVENT_TYPE, null, true, true);
 		var wrapperEventClone = wrapperEvent.clone();
 		var customEventClone = customEvent.clone();
-		this.assertUndefined(wrapperEvent.parameters);
-		this.assertUndefined(customEvent.parameters);
-		this.assertUndefined(wrapperEventClone.parameters);
-		this.assertUndefined(customEventClone.parameters);
+		this.assertUndefined(wrapperEvent.params);
+		this.assertUndefined(customEvent.params);
+		this.assertUndefined(wrapperEventClone.params);
+		this.assertUndefined(customEventClone.params);
 	}
 
 	,test_is_cloned: function() {

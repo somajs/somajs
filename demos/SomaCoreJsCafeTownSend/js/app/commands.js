@@ -8,7 +8,7 @@ var StartCommand = new Class({
 				// anything if you want to start your app from here
 		}
 	}
-	
+
 });
 
 var LoginCommand = new Class({

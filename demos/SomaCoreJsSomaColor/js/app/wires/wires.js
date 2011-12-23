@@ -13,7 +13,7 @@ ColorWire.prototype =
 	selector: null,
 	square: null,
 
-	autobind: true,
+	shouldAutobind: true,
 
 	initialize: function()
 	{
@@ -64,7 +64,6 @@ ColorWire.prototype =
 		this.selector.updateColors( data );
 		this.updateReceiverColor( data.color1 );
 		this.updateSquareColor( data.color1 );
-		d( data );
 	},
 
 	updateReceiverColor: function( color )
@@ -81,7 +80,6 @@ ColorWire.prototype =
 	requestRandColorListener: function()
 	{
 		var m = this.getModel( ColorModel.NAME );
-	    //this.fireEvent( CommandEventList.COLOR_CHANGE, m.getRandomColor() );
 	    this.dispatchEvent( new ColorEvent( CommandEventList.COLOR_CHANGE, m.getRandomColor() ) );
 	}
 };

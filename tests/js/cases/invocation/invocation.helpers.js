@@ -16,7 +16,7 @@ cases.invocation.TestCommand = new Class
 		switch( e.type )
 		{
 			case cases.invocation.InvocationCommandList.TEST :
-				var suite = e.parameters;
+				var suite = e.params;
 				suite.setToExecuted();
 				break;
 		}

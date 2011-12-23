@@ -133,7 +133,7 @@ var SequenceTest = new Class
 
 	,asyncCommandSuccessHandler: function( event )
 	{
-		var originalEvent = event.data;
+		var originalEvent = event.params;
 		this.assertInstanceOf( Event, originalEvent );
 		this.assertEquals( cases.sequence.InvocationCommandList.TEST_ASYNC, originalEvent.type );
 		this.assertInstanceOf( cases.sequence.SequenceCommand, this.soma.getSequencer( originalEvent ) );
@@ -143,7 +143,7 @@ var SequenceTest = new Class
 
 	,sequenceFlowTestDoneHandler: function( event )
 	{
-		var originalEvent = event.data;
+		var originalEvent = event.params;
 		this.assertInstanceOf( Event, originalEvent );
 		this.assertEquals( cases.sequence.InvocationCommandList.TEST_ASYNC, originalEvent.type );
 		this.assertTrue( true );
@@ -153,7 +153,7 @@ var SequenceTest = new Class
 
 	,stopSequencerWithEventHandler: function( event )
 	{
-		var originalEvent = event.data;
+		var originalEvent = event.params;
 		var wasStopped = this.soma.stopSequencerWithEvent( originalEvent );
 		this.assertTrue( wasStopped );
 		this.assertNull( this.soma.getSequencer( originalEvent ) );
@@ -162,7 +162,7 @@ var SequenceTest = new Class
 
 	,stopSequencerHandler: function( event )
 	{
-		var originalEvent = event.data;
+		var originalEvent = event.params;
 		var sequencer = this.soma.getSequencer( originalEvent );
 		var wasStopped = sequencer.stop();
 		this.assertTrue( wasStopped );
@@ -173,7 +173,7 @@ var SequenceTest = new Class
 	,stopAllSequencersHandler: function( event )
 	{
 	  	this.soma.stopAllSequencers();
-		var originalEvent = event.data;
+		var originalEvent = event.params;
 		var sequencer = this.soma.getSequencer( originalEvent );
 	    var array = this.soma.getRunningSequencers();
 		this.assertEquals( 0, array.length );
@@ -191,7 +191,7 @@ var SequenceTest = new Class
 
 	,isPartOfASequenceHandler: function( event )
 	{
-		this.assertTrue( this.soma.isPartOfASequence( event.data ) );
+		this.assertTrue( this.soma.isPartOfASequence( event.params ) );
 		this.resume();
 	}
 

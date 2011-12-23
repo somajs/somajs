@@ -7,23 +7,6 @@
  *
  *
  */
-(function() {
-	StartCommand = new Class
-	({
-		Extends: soma.core.controller.Command,
-
-		/**
-		 *
-		 * @param {soma.Event} e
-		 */
-		execute: function( e )
-		{
-			console.log( "StartCommand::execute(), type:", e.type );
-			this.addWire( ColorWire.NAME, soma.createClassInstance( ColorWire ) );
-			this.dispatchEvent( new ColorEvent( CommandEventList.COLORDATA_LOAD ) );
-		}
-	});
-})();
 
 
 var ColorCommand = function() {};
@@ -40,7 +23,8 @@ ColorCommand.prototype =
 		console.log( "ColorCommand.execute(), type:", e.type );
 		var commandEventName = e.type;
 		var wire = this.getWire( ColorWire.NAME );
-		var color = e.color;
+		var color = e.params.color;
+
 		switch( commandEventName )
 		{
 			case CommandEventList.COLORDATA_LOAD :
@@ -143,7 +127,7 @@ var SequenceTestCommand = new Class
 		var colorModel = this.getModel( ColorModel.NAME );
 		this.addSubCommand( new ChainEvent( CommandEventList.ASYNC_CALL ) );
 		this.addSubCommand( new ChainEvent( CommandEventList.ASYNC_CALL ) );
-		this.addSubCommand( new ColorEvent( CommandEventList.COLOR_CHANGE, [ colorModel.getRandomColor() ] ) );
+		this.addSubCommand( new ColorEvent( CommandEventList.COLOR_CHANGE, colorModel.getRandomColor() ) );
 		this.addSubCommand( new ChainEvent( CommandEventList.ASYNC_CALL ) );
 		this.addSubCommand( new ChainEvent( CommandEventList.ASYNC_CALL ) );
 		var newX = Math.round( Math.random() * 100 + 10 );
@@ -206,21 +190,14 @@ var TweenSequenceCommand = new Class
 			v.morph.cancel();
 			v.morph = null;
 		}
-		console.log(0);
 
 		var square = this.getView( ColorWire.NAME_SQUARE ).domElement;
 
-		console.log(1);
 		this.addSubCommand( new TweenEvent( CommandEventList.TWEEN_TWEEN, [ square, 1, this.getRandomTween() ] ) );
-		console.log(2);
 		this.addSubCommand( new TweenEvent( CommandEventList.TWEEN_TWEEN, [ square, 1, this.getRandomTween() ] ) );
-		console.log(3);
 		this.addSubCommand( new TweenEvent( CommandEventList.TWEEN_TWEEN, [ square, 1, this.getRandomTween() ] ) );
-		console.log(4);
 		this.addSubCommand( new TweenEvent( CommandEventList.TWEEN_TWEEN, [ square, 1, this.getRandomTween() ] ) );
-		console.log(5);
 		this.addSubCommand( new TweenEvent( CommandEventList.TWEEN_TWEEN, [ square, 1, this.getRandomTween() ] ) );
-		console.log(6);
 
 		var lastObject = this.getRandomTween();
 		lastObject.x = 20;
@@ -237,7 +214,7 @@ var SequenceStopCommand = new Class
 
 	execute: function( e )
 	{
-		console.log( "SequenceStopCommand::execute(): ", e.type, e.data );
+		console.log( "SequenceStopCommand::execute(): ", e.type, e.params );
 		var v = this.getView( ColorWire.NAME_SQUARE );
 		v.domElement.eliminate( "morphInitialised" );
 		v.morph = null;
@@ -258,8 +235,7 @@ var TweenCommand = new Class
 	 */
 	execute: function( e )
 	{
-		console.log( e );
-		var data = e.tweenData;
+		var data = e.params.tweenData;
 		var tweenTarget = data[0];
 		var obj = data[2];
 
@@ -297,7 +273,7 @@ var MoveViewCommand = new Class
 	 */
 	execute: function( e )
 	{
-		var coords = e.coords;
+		var coords = e.params.coords;
 		var view = this.getView( ColorWire.NAME_RECEIVER );
 		view.updatePosition( coords[0], coords[1] );
 

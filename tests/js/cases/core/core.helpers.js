@@ -60,7 +60,6 @@ cases.core.TestView = new Class
 	},
 	viewListener: function( event )
 	{
-       testlog( event );
 		this.scopeConfirmed = true;
 		cases.core.TestView.scope = this;
 	}

@@ -55,7 +55,12 @@ var InvocationTest = new Class
 		this.userAccessFromInstance = false;
 
 		this.spriteTestAccess = document.getElementById( "testSprite" );
-		this.spriteTestAccess.addEventListener( cases.invocation.InvocationCommandList.TEST,  this.setUserAccessFromDisplayListBound );
+		if( this.spriteTestAccess.addEventListener ) {
+           this.spriteTestAccess.addEventListener( cases.invocation.InvocationCommandList.TEST,  this.setUserAccessFromDisplayListBound );
+        }else{
+           // TODO IE implement
+        }
+
 		this.soma = new soma.core.Application();
 		this.soma.addEventListener( cases.invocation.InvocationCommandList.TEST, this.setUserAccessFromInstanceBound );
 		this.body = this.soma.body;
@@ -67,8 +72,12 @@ var InvocationTest = new Class
 
 	,tearDown: function()
 	{
-		this.spriteTestAccess.removeEventListener( cases.invocation.InvocationCommandList.TEST, this.setUserAccessFromDisplayListBound );
-		this.soma.removeEventListener( cases.invocation.InvocationCommandList.TEST, this.setUserAccessFromInstanceBound );
+		if( this.spriteTestAccess.removeEventListener ) {
+            this.spriteTestAccess.removeEventListener( cases.invocation.InvocationCommandList.TEST, this.setUserAccessFromDisplayListBound );
+        }else{
+           // TODO IE implement
+        }
+        this.soma.removeEventListener( cases.invocation.InvocationCommandList.TEST, this.setUserAccessFromInstanceBound );
 		this.soma.removeCommand( cases.invocation.InvocationCommandList.TEST, cases.invocation.TestCommand );
 		this.soma.dispose();
 		this.soma = null;

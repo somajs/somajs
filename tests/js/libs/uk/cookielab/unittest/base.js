@@ -8,6 +8,7 @@ function testlog()
          console.log( arguments[0] );
          return;
      }
+
     var out = document.getElementById( "test-output" );
     if( !out ) {
         return;
@@ -82,12 +83,14 @@ function testlog()
 
 		caseStartListener: function( e )
 		{
-            if( !window["console"] ) {
-               return;
+            if( window["console"] ) {
+                console.time( "time" );
+			    var meth = this.showCollapsed ? "groupCollapsed" : "group";
+			    console[meth]( "TESTCASE: " + e.testCase.name );
+            }else{
+               testlog( "<h5 style=\"margin-bottom:0;padding-bottom:0;\">TESTCASE: " + e.testCase.name + "</h5>" );
             }
-            console.time( "time" );
-			var meth = this.showCollapsed ? "groupCollapsed" : "group";
-			console[meth]( "TESTCASE: " + e.testCase.name );
+
 			this.cases++;
 
 		},

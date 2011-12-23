@@ -37,7 +37,7 @@ var MyWire = new Class({
 		this.addEventListener(COMMANDS_LIST.My_EVENT, this.handler );
 	},
 	handler: function(event) {
-		event.preventDefault();
+		//event.preventDefault();
         log( "handler: " + event.type + ", parameters.prop1:" + event.parameters.prop1 );
 	}
 });

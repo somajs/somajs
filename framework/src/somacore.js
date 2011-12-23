@@ -2263,8 +2263,10 @@ var MyEvent = new Class({
 MyEvent.DO_SOMETHING = "ApplicationEvent.DO_SOMETHING"; // constant use as an event type
 var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
       */
+	_event: null,
     initialize: function(type, data, bubbles, cancelable) {
         var e = soma.Event.createGenericEvent(type, bubbles, cancelable);
+	    this._event = e;
 		if (data) {
 			for (var k in data) {
 				e[k] = data[k];
@@ -2273,6 +2275,7 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 		}
 		e.clone = this.clone.bind(e);
 		e.isDefaultPrevented = this.isDefaultPrevented;
+	    if (!e.preventDefault) e.preventDefault = this.preventDefault.bind(e);
 		return e;
 	},
     /**
@@ -2291,6 +2294,9 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 		e.isDefaultPrevented = this.isDefaultPrevented;
 		return e;
 	},
+	preventDefault: function() {
+		this.defaultPrevented = true;
+	},
     /**
      * Checks whether the preventDefault() method has been called on the event. If the preventDefault() method has been called, returns true; otherwise, returns false.
      * @returns {boolean}
@@ -2299,7 +2305,7 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 		if (this.getDefaultPrevented) {
 			return this.getDefaultPrevented();
 		} else {
-			return this.defaultPrevented;
+			return (!this.defaultPrevented) ? false : this.defaultPrevented;
 		}
 	}
 });
@@ -2319,7 +2325,6 @@ soma.Event.createGenericEvent = function (type, bubbles, cancelable) {
     } else {
         e = document.createEventObject();
         e.type = type;
-
     }
     e.bubbles = !!bubbles;
     e.cancelable = !!cancelable;

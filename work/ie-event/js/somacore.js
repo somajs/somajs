@@ -2275,6 +2275,7 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 		}
 		e.clone = this.clone.bind(e);
 		e.isDefaultPrevented = this.isDefaultPrevented;
+	    if (!e.preventDefault) e.preventDefault = this.preventDefault.bind(e);
 		return e;
 	},
     /**
@@ -2293,6 +2294,9 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 		e.isDefaultPrevented = this.isDefaultPrevented;
 		return e;
 	},
+	preventDefault: function() {
+		this.defaultPrevented = true;
+	},
     /**
      * Checks whether the preventDefault() method has been called on the event. If the preventDefault() method has been called, returns true; otherwise, returns false.
      * @returns {boolean}
@@ -2301,7 +2305,7 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 		if (this.getDefaultPrevented) {
 			return this.getDefaultPrevented();
 		} else {
-			return this.defaultPrevented;
+			return (!this.defaultPrevented) ? false : this.defaultPrevented;
 		}
 	}
 });

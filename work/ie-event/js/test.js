@@ -37,8 +37,7 @@ var MyWire = new Class({
 		this.addEventListener(COMMANDS_LIST.My_EVENT, this.handler );
 	},
 	handler: function(event) {
-		// TODO: preventDefault needs to be implemented.
-		//event.preventDefault();
+		event.preventDefault();
         log( "handler: " + event.type + ", data.prop1:" + event.data.prop1 );
 	}
 });

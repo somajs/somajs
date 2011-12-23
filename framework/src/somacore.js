@@ -1153,15 +1153,25 @@ var view = this.getView("myViewName");
 		/** @lends soma.core.view.SomaViews.prototype */
 
 		var views = null;
-		
+
 		return new Class({
 
 			Implements: soma.core.IDisposable,
-			
+
 			autoBound:false,
 
-			initialize:function() {
+            /**
+             * {SomaApplication}
+             */
+            instance:null,
+
+            /**
+             *
+             * @param {SomaApplication} instance
+             */
+			initialize:function( instance ) {
 				views = {};
+                this.instance = instance;
 			},
 
 			hasView: function(viewName) {
@@ -1172,6 +1182,7 @@ var view = this.getView("myViewName");
 				if (this.hasView(viewName)) {
 					throw new Error("View \"" + viewName + "\" already exists");
 				}
+
 				if (document.attachEvent) {
 					view.instance = this.instance;
 				}
@@ -1220,6 +1231,7 @@ var view = this.getView("myViewName");
 					this.removeView(name);
 				}
 				views = null;
+                this.instance = null;
 			}
 		});
 	})();
@@ -1284,7 +1296,7 @@ function eventHandler(event) {
 		addEventListener: function(type, listener, priority) {
 			if (!listeners || !type || !listener) return;
 			if (isNaN(priority)) priority = 0;
-			listeners.push({type: type, listener: listener, priority: priority});
+			listeners.push({type: type, listener: listener, priority: priority,scope:this});
 		},
 		/**
 		 * Removes a listener from the EventDispatcher object. If there is no matching listener registered with the EventDispatcher object, a call to this method has no effect.
@@ -1344,7 +1356,13 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));
 			events.sort(function(a, b) {
 				return b.priority - a.priority;
 			});
+
 			for (i = 0; i < events.length; i++) {
+
+                //testlog( event.srcElement ? event.srcElement : ( event.currentTarget ? event.currentTarget : events[i].scope ) )
+                //testlog( (event.srcElement) ? event.srcElement : ( event.currentTarget ? event.currentTarget : event.scope ) )  ;
+                //testlog( event.srcElement )
+				//events[i].listener.apply((event.srcElement) ? event.srcElement : ( event.currentTarget ? event.currentTarget : events[i].scope ), [event]);
 				events[i].listener.apply((event.srcElement) ? event.srcElement : event.currentTarget, [event]);
 			}
 		},
@@ -1433,10 +1451,7 @@ new SomaApplication();
 		this.controller = new soma.core.controller.SomaController(this);
 		this.models = new soma.core.model.SomaModels(this);
 		this.wires = new soma.core.wire.SomaWires(this);
-		this.views = new soma.core.view.SomaViews();
-		if (document.attachEvent) {
-            this.views.instance = this;
-        }
+		this.views = new soma.core.view.SomaViews(this);
 		this.init();
 		this.registerModels();
 		this.registerViews();
@@ -1859,6 +1874,7 @@ soma.core.model.SomaModels = (function() {
 				this.removeModel(name);
 			}
 			models = null;
+            this.instance = null;
 		}
 	});
 })();
@@ -2095,7 +2111,7 @@ object.addEventListener("eventType", eventHandler, false);
            this.domElement.addEventListener.apply(this.domElement, arguments);
         }else{
             // TODO IE problem : target is now document.body
-            this.instance.addEventListener.apply(this.instance, arguments);
+            this.instance.addEventListener.apply(this.domElement, arguments);
         }
 	},
 	/**
@@ -2111,7 +2127,7 @@ object.removeEventListener("eventType", eventHandler, false);
 		    this.domElement.removeEventListener.apply(this.domElement, arguments);
         }else{
             // TODO IE problem : target is now document.body
-             this.instance.removeEventListener.apply(this.instance, arguments);
+             this.instance.removeEventListener.apply(this.domElement, arguments);
         }
 	},
 	/**
@@ -2193,6 +2209,7 @@ soma.core.wire.SomaWires = (function() {
 				this.removeWire(name);
 			}
 			wires = null;
+            this.instance = null;
 		}
 	});
 })();

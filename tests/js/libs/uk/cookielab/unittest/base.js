@@ -123,7 +123,9 @@ function testlog()
 		{
 			if( !this.showOnlyFailed ) {
 				if( window["console"] ) {
-                    console.info( "OK:",  e.testName );
+                    console.info( "OK: " +  e.testName );
+                }else{
+                    testlog( "<span style=\"color:green;\">OK:</span> " + e.testName  );
                 }
 			}
 			this.passed++;
@@ -131,9 +133,9 @@ function testlog()
 		failListener: function( e )
 		{
 			if( window["console"] ) {
-                console.error( "FAILED: " +  e.testName + " (`"+e.error.message+"`) " + " - " + e.error.name + " (Given:" + e.error.expected+")" );
+                console.error( "FAILED: " +  e.testName + " (`"+e.error.message+"`) " + " (EXPECTED:" + e.error.expected+", ACTUAL:"+ e.error.actual +")" );
             }else{
-               testlog( "<span style=\"color:red;\">FAILED: " +  e.testName + " (`"+e.error.message+"`) " + " - " + e.error.name + " (Given:" + e.error.expected+")</span>" );
+               testlog( "<span style=\"color:red;\">FAILED: " +  e.testName + " (`"+e.error.message+"`) " + " (EXPECTED:" + e.error.expected+", ACTUAL:"+ e.error.actual +")</span>" );
             }
             this.failed++;
 			//console.groupCollapsed ( "FAIL DETAIL: ", e.error  );

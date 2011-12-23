@@ -58,13 +58,13 @@ function initTestScenario()
 	//new UnitTestBuilder( [  suiteSequenceTests ], false, false );
 	//new UnitTestBuilder( [  suiteSequenceTests ], false, false );
 	new UnitTestBuilder( [
-		suiteCoreTests,
-		suiteInvocationTests,
-		suiteInvocationAsyncTests,
-		suiteSequenceTests,
-		suiteDispatcherTests,
-		suiteWrappersTests
-	], true, false );
+		suiteCoreTests
+		//,suiteInvocationTests
+		//,suiteInvocationAsyncTests
+		//,suiteSequenceTests
+		//,suiteDispatcherTests
+		//,suiteWrappersTests
+	], false, false );
 
 
 }

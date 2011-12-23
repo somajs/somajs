@@ -736,6 +736,7 @@ var AutobindTest = new Class
 
 	}
 
+
 	,test_view_no_autobind: function()
 	{
 		var sprite = document.createElement("div");

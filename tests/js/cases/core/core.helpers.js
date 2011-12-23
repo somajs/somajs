@@ -8,7 +8,7 @@ cases.core.StartCommand = new Class
 
 	execute: function()
 	{
-		testlog("startcommand exec");
+		//testlog("startcommand exec");
 	}
 });
 

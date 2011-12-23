@@ -38,7 +38,7 @@ var MyWire = new Class({
 	},
 	handler: function(event) {
 		event.preventDefault();
-        log( "handler: " + event.type + ", data.prop1:" + event.data.prop1 );
+        log( "handler: " + event.type + ", parameters.prop1:" + event.parameters.prop1 );
 	}
 });
 

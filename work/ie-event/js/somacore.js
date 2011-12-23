@@ -1360,7 +1360,7 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));
 			for (i = 0; i < events.length; i++) {
 
                 //testlog( event.srcElement ? event.srcElement : ( event.currentTarget ? event.currentTarget : events[i].scope ) )
-                //testlog( (event.srcElement) ? event.srcElement : ( event.currentTarget ? event.currentTarget : event.scope ) )  ;
+                //testlog( (event.srcElement) ? event.srcEleme  nt : ( event.currentTarget ? event.currentTarget : event.scope ) )  ;
                 //testlog( event.srcElement )
 				//events[i].listener.apply((event.srcElement) ? event.srcElement : ( event.currentTarget ? event.currentTarget : events[i].scope ), [event]);
 				events[i].listener.apply((event.srcElement) ? event.srcElement : event.currentTarget, [event]);
@@ -2241,7 +2241,7 @@ soma.Event = new Class(
      * @class Event wrapper class for the native event created with "document.createEvent".
      * @description Create an instance of an soma.Event class.
      * @param {string} type The type of the event.
-     * @param {object} data An object for a custom use and that can hold data.
+     * @param {object} parameters An object for a custom use and that can hold data.
      * @param {boolean} bubbles Indicates whether an event is a bubbling event. If the event can bubble, this value is true; otherwise it is false. The default is true for framework purposes: the commands are mapped with events types, the framework will ignore events that are commands if the bubbles property is set to false.
      * @param {boolean} cancelable Indicates whether the behavior associated with the event can be prevented (using event.preventDefault()). If the behavior can be canceled, this value is true; otherwise it is false.
      * @returns {event} A event instance.
@@ -2254,22 +2254,22 @@ var event = new soma.Event("eventType", {myData:"my data"}, true, true);
 var MyEvent = new Class({
     Extends: soma.Event,
 
-    initialize: function(type, data, bubbles, cancelable) {
-        // alert(data.myData)
-        return this.parent(type, data, bubbles, cancelable);
+    initialize: function(type, parameters, bubbles, cancelable) {
+        // alert(parameters.myData)
+        return this.parent(type, parameters, bubbles, cancelable);
     }
 
 });
 MyEvent.DO_SOMETHING = "ApplicationEvent.DO_SOMETHING"; // constant use as an event type
 var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
       */
-    initialize: function(type, data, bubbles, cancelable) {
+    initialize: function(type, parameters, bubbles, cancelable) {
         var e = soma.Event.createGenericEvent(type, bubbles, cancelable);
-		if (data) {
-			for (var k in data) {
-				e[k] = data[k];
+		if (parameters) {
+			e.parameters = {};
+			for (var k in parameters) {
+				e.parameters[k] = parameters[k];
 			}
-			e.data = data;
 		}
 		e.clone = this.clone.bind(e);
 		e.isDefaultPrevented = this.isDefaultPrevented;
@@ -2282,11 +2282,11 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
      */
 	clone: function() {
 		var e = soma.Event.createGenericEvent(this.type, this.bubbles, this.cancelable);
-		var d = this.data;
+		var d = this.parameters;
 		for (var k in d) {
 			e[k] = d[k];
 		}
-		e.data = d;
+		e.parameters = d;
 		e.isCloned = true;
 		e.clone = this.clone;
 		e.isDefaultPrevented = this.isDefaultPrevented;

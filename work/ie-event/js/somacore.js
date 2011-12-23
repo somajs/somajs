@@ -2263,10 +2263,8 @@ var MyEvent = new Class({
 MyEvent.DO_SOMETHING = "ApplicationEvent.DO_SOMETHING"; // constant use as an event type
 var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
       */
-	_event: null,
     initialize: function(type, data, bubbles, cancelable) {
         var e = soma.Event.createGenericEvent(type, bubbles, cancelable);
-	    this._event = e;
 		if (data) {
 			for (var k in data) {
 				e[k] = data[k];
@@ -2328,7 +2326,6 @@ soma.Event.createGenericEvent = function (type, bubbles, cancelable) {
     }
     e.bubbles = !!bubbles;
     e.cancelable = !!cancelable;
-
     return e;
 };
 

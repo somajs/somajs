@@ -2266,10 +2266,12 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
     initialize: function(type, parameters, bubbles, cancelable) {
         var e = soma.Event.createGenericEvent(type, bubbles, cancelable);
 		if (parameters) {
-			e.parameters = {};
-			for (var k in parameters) {
-				e.parameters[k] = parameters[k];
+			var d = parameters;
+			for (var k in d) {
+				if (!e.parameters) e.parameters = {};
+				e.parameters[k] = d[k];
 			}
+			e.parameters = d;
 		}
 		e.clone = this.clone.bind(e);
 		e.isDefaultPrevented = this.isDefaultPrevented;

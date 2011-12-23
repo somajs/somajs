@@ -168,6 +168,8 @@ test_is_default_prevented_default (DONE)
 test_is_default_prevented_defined_success (DONE)
 test_is_default_prevented_defined_fail (DONE)
 
+test parameters if it is something else than an object
+
 
 
 

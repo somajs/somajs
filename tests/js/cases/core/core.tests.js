@@ -728,12 +728,10 @@ var AutobindTest = new Class
 		this.soma.addView( "viewname", view );
 		view.addEventListener( "testFromView", view.viewListener );
 		view.dispatchEvent( new soma.Event("testFromView", {test:"test"}) );
-
 		view.removeEventListener( "testFromView", view.viewListener );
 		this.soma.removeView( "viewname" );
 		this.assertTrue( view.scopeConfirmed  );
 		cases.core.TestView.scope = null;
-
 	}
 
 	,test_view_no_autobind: function()

@@ -2288,6 +2288,7 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 		return e;
 	},
 	preventDefault: function() {
+		if (!this.cancelable) return false;
         this.defaultPrevented = true;
         this.returnValue = false;
         return this;
@@ -2297,6 +2298,7 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
      * @returns {boolean}
      */
 	isDefaultPrevented: function() {
+	    if (!this.cancelable) return false;
         if( this.defaultPrevented != undefined ) {
            return this.defaultPrevented;
         }else if( this.getDefaultPrevented != undefined ) {

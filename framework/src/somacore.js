@@ -2271,8 +2271,8 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 			e.params = params;
 		}
 		e.clone = this.clone.bind(e);
-		e.isDefaultPrevented = this.isDefaultPrevented;
-	    if (!e.preventDefault) e.preventDefault = this.preventDefault.bind(e);
+        e.isDefaultPrevented = this.isDefaultPrevented;
+	    if (!e.preventDefault || (e.getDefaultPrevented == undefined && e.defaultPrevented == undefined ) ) e.preventDefault = this.preventDefault.bind(e);
 		return e;
 	},
     /**
@@ -2288,18 +2288,21 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 		return e;
 	},
 	preventDefault: function() {
-		this.defaultPrevented = true;
+        this.defaultPrevented = true;
+        this.returnValue = false;
+        return this;
 	},
     /**
      * Checks whether the preventDefault() method has been called on the event. If the preventDefault() method has been called, returns true; otherwise, returns false.
      * @returns {boolean}
      */
 	isDefaultPrevented: function() {
-		if (this.getDefaultPrevented) {
-			return this.getDefaultPrevented();
-		} else {
-			return (!this.defaultPrevented) ? false : this.defaultPrevented;
-		}
+        if( this.defaultPrevented != undefined ) {
+           return this.defaultPrevented;
+        }else if( this.getDefaultPrevented != undefined ) {
+            return this.getDefaultPrevented();
+        }
+        return false;
 	}
 });
 /**

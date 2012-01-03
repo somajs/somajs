@@ -219,11 +219,16 @@ var DispatcherTest = new Class ({
 	,test_dispose: function() {
 		var dispatcher = new soma.EventDispatcher;
 		dispatcher.addEventListener(EVENT_TYPE, this.handlerFailureBound);
-		dispatcher.dispose();
+        dispatcher.dispose();
+        this.assertFalse(dispatcher.hasEventListener(EVENT_TYPE));
+
 		dispatcher.addEventListener(EVENT_TYPE, this.handlerFailureBound);
-		dispatcher.hasEventListener(EVENT_TYPE);
-		dispatcher.dispatchEvent(new soma.Event(EVENT_TYPE));
+		dispatcher.addEventListener(EVENT_TYPE, this.handlerFailureBound);
+
 		dispatcher.removeEventListener(EVENT_TYPE, this.handlerEmpty);
+        this.assertTrue(dispatcher.hasEventListener(EVENT_TYPE));
+
+        dispatcher.removeEventListener(EVENT_TYPE, this.handlerFailureBound);
 		this.assertFalse(dispatcher.hasEventListener(EVENT_TYPE));
 	}
 

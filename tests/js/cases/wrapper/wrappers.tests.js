@@ -25,11 +25,12 @@ var SomaViewTests = new Class ({
 	}
 
 	,handlerFailure: function(event) {
-		this.countFailure++
+		this.countFailure++;
 	}
 
 	,handlerSuccess: function(event) {
-		this.countSuccess++
+		testlog("success")
+		this.countSuccess++;
 	}
 
 	,test_create_view: function() {
@@ -70,24 +71,36 @@ var SomaViewTests = new Class ({
 	}
 
 	,test_add_listener: function() {
-		var view = new soma.View;
-		view.addEventListener(EVENT_TYPE, this.handlerSuccessBound, false);
-		this.assertTrue(true);
+		var view = new soma.View();
+		if (isIE7or8()) {
+			var app = new soma.core.Application();
+			app.addView("view", view);
+		}
+		view.addEventListener(EVENT_TYPE, this.handlerSuccessBound);
+		this.assertTrue(true); // should fail before is something is wrong
 	}
 
 	,test_remove_listener: function() {
 		var view = new soma.View;
+		if (isIE7or8()) {
+			var app = new soma.core.Application();
+			app.addView("view", view);
+		}
 		view.addEventListener(EVENT_TYPE, this.handlerFailureBound, false);
 		view.removeEventListener(EVENT_TYPE, this.handlerFailureBound, false);
 		view.dispatchEvent(new soma.Event(EVENT_TYPE));
-		this.assertEquals(this.countFailure, 0);
+		this.assertEquals(0, this.countFailure);
 	}
 
 	,test_dispatch_event: function() {
 		var view = new soma.View;
+		if (isIE7or8()) {
+			var app = new soma.core.Application();
+			app.addView("view", view);
+		}
 		view.addEventListener(EVENT_TYPE, this.handlerSuccessBound, false);
 		view.dispatchEvent(new soma.Event(EVENT_TYPE));
-		this.assertEquals(this.countSuccess, 1);
+		this.assertEquals(1, this.countSuccess);
 	}
 
 });
@@ -211,36 +224,49 @@ var SomaEventTests = new Class ({
 	}
 
 	,test_is_default_prevented_default: function() {
-		var el = document.createElement("div");
-		el.addEventListener(EVENT_TYPE, this.handlerEmpty, false);
-		el.dispatchEvent(this.wrapperEvent);
+		var dispatcher;
+		if (isIE7or8()) {
+			dispatcher = new soma.EventDispatcher();
+		}
+		else {
+			dispatcher = document.createElement("div");
+		}
+		dispatcher.addEventListener(EVENT_TYPE, this.handlerEmpty, false);
+		dispatcher.dispatchEvent(this.wrapperEvent);
 		this.assertFalse(this.wrapperEvent.isDefaultPrevented());
 	}
 
 
 	,test_default_prevented_should_be_true: function() {
-		var el = document.createElement("div");
-		el.addEventListener(EVENT_TYPE, this.handlerPreventDefault, false);
+		var dispatcher;
+		if (isIE7or8()) {
+			dispatcher = new soma.EventDispatcher();
+		}
+		else {
+			dispatcher = document.createElement("div");
+		}
+		dispatcher.addEventListener(EVENT_TYPE, this.handlerPreventDefault, false);
 		var eventWrapper = new soma.Event(EVENT_TYPE, null, true, true);
 		var eventCustom = new TestCustomEvent(EVENT_TYPE, null, true, true );
-		el.dispatchEvent(eventWrapper);
-		el.dispatchEvent(eventCustom);
+		dispatcher.dispatchEvent(eventWrapper);
+		dispatcher.dispatchEvent(eventCustom);
 		this.assertTrue(eventWrapper.isDefaultPrevented() );
 		this.assertTrue(eventCustom.isDefaultPrevented() );
 	}
 
-    /**
-     * not working in FF < 6.0(?) and Opera as event.defaultPrevented or getDefaultPrevented are not implemented
-     *
-     */
 	,test_default_prevented_should_be_false: function() {
-
-		var el = document.createElement("div");
-		el.addEventListener(EVENT_TYPE, this.handlerPreventDefault, false);
+		var dispatcher;
+		if (isIE7or8()) {
+			dispatcher = new soma.EventDispatcher();
+		}
+		else {
+			dispatcher = document.createElement("div");
+		}
+		dispatcher.addEventListener(EVENT_TYPE, this.handlerPreventDefault, false);
 		var eventWrapper = new soma.Event(EVENT_TYPE, null, true, false);
 		var eventCustom = new TestCustomEvent(EVENT_TYPE, null, true, false);
-		el.dispatchEvent(eventWrapper);
-		el.dispatchEvent(eventCustom);
+		dispatcher.dispatchEvent(eventWrapper);
+		dispatcher.dispatchEvent(eventCustom);
 		this.assertFalse(eventWrapper.isDefaultPrevented());
 		this.assertFalse(eventCustom.isDefaultPrevented());
 	}

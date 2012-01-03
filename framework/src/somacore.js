@@ -1356,15 +1356,7 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));
 			events.sort(function(a, b) {
 				return b.priority - a.priority;
 			});
-
 			for (i = 0; i < events.length; i++) {
-
-                //testlog( event.srcElement ? event.srcElement : ( event.currentTarget ? event.currentTarget : events[i].scope ) )
-                //testlog( (event.srcElement) ? event.srcEleme  nt : ( event.currentTarget ? event.currentTarget : event.scope ) )  ;
-                //testlog( event.srcElement )
-				//events[i].listener.apply((event.srcElement) ? event.srcElement : ( event.currentTarget ? event.currentTarget : events[i].scope ), [event]);
-				//testlog(  event.currentTarget );
-				//testlog(  events[i].scope);
                 events[i].listener.apply((event.srcElement) ? event.srcElement : event.currentTarget, [event]);
 			}
 		},
@@ -1446,6 +1438,7 @@ var SomaApplication = new Class({
 new SomaApplication();
 	 */
 	initialize:function() {
+		this.parent();
 		this.body = document.body;
 		if (!this.body) {
 			throw new Error("SomaCore requires body of type Element");
@@ -2094,10 +2087,8 @@ object.dispatchEvent(new soma.Event("eventType"));
 	dispatchEvent: function(event) {
 		if (this.domElement.dispatchEvent) {
 			this.domElement.dispatchEvent(event);
-		} else if (this.instance) {
+		} else if(this.instance) {
 			this.instance.dispatchEvent(event);
-		} else {
-			throw new Error("WEIRD SETUP? need to check");
 		}
 	},
 	/**
@@ -2110,8 +2101,8 @@ object.addEventListener("eventType", eventHandler, false);
 	 */
 	addEventListener: function() {
         if( this.domElement.addEventListener ) {
-           this.domElement.addEventListener.apply(this.domElement, arguments);
-        }else{
+            this.domElement.addEventListener.apply(this.domElement, arguments);
+        } else if(this.instance) {
             // TODO IE problem : target is now document.body
             this.instance.addEventListener.apply(this.domElement, arguments);
         }
@@ -2127,7 +2118,7 @@ object.removeEventListener("eventType", eventHandler, false);
 	removeEventListener: function() {
         if( this.domElement.addEventListener ) {
 		    this.domElement.removeEventListener.apply(this.domElement, arguments);
-        }else{
+        } else if(this.instance) {
             // TODO IE problem : target is now document.body
              this.instance.removeEventListener.apply(this.domElement, arguments);
         }
@@ -2323,6 +2314,8 @@ soma.Event.createGenericEvent = function (type, bubbles, cancelable) {
     } else {
         e = document.createEventObject();
         e.type = type;
+	    e.bubbles = bubbles;
+	    e.cancelable = !!cancelable;
     }
     return e;
 };

@@ -45,7 +45,6 @@ test_cannot_cancel_event_dispatched_from_body (DONE)
 test_parallel_command (DONE)
 test_instance_is_set (DONE)
 
-
 - Commands (invocation async)
 test_async_command
 

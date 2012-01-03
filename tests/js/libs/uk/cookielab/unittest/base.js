@@ -25,6 +25,10 @@ function testlog()
     out.innerHTML =  out.innerHTML +  "<br>" + value;
 }
 
+function isIE7or8() {
+	return !!document.attachEvent;
+}
+
 (function() {
 	UnitTestBuilder = new Class
 	({

@@ -56,7 +56,7 @@ var InvocationTest = new Class
 
 		this.spriteTestAccess = document.getElementById( "testSprite" );
 		if( this.spriteTestAccess.addEventListener ) {
-           this.spriteTestAccess.addEventListener( cases.invocation.InvocationCommandList.TEST,  this.setUserAccessFromDisplayListBound );
+           this.spriteTestAccess.addEventListener( cases.invocation.InvocationCommandList.TEST,  this.setUserAccessFromDisplayListBound, false );
         }else{
            // TODO IE implement
         }
@@ -73,11 +73,11 @@ var InvocationTest = new Class
 	,tearDown: function()
 	{
 		if( this.spriteTestAccess.removeEventListener ) {
-            this.spriteTestAccess.removeEventListener( cases.invocation.InvocationCommandList.TEST, this.setUserAccessFromDisplayListBound );
+            this.spriteTestAccess.removeEventListener( cases.invocation.InvocationCommandList.TEST, this.setUserAccessFromDisplayListBound, false );
         }else{
            // TODO IE implement
         }
-        this.soma.removeEventListener( cases.invocation.InvocationCommandList.TEST, this.setUserAccessFromInstanceBound );
+        this.soma.removeEventListener( cases.invocation.InvocationCommandList.TEST, this.setUserAccessFromInstanceBound, false );
 		this.soma.removeCommand( cases.invocation.InvocationCommandList.TEST, cases.invocation.TestCommand );
 		this.soma.dispose();
 		this.soma = null;
@@ -198,6 +198,7 @@ var InvocationTest = new Class
    		this.soma.removeEventListener( cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );
 	}
 
+    // TODO IE7
 	,test_cannot_cancel_event_dispatched_from_body: function()
 	{
  		this.soma.addEventListener( cases.invocation.InvocationCommandList.TEST, this.cancelEventBound );

@@ -71,21 +71,21 @@ var SomaViewTests = new Class ({
 
 	,test_add_listener: function() {
 		var view = new soma.View;
-		view.addEventListener(EVENT_TYPE, this.handlerSuccessBound);
+		view.addEventListener(EVENT_TYPE, this.handlerSuccessBound, false);
 		this.assertTrue(true);
 	}
 
 	,test_remove_listener: function() {
 		var view = new soma.View;
-		view.addEventListener(EVENT_TYPE, this.handlerFailureBound);
-		view.removeEventListener(EVENT_TYPE, this.handlerFailureBound);
+		view.addEventListener(EVENT_TYPE, this.handlerFailureBound, false);
+		view.removeEventListener(EVENT_TYPE, this.handlerFailureBound, false);
 		view.dispatchEvent(new soma.Event(EVENT_TYPE));
 		this.assertEquals(this.countFailure, 0);
 	}
 
 	,test_dispatch_event: function() {
 		var view = new soma.View;
-		view.addEventListener(EVENT_TYPE, this.handlerSuccessBound);
+		view.addEventListener(EVENT_TYPE, this.handlerSuccessBound, false);
 		view.dispatchEvent(new soma.Event(EVENT_TYPE));
 		this.assertEquals(this.countSuccess, 1);
 	}
@@ -212,14 +212,14 @@ var SomaEventTests = new Class ({
 
 	,test_is_default_prevented_default: function() {
 		var el = document.createElement("div");
-		el.addEventListener(EVENT_TYPE, this.handlerEmpty);
+		el.addEventListener(EVENT_TYPE, this.handlerEmpty, false);
 		el.dispatchEvent(this.wrapperEvent);
 		this.assertFalse(this.wrapperEvent.isDefaultPrevented());
 	}
 
 	,test_is_default_prevented_defined_success: function() {
 		var el = document.createElement("div");
-		el.addEventListener(EVENT_TYPE, this.handlerPreventDefault);
+		el.addEventListener(EVENT_TYPE, this.handlerPreventDefault, false);
 		var eventWrapper = new soma.Event(EVENT_TYPE, null, true, true);
 		var eventCustom = new TestCustomEvent(EVENT_TYPE, null, true, true);
 		el.dispatchEvent(eventWrapper);
@@ -230,7 +230,7 @@ var SomaEventTests = new Class ({
 
 	,test_is_default_prevented_defined_fail: function() {
 		var el = document.createElement("div");
-		el.addEventListener(EVENT_TYPE, this.handlerPreventDefault);
+		el.addEventListener(EVENT_TYPE, this.handlerPreventDefault, false);
 		var eventWrapper = new soma.Event(EVENT_TYPE, null, true, false);
 		var eventCustom = new TestCustomEvent(EVENT_TYPE, null, true, false);
 		el.dispatchEvent(eventWrapper);

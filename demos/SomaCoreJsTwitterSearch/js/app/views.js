@@ -14,7 +14,7 @@ var MainView = new Class({
 			if (event.keyCode == 13 && this.value != "") {
 				this.dispatchEvent(new TwitterEvent(TwitterEvent.SEARCH, this.value));
 			}
-		});
+		}, false);
 	},
 
 	updateTweets: function(data) {

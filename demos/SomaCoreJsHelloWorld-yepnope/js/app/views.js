@@ -14,7 +14,7 @@ var MessageView = new Class({
 	setupUI: function() {
 		this.button.addEventListener("click", function() {
 			this.dispatchEvent(new MessageEvent(MessageEvent.REQUEST));
-		});
+		},false);
 	},
 
     updateMessage: function(message) {

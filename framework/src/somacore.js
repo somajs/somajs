@@ -2319,8 +2319,6 @@ soma.Event.createGenericEvent = function (type, bubbles, cancelable) {
         e = document.createEventObject();
         e.type = type;
     }
-    e.bubbles = !!bubbles;
-    e.cancelable = !!cancelable;
     return e;
 };
 

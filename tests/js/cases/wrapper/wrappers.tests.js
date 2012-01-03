@@ -29,7 +29,6 @@ var SomaViewTests = new Class ({
 	}
 
 	,handlerSuccess: function(event) {
-		testlog("success")
 		this.countSuccess++;
 	}
 

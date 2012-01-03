@@ -217,18 +217,24 @@ var SomaEventTests = new Class ({
 		this.assertFalse(this.wrapperEvent.isDefaultPrevented());
 	}
 
-	,test_is_default_prevented_defined_success: function() {
+
+	,test_default_prevented_should_be_true: function() {
 		var el = document.createElement("div");
 		el.addEventListener(EVENT_TYPE, this.handlerPreventDefault, false);
 		var eventWrapper = new soma.Event(EVENT_TYPE, null, true, true);
-		var eventCustom = new TestCustomEvent(EVENT_TYPE, null, true, true);
+		var eventCustom = new TestCustomEvent(EVENT_TYPE, null, true, true );
 		el.dispatchEvent(eventWrapper);
 		el.dispatchEvent(eventCustom);
-		this.assertTrue(eventWrapper.isDefaultPrevented());
-		this.assertTrue(eventCustom.isDefaultPrevented());
+		this.assertTrue(eventWrapper.isDefaultPrevented() );
+		this.assertTrue(eventCustom.isDefaultPrevented() );
 	}
 
-	,test_is_default_prevented_defined_fail: function() {
+    /**
+     * not working in FF < 6.0(?) and Opera as event.defaultPrevented or getDefaultPrevented are not implemented
+     *
+     */
+	,test_default_prevented_should_be_false: function() {
+
 		var el = document.createElement("div");
 		el.addEventListener(EVENT_TYPE, this.handlerPreventDefault, false);
 		var eventWrapper = new soma.Event(EVENT_TYPE, null, true, false);

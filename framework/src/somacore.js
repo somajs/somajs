@@ -1277,6 +1277,7 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));
  */
 soma.EventDispatcher = (function() {
 	/** @lends soma.EventDispatcher.prototype */
+
 	var listeners = [];
 	return new Class({
 		initialize: function() {
@@ -1309,14 +1310,12 @@ dispatcher.removeEventListener("eventType", eventHandler);
 			if (!listeners || !type || !listener) return;
 			var i = 0;
 			var l = listeners.length;
-			for (; i < l; ++i) {
+			for (i=l-1; i > -1; i--) {
 				var eventObj = listeners[i];
 				if (eventObj.type == type && eventObj.listener == listener) {
-					listeners.splice(i, 1);
-					return;
+                    listeners.splice(i, 1);
 				}
 			}
-			return false;
 		},
 		/**
 		 * Checks whether the EventDispatcher object has any listeners registered for a specific type of event.
@@ -1356,10 +1355,27 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));
 			events.sort(function(a, b) {
 				return b.priority - a.priority;
 			});
+
 			for (i = 0; i < events.length; i++) {
+
+                //testlog( event.srcElement ? event.srcElement : ( event.currentTarget ? event.currentTarget : events[i].scope ) )
+                //testlog( (event.srcElement) ? event.srcEleme  nt : ( event.currentTarget ? event.currentTarget : event.scope ) )  ;
+                //testlog( event.srcElement )
+				//events[i].listener.apply((event.srcElement) ? event.srcElement : ( event.currentTarget ? event.currentTarget : events[i].scope ), [event]);
+				//testlog(  event.currentTarget );
+				//testlog(  events[i].scope);
                 events[i].listener.apply((event.srcElement) ? event.srcElement : event.currentTarget, [event]);
 			}
 		},
+        /**
+         * Returns a copy of the listener array.
+         * @param {Array} listeners
+         */
+        getListeners: function()
+        {
+            return listeners.slice();
+        },
+
 		toString: function() {
 			return "[Class soma.EventDispatcher]";
 		},
@@ -1370,7 +1386,7 @@ instance.dispose();
 instance = null;
 		 */
 		dispose: function() {
-			listeners = null;
+            listeners = [];
 		}
 	});
 })();
@@ -1438,8 +1454,8 @@ var SomaApplication = new Class({
 new SomaApplication();
 	 */
 	initialize:function() {
-		this.parent();
-		this.body = document.body;
+        this.parent();
+        this.body = document.body;
 		if (!this.body) {
 			throw new Error("SomaCore requires body of type Element");
 		}
@@ -1794,7 +1810,7 @@ new SomaApplication();
 	start: function() {
 
 	}
-	
+
 });
 
 /**
@@ -1814,7 +1830,7 @@ soma.core.model.SomaModels = (function() {
 	/** @lends soma.core.model.SomaModels.prototype */
 
 	var models = null;
-	
+
 	return new Class({
 		Implements: soma.core.IDisposable,
 
@@ -1968,7 +1984,7 @@ MyModel.NAME = "Model::MyModel";
 	setName: function(name) {
 		this.name = name;
 	}
-	
+
 });
 
 soma.View = new Class(
@@ -2087,8 +2103,10 @@ object.dispatchEvent(new soma.Event("eventType"));
 	dispatchEvent: function(event) {
 		if (this.domElement.dispatchEvent) {
 			this.domElement.dispatchEvent(event);
-		} else if(this.instance) {
+		} else if (this.instance) {
 			this.instance.dispatchEvent(event);
+		} else {
+			throw new Error("WEIRD SETUP? need to check");
 		}
 	},
 	/**
@@ -2101,8 +2119,8 @@ object.addEventListener("eventType", eventHandler, false);
 	 */
 	addEventListener: function() {
         if( this.domElement.addEventListener ) {
-            this.domElement.addEventListener.apply(this.domElement, arguments);
-        } else if(this.instance) {
+           this.domElement.addEventListener.apply(this.domElement, arguments);
+        }else{
             // TODO IE problem : target is now document.body
             this.instance.addEventListener.apply(this.domElement, arguments);
         }
@@ -2118,7 +2136,7 @@ object.removeEventListener("eventType", eventHandler, false);
 	removeEventListener: function() {
         if( this.domElement.addEventListener ) {
 		    this.domElement.removeEventListener.apply(this.domElement, arguments);
-        } else if(this.instance) {
+        }else{
             // TODO IE problem : target is now document.body
              this.instance.removeEventListener.apply(this.domElement, arguments);
         }
@@ -2127,7 +2145,7 @@ object.removeEventListener("eventType", eventHandler, false);
 	 * Optional method that will be called by the framework (if it exists) when the view is removed from the framework.
 	 */
 	dispose: function() {
-		
+
 	}
 });
 
@@ -2223,7 +2241,7 @@ soma.core.mediator.Mediator = new Class({
 		this.viewComponent = null;
 		this.parent();
 	}
-	
+
 });
 
 soma.Event = new Class(
@@ -2314,8 +2332,8 @@ soma.Event.createGenericEvent = function (type, bubbles, cancelable) {
     } else {
         e = document.createEventObject();
         e.type = type;
-	    e.bubbles = bubbles;
-	    e.cancelable = !!cancelable;
+        e.bubbles = !!bubbles;
+        e.cancelable = !!cancelable;
     }
     return e;
 };

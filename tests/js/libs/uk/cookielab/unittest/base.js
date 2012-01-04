@@ -2,32 +2,36 @@
  * @author Henry Schmieder
  * 
  */
-function testlog()
-{
-	if( window["console"] ) {
-         console.log( arguments[0] );
-         return;
-     }
-
-    var out = document.getElementById( "test-output" );
-    if( !out ) {
-        return;
-    }
-    var value = arguments[0];
-    if( typeof value == "object" )  {
-        var _v = value;
-        value = "";
-        for( var i in _v )
-        {
-            value += i + " : " + _v[i] + "<br>";
-        }
-    }
-    out.innerHTML =  out.innerHTML +  "<br>" + value;
-}
-
 function isIeLt9() {
-	return !!document.attachEvent;
+	return !!document.attachEvent && !document.createEvent;
 }
+
+(function(){
+    testlog = function()
+    {
+        if( window["console"] && this.outputInConsole ) {
+             console.log( arguments[0] );
+             return;
+         }
+
+        var out = document.getElementById( "test-output" );
+        if( !out ) {
+            return;
+        }
+        var value = arguments[0];
+        if( typeof value == "object" )  {
+            var _v = value;
+            value = "";
+            for( var i in _v )
+            {
+                value += i + " : " + _v[i] + "<br>";
+            }
+        }
+        out.innerHTML =  out.innerHTML +  "<br>" + value;
+    };
+    testlog.prototype.outputInConsole = false;
+})();
+
 
 (function() {
 	UnitTestBuilder = new Class
@@ -42,6 +46,7 @@ function isIeLt9() {
 		allPassed:0,
 		allFailed:0,
 		suiteCount:0,
+        outputInConsole:true,
 		
 		/**
 		 *
@@ -49,8 +54,11 @@ function isIeLt9() {
 		 * @param {Boolean} showCollapsed
 		 * @param {Boolean} showOnlyFailed
 		 */
-		initialize: function( suites, showCollapsed, showOnlyFailed )
+		initialize: function( suites, outputInConsole, showCollapsed, showOnlyFailed )
 		{
+            if( outputInConsole !== null && outputInConsole != undefined ) {
+                this.outputInConsole = !!outputInConsole;
+            }
 			if( !( suites instanceof Array ) ) {
 				throw new Error( "UnitTestBuilder constructor has to be given an array of suite objects" );
 			}
@@ -76,23 +84,27 @@ function isIeLt9() {
 		{
 		    if( e.testSuite.name.match(/^yuitests/) ) return;
 
-			if( window["console"] ) {
-               console.group();
+			if( window["console"] && this.outputInConsole ) {
+               console.group ? console.group() : '';
                console.log( "############################ " + e.testSuite.name + " ################################### " );
             }else{
-                testlog( "############################ " + e.testSuite.name + " ################################### " );
+                this.testlog( "############################ " + e.testSuite.name + " ################################### " );
             }
 
 		},
 
 		caseStartListener: function( e )
 		{
-            if( window["console"] ) {
-                console.time( "time" );
+            if( window["console"] && this.outputInConsole ) {
+                console.time ? console.time("time") : '';
 			    var meth = this.showCollapsed ? "groupCollapsed" : "group";
-			    console[meth]( "TESTCASE: " + e.testCase.name );
+			    if( console[meth] ) {
+                   console[meth]( "TESTCASE: " + e.testCase.name );
+                }else{
+                    console.log( "TESTCASE: " + e.testCase.name );
+                }
             }else{
-               testlog( "<h5 style=\"margin-bottom:0;padding-bottom:0;\">TESTCASE: " + e.testCase.name + "</h5>" );
+               this.testlog( "<h5 style=\"margin-bottom:0;padding-bottom:0;\">TESTCASE: " + e.testCase.name + "</h5>" );
             }
 
 			this.cases++;
@@ -100,8 +112,8 @@ function isIeLt9() {
 		},
 		caseCompleteListener: function( e )
 		{
-			 if( window["console"] ) {
-                console.groupEnd();
+			 if( window["console"] && this.outputInConsole ) {
+                console.groupEnd ? console.groupEnd() : null;
              }
 		},
 		completeListener: function( e )
@@ -115,9 +127,13 @@ function isIeLt9() {
 			}
 			var resultsXML = e.results;
 			var assertions = this.failed + this.passed;
-			if( window["console"] ) {
-                console.groupEnd();
-			    console[meth]( "\n+++++++++++++++++++++++++++++++ RESULTS ++++++++++++++++++++++++++++++++++++++\nCases:"+ this.cases + " | Assertions:" + assertions + " | Passed:" + this.passed + " | Failed:" + this.failed + "\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n\n" );
+			if( window["console"] && this.outputInConsole ) {
+                console.groupEnd ? console.groupEnd() : null;
+			     if( console[meth] ) {
+			        console[meth]( "\n+++++++++++++++++++++++++++++++ RESULTS ++++++++++++++++++++++++++++++++++++++\nCases:"+ this.cases + " | Assertions:" + assertions + " | Passed:" + this.passed + " | Failed:" + this.failed + "\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n\n" );
+                 }else{
+                     console.log( "\n+++++++++++++++++++++++++++++++ RESULTS ++++++++++++++++++++++++++++++++++++++\nCases:"+ this.cases + " | Assertions:" + assertions + " | Passed:" + this.passed + " | Failed:" + this.failed + "\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n\n" );
+                 }
             }
             this.allPassed += this.passed;
 			this.allFailed += this.failed;
@@ -129,25 +145,27 @@ function isIeLt9() {
 		passListener: function( e )
 		{
 			if( !this.showOnlyFailed ) {
-				if( window["console"] ) {
+				if( window["console"] && this.outputInConsole ) {
                     console.info( "OK: " +  e.testName );
                 }else{
-                    testlog( "<span style=\"color:green;\">OK:</span> " + e.testName  );
+                    this.testlog( "<span style=\"color:green;\">OK:</span> " + e.testName  );
                 }
 			}
 			this.passed++;
 		},
 		failListener: function( e )
 		{
-			if( window["console"] ) {
+			if( window["console"] && this.outputInConsole ) {
                 console.error( "FAILED: " +  e.testName + " (`"+e.error.message+"`) " + " (EXPECTED:" + e.error.expected+", ACTUAL:"+ e.error.actual +")" );
             }else{
-               testlog( "<span style=\"color:red;\">FAILED: " +  e.testName + " (`"+e.error.message+"`) " + " (EXPECTED:" + e.error.expected+", ACTUAL:"+ e.error.actual +")</span>" );
+               this.testlog( "<span style=\"color:red;\">FAILED: " +  e.testName + " (`"+e.error.message+"`) " + " (EXPECTED:" + e.error.expected+", ACTUAL:"+ e.error.actual +")</span>" );
             }
             this.failed++;
 			//console.groupCollapsed ( "FAIL DETAIL: ", e.error  );
 			//console.trace();
-		}
+		},
+
+        testlog: testlog.bind( this )
 	});
 })();
 

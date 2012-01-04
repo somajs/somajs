@@ -2287,11 +2287,14 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
      * @returns {event} A event instance.
      */
 	clone: function() {
-		var e = soma.Event.createGenericEvent(this.type, this.bubbles, this.cancelable);
+        var e = soma.Event.createGenericEvent(this.type, this.bubbles, this.cancelable);
 		e.params = this.params;
 		e.isCloned = true;
 		e.clone = this.clone;
-		e.isDefaultPrevented = this.isDefaultPrevented;
+		e.defaultPrevented = this.defaultPrevented;
+        e.bubbles = this.bubbles;
+        e.cancelable = this.cancelable;
+        e.isDefaultPrevented = this.isDefaultPrevented;
 		return e;
 	},
 	preventDefault: function() {

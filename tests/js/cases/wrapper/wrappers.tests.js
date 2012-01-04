@@ -113,16 +113,19 @@ var SomaEventTests = new Class ({
 	,customEvent: null
 	,wrapperEventClone: null
 	,customEventClone: null
+    ,handlerPreventDefaultBound:null
 
 	,initialize: function() {
 		
 	}
 
 	,setUp: function() {
-		this.wrapperEvent = new soma.Event(EVENT_TYPE);
+
+        this.wrapperEvent = new soma.Event(EVENT_TYPE);
 		this.customEvent = new TestCustomEvent(EVENT_TYPE);
 		this.wrapperEventClone = this.wrapperEvent.clone();
 		this.customEventClone = this.customEvent.clone();
+        this.handlerPreventDefaultBound = this.handlerPreventDefault.bind(this);
 	}
 
 	,tearDown: function() {
@@ -130,6 +133,7 @@ var SomaEventTests = new Class ({
 		this.customEvent = null;
 		this.wrapperEventClone = null;
 		this.customEventClone = null;
+        this.handlerPreventDefaultBound = null;
 	}
 
 	,handlerEmpty: function(event) {
@@ -138,6 +142,7 @@ var SomaEventTests = new Class ({
 
 	,handlerPreventDefault: function(event) {
 		event.preventDefault();
+        return event;
 	}
 
 	,test_create: function() {
@@ -243,14 +248,16 @@ var SomaEventTests = new Class ({
 		}
 		else {
 			dispatcher = document.createElement("div");
+            dispatcher.id = "testdiv";
 		}
-		dispatcher.addEventListener(EVENT_TYPE, this.handlerPreventDefault, false);
+		dispatcher.addEventListener(EVENT_TYPE, this.handlerPreventDefaultBound, false);
 		var eventWrapper = new soma.Event(EVENT_TYPE, null, true, true);
 		var eventCustom = new TestCustomEvent(EVENT_TYPE, null, true, true );
 		dispatcher.dispatchEvent(eventWrapper);
 		dispatcher.dispatchEvent(eventCustom);
 		this.assertTrue(eventWrapper.isDefaultPrevented() );
 		this.assertTrue(eventCustom.isDefaultPrevented() );
+
 	}
 
 	,test_default_prevented_should_be_false: function() {
@@ -261,7 +268,7 @@ var SomaEventTests = new Class ({
 		else {
 			dispatcher = document.createElement("div");
 		}
-		dispatcher.addEventListener(EVENT_TYPE, this.handlerPreventDefault, false);
+		dispatcher.addEventListener(EVENT_TYPE, this.handlerPreventDefaultBound, false);
 		var eventWrapper = new soma.Event(EVENT_TYPE, null, true, false);
 		var eventCustom = new TestCustomEvent(EVENT_TYPE, null, true, false);
 		dispatcher.dispatchEvent(eventWrapper);

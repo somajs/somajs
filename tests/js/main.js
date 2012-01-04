@@ -64,7 +64,7 @@ function initTestScenario()
 		suiteSequenceTests,
 		suiteDispatcherTests,
 	    suiteWrappersTests
-	], false, false );
+	], false, false, false );
 
 
 }

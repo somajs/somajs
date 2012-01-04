@@ -221,15 +221,6 @@ var DispatcherTest = new Class ({
 		dispatcher.addEventListener(EVENT_TYPE, this.handlerFailureBound);
         dispatcher.dispose();
         this.assertFalse(dispatcher.hasEventListener(EVENT_TYPE));
-
-		dispatcher.addEventListener(EVENT_TYPE, this.handlerFailureBound);
-		dispatcher.addEventListener(EVENT_TYPE, this.handlerFailureBound);
-
-		dispatcher.removeEventListener(EVENT_TYPE, this.handlerEmpty);
-        this.assertTrue(dispatcher.hasEventListener(EVENT_TYPE));
-
-        dispatcher.removeEventListener(EVENT_TYPE, this.handlerFailureBound);
-		this.assertFalse(dispatcher.hasEventListener(EVENT_TYPE));
 	}
 
 

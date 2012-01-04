@@ -31,7 +31,7 @@ var SomaViewTests = new Class ({
 	,handlerSuccess: function(event) {
 		this.countSuccess++;
 	}
-
+	
 	,test_create_view: function() {
 		var view = new soma.View;
 		this.assertNotNull(view);

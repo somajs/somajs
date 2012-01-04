@@ -343,8 +343,8 @@ var ViewTest = new Class
 	,test_dispose: function()
 	{
 		var element = document.createElement("div");
-		var view = this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView( element ) );
-		this.assertNotNull( view );
+        var view = this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView( element ) );
+        this.assertNotNull( view );
 		this.assertEquals( "testViewSprite", view.domElement.getAttribute( "id" ) );
 		this.soma.removeView( cases.core.TestView.NAME );
 		this.assertNull( view.domElement );

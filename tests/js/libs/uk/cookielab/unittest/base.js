@@ -25,7 +25,7 @@ function testlog()
     out.innerHTML =  out.innerHTML +  "<br>" + value;
 }
 
-function isIE7or8() {
+function isIeLt9() {
 	return !!document.attachEvent;
 }
 

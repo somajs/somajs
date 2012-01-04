@@ -2084,10 +2084,10 @@ var view = new MyView();
 	initialize: function(domElement) {
 		var d;
 		if( domElement != undefined ) {
-			if( domElement instanceof Element ) {
+			if( domElement.nodeType ) {
 				d = domElement;
 			}else{
-				throw Error( "domElement has to be a DOM-ELement");
+                throw new Error( "domElement has to be a DOM-ELement");
 			}
 		}else{
 			d = document.body;

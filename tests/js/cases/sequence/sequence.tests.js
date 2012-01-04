@@ -130,21 +130,24 @@ var SequenceTest = new Class
 		this.wait();
 	}
 
-
 	,asyncCommandSuccessHandler: function( event )
 	{
-		var originalEvent = event.params;
-		this.assertInstanceOf( Event, originalEvent );
+        var originalEvent = event.params;
+        if( !isIeLt9() ) {
+            this.assertInstanceOf( Event, originalEvent );
+        }
 		this.assertEquals( cases.sequence.InvocationCommandList.TEST_ASYNC, originalEvent.type );
 		this.assertInstanceOf( cases.sequence.SequenceCommand, this.soma.getSequencer( originalEvent ) );
 		this.assertTrue( this.soma.isPartOfASequence( originalEvent ) );
-		//testlog( "asyncCommandSuccessHandler" );
+
 	}
 
 	,sequenceFlowTestDoneHandler: function( event )
 	{
 		var originalEvent = event.params;
-		this.assertInstanceOf( Event, originalEvent );
+        if( !isIeLt9() ) {
+		    this.assertInstanceOf( Event, originalEvent );
+        }
 		this.assertEquals( cases.sequence.InvocationCommandList.TEST_ASYNC, originalEvent.type );
 		this.assertTrue( true );
 		this.resume();
@@ -204,7 +207,6 @@ var SequenceTest = new Class
 	,sequenceHandler: function( event )
 	{
 		++this.sCount;
-		//testlog("sequence step: ",this.sCount );
 	}
 
 	,sequenceDoneHandler: function( event )

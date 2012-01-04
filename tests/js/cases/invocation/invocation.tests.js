@@ -86,7 +86,7 @@ var InvocationTest = new Class
 
 	,test_command_from_displayList: function()
 	{
-		if (isIE7or8()) {
+		if (isIeLt9()) {
 			// invalid on IE 7 and 8
 			this.assertTrue(true);
 			return;
@@ -108,7 +108,7 @@ var InvocationTest = new Class
 	  */
 	,test_command_from_displayList_bubbles_false: function()
 	{
-		if (isIE7or8()) {
+		if (isIeLt9()) {
 			// invalid on IE 7 and 8
 			this.assertTrue(true);
 			return;
@@ -148,7 +148,7 @@ var InvocationTest = new Class
 
 	,test_command_from_body: function()
 	{
-		if (isIE7or8()) {
+		if (isIeLt9()) {
 			// invalid on IE 7 and 8
 			this.assertTrue(true);
 			return;
@@ -163,7 +163,7 @@ var InvocationTest = new Class
 
 	,test_command_from_body_bubbles_false: function()
 	{
-		if (isIE7or8()) {
+		if (isIeLt9()) {
 			// invalid on IE 7 and 8
 			this.assertTrue(true);
 			return;
@@ -195,7 +195,7 @@ var InvocationTest = new Class
 
 	,test_cancel_event_dispatched_from_displaylist: function()
 	{
-		if (isIE7or8()) {
+		if (isIeLt9()) {
 			// invalid on IE 7 and 8
 			this.assertTrue(true);
 			return;
@@ -208,7 +208,7 @@ var InvocationTest = new Class
 
 	,test_cannot_cancel_event_dispatched_from_displaylist: function()
 	{
-		if (isIE7or8()) {
+		if (isIeLt9()) {
 			// invalid on IE 7 and 8
 			this.assertTrue(true);
 			return;
@@ -222,7 +222,7 @@ var InvocationTest = new Class
 
 	,test_cancel_event_dispatched_from_body: function()
 	{
-		if (isIE7or8()) {
+		if (isIeLt9()) {
 			// invalid on IE 7 and 8
 			this.assertTrue(true);
 			return;
@@ -235,7 +235,7 @@ var InvocationTest = new Class
 
 	,test_cannot_cancel_event_dispatched_from_body: function()
 	{
-		if (isIE7or8()) {
+		if (isIeLt9()) {
 			// invalid on IE 7 and 8
 			this.assertTrue(true);
 			return;

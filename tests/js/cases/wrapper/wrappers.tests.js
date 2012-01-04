@@ -71,7 +71,7 @@ var SomaViewTests = new Class ({
 
 	,test_add_listener: function() {
 		var view = new soma.View();
-		if (isIE7or8()) {
+		if (isIeLt9()) {
 			var app = new soma.core.Application();
 			app.addView("view", view);
 		}
@@ -81,7 +81,7 @@ var SomaViewTests = new Class ({
 
 	,test_remove_listener: function() {
 		var view = new soma.View;
-		if (isIE7or8()) {
+		if (isIeLt9()) {
 			var app = new soma.core.Application();
 			app.addView("view", view);
 		}
@@ -93,7 +93,7 @@ var SomaViewTests = new Class ({
 
 	,test_dispatch_event: function() {
 		var view = new soma.View;
-		if (isIE7or8()) {
+		if (isIeLt9()) {
 			var app = new soma.core.Application();
 			app.addView("view", view);
 		}
@@ -224,7 +224,7 @@ var SomaEventTests = new Class ({
 
 	,test_is_default_prevented_default: function() {
 		var dispatcher;
-		if (isIE7or8()) {
+		if (isIeLt9()) {
 			dispatcher = new soma.EventDispatcher();
 		}
 		else {
@@ -238,7 +238,7 @@ var SomaEventTests = new Class ({
 
 	,test_default_prevented_should_be_true: function() {
 		var dispatcher;
-		if (isIE7or8()) {
+		if (isIeLt9()) {
 			dispatcher = new soma.EventDispatcher();
 		}
 		else {
@@ -255,7 +255,7 @@ var SomaEventTests = new Class ({
 
 	,test_default_prevented_should_be_false: function() {
 		var dispatcher;
-		if (isIE7or8()) {
+		if (isIeLt9()) {
 			dispatcher = new soma.EventDispatcher();
 		}
 		else {

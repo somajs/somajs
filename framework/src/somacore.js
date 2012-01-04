@@ -2291,9 +2291,6 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 		e.params = this.params;
 		e.isCloned = true;
 		e.clone = this.clone;
-		e.defaultPrevented = this.defaultPrevented;
-        e.bubbles = this.bubbles;
-        e.cancelable = this.cancelable;
         e.isDefaultPrevented = this.isDefaultPrevented;
 		return e;
 	},

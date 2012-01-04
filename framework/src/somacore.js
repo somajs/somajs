@@ -2105,8 +2105,6 @@ object.dispatchEvent(new soma.Event("eventType"));
 			this.domElement.dispatchEvent(event);
 		} else if (this.instance) {
 			this.instance.dispatchEvent(event);
-		} else {
-			throw new Error("WEIRD SETUP? need to check");
 		}
 	},
 	/**
@@ -2118,9 +2116,9 @@ object.dispatchEvent(new soma.Event("eventType"));
 object.addEventListener("eventType", eventHandler, false);
 	 */
 	addEventListener: function() {
-        if( this.domElement.addEventListener ) {
+        if (this.domElement.addEventListener) {
            this.domElement.addEventListener.apply(this.domElement, arguments);
-        }else{
+        } else if(this.instance) {
             // TODO IE problem : target is now document.body
             this.instance.addEventListener.apply(this.domElement, arguments);
         }
@@ -2134,9 +2132,9 @@ object.addEventListener("eventType", eventHandler, false);
 object.removeEventListener("eventType", eventHandler, false);
 	 */
 	removeEventListener: function() {
-        if( this.domElement.addEventListener ) {
+        if(this.domElement.addEventListener) {
 		    this.domElement.removeEventListener.apply(this.domElement, arguments);
-        }else{
+        } else if(this.instance) {
             // TODO IE problem : target is now document.body
              this.instance.removeEventListener.apply(this.domElement, arguments);
         }

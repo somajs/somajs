@@ -10,11 +10,11 @@ yepnope([
 		nope: [],
 		both: [],
 		load: [
-			'js/app/wires.js',
-			'js/app/models.js',
-			'js/app/commands.js',
-			'js/app/events.js',
-			'js/app/views.js'
+			'../SomaCoreJsHelloWorld/js/app/wires.js',
+			'../SomaCoreJsHelloWorld/js/app/models.js',
+			'../SomaCoreJsHelloWorld/js/app/commands.js',
+			'../SomaCoreJsHelloWorld/js/app/events.js',
+			'../SomaCoreJsHelloWorld/js/app/views.js'
 		],
 		callback: function(scriptString, testResult) {
 			console.log(scriptString, testResult);

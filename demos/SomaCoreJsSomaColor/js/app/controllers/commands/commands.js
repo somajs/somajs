@@ -20,7 +20,6 @@ ColorCommand.prototype =
 	 */
 	execute: function( e )
 	{
-		console.log( "ColorCommand.execute(), type:", e.type );
 		var commandEventName = e.type;
 		var wire = this.getWire( ColorWire.NAME );
 		var color = e.params.color;

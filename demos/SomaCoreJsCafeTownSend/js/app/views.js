@@ -125,6 +125,7 @@ var EmployeeEditView = new Class({
 	logoutClickHandler: function(event){
 		event.preventDefault();
 		this.dispatchEvent(new LoginEvent(LoginEvent.LOGOUT));
+		this.leaveForm();
 	},
 
 	deleteClickHandler: function(event) {
@@ -136,6 +137,7 @@ var EmployeeEditView = new Class({
 	cancelClickHandler: function(event) {
 		event.preventDefault();
 		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_LIST));
+		this.leaveForm();
 	},
 
 	submitClickHandler: function(event) {

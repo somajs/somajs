@@ -74,7 +74,7 @@ var AsyncDelegate = new Class
 	},
 	call: function()
 	{
-		console.log("AszyncDElegfate:: call");
+		console.log("AsyncDelgate:: call");
 		this.timerHandler.delay( 500, this );
 	},
 	/** @private **/

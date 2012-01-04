@@ -10,7 +10,7 @@ var MessageWire = new Class({
 	},
 
     messageReady: function(event) {
-        this.getView(MessageView.NAME).updateMessage(event.message);
+        this.getView(MessageView.NAME).updateMessage(event.params.message);
     }
 
 });

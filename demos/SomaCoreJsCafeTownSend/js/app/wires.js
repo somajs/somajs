@@ -31,7 +31,7 @@ var EmployeeWire = new Class({
 		this.instance.addEventListener(NavigationEvent.SELECT, this.navigationHandler.bind(this));
 	},
 	navigationHandler: function(event) {
-		if (event.navigationID == NavigationConstants.EMPLOYEE_LIST) {
+		if (event.params.navigationID == NavigationConstants.EMPLOYEE_LIST) {
 			var data = this.getModel(EmployeeModel.NAME).data;
 			this.getView(EmployeeListView.NAME).updateList(data);
 		}

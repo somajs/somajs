@@ -11,12 +11,14 @@ var DispatcherTest = new Class ({
 	,handlerFailureBound: null
 	,handlerIncreaseCountBound: null
 	,handlerPrioritySecondBound: null
+    ,handlerEmptyBound:null
 
 	,initialize: function() {
 		this.handlerSuccessBound = this.handlerSuccess.bind(this);
 		this.handlerFailureBound = this.handlerFailure.bind(this);
 		this.handlerIncreaseCountBound = this.handlerIncreaseCount.bind(this);
 		this.handlerPrioritySecondBound = this.handlerPrioritySecond.bind(this);
+        this.handlerEmptyBound = this.handlerEmpty.bind(this);
 	}
 
 	,setUp: function() {
@@ -85,7 +87,7 @@ var DispatcherTest = new Class ({
 
 	,test_add_listener_with_different_handler: function() {
 		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerIncreaseCountBound);
-		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmpty);
+		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmptyBound);
 		this.dispatcher.dispatchEvent(new soma.Event(EVENT_TYPE));
 		this.assertEquals(this.count, 1);
 	}
@@ -98,49 +100,54 @@ var DispatcherTest = new Class ({
 	}
 
 	,test_single_has_listener: function() {
-		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmpty);
+		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmptyBound);
 		this.assertTrue(this.dispatcher.hasEventListener(EVENT_TYPE));
 	}
 
 	,test_multiple_has_listener: function() {
-		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmpty);
-		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmpty);
-		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmpty);
+		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmptyBound);
+		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmptyBound);
+		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmptyBound);
 		this.assertTrue(this.dispatcher.hasEventListener(EVENT_TYPE));
 	}
 
 	,test_multiple_has_listener_with_different_type: function() {
-		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmpty);
-		this.dispatcher.addEventListener('other', this.handlerEmpty);
+		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmptyBound);
+		this.dispatcher.addEventListener('other', this.handlerEmptyBound);
 		this.assertTrue(this.dispatcher.hasEventListener(EVENT_TYPE));
 	}
 
 	,test_multiple_has_listener_with_different_handler: function() {
 		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerIncreaseCountBound);
-		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmpty);
+		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmptyBound);
 		this.assertTrue(this.dispatcher.hasEventListener(EVENT_TYPE));
 	}
 
 	,test_single_remove_listener: function() {
-		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmpty);
-		this.dispatcher.removeEventListener(EVENT_TYPE, this.handlerEmpty);
+		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmptyBound);
+		this.dispatcher.removeEventListener(EVENT_TYPE, this.handlerEmptyBound);
 		this.assertFalse(this.dispatcher.hasEventListener(EVENT_TYPE));
 	}
 
 	,test_multiple_remove_listener: function() {
-		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmpty);
-		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmpty);
-		this.dispatcher.removeEventListener(EVENT_TYPE, this.handlerEmpty);
-		this.dispatcher.removeEventListener(EVENT_TYPE, this.handlerEmpty);
+		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmptyBound);
+		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmptyBound);
+		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmptyBound);
+		this.dispatcher.removeEventListener(EVENT_TYPE, this.handlerEmptyBound);
 		this.assertFalse(this.dispatcher.hasEventListener(EVENT_TYPE));
 	}
 
+    /**
+     * @deprecated
+     */
+    /*
 	,test_multiple_remove_listener_should_fail: function() {
-		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmpty);
-		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmpty);
-		this.dispatcher.removeEventListener(EVENT_TYPE, this.handlerEmpty);
+		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmptyBound);
+		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerEmptyBound);
+		this.dispatcher.removeEventListener(EVENT_TYPE, this.handlerEmptyBound);
 		this.assertTrue(this.dispatcher.hasEventListener(EVENT_TYPE));
 	}
+    */
 
 	,test_single_remove_listener_does_not_dispatch: function() {
 		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerFailureBound);
@@ -160,13 +167,13 @@ var DispatcherTest = new Class ({
 
 	,test_remove_listener_with_different_type: function() {
 		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerSuccessBound);
-		this.dispatcher.removeEventListener('other', this.handlerEmpty);
+		this.dispatcher.removeEventListener('other', this.handlerEmptyBound);
 		this.dispatcher.dispatchEvent(new soma.Event(EVENT_TYPE));
 	}
 
 	,test_remove_listener_with_different_handler: function() {
 		this.dispatcher.addEventListener(EVENT_TYPE, this.handlerSuccessBound);
-		this.dispatcher.removeEventListener(EVENT_TYPE, this.handlerEmpty);
+		this.dispatcher.removeEventListener(EVENT_TYPE, this.handlerEmptyBound);
 		this.dispatcher.dispatchEvent(new soma.Event(EVENT_TYPE));
 	}
 
@@ -219,6 +226,7 @@ var DispatcherTest = new Class ({
 	,test_dispose: function() {
 		var dispatcher = new soma.EventDispatcher;
 		dispatcher.addEventListener(EVENT_TYPE, this.handlerFailureBound);
+        dispatcher.addEventListener(EVENT_TYPE, this.handlerFailureBound);
         dispatcher.dispose();
         this.assertFalse(dispatcher.hasEventListener(EVENT_TYPE));
 	}

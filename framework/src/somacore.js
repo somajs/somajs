@@ -2116,8 +2116,9 @@ object.dispatchEvent(new soma.Event("eventType"));
 object.addEventListener("eventType", eventHandler, false);
 	 */
 	addEventListener: function() {
+
         if (this.domElement.addEventListener) {
-           this.domElement.addEventListener.apply(this.domElement, arguments);
+            this.domElement.addEventListener.apply(this.domElement, arguments);
         } else if(this.instance) {
             // TODO IE problem : target is now document.body
             this.instance.addEventListener.apply(this.domElement, arguments);

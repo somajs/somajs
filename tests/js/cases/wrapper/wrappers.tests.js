@@ -75,7 +75,7 @@ var SomaViewTests = new Class ({
 			var app = new soma.core.Application();
 			app.addView("view", view);
 		}
-		view.addEventListener(EVENT_TYPE, this.handlerSuccessBound);
+		view.addEventListener(EVENT_TYPE, this.handlerSuccessBound, false);
 		this.assertTrue(true); // should fail before is something is wrong
 	}
 

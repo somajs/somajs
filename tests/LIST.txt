@@ -152,6 +152,7 @@ test_priority_negative (DONE)
 test_priority_positive_and_negative (DONE)
 test_dispose (DONE)
 
+test that the event prevent default works in the custom dispatcher
 
 - Event  ##DONE
 test_create (DONE)

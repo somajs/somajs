@@ -2277,9 +2277,13 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 		if (params != null && typeof params == "object" ) {
 			e.params = params;
 		}
-		e.clone = this.clone.bind(e);
+	    e.clone = this.clone.bind(e);
+	    e.isIE9 = this.isIE9;
         e.isDefaultPrevented = this.isDefaultPrevented;
-	    if (!e.preventDefault || (e.getDefaultPrevented == undefined && e.defaultPrevented == undefined ) ) e.preventDefault = this.preventDefault.bind(e);
+	    if (this.isIE9() || !e.preventDefault || (e.getDefaultPrevented == undefined && e.defaultPrevented == undefined ) ) {
+		    e.preventDefault = this.preventDefault.bind(e);
+	    }
+	    if (this.isIE9()) e.IE9PreventDefault = false;
 		return e;
 	},
     /**
@@ -2292,11 +2296,13 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 		e.isCloned = true;
 		e.clone = this.clone;
         e.isDefaultPrevented = this.isDefaultPrevented;
+	    if (this.isIE9()) e.IE9PreventDefault = this.IE9PreventDefault;
 		return e;
 	},
 	preventDefault: function() {
 		if (!this.cancelable) return false;
-        this.defaultPrevented = true;
+		this.defaultPrevented = true;
+		if (this.isIE9()) this.IE9PreventDefault = true;
         this.returnValue = false;
         return this;
 	},
@@ -2306,13 +2312,19 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
      */
 	isDefaultPrevented: function() {
 	    if (!this.cancelable) return false;
+	    if (this.isIE9()) {
+		    return this.IE9PreventDefault;
+	    }
         if( this.defaultPrevented != undefined ) {
            return this.defaultPrevented;
         }else if( this.getDefaultPrevented != undefined ) {
             return this.getDefaultPrevented();
         }
         return false;
-	}
+	},
+	isIE9: function() {
+	    return document.body.style.scrollbar3dLightColor!=undefined && document.body.style.opacity != undefined;
+    }
 });
 /**
  * @static
@@ -2335,7 +2347,6 @@ soma.Event.createGenericEvent = function (type, bubbles, cancelable) {
     }
     return e;
 };
-
 
 /**
  * @name soma.core.IResponder

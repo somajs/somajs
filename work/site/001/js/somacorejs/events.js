@@ -1,6 +1,4 @@
-var scjs = scjs || {};
-
-scjs.ApplicationEvent = new Class({
+ApplicationEvent = new Class({
 
 	Extends: soma.Event,
 
@@ -9,4 +7,16 @@ scjs.ApplicationEvent = new Class({
 	}
 
 });
-scjs.ApplicationEvent.SEND_MESSAGE = "ApplicationEvent.SEND_MESSAGE";
+ApplicationEvent.SETUP = "ApplicationEvent.SETUP";
+
+NavigationEvent = new Class({
+
+	Extends: soma.Event,
+
+	initialize: function(type, navigationId, bubbles, cancelable) {
+		return this.parent(type, {navigationId:navigationId}, bubbles, cancelable);
+	}
+
+});
+NavigationEvent.SELECT = "NavigationEvent.SELECT";
+

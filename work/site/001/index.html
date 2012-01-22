@@ -22,16 +22,17 @@
 		<h1>somacore.js</h1>
 	</header>
 
-	<nav>
+	<nav id="nav">
+		<h1>Navigation</h2>
 		<ul>
-			<li><a href="#about">About</a></li>
-			<li><a href="#download">Download</a></li>
-			<li><a href="#tutorial">Tutorial</a></li>
-			<li><a href="#doc">Documentation</a></li>
+			<li id="nav-about"><a href="#about">About</a></li>
+			<li id="nav-download"><a href="#download">Download</a></li>
+			<li id="nav-tutorial"i><a href="#tutorial">Tutorial</a></li>
+			<li id="nav-doc"><a href="#doc">Documentation</a></li>
 		</ul>
 	</nav>
 
-	<section>
+	<section id="about">
 		<a name="about"/>
 		<h1>What is somacore.js</h1>
 		<div>
@@ -47,7 +48,7 @@
 		</div>
 	</section>
 
-	<section>
+	<section id="download">
 		<a name="download"/>
 		<h1>Download</h1>
 		<div>
@@ -61,7 +62,7 @@
 		</div>
 	</section>
 
-	<section>
+	<section id="tutorial">
 		<a name="tutorial"/>
 		<h1>Tutorial</h1>
 			<p>
@@ -72,7 +73,7 @@
 			</p>
 	</section>
 
-	<section>
+	<section id="doc">
 		<a name="doc"/>
 		<h1>Documentation</h1>
 			<p>
@@ -87,8 +88,11 @@
 
 </div>
 
+<script type="text/javascript" src=js/libs/jquery-1.7.min.js></script>
 <script type="text/javascript" src=js/libs/mootools-core-1.4.2.js></script>
 <script type="text/javascript" src=js/libs/somacore_v0.1-BETA_min.js></script>
+<!-- <script type="text/javascript" src=js/libs/somacore.js></script> -->
+<script type="text/javascript" src="js/somacorejs/constants.js"></script>
 <script type="text/javascript" src="js/somacorejs/commands.js"></script>
 <script type="text/javascript" src="js/somacorejs/events.js"></script>
 <script type="text/javascript" src="js/somacorejs/models.js"></script>

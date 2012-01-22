@@ -91,7 +91,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2011-11-16' pubdate>2011-11-16 14:26</time>
+			<time datetime='2012-0-22' pubdate>2012-0-22 16:36</time>
 		</footer>
 	</div>
 </div>
@@ -141,7 +141,7 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/soma.Event.html#constructor">soma.Event</a></b>(type, data, bubbles, cancelable)
+											<b><a href="../symbols/soma.Event.html#constructor">soma.Event</a></b>(type, params, bubbles, cancelable)
 										</div>
 										<div class="description">Create an instance of an soma.Event class.</div>
 									</td>
@@ -190,6 +190,17 @@
 											<tr
 												 class='item1'
 											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">soma.Event.<b><a href="../symbols/soma.Event.html#.createGenericEvent">createGenericEvent</a></b>(type, bubbles, cancelable)
+													</div>
+													<div class="description"></div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item2'
+											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
 													<div class="fixedFont"><b><a href="../symbols/soma.Event.html#isDefaultPrevented">isDefaultPrevented</a></b>()
@@ -224,7 +235,7 @@
 							</h2>
 							
 							<div class="fixedFont">
-								<b>soma.Event</b>(type, data, bubbles, cancelable)
+								<b>soma.Event</b>(type, params, bubbles, cancelable)
 							</div>
 							
 							<div class="description">
@@ -244,9 +255,9 @@ var event = new soma.Event("eventType", {myData:"my data"}, true, true);</pre>
 var MyEvent = new Class({
     Extends: soma.Event,
 
-    initialize: function(type, data, bubbles, cancelable) {
-        // alert(data.myData)
-        return this.parent(type, data, bubbles, cancelable);
+    initialize: function(type, params, bubbles, cancelable) {
+        // alert(params.myData)
+        return this.parent(type, params, bubbles, cancelable);
     }
 
 });
@@ -266,7 +277,7 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});</pre>
 										<dd>The type of the event.</dd>
 									
 										<dt>
-											<span class="light fixedFont">{object}</span>  <b>data</b>
+											<span class="light fixedFont">{object}</span>  <b>params</b>
 											
 										</dt>
 										<dd>An object for a custom use and that can hold data.</dd>
@@ -380,6 +391,79 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});</pre>
 								
 									<li 
 										 class='item1'
+									>
+										<div class="fixedFont heading" id=".createGenericEvent">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											<span class="light">{event}</span>
+											
+											<span class="light">soma.Event.</span><b>createGenericEvent</b>(type, bubbles, cancelable)
+										</div>
+										
+										<div class="description">
+											
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>type</b>
+														
+													</dt>
+													<dd></dd>
+												
+													<dt>
+														<span class="light fixedFont">{boolean}</span> <b>bubbles</b>
+														
+													</dt>
+													<dd></dd>
+												
+													<dt>
+														<span class="light fixedFont">{boolean}</span> <b>cancelable</b>
+														
+													</dt>
+													<dd></dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{event}</span> a generic event object</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item2'
 									>
 										<div class="fixedFont heading" id="isDefaultPrevented">
 											<span class='lighter'>

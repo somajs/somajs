@@ -100,7 +100,7 @@ header h1 {
   font-weight: 900;
   font-size: 250%; }
 
-section h1 {
+section h1, nav h1 {
   font-weight: bold;
   font-size: 180%;
   margin-bottom: 10px; }

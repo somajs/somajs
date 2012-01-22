@@ -1,0 +1,49 @@
+@import "reset";
+@import "base";
+
+body, html {
+	background-color: $global-bg-color;
+	font-family: $global-font;
+	font-size: $global-font-size;
+}
+
+header, section, nav {
+	margin-bottom: 30px;
+}
+
+#container {
+	padding: 20px;
+}
+
+header h1 {
+	font-weight: 900;
+	font-size: 250%;
+}
+
+section h1 {
+	font-weight: bold;
+	font-size: 180%;
+	margin-bottom: 10px;
+}
+
+section p {
+	margin-bottom: 10px;
+}
+
+nav ul {
+	padding-left: 30px;
+}
+nav li {
+	margin-bottom: 5px;
+}
+nav a {
+	text-decoration: none;
+	color: $global-link-color;
+}
+nav a:hover {
+	text-decoration: underline;
+}
+
+@import "media-query";
+@import "helpers";
+@import "print";

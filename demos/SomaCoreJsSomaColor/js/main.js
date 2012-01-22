@@ -39,14 +39,12 @@ var SomaApp = new Class
 		
 		registerCommands: function()
 		{
-			this.addCommand( CommandEventList.STARTUP, StartCommand );
 			this.addCommand( CommandEventList.CHAIN_CHAIN, ParallelTestCommand );
 			this.addCommand( CommandEventList.TWEENSEQUENCE_SEQUENCE, TweenSequenceCommand );
 			this.addCommand( CommandEventList.TWEEN_TWEEN, TweenCommand );
 			this.addCommand( CommandEventList.ASYNC_CALL, AsyncCommand );
 			this.addCommand( CommandEventList.ASYNC_CHAIN, SequenceTestCommand );
 			this.addCommand( CommandEventList.SEQUENCE_STOP_ALL, SequenceStopCommand );
-			this.addEventListener( CommandEventList.STARTUP, function() { console.log( "catch that command trigger from outside the framework"); }, false );
 		},
 	
 		registerModels: function()
@@ -63,7 +61,8 @@ var SomaApp = new Class
 		},
 		start: function()
 		{
-			this.dispatchEvent( new soma.Event( CommandEventList.STARTUP ) );
+            this.addWire( ColorWire.NAME, soma.createClassInstance( ColorWire ) );
+			this.dispatchEvent( new ColorEvent( CommandEventList.COLORDATA_LOAD ) );
 		}
 } );
 

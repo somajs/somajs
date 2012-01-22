@@ -1,8 +1,3 @@
-function d()
-{
-	console.log( arguments );
-}
-
 var CommandEventList =
 {
 	STARTUP: "startup",
@@ -24,12 +19,12 @@ function initTestScenario()
 	suiteCoreTests.add( new ModelTest() );
     suiteCoreTests.add( new AutobindTest() );
 
+
 	/**
 	 * test framework players event flows
 	 */
 	var suiteInvocationTests = new YUITest.TestSuite("SuiteInvocationTests");
 	suiteInvocationTests.add( new InvocationTest() );
-
 
 	/**
 	 * test framework async
@@ -57,6 +52,8 @@ function initTestScenario()
 	suiteWrappersTests.add( new SomaViewTests() );
 	suiteWrappersTests.add( new SomaEventTests() );
 
+
+
 	//new UnitTestBuilder( [suiteCoreTests], false, false );
 	//new UnitTestBuilder( [  suiteSequenceTests ], false, false );
 	//new UnitTestBuilder( [  suiteSequenceTests ], false, false );
@@ -66,7 +63,9 @@ function initTestScenario()
 		suiteInvocationAsyncTests,
 		suiteSequenceTests,
 		suiteDispatcherTests,
-		suiteWrappersTests
-	], true, false );
+	    suiteWrappersTests
+	], false, false, false );
+
+
 }
 

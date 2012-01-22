@@ -130,21 +130,24 @@ var SequenceTest = new Class
 		this.wait();
 	}
 
-
 	,asyncCommandSuccessHandler: function( event )
 	{
-		var originalEvent = event.data;
-		this.assertInstanceOf( Event, originalEvent );
+        var originalEvent = event.params;
+        if( !isIeLt9() ) {
+            this.assertInstanceOf( Event, originalEvent );
+        }
 		this.assertEquals( cases.sequence.InvocationCommandList.TEST_ASYNC, originalEvent.type );
 		this.assertInstanceOf( cases.sequence.SequenceCommand, this.soma.getSequencer( originalEvent ) );
 		this.assertTrue( this.soma.isPartOfASequence( originalEvent ) );
-		d( "asyncCommandSuccessHandler" );
+
 	}
 
 	,sequenceFlowTestDoneHandler: function( event )
 	{
-		var originalEvent = event.data;
-		this.assertInstanceOf( Event, originalEvent );
+		var originalEvent = event.params;
+        if( !isIeLt9() ) {
+		    this.assertInstanceOf( Event, originalEvent );
+        }
 		this.assertEquals( cases.sequence.InvocationCommandList.TEST_ASYNC, originalEvent.type );
 		this.assertTrue( true );
 		this.resume();
@@ -153,7 +156,7 @@ var SequenceTest = new Class
 
 	,stopSequencerWithEventHandler: function( event )
 	{
-		var originalEvent = event.data;
+		var originalEvent = event.params;
 		var wasStopped = this.soma.stopSequencerWithEvent( originalEvent );
 		this.assertTrue( wasStopped );
 		this.assertNull( this.soma.getSequencer( originalEvent ) );
@@ -162,7 +165,7 @@ var SequenceTest = new Class
 
 	,stopSequencerHandler: function( event )
 	{
-		var originalEvent = event.data;
+		var originalEvent = event.params;
 		var sequencer = this.soma.getSequencer( originalEvent );
 		var wasStopped = sequencer.stop();
 		this.assertTrue( wasStopped );
@@ -173,7 +176,7 @@ var SequenceTest = new Class
 	,stopAllSequencersHandler: function( event )
 	{
 	  	this.soma.stopAllSequencers();
-		var originalEvent = event.data;
+		var originalEvent = event.params;
 		var sequencer = this.soma.getSequencer( originalEvent );
 	    var array = this.soma.getRunningSequencers();
 		this.assertEquals( 0, array.length );
@@ -191,7 +194,7 @@ var SequenceTest = new Class
 
 	,isPartOfASequenceHandler: function( event )
 	{
-		this.assertTrue( this.soma.isPartOfASequence( event.data ) );
+		this.assertTrue( this.soma.isPartOfASequence( event.params ) );
 		this.resume();
 	}
 
@@ -204,7 +207,6 @@ var SequenceTest = new Class
 	,sequenceHandler: function( event )
 	{
 		++this.sCount;
-		d("sequence step: ",this.sCount );
 	}
 
 	,sequenceDoneHandler: function( event )

@@ -10,20 +10,6 @@
 		</classpath>
 	</taskdef>
 	
-	<condition property="naturalDocs" value="${build.docs.executable}.bat">
-		<os family="windows" />
-	</condition>
-	<condition property="naturalDocs" value="${build.docs.executable}">
-		<os name="Mac OS X"/>
-	</condition>
-
-	<condition property="naturalDocsExists">
-		<available file="${naturalDocs}"/>
-	</condition>
-	
-	<echo>${naturalDocsExists}</echo>
-	<echo>${naturalDocsExists}</echo>
-
 	<target name="build" description="build somacore" depends="minify, docs, template"/>
 
 	<target name="minify" description="compress somacore.js">

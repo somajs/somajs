@@ -6,11 +6,11 @@ var MessageWire = new Class({
 		this.addModel(MessageModel.NAME, new MessageModel);
 		this.addView(MessageView.NAME, new MessageView);
 		this.addCommand(MessageEvent.REQUEST, MessageCommand);
-        this.addEventListener(MessageEvent.READY, this.messageReady.bind(this) );
+        this.addEventListener(MessageEvent.READY, this.messageReady.bind(this), false );
 	},
 
     messageReady: function(event) {
-        this.getView(MessageView.NAME).updateMessage(event.message);
+        this.getView(MessageView.NAME).updateMessage(event.params.message);
     }
 
 });

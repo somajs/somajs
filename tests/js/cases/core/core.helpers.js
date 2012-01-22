@@ -8,7 +8,7 @@ cases.core.StartCommand = new Class
 
 	execute: function()
 	{
-		d("startcommand exec");
+		//testlog("startcommand exec");
 	}
 });
 
@@ -18,7 +18,7 @@ cases.core.CommandAssertInstance = new Class
 
 	execute: function(event)
 	{
-		event.test_case.assertNotNull(this.instance);
+		event.params.test_case.assertNotNull(this.instance);
 	}
 });
 
@@ -30,7 +30,7 @@ cases.core.NativePrototypeCommand.prototype =
 
 	execute: function()
 	{
-		d("startcommand exec");
+		testlog("startcommand exec");
 	}
 };
 
@@ -98,7 +98,7 @@ cases.core.TestAutobindWire = new Class
 
 	,scopeConfirmed: false
 
-	,storedEvent:null
+	,storedEvent: null
 
 	,invocationCount:0
 

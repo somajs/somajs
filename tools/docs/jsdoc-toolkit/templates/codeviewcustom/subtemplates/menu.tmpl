@@ -12,12 +12,10 @@
 		<nav>
 			<ul class="classList" id="ClassList">
 				<for each="thisClass" in="publish.classes">
-					<if test="thisClass.alias!='soma' && thisClass.alias!='soma.core' && thisClass.alias!='soma.core.controller' && thisClass.alias!='soma.core.mediator' && thisClass.alias!='soma.core.model' && thisClass.alias!='soma.core.view' && thisClass.alias!='soma.core.wire'">
 					<li>{!
 						var classLink = new Link().toClass(thisClass.alias) + "";
 						output += wordwrapNamespace(classLink);
 					!}</li>
-					</if>
 				</for>
 			</ul>
 		</nav>

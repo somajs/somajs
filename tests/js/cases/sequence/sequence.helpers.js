@@ -19,7 +19,7 @@ cases.sequence.SequenceCommand = new Class
 
 	 ,initialize: function()
 	{
-		this.parent("cases.sequence.SequenceComman");
+		this.parent("cases.sequence.SequenceCommand");
 	}
 	,initializeSubCommands: function()
 	{

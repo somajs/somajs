@@ -343,8 +343,8 @@ var ViewTest = new Class
 	,test_dispose: function()
 	{
 		var element = document.createElement("div");
-		var view = this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView( element ) );
-		this.assertNotNull( view );
+        var view = this.soma.addView( cases.core.TestView.NAME, new cases.core.TestView( element ) );
+        this.assertNotNull( view );
 		this.assertEquals( "testViewSprite", view.domElement.getAttribute( "id" ) );
 		this.soma.removeView( cases.core.TestView.NAME );
 		this.assertNull( view.domElement );
@@ -653,12 +653,12 @@ var AutobindTest = new Class
 	,setUp: function()
 	{
 		this.soma = new soma.core.Application();
-		this.soma.addEventListener( "test", this.autoBoundListener );
+		this.soma.addEventListener( "test", this.autoBoundListener, false );
 	}
 
 	,tearDown: function()
 	{
-   		this.soma.removeEventListener( "test", this.autoBoundListener );
+   		this.soma.removeEventListener( "test", this.autoBoundListener, false );
 		this.soma.removeWire( cases.core.TestAutobindWire.NAME );
 		this.listenerInvocation = 0;
 		this.scopeConfirmed = false;
@@ -669,10 +669,10 @@ var AutobindTest = new Class
 	{
 		var wire = new cases.core.TestAutobindWire();
 		this.soma.addWire( cases.core.TestAutobindWire.NAME, wire  );
-		this.soma.removeEventListener( "test", this.autoBoundListener );
-		this.soma.addEventListener( "test", wire.customBoundMethod );
+		this.soma.removeEventListener( "test", this.autoBoundListener, false );
+		this.soma.addEventListener( "test", wire.customBoundMethod, false );
 		this.soma.dispatchEvent( new soma.Event("test") );
-		this.soma.removeEventListener( "test", wire.customBoundMethod );
+		this.soma.removeEventListener( "test", wire.customBoundMethod, false );
 		this.assertTrue( wire.scopeConfirmedThroughCustom );
 
 	}
@@ -695,13 +695,13 @@ var AutobindTest = new Class
 		var wire = new cases.core.TestAutobindWire();
 		this.soma.addWire( cases.core.TestAutobindWire.NAME, wire  );
 
-		wire.addEventListener( "test", wire.testListener );
+		wire.addEventListener( "test", wire.testListener, false );
 		this.soma.dispatchEvent( new soma.Event("test") );
 		this.assertTrue( wire.scopeConfirmed );
 		this.assertEquals( "test", wire.storedEvent.type );
 		this.assertEquals( 1, wire.invocationCount );
 		wire.invocationCount = 0;
-		wire.removeEventListener( "test", wire.testListener );
+		wire.removeEventListener( "test", wire.testListener, false );
 
 		this.soma.dispatchEvent( new soma.Event("test") );
 		this.assertEquals( 0, wire.invocationCount );
@@ -714,9 +714,9 @@ var AutobindTest = new Class
 		wire.shouldAutobind = false;
 		this.soma.addWire( cases.core.TestAutobindWire.NAME, wire  );
 		
-		wire.addEventListener( "test", wire.testListener );
+		wire.addEventListener( "test", wire.testListener, false );
 		this.soma.dispatchEvent( new soma.Event("test") );
-		wire.removeEventListener( "test", wire.testListener );
+		wire.removeEventListener( "test", wire.testListener, false );
 		this.assertEquals( window, cases.core.TestAutobindWire.scope );
 	}
 
@@ -725,27 +725,31 @@ var AutobindTest = new Class
 		var sprite = document.createElement("div");
 		document.body.appendChild( sprite );
 		var view = new cases.core.TestView( sprite );
-		this.soma.addView( "viewname", view );
-		view.addEventListener( "testFromView", view.viewListener );
-		view.dispatchEvent( new soma.Event("testFromView") );
-
-		view.removeEventListener( "testFromView", view.viewListener );
+        this.soma.addView( "viewname", view );
+		view.addEventListener( "testFromView", view.viewListener, false );
+		view.dispatchEvent( new soma.Event("testFromView", {test:"test"}) );
+		view.removeEventListener( "testFromView", view.viewListener, false );
 		this.soma.removeView( "viewname" );
 		this.assertTrue( view.scopeConfirmed  );
 		cases.core.TestView.scope = null;
-
 	}
 
-	,test_view_no_autobind: function()
+	,_test_view_no_autobind: function()
 	{
 		var sprite = document.createElement("div");
 		document.body.appendChild( sprite );
 		var view = new cases.core.TestView( sprite );
 		view.shouldAutobind = false;
-		this.soma.addView( "viewname", view );
-		view.addEventListener( "testFromView", view.viewListener );
+        /*
+         var vL =     view.viewListener.bind( sprite )
+		view.addEventListener( "testFromView", vL );
 		view.dispatchEvent( new soma.Event("testFromView") );
-		view.removeEventListener( "testFromView", view.viewListener );
+		view.removeEventListener( "testFromView", vL );
+         */
+		this.soma.addView( "viewname", view );
+		view.addEventListener( "testFromView", view.viewListener, false );
+		view.dispatchEvent( new soma.Event("testFromView") );
+		view.removeEventListener( "testFromView", view.viewListener, false );
 		this.soma.removeView( "viewname" );
 		this.assertEquals( sprite,  cases.core.TestView.scope  );
 		cases.core.TestView.scope = null;
@@ -755,7 +759,6 @@ var AutobindTest = new Class
 
 	,autoBoundListener: function()
 	{
-		console.log("called autoBoundListener");
 		this.listenerInvocation++;
 		this.confirmScope();
 	}

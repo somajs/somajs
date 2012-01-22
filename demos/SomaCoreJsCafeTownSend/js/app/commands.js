@@ -8,7 +8,7 @@ var StartCommand = new Class({
 				// anything if you want to start your app from here
 		}
 	}
-	
+
 });
 
 var LoginCommand = new Class({
@@ -22,10 +22,10 @@ var LoginCommand = new Class({
 		switch(event.type) {
 			case LoginEvent.LOGIN:
 				// login attempt
-				if (!event.loginVO) return;
+				if (!event.params.loginVO) return;
 				var service = new LoginService();
-				service.login(this, event.loginVO);
-				this.dispatchEvent(new LoginEvent(LoginEvent.MESSAGE, null, event.info));
+				service.login(this, event.params.loginVO);
+				this.dispatchEvent(new LoginEvent(LoginEvent.MESSAGE, null, event.params.info));
 				break;
 			case LoginEvent.LOGOUT:
 				this.dispatchEvent(new LoginEvent(LoginEvent.MESSAGE, null, ""));
@@ -36,10 +36,10 @@ var LoginCommand = new Class({
 				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_LIST));
 				break;
 			case LoginEvent.MESSAGE:
-				wire.showMessage(event.info);
+				wire.showMessage(event.params.info);
 				break;
 			case LoginEvent.ERROR:
-				wire.showMessageError(event.info);
+				wire.showMessageError(event.params.info);
 				break;
 		}
 	},
@@ -60,7 +60,7 @@ var EmployeeCommand = new Class({
 
 	execute: function(event) {
 		var wire = this.getWire(EmployeeWire.NAME);
-		var vo = event.employee;
+		var vo = event.params.employee;
 		switch(event.type) {
 			case EmployeeEvent.SELECT:
 				wire.selectEmployee(vo);
@@ -84,7 +84,7 @@ var NavigationCommand = new Class({
 	Extends: soma.core.controller.Command,
 
 	execute: function(event) {
-		this.getWire(NavigationWire.NAME).select(event.navigationID);
+		this.getWire(NavigationWire.NAME).select(event.params.navigationID);
 	}
 	
 });

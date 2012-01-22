@@ -12,7 +12,7 @@ var LoginView = new Class({
 		this.username = document.getElementById('username');
 		this.password = document.getElementById('password');
 		this.login = document.getElementById('login');
-		this.login.addEventListener('click', this.clickHandler.bind(this));
+		this.login.addEventListener('click', this.clickHandler.bind(this), false);
 	},
 
 	clickHandler: function(event){
@@ -47,9 +47,9 @@ var EmployeeListView = new Class({
 	init: function() {
 		this.tableListContainer = document.getElementById('list-table-container');
 		this.logout = document.getElementById('buttonLogoutList');
-		this.logout.addEventListener('click', this.logoutClickHandler.bind(this));
+		this.logout.addEventListener('click', this.logoutClickHandler.bind(this), false);
 		this.create = document.getElementById('buttonCreate');
-		this.create.addEventListener('click', this.createClickHandler.bind(this));
+		this.create.addEventListener('click', this.createClickHandler.bind(this), false);
 	},
 
 	logoutClickHandler: function(event){
@@ -67,7 +67,7 @@ var EmployeeListView = new Class({
 		this.tableList = document.getElementById('employee-list-table');
 		for (var i = 0; i < data.length; i++) {
 			var row = document.createElement("tr");
-			row.addEventListener("click", this.rowClickHandler);
+			row.addEventListener("click", this.rowClickHandler, false);
 			var cellId = document.createElement("td");
 			var cellName = document.createElement("td");
 			var cellAge = document.createElement("td");
@@ -111,13 +111,13 @@ var EmployeeEditView = new Class({
 
 	init: function() {
 		this.logout = document.getElementById('buttonLogoutEdit');
-		this.logout.addEventListener('click', this.logoutClickHandler.bind(this));
+		this.logout.addEventListener('click', this.logoutClickHandler.bind(this), false);
 		this.cancel = document.getElementById('button-edit-cancel');
-		this.cancel.addEventListener('click', this.cancelClickHandler.bind(this));
+		this.cancel.addEventListener('click', this.cancelClickHandler.bind(this), false);
 		this.submit = document.getElementById('button-edit-submit');
-		this.submit.addEventListener('click', this.submitClickHandler.bind(this));
+		this.submit.addEventListener('click', this.submitClickHandler.bind(this), false);
 		this.deleteEmployee = document.getElementById('buttonDelete');
-		this.deleteEmployee.addEventListener('click', this.deleteClickHandler.bind(this));
+		this.deleteEmployee.addEventListener('click', this.deleteClickHandler.bind(this), false);
 		this.inputName = document.getElementById('employeeName');
 		this.inputAge = document.getElementById('employeeAge');
 	},
@@ -125,6 +125,7 @@ var EmployeeEditView = new Class({
 	logoutClickHandler: function(event){
 		event.preventDefault();
 		this.dispatchEvent(new LoginEvent(LoginEvent.LOGOUT));
+		this.leaveForm();
 	},
 
 	deleteClickHandler: function(event) {
@@ -136,6 +137,7 @@ var EmployeeEditView = new Class({
 	cancelClickHandler: function(event) {
 		event.preventDefault();
 		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_LIST));
+		this.leaveForm();
 	},
 
 	submitClickHandler: function(event) {

@@ -1,6 +1,4 @@
-var scjs = scjs || {};
-
-scjs.ApplicationModel = new Class({
+ApplicationModel = new Class({
 
 	Extends: soma.core.model.Model,
 
@@ -13,4 +11,4 @@ scjs.ApplicationModel = new Class({
 	}
 
 });
-scjs.ApplicationModel.NAME = "Model::ApplicationModel";
+ApplicationModel.NAME = "Model::ApplicationModel";

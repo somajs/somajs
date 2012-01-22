@@ -9,23 +9,25 @@ scjs.SomaApplication = new Class({
 	},
 
 	registerModels: function() {
-		this.addModel(scjs.ApplicationModel.NAME, new scjs.ApplicationModel());
+		//this.addModel(scjs.ApplicationModel.NAME, new scjs.ApplicationModel());
 	},
 
 	registerViews: function() {
-		this.addView(scjs.ApplicationView.NAME, new scjs.ApplicationView());
+		//this.addView(scjs.ApplicationView.NAME, new scjs.ApplicationView());
 	},
 
 	registerCommands: function() {
-		this.addCommand(scjs.ApplicationEvent.SEND_MESSAGE, scjs.ApplicationCommand);
+		this.addCommand(ApplicationEvent.SETUP, ApplicationCommand);
+		this.addCommand(NavigationEvent.SELECT, NavigationCommand);
 	},
 
 	registerWires: function() {
-		this.addWire(scjs.ApplicationWire.NAME, new scjs.ApplicationWire());
+		this.addWire(ApplicationWire.NAME, new ApplicationWire());
+		this.addWire(NavigationWire.NAME, new NavigationWire());
 	},
 
 	start: function() {
-		this.dispatchEvent(new scjs.ApplicationEvent(scjs.ApplicationEvent.SEND_MESSAGE));
+		this.dispatchEvent(new ApplicationEvent(ApplicationEvent.SETUP));
 	}
 
 });

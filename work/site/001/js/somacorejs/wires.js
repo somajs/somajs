@@ -14,6 +14,7 @@ ApplicationWire = new Class({
 	},
 
 	setup:function(message) {
+		$("#container").css("display", "block");
 		this.select(NavigationConstants.ABOUT);
 	},
 

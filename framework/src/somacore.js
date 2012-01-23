@@ -2278,6 +2278,7 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 		if (params != null && typeof params == "object" ) {
 			e.params = params;
 		}
+	    e.isCloned = false;
 	    e.clone = this.clone.bind(e);
 	    e.isIE9 = this.isIE9;
         e.isDefaultPrevented = this.isDefaultPrevented;
@@ -2297,6 +2298,7 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 		e.isCloned = true;
 		e.clone = this.clone;
         e.isDefaultPrevented = this.isDefaultPrevented;
+	    e.isIE9 = this.isIE9;
 	    if (this.isIE9()) e.IE9PreventDefault = this.IE9PreventDefault;
 		return e;
 	},

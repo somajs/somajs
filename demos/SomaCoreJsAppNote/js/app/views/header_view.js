@@ -13,9 +13,8 @@ var HeaderView = new Class({
 	},
 
 	createLinks: function() {
-		var type = (window.Touch) ? "touchend" : "click";
-		this.newButton.addEventListener(type, this.newClickHandler, false);
-		this.backButton.addEventListener(type, this.backClickHandler, false);
+		this.newButton.addEventListener("click", this.newClickHandler, false);
+		this.backButton.addEventListener("click", this.backClickHandler, false);
 	},
 
 	newClickHandler: function() {

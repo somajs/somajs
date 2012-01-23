@@ -18,15 +18,15 @@ var NoteDetailsView = new Class({
 	},
 
 	createLinks: function() {
-		this.saveButton.addEventListener("click", this.saveClickHandler.bind(this));
-		this.deleteButton.addEventListener("click", this.deleteClickHandler.bind(this));
+		this.saveButton.addEventListener("click", this.saveClickHandler.bind(this), false);
+		this.deleteButton.addEventListener("click", this.deleteClickHandler.bind(this), false);
 	},
 
 	createHints: function() {
-		this.title.addEventListener("focus", this.titleFocusHandler);
-		this.title.addEventListener("blur", this.titleBlurHandler);
-		this.content.addEventListener("focus", this.contentFocusHandler);
-		this.content.addEventListener("blur", this.contentBlurHandler);
+		this.title.addEventListener("focus", this.titleFocusHandler, false);
+		this.title.addEventListener("blur", this.titleBlurHandler, false);
+		this.content.addEventListener("focus", this.contentFocusHandler, false);
+		this.content.addEventListener("blur", this.contentBlurHandler, false);
 	},
 
 	titleFocusHandler: function() {

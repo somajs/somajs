@@ -13,8 +13,8 @@ var HeaderView = new Class({
 	},
 
 	createLinks: function() {
-		this.newButton.addEventListener("click", this.newClickHandler);
-		this.backButton.addEventListener("click", this.backClickHandler.bind(this));
+		this.newButton.addEventListener("click", this.newClickHandler, false);
+		this.backButton.addEventListener("click", this.backClickHandler, false);
 	},
 
 	newClickHandler: function() {

@@ -14,7 +14,7 @@ var NoteListView = new Class({
 			var li = document.createElement("li");
 			var title = document.createTextNode(list[i].title);
 			li.appendChild(title);
-			li.addEventListener("click", this.clickHandler);
+			li.addEventListener("click", this.clickHandler, false);
 			ul.appendChild(li);
 		}
 		this.domElement.appendChild(ul);

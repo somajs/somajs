@@ -30,12 +30,10 @@ var NoteDetailsView = new Class({
 	},
 
 	titleFocusHandler: function() {
-		console.log(1, this.value);
 		if (this.value == "Title") this.value = "";
 	},
 
 	titleBlurHandler: function() {
-		console.log(2, this.value);
 		if (this.value == "") this.value = "Title";
 	},
 
@@ -70,7 +68,6 @@ var NoteDetailsView = new Class({
 	},
 
 	update: function(note) {
-		console.log(note);
 		this.title.value = note.title;
 		this.content.value = note.content;
 	},

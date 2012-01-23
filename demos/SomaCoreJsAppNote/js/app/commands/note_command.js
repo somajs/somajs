@@ -34,7 +34,6 @@ var NoteCommand = new Class({
 				headerView.updateForList();
 				break;
 			case NoteEvent.EDIT:
-				console.log("edit", event.params.noteTitle);
 				listView.hide();
 				var note = model.getNote(event.params.noteTitle);
 				detailsView.update(note);

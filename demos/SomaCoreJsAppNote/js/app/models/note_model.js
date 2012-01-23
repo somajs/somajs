@@ -18,7 +18,6 @@ var NoteModel = new Class({
 
 	createNote: function(vo) {
 		try {
-			console.log("create", vo);
 			localStorage.setItem(vo.title, vo.content);
 		} catch (e) {
 			if (e == QUOTA_EXCEEDED_ERR) {

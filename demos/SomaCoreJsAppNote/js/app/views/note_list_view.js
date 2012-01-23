@@ -3,8 +3,7 @@ var NoteListView = new Class({
 	Extends: soma.View,
 
 	init: function() {
-		console.log("create list view");
-		console.log(this.domElement);
+
 	},
 
 	updateList: function(list) {
@@ -21,8 +20,6 @@ var NoteListView = new Class({
 	},
 
 	clickHandler: function() {
-		console.log(this);
-		console.log(this.textContent);
 		this.dispatchEvent(new NoteEvent(NoteEvent.EDIT, null, this.textContent));
 	},
 

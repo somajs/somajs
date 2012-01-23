@@ -10,10 +10,11 @@ var NoteListView = new Class({
 		this.domElement.innerHTML = '';
 		var ul = document.createElement("ul");
 		for (var i=0; i<list.length; i++) {
+			var type = (window.Touch) ? "touchend" : "click";
 			var li = document.createElement("li");
 			var title = document.createTextNode(list[i].title);
 			li.appendChild(title);
-			li.addEventListener("click", this.clickHandler, false);
+			li.addEventListener(type, this.clickHandler, false);
 			ul.appendChild(li);
 		}
 		this.domElement.appendChild(ul);

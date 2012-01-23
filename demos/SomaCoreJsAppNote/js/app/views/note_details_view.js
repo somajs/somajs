@@ -18,8 +18,9 @@ var NoteDetailsView = new Class({
 	},
 
 	createLinks: function() {
-		this.saveButton.addEventListener("click", this.saveClickHandler.bind(this), false);
-		this.deleteButton.addEventListener("click", this.deleteClickHandler.bind(this), false);
+		var type = (window.Touch) ? "touchend" : "click";
+		this.saveButton.addEventListener(type, this.saveClickHandler.bind(this), false);
+		this.deleteButton.addEventListener(type, this.deleteClickHandler.bind(this), false);
 	},
 
 	createHints: function() {

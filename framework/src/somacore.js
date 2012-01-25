@@ -1277,8 +1277,6 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));
  */
 soma.EventDispatcher = (function() {
 	/** @lends soma.EventDispatcher.prototype */
-
-	var listeners = [];
 	return new Class({
 		initialize: function() {
 			listeners = [];
@@ -1386,7 +1384,7 @@ instance.dispose();
 instance = null;
 		 */
 		dispose: function() {
-            listeners = [];
+            listeners = null;
 		}
 	});
 })();
@@ -1762,6 +1760,7 @@ new SomaApplication();
 	},
 
 	dispose: function() {
+		this.parent();
 		if (this.models) {
 			this.models.dispose();
 			this.models = null;

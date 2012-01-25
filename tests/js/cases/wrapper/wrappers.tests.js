@@ -195,7 +195,7 @@ var SomaEventTests = new Class ({
 		this.assertTrue(customEventClone.cancelable);
 	}
 
-	,test_parameters: function() {
+	,test_params: function() {
 		var parameters = {message: "message"};
 		var wrapperEvent = new soma.Event(EVENT_TYPE, parameters, true, true );
 		var customEvent = new TestCustomEvent(EVENT_TYPE, parameters, true, true );
@@ -211,7 +211,31 @@ var SomaEventTests = new Class ({
 		this.assertEquals(customEventClone.params.message, parameters.message);
 	}
 
-	,test_parameters_undefined: function() {
+	,test_params_as_string: function() {
+		var p = "my_string";
+		var event = new soma.Event(EVENT_TYPE, p);
+		this.assertEquals(p, event.params);
+	}
+
+	,test_params_as_number: function() {
+		var p = 10;
+		var event = new soma.Event(EVENT_TYPE, p);
+		this.assertEquals(p, event.params);
+	}
+
+	,test_params_as_boolean: function() {
+		var p = true;
+		var event = new soma.Event(EVENT_TYPE, p);
+		this.assertEquals(p, event.params);
+	}
+
+	,test_params_as_array: function() {
+		var p = [1, 2, 3];
+		var event = new soma.Event(EVENT_TYPE, p);
+		this.assertEquals(p, event.params);
+	}
+
+	,test_parameters_not_defined: function() {
 		var wrapperEvent = new soma.Event(EVENT_TYPE, null, true, true);
 		var customEvent = new TestCustomEvent(EVENT_TYPE, null, true, true);
 		var wrapperEventClone = wrapperEvent.clone();

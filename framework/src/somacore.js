@@ -2275,7 +2275,7 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
       */
     initialize: function(type, params, bubbles, cancelable) {
         var e = soma.Event.createGenericEvent(type, bubbles, cancelable);
-		if (params != null && typeof params == "object" ) {
+		if (params != null && params != undefined) {
 			e.params = params;
 		}
 	    e.isCloned = false;

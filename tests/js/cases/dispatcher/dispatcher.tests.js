@@ -12,6 +12,7 @@ var DispatcherTest = new Class ({
 	,handlerIncreaseCountBound: null
 	,handlerPrioritySecondBound: null
     ,handlerEmptyBound:null
+    ,handlerPreventDefaultBound: null
 
 	,initialize: function() {
 		this.handlerSuccessBound = this.handlerSuccess.bind(this);
@@ -19,6 +20,7 @@ var DispatcherTest = new Class ({
 		this.handlerIncreaseCountBound = this.handlerIncreaseCount.bind(this);
 		this.handlerPrioritySecondBound = this.handlerPrioritySecond.bind(this);
         this.handlerEmptyBound = this.handlerEmpty.bind(this);
+        this.handlerPreventDefaultBound = this.handlerPreventDefault.bind(this);
 	}
 
 	,setUp: function() {
@@ -47,9 +49,13 @@ var DispatcherTest = new Class ({
 		this.count++;
 	}
 
-	,handlerPrioritySecond: function(event) {
-		this.assertEquals(this.count, 1);
-	}
+    ,handlerPrioritySecond: function(event) {
+        this.assertEquals(this.count, 1);
+    }
+
+    ,handlerPreventDefault: function(event) {
+        event.preventDefault();
+    }
 
 	,test_single_create_dispatcher: function() {
 		this.assertNotNull(this.dispatcher);
@@ -230,6 +236,20 @@ var DispatcherTest = new Class ({
         dispatcher.dispose();
         this.assertFalse(dispatcher.hasEventListener(EVENT_TYPE));
 	}
+
+    ,test_prevent_default_cancelable_true: function() {
+        var event = new soma.Event(EVENT_TYPE, null, false, true);
+        this.dispatcher.addEventListener(EVENT_TYPE, this.handlerPreventDefaultBound);
+        this.dispatcher.dispatchEvent(event);
+        this.assertTrue(event.isDefaultPrevented());
+    }
+
+    ,test_prevent_default_cancelable_false: function() {
+        var event = new soma.Event(EVENT_TYPE, null, false, false);
+        this.dispatcher.addEventListener(EVENT_TYPE, this.handlerPreventDefaultBound);
+        this.dispatcher.dispatchEvent(event);
+        this.assertFalse(event.isDefaultPrevented());
+    }
 
 
 });

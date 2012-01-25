@@ -6,7 +6,6 @@ test_component_creation (DONE)
 test_dispose (DONE)
 test_packages_creation (DONE)
 
-
 - Autobind  ##DONE
 test_custom_autobind_rule (DONE)
 test_first_listener_invocation  (DONE)
@@ -14,11 +13,8 @@ test_second_listener_invocation  (DONE)
 test_wire_autobind_scope (DONE)
 test_view_autobind (DONE)
 
-
-
 - Utils  ##DONE
 test createClassInstance (DONE)
-
 
 - Commands  ##DONE
 test_StartCommand_is_registered (DONE)
@@ -27,7 +23,6 @@ test_removeCommand (DONE)
 test_commandsLength (DONE)
 test_add_prototypical_command (DONE)
 test_double_register_should_throw_Error (DONE)
-
 
 - Commands (invocation)  ##DONE
 test_command_from_displayList (DONE)
@@ -45,10 +40,6 @@ test_cannot_cancel_event_dispatched_from_body (DONE)
 test_parallel_command (DONE)
 test_instance_is_set (DONE)
 
-- Commands (invocation async)
-test_async_command
-
-
 - Commands (sequencer)  ##DONE
 test_sequencer_flow (DONE)
 test_stop_sequencer_with_event (DONE)
@@ -57,13 +48,7 @@ test_get_running_sequencers (DONE)
 test_is_part_of_a_sequence (DONE)
 test_get_last_sequencer (DONE)
 test_sequence (DONE)
-testStopAllSequencers  (DONE)
-
-
-- Commands (mulitple sequencers)
-test parallel_registered_sequencers
-
-
+test_stop_all_sequencers (DONE)
 
 - Wires  ##DONE
 test_initApp_GetWires_ShouldGive_EmptyObject (DONE)
@@ -78,7 +63,6 @@ test_get_name (DONE)
 test_set_name (DONE)
 test_instance_is_set (DONE)
 test_dispose_called (DONE)
-
 
 - Models  ##DONE
 test_InitApp_GetModels_ShouldGive_EmptyObject (DONE)
@@ -99,7 +83,6 @@ test_get_dispatcher (DONE)
 test_set_dispatcher (DONE)
 test_dispose_called (DONE)
 
-
 - Views  ##DONE
 test_init_App_Get_Views_Should_Give_EmptyObject (DONE)
 test_initApp_shouldGive_ZeroLength (DONE)
@@ -111,7 +94,6 @@ test_register_calls_init (DONE)
 test_addView_and_removeView_shouldGive_null_For_GetView (DONE)
 test dispose  (DONE)
 
-
 - View (wrapper)  ##DONE
 test_create_view (DONE)
 test_dispose_view (DONE)
@@ -122,7 +104,6 @@ test_dispatch_event (DONE)
 test_add_listener (DONE)
 test_remove_listener (DONE)
 test_dispatch_event (DONE)
-
 
 - EventDispatcher  ##DONE
 test_single_create_dispatcher (DONE)
@@ -151,8 +132,8 @@ test_priority_positive (DONE)
 test_priority_negative (DONE)
 test_priority_positive_and_negative (DONE)
 test_dispose (DONE)
-
-test that the event prevent default works in the custom dispatcher
+test_prevent_default_cancelable_true (DONE)
+test_prevent_default_cancelable_false (DONE)
 
 - Event  ##DONE
 test_create (DONE)
@@ -161,20 +142,13 @@ test_bubbles_default (DONE)
 test_bubbles_defined (DONE)
 test_cancelable_default (DONE)
 test_cancelable_defined (DONE)
-test_data (DONE)
-test_data_undefined (DONE)
+test_params (DONE)
+test_params_as_string (DONE)
+test_params_as_number (DONE)
+test_params_as_boolean (DONE)
+test_params_as_array (DONE)
+test_parameters_not_defined (DONE)
 test_is_cloned (DONE)
 test_is_default_prevented_default (DONE)
 test_is_default_prevented_defined_success (DONE)
 test_is_default_prevented_defined_fail (DONE)
-
-test parameters if it is something else than an object
-
-
-
-
-
-
-
-
-

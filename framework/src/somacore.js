@@ -18,9 +18,8 @@
  * Javascript port of the AS3 MVC framework SomaCore (http://www.soundstep.com/blog/downloads/somacore/).
  * The Initial Developer of the port is Henry Schmieder (javascript version).
  * @author Henry Schmieder
- * @contributors:
- * 		Romuald Quantin
- * 
+ * @author Henry Romuald Quantin
+ *
  * Initial Developer are Copyright (C) 2008-2012 Soundstep. All Rights Reserved.
  * All Rights Reserved.
  * 
@@ -36,7 +35,7 @@
 	soma.core.controller = {};
 	/** @namespace Contains the models manager and a Model abstract class. */
 	soma.core.model = {};
-	/** @namespace Contains the views manager and a View abstract class (no framework dependency). */
+	/** @namespace Contains the views manager and a View abstract class (no framework dependency except with IE7, IE8 and IE9). */
 	soma.core.view = {};
 	/** @namespace Contains the wires manager and a Wire abstract class. */
 	soma.core.wire = {};
@@ -182,7 +181,7 @@
 		/** @private */
 		blackList: ["initialize", "parent", "$constructor", "addEventListener", "removeEventListener" ]
 		/**
-		 * AutoBind the object.
+		 * AutoBind the application.
 		 * @name autobind
 		 * @methodOf soma.core.AutoBind#
 		 * @example
@@ -263,7 +262,7 @@ var MyWire = new Class({
 		AutoBindProto);
 
 	/**
-	 * @class Class that will be instantiated when a registered event is dispatched, the framework will automatically call the execute method.
+	 * @class Class that will be instantiated when a registered event (command) is dispatched, the framework will automatically call the execute method.
 	 * @description Creates a new Command, should be instantiated by the framework only.
 	 * @borrows soma.core.Application#addWire
 	 * @borrows soma.core.Application#getWire
@@ -658,7 +657,7 @@ this.addSubCommand(new soma.Event("eventType"));
 		},
 
 		/**
-		 * Should not be overriden in a parallel class.
+		 * Should not be overridden in a parallel class.
 		 */
 		execute: function() {
 			while (this.commands.length > 0) {
@@ -767,7 +766,7 @@ var MyWire = new Class({
 	Extends: soma.core.wire.Wire,
 
 	init: function() {
-		this.addEventListener("eventType", eventHandler);
+		this.addEventListener("eventType", this.eventHandler);
 	},
 
 	eventHandler: function(event) {
@@ -783,7 +782,7 @@ var MyWire = new Class({
 	Extends: soma.core.wire.Wire,
 
 	init: function() {
-		this.addEventListener("eventType", eventHandler);
+		this.addEventListener("eventType", this.eventHandler);
 	},
 
 	eventHandler: function(event) {
@@ -838,9 +837,9 @@ MyWire.NAME = "Wire::MyWire";
 	/**
 	 * @name soma.core.controller.SomaController
 	 * @namespace
-	 * The SomaController handles the commands added to the framework and the events dispatched from either a display list or a framework element (instance of the framework, commands or wires).<br/>
+	 * The SomaController class handles the commands added to the framework and the events dispatched from either a display list or a framework element (instance of the framework, commands or wires).<br/>
 	 * All the events dispatched with a property bubbles set to false will be ignored, that is why the event mapped to a command class must have this property set to true.<br/>
-	 * You can add commands, remove commands and dispatch commands from: the framework instance, the stage, a view, a wire, a command or a model.<br/>
+	 * You can add commands, remove commands and dispatch commands from: the framework instance, the body, a view, a wire, a command or a model.<br/>
 	 * You can create 4 types of commands: synchronous (Command), asynchronous, parallel (ParallelCommand) and sequence (SequenceCommand). See each class for a detailed explanation and examples.<br/>
 	 * You can use the properties of a custom event to send parameters and receive them in the commands.<br/>
 	 * @borrows soma.core.Application#addCommand
@@ -1355,13 +1354,6 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));
 			});
 
 			for (i = 0; i < events.length; i++) {
-
-                //testlog( event.srcElement ? event.srcElement : ( event.currentTarget ? event.currentTarget : events[i].scope ) )
-                //testlog( (event.srcElement) ? event.srcEleme  nt : ( event.currentTarget ? event.currentTarget : event.scope ) )  ;
-                //testlog( event.srcElement )
-				//events[i].listener.apply((event.srcElement) ? event.srcElement : ( event.currentTarget ? event.currentTarget : events[i].scope ), [event]);
-				//testlog(  event.currentTarget );
-				//testlog(  events[i].scope);
                 events[i].listener.apply((event.srcElement) ? event.srcElement : event.currentTarget, [event]);
 			}
 		},
@@ -1409,9 +1401,9 @@ soma.core.Application = new Class(
 	 * @constructs
 	 * @class
 	 * <b>Introduction</b><br/>
-	 * SomaCore is a lightweight event-based MVC framework written in javascript that provides a structure, models, views management and commands.<br/>
-	 * SomaCore is completely event-based and uses a concept of wires to code in a efficient decoupled way.<br/>
-	 * SomaCore can be used for anything, except to include/distribute it in another framework, application, template, component or structure that is meant to build, scaffold or generate source files.<br/><br/>
+	 * somacore.js is a lightweight event-based model-view-controller (mvc) javascript framework that is meant to help developers write loosely coupled applications to increase scalability and maintainability.<br/>
+	 * somacore.js provides a structure, models, views management and commands and uses a concept of wires to code in a efficient decoupled way.<br/>
+	 * somacore.js can be used for anything, except to include/distribute it in another framework, application, template, component or structure that is meant to build, scaffold or generate source files.<br/><br/>
 	 * <b>Few things to know</b><br/>
 	 *     - Wires are the glue of the frameworks elements (models, commands, views, wires) and can be used the way you wish, as proxy/mediators or managers.<br/>
 	 *     - Wires can manage one class or multiple classes.<br/>
@@ -2309,7 +2301,8 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
         return this;
 	},
     /**
-     * Checks whether the preventDefault() method has been called on the event. If the preventDefault() method has been called, returns true; otherwise, returns false.
+     * Checks whether the preventDefault() method has been called on the event. If the preventDefault() method has been called, returns true; otherwise, returns false.<br/>
+     * This method should be used rather than the native property: event.defaultPrevented, as the latter has different implementations in browsers.
      * @returns {boolean}
      */
 	isDefaultPrevented: function() {

@@ -48,8 +48,6 @@
 		}
 	};
 
-	var ctor = function(){};
-
 	Object.inherit = Object.prototype.inherit = function(target, obj) {
 		var subclass;
 		if (obj && obj.hasOwnProperty('constructor')) {
@@ -63,6 +61,12 @@
 		}
 		// add super properties
 		subclass.applyProperties(subclass.prototype, target.prototype);
+
+		var ctor = function(){};
+		ctor.prototype = target.prototype;
+		subclass.prototype = new ctor();
+
+
 		// add obj properties
 		if (obj) subclass.applyProperties(subclass.prototype, obj);
 		// point constructor to the subclass

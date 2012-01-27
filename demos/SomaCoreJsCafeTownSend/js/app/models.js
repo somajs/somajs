@@ -1,7 +1,4 @@
-var EmployeeModel = new Class({
-
-	Extends: soma.core.model.Model,
-	
+var EmployeeModel = soma.core.model.Model.extend({
 	init: function() {
 		this.data = [
 			{
@@ -21,6 +18,5 @@ var EmployeeModel = new Class({
 			}
 		];
 	}
-	
 });
 EmployeeModel.NAME = "Model::EmployeeModel";

@@ -1,12 +1,8 @@
-var LoginView = new Class({
-
-	Extends: soma.View,
-
+var LoginView = soma.View.extend({
 	message: null,
 	username: null,
 	password: null,
 	login: null,
-	
 	init: function() {
 		this.message = document.getElementById('message');
 		this.username = document.getElementById('username');
@@ -14,36 +10,28 @@ var LoginView = new Class({
 		this.login = document.getElementById('login');
 		this.login.addEventListener('click', this.clickHandler.bind(this), false);
 	},
-
 	clickHandler: function(event){
 		event.preventDefault();
 		var vo = new LoginVO(this.username.value, this.password.value);
 		this.dispatchEvent(new LoginEvent(LoginEvent.LOGIN, vo, "Please wait..."));
 	},
-	
 	showMessage: function(message) {
 		this.message.style.color = "#000000";
 		this.message.innerHTML = message;
 	},
-	
 	showMessageError: function(message) {
 		console.log("---------", message);
 		this.message.style.color = "#FF0000";
 		this.message.innerHTML = message;
 	}
-	
 });
 LoginView.NAME = "View::LoginView";
 
-var EmployeeListView = new Class({
-	
-	Extends: soma.View,
-
+var EmployeeListView = soma.View.extend({
 	logout: null,
 	tableList: null,
 	tableListContainer: null,
 	create: null,
-	
 	init: function() {
 		this.tableListContainer = document.getElementById('list-table-container');
 		this.logout = document.getElementById('buttonLogoutList');
@@ -51,17 +39,14 @@ var EmployeeListView = new Class({
 		this.create = document.getElementById('buttonCreate');
 		this.create.addEventListener('click', this.createClickHandler.bind(this), false);
 	},
-
 	logoutClickHandler: function(event){
 		event.preventDefault();
 		this.dispatchEvent(new LoginEvent(LoginEvent.LOGOUT));
 	},
-
 	createClickHandler: function(event){
 		event.preventDefault();
 		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_DETAILS));
 	},
-	
 	updateList: function(data) {
 		this.tableListContainer.innerHTML = '<table cellpadding="0" cellspacing="0" border="0" width="100%" id="employee-list-table"><tr class="header"><th width="50%">Name</th><th>Age</th></tr></table>';
 		this.tableList = document.getElementById('employee-list-table');
@@ -84,7 +69,6 @@ var EmployeeListView = new Class({
 			this.tableList.appendChild(row);
 		}
 	},
-	
 	rowClickHandler: function(event) {
 		var vo = new EmployeeVO();
 		vo.id = this.childNodes[0].textContent;
@@ -93,14 +77,10 @@ var EmployeeListView = new Class({
 		this.dispatchEvent(new EmployeeEvent(EmployeeEvent.SELECT, vo));
 		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_DETAILS));
 	}
-
 });
 EmployeeListView.NAME = "View::EmployeeListView";
 
-var EmployeeEditView = new Class({
-
-	Extends: soma.View,
-
+var EmployeeEditView = soma.View.extend({
 	employee:null,
 	logout: null,
 	cancel: null,
@@ -108,7 +88,6 @@ var EmployeeEditView = new Class({
 	deleteEmployee: null,
 	inputName: null,
 	inputAge: null,
-
 	init: function() {
 		this.logout = document.getElementById('buttonLogoutEdit');
 		this.logout.addEventListener('click', this.logoutClickHandler.bind(this), false);
@@ -121,25 +100,21 @@ var EmployeeEditView = new Class({
 		this.inputName = document.getElementById('employeeName');
 		this.inputAge = document.getElementById('employeeAge');
 	},
-
 	logoutClickHandler: function(event){
 		event.preventDefault();
 		this.dispatchEvent(new LoginEvent(LoginEvent.LOGOUT));
 		this.leaveForm();
 	},
-
 	deleteClickHandler: function(event) {
 		event.preventDefault();
 		this.dispatchEvent(new EmployeeEvent(EmployeeEvent.DELETE, this.employee));
 		this.leaveForm();
 	},
-
 	cancelClickHandler: function(event) {
 		event.preventDefault();
 		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_LIST));
 		this.leaveForm();
 	},
-
 	submitClickHandler: function(event) {
 		event.preventDefault();
 		if (this.employee == null) this.employee = new EmployeeVO();
@@ -154,20 +129,17 @@ var EmployeeEditView = new Class({
 		}
 		this.leaveForm();
 	},
-
 	leaveForm:function() {
 		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_LIST));
 		this.inputName.value = "";
 		this.inputAge.value = "";
 		this.employee = null;
 	},
-
 	updateFields: function(vo) {
 		this.employee = vo;
 		this.inputName.value = this.employee.name;
 		this.inputAge.value = this.employee.age;
 	}
-
 });
 EmployeeEditView.NAME = "View::EmployeeEditView";
 

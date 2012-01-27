@@ -1,22 +1,13 @@
-var StartCommand = new Class({
-
-	Extends: soma.core.controller.Command,
-
+var StartCommand = soma.core.controller.Command.extend({
 	execute: function(event) {
 		switch(event.type) {
 			case CommandList.START:
 				// anything if you want to start your app from here
 		}
 	}
-
 });
 
-var LoginCommand = new Class({
-
-	Extends: soma.core.controller.Command,
-
-	Implements: soma.core.IResponder,
-
+var LoginCommand = soma.core.controller.Command.extend({
 	execute: function(event) {
 		var wire = this.getWire(LoginWire.NAME);
 		switch(event.type) {
@@ -43,21 +34,15 @@ var LoginCommand = new Class({
 				break;
 		}
 	},
-
 	fault: function(info){
 		this.dispatchEvent(new LoginEvent(LoginEvent.ERROR, null, "Login Error, try again."));
 	},
-
 	result: function(data) {
 		this.dispatchEvent(new LoginEvent(LoginEvent.SUCCESS, null, "Success"));
 	}
-	
 });
 
-var EmployeeCommand = new Class({
-
-	Extends: soma.core.controller.Command,
-
+var EmployeeCommand = soma.core.controller.Command.extend({
 	execute: function(event) {
 		var wire = this.getWire(EmployeeWire.NAME);
 		var vo = event.params.employee;
@@ -76,16 +61,11 @@ var EmployeeCommand = new Class({
 				break;
 		}
 	}
-	
 });
 
-var NavigationCommand = new Class({
-
-	Extends: soma.core.controller.Command,
-
+var NavigationCommand = soma.core.controller.Command.extend({
 	execute: function(event) {
 		this.getWire(NavigationWire.NAME).select(event.params.navigationID);
 	}
-	
 });
 

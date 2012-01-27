@@ -1,6 +1,6 @@
 var SomaApplication = soma.core.Application.extend({
 	init: function() {
-		console.log('init');
+
 	},
 	registerWires: function() {
 		this.addWire(SearchWire.NAME, new SearchWire());

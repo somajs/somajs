@@ -42,15 +42,15 @@
 	/** @namespace Contains a Mediator abstract class. */
 	soma.core.mediator = {};
 
-	Object.prototype.applyProperties = function(target, extension) {
+	Object.applyProperties = Object.prototype.applyProperties = function(target, extension) {
 		for (var prop in extension) {
 			target[prop] = extension[prop];
 		}
 	};
 
-	Object.prototype.inherit = function(target, obj) {
+	Object.inherit = Object.prototype.inherit = function(target, obj) {
 		var subclass;
-		if (obj && obj.hasOwnProperty('constructor') && obj.constructor != undefined) {
+		if (obj && obj.hasOwnProperty('constructor')) {
 			// use constructor if defined
 			subclass = obj.constructor;
 		} else {
@@ -66,19 +66,19 @@
 		// point constructor to the subclass
 		subclass.prototype.constructor = subclass;
 		// set super class reference
-		subclass.parent = target.prototype;
+//		subclass.prototype.parent = target.prototype;
+		// add extend shortcut
+		subclass.extend = function(obj) {
+			return obj.inherit(subclass, obj);
+		}
 		return subclass;
 	};
 
-	Object.prototype.extend = function(obj) {
+	Object.extend = Object.prototype.extend = function(obj) {
 		return obj.inherit(function(){}, obj);
 	};
 
-	var SomaSharedCore = function(){};
-	SomaSharedCore.extend = function(obj) {
-		return obj.inherit(SomaSharedCore, obj);
-	};
-	SomaSharedCore.prototype = {
+	var SomaSharedCore = Object.extend({
 		dispatchEvent: function() {
 			this.instance.dispatchEvent.apply(this.instance, arguments);
 		},
@@ -164,13 +164,9 @@
 		removeView: function(viewName) {
 			this.instance.removeView(viewName);
 		}
-	};
+	});
 
-	soma.core.AutoBind = function(){};
-	soma.core.AutoBind.extend = function(obj) {
-		return obj.inherit(soma.core.AutoBind, obj);
-	};
-	soma.core.AutoBind.prototype = {
+	soma.core.AutoBind = Object.extend({
 		blackList: ["initialize", "parent", "$constructor", "addEventListener", "removeEventListener"],
 		autobind: function() {
 			if (this.wasAutoBound) {
@@ -205,7 +201,7 @@
 			}
 			return false;
 		}
-	};
+	});
 
 	soma.core.controller.Command = SomaSharedCore.extend({
 		instance: null,
@@ -213,29 +209,23 @@
 			this.instance = instance;
 		},
 		execute: function(event) {
-			console.log("execute");
+
 		}
 	});
-	soma.core.controller.Command.extend = function(obj) {
-		return obj.inherit(soma.core.controller.Command, obj);
-	};
 
-	var SequenceCommandProxy = function(event){
-		this.event = event;
-	};
-	SequenceCommandProxy.extend = function(obj) {
-		return obj.inherit(SequenceCommandProxy, obj);
-	};
-	SequenceCommandProxy.prototype = {
+	var SequenceCommandProxy = Object.extend({
 		event:null,
-		sequenceId:null
-	};
+		sequenceId:null,
+		constructor: function(event) {
+			this.event = event;
+		}
+	});
 
 	soma.core.controller.SequenceCommand = soma.core.controller.Command.extend({
 		commands: null,
 		currentCommand: null,
 		id:null,
-		initialize: function(id) {
+		constructor: function(id) {
 			if (id == null) {
 				throw new Error("SequenceCommand Children expect an unique id as constructor arg");
 			}
@@ -294,14 +284,10 @@
 			return this.commands;
 		}
 	});
-	soma.core.controller.SequenceCommand.extend = function(obj) {
-		return obj.inherit(soma.core.controller.SequenceCommand, obj);
-	};
 
 	soma.core.controller.ParallelCommand = soma.core.controller.Command.extend({
 		commands:null,
 		constructor: function() {
-			soma.core.controller.Command.call(this);
 			this.commands = [];
 		},
 		registerInstance: function(instance) {
@@ -330,15 +316,12 @@
 			return this.commands;
 		}
 	});
-	soma.core.controller.ParallelCommand.extend = function(obj) {
-		return obj.inherit(soma.core.controller.ParallelCommand, obj);
-	};
 
 	soma.core.wire.Wire = SomaSharedCore.extend({
 		name: null,
 		instance: null,
 		constructor: function(name) {
-			SomaSharedCore.apply(this, arguments);
+			this.name = name;
 		},
 		registerInstance: function(instance) {
 			this.instance = instance;
@@ -356,34 +339,23 @@
 			this.name = name;
 		}
 	});
-	soma.core.wire.Wire.extend = function(obj) {
-		return obj.inherit(soma.core.wire.Wire, obj);
-	};
 
-	soma.core.IDisposable = function(){};
-	soma.core.IDisposable.extend = function(obj) {
-		return obj.inherit(soma.core.IDisposable, obj);
-	};
-	soma.core.IDisposable.prototype = {
-		dispose: function() {
-		}
-	};
+	soma.core.IDisposable = Object.extend({
+		dispose: function() {}
+	});
 
-	soma.core.controller.SomaController = function(instance){
-		this.boundInstance = this.instanceHandler.bind(this);
-		this.boundDomtree = this.domTreeHandler.bind(this);
-		this.commands = {};
-		this.sequencers = {};
-		this.sequencersInfo = {};
-		this.lastEvent = null;
-		this.lastSequencer = null;
-		this.instance = instance;
-	};
-	soma.core.controller.SomaController.extend = function(obj) {
-		return obj.inherit(soma.core.controller.SomaController, obj);
-	};
-	soma.core.controller.SomaController.prototype = {
+	soma.core.controller.SomaController = Object.extend({
 		instance:null,
+		constructor: function(instance) {
+			this.boundInstance = this.instanceHandler.bind(this);
+			this.boundDomtree = this.domTreeHandler.bind(this);
+			this.commands = {};
+			this.sequencers = {};
+			this.sequencersInfo = {};
+			this.lastEvent = null;
+			this.lastSequencer = null;
+			this.instance = instance;
+		},
 		addInterceptor: function(commandName) {
 			if (!soma["core"]) {
 				throw new Error("soma package has been overwritten by local variable");
@@ -598,18 +570,15 @@
 			}
 			this.lastEvent = null;
 		}
-	};
+	});
 
-	soma.core.view.SomaViews = function(instance){
-		this.views = {};
-		this.instance = instance;
-	};
-	soma.core.view.SomaViews.extend = function(obj) {
-		return obj.inherit(soma.core.view.SomaViews, obj);
-	};
-	soma.core.view.SomaViews.prototype = {
+	soma.core.view.SomaViews = Object.extend({
 		autoBound:false,
-        instance:null,
+		instance:null,
+		constructor: function(instance) {
+			this.views = {};
+			this.instance = instance;
+		},
 		hasView: function(viewName) {
 			return this.views[ viewName ] != null;
 		},
@@ -663,15 +632,12 @@
 			this.views = null;
             this.instance = null;
 		}
-	};
+	});
 
-	soma.EventDispatcher = function(){
-		this.listeners = [];
-	};
-	soma.EventDispatcher.extend = function(obj) {
-		return obj.inherit(soma.EventDispatcher, obj);
-	};
-	soma.EventDispatcher.prototype ={
+	soma.EventDispatcher = Object.extend({
+		constructor: function() {
+			this.listeners = [];
+		},
 		addEventListener: function(type, listener, priority) {
 			if (!this.listeners || !type || !listener) return;
 			if (isNaN(priority)) priority = 0;
@@ -728,7 +694,7 @@
 		dispose: function() {
 			this.listeners = null;
 		}
-	};
+	});
 
 	soma.core.Application = soma.EventDispatcher.extend({
 		body:null,
@@ -738,6 +704,8 @@
 		views:null,
 		constructor: function() {
 			soma.EventDispatcher.call(this);
+			// TODO: this should work:
+			//this.parent.constructor.call(this);
 			this.body = document.body;
 			if (!this.body) {
 				throw new Error("SomaCore requires body of type Element");
@@ -861,7 +829,7 @@
 			this.body = null;
 		},
 		init: function() {
-
+			console.log("Application init");
 		},
 		registerModels: function() {
 		},
@@ -874,19 +842,13 @@
 		start: function() {
 		}
 	});
-	soma.core.Application.extend = function(obj) {
-		return obj.inherit(soma.core.Application, obj);
-	};
 
-	soma.core.model.SomaModels = function(instance){
-		this.models = {};
-		this.instance = instance;
-	};
-	soma.core.model.SomaModels.extend = function(obj) {
-		return obj.inherit(soma.core.model.SomaModels, obj);
-	};
-	soma.core.model.SomaModels.prototype = {
+	soma.core.model.SomaModels = Object.extend({
 		instance:null,
+		constructor: function(instance) {
+			this.models = {};
+			this.instance = instance;
+		},
 		hasModel: function(modelName) {
 			return this.models[ modelName ] != null;
 		},
@@ -928,22 +890,19 @@
 			this.models = null;
             this.instance = null;
 		}
-	};
+	});
 
-	soma.core.model.Model = function(name, data, dispatcher){
-		this.data = data;
-		this.dispatcher = dispatcher;
-		if (name != null) {
-			this.name = name;
-		}
-	};
-	soma.core.model.Model.extend = function(obj) {
-		return obj.inherit(soma.core.model.Model, obj);
-	};
-	soma.core.model.Model.prototype = {
+	soma.core.model.Model = Object.extend({
 		name: null,
 		data: null,
 		dispatcher:null,
+		constructor: function(name, data, dispatcher) {
+			this.data = data;
+			this.dispatcher = dispatcher;
+			if (name != null) {
+				this.name = name;
+			}
+		},
 		init: function() {
 
 		},
@@ -971,27 +930,24 @@
 		setName: function(name) {
 			this.name = name;
 		}
-	};
+	});
 
-	soma.View = function(domElement){
-		var d;
-		if( domElement != undefined ) {
-			if( domElement.nodeType ) {
-				d = domElement;
-			}else{
-                throw new Error( "domElement has to be a DOM-ELement");
-			}
-		}else{
-			d = document.body;
-		}
-		this.domElement = d;
-	};
-	soma.View.extend = function(obj) {
-		return obj.inherit(soma.View, obj);
-	};
-	soma.View.prototype = {
+	soma.View = Object.extend({
 		instance: null,
 		domElement: null,
+		constructor: function(domElement) {
+			var d;
+			if( domElement != undefined ) {
+				if( domElement.nodeType ) {
+					d = domElement;
+				}else{
+					throw new Error( "domElement has to be a DOM-ELement");
+				}
+			}else{
+				d = document.body;
+			}
+			this.domElement = d;
+		},
 		dispatchEvent: function(event) {
 			if (this.domElement.dispatchEvent) {
 				this.domElement.dispatchEvent(event);
@@ -1019,17 +975,14 @@
 		dispose: function() {
 
 		}
-	};
+	});
 
-	soma.core.wire.SomaWires = function(instance){
-		this.wires = {};
-		this.instance = instance;
-	};
-	soma.core.wire.SomaWires.extend = function(obj) {
-		return obj.inherit(soma.core.wire.SomaWires, obj);
-	};
-	soma.core.wire.SomaWires.prototype = {
+	soma.core.wire.SomaWires = Object.extend({
 		instance:null,
+		constructor: function(instance) {
+			this.wires = {};
+			this.instance = instance;
+		},
 		hasWire: function(wireName) {
 			return this.wires[ wireName ] != null;
 		},
@@ -1071,42 +1024,35 @@
 			this.wires = null;
             this.instance = null;
 		}
-	};
+	});
 
 	soma.core.mediator.Mediator = soma.core.wire.Wire.extend({
 		viewComponent: null,
-		constructor: function() {
-			soma.core.wire.Wire.call(this);
+		constructor: function(name) {
+			soma.core.wire.Wire.call(this, name);
 			this.viewComponent = viewComponent;
 		},
 		dispose: function() {
 			this.viewComponent = null;
-			this.parent();
 		}
 	});
-	soma.core.mediator.Mediator.extend = function(obj) {
-		return obj.inherit(soma.core.mediator.Mediator, obj);
-	};
 
-	soma.Event = function(type, params, bubbles, cancelable){
-		var e = soma.Event.createGenericEvent(type, bubbles, cancelable);
-		if (params != null && params != undefined) {
-			e.params = params;
-		}
-	    e.isCloned = false;
-	    e.clone = this.clone.bind(e);
-	    e.isIE9 = this.isIE9;
-        e.isDefaultPrevented = this.isDefaultPrevented;
-	    if (this.isIE9() || !e.preventDefault || (e.getDefaultPrevented == undefined && e.defaultPrevented == undefined ) ) {
-		    e.preventDefault = this.preventDefault.bind(e);
-	    }
-	    if (this.isIE9()) e.IE9PreventDefault = false;
-		return e;
-	};
-	soma.Event.extend = function(obj) {
-		return obj.inherit(soma.Event, obj);
-	};
-	soma.Event.prototype = {
+	soma.Event = Object.extend({
+		constructor: function(type, params, bubbles, cancelable) {
+			var e = soma.Event.createGenericEvent(type, bubbles, cancelable);
+			if (params != null && params != undefined) {
+				e.params = params;
+			}
+		    e.isCloned = false;
+		    e.clone = this.clone.bind(e);
+		    e.isIE9 = this.isIE9;
+	        e.isDefaultPrevented = this.isDefaultPrevented;
+		    if (this.isIE9() || !e.preventDefault || (e.getDefaultPrevented == undefined && e.defaultPrevented == undefined ) ) {
+			    e.preventDefault = this.preventDefault.bind(e);
+		    }
+		    if (this.isIE9()) e.IE9PreventDefault = false;
+			return e;
+		},
 		clone: function() {
 	        var e = soma.Event.createGenericEvent(this.type, this.bubbles, this.cancelable);
 			e.params = this.params;
@@ -1139,7 +1085,7 @@
 		isIE9: function() {
 		    return document.body.style.scrollbar3dLightColor!=undefined && document.body.style.opacity != undefined;
 	    }
-	};
+	});
 
 	soma.Event.createGenericEvent = function (type, bubbles, cancelable) {
 	    var e;
@@ -1156,15 +1102,11 @@
 	    return e;
 	};
 
-	soma.core.IResponder = function(){};
-	soma.core.IResponder.extend = function(obj) {
-		return obj.inherit(soma.core.IResponder, obj);
-	};
-	soma.core.IResponder.prototype = {
+	soma.core.IResponder = Object.extend({
 		fault: function(info) {
 		},
 		result: function(data) {
 		}
-	};
+	});
 
 })();

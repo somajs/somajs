@@ -61,12 +61,10 @@
 		}
 		// add super properties
 		subclass.applyProperties(subclass.prototype, target.prototype);
-
-		var ctor = function(){};
-		ctor.prototype = target.prototype;
-		subclass.prototype = new ctor();
-
-
+		// set the prototype chain to inherit from the parent without calling parent's constructor
+		var chain = function(){};
+		chain.prototype = target.prototype;
+		subclass.prototype = new chain();
 		// add obj properties
 		if (obj) subclass.applyProperties(subclass.prototype, obj);
 		// point constructor to the subclass

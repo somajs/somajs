@@ -58,3 +58,18 @@ document.body.dispatchEvent(new soma.Event("eventType"));
 var div = document.createElement("div");
 document.body.appendChild(div);
 div.dispatchEvent(new soma.Event("eventType"));
+
+console.log('------ FROM test-native.js (test compact) ----------------');
+
+var AppCompact = function() {
+	soma.core.Application.call(this);
+};
+AppCompact.prototype = new soma.core.Application();
+AppCompact.prototype.constructor = AppCompact;
+soma.extend(AppCompact.prototype, {
+	init: function() {
+		console.log("init");
+	}
+});
+
+new AppCompact();

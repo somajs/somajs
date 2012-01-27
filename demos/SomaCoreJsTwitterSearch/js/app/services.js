@@ -1,9 +1,4 @@
-var TwitterService = function(){
-	soma.core.wire.Wire.call(this);
-};
-TwitterService.prototype = new soma.core.wire.Wire();
-TwitterService.prototype.constructor = TwitterService;
-soma.extend(TwitterService.prototype, {
+var TwitterService = soma.core.wire.Wire.extend({
 	url: "http://search.twitter.com/search.json",
 	lastResult: null,
 	init: function() {},

@@ -1,7 +1,7 @@
-var TwitterEvent = function(type, keywords){
-	return soma.Event.call(this, type, {keywords:keywords});
-};
-TwitterEvent.prototype = new soma.Event();
-TwitterEvent.prototype.constructor = TwitterEvent;
+var TwitterEvent = soma.Event.extend({
+	constructor: function(type, keywords) {
+		return soma.Event.call(this, type, {keywords:keywords});
+	}
+});
 TwitterEvent.SEARCH = "TwitterEvent.SEARCH";
 TwitterEvent.SEARCH_RESULT = "TwitterEvent.SEARCH_RESULT";

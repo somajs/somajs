@@ -23,5 +23,4 @@ MainView.prototype = {
 		this.messageView.innerHTML = "search result: " + data.length;
 	}
 };
-
 MainView.NAME = "View::MainView";

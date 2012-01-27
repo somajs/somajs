@@ -1,11 +1,6 @@
-var SomaApplication = function(){
-	soma.core.Application.call(this);
-};
-SomaApplication.prototype = new soma.core.Application();
-SomaApplication.prototype.constructor = SomaApplication;
-soma.extend(SomaApplication.prototype, {
+var SomaApplication = soma.core.Application.extend({
 	init: function() {
-
+		console.log('init');
 	},
 	registerWires: function() {
 		this.addWire(SearchWire.NAME, new SearchWire());

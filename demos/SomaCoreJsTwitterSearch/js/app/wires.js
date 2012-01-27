@@ -1,9 +1,4 @@
-var SearchWire = function(){
-	soma.core.wire.Wire.call(this);
-};
-SearchWire.prototype = new soma.core.wire.Wire();
-SearchWire.prototype.constructor = SearchWire;
-soma.extend(SearchWire.prototype, {
+var SearchWire = soma.core.wire.Wire.extend({
 	init: function() {
 		this.addView(MainView.NAME, new MainView());
 		this.addEventListener(TwitterEvent.SEARCH, this.searchHandler.bind(this), false);

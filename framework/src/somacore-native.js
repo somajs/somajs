@@ -48,6 +48,8 @@
 		}
 	};
 
+	var ctor = function(){};
+
 	Object.inherit = Object.prototype.inherit = function(target, obj) {
 		var subclass;
 		if (obj && obj.hasOwnProperty('constructor')) {
@@ -62,11 +64,11 @@
 		// add super properties
 		subclass.applyProperties(subclass.prototype, target.prototype);
 		// add obj properties
-		subclass.applyProperties(subclass.prototype, obj);
+		if (obj) subclass.applyProperties(subclass.prototype, obj);
 		// point constructor to the subclass
 		subclass.prototype.constructor = subclass;
 		// set super class reference
-//		subclass.prototype.parent = target.prototype;
+		//subclass.parent = target.prototype;
 		// add extend shortcut
 		subclass.extend = function(obj) {
 			return obj.inherit(subclass, obj);
@@ -704,8 +706,6 @@
 		views:null,
 		constructor: function() {
 			soma.EventDispatcher.call(this);
-			// TODO: this should work:
-			//this.parent.constructor.call(this);
 			this.body = document.body;
 			if (!this.body) {
 				throw new Error("SomaCore requires body of type Element");

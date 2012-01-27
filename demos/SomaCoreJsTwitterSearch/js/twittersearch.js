@@ -1,4 +1,7 @@
 var SomaApplication = soma.core.Application.extend({
+//	constructor: function() {
+//		SomaApplication.call(this);
+//	},
 	init: function() {
 
 	},
@@ -12,3 +15,35 @@ var SomaApplication = soma.core.Application.extend({
 });
 
 new SomaApplication();
+
+//
+//console.log("----------------------");
+//
+//var SuperClass = Object.extend({
+//	constructor: function(name) {
+//		this.name = name;
+//	},
+//	say: function() {
+//		console.log("[SUPER] my name is:", this.name);
+//	}
+//});
+//
+//// ******** USAGE ******************************************************
+//
+//var SubClass = SuperClass.extend({
+////	constructor: function(name) {
+////		soma.Wire.apply(this, arguments);
+////		console.log("constructor");
+////	}
+//	say: function() {
+//		//console.log("parent", this.parent);
+//		console.log("[SUB] my name is:", this.name);
+//	}
+//});
+//
+//var sup = new SuperClass("master");
+//sup.say();
+//
+//var sub = new SubClass("john");
+//sub.say();
+//

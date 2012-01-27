@@ -42,13 +42,13 @@
 	/** @namespace Contains a Mediator abstract class. */
 	soma.core.mediator = {};
 
-	Object.applyProperties = Object.prototype.applyProperties = function(target, extension) {
+	soma.applyProperties = function(target, extension) {
 		for (var prop in extension) {
 			target[prop] = extension[prop];
 		}
 	};
 
-	Object.inherit = Object.prototype.inherit = function(target, obj) {
+	soma.inherit = function(target, obj) {
 		var subclass;
 		if (obj && obj.hasOwnProperty('constructor')) {
 			// use constructor if defined
@@ -60,29 +60,29 @@
 			};
 		}
 		// add super properties
-		subclass.applyProperties(subclass.prototype, target.prototype);
+		soma.applyProperties(subclass.prototype, target.prototype);
 		// set the prototype chain to inherit from the parent without calling parent's constructor
 		var chain = function(){};
 		chain.prototype = target.prototype;
 		subclass.prototype = new chain();
 		// add obj properties
-		if (obj) subclass.applyProperties(subclass.prototype, obj);
+		if (obj) soma.applyProperties(subclass.prototype, obj, target.prototype);
 		// point constructor to the subclass
 		subclass.prototype.constructor = subclass;
 		// set super class reference
-		//subclass.parent = target.prototype;
+		subclass.parent = target.prototype;
 		// add extend shortcut
 		subclass.extend = function(obj) {
-			return obj.inherit(subclass, obj);
+			return soma.inherit(subclass, obj);
 		}
 		return subclass;
 	};
 
-	Object.extend = Object.prototype.extend = function(obj) {
-		return obj.inherit(function(){}, obj);
+	soma.extend = function(obj) {
+		return soma.inherit(function(){}, obj);
 	};
 
-	var SomaSharedCore = Object.extend({
+	var SomaSharedCore = soma.extend({
 		dispatchEvent: function() {
 			this.instance.dispatchEvent.apply(this.instance, arguments);
 		},
@@ -170,7 +170,7 @@
 		}
 	});
 
-	soma.core.AutoBind = Object.extend({
+	soma.core.AutoBind = soma.extend({
 		blackList: ["initialize", "parent", "$constructor", "addEventListener", "removeEventListener"],
 		autobind: function() {
 			if (this.wasAutoBound) {
@@ -217,7 +217,7 @@
 		}
 	});
 
-	var SequenceCommandProxy = Object.extend({
+	var SequenceCommandProxy = soma.extend({
 		event:null,
 		sequenceId:null,
 		constructor: function(event) {
@@ -344,11 +344,11 @@
 		}
 	});
 
-	soma.core.IDisposable = Object.extend({
+	soma.core.IDisposable = soma.extend({
 		dispose: function() {}
 	});
 
-	soma.core.controller.SomaController = Object.extend({
+	soma.core.controller.SomaController = soma.extend({
 		instance:null,
 		constructor: function(instance) {
 			this.boundInstance = this.instanceHandler.bind(this);
@@ -576,7 +576,7 @@
 		}
 	});
 
-	soma.core.view.SomaViews = Object.extend({
+	soma.core.view.SomaViews = soma.extend({
 		autoBound:false,
 		instance:null,
 		constructor: function(instance) {
@@ -638,7 +638,7 @@
 		}
 	});
 
-	soma.EventDispatcher = Object.extend({
+	soma.EventDispatcher = soma.extend({
 		constructor: function() {
 			this.listeners = [];
 		},
@@ -708,6 +708,7 @@
 		views:null,
 		constructor: function() {
 			soma.EventDispatcher.call(this);
+			//this.parent.constructor(this);
 			this.body = document.body;
 			if (!this.body) {
 				throw new Error("SomaCore requires body of type Element");
@@ -845,7 +846,7 @@
 		}
 	});
 
-	soma.core.model.SomaModels = Object.extend({
+	soma.core.model.SomaModels = soma.extend({
 		instance:null,
 		constructor: function(instance) {
 			this.models = {};
@@ -894,7 +895,7 @@
 		}
 	});
 
-	soma.core.model.Model = Object.extend({
+	soma.core.model.Model = soma.extend({
 		name: null,
 		data: null,
 		dispatcher:null,
@@ -934,7 +935,7 @@
 		}
 	});
 
-	soma.View = Object.extend({
+	soma.View = soma.extend({
 		instance: null,
 		domElement: null,
 		constructor: function(domElement) {
@@ -979,7 +980,7 @@
 		}
 	});
 
-	soma.core.wire.SomaWires = Object.extend({
+	soma.core.wire.SomaWires = soma.extend({
 		instance:null,
 		constructor: function(instance) {
 			this.wires = {};
@@ -1039,7 +1040,7 @@
 		}
 	});
 
-	soma.Event = Object.extend({
+	soma.Event = soma.extend({
 		constructor: function(type, params, bubbles, cancelable) {
 			var e = soma.Event.createGenericEvent(type, bubbles, cancelable);
 			if (params != null && params != undefined) {
@@ -1104,7 +1105,7 @@
 	    return e;
 	};
 
-	soma.core.IResponder = Object.extend({
+	soma.core.IResponder = soma.extend({
 		fault: function(info) {
 		},
 		result: function(data) {

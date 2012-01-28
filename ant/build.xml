@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="somacore.js" basedir="." default="build">
+
+	<property file="user.properties"/>
+	<property file="build.properties"/>
+
+	<target name="build" description="build somacore" depends="prepare-git, update-templates, update-doc, update-cli"/>
+
+	<target name="prepare-git" description="pull and checkout git branches">
+		<echo message="   - pull master and native branches"/>
+		<exec executable="git" failonerror="true">
+			<arg value="pull"/>
+		</exec>
+
+		<echo message="   - checkout master branch"/>
+		<exec executable="git" failonerror="true">
+			<arg value="checkout"/>
+			<arg value="master"/>
+		</exec>
+
+		<echo message="   - checkout native branch"/>
+		<exec executable="git" failonerror="true">
+			<arg value="checkout"/>
+			<arg value="native"/>
+		</exec>
+
+		<echo message="   - checkout gh-pages branch"/>
+		<exec executable="git" failonerror="true">
+			<arg value="checkout"/>
+			<arg value="gh-pages"/>
+		</exec>
+	</target>
+
+	<target name="update-templates" description="get the templates from the master and native branch">
+
+		<echo message="   - delete templates folder"/>
+		<delete dir="${build.templates.dir}" />
+
+		<echo message="   - update mootools templates from master"/>
+		<exec executable="git" failonerror="true">
+			<arg value="checkout"/>
+			<arg value="master"/>
+			<arg value="${build.templates.checkout.path}"/>
+		</exec>
+		<move file="${build.templates.checkout.path}" tofile="${build.templates.mootools.dir}"/>
+
+		<echo message="   - update native templates from native"/>
+		<exec executable="git" failonerror="true">
+			<arg value="checkout"/>
+			<arg value="native"/>
+			<arg value="${build.templates.checkout.path}"/>
+		</exec>
+		<move file="${build.templates.checkout.path}" tofile="${build.templates.native.dir}"/>
+
+	</target>
+
+	<target name="update-doc" description="get the templates from the master and native branch">
+
+		<echo message="   - delete doc folder"/>
+		<delete dir="${build.doc.dir}" />
+
+		<echo message="   - update doc"/>
+		<exec executable="git" failonerror="true">
+			<arg value="checkout"/>
+			<arg value="master"/>
+			<arg value="${build.doc.checkout.path}"/>
+		</exec>
+
+	</target>
+
+	<target name="update-cli" description="get the templates from the master and native branch">
+
+		<echo message="   - delete cli folder"/>
+		<delete dir="${build.cli.dir}" />
+
+		<echo message="   - update mootools cli from master"/>
+		<exec executable="git" failonerror="true">
+			<arg value="checkout"/>
+			<arg value="master"/>
+			<arg value="${build.cli.checkout.path}"/>
+		</exec>
+		<move file="${build.cli.checkout.path}" tofile="${build.cli.mootools.dir}"/>
+		<delete dir="${build.cli.checkout.dir}" />
+
+		<echo message="   - update native cli from native"/>
+		<exec executable="git" failonerror="true">
+			<arg value="checkout"/>
+			<arg value="master"/>
+			<arg value="${build.cli.checkout.path}"/>
+		</exec>
+		<move file="${build.cli.checkout.path}" tofile="${build.cli.native.dir}"/>
+		<delete dir="${build.cli.checkout.dir}" />
+
+	</target>
+
+</project>

@@ -93,4 +93,14 @@
 
 	</target>
 
+	<target name="cleanup-git" description="delete git cached files">
+
+		<!--#	deleted:    templates/export/compact-namespace.zip-->
+		<!--#	deleted:    templates/export/compact.zip-->
+		<!--#	deleted:    templates/export/standard-namespace.zip-->
+		<!--#	deleted:    templates/export/standard.zip-->
+		<!--#	deleted:    tools/cli/java/release/somacorejs.jar-->
+
+	</target>
+
 </project>

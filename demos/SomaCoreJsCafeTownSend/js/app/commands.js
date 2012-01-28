@@ -1,6 +1,6 @@
 var StartCommand = new Class({
 
-	Extends: soma.core.controller.Command,
+	Extends: soma.Command,
 
 	execute: function(event) {
 		switch(event.type) {
@@ -13,9 +13,9 @@ var StartCommand = new Class({
 
 var LoginCommand = new Class({
 
-	Extends: soma.core.controller.Command,
+	Extends: soma.Command,
 
-	Implements: soma.core.IResponder,
+	Implements: soma.IResponder,
 
 	execute: function(event) {
 		var wire = this.getWire(LoginWire.NAME);
@@ -56,7 +56,7 @@ var LoginCommand = new Class({
 
 var EmployeeCommand = new Class({
 
-	Extends: soma.core.controller.Command,
+	Extends: soma.Command,
 
 	execute: function(event) {
 		var wire = this.getWire(EmployeeWire.NAME);
@@ -81,7 +81,7 @@ var EmployeeCommand = new Class({
 
 var NavigationCommand = new Class({
 
-	Extends: soma.core.controller.Command,
+	Extends: soma.Command,
 
 	execute: function(event) {
 		this.getWire(NavigationWire.NAME).select(event.params.navigationID);

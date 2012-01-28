@@ -6,7 +6,7 @@ var FacadeTests = new Class({
 	,app: null
 
 	,setUp: function() {
-		this.app = new soma.core.Application;
+		this.app = new soma.Application;
 	}
 
 	,tearDown: function() {
@@ -15,12 +15,12 @@ var FacadeTests = new Class({
 	}
 
 	,test_create_instance: function() {
-		var soma1 = new soma.core.Application;
-		var soma2 = new soma.core.Application;
+		var soma1 = new soma.Application;
+		var soma2 = new soma.Application;
 		this.assertNotNull(soma1);
 		this.assertNotNull(soma2);
-		this.assertInstanceOf(soma.core.Application, soma1);
-		this.assertInstanceOf(soma.core.Application, soma2);
+		this.assertInstanceOf(soma.Application, soma1);
+		this.assertInstanceOf(soma.Application, soma2);
 		this.assertAreNotSame(soma1, soma2);
 		this.assertAreNotSame(soma1.controller, soma2.controller);
 		this.assertAreNotSame(soma1.wires, soma2.wires);
@@ -38,7 +38,7 @@ var FacadeTests = new Class({
 	}
 
 	,test_dispose: function() {
-		var app = new soma.core.Application;
+		var app = new soma.Application;
 		app.addCommand(CommandEventList.STARTUP, cases.core.StartCommand);
 		app.dispatchEvent(new soma.Event(CommandEventList.STARTUP));
 		app.addWire(cases.core.TestWire.NAME, new cases.core.TestWire);
@@ -66,13 +66,6 @@ var FacadeTests = new Class({
 	
 	,test_packages_creation: function() {
 		this.assertNotNull(soma);
-		this.assertNotNull(soma.core);
-		this.assertNotNull(soma.core.controller);
-		this.assertNotNull(soma.core.model);
-		this.assertNotNull(soma.core.view);
-		this.assertNotNull(soma.core.wire);
-		this.assertNotNull(soma.core.mediator);
-		this.assertNotNull(soma.util);
 	}
 
 	,test_create_class_instance: function() {
@@ -170,7 +163,7 @@ var CommandTest = new Class
 
 	,setUp: function()
 	{
-		this.soma = new soma.core.Application();
+		this.soma = new soma.Application();
 		this.soma.addCommand( CommandEventList.STARTUP, cases.core.StartCommand );
 	}
 
@@ -254,7 +247,7 @@ var ViewTest = new Class
 
 	,setUp: function()
 	{
-		this.soma = new soma.core.Application();
+		this.soma = new soma.Application();
 	}
 
 	,tearDown: function()
@@ -370,7 +363,7 @@ var WireTest = new Class
 
 	,setUp: function()
 	{
-		this.soma = new soma.core.Application();
+		this.soma = new soma.Application();
 	}
 	,tearDown: function()
 	{
@@ -482,7 +475,7 @@ var ModelTest = new Class
 
 	,setUp: function()
 	{
-		this.soma = new soma.core.Application();
+		this.soma = new soma.Application();
 	}
 	,tearDown: function()
 	{
@@ -633,7 +626,7 @@ var AutobindTest = new Class
 
 	 Extends: PyrTestCase
 
-	 ,Implements:[ soma.core.AutoBind ]
+	 ,Implements:[ soma.AutoBind ]
 
 	,name: "AutobindTest"
 
@@ -652,7 +645,7 @@ var AutobindTest = new Class
 
 	,setUp: function()
 	{
-		this.soma = new soma.core.Application();
+		this.soma = new soma.Application();
 		this.soma.addEventListener( "test", this.autoBoundListener, false );
 	}
 

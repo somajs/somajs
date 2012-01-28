@@ -2,7 +2,7 @@ var ___APPLICATION_NAMESPACE___ = ___APPLICATION_NAMESPACE___ || {};
 
 ___APPLICATION_NAMESPACE___.ApplicationCommand = new Class({
 
-	Extends:soma.core.controller.Command,
+	Extends:soma.Command,
 
 	execute: function(event) {
 		switch(event.type) {

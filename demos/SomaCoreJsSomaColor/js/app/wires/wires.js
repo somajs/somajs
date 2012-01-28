@@ -5,7 +5,7 @@
 var ColorWire = function() {};
 ColorWire.prototype =
 {
-	Extends: soma.core.wire.Wire,
+	Extends: soma.Wire,
 
 	lastSequencer:null,
 

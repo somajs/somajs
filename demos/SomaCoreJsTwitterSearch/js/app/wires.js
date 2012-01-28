@@ -1,6 +1,6 @@
 var SearchWire = new Class({
 
-	Extends: soma.core.wire.Wire,
+	Extends: soma.Wire,
 
 	init: function() {
 		this.addView(MainView.NAME, new MainView);

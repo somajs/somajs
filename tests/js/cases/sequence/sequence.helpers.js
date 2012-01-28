@@ -15,7 +15,7 @@ cases.sequence.TestEvent = new Class
 
 cases.sequence.SequenceCommand = new Class
 ({
-	Extends: soma.core.controller.SequenceCommand
+	Extends: soma.SequenceCommand
 
 	 ,initialize: function()
 	{
@@ -33,7 +33,7 @@ cases.sequence.SequenceCommand = new Class
 
 cases.sequence.AsyncCommand = new Class
 ({
-	Extends: soma.core.controller.Command
+	Extends: soma.Command
 
 	,sequencer:null
 	,timer:null

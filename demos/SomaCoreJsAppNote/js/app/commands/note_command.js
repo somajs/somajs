@@ -1,6 +1,6 @@
 var NoteCommand = new Class({
 
-	Extends: soma.core.controller.Command,
+	Extends: soma.Command,
 
 	execute: function(event) {
 		var model = this.getModel(NoteModel.NAME);

@@ -1,6 +1,6 @@
 var ApplicationModel = new Class({
 
-	Extends: soma.core.model.Model,
+	Extends: soma.Model,
 
 	init: function() {
 		this.data = "Hello somacore";

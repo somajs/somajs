@@ -9,7 +9,7 @@ InvocationAsyncTest = new Class
 	,name: "InvocationAsyncTest"
 
 	 /**
-	  * @type soma.core.Application
+	  * @type soma.Application
 	  */
 	,soma:null
 
@@ -22,7 +22,7 @@ InvocationAsyncTest = new Class
 
 	,setUp: function()
 	{
-		this.soma = new soma.core.Application();
+		this.soma = new soma.Application();
 		this.soma.addCommand( cases.invocationasync.InvocationCommandList.TEST, cases.invocationasync.TestAsyncCommand );
 		this.soma.addEventListener( cases.invocationasync.InvocationCommandList.TEST_ASYNC_COMPLETE, this.asyncBound );
 	}

@@ -1,6 +1,6 @@
 var EmployeeModel = new Class({
 
-	Extends: soma.core.model.Model,
+	Extends: soma.Model,
 	
 	init: function() {
 		this.data = [

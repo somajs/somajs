@@ -1,6 +1,6 @@
 var TwitterService = new Class({
 
-	Extends: soma.core.wire.Wire,
+	Extends: soma.Wire,
 
 	url: "http://search.twitter.com/search.json",
 	lastResult: null,

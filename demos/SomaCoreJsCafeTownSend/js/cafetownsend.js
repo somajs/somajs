@@ -10,7 +10,7 @@ var NavigationConstants = {
 
 var SomaApplication = new Class({
 
-	Extends: soma.core.Application,
+	Extends: soma.Application,
 	
 	registerCommands: function() {
 		this.addCommand(CommandList.START, StartCommand);

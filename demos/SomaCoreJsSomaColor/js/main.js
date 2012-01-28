@@ -31,7 +31,7 @@ var CommandEventList =
 /** @class */
 var SomaApp = new Class
 ( {
-		Extends: soma.core.Application,
+		Extends: soma.Application,
 
 		init: function() {
 

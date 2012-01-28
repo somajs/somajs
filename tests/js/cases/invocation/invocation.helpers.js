@@ -10,7 +10,7 @@ cases.invocation.InvocationCommandList =
 
 cases.invocation.TestCommand = new Class
 ({
-	Extends: soma.core.controller.Command
+	Extends: soma.Command
 	,execute: function( e )
 	{
 		switch( e.type )
@@ -26,7 +26,7 @@ cases.invocation.TestCommand = new Class
 
 cases.invocation.TestParallelCommand = new Class
 ({
-	Extends: soma.core.controller.ParallelCommand
+	Extends: soma.ParallelCommand
 	,initializeSubCommands: function()
 	{
 		this.addSubCommand( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this.getData()) );
@@ -44,7 +44,7 @@ cases.invocation.TestParallelCommand = new Class
 
 cases.invocation.EmptyModel = new Class
 ({
-	Extends: soma.core.model.Model
+	Extends: soma.Model
 
 	,initialize: function( data )
 	{
@@ -68,7 +68,6 @@ cases.invocation.TestEvent = new Class
 ({
 	Extends: soma.Event
 });
-
 
 
 

@@ -1,5 +1,5 @@
 var LoginWire = new Class({
-	Extends: soma.core.wire.Wire,
+	Extends: soma.Wire,
 	init: function() {
 		// commands
 		this.addCommand(LoginEvent.LOGIN, LoginCommand);
@@ -18,7 +18,7 @@ var LoginWire = new Class({
 LoginWire.NAME = "Wire::LoginWire";
 
 var EmployeeWire = new Class({
-	Extends: soma.core.wire.Wire,
+	Extends: soma.Wire,
 	init: function() {
 		// models
 		this.addModel(EmployeeModel.NAME, new EmployeeModel);
@@ -66,7 +66,7 @@ var EmployeeWire = new Class({
 EmployeeWire.NAME = "Wire::EmployeeWire";
 
 var NavigationWire = new Class({
-	Extends: soma.core.wire.Wire,
+	Extends: soma.Wire,
 	viewIds: null,
 	init: function() {
 		this.viewIds = [

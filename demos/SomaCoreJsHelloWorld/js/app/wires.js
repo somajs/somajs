@@ -1,6 +1,6 @@
 var MessageWire = new Class({
 
-	Extends: soma.core.wire.Wire,
+	Extends: soma.Wire,
 
 	init: function() {
 		this.addModel(MessageModel.NAME, new MessageModel);

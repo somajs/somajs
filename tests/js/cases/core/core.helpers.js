@@ -4,7 +4,7 @@ cases.core.globalWireTestDisposeCalled = false;
 
 cases.core.StartCommand = new Class
 ({
-	Extends: soma.core.controller.Command,
+	Extends: soma.Command,
 
 	execute: function()
 	{
@@ -14,7 +14,7 @@ cases.core.StartCommand = new Class
 
 cases.core.CommandAssertInstance = new Class
 ({
-	Extends: soma.core.controller.Command,
+	Extends: soma.Command,
 
 	execute: function(event)
 	{
@@ -26,7 +26,7 @@ cases.core.CommandAssertInstance = new Class
 cases.core.NativePrototypeCommand = function(){};
 cases.core.NativePrototypeCommand.prototype =
 {
-	Extends: soma.core.controller.Command,
+	Extends: soma.Command,
 
 	execute: function()
 	{
@@ -72,7 +72,7 @@ cases.core.TestView.NAME = "cases.core.TestView";
 
 cases.core.TestWire = new Class
 ({
-   	Extends: soma.core.wire.Wire,
+   	Extends: soma.Wire,
 
 	initCalled: false,
 
@@ -92,7 +92,7 @@ cases.core.TestWire.NAME = "cases.core.TestWire";
 
 cases.core.TestAutobindWire = new Class
 ({
-   	Extends: soma.core.wire.Wire
+   	Extends: soma.Wire
 
 	,AutoBindPattern:"customBoundMethod"
 
@@ -126,7 +126,7 @@ cases.core.TestAutobindWire.NAME = "cases.core.TestAutobindWire";
 
 cases.core.TestModel = new Class
 ({
-	Extends: soma.core.model.Model
+	Extends: soma.Model
 
 	,initCalled: false
 	,disposeCalled: false

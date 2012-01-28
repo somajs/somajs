@@ -1,6 +1,6 @@
 var TwitterCommand = new Class({
 
-	Extends: soma.core.controller.Command,
+	Extends: soma.Command,
 
 	execute: function(event) {
 		switch(event.type) {

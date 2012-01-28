@@ -12,7 +12,7 @@
 var ColorCommand = function() {};
 ColorCommand.prototype =
 {
-	Extends:soma.core.controller.Command,
+	Extends:soma.Command,
 
 	/**#
 	 *
@@ -51,7 +51,7 @@ ColorCommand.prototype =
 var ParallelTestCommand = function() {};
 ParallelTestCommand.prototype =
 {
-	Extends: soma.core.controller.ParallelCommand,
+	Extends: soma.ParallelCommand,
 
 	initializeSubCommands: function()
 	{
@@ -67,7 +67,7 @@ ParallelTestCommand.prototype =
 var AsyncCommand = function() {};
 AsyncCommand.prototype =
 {
-	Extends: soma.core.controller.Command,
+	Extends: soma.Command,
 
 	/** @type soma.core.controller.SequenceCommand **/
 	sequencer: null,
@@ -113,7 +113,7 @@ AsyncCommand.prototype =
 
 var SequenceTestCommand = new Class
 ({
-	Extends: soma.core.controller.SequenceCommand,
+	Extends: soma.SequenceCommand,
 
 	initialize: function()
 	{
@@ -141,7 +141,7 @@ var SequenceTestCommand = new Class
 
 var TweenSequenceCommand = new Class
 ({
-	Extends: soma.core.controller.SequenceCommand,
+	Extends: soma.SequenceCommand,
 
 	initialize: function( id )
 	{
@@ -209,7 +209,7 @@ var TweenSequenceCommand = new Class
 
 var SequenceStopCommand = new Class
 ({
-	Extends:soma.core.controller.Command,
+	Extends:soma.Command,
 
 	execute: function( e )
 	{
@@ -223,7 +223,7 @@ var SequenceStopCommand = new Class
 
 var TweenCommand = new Class
 ({
-	Extends: soma.core.controller.Command,
+	Extends: soma.Command,
 
 	/** @type {soma.core.controller.SequenceCommand}  **/
 	sequencer:null,
@@ -264,7 +264,7 @@ var TweenCommand = new Class
 
 var MoveViewCommand = new Class
 ({
-   	Extends: soma.core.controller.Command,
+   	Extends: soma.Command,
 
 	/**
 	 *

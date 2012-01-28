@@ -2,7 +2,7 @@ var ___APPLICATION_NAMESPACE___ = ___APPLICATION_NAMESPACE___ || {};
 
 ___APPLICATION_NAMESPACE___.ApplicationWire = new Class({
 
-	Extends: soma.core.wire.Wire,
+	Extends: soma.Wire,
 
 	init: function() {
 		

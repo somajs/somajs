@@ -1,6 +1,6 @@
 var MessageModel = new Class({
 
-	Extends: soma.core.model.Model,
+	Extends: soma.Model,
 
     message:null,
 	

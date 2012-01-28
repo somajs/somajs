@@ -14,7 +14,7 @@ cases.invocationasync.TestEvent = new Class
 
 cases.invocationasync.TestAsyncCommand = new Class
 ({
-	Extends: soma.core.controller.Command
+	Extends: soma.Command
 
 	,sequencer:null
 	,timer:null

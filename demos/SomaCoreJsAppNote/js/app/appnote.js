@@ -2,7 +2,7 @@ var appnote = appnote || {};
 
 appnote.SomaApplication = new Class({
 
-	Extends: soma.core.Application,
+	Extends: soma.Application,
 
 	init: function() {
 

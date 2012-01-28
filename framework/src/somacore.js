@@ -27,21 +27,9 @@
 
 (function() {
 	
-	/** @namespace Global namespace and contains some helpers. */
+	/** @namespace Global namespace. */
 	soma = {};
-	/** @namespace Contains the SomaCore class Application (entry point of the framework).  */
-	soma.core = {};
-	/** @namespace Contains classes related to commands and events. */
-	soma.core.controller = {};
-	/** @namespace Contains the models manager and a Model abstract class. */
-	soma.core.model = {};
-	/** @namespace Contains the views manager and a View abstract class (no framework dependency except with IE7, IE8 and IE9). */
-	soma.core.view = {};
-	/** @namespace Contains the wires manager and a Wire abstract class. */
-	soma.core.wire = {};
-	/** @namespace Contains a Mediator abstract class. */
-	soma.core.mediator = {};
-	
+
 	/**
 	 * @function
 	 * Used for dynamic class instantiation with passing arbitrary amount of arguments to their constructors.
@@ -183,10 +171,10 @@
 		/**
 		 * AutoBind the application.
 		 * @name autobind
-		 * @methodOf soma.core.AutoBind#
+		 * @methodOf soma.AutoBind#
 		 * @example
 MyAutoBoundClass = new Class({
-	Implements: soma.core.AutoBind,
+	Implements: soma.AutoBind,
 	initialize: function() {
 		this.autobind();
 	}
@@ -236,7 +224,7 @@ MyAutoBoundClass = new Class({
 	 * @example
 // wire not autobound
 var MyWire = new Class({
-	Extends: soma.core.wire.Wire,
+	Extends: soma.Wire,
 	init: function() {
 		this.addEventListener("eventType", this.eventHandler.bind(this));
 	},
@@ -247,7 +235,7 @@ var MyWire = new Class({
 
 // wire autobound
 var MyWire = new Class({
-	Extends: soma.core.wire.Wire,
+	Extends: soma.Wire,
 	shouldAutobind: true,
 	init: function() {
 		this.addEventListener("eventType", this.eventHandler);
@@ -257,40 +245,40 @@ var MyWire = new Class({
 	}
 });
 	 */
-	soma.core.AutoBind = new Class(
-		/** @lends soma.core.AutoBind.prototype */
+	soma.AutoBind = new Class(
+		/** @lends soma.AutoBind.prototype */
 		AutoBindProto);
 
 	/**
 	 * @class Class that will be instantiated when a registered event (command) is dispatched, the framework will automatically call the execute method.
 	 * @description Creates a new Command, should be instantiated by the framework only.
-	 * @borrows soma.core.Application#addWire
-	 * @borrows soma.core.Application#getWire
-	 * @borrows soma.core.Application#getWires
-	 * @borrows soma.core.Application#hasWire
-	 * @borrows soma.core.Application#removeWire
-	 * @borrows soma.core.Application#addModel
-	 * @borrows soma.core.Application#getModel
-	 * @borrows soma.core.Application#getModels
-	 * @borrows soma.core.Application#hasModel
-	 * @borrows soma.core.Application#removeModel
-	 * @borrows soma.core.Application#addView
-	 * @borrows soma.core.Application#getView
-	 * @borrows soma.core.Application#getViews
-	 * @borrows soma.core.Application#hasView
-	 * @borrows soma.core.Application#removeView
-	 * @borrows soma.core.Application#addCommand
-	 * @borrows soma.core.Application#getCommand
-	 * @borrows soma.core.Application#getCommands
-	 * @borrows soma.core.Application#hasCommand
-	 * @borrows soma.core.Application#removeCommand
-	 * @borrows soma.core.Application#getSequencer
-	 * @borrows soma.core.Application#stopSequencerWithEvent
-	 * @borrows soma.core.Application#stopSequencer
-	 * @borrows soma.core.Application#stopAllSequencers
-	 * @borrows soma.core.Application#isPartOfASequence
-	 * @borrows soma.core.Application#getLastSequencer
-	 * @borrows soma.core.Application#getRunningSequencers
+	 * @borrows soma.Application#addWire
+	 * @borrows soma.Application#getWire
+	 * @borrows soma.Application#getWires
+	 * @borrows soma.Application#hasWire
+	 * @borrows soma.Application#removeWire
+	 * @borrows soma.Application#addModel
+	 * @borrows soma.Application#getModel
+	 * @borrows soma.Application#getModels
+	 * @borrows soma.Application#hasModel
+	 * @borrows soma.Application#removeModel
+	 * @borrows soma.Application#addView
+	 * @borrows soma.Application#getView
+	 * @borrows soma.Application#getViews
+	 * @borrows soma.Application#hasView
+	 * @borrows soma.Application#removeView
+	 * @borrows soma.Application#addCommand
+	 * @borrows soma.Application#getCommand
+	 * @borrows soma.Application#getCommands
+	 * @borrows soma.Application#hasCommand
+	 * @borrows soma.Application#removeCommand
+	 * @borrows soma.Application#getSequencer
+	 * @borrows soma.Application#stopSequencerWithEvent
+	 * @borrows soma.Application#stopSequencer
+	 * @borrows soma.Application#stopAllSequencers
+	 * @borrows soma.Application#isPartOfASequence
+	 * @borrows soma.Application#getLastSequencer
+	 * @borrows soma.Application#getRunningSequencers
 	 * @borrows soma.EventDispatcher#addEventListener
 	 * @borrows soma.EventDispatcher#removeEventListener
 	 * @borrows soma.EventDispatcher#hasEventListener
@@ -302,7 +290,7 @@ this.dispatchEvent(new soma.Event("myEventType"));
 	 * @example
 // create a command class
 var MyCommand = new Class({
-	Extends:soma.core.controller.Command,
+	Extends:soma.Command,
 	execute: function(event) {
 		// access framework elements examples:
 		// alert(this.instance)
@@ -311,8 +299,8 @@ var MyCommand = new Class({
 	}
 });
 	 */
-	soma.core.controller.Command = new Class(
-		/** @lends soma.core.controller.Command.prototype */
+	soma.Command = new Class(
+		/** @lends soma.Command.prototype */
 		{
 		Implements: SomaSharedCore,
 
@@ -327,7 +315,7 @@ var MyCommand = new Class({
 		 * @param {soma.Event} event The event dispatched to triggered the command.
 		 * @example
 var MyCommand = new Class({
- 	Extends:soma.core.controller.Command,
+ 	Extends:soma.Command,
 	execute: function(event) {
 		// alert(event.type)
 	}
@@ -347,10 +335,10 @@ var MyCommand = new Class({
 		}
 	});
 
-	soma.core.controller.SequenceCommand = new Class(
-		/** @lends soma.core.controller.SequenceCommand.prototype */
+	soma.SequenceCommand = new Class(
+		/** @lends soma.SequenceCommand.prototype */
 		{
-		Extends: soma.core.controller.Command,
+		Extends: soma.Command,
 		Implements: SomaSharedCore,
 		/** {array} List of commands */
 		commands: null,
@@ -364,35 +352,35 @@ var MyCommand = new Class({
 		 * @class The SequenceCommand class is used to execute a list of commands one after the other. The commands added can be asynchronous or synchronous.
 		 * @description Creates a new SequenceCommand, should be instantiated by the framework only.
 		 * @param {string} id The id of the sequence.
-		 * @extends soma.core.controller.Command
-		 * @borrows soma.core.controller.Command#execute
-		 * @borrows soma.core.Application#addWire
-		 * @borrows soma.core.Application#getWire
-		 * @borrows soma.core.Application#getWires
-		 * @borrows soma.core.Application#hasWire
-		 * @borrows soma.core.Application#removeWire
-		 * @borrows soma.core.Application#addModel
-		 * @borrows soma.core.Application#getModel
-		 * @borrows soma.core.Application#getModels
-		 * @borrows soma.core.Application#hasModel
-		 * @borrows soma.core.Application#removeModel
-		 * @borrows soma.core.Application#addView
-		 * @borrows soma.core.Application#getView
-		 * @borrows soma.core.Application#getViews
-		 * @borrows soma.core.Application#hasView
-		 * @borrows soma.core.Application#removeView
-		 * @borrows soma.core.Application#addCommand
-		 * @borrows soma.core.Application#getCommand
-		 * @borrows soma.core.Application#getCommands
-		 * @borrows soma.core.Application#hasCommand
-		 * @borrows soma.core.Application#removeCommand
-		 * @borrows soma.core.Application#getSequencer
-		 * @borrows soma.core.Application#stopSequencerWithEvent
-		 * @borrows soma.core.Application#stopSequencer
-		 * @borrows soma.core.Application#stopAllSequencers
-		 * @borrows soma.core.Application#isPartOfASequence
-		 * @borrows soma.core.Application#getLastSequencer
-		 * @borrows soma.core.Application#getRunningSequencers
+		 * @extends soma.Command
+		 * @borrows soma.Command#execute
+		 * @borrows soma.Application#addWire
+		 * @borrows soma.Application#getWire
+		 * @borrows soma.Application#getWires
+		 * @borrows soma.Application#hasWire
+		 * @borrows soma.Application#removeWire
+		 * @borrows soma.Application#addModel
+		 * @borrows soma.Application#getModel
+		 * @borrows soma.Application#getModels
+		 * @borrows soma.Application#hasModel
+		 * @borrows soma.Application#removeModel
+		 * @borrows soma.Application#addView
+		 * @borrows soma.Application#getView
+		 * @borrows soma.Application#getViews
+		 * @borrows soma.Application#hasView
+		 * @borrows soma.Application#removeView
+		 * @borrows soma.Application#addCommand
+		 * @borrows soma.Application#getCommand
+		 * @borrows soma.Application#getCommands
+		 * @borrows soma.Application#hasCommand
+		 * @borrows soma.Application#removeCommand
+		 * @borrows soma.Application#getSequencer
+		 * @borrows soma.Application#stopSequencerWithEvent
+		 * @borrows soma.Application#stopSequencer
+		 * @borrows soma.Application#stopAllSequencers
+		 * @borrows soma.Application#isPartOfASequence
+		 * @borrows soma.Application#getLastSequencer
+		 * @borrows soma.Application#getRunningSequencers
 		 * @borrows soma.EventDispatcher#addEventListener
 		 * @borrows soma.EventDispatcher#removeEventListener
 		 * @borrows soma.EventDispatcher#hasEventListener
@@ -406,7 +394,7 @@ this.addCommand("excuteMySequence", SequenceCommandExample);
 this.dispatchEvent(new MyEvent("excuteMysequence"));
 		 * @example
 var SequenceTestCommand = new Class ({
-	Extends: soma.core.controller.SequenceCommand,
+	Extends: soma.SequenceCommand,
 
 	initialize: function() {
 		this.parent("sequencer.test.id");
@@ -423,7 +411,7 @@ var SequenceTestCommand = new Class ({
 });
 		 * @example
 var CommandExample = new Class {{
-	   Extends: soma.core.controller.Command,
+	   Extends: soma.Command,
 
 	execute: function(event) {
 		// do something
@@ -451,7 +439,7 @@ var CommandExample = new Class {{
 		 * Method that you can overwrite to add commands to the sequence command.
 		 * @example
 var SequenceTestCommand = new Class ({
-	Extends: soma.core.controller.SequenceCommand,
+	Extends: soma.SequenceCommand,
 
 	initialize: function() {
 		this.parent("sequencer.test.id");
@@ -496,7 +484,7 @@ this.addSubCommand(new soma.Event("eventType"));
 		 * Method used to execute the next command in the list of subcommands. If a command is part of a sequence, you must call the executeNextCommand in the command itself.
 		 * @example
 var CommandExample = new Class {{
-	   Extends: soma.core.controller.Command,
+	   Extends: soma.Command,
 
 	execute: function(event) {
 		// do something
@@ -544,7 +532,7 @@ var CommandExample = new Class {{
 
 		/**
 		 * Returns the current command in progress.
-		 * @return {soma.core.controller.SequenceCommand}
+		 * @return {soma.SequenceCommand}
 		 */
 		getCurrentCommand: function() {
 			return this.currentCommand;
@@ -560,10 +548,10 @@ var CommandExample = new Class {{
 
 	});
 
-	soma.core.controller.ParallelCommand = new Class(
-		/** @lends soma.core.controller.ParallelCommand.prototype */
+	soma.ParallelCommand = new Class(
+		/** @lends soma.ParallelCommand.prototype */
 		{
-		Extends: soma.core.controller.Command,
+		Extends: soma.Command,
 		Implements: SomaSharedCore,
 		/** List of commands to be executed. */
 		commands:null,
@@ -572,35 +560,35 @@ var CommandExample = new Class {{
 		 * @constructs
 		 * @class The ParallelCommand class is used to execute a list of commands, they will all start at the same time.
 		 * @description Creates a new ParallelCommand, should be instantiated by the framework only.
-		 * @extends soma.core.controller.Command
-		 * @borrows soma.core.controller.Command#execute
-		 * @borrows soma.core.Application#addWire
-		 * @borrows soma.core.Application#getWire
-		 * @borrows soma.core.Application#getWires
-		 * @borrows soma.core.Application#hasWire
-		 * @borrows soma.core.Application#removeWire
-		 * @borrows soma.core.Application#addModel
-		 * @borrows soma.core.Application#getModel
-		 * @borrows soma.core.Application#getModels
-		 * @borrows soma.core.Application#hasModel
-		 * @borrows soma.core.Application#removeModel
-		 * @borrows soma.core.Application#addView
-		 * @borrows soma.core.Application#getView
-		 * @borrows soma.core.Application#getViews
-		 * @borrows soma.core.Application#hasView
-		 * @borrows soma.core.Application#removeView
-		 * @borrows soma.core.Application#addCommand
-		 * @borrows soma.core.Application#getCommand
-		 * @borrows soma.core.Application#getCommands
-		 * @borrows soma.core.Application#hasCommand
-		 * @borrows soma.core.Application#removeCommand
-		 * @borrows soma.core.Application#getSequencer
-		 * @borrows soma.core.Application#stopSequencerWithEvent
-		 * @borrows soma.core.Application#stopSequencer
-		 * @borrows soma.core.Application#stopAllSequencers
-		 * @borrows soma.core.Application#isPartOfASequence
-		 * @borrows soma.core.Application#getLastSequencer
-		 * @borrows soma.core.Application#getRunningSequencers
+		 * @extends soma.Command
+		 * @borrows soma.Command#execute
+		 * @borrows soma.Application#addWire
+		 * @borrows soma.Application#getWire
+		 * @borrows soma.Application#getWires
+		 * @borrows soma.Application#hasWire
+		 * @borrows soma.Application#removeWire
+		 * @borrows soma.Application#addModel
+		 * @borrows soma.Application#getModel
+		 * @borrows soma.Application#getModels
+		 * @borrows soma.Application#hasModel
+		 * @borrows soma.Application#removeModel
+		 * @borrows soma.Application#addView
+		 * @borrows soma.Application#getView
+		 * @borrows soma.Application#getViews
+		 * @borrows soma.Application#hasView
+		 * @borrows soma.Application#removeView
+		 * @borrows soma.Application#addCommand
+		 * @borrows soma.Application#getCommand
+		 * @borrows soma.Application#getCommands
+		 * @borrows soma.Application#hasCommand
+		 * @borrows soma.Application#removeCommand
+		 * @borrows soma.Application#getSequencer
+		 * @borrows soma.Application#stopSequencerWithEvent
+		 * @borrows soma.Application#stopSequencer
+		 * @borrows soma.Application#stopAllSequencers
+		 * @borrows soma.Application#isPartOfASequence
+		 * @borrows soma.Application#getLastSequencer
+		 * @borrows soma.Application#getRunningSequencers
 		 * @borrows soma.EventDispatcher#addEventListener
 		 * @borrows soma.EventDispatcher#removeEventListener
 		 * @borrows soma.EventDispatcher#hasEventListener
@@ -614,7 +602,7 @@ this.addCommand("excuteMyCommands", ParallelCommandExample);
 this.dispatchEvent(new MyEvent("excuteMyCommands"));
 		 * @example
 var ParallelTestCommand = new Class({
-	Extends: soma.core.controller.ParallelCommand,
+	Extends: soma.ParallelCommand,
 
 	initializeSubCommands: function(){
 		this.addSubCommand(new soma.Event("doSomethingAsync"));
@@ -634,7 +622,7 @@ var ParallelTestCommand = new Class({
 		 * Method that you can overwrite to add commands to the parallel command.
 		 * @example
 var ParallelTestCommand = new Class({
-	Extends: soma.core.controller.ParallelCommand,
+	Extends: soma.ParallelCommand,
 
 	initializeSubCommands: function(){
 		this.addSubCommand(new soma.Event("doSomethingAsync"));
@@ -688,10 +676,10 @@ this.addSubCommand(new soma.Event("eventType"));
 		
 	});
 
-	soma.core.wire.Wire = new Class(
-		/** @lends soma.core.wire.Wire.prototype */
+	soma.Wire = new Class(
+		/** @lends soma.Wire.prototype */
 		{
-		Implements: [SomaSharedCore, soma.core.AutoBind],
+		Implements: [SomaSharedCore, soma.AutoBind],
 		/** {string} The name of the wire */
 		name: null,
 		instance: null,
@@ -706,33 +694,33 @@ this.addSubCommand(new soma.Event("eventType"));
 		 * A wire can also be in control of the commands that are dispatched by listening to them and even stop their execution if needed (see the examples in this page).<br/>
 		 * @description Create an instance of a Wire class.
 		 * @param {string} name The name of the wire.
-		 * @borrows soma.core.Application#addWire
-		 * @borrows soma.core.Application#getWire
-		 * @borrows soma.core.Application#getWires
-		 * @borrows soma.core.Application#hasWire
-		 * @borrows soma.core.Application#removeWire
-		 * @borrows soma.core.Application#addModel
-		 * @borrows soma.core.Application#getModel
-		 * @borrows soma.core.Application#getModels
-		 * @borrows soma.core.Application#hasModel
-		 * @borrows soma.core.Application#removeModel
-		 * @borrows soma.core.Application#addView
-		 * @borrows soma.core.Application#getView
-		 * @borrows soma.core.Application#getViews
-		 * @borrows soma.core.Application#hasView
-		 * @borrows soma.core.Application#removeView
-		 * @borrows soma.core.Application#addCommand
-		 * @borrows soma.core.Application#getCommand
-		 * @borrows soma.core.Application#getCommands
-		 * @borrows soma.core.Application#hasCommand
-		 * @borrows soma.core.Application#removeCommand
-		 * @borrows soma.core.Application#getSequencer
-		 * @borrows soma.core.Application#stopSequencerWithEvent
-		 * @borrows soma.core.Application#stopSequencer
-		 * @borrows soma.core.Application#stopAllSequencers
-		 * @borrows soma.core.Application#isPartOfASequence
-		 * @borrows soma.core.Application#getLastSequencer
-		 * @borrows soma.core.Application#getRunningSequencers
+		 * @borrows soma.Application#addWire
+		 * @borrows soma.Application#getWire
+		 * @borrows soma.Application#getWires
+		 * @borrows soma.Application#hasWire
+		 * @borrows soma.Application#removeWire
+		 * @borrows soma.Application#addModel
+		 * @borrows soma.Application#getModel
+		 * @borrows soma.Application#getModels
+		 * @borrows soma.Application#hasModel
+		 * @borrows soma.Application#removeModel
+		 * @borrows soma.Application#addView
+		 * @borrows soma.Application#getView
+		 * @borrows soma.Application#getViews
+		 * @borrows soma.Application#hasView
+		 * @borrows soma.Application#removeView
+		 * @borrows soma.Application#addCommand
+		 * @borrows soma.Application#getCommand
+		 * @borrows soma.Application#getCommands
+		 * @borrows soma.Application#hasCommand
+		 * @borrows soma.Application#removeCommand
+		 * @borrows soma.Application#getSequencer
+		 * @borrows soma.Application#stopSequencerWithEvent
+		 * @borrows soma.Application#stopSequencer
+		 * @borrows soma.Application#stopAllSequencers
+		 * @borrows soma.Application#isPartOfASequence
+		 * @borrows soma.Application#getLastSequencer
+		 * @borrows soma.Application#getRunningSequencers
 		 * @borrows soma.EventDispatcher#addEventListener
 		 * @borrows soma.EventDispatcher#removeEventListener
 		 * @borrows soma.EventDispatcher#hasEventListener
@@ -749,7 +737,7 @@ var wire = this.getWire("myWireName");
 		 * @example
 // create a wire
 var MyWire = new Class({
-	Extends: soma.core.wire.Wire,
+	Extends: soma.Wire,
 
 	init: function() {
 		// starting point
@@ -763,7 +751,7 @@ MyWire.NAME = "Wire::MyWire";
 		 * @example
 // listening to a command in a wire.
 var MyWire = new Class({
-	Extends: soma.core.wire.Wire,
+	Extends: soma.Wire,
 
 	init: function() {
 		this.addEventListener("eventType", this.eventHandler);
@@ -779,7 +767,7 @@ MyWire.NAME = "Wire::MyWire";
 // The cancelable property of the event need to be set to true when you dispatch it.
 // Any command can be stopped using the native event built-in method: preventDefault.
 var MyWire = new Class({
-	Extends: soma.core.wire.Wire,
+	Extends: soma.Wire,
 
 	init: function() {
 		this.addEventListener("eventType", this.eventHandler);
@@ -835,32 +823,32 @@ MyWire.NAME = "Wire::MyWire";
 	});
 
 	/**
-	 * @name soma.core.controller.SomaController
+	 * @name soma.SomaController
 	 * @namespace
 	 * The SomaController class handles the commands added to the framework and the events dispatched from either a display list or a framework element (instance of the framework, commands or wires).<br/>
 	 * All the events dispatched with a property bubbles set to false will be ignored, that is why the event mapped to a command class must have this property set to true.<br/>
 	 * You can add commands, remove commands and dispatch commands from: the framework instance, the body, a view, a wire, a command or a model.<br/>
 	 * You can create 4 types of commands: synchronous (Command), asynchronous, parallel (ParallelCommand) and sequence (SequenceCommand). See each class for a detailed explanation and examples.<br/>
 	 * You can use the properties of a custom event to send parameters and receive them in the commands.<br/>
-	 * @borrows soma.core.Application#addCommand
-	 * @borrows soma.core.Application#getCommand
-	 * @borrows soma.core.Application#getCommands
-	 * @borrows soma.core.Application#hasCommand
-	 * @borrows soma.core.Application#removeCommand
-	 * @borrows soma.core.Application#getSequencer
-	 * @borrows soma.core.Application#stopSequencerWithEvent
-	 * @borrows soma.core.Application#stopSequencer
-	 * @borrows soma.core.Application#stopAllSequencers
-	 * @borrows soma.core.Application#isPartOfASequence
-	 * @borrows soma.core.Application#getLastSequencer
-	 * @borrows soma.core.Application#getRunningSequencers
+	 * @borrows soma.Application#addCommand
+	 * @borrows soma.Application#getCommand
+	 * @borrows soma.Application#getCommands
+	 * @borrows soma.Application#hasCommand
+	 * @borrows soma.Application#removeCommand
+	 * @borrows soma.Application#getSequencer
+	 * @borrows soma.Application#stopSequencerWithEvent
+	 * @borrows soma.Application#stopSequencer
+	 * @borrows soma.Application#stopAllSequencers
+	 * @borrows soma.Application#isPartOfASequence
+	 * @borrows soma.Application#getLastSequencer
+	 * @borrows soma.Application#getRunningSequencers
 	 * @example
 addCommand("eventType", CommandExample);
 dispatchEvent(new soma.Event("eventType"));
 removeCommand("eventType");
 	 */
-	soma.core.controller.SomaController = (function() {
-		/** @lends soma.core.controller.SomaController.prototype */
+	soma.SomaController = (function() {
+		/** @lends soma.SomaController.prototype */
 		
 		var boundInstance = null;
 		var boundDomtree = null;
@@ -871,7 +859,7 @@ removeCommand("eventType");
 		var lastSequencer = null;
 
 		return new Class({
-			Implements: soma.core.IDisposable,
+			Implements: soma.IDisposable,
 			
 			instance:null,
 
@@ -886,7 +874,7 @@ removeCommand("eventType");
 
 			/** @private */
 			addInterceptor: function(commandName) {
-				if (!soma["core"]) {
+				if (!soma) {
 					throw new Error("soma package has been overwritten by local variable");
 				}
 
@@ -1136,26 +1124,26 @@ removeCommand("eventType");
 	})();
 
 	/**
-	 * @name soma.core.view.SomaViews
+	 * @name soma.SomaViews
 	 * @namespace The SomaViews class handles the views of the application.
-	 * @borrows soma.core.Application#addView
-	 * @borrows soma.core.Application#getView
-	 * @borrows soma.core.Application#getViews
-	 * @borrows soma.core.Application#hasView
-	 * @borrows soma.core.Application#removeView
+	 * @borrows soma.Application#addView
+	 * @borrows soma.Application#getView
+	 * @borrows soma.Application#getViews
+	 * @borrows soma.Application#hasView
+	 * @borrows soma.Application#removeView
 	 * @example
 this.addView("myViewName", new MyView());
 this.removeView("myViewName");
 var view = this.getView("myViewName");
 	 */
-	soma.core.view.SomaViews = (function() {
-		/** @lends soma.core.view.SomaViews.prototype */
+	soma.SomaViews = (function() {
+		/** @lends soma.SomaViews.prototype */
 
 		var views = null;
 
 		return new Class({
 
-			Implements: soma.core.IDisposable,
+			Implements: soma.IDisposable,
 
 			autoBound:false,
 
@@ -1381,20 +1369,20 @@ instance = null;
 	});
 })();
 
-soma.core.Application = new Class(
-	/** @lends soma.core.Application.prototype */
+soma.Application = new Class(
+	/** @lends soma.Application.prototype */
 	{
 	Extends: soma.EventDispatcher,
-	Implements: soma.core.IDisposable,
+	Implements: soma.IDisposable,
 	/** Gets the document.body (DOM Element). */
 	body:null,
-	/** Gets the models manager instance (soma.core.model.SomaModel). */
+	/** Gets the models manager instance (soma.SomaModel). */
 	models:null,
-	/** Gets the commands manager instance (soma.core.controller.SomaController). */
+	/** Gets the commands manager instance (soma.SomaController). */
 	controller:null,
-	/** Gets the wires manager instance (soma.core.wire.SomaWire). */
+	/** Gets the wires manager instance (soma.SomaWire). */
 	wires:null,
-	/** Gets the views manager instance (soma.core.views.SomaViews). */
+	/** Gets the views manager instance (soma.SomaViews). */
 	views:null,
 
 	/**
@@ -1421,7 +1409,7 @@ soma.core.Application = new Class(
 	 * @borrows soma.EventDispatcher#dispose
 	 * @example
 var SomaApplication = new Class({
-	Extends: soma.core.Application,
+	Extends: soma.Application,
 	init: function() {
 
 	},
@@ -1449,10 +1437,10 @@ new SomaApplication();
 		if (!this.body) {
 			throw new Error("SomaCore requires body of type Element");
 		}
-		this.controller = new soma.core.controller.SomaController(this);
-		this.models = new soma.core.model.SomaModels(this);
-		this.wires = new soma.core.wire.SomaWires(this);
-		this.views = new soma.core.view.SomaViews(this);
+		this.controller = new soma.SomaController(this);
+		this.models = new soma.SomaModels(this);
+		this.wires = new soma.SomaWires(this);
+		this.views = new soma.SomaViews(this);
 		this.init();
 		this.registerModels();
 		this.registerViews();
@@ -1528,7 +1516,7 @@ new SomaApplication();
 	/**
 	 * Retrieves the wire instance that has been registered using its name.
 	 * @param {string} wireName The name of the wire.
-	 * @returns {soma.core.wire.Wire} A wire instance.
+	 * @returns {soma.Wire} A wire instance.
 	 * @example
 	 * var myWire = this.getWire("myWireName");
 	 */
@@ -1549,8 +1537,8 @@ new SomaApplication();
 	/**
 	 * Registers a wire to the framework.
 	 * @param {string} wireName The name of the wire.
-	 * @param {soma.core.wire.Wire} wire A wire instance.
-	 * @returns {soma.core.wire.Wire} The wire instance.
+	 * @param {soma.Wire} wire A wire instance.
+	 * @returns {soma.Wire} The wire instance.
 	 * @example
 	 * this.addWire("myWireName", new MyWire());
 	 */
@@ -1582,7 +1570,7 @@ new SomaApplication();
 	/**
 	 * Retrieves the model instance that has been registered using its name.
 	 * @param {string} modelName The name of the model.
-	 * @returns {soma.core.model.Model} A model instance.
+	 * @returns {soma.Model} A model instance.
 	 * @example
 	 * var myModel = this.getModel("myModelName");
 	 */
@@ -1603,8 +1591,8 @@ new SomaApplication();
 	/**
 	 * Registers a model to the framework.
 	 * @param {string} modelName The name of the model.
-	 * @param {soma.core.model.Model} model A model instance.
-	 * @returns {soma.core.model.Model} The model instance.
+	 * @param {soma.Model} model A model instance.
+	 * @returns {soma.Model} The model instance.
 	 * @example
 	 * this.addModel("myModelName", new MyModel());
 	 */
@@ -1679,7 +1667,7 @@ new SomaApplication();
 	/**
 	 * Retrieves the sequence command instance using an event instance that has been created from this sequence command.
 	 * @param {soma.Event} event Event instance.
-	 * @returns {soma.core.controller.SequenceCommand} A sequence command.
+	 * @returns {soma.SequenceCommand} A sequence command.
 	 * @example
 	 * var sequencer = this.getSequencer(myEvent);
 	 */
@@ -1711,7 +1699,7 @@ new SomaApplication();
 
 	/**
 	 * Stops a sequence command using the sequence command instance itself.
-	 * @param {soma.core.controller.SequenceCommand} sequencer A sequence command.
+	 * @param {soma.SequenceCommand} sequencer A sequence command.
 	 * @returns {boolean}
 	 * @example
 	 * var success = this.stopSequencer(mySequenceCommand);
@@ -1743,7 +1731,7 @@ new SomaApplication();
 
 	/**
 	 * Retrieves the last sequence command that has been instantiated in the framework.
-	 * @returns {soma.core.controller.SequenceCommand} A sequence command.
+	 * @returns {soma.SequenceCommand} A sequence command.
 	 * @example
 	 * var lastSequencer = this.getLastSequencer();
 	 */
@@ -1805,25 +1793,25 @@ new SomaApplication();
 });
 
 /**
- * @name soma.core.model.SomaModels
+ * @name soma.SomaModels
  * @namespace The SomaModels class handles the models of the application. See the Model class documentation for implementation.
- * @borrows soma.core.Application#addModel
- * @borrows soma.core.Application#getModel
- * @borrows soma.core.Application#getModels
- * @borrows soma.core.Application#hasModel
- * @borrows soma.core.Application#removeModel
+ * @borrows soma.Application#addModel
+ * @borrows soma.Application#getModel
+ * @borrows soma.Application#getModels
+ * @borrows soma.Application#hasModel
+ * @borrows soma.Application#removeModel
  * @example
 this.addModel("myModelName", new MyModel());
 this.removeModel("myModelName");
 var model = this.getModel("myModelName");
  */
-soma.core.model.SomaModels = (function() {
-	/** @lends soma.core.model.SomaModels.prototype */
+soma.SomaModels = (function() {
+	/** @lends soma.SomaModels.prototype */
 
 	var models = null;
 
 	return new Class({
-		Implements: soma.core.IDisposable,
+		Implements: soma.IDisposable,
 
 		instance:null,
 
@@ -1881,8 +1869,8 @@ soma.core.model.SomaModels = (function() {
 	});
 })();
 
-soma.core.model.Model = new Class(
-    /** @lends soma.core.model.Model.prototype */
+soma.Model = new Class(
+    /** @lends soma.Model.prototype */
     {
 
 	/** Name of the model. */
@@ -1915,7 +1903,7 @@ this.removeModel("myModelName");
 var model = this.getModel("myModelName");
 	 * @example
 var MyModel = new Class({
-	Extends: soma.core.model.Model,
+	Extends: soma.Model,
 
 	init: function() {
 		this.data = "my data example";
@@ -2140,24 +2128,24 @@ object.removeEventListener("eventType", eventHandler, false);
 });
 
 /**
- * @name soma.core.wire.SomaWires
+ * @name soma.SomaWires
  * @namespace The SomaWires class handles the wires of the application. See the Wire class documentation for implementation.
- * @borrows soma.core.Application#addWire
- * @borrows soma.core.Application#getWire
- * @borrows soma.core.Application#getWires
- * @borrows soma.core.Application#hasWire
- * @borrows soma.core.Application#removeWire
+ * @borrows soma.Application#addWire
+ * @borrows soma.Application#getWire
+ * @borrows soma.Application#getWires
+ * @borrows soma.Application#hasWire
+ * @borrows soma.Application#removeWire
  * @example
  this.addWire("myWireName", new MyWire());
  this.removeWire("myWireName");
  var wire = this.getWire("myWireName");
  */
-soma.core.wire.SomaWires = (function() {
-    /** @lends soma.core.wire.SomaWires.prototype */
+soma.SomaWires = (function() {
+    /** @lends soma.SomaWires.prototype */
 
 	var wires = null;
 	return new Class({
-		Implements: soma.core.IDisposable,
+		Implements: soma.IDisposable,
 
 		instance:null,
 
@@ -2215,10 +2203,10 @@ soma.core.wire.SomaWires = (function() {
 	});
 })();
 
-soma.core.mediator.Mediator = new Class({
+soma.Mediator = new Class({
 
-	Extends: soma.core.wire.Wire,
-	Implements: soma.core.IDisposable,
+	Extends: soma.Wire,
+	Implements: soma.IDisposable,
 
 	viewComponent: null,
 
@@ -2344,25 +2332,25 @@ soma.Event.createGenericEvent = function (type, bubbles, cancelable) {
 };
 
 /**
- * @name soma.core.IResponder
+ * @name soma.IResponder
  * @namespace This interface provides the contract for any service that needs to respond to remote or asynchronous calls.
  * @example
 var MyAsyncClass = new Class({
-	Implements: soma.core.IResponder,
+	Implements: soma.IResponder,
 	fault: function(info) {
 	},
 	result: function(data) {
 	},
 });
  */
-soma.core.IResponder = new Class(
-    /** @lends soma.core.IResponder.prototype **/
+soma.IResponder = new Class(
+    /** @lends soma.IResponder.prototype **/
     {
     /**
      * This method is called by a service when an error has been received.
      * @param {object} info Description of the error.
      * @name fault
-     * @methodOf soma.core.IResponder#
+     * @methodOf soma.IResponder#
      */
 	fault: function(info) {
 	},
@@ -2370,29 +2358,29 @@ soma.core.IResponder = new Class(
      * This method is called by a service when the return value has been received.
      * @param {object} data Object containing the result.
      * @name result
-     * @methodOf soma.core.IResponder#
+     * @methodOf soma.IResponder#
      */
 	result: function(data) {
 	}
 });
 
 /**
- * @name soma.core.IDisposable
+ * @name soma.IDisposable
  * @namespace This interface provides the method that can be called to dispose the elements created inside this instance.
  * @example
 var MyDisposableClass = new Class({
-	Implements: soma.core.IDisposable,
+	Implements: soma.IDisposable,
 	dispose: function() {
 	},
 });
 */
-soma.core.IDisposable = new Class(
-	/** @lends soma.core.IDisposable.prototype **/
+soma.IDisposable = new Class(
+	/** @lends soma.IDisposable.prototype **/
 	{
 	/**
 	 * Method will dispose the elements created.
 	 * @name dispose
-	 * @methodOf soma.core.IDisposable#
+	 * @methodOf soma.IDisposable#
 	 */
 	dispose: function() {
 	}

@@ -1,6 +1,6 @@
 var ColorModel = new Class
 ({
-	Extends: soma.core.model.Model,
+	Extends: soma.Model,
 
 	initialize: function()
 	{

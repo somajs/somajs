@@ -72,7 +72,7 @@ var SomaViewTests = new Class ({
 	,test_add_listener: function() {
 		var view = new soma.View();
 		if (isIeLt9()) {
-			var app = new soma.core.Application();
+			var app = new soma.Application();
 			app.addView("view", view);
 		}
 		view.addEventListener(EVENT_TYPE, this.handlerSuccessBound, false);
@@ -82,7 +82,7 @@ var SomaViewTests = new Class ({
 	,test_remove_listener: function() {
 		var view = new soma.View;
 		if (isIeLt9()) {
-			var app = new soma.core.Application();
+			var app = new soma.Application();
 			app.addView("view", view);
 		}
 		view.addEventListener(EVENT_TYPE, this.handlerFailureBound, false);
@@ -94,7 +94,7 @@ var SomaViewTests = new Class ({
 	,test_dispatch_event: function() {
 		var view = new soma.View;
 		if (isIeLt9()) {
-			var app = new soma.core.Application();
+			var app = new soma.Application();
 			app.addView("view", view);
 		}
 		view.addEventListener(EVENT_TYPE, this.handlerSuccessBound, false);

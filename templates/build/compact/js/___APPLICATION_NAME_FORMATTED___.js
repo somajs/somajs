@@ -5,10 +5,10 @@ Constants = {
 	APPLICATION_VIEW_NAME: "View::ApplicationView"
 };
 
-var somaApplication = new soma.core.Application();
+var somaApplication = new soma.Application();
 
 var ApplicationWire = new Class({
-	Extends: soma.core.wire.Wire,
+	Extends: soma.Wire,
 	updateMessage:function(message) {
 		this.getView(Constants.APPLICATION_VIEW_NAME).updateMessage(message);
 	}
@@ -22,14 +22,14 @@ var ApplicationView = new Class({
 });
 
 var ApplicationModel = new Class({
-	Extends: soma.core.model.Model,
+	Extends: soma.Model,
 	init: function() {
 		this.data = "Hello somacore";
 	}
 });
 
 var ApplicationCommand = new Class({
-	Extends:soma.core.controller.Command,
+	Extends:soma.Command,
 	execute: function(event) {
 		var message = this.getModel(Constants.APPLICATION_MODEL_NAME).data;
 		this.getWire(Constants.APPLICATION_WIRE_NAME).updateMessage(message);

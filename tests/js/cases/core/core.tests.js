@@ -45,8 +45,8 @@ var FacadeTests = new Class({
 		app.addModel(cases.core.TestModel.NAME, new cases.core.TestModel);
 		app.addView(cases.core.TestView.NAME, new cases.core.TestView);
 
-		app.dispose();
 
+		app.dispose();
 		this.assertNull(app.body);
 		this.assertNull(app.wires);
 		this.assertNull(app.getWires());
@@ -75,80 +75,79 @@ var FacadeTests = new Class({
 		this.assertNotNull(soma.util);
 	}
 
-	,test_create_class_instance: function() {
-		this.assertNotNull(soma.createClassInstance);
-		var TestClass = new Class({});
-		var instance = soma.createClassInstance(TestClass);
-		this.assertNotNull(instance);
-		this.assertInstanceOf(TestClass, instance);
-
-	}
-
-	,test_create_class_instance_from_prototype: function()
-	{
-   		this.assertNotNull(soma.createClassInstance);
-   		var TestClass = function() {};
-		TestClass.prototype = {
-			p1: null,
-			p2: null,
-			initialize: function(p1, p2) {
-				this.p1 = p1;
-				this.p2 = p2;
-			}
-		};
-
-		var instance = soma.createClassInstance( TestClass, "param1", "param2" );
-		this.assertNotNull(instance);
-		this.assertNotNull(instance.p1);
-		this.assertNotNull(instance.p2);
-		this.assertEquals(instance.p1, "param1");
-		this.assertEquals(instance.p2, "param2");
-	}
-
-
-	,test_create_class_instance_from_Function: function()
-	{
-   		this.assertNotNull(soma.createClassInstance);
-   		var TestClass = function()
-		{
-		    this.p1 = null,
-			this.p2 = null,
-
-			this.initialize = function(p1, p2) {
-				this.p1 = p1;
-				this.p2 = p2;
-			}
-	  	};
-
-
-		var instance = soma.createClassInstance( TestClass, "param1", "param2" );
-		this.assertNotNull(instance);
-		this.assertNotNull(instance.p1);
-		this.assertNotNull(instance.p2);
-		this.assertEquals(instance.p1, "param1");
-		this.assertEquals(instance.p2, "param2");
-	}
-
-
-	,test_create_class_instance_parameters: function() {
-		this.assertNotNull(soma.createClassInstance);
-		var TestClass = new Class({
-			p1: null,
-			p2: null,
-			initialize: function(p1, p2) {
-				this.p1 = p1;
-				this.p2 = p2;
-			}
-		});
-
-		var instance = soma.createClassInstance(TestClass, "param1", "param2");
-		this.assertNotNull(instance);
-		this.assertInstanceOf(TestClass, instance);
-		this.assertNotNull(instance.p1);
-		this.assertNotNull(instance.p2);
-		this.assertEquals(instance.p1, "param1");
-		this.assertEquals(instance.p2, "param2");
-	}
+//	,test_create_class_instance: function() {
+//		this.assertNotNull(soma.createClassInstance);
+//		var TestClass = new Class({});
+//		var instance = soma.createClassInstance(TestClass);
+//		this.assertNotNull(instance);
+//		this.assertInstanceOf(TestClass, instance);
+//
+//	}
+//
+//	,test_create_class_instance_from_prototype: function()
+//	{
+//   		this.assertNotNull(soma.createClassInstance);
+//   		var TestClass = function() {};
+//		TestClass.prototype = {
+//			p1: null,
+//			p2: null,
+//			initialize: function(p1, p2) {
+//				this.p1 = p1;
+//				this.p2 = p2;
+//			}
+//		};
+//
+//		var instance = soma.createClassInstance( TestClass, "param1", "param2" );
+//		this.assertNotNull(instance);
+//		this.assertNotNull(instance.p1);
+//		this.assertNotNull(instance.p2);
+//		this.assertEquals(instance.p1, "param1");
+//		this.assertEquals(instance.p2, "param2");
+//	}
+//
+//	,test_create_class_instance_from_Function: function()
+//	{
+//   		this.assertNotNull(soma.createClassInstance);
+//   		var TestClass = function()
+//		{
+//		    this.p1 = null,
+//			this.p2 = null,
+//
+//			this.initialize = function(p1, p2) {
+//				this.p1 = p1;
+//				this.p2 = p2;
+//			}
+//	  	};
+//
+//
+//		var instance = soma.createClassInstance( TestClass, "param1", "param2" );
+//		this.assertNotNull(instance);
+//		this.assertNotNull(instance.p1);
+//		this.assertNotNull(instance.p2);
+//		this.assertEquals(instance.p1, "param1");
+//		this.assertEquals(instance.p2, "param2");
+//	}
+//
+//
+//	,test_create_class_instance_parameters: function() {
+//		this.assertNotNull(soma.createClassInstance);
+//		var TestClass = new Class({
+//			p1: null,
+//			p2: null,
+//			initialize: function(p1, p2) {
+//				this.p1 = p1;
+//				this.p2 = p2;
+//			}
+//		});
+//
+//		var instance = soma.createClassInstance(TestClass, "param1", "param2");
+//		this.assertNotNull(instance);
+//		this.assertInstanceOf(TestClass, instance);
+//		this.assertNotNull(instance.p1);
+//		this.assertNotNull(instance.p2);
+//		this.assertEquals(instance.p1, "param1");
+//		this.assertEquals(instance.p2, "param2");
+//	}
 
 });
 
@@ -186,7 +185,7 @@ var CommandTest = new Class
 
 	,test_getCommand: function()
 	{
-		this.assertTrue( instanceOf( this.soma.getCommand( CommandEventList.STARTUP ), Class ) );
+		this.assertNotNull(this.soma.getCommand( CommandEventList.STARTUP ));
 	}
 
 	,test_removeCommand: function()

@@ -496,7 +496,7 @@
 				return;
 			}
 			this.commands[commandName] = null;
-			delete commands[commandName];
+			delete this.commands[commandName];
 			this.removeInterceptor(commandName);
 		},
 		getSequencer: function(event) {
@@ -627,7 +627,7 @@
 				view.instance = this.instance;
 			}
 			if (!this.autoBound) {
-				soma.extend(soma.View.prototype, soma.core.AutoBind.prototype);
+				soma.applyProperties(soma.View.prototype, soma.core.AutoBind.prototype);
 				this.autoBound = true;
 			}
 			if (view['shouldAutobind']) {
@@ -857,10 +857,6 @@
 			if (this.wires) {
 				this.wires.dispose();
 				this.wires = null;
-			}
-			if (this.mediators) {
-				this.mediators.dispose();
-				this.mediators = null;
 			}
 			this.body = null;
 		},

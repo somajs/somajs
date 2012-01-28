@@ -2,20 +2,14 @@ cases.core = {};
 cases.core.globalModelTestDisposeCalled = false;
 cases.core.globalWireTestDisposeCalled = false;
 
-cases.core.StartCommand = new Class
-({
-	Extends: soma.core.controller.Command,
-
+cases.core.StartCommand = soma.core.controller.Command.extend({
 	execute: function()
 	{
 		//testlog("startcommand exec");
 	}
 });
 
-cases.core.CommandAssertInstance = new Class
-({
-	Extends: soma.core.controller.Command,
-
+cases.core.CommandAssertInstance = soma.core.controller.Command.extend({
 	execute: function(event)
 	{
 		event.params.test_case.assertNotNull(this.instance);
@@ -23,33 +17,22 @@ cases.core.CommandAssertInstance = new Class
 });
 
 
-cases.core.NativePrototypeCommand = function(){};
-cases.core.NativePrototypeCommand.prototype =
-{
-	Extends: soma.core.controller.Command,
-
+cases.core.NativePrototypeCommand = soma.core.controller.Command.extend({
 	execute: function()
 	{
 		testlog("startcommand exec");
 	}
-};
+});
 
 
-cases.core.TestView = new Class
-({
-	Extends: soma.View,
-
+cases.core.TestView = soma.View.extend({
 	scopeConfirmed: false,
-
 	shouldAutobind:true,
-
 	scope:null,
-
 	init: function()
 	{
 		if( this.domElement ) {
 		 	this.domElement.setAttribute("id", "testViewSprite" );
-			//this.domElement.setStyles( {width:"100px", height:"100px", background:"#ccc"} );
 		}
 	},
 	dispose: function()
@@ -70,12 +53,8 @@ cases.core.TestView.scope = null;
 cases.core.TestView.NAME = "cases.core.TestView";
 
 
-cases.core.TestWire = new Class
-({
-   	Extends: soma.core.wire.Wire,
-
+cases.core.TestWire = soma.core.wire.Wire.extend({
 	initCalled: false,
-
 	init: function()
 	{
 		this.initCalled = true;
@@ -90,11 +69,8 @@ cases.core.TestWire.NAME = "cases.core.TestWire";
 
 
 
-cases.core.TestAutobindWire = new Class
-({
-   	Extends: soma.core.wire.Wire
-
-	,AutoBindPattern:"customBoundMethod"
+cases.core.TestAutobindWire = soma.core.wire.Wire.extend({
+	AutoBindPattern:"customBoundMethod"
 
 	,scopeConfirmed: false
 
@@ -124,11 +100,8 @@ cases.core.TestAutobindWire.scope = null;
 cases.core.TestAutobindWire.NAME = "cases.core.TestAutobindWire";
 
 
-cases.core.TestModel = new Class
-({
-	Extends: soma.core.model.Model
-
-	,initCalled: false
+cases.core.TestModel = new soma.core.model.Model.extend({
+	initCalled: false
 	,disposeCalled: false
 
 	,init: function()

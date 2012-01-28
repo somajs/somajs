@@ -1,4 +1,4 @@
-var LoginWire = soma.core.wire.Wire.extend({
+var LoginWire = soma.Wire.extend({
 	init: function() {
 		// commands
 		this.addCommand(LoginEvent.LOGIN, LoginCommand);
@@ -16,7 +16,7 @@ var LoginWire = soma.core.wire.Wire.extend({
 });
 LoginWire.NAME = "Wire::LoginWire";
 
-var EmployeeWire = soma.core.wire.Wire.extend({
+var EmployeeWire = soma.Wire.extend({
 	init: function() {
 		// models
 		this.addModel(EmployeeModel.NAME, new EmployeeModel);
@@ -63,7 +63,7 @@ var EmployeeWire = soma.core.wire.Wire.extend({
 });
 EmployeeWire.NAME = "Wire::EmployeeWire";
 
-var NavigationWire = soma.core.wire.Wire.extend({
+var NavigationWire = soma.Wire.extend({
 	viewIds: null,
 	init: function() {
 		this.viewIds = [

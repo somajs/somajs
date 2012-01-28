@@ -1,6 +1,4 @@
-var ApplicationWire = new Class({
-
-	Extends: soma.core.wire.Wire,
+var ApplicationWire = soma.Wire.extend({
 
 	init: function() {
 		

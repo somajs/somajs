@@ -1,4 +1,4 @@
-var MessageModel = soma.core.model.Model.extend({
+var MessageModel = soma.Model.extend({
     message:null,
 	init: function() {
 

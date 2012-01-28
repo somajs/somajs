@@ -61,7 +61,7 @@ var InvocationTest = new Class
            // TODO IE implement
         }
 
-		this.soma = new soma.core.Application();
+		this.soma = new soma.Application();
 		this.soma.addEventListener( cases.invocation.InvocationCommandList.TEST, this.setUserAccessFromInstanceBound );
 		this.body = this.soma.body;
 		this.soma.addCommand( cases.invocation.InvocationCommandList.TEST, cases.invocation.TestCommand );
@@ -251,7 +251,7 @@ var InvocationTest = new Class
 	,test_parallel_command: function()
 	{
 		this.soma.dispose();
-		this.soma = new soma.core.Application();
+		this.soma = new soma.Application();
 
 		this.soma.addCommand( cases.invocation.InvocationCommandList.TEST, cases.invocation.TestCommand );
 		this.soma.addCommand( cases.invocation.InvocationCommandList.PARALLEL, cases.invocation.TestParallelCommand );

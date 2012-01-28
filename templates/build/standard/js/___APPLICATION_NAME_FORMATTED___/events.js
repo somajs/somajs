@@ -1,9 +1,7 @@
-var ApplicationEvent = new Class({
+var ApplicationEvent = soma.Event.extend({
 
-	Extends: soma.Event,
-
-	initialize: function(type, data, bubbles, cancelable) {
-		return this.parent(type, data, bubbles, cancelable);
+	constructor: function(type, data, bubbles, cancelable) {
+		return soma.Event.call(this, type, data, bubbles, cancelable);
 	}
 
 });

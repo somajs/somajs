@@ -9,7 +9,7 @@ cases.invocationasync.InvocationCommandList =
 
 cases.invocationasync.TestEvent = soma.Event.extend({});
 
-cases.invocationasync.TestAsyncCommand = soma.core.controller.Command.extend({
+cases.invocationasync.TestAsyncCommand = soma.Command.extend({
 	sequencer:null
 	,timer:null
 

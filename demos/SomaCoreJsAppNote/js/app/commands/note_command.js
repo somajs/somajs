@@ -1,4 +1,4 @@
-var NoteCommand = soma.core.controller.Command.extend({
+var NoteCommand = soma.Command.extend({
 	execute: function(event) {
 		var model = this.getModel(NoteModel.NAME);
 		var headerView = this.getView(HeaderView.NAME);

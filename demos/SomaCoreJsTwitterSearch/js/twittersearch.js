@@ -1,4 +1,4 @@
-var SomaApplication = soma.core.Application.extend({
+var SomaApplication = soma.Application.extend({
 	init: function() {
 
 	},

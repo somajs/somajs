@@ -7,31 +7,27 @@ ___APPLICATION_NAMESPACE___.Constants = {
 	APPLICATION_VIEW_NAME: "View::ApplicationView"
 };
 
-___APPLICATION_NAMESPACE___.somaApplication = new soma.core.Application();
+___APPLICATION_NAMESPACE___.somaApplication = new soma.Application();
 
-___APPLICATION_NAMESPACE___.ApplicationWire = new Class({
-	Extends: soma.core.wire.Wire,
+___APPLICATION_NAMESPACE___.ApplicationWire = soma.Wire.extend({
 	updateMessage:function(message) {
 		this.getView(___APPLICATION_NAMESPACE___.Constants.APPLICATION_VIEW_NAME).updateMessage(message);
 	}
 });
 
-___APPLICATION_NAMESPACE___.ApplicationView = new Class({
-	Extends: soma.View,
+___APPLICATION_NAMESPACE___.ApplicationView = soma.View.extend({
 	updateMessage:function(message) {
 		document.getElementById('content').innerHTML = message;
 	}
 });
 
-___APPLICATION_NAMESPACE___.ApplicationModel = new Class({
-	Extends: soma.core.model.Model,
+___APPLICATION_NAMESPACE___.ApplicationModel = soma.Model.extend({
 	init: function() {
 		this.data = "Hello somacore";
 	}
 });
 
-___APPLICATION_NAMESPACE___.ApplicationCommand = new Class({
-	Extends:soma.core.controller.Command,
+___APPLICATION_NAMESPACE___.ApplicationCommand = soma.Command.extend({
 	execute: function(event) {
 		var message = this.getModel(___APPLICATION_NAMESPACE___.Constants.APPLICATION_MODEL_NAME).data;
 		this.getWire(___APPLICATION_NAMESPACE___.Constants.APPLICATION_WIRE_NAME).updateMessage(message);

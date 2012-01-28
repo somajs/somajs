@@ -29,18 +29,6 @@
 
 	/** @namespace Global namespace and contains some helpers. */
 	soma = {};
-	/** @namespace Contains the SomaCore class Application (entry point of the framework).  */
-	soma.core = {};
-	/** @namespace Contains classes related to commands and events. */
-	soma.core.controller = {};
-	/** @namespace Contains the models manager and a Model abstract class. */
-	soma.core.model = {};
-	/** @namespace Contains the views manager and a View abstract class (no framework dependency except with IE7, IE8 and IE9). */
-	soma.core.view = {};
-	/** @namespace Contains the wires manager and a Wire abstract class. */
-	soma.core.wire = {};
-	/** @namespace Contains a Mediator abstract class. */
-	soma.core.mediator = {};
 
 	if (!Function.prototype.bind) {
 		Function.prototype.bind = function bind(that) {
@@ -201,7 +189,7 @@
 		}
 	});
 
-	soma.core.AutoBind = soma.extend({
+	soma.AutoBind = soma.extend({
 		blackList: ["initialize", "parent", "$constructor", "addEventListener", "removeEventListener"],
 		autobind: function() {
 			if (this.wasAutoBound) {
@@ -238,7 +226,7 @@
 		}
 	});
 
-	soma.core.controller.Command = SomaSharedCore.extend({
+	soma.Command = SomaSharedCore.extend({
 		instance: null,
 		registerInstance: function(instance) {
 			this.instance = instance;
@@ -256,7 +244,7 @@
 		}
 	});
 
-	soma.core.controller.SequenceCommand = soma.core.controller.Command.extend({
+	soma.SequenceCommand = soma.Command.extend({
 		commands: null,
 		currentCommand: null,
 		id:null,
@@ -266,7 +254,7 @@
 			}
 			this.commands = [];
 			this.id = id;
-			soma.core.controller.Command.call(this);
+			soma.Command.call(this);
 		},
 		registerInstance: function(instance) {
 			this.instance = instance;
@@ -321,7 +309,7 @@
 		}
 	});
 
-	soma.core.controller.ParallelCommand = soma.core.controller.Command.extend({
+	soma.ParallelCommand = soma.Command.extend({
 		commands:null,
 		constructor: function() {
 			this.commands = [];
@@ -353,7 +341,7 @@
 		}
 	});
 
-	soma.core.wire.Wire = SomaSharedCore.extend({
+	soma.Wire = SomaSharedCore.extend({
 		name: null,
 		instance: null,
 		constructor: function(name) {
@@ -375,13 +363,13 @@
 			this.name = name;
 		}
 	});
-	soma.applyProperties(soma.core.wire.Wire.prototype, soma.core.AutoBind.prototype);
+	soma.applyProperties(soma.Wire.prototype, soma.AutoBind.prototype);
 
-	soma.core.IDisposable = soma.extend({
+	soma.IDisposable = soma.extend({
 		dispose: function() {}
 	});
 
-	soma.core.controller.SomaController = soma.extend({
+	soma.SomaController = soma.extend({
 		instance:null,
 		constructor: function(instance) {
 			this.boundInstance = this.instanceHandler.bind(this);
@@ -394,7 +382,7 @@
 			this.instance = instance;
 		},
 		addInterceptor: function(commandName) {
-			if (!soma["core"]) {
+			if (!soma) {
 				throw new Error("soma package has been overwritten by local variable");
 			}
 			if (this.instance.body.addEventListener) {
@@ -609,7 +597,7 @@
 		}
 	});
 
-	soma.core.view.SomaViews = soma.extend({
+	soma.SomaViews = soma.extend({
 		autoBound:false,
 		instance:null,
 		constructor: function(instance) {
@@ -627,7 +615,7 @@
 				view.instance = this.instance;
 			}
 			if (!this.autoBound) {
-				soma.applyProperties(soma.View.prototype, soma.core.AutoBind.prototype);
+				soma.applyProperties(soma.View.prototype, soma.AutoBind.prototype);
 				this.autoBound = true;
 			}
 			if (view['shouldAutobind']) {
@@ -733,7 +721,7 @@
 		}
 	});
 
-	soma.core.Application = soma.EventDispatcher.extend({
+	soma.Application = soma.EventDispatcher.extend({
 		body:null,
 		models:null,
 		controller:null,
@@ -746,10 +734,10 @@
 			if (!this.body) {
 				throw new Error("SomaCore requires body of type Element");
 			}
-			this.controller = new soma.core.controller.SomaController(this);
-			this.models = new soma.core.model.SomaModels(this);
-			this.wires = new soma.core.wire.SomaWires(this);
-			this.views = new soma.core.view.SomaViews(this);
+			this.controller = new soma.SomaController(this);
+			this.models = new soma.SomaModels(this);
+			this.wires = new soma.SomaWires(this);
+			this.views = new soma.SomaViews(this);
 			this.init();
 			this.registerModels();
 			this.registerViews();
@@ -874,7 +862,7 @@
 		}
 	});
 
-	soma.core.model.SomaModels = soma.extend({
+	soma.SomaModels = soma.extend({
 		instance:null,
 		constructor: function(instance) {
 			this.models = {};
@@ -923,7 +911,7 @@
 		}
 	});
 
-	soma.core.model.Model = soma.extend({
+	soma.Model = soma.extend({
 		name: null,
 		data: null,
 		dispatcher:null,
@@ -1008,7 +996,7 @@
 		}
 	});
 
-	soma.core.wire.SomaWires = soma.extend({
+	soma.SomaWires = soma.extend({
 		instance:null,
 		constructor: function(instance) {
 			this.wires = {};
@@ -1057,10 +1045,10 @@
 		}
 	});
 
-	soma.core.mediator.Mediator = soma.core.wire.Wire.extend({
+	soma.Mediator = soma.Wire.extend({
 		viewComponent: null,
 		constructor: function(name) {
-			soma.core.wire.Wire.call(this, name);
+			soma.Wire.call(this, name);
 			this.viewComponent = viewComponent;
 		},
 		dispose: function() {
@@ -1133,7 +1121,7 @@
 	    return e;
 	};
 
-	soma.core.IResponder = soma.extend({
+	soma.IResponder = soma.extend({
 		fault: function(info) {
 		},
 		result: function(data) {

@@ -6,7 +6,7 @@ cases.invocation.InvocationCommandList =
 	,PARALLEL: "cases.invocation.parallel"
 };
 
-cases.invocation.TestCommand = soma.core.controller.Command.extend({
+cases.invocation.TestCommand = soma.Command.extend({
 	execute: function( e )
 	{
 		switch( e.type )
@@ -19,7 +19,7 @@ cases.invocation.TestCommand = soma.core.controller.Command.extend({
 	}
 });
 
-cases.invocation.TestParallelCommand = soma.core.controller.ParallelCommand.extend({
+cases.invocation.TestParallelCommand = soma.ParallelCommand.extend({
 	initializeSubCommands: function()
 	{
 		this.addSubCommand( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this.getData()) );
@@ -34,10 +34,10 @@ cases.invocation.TestParallelCommand = soma.core.controller.ParallelCommand.exte
 	}
  });
 
-cases.invocation.EmptyModel = soma.core.model.Model.extend({
+cases.invocation.EmptyModel = soma.Model.extend({
 	constructor: function( data )
 	{
-		soma.core.model.Model.call(this,  cases.invocation.EmptyModel.NAME,  data );
+		soma.Model.call(this,  cases.invocation.EmptyModel.NAME,  data );
 	}
 	 ,init: function()
 	{

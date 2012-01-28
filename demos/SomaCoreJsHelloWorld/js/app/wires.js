@@ -1,4 +1,4 @@
-var MessageWire = soma.core.wire.Wire.extend({
+var MessageWire = soma.Wire.extend({
 	init: function() {
 		this.addModel(MessageModel.NAME, new MessageModel);
 		this.addView(MessageView.NAME, new MessageView);

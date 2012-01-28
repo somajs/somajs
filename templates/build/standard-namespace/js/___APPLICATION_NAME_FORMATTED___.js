@@ -1,8 +1,6 @@
 var ___APPLICATION_NAMESPACE___ = ___APPLICATION_NAMESPACE___ || {};
 
-___APPLICATION_NAMESPACE___.SomaApplication = new Class({
-
-	Extends: soma.core.Application,
+___APPLICATION_NAMESPACE___.SomaApplication = soma.Application.extend({
 
 	init: function() {
 		

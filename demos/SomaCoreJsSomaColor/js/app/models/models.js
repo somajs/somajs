@@ -1,7 +1,7 @@
-var ColorModel = soma.core.model.Model.extend({
+var ColorModel = soma.Model.extend({
 	constructor: function()
 	{
-		soma.core.model.Model.call(this, ColorModel.NAME, null, arguments[2]);
+		soma.Model.call(this, ColorModel.NAME, null, arguments[2]);
 	},
 	getRandomColor: function()
 	{

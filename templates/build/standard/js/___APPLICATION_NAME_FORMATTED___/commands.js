@@ -1,6 +1,4 @@
-var ApplicationCommand = new Class({
-
-	Extends:soma.core.controller.Command,
+var ApplicationCommand = soma.Command.extend({
 
 	execute: function(event) {
 		switch(event.type) {

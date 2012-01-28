@@ -1,8 +1,6 @@
 var ___APPLICATION_NAMESPACE___ = ___APPLICATION_NAMESPACE___ || {};
 
-___APPLICATION_NAMESPACE___.ApplicationWire = new Class({
-
-	Extends: soma.core.wire.Wire,
+___APPLICATION_NAMESPACE___.ApplicationWire = soma.Wire.extend({
 
 	init: function() {
 		

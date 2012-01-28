@@ -1,4 +1,4 @@
-var EmployeeModel = soma.core.model.Model.extend({
+var EmployeeModel = soma.Model.extend({
 	init: function() {
 		this.data = [
 			{

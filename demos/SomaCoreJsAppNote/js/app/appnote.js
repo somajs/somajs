@@ -1,4 +1,4 @@
-var SomaApplication = soma.core.Application.extend({
+var SomaApplication = soma.Application.extend({
 	registerCommands: function() {
 		this.addCommand(NoteEvent.INITIALIZE, NoteCommand);
 		this.addCommand(NoteEvent.CREATE, NoteCommand);

@@ -1,6 +1,4 @@
-var SomaApplication = new Class({
-
-	Extends: soma.core.Application,
+var SomaApplication = soma.Application.extend({
 
 	init: function() {
 		

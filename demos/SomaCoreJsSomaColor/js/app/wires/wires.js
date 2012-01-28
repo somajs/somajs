@@ -2,14 +2,14 @@
  * @author Henry Schmieder
  */
 
-var ColorWire = soma.core.wire.Wire.extend({
+var ColorWire = soma.Wire.extend({
 	lastSequencer:null,
 	receiver: null,
 	selector: null,
 	square: null,
 	shouldAutobind: true,
 	constructor: function() {
-		soma.core.wire.Wire.call(this, ColorWire.NAME);
+		soma.Wire.call(this, ColorWire.NAME);
 	},
 	init: function()
 	{

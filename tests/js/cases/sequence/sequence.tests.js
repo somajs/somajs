@@ -43,7 +43,7 @@ var SequenceTest = new Class
 
 	,setUp: function()
 	{
-		this.soma = new soma.core.Application();
+		this.soma = new soma.Application();
 		this.soma.addCommand( cases.sequence.InvocationCommandList.TEST_ASYNC, cases.sequence.AsyncCommand );
 		this.soma.addCommand( cases.sequence.InvocationCommandList.TEST_SEQUENCE, cases.sequence.SequenceCommand );
 		this.sCount = 0;

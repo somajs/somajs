@@ -20,7 +20,7 @@ var CommandEventList =
 	
 };
 
-var SomaApp = soma.core.Application.extend({
+var SomaApp = soma.Application.extend({
 		init: function() {
 		},
 		registerCommands: function()

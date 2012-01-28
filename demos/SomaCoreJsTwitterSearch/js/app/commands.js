@@ -1,4 +1,4 @@
-var TwitterCommand = soma.core.controller.Command.extend({
+var TwitterCommand = soma.Command.extend({
 	execute: function(event) {
 		switch(event.type) {
 			case TwitterEvent.SEARCH:

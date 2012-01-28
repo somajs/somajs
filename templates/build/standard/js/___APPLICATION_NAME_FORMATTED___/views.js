@@ -1,6 +1,4 @@
-var ApplicationView = new Class({
-
-	Extends: soma.View,
+var ApplicationView = soma.View.extend({
 
 	view: null,
 

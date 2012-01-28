@@ -1,8 +1,6 @@
 var ___APPLICATION_NAMESPACE___ = ___APPLICATION_NAMESPACE___ || {};
 
-___APPLICATION_NAMESPACE___.ApplicationView = new Class({
-
-	Extends: soma.View,
+___APPLICATION_NAMESPACE___.ApplicationView = soma.View.extend({
 
 	view: null,
 

@@ -10,10 +10,10 @@ cases.sequence.InvocationCommandList =
 
 cases.sequence.TestEvent = soma.Event.extend({});
 
-cases.sequence.SequenceCommand = soma.core.controller.SequenceCommand.extend({
+cases.sequence.SequenceCommand = soma.SequenceCommand.extend({
 	constructor: function()
 	{
-		soma.core.controller.SequenceCommand.call(this, "cases.sequence.SequenceCommand");
+		soma.SequenceCommand.call(this, "cases.sequence.SequenceCommand");
 	}
 	,initializeSubCommands: function()
 	{
@@ -25,7 +25,7 @@ cases.sequence.SequenceCommand = soma.core.controller.SequenceCommand.extend({
 	}
  });
 
-cases.sequence.AsyncCommand = soma.core.controller.Command.extend({
+cases.sequence.AsyncCommand = soma.Command.extend({
 	sequencer:null
 	,timer:null
 	,event:null

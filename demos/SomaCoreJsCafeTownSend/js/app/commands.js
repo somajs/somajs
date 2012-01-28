@@ -1,4 +1,4 @@
-var StartCommand = soma.core.controller.Command.extend({
+var StartCommand = soma.Command.extend({
 	execute: function(event) {
 		switch(event.type) {
 			case CommandList.START:
@@ -7,7 +7,7 @@ var StartCommand = soma.core.controller.Command.extend({
 	}
 });
 
-var LoginCommand = soma.core.controller.Command.extend({
+var LoginCommand = soma.Command.extend({
 	execute: function(event) {
 		var wire = this.getWire(LoginWire.NAME);
 		switch(event.type) {
@@ -42,7 +42,7 @@ var LoginCommand = soma.core.controller.Command.extend({
 	}
 });
 
-var EmployeeCommand = soma.core.controller.Command.extend({
+var EmployeeCommand = soma.Command.extend({
 	execute: function(event) {
 		var wire = this.getWire(EmployeeWire.NAME);
 		var vo = event.params.employee;
@@ -63,7 +63,7 @@ var EmployeeCommand = soma.core.controller.Command.extend({
 	}
 });
 
-var NavigationCommand = soma.core.controller.Command.extend({
+var NavigationCommand = soma.Command.extend({
 	execute: function(event) {
 		this.getWire(NavigationWire.NAME).select(event.params.navigationID);
 	}

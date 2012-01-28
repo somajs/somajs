@@ -1,4 +1,4 @@
-var TwitterService = soma.core.wire.Wire.extend({
+var TwitterService = soma.Wire.extend({
 	url: "http://search.twitter.com/search.json",
 	lastResult: null,
 	init: function() {},

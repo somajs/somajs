@@ -2,14 +2,14 @@ cases.core = {};
 cases.core.globalModelTestDisposeCalled = false;
 cases.core.globalWireTestDisposeCalled = false;
 
-cases.core.StartCommand = soma.core.controller.Command.extend({
+cases.core.StartCommand = soma.Command.extend({
 	execute: function()
 	{
 		//testlog("startcommand exec");
 	}
 });
 
-cases.core.CommandAssertInstance = soma.core.controller.Command.extend({
+cases.core.CommandAssertInstance = soma.Command.extend({
 	execute: function(event)
 	{
 		event.params.test_case.assertNotNull(this.instance);
@@ -17,7 +17,7 @@ cases.core.CommandAssertInstance = soma.core.controller.Command.extend({
 });
 
 
-cases.core.NativePrototypeCommand = soma.core.controller.Command.extend({
+cases.core.NativePrototypeCommand = soma.Command.extend({
 	execute: function()
 	{
 		testlog("startcommand exec");
@@ -53,7 +53,7 @@ cases.core.TestView.scope = null;
 cases.core.TestView.NAME = "cases.core.TestView";
 
 
-cases.core.TestWire = soma.core.wire.Wire.extend({
+cases.core.TestWire = soma.Wire.extend({
 	initCalled: false,
 	init: function()
 	{
@@ -69,7 +69,7 @@ cases.core.TestWire.NAME = "cases.core.TestWire";
 
 
 
-cases.core.TestAutobindWire = soma.core.wire.Wire.extend({
+cases.core.TestAutobindWire = soma.Wire.extend({
 	AutoBindPattern:"customBoundMethod"
 
 	,scopeConfirmed: false
@@ -100,7 +100,7 @@ cases.core.TestAutobindWire.scope = null;
 cases.core.TestAutobindWire.NAME = "cases.core.TestAutobindWire";
 
 
-cases.core.TestModel = new soma.core.model.Model.extend({
+cases.core.TestModel = new soma.Model.extend({
 	initCalled: false
 	,disposeCalled: false
 

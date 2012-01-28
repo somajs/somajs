@@ -1,4 +1,4 @@
-var NoteModel = soma.core.model.Model.extend({
+var NoteModel = soma.Model.extend({
 	init: function() {
 		if (!this.hasStorage()) {
 			alert("Your browser does not support local storage!");

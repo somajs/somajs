@@ -5,31 +5,27 @@ Constants = {
 	APPLICATION_VIEW_NAME: "View::ApplicationView"
 };
 
-var somaApplication = new soma.core.Application();
+var somaApplication = new soma.Application();
 
-var ApplicationWire = new Class({
-	Extends: soma.core.wire.Wire,
+var ApplicationWire = soma.Wire.extend({
 	updateMessage:function(message) {
 		this.getView(Constants.APPLICATION_VIEW_NAME).updateMessage(message);
 	}
 });
 
-var ApplicationView = new Class({
-	Extends: soma.View,
+var ApplicationView = soma.View.extend({
 	updateMessage:function(message) {
 		document.getElementById('content').innerHTML = message;
 	}
 });
 
-var ApplicationModel = new Class({
-	Extends: soma.core.model.Model,
+var ApplicationModel = soma.Model.extend({
 	init: function() {
 		this.data = "Hello somacore";
 	}
 });
 
-var ApplicationCommand = new Class({
-	Extends:soma.core.controller.Command,
+var ApplicationCommand = soma.Command.extend({
 	execute: function(event) {
 		var message = this.getModel(Constants.APPLICATION_MODEL_NAME).data;
 		this.getWire(Constants.APPLICATION_WIRE_NAME).updateMessage(message);

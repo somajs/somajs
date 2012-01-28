@@ -8,7 +8,7 @@
  *
  */
 
-var ColorCommand = soma.core.controller.Command.extend({
+var ColorCommand = soma.Command.extend({
 	execute: function( e )
 	{
 		var commandEventName = e.type;
@@ -39,7 +39,7 @@ var ColorCommand = soma.core.controller.Command.extend({
 	
 });
 
-var ParallelTestCommand = soma.core.controller.ParallelCommand.extend({
+var ParallelTestCommand = soma.ParallelCommand.extend({
 	initializeSubCommands: function()
 	{
 
@@ -54,7 +54,7 @@ var ParallelTestCommand = soma.core.controller.ParallelCommand.extend({
 });
 
 
-var AsyncCommand = soma.core.controller.Command.extend({
+var AsyncCommand = soma.Command.extend({
 	sequencer: null,
 	commandEvent: null,
 
@@ -92,11 +92,11 @@ var AsyncCommand = soma.core.controller.Command.extend({
 	}
 });
 
-var SequenceTestCommand = soma.core.controller.SequenceCommand.extend({
+var SequenceTestCommand = soma.SequenceCommand.extend({
 
 	constructor: function()
 	{
-		soma.core.controller.SequenceCommand.call(this, "sequencer.test" );
+		soma.SequenceCommand.call(this, "sequencer.test" );
 	},
 	
 	initializeSubCommands: function()
@@ -118,11 +118,11 @@ var SequenceTestCommand = soma.core.controller.SequenceCommand.extend({
 
 });
 
-var TweenSequenceCommand = soma.core.controller.SequenceCommand.extend({
+var TweenSequenceCommand = soma.SequenceCommand.extend({
 
 	constructor: function( id )
 	{
-		soma.core.controller.SequenceCommand.call(this, "sequencer.tweentest" );
+		soma.SequenceCommand.call(this, "sequencer.tweentest" );
 	},
 
 	getSize: function() {
@@ -184,7 +184,7 @@ var TweenSequenceCommand = soma.core.controller.SequenceCommand.extend({
 	
 });
 
-var SequenceStopCommand = soma.core.controller.Command.extend({
+var SequenceStopCommand = soma.Command.extend({
 	execute: function( e )
 	{
 		console.log( "SequenceStopCommand::execute(): ", e.type, e.params );
@@ -195,7 +195,7 @@ var SequenceStopCommand = soma.core.controller.Command.extend({
 	}
 });
 
-var TweenCommand = soma.core.controller.Command.extend({
+var TweenCommand = soma.Command.extend({
 
 	sequencer:null,
 
@@ -229,7 +229,7 @@ var TweenCommand = soma.core.controller.Command.extend({
 
 });
 
-var MoveViewCommand = soma.core.controller.Command.extend({
+var MoveViewCommand = soma.Command.extend({
 	execute: function( e )
 	{
 		var coords = e.params.coords;

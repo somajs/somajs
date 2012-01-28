@@ -1,17 +1,8 @@
-var ColorModel = new Class
-({
-	Extends: soma.core.model.Model,
-
-	initialize: function()
+var ColorModel = soma.core.model.Model.extend({
+	constructor: function()
 	{
-		this.parent( ColorModel.NAME, null, arguments[2] );	
+		soma.core.model.Model.call(this, ColorModel.NAME, null, arguments[2]);
 	},
-
-	init: function()
-	{
-			
-	},
-
 	getRandomColor: function()
 	{
 		var letters = '0123456789ABCDEF'.split('');
@@ -40,44 +31,31 @@ var ColorModel = new Class
 });
 ColorModel.NAME = "Model.Color";
 
- /**
- * @author Henry Schmieder
- */
-
-
-var ColorVO = new Class
-({
+var ColorVO = function(color1, color2, color3) {
+	this.color1 = color1;
+	this.color2 = color2;
+	this.color3 = color3;
+};
+ColorVO.prototype = {
 	color1: null,
 	color2: null,
-	color3: null,
-	
-	initialize: function( color1, color2, color3 )
-	{
-		this.color1 = color1;
-		this.color2 = color2;
-		this.color3 = color3;
+	color3: null
+};
+
+
+var AsyncDelegate = function(responder) {
+	if( responder.onFault == null || responder.onSuccess == null ) {
+		throw new Error( "children of AsyncDelegate must implement onFault() and onSuccess()" );
 	}
-});
-
-
-var AsyncDelegate = new Class
-({
+	this.responder = responder;
+};
+AsyncDelegate.prototype = {
 	responder:null,
-
-	initialize: function( responder )
-	{
-		if( responder.onFault == null || responder.onSuccess == null ) {
-			throw new Error( "children of AsyncDelegate must implement onFault() and onSuccess()" );
-		}
-		this.responder = responder;
-
-	},
 	call: function()
 	{
 		console.log("AsyncDelgate:: call");
 		this.timerHandler.delay( 500, this );
 	},
-	/** @private **/
 	timerHandler: function()
 	{
 		var result = Math.floor(Math.random() * 10 );
@@ -88,5 +66,4 @@ var AsyncDelegate = new Class
 			this.responder.onFault({id:"myData", data:"I'm a fault"});
 		}
 	}
-	
-});
+};

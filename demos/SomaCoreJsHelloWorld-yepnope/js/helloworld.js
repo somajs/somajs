@@ -4,8 +4,7 @@ yepnope([
 	{
 		test: loadFramework,
 		yep: [
-			'../../framework/libs/mootools-core-1.4.2.js',
-			'../../framework/src/somacore.js'
+			'../../framework/src/somacore-native.js'
 		],
 		nope: [],
 		both: [],
@@ -21,8 +20,7 @@ yepnope([
 		},
 		complete: function() {
 
-			var SomaApplication = new Class({
-				Extends: soma.core.Application,
+			var SomaApplication = soma.core.Application.extend({
 				registerWires: function() {
 					this.addWire(MessageWire.NAME, new MessageWire);
 				}

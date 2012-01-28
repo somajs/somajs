@@ -1,7 +1,4 @@
-var NoteCommand = new Class({
-
-	Extends: soma.core.controller.Command,
-
+var NoteCommand = soma.core.controller.Command.extend({
 	execute: function(event) {
 		var model = this.getModel(NoteModel.NAME);
 		var headerView = this.getView(HeaderView.NAME);
@@ -47,5 +44,4 @@ var NoteCommand = new Class({
 				break;
 		}
 	}
-
 });

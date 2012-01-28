@@ -2,24 +2,15 @@
  * @author Henry Schmieder
  */
 
-var ColorWire = function() {};
-ColorWire.prototype =
-{
-	Extends: soma.core.wire.Wire,
-
+var ColorWire = soma.core.wire.Wire.extend({
 	lastSequencer:null,
-
 	receiver: null,
 	selector: null,
 	square: null,
-
 	shouldAutobind: true,
-
-	initialize: function()
-	{
-		this.parent( ColorWire.NAME );
+	constructor: function() {
+		soma.core.wire.Wire.call(this, ColorWire.NAME);
 	},
-
 	init: function()
 	{
 		this.addCommand( CommandEventList.COLORDATA_LOAD,  ColorCommand );
@@ -82,7 +73,7 @@ ColorWire.prototype =
 		var m = this.getModel( ColorModel.NAME );
 	    this.dispatchEvent( new ColorEvent( CommandEventList.COLOR_CHANGE, m.getRandomColor() ) );
 	}
-};
+});
 ColorWire.NAME = "Wire:Color";
 ColorWire.NAME_RECEIVER = "View:Receiver";
 ColorWire.NAME_SELECTOR = "View:Selector";

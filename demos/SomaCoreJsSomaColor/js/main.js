@@ -2,15 +2,7 @@
  * @author Henry Schmieder
  */
 
-window.addEventListener( "load", function() { new SomaApp(  ); }, false );
-
-function d()
-{
-	if( window["console"] ) {
-		console.log( arguments );
-	}
-
-}
+window.addEventListener( "load", function() { new SomaApp(); }, false );
 
 var CommandEventList =
 {
@@ -28,15 +20,9 @@ var CommandEventList =
 	
 };
 
-/** @class */
-var SomaApp = new Class
-( {
-		Extends: soma.core.Application,
-
+var SomaApp = soma.core.Application.extend({
 		init: function() {
-
 		},
-		
 		registerCommands: function()
 		{
 			this.addCommand( CommandEventList.CHAIN_CHAIN, ParallelTestCommand );
@@ -46,25 +32,13 @@ var SomaApp = new Class
 			this.addCommand( CommandEventList.ASYNC_CHAIN, SequenceTestCommand );
 			this.addCommand( CommandEventList.SEQUENCE_STOP_ALL, SequenceStopCommand );
 		},
-	
-		registerModels: function()
-		{
-			
-		},
 		registerWires: function()
 		{
-			
-		},
-		registerViews: function()
-		{
-		
+			this.addWire( ColorWire.NAME, new ColorWire());
 		},
 		start: function()
 		{
-            this.addWire( ColorWire.NAME, soma.createClassInstance( ColorWire ) );
-			this.dispatchEvent( new ColorEvent( CommandEventList.COLORDATA_LOAD ) );
+			this.dispatchEvent(new ColorEvent(CommandEventList.COLORDATA_LOAD));
 		}
-} );
-
-
+});
 

@@ -2,16 +2,10 @@
  * @author Henry Schmieder
  */
 
-var ColorReceiver = new Class
-({
-	Extends:soma.View,
-
+var ColorReceiver = soma.View.extend({
 	panel:null,
 	bg:null,
-
 	autobind: true,
-	
-
 	init: function()
 	{
 		this.panel = document.getElementById("colorReceiver");
@@ -37,8 +31,6 @@ var ColorReceiver = new Class
 
 	chainListener: function()
 	{
-		//soma.core.EventProxy.send( CommandEventList.CHAIN_CHAIN );
-		//this.fireEvent( CommandEventList.CHAIN_CHAIN );
 		this.dispatchEvent( new soma.Event( CommandEventList.CHAIN_CHAIN ) );
 	},
 	
@@ -59,18 +51,13 @@ var ColorReceiver = new Class
 	
 	stopAllSequencesListener: function()
 	{
-		 //soma.core.EventProxy.send( CommandEventList.SEQUENCE_STOP_ALL )
-		 //this.fireEvent( CommandEventList.SEQUENCE_STOP_ALL );
 		this.dispatchEvent( new soma.Event( CommandEventList.SEQUENCE_STOP_ALL ) );
 	}
 });
 ColorReceiver.TWEEN_SEQUENCE_EVENT = "startTweenSequenceEvent";
 
 
-var ColorSelector = new Class
-({
-	Extends: soma.View,
-
+var ColorSelector = soma.View.extend({
 	autobind: true,
 
 	sprite1:null,
@@ -85,7 +72,6 @@ var ColorSelector = new Class
 	color1:null,
 	color2:null,
 	color3:null,
-
 
 	init: function()
 	{
@@ -109,10 +95,6 @@ var ColorSelector = new Class
 
 	},
 
-	/**
-	 *
-	 * @param {ColorVO} data
-	 */
 	updateColors: function(data)
 	{
 		this.color1 = data.color1;
@@ -173,12 +155,8 @@ var ColorSelector = new Class
 });
 ColorSelector.EVENT_CLICKED_RANDOM = "colorsel.random";
 
-var ColorSquare = new Class
-({
-	Extends: soma.View,
-	
+var ColorSquare = soma.View.extend({
 	morph:null,
-
 	setColor: function( col )
 	{
 		this.domElement.style.backgroundColor = col;

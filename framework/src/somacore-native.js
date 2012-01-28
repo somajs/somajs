@@ -266,6 +266,7 @@
 			}
 			this.commands = [];
 			this.id = id;
+			soma.core.controller.Command.call(this);
 		},
 		registerInstance: function(instance) {
 			this.instance = instance;
@@ -374,6 +375,7 @@
 			this.name = name;
 		}
 	});
+	soma.applyProperties(soma.core.wire.Wire.prototype, soma.core.AutoBind.prototype);
 
 	soma.core.IDisposable = soma.extend({
 		dispose: function() {}
@@ -431,7 +433,7 @@
 			if (typeof commandName != "string") {
 				throw new Error("Controller::unregisterSequencedCommand() expects commandName to be of type String, given:" + commandName);
 			}
-			var s = sequencersInfo;
+			var s = this.sequencersInfo;
 			if (s[sequencer.id] != null && s[sequencer.id] != undefined) {
 				var len = s[sequencer.id].length;
 				for (var i = 0; i < len; i++) {
@@ -452,7 +454,7 @@
 			if (s[sequencer.id] != null && s[sequencer.id] != undefined) {
 				s[sequencer.id] = null;
 				delete s[sequencer.id];
-				s = sequencersInfo;
+				s = this.sequencersInfo;
 				if (s[sequencer.id] != null) {
 					var len = s[sequencer.id].length;
 					for (var i = 0; i < len; i++) {
@@ -536,7 +538,7 @@
 		},
 		stopAllSequencers: function() {
 			var ss = this.sequencers;
-			var sis = sequencersInfo;
+			var sis = this.sequencersInfo;
 			for (var s in ss) {
 				if (sis[s] == null) {
 					continue;
@@ -863,7 +865,6 @@
 			this.body = null;
 		},
 		init: function() {
-			console.log("Application init");
 		},
 		registerModels: function() {
 		},

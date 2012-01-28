@@ -1,11 +1,9 @@
-var NoteModel = new Class({
-
+var NoteModel = soma.core.model.Model.extend({
 	init: function() {
 		if (!this.hasStorage()) {
 			alert("Your browser does not support local storage!");
 		}
 	},
-
 	hasStorage: function() {
 		try {
 			localStorage.setItem("AppNoteTest", "AppNoteTest");
@@ -15,7 +13,6 @@ var NoteModel = new Class({
 			return false;
 		}
 	},
-
 	createNote: function(vo) {
 		try {
 			localStorage.setItem(vo.title, vo.content);
@@ -25,15 +22,12 @@ var NoteModel = new Class({
 			}
 		}
 	},
-
 	deleteNote: function(title) {
 		localStorage.removeItem(title);
 	},
-
 	getNote: function(title) {
 		return new NoteVO(title, localStorage.getItem(title));
 	},
-
 	getAllNotes: function() {
 		var list = [];
 		for (var i = 0; i < localStorage.length; i++){
@@ -43,6 +37,5 @@ var NoteModel = new Class({
 		}
 		return list;
 	}
-
 });
 NoteModel.NAME = "Model::NoteModel";

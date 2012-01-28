@@ -1,11 +1,7 @@
-var NoteEvent = new Class({
-
-	Extends: soma.Event,
-
-	initialize: function(type, note, noteTitle) {
-		return this.parent(type, {note:note, noteTitle:noteTitle}, true, true );
+var NoteEvent = soma.Event.extend({
+	constructor: function(type, note, noteTitle) {
+		return soma.Event.call(this, type, {note:note, noteTitle:noteTitle}, true, true);
 	}
-
 });
 NoteEvent.INITIALIZE = "NoteEvent.INITIALIZE";
 NoteEvent.CREATE = "NoteEvent.CREATE";

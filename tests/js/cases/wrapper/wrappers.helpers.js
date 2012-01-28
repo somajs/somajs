@@ -10,7 +10,4 @@ var TestView = new Class({
 
 });
 
-var TestCustomEvent = new Class({
-
-	Extends: soma.Event
-});
+var TestCustomEvent = soma.Event.extend();

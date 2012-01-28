@@ -673,30 +673,30 @@
 
 	soma.EventDispatcher = soma.extend({
 		constructor: function() {
-			this.listeners = [];
+			listeners = [];
 		},
 		addEventListener: function(type, listener, priority) {
-			if (!this.listeners || !type || !listener) return;
+			if (!listeners || !type || !listener) return;
 			if (isNaN(priority)) priority = 0;
-			this.listeners.push({type: type, listener: listener, priority: priority,scope:this});
+			listeners.push({type: type, listener: listener, priority: priority,scope:this});
 		},
 		removeEventListener: function(type, listener) {
-			if (!this.listeners || !type || !listener) return;
+			if (!listeners || !type || !listener) return;
 			var i = 0;
-			var l = this.listeners.length;
+			var l = listeners.length;
 			for (i=l-1; i > -1; i--) {
-				var eventObj = this.listeners[i];
+				var eventObj = listeners[i];
 				if (eventObj.type == type && eventObj.listener == listener) {
-					this.listeners.splice(i, 1);
+					listeners.splice(i, 1);
 				}
 			}
 		},
 		hasEventListener: function(type) {
-			if (!this.listeners || !type) return false;
+			if (!listeners || !type) return false;
 			var i = 0;
-			var l = this.listeners.length;
+			var l = listeners.length;
 			for (; i < l; ++i) {
-				var eventObj = this.listeners[i];
+				var eventObj = listeners[i];
 				if (eventObj.type == type) {
 					return true;
 				}
@@ -704,11 +704,11 @@
 			return false;
 		},
 		dispatchEvent: function(event) {
-			if (!this.listeners || !event) return;
+			if (!listeners || !event) return;
 			var events = [];
 			var i;
-			for (i = 0; i < this.listeners.length; i++) {
-				var eventObj = this.listeners[i];
+			for (i = 0; i < listeners.length; i++) {
+				var eventObj = listeners[i];
 				if (eventObj.type == event.type) {
 					events.push(eventObj);
 				}
@@ -723,13 +723,13 @@
 		},
         getListeners: function()
         {
-            return this.listeners.slice();
+            return listeners.slice();
         },
 		toString: function() {
 			return "[Class soma.EventDispatcher]";
 		},
 		dispose: function() {
-			this.listeners = null;
+			listeners = null;
 		}
 	});
 

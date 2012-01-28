@@ -7,16 +7,10 @@ cases.invocationasync.InvocationCommandList =
 	,TEST_SEQUENCE_COMPLETE: "cases.invocationasync.testSequenceComplete"
 };
 
-cases.invocationasync.TestEvent = new Class
-({
-	Extends: soma.Event
-});
+cases.invocationasync.TestEvent = soma.Event.extend({});
 
-cases.invocationasync.TestAsyncCommand = new Class
-({
-	Extends: soma.core.controller.Command
-
-	,sequencer:null
+cases.invocationasync.TestAsyncCommand = soma.core.controller.Command.extend({
+	sequencer:null
 	,timer:null
 
 	,execute: function( event )

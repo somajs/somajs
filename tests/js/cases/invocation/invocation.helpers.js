@@ -6,12 +6,8 @@ cases.invocation.InvocationCommandList =
 	,PARALLEL: "cases.invocation.parallel"
 };
 
-
-
-cases.invocation.TestCommand = new Class
-({
-	Extends: soma.core.controller.Command
-	,execute: function( e )
+cases.invocation.TestCommand = soma.core.controller.Command.extend({
+	execute: function( e )
 	{
 		switch( e.type )
 		{
@@ -23,11 +19,8 @@ cases.invocation.TestCommand = new Class
 	}
 });
 
-
-cases.invocation.TestParallelCommand = new Class
-({
-	Extends: soma.core.controller.ParallelCommand
-	,initializeSubCommands: function()
+cases.invocation.TestParallelCommand = soma.core.controller.ParallelCommand.extend({
+	initializeSubCommands: function()
 	{
 		this.addSubCommand( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this.getData()) );
 		this.addSubCommand( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.TEST, this.getData()) );
@@ -41,14 +34,10 @@ cases.invocation.TestParallelCommand = new Class
 	}
  });
 
-
-cases.invocation.EmptyModel = new Class
-({
-	Extends: soma.core.model.Model
-
-	,initialize: function( data )
+cases.invocation.EmptyModel = soma.core.model.Model.extend({
+	constructor: function( data )
 	{
-		this.parent( cases.invocation.EmptyModel.NAME,  data );
+		soma.core.model.Model.call(this,  cases.invocation.EmptyModel.NAME,  data );
 	}
 	 ,init: function()
 	{
@@ -64,10 +53,7 @@ cases.invocation.EmptyModel = new Class
 cases.invocation.EmptyModel.NAME = "cases.invocation.EmptyModel";
 
 
-cases.invocation.TestEvent = new Class
-({
-	Extends: soma.Event
-});
+cases.invocation.TestEvent = soma.Event.extend({});
 
 
 

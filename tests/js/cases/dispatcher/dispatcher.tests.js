@@ -252,7 +252,6 @@ var DispatcherTest = new Class ({
     }
 
 	,test_not_accessible: function() {
-		console.log(this.dispatcher.listeners);
 		this.assertUndefined(this.dispatcher.listeners);
 	}
 

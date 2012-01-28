@@ -1,7 +1,4 @@
 var SomaApplication = soma.core.Application.extend({
-//	constructor: function() {
-//		SomaApplication.call(this);
-//	},
 	init: function() {
 
 	},
@@ -13,7 +10,6 @@ var SomaApplication = soma.core.Application.extend({
 		this.addCommand(TwitterEvent.SEARCH, TwitterCommand);
 	}
 });
-
 new SomaApplication();
 
 //

@@ -148,6 +148,7 @@ var InvocationTest = new Class
 
 	,test_command_from_body: function()
 	{
+		testlog(isIeLt9())
 		if (isIeLt9()) {
 			// invalid on IE 7 and 8
 			this.assertTrue(true);
@@ -255,7 +256,7 @@ var InvocationTest = new Class
 		this.soma.addCommand( cases.invocation.InvocationCommandList.TEST, cases.invocation.TestCommand );
 		this.soma.addCommand( cases.invocation.InvocationCommandList.PARALLEL, cases.invocation.TestParallelCommand );
 		this.soma.addModel( cases.invocation.EmptyModel.NAME, new cases.invocation.EmptyModel( this ) );
-		this.soma.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.PARALLEL ) );
+		this.soma.dispatchEvent( new cases.invocation.TestEvent( cases.invocation.InvocationCommandList.PARALLEL , this) );
 		this.assertEquals( this.executedCount, 5 );
 	}
 

@@ -8,18 +8,12 @@ cases.sequence.InvocationCommandList =
 	,TEST_SEQUENCE_COMPLETE: "cases.sequence.testSequenceComplete"
 };
 
-cases.sequence.TestEvent = new Class
-({
-	Extends: soma.Event
-});
+cases.sequence.TestEvent = soma.Event.extend({});
 
-cases.sequence.SequenceCommand = new Class
-({
-	Extends: soma.core.controller.SequenceCommand
-
-	 ,initialize: function()
+cases.sequence.SequenceCommand = soma.core.controller.SequenceCommand.extend({
+	constructor: function()
 	{
-		this.parent("cases.sequence.SequenceCommand");
+		soma.core.controller.SequenceCommand.call(this, "cases.sequence.SequenceCommand");
 	}
 	,initializeSubCommands: function()
 	{
@@ -31,11 +25,8 @@ cases.sequence.SequenceCommand = new Class
 	}
  });
 
-cases.sequence.AsyncCommand = new Class
-({
-	Extends: soma.core.controller.Command
-
-	,sequencer:null
+cases.sequence.AsyncCommand = soma.core.controller.Command.extend({
+	sequencer:null
 	,timer:null
 	,event:null
 	,resultBound:null

@@ -95,6 +95,13 @@
 
 	<target name="cleanup-git" description="delete git cached files">
 
+		<echo message="   - cleanup"/>
+		<exec executable="git" failonerror="true">
+			<arg value="ls-files"/>
+			<arg value="--deleted"/>
+			<arg value="|"/>
+			<arg value="xargs"/>
+		</exec>
 		<!--#	deleted:    templates/export/compact-namespace.zip-->
 		<!--#	deleted:    templates/export/compact.zip-->
 		<!--#	deleted:    templates/export/standard-namespace.zip-->

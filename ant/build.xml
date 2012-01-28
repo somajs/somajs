@@ -97,6 +97,7 @@
 
 		<echo message="   - cleanup"/>
 		<exec executable="git" failonerror="true">
+			<arg value="../"/>
 			<arg value="ls-files"/>
 			<arg value="--deleted"/>
 			<!--<arg value="|"/>-->

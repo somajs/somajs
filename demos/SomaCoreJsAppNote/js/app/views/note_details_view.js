@@ -36,7 +36,6 @@ var NoteDetailsView = soma.View.extend({
 	},
 	saveClickHandler: function() {
 		var newNote = new NoteVO(this.title.value, this.content.value);
-		console.log(newNote);
 		this.dispatchEvent(new NoteEvent(NoteEvent.CREATE, newNote));
 	},
 	deleteClickHandler: function() {

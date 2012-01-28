@@ -10,7 +10,7 @@
 		</classpath>
 	</taskdef>
 	
-	<target name="build" description="build somacore" depends="minify, docs, template"/>
+	<target name="build" description="build somacore" depends="minify, template"/>
 
 	<target name="minify" description="compress somacore.js">
 		<echo message="minify start"/>
@@ -24,20 +24,7 @@
 		<mapper type="glob" from="*.js" to="*-min.js"/>
 		<echo message="minify complete"/>
 	</target>
-	
-	<target name="docs" description="generate somacore.js documentation">
-		<echo message="doc start"/>
-		<java jar="${build.docs.executable}" fork="true">
-			<arg value="${build.docs.app}"/>
-			<arg value="-t=${build.docs.template}"/>
-			<arg value="${build.docs.source}"/>
-			<arg value="-d=${build.docs.export}"/>
-			<arg value="-D=noGlobal:true"/>
-			<arg value="-D=title:somacore.js"/>
-	    </java>
-		<echo message="doc complete"/>
-	</target>
-	
+
 	<target name="template" description="compress somacore.js">
 		<echo message="template start"/>
 		<echo message="copy templates"/>
@@ -51,18 +38,12 @@
 				<echo>      source: ${build.dir.min}/${build.file.framework.min}</echo>
 				<echo>      target: ${build.dir.templates.temp}/@{templateName}/js/libs/${build.file.framework.export}</echo>
 				<copy overwrite="true" file="${build.dir.min}/${build.file.framework.min}" tofile="${build.dir.templates.temp}/@{templateName}/js/libs/${build.file.framework.export}"/>
-				<!--mootools-->
-				<echo message="    > copy mootools to template '@{templateName}'"/>
-				<echo>      source: ${build.dir.libs}/${build.file.mootools}</echo>
-				<echo>      target: ${build.dir.templates.temp}/@{templateName}/js/libs/${build.file.mootools}</echo>
-				<copy overwrite="true" file="${build.dir.libs}/${build.file.mootools}" tofile="${build.dir.templates.temp}/@{templateName}/js/libs/${build.file.mootools}"/>
 			</sequential>
 		</for>
 		<echo message="replace tokens in ${build.dir.templates.temp}"/>
 		<replace dir="${build.dir.templates.temp}">
 			<include name="**/*.html"/>
 			<replacefilter token="${build.token.framework.path}" value="js/libs/${build.file.framework.export}"/>
-			<replacefilter token="${build.token.mootools.path}" value="js/libs/${build.file.mootools}"/>
 		</replace>
 		<echo message="compress templates"/>
 		<for list="compact,compact-namespace,standard,standard-namespace" param="templateName">

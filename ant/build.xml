@@ -97,9 +97,8 @@
 
 		<echo message="   - cleanup"/>
 		<exec executable="git" failonerror="true">
-			<arg value="../"/>
-			<arg value="ls-files"/>
-			<arg value="--deleted"/>
+			<arg value="rm"/>
+			<arg value="../templates"/>
 			<!--<arg value="|"/>-->
 			<!--<arg value="xargs"/>-->
 		</exec>

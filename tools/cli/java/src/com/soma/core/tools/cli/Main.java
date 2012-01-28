@@ -21,7 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class Main {
 	
-	private static final String DEFAULT_TEMPLATE_PATH = "http://www.soundstep.com/somacorejs/templates";
+	private static final String DEFAULT_TEMPLATE_PATH = "http://somacorejs.github.com/somacorejs/templates/native";
 	private static final String DEFAULT_TEMPLATE_EXTENSION = ".zip";
 	private static final String DDEFAULT_TEMPORARY_FOLDER_NAME = "scjs-btt";
 	

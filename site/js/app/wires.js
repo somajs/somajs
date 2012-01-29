@@ -44,20 +44,22 @@ TutorialWire = soma.Wire.extend({
 	init: function() {
 		this.section = $("#tutorial")[0];
 		this.chapters = $(this.section).find("section .chapter");
-		this.chapters.each(this.createChapters).bind(this);
+		this.chapters.each(this.createChapters.bind(this));
 	},
 	createChapters: function(index, value) {
-		console.log(this, value.id);
-		this.addWire(value.id, new ChapterWire(value.id));
-		console.log(value.id);
-		console.log(index, value);
+		this.addWire(value.id, new ChapterWire(value.id, value));
 	}
 });
 TutorialWire.NAME = "Wire::TutorialWire";
 
 ChapterWire = soma.Wire.extend({
+	chapter: null,
+	constructor: function(name, chapter) {
+		this.chapter = chapter;
+		soma.Wire.call(this, name);
+	},
 	init: function() {
-		console.log(this.name);
+		console.log(this.name, this.chapter);
 	}
 });
 ChapterWire.NAME = "Wire::ChapterWire";

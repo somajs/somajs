@@ -189,7 +189,7 @@
 		}
 	});
 
-	soma.AutoBind = soma.extend({
+	soma.AutoBind = {
 		blackList: ["initialize", "parent", "$constructor", "addEventListener", "removeEventListener"],
 		autobind: function() {
 			if (this.wasAutoBound) {
@@ -224,7 +224,7 @@
 			}
 			return false;
 		}
-	});
+	};
 
 	soma.Command = SomaSharedCore.extend({
 		instance: null,
@@ -363,7 +363,7 @@
 			this.name = name;
 		}
 	});
-	soma.applyProperties(soma.Wire.prototype, soma.AutoBind.prototype);
+	soma.applyProperties(soma.Wire.prototype, soma.AutoBind);
 
 	soma.IDisposable = soma.extend({
 		dispose: function() {}
@@ -615,7 +615,7 @@
 				view.instance = this.instance;
 			}
 			if (!this.autoBound) {
-				soma.applyProperties(soma.View.prototype, soma.AutoBind.prototype);
+				soma.applyProperties( soma.View.prototype, soma.AutoBind );
 				this.autoBound = true;
 			}
 			if (view['shouldAutobind']) {

@@ -635,7 +635,6 @@ var AutobindTest = new Class
 
 	,listenerInvocation:0
 
-
 	,initialize: function()
 	{
 		this.autobind();

@@ -55,6 +55,8 @@ TutorialWire.NAME = "Wire::TutorialWire";
 ChapterWire = soma.Wire.extend({
 	chapter: null,
 	steps: null,
+	currentStep: 0,
+	maxSteps: 0,
 	constructor: function(name, chapter) {
 		this.chapter = chapter;
 		soma.Wire.call(this, name);
@@ -62,10 +64,26 @@ ChapterWire = soma.Wire.extend({
 	init: function() {
 		this.steps = $(this.chapter).find("section .step");
 		this.steps.each(this.createStep.bind(this));
+		this.createLink();
 	},
 	createStep: function(index, value) {
-		var stepName = this.chapter.id + "-step-" + index.toString();
+		var stepName = this.chapter.id + "-step-" + index;
 		this.addWire(stepName, new StepWire(stepName, value));
+	},
+	createLink: function() {
+		$(this.chapter).find("h2").click(this.clickHandler.bind(this));
+	},
+	clickHandler: function(event) {
+		this.activate();
+	},
+	activate: function() {
+		this.currentStep = 0;
+		this.maxSteps = this.steps.length;
+		var stepName = this.chapter.id + "-step-" + this.currentStep;
+		if (this.hasWire(stepName)) {
+			console.log('activate chapter', this.chapter.id);
+			this.getWire(stepName).activate();
+		}
 	}
 });
 
@@ -73,18 +91,24 @@ StepWire = soma.Wire.extend({
 	step: null,
 	code: null,
 	editor: null,
+	stepView: null,
 	constructor: function(name, step) {
 		this.step = step;
 		soma.Wire.call(this, name);
 	},
 	init: function() {
-		this.addView(this.name, new StepView(this.step));
+		this.stepView = this.addView(this.name, new StepView(this.step));
+		this.stepView.name = this.name;
 		this.addEventListener(NavigationEvent.SELECT, this.navigationHandler.bind(this));
 	},
 	navigationHandler: function(event) {
 		if (event.params.navigationId == NavigationConstants.TUTORIAL) {
 			this.getView(this.name).refresh();
 		}
+	},
+	activate: function() {
+		console.log('activate step', this.name);
+		this.stepView.activate();
 	}
 });
 

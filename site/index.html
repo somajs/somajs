@@ -90,36 +90,104 @@
 		<!--create application-->
 		<section id="create-app" class="chapter">
 			<h2>Create a somacore application</h2>
-
+			<!--step 1-->
 			<section class="step">
 				<h3>Step 1</h3>
+				<div class="content">
+					Create a somacore application (facade).
+				</div>
 				<div class="code">
-					<textarea class="code">
+<textarea class="code">
 // Edit me
-
-var ApplicationWire = soma.Wire.extend({
-	init:function() {
-		log('init wire');
-	}
-});
-ApplicationWire.NAME = "Wire::ApplicationWire";
-
+var SomaApplication = soma.Application.extend();
+</textarea>
+				</div>
+			</section>
+			<!--step 2-->
+			<section class="step">
+				<h3>Step 2</h3>
+				<div class="content">
+					Instantiate the application.
+				</div>
+				<div class="code">
+<textarea class="code">
+// Edit me
+var SomaApplication = soma.Application.extend();
+var app = new SomaApplication();
+</textarea>
+				</div>
+			</section>
+			<!--step 3-->
+			<section class="step">
+				<h3>Step 3</h3>
+				<div class="content">
+					Add an init method.
+				</div>
+				<div class="code">
+<textarea class="code">
+// Edit me
 var SomaApplication = soma.Application.extend({
 	init: function() {
 		log('init application');
-	},
-	registerWires: function() {
-		this.addWire(ApplicationWire.NAME, new ApplicationWire())
+	}
+});
+var app = new SomaApplication();
+</textarea>
+				</div>
+			</section>
+			<!--step 4-->
+			<section class="step">
+				<h3>Step 4</h3>
+				<div class="content">
+					Add a start method.
+				</div>
+				<div class="code">
+<textarea class="code">
+// Edit me
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log('init application');
 	},
 	start: function() {
 		log('start application');
 	}
 });
 var app = new SomaApplication();
-
-					</textarea>
+</textarea>
 				</div>
-
+			</section>
+			<!--step 5-->
+			<section class="step">
+				<h3>Step 5</h3>
+				<div class="content">
+					All methods that can be overridden in order of execution.
+				</div>
+				<div class="code">
+<textarea class="code">
+// Edit me
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log('init application');
+	},
+	registerModels: function() {
+		log('register models');
+	},
+	registerViews: function() {
+		log('register views');
+	},
+	registerCommands: function() {
+		log('register commands');
+	},
+	registerWires: function() {
+		log('register wires');
+	},
+	start: function() {
+		log('start application');
+	}
+});
+var app = new SomaApplication();
+</textarea>
+				</div>
 			</section>
 
 			<section class="step">

@@ -32,12 +32,13 @@ var EmployeeListView = soma.View.extend({
 	tableList: null,
 	tableListContainer: null,
 	create: null,
+    shouldAutobind: true,
 	init: function() {
 		this.tableListContainer = document.getElementById('list-table-container');
 		this.logout = document.getElementById('buttonLogoutList');
-		this.logout.addEventListener('click', this.logoutClickHandler.bind(this), false);
+		this.logout.addEventListener('click', this.logoutClickHandler, false);
 		this.create = document.getElementById('buttonCreate');
-		this.create.addEventListener('click', this.createClickHandler.bind(this), false);
+		this.create.addEventListener('click', this.createClickHandler, false);
 	},
 	logoutClickHandler: function(event){
 		event.preventDefault();
@@ -88,15 +89,16 @@ var EmployeeEditView = soma.View.extend({
 	deleteEmployee: null,
 	inputName: null,
 	inputAge: null,
+    shouldAutobind: true,
 	init: function() {
 		this.logout = document.getElementById('buttonLogoutEdit');
-		this.logout.addEventListener('click', this.logoutClickHandler.bind(this), false);
+		this.logout.addEventListener('click', this.logoutClickHandler, false);
 		this.cancel = document.getElementById('button-edit-cancel');
-		this.cancel.addEventListener('click', this.cancelClickHandler.bind(this), false);
+		this.cancel.addEventListener('click', this.cancelClickHandler, false);
 		this.submit = document.getElementById('button-edit-submit');
-		this.submit.addEventListener('click', this.submitClickHandler.bind(this), false);
+		this.submit.addEventListener('click', this.submitClickHandler, false);
 		this.deleteEmployee = document.getElementById('buttonDelete');
-		this.deleteEmployee.addEventListener('click', this.deleteClickHandler.bind(this), false);
+		this.deleteEmployee.addEventListener('click', this.deleteClickHandler, false);
 		this.inputName = document.getElementById('employeeName');
 		this.inputAge = document.getElementById('employeeAge');
 	},

@@ -59,7 +59,7 @@
 			};
 			return bound;
 		};
-	};
+	}
 
 	soma.applyProperties = function(target, extension) {
 		for (var prop in extension) {
@@ -93,7 +93,7 @@
 		// add extend shortcut
 		subclass.extend = function(obj) {
 			return soma.inherit(subclass, obj);
-		}
+		};
 		return subclass;
 	};
 

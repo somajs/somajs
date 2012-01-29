@@ -1,6 +1,4 @@
-NavigationView = new Class({
-
-	Extends: soma.View,
+NavigationView = soma.View.extend({
 
 	id: null,
 	currentSection: null,

@@ -13,12 +13,32 @@
 
 	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="styles/css/main.css">
+	<link rel="stylesheet" href="codemirror/css/codemirror.css">
+	<link rel="stylesheet" href="codemirror/theme/default.css">
+	<link rel="stylesheet" href="codemirror/theme/eclipse.css">
+
+	<style>
+		/*body {*/
+			/*font-family: Helvetica, Arial, sans-serif;*/
+		/*}*/
+		/*#code {*/
+			/*height: 500px;*/
+		/*}*/
+		/*#log {*/
+			/*font-size: 0.9em;*/
+			/*border: 1px solid black;*/
+			/*width: 400px;*/
+			/*height: 250px;*/
+			/*overflow: auto;*/
+			/*padding: 5px;*/
+		/*}*/
+	</style>
 
 </head>
 <body>
 
 <div id="container">
-	<script type="text/javascript" src="js/somacorejs/init.js"></script>
+	<script type="text/javascript" src="js/app/init.js"></script>
 
 	<header>
 		<h1>somacore.js</h1>
@@ -69,14 +89,70 @@
 		<h1>Tutorials</h1>
 
 		<!--create application-->
-		<section="create-app">
+		<section id="create-app" class="chapter">
 			<h2>Create a somacore application</h2>
+
 			<section class="step">
-				
+				<h3>Step 1</h3>
+				<div class="code">
+					<textarea class="code">
+// Edit me
+
+var ApplicationWire = soma.Wire.extend({
+	init:function() {
+		log('init wire');
+	}
+});
+ApplicationWire.NAME = "Wire::ApplicationWire";
+
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log('init application');
+	},
+	registerWires: function() {
+		this.addWire(ApplicationWire.NAME, new ApplicationWire())
+	},
+	start: function() {
+		log('start application');
+	}
+});
+var app = new SomaApplication();
+
+					</textarea>
+				</div>
+
+				<div class="buttons">
+					<button class="run">Run</button>
+					<button class="clear">Clear</button>
+					<button class="solution">Solution</button>
+				</div>
+
+				<div class="log">
+
+				</div>
+
 			</section>
+
 			<section class="step">
 
 			</section>
+
+		</section>
+
+		<section id="create-wire" class="chapter">
+			<h2>Create a wire</h2>
+		</section>
+
+		<section id="create-model" class="chapter">
+			<h2>Create a model</h2>
+		</section>
+
+		<section id="create-view" class="chapter">
+			<h2>Create a view</h2>
+		</section>
+
+		<section id="create-command" class="chapter">
+			<h2>Create a command</h2>
 		</section>
 
 	</section>
@@ -96,17 +172,60 @@
 
 </div>
 
-<script type="text/javascript" src=js/libs/jquery-1.7.min.js></script>
-<script type="text/javascript" src=js/libs/mootools-core-1.4.2.js></script>
-<script type="text/javascript" src=js/libs/somacore_v0.1-BETA_min.js></script>
-<!-- <script type="text/javascript" src=js/libs/somacore.js></script> -->
-<script type="text/javascript" src="js/somacorejs/constants.js"></script>
-<script type="text/javascript" src="js/somacorejs/commands.js"></script>
-<script type="text/javascript" src="js/somacorejs/events.js"></script>
-<script type="text/javascript" src="js/somacorejs/models.js"></script>
-<script type="text/javascript" src="js/somacorejs/views.js"></script>
-<script type="text/javascript" src="js/somacorejs/wires.js"></script>
-<script type="text/javascript" src="js/somacorejs.js"></script>
+<script type="text/javascript" src="codemirror/js/codemirror.js"></script>
+<script type="text/javascript" src="codemirror/js/javascript.js"></script>
+<!--<script type="text/javascript" src="js/libs/jquery-1.7.min.js"></script>-->
+<script type="text/javascript" src="js/libs/zepto.js"></script>
+<script type="text/javascript" src="js/libs/somacore_v0.1-BETA_min.js"></script>
+
+<script type="text/javascript" src="js/app/constants.js"></script>
+<script type="text/javascript" src="js/app/commands.js"></script>
+<script type="text/javascript" src="js/app/events.js"></script>
+<script type="text/javascript" src="js/app/models.js"></script>
+<script type="text/javascript" src="js/app/views.js"></script>
+<script type="text/javascript" src="js/app/wires.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+
+
+<script>
+//	var editor = CodeMirror.fromTextArea(document.getElementById("create-app-step1-code"), {
+//		mode: "javascript",
+//		theme: "eclipse",
+//		lineNumbers: true,
+//		onCursorActivity: function() {
+//			editor.setLineClass(hlLine, null);
+//			hlLine = editor.setLineClass(editor.getCursor().line, "activeline");
+//		}
+//	});
+//	var hlLine = editor.setLineClass(0, "activeline");
+
+//	var logCount = 0;
+//
+//	function log(value) {
+//		logCount++;
+//		var logEl = document.getElementById('log');
+//		logEl.innerHTML += logCount + ". " + value + "<br/>";
+//	}
+//
+//	var bt = document.getElementById("run");
+//	bt.addEventListener('click', function(event) {
+//		event.preventDefault();
+//
+//		eval(editor.getValue());
+//
+//	}, false);
+//
+//	var btClear = document.getElementById("clear");
+//	btClear.addEventListener('click', function(event) {
+//		event.preventDefault();
+//
+//		var log = document.getElementById("log");
+//		log.innerHTML = "";
+//		logCount = 0;
+//
+//	}, false);
+
+</script>
 
 </body>
 </html>

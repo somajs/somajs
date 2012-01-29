@@ -1,6 +1,4 @@
-ApplicationCommand = new Class({
-
-	Extends:soma.core.controller.Command,
+ApplicationCommand = soma.Command.extend({
 
 	execute: function(event) {
 		switch(event.type) {
@@ -13,9 +11,7 @@ ApplicationCommand = new Class({
 
 });
 
-NavigationCommand = new Class({
-
-	Extends:soma.core.controller.Command,
+NavigationCommand = soma.Command.extend({
 
 	execute: function(event) {
 		switch(event.type) {

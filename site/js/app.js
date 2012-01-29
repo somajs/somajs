@@ -1,8 +1,4 @@
-var scjs = scjs || {};
-
-scjs.SomaApplication = new Class({
-
-	Extends: soma.core.Application,
+var SomaApplication = soma.Application.extend({
 
 	init: function() {
 		
@@ -24,6 +20,7 @@ scjs.SomaApplication = new Class({
 	registerWires: function() {
 		this.addWire(ApplicationWire.NAME, new ApplicationWire());
 		this.addWire(NavigationWire.NAME, new NavigationWire());
+		this.addWire(TutorialWire.NAME, new TutorialWire());
 	},
 
 	start: function() {
@@ -32,4 +29,4 @@ scjs.SomaApplication = new Class({
 
 });
 
-new scjs.SomaApplication();
+new SomaApplication();

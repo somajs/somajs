@@ -620,12 +620,13 @@ var ModelTest = new Class
 });
 
 
+
+
+
 var AutobindTest = new Class
 ({
 
 	 Extends: PyrTestCase
-
-	 ,Implements:[ soma.AutoBind ]
 
 	,name: "AutobindTest"
 
@@ -637,6 +638,7 @@ var AutobindTest = new Class
 
 	,initialize: function()
 	{
+        soma.applyProperties( AutobindTest.prototype, soma.AutoBind );
 		this.autobind();
 		this.autobind();  // make sure following tests are not affected by double call of _somaAutobind
 	}
@@ -731,12 +733,7 @@ var AutobindTest = new Class
 		document.body.appendChild( sprite );
 		var view = new cases.core.TestView( sprite );
 		view.shouldAutobind = false;
-        /*
-         var vL =     view.viewListener.bind( sprite )
-		view.addEventListener( "testFromView", vL );
-		view.dispatchEvent( new soma.Event("testFromView") );
-		view.removeEventListener( "testFromView", vL );
-         */
+
 		this.soma.addView( "viewname", view );
 		view.addEventListener( "testFromView", view.viewListener, false );
 		view.dispatchEvent( new soma.Event("testFromView") );
@@ -760,7 +757,6 @@ var AutobindTest = new Class
 	}
 
  });
-
 
 
 

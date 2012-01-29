@@ -1,5 +1,4 @@
 ApplicationCommand = soma.Command.extend({
-
 	execute: function(event) {
 		switch(event.type) {
 			case ApplicationEvent.SETUP:
@@ -8,11 +7,9 @@ ApplicationCommand = soma.Command.extend({
 				break;
 		}
 	}
-
 });
 
 NavigationCommand = soma.Command.extend({
-
 	execute: function(event) {
 		switch(event.type) {
 			case NavigationEvent.SELECT:
@@ -21,5 +18,14 @@ NavigationCommand = soma.Command.extend({
 				break;
 		}
 	}
+});
 
+ChapterCommand = soma.Command.extend({
+	execute: function(event) {
+		switch(event.type) {
+			case ChapterEvent.NEXT:
+				this.getWire(event.params.chapterId).next();
+				break;
+		}
+	}
 });

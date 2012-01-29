@@ -15,6 +15,7 @@ var SomaApplication = soma.Application.extend({
 	registerCommands: function() {
 		this.addCommand(ApplicationEvent.SETUP, ApplicationCommand);
 		this.addCommand(NavigationEvent.SELECT, NavigationCommand);
+		this.addCommand(ChapterEvent.NEXT, ChapterCommand);
 	},
 
 	registerWires: function() {

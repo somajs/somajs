@@ -127,11 +127,10 @@ nav a:hover {
   text-decoration: underline; }
 
 /*TUTORIAL*/
-#log {
+.log {
   font-size: 0.9em;
   border: 1px solid black;
-  width: 400px;
-  height: 250px;
+  height: auto;
   overflow: auto;
   padding: 5px; }
 

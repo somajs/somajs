@@ -32,15 +32,25 @@ NavigationView = soma.View.extend({
 });
 NavigationView.NAME = "View::NavigationView";
 
+ChapterView = soma.View.extend({
+	init: function() {
+		this.name = this.domElement.id;
+		var title = $(this.domElement).find("h2")[0];
+		$(title).css("cursor", "pointer");
+	}
+});
+
 StepView = soma.View.extend({
 	code: null,
 	editor: null,
 	runButton: null,
 	clearButton: null,
 	solutionButton: null,
+	nextButton: null,
 	logElement: null,
 	count: 0,
 	active: false,
+	chapterId: null,
 	init: function() {
 		this.code = $(this.domElement).find("textarea.code")[0];
 		if (this.code) {
@@ -48,6 +58,7 @@ StepView = soma.View.extend({
 			this.createEditor();
 			this.createButtons();
 			this.createLog();
+			this.hide();
 		}
 	},
 	setSolution: function() {
@@ -107,9 +118,33 @@ StepView = soma.View.extend({
 //		});
 	},
 	activate: function() {
-		this.active = true
+		this.active = true;
 		console.log('activate view', this.name);
 		log = this.traceCode.bind(this);
+		this.show();
+	},
+	deactivate: function() {
+		this.active = false;
+		log = null;
+		this.hide();
+	},
+	show: function() {
+		$(this.domElement).css("display", "block");
+		this.refresh();
+	},
+	hide: function() {
+		$(this.domElement).css("display", "none");
+	},
+	createNextButton: function() {
+		$(this.domElement).append('<button class="next">' + this.name + '</button>');
+		this.nextButton = $(this.domElement).find(".next");
+		$(this.nextButton).click(this.nextHandler.bind(this));
+	},
+	nextHandler: function(event) {
+		this.dispatchEvent(new ChapterEvent(ChapterEvent.NEXT, this.chapterId));
+	},
+	setChapterId: function(id) {
+		this.chapterId = id;
 	}
 });
 

@@ -219,7 +219,7 @@ MyAutoBoundClass = new Class({
 	/**
 	 * @class
 	 * Provides the functionality to autobind with implicit need to keep object scope like event listeners and handlers/callbacks ending with *Listener or *Handler.
-	 * Wires and Mediators are implementing instance scope autobinding upon registration.
+	 * Wires and Mediators as framework objects are implementing instance scope autobinding upon registration.
 	 * @description Creates a new AutoBind class.
 	 * @example
 // wire not autobound
@@ -243,6 +243,12 @@ var MyWire = new Class({
 	eventHandler: function(event) {
 		// "this" keyword is this wire.
 	}
+});
+
+// custom class autobind
+var MyClassToAutobind = new Class({
+    Implements: [soma.AutoBind]
+	shouldAutobind: true
 });
 	 */
 	soma.AutoBind = new Class(

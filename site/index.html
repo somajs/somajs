@@ -14,7 +14,6 @@
 	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="styles/css/main.css">
 	<link rel="stylesheet" href="codemirror/css/codemirror.css">
-	<link rel="stylesheet" href="codemirror/theme/default.css">
 	<link rel="stylesheet" href="codemirror/theme/eclipse.css">
 
 	<style>
@@ -121,16 +120,6 @@ var app = new SomaApplication();
 					</textarea>
 				</div>
 
-				<div class="buttons">
-					<button class="run">Run</button>
-					<button class="clear">Clear</button>
-					<button class="solution">Solution</button>
-				</div>
-
-				<div class="log">
-
-				</div>
-
 			</section>
 
 			<section class="step">
@@ -174,7 +163,6 @@ var app = new SomaApplication();
 
 <script type="text/javascript" src="codemirror/js/codemirror.js"></script>
 <script type="text/javascript" src="codemirror/js/javascript.js"></script>
-<!--<script type="text/javascript" src="js/libs/jquery-1.7.min.js"></script>-->
 <script type="text/javascript" src="js/libs/zepto.js"></script>
 <script type="text/javascript" src="js/libs/somacore.js"></script>
 
@@ -185,47 +173,6 @@ var app = new SomaApplication();
 <script type="text/javascript" src="js/app/views.js"></script>
 <script type="text/javascript" src="js/app/wires.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
-
-
-<script>
-//	var editor = CodeMirror.fromTextArea(document.getElementById("create-app-step1-code"), {
-//		mode: "javascript",
-//		theme: "eclipse",
-//		lineNumbers: true,
-//		onCursorActivity: function() {
-//			editor.setLineClass(hlLine, null);
-//			hlLine = editor.setLineClass(editor.getCursor().line, "activeline");
-//		}
-//	});
-//	var hlLine = editor.setLineClass(0, "activeline");
-
-//	var logCount = 0;
-//
-//	function log(value) {
-//		logCount++;
-//		var logEl = document.getElementById('log');
-//		logEl.innerHTML += logCount + ". " + value + "<br/>";
-//	}
-//
-//	var bt = document.getElementById("run");
-//	bt.addEventListener('click', function(event) {
-//		event.preventDefault();
-//
-//		eval(editor.getValue());
-//
-//	}, false);
-//
-//	var btClear = document.getElementById("clear");
-//	btClear.addEventListener('click', function(event) {
-//		event.preventDefault();
-//
-//		var log = document.getElementById("log");
-//		log.innerHTML = "";
-//		logCount = 0;
-//
-//	}, false);
-
-</script>
 
 </body>
 </html>

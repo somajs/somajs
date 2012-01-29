@@ -50,6 +50,21 @@ nav a:hover {
 	text-decoration: underline;
 }
 
+/*TUTORIAL*/
+
+.log {
+	font-size: 0.9em;
+	border: 1px solid black;
+	width: 400px;
+	height: 250px;
+	overflow: auto;
+	padding: 5px;
+}
+
+/*div .code {*/
+	/*background-color: #FFF;*/
+/*}*/
+
 @import "media-query";
 @import "helpers";
 @import "print";

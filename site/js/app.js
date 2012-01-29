@@ -30,3 +30,10 @@ var SomaApplication = soma.Application.extend({
 });
 
 new SomaApplication();
+//
+//var logCount = 0;
+//
+//function log(value) {
+//	logCount++;
+//	console.log(logCount + ". " + value + "<br/>");
+//}

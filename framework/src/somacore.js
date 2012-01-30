@@ -659,7 +659,9 @@
 		}
 	});
 
-	soma.EventDispatcher = soma.extend({
+	soma.EventDispatcher = ( function() {
+        var listeners;
+        return soma.extend({
 		constructor: function() {
 			listeners = [];
 		},
@@ -719,7 +721,7 @@
 		dispose: function() {
 			listeners = null;
 		}
-	});
+	}); } )();
 
 	soma.Application = soma.EventDispatcher.extend({
 		body:null,

@@ -136,7 +136,7 @@ StepView = soma.View.extend({
 		$(this.domElement).css("display", "none");
 	},
 	createNextButton: function() {
-		$(this.domElement).append('<button class="next">' + this.name + '</button>');
+		$(this.domElement).append('<button class="next">next step</button>');
 		this.nextButton = $(this.domElement).find(".next");
 		$(this.nextButton).click(this.nextHandler.bind(this));
 	},

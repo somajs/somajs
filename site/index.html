@@ -16,23 +16,6 @@
 	<link rel="stylesheet" href="codemirror/css/codemirror.css">
 	<link rel="stylesheet" href="codemirror/theme/eclipse.css">
 
-	<style>
-		/*body {*/
-			/*font-family: Helvetica, Arial, sans-serif;*/
-		/*}*/
-		/*#code {*/
-			/*height: 500px;*/
-		/*}*/
-		/*#log {*/
-			/*font-size: 0.9em;*/
-			/*border: 1px solid black;*/
-			/*width: 400px;*/
-			/*height: 250px;*/
-			/*overflow: auto;*/
-			/*padding: 5px;*/
-		/*}*/
-	</style>
-
 </head>
 <body>
 
@@ -194,6 +177,134 @@ var app = new SomaApplication();
 
 		<section id="create-wire" class="chapter">
 			<h2>Create a wire</h2>
+			<!--step 1-->
+			<section class="step">
+				<h3>Step 1</h3>
+				<div class="content">
+					Create a wire instance.
+				</div>
+				<div class="code">
+<textarea class="code">
+// Edit me
+var WireExample = soma.Wire.extend({
+	init: function() {
+		// triggered when the wire is added to the framework.
+	},
+	init: function() {
+		// triggered when the wire is removed from the framework.
+	}
+});
+var wire = new WireExample();
+</textarea>
+				</div>
+			</section>
+			<!--step 2-->
+			<section class="step">
+				<h3>Step 2</h3>
+				<div class="content">
+					Add a wire to the framework instance.
+				</div>
+				<div class="code">
+<textarea class="code">
+// Edit me
+var WireExample = soma.Wire.extend({
+	init: function() {
+		// triggered when the wire is added to the framework.
+		log("init wire");
+	}
+});
+WireExample.NAME = "WireExample";
+
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log("init application");
+	},
+	registerWires: function() {
+		this.addWire(WireExample.NAME, new WireExample());
+	}
+});
+var app = new SomaApplication();
+</textarea>
+				</div>
+			</section>
+			<!--step 3-->
+			<section class="step">
+				<h3>Step 3</h3>
+				<div class="content">
+					Remove a wire from the framework instance.
+				</div>
+				<div class="code">
+<textarea class="code">
+// Edit me
+var WireExample = soma.Wire.extend({
+	init: function() {
+		// triggered when the wire is added to the framework.
+		log("init wire");
+	},
+	dispose: function() {
+		// triggered when the wire is removed from the framework.
+		log("dispose wire");
+	}
+});
+WireExample.NAME = "WireExample";
+
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log("init application");
+	},
+	registerWires: function() {
+		this.addWire(WireExample.NAME, new WireExample());
+		if (this.hasWire(WireExample.NAME)) {
+			this.removeWire(WireExample.NAME);
+		}
+	}
+});
+var app = new SomaApplication();
+</textarea>
+				</div>
+			</section>
+			<!--step 4-->
+			<section class="step">
+				<h3>Step 4</h3>
+				<div class="content">
+					Access to other framework elements.
+				</div>
+				<div class="code">
+<textarea class="code">
+// Edit me
+var WireExample = soma.Wire.extend({
+	init: function() {
+
+	// models
+	// this.addModel("model", ModelExample);
+	// this.removeModel("model", ModelExample);
+	// this.hasModel("model");
+
+	// wires
+	// this.addWire("wire", WireExample);
+	// this.removeWire("wire", WireExample);
+	// this.hasWire("wire");
+
+	// views
+	// this.addView("view", ViewExample);
+	// this.removeView("view", ViewExample);
+	// this.hasView("view");
+
+	// commands
+	// this.addCommand("eventType", CommandExample);
+	// this.removeCommand("eventType", CommandExample);
+	// this.hasCommand("eventType", CommandExample);
+	// this.dispatchEvent(new EventExample(EventExample.DO_SOMETHING));
+	// this.addEventListener(EventExample.DO_SOMETHING, handler);
+	// this.removeEventListener(EventExample.DO_SOMETHING, handler);
+
+	},
+});
+
+</textarea>
+				</div>
+			</section>
+
 		</section>
 
 		<section id="create-model" class="chapter">

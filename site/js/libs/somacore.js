@@ -666,9 +666,6 @@
 		constructor: function() {
 			listeners = [];
 		},
-		getListeners: function() {
-			return listeners;
-		},
 		addEventListener: function(type, listener, priority) {
 			if (!listeners || !type || !listener) return;
 			if (isNaN(priority)) priority = 0;

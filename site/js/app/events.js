@@ -18,4 +18,5 @@ ChapterEvent = soma.Event.extend({
 	}
 });
 ChapterEvent.NEXT = "ChapterEvent.NEXT";
+ChapterEvent.ACTIVATE = "ChapterEvent.ACTIVATE";
 

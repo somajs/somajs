@@ -568,6 +568,7 @@
 			this.lastSequencer = null;
 		},
 		domTreeHandler: function(e) {
+			console.log("dom tree handler", e);
 			if (e.bubbles && this.hasCommand(e.type) && !e.isCloned) {
 				if( e.stopPropagation ) {
                     e.stopPropagation();
@@ -586,6 +587,7 @@
 			}
 		},
 		instanceHandler: function(e) {
+			console.log("instance handler", e);
 			if (e.bubbles && this.hasCommand(e.type)) {
 				// if the event is equal to the lastEvent, this has already been dispatched for execution
 				if (this.lastEvent != e) {
@@ -663,6 +665,9 @@
 	soma.EventDispatcher = soma.extend({
 		constructor: function() {
 			listeners = [];
+		},
+		getListeners: function() {
+			return listeners;
 		},
 		addEventListener: function(type, listener, priority) {
 			if (!listeners || !type || !listener) return;

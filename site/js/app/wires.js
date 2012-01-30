@@ -45,9 +45,17 @@ TutorialWire = soma.Wire.extend({
 		this.section = $("#tutorial")[0];
 		this.chapters = $(this.section).find("section .chapter");
 		this.chapters.each(this.createChapter.bind(this));
+		this.addEventListener(ChapterEvent.ACTIVATE, this.activateHandler.bind(this));
 	},
 	createChapter: function(index, value) {
 		this.addWire(value.id, new ChapterWire(value.id, value));
+	},
+	activateHandler: function(event) {
+		this.chapters.each(this.deactivateAllChapters.bind(this));
+	},
+	deactivateAllChapters: function(index, value) {
+		console.log("deactivate chapters", value.id);
+		this.getWire(value.id).deactivate();
 	}
 });
 TutorialWire.NAME = "Wire::TutorialWire";
@@ -76,11 +84,14 @@ ChapterWire = soma.Wire.extend({
 		$(this.chapter).find("h2").click(this.clickHandler.bind(this));
 	},
 	clickHandler: function(event) {
-		this.activate();
+		this.dispatchEvent(new ChapterEvent(ChapterEvent.ACTIVATE, this.chapter.id));
 	},
 	activate: function() {
 		this.currentStep = 0;
 		this.activateCurrentStep();
+	},
+	deactivate: function() {
+		this.deactivateAllSteps();
 	},
 	activateCurrentStep: function() {
 		this.deactivateAllSteps();

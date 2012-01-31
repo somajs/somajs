@@ -115,6 +115,11 @@
 		</exec>
 		<exec executable="git" failonerror="true">
 			<arg value="rm"/>
+			<arg value="../documentation"/>
+			<arg value="-r"/>
+		</exec>
+		<exec executable="git" failonerror="true">
+			<arg value="rm"/>
 			<arg value="../tools"/>
 			<arg value="-r"/>
 		</exec>

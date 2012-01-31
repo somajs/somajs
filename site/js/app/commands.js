@@ -15,6 +15,7 @@ NavigationCommand = soma.Command.extend({
 			case NavigationEvent.SELECT:
 				this.getWire(ApplicationWire.NAME).select(event.params.navigationId);
 				this.getWire(NavigationWire.NAME).select(event.params.navigationId);
+				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECTED, event.params.navigationId));
 				break;
 		}
 	}

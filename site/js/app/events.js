@@ -11,6 +11,7 @@ NavigationEvent = soma.Event.extend({
 	}
 });
 NavigationEvent.SELECT = "NavigationEvent.SELECT";
+NavigationEvent.SELECTED = "NavigationEvent.SELECTED";
 
 ChapterEvent = soma.Event.extend({
 	constructor: function(type, chapterId, bubbles, cancelable) {

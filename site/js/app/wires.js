@@ -127,7 +127,7 @@ StepWire = soma.Wire.extend({
 	init: function() {
 		this.stepView = this.addView(this.name, new StepView(this.step));
 		this.stepView.name = this.name;
-		this.addEventListener(NavigationEvent.SELECT, this.navigationHandler.bind(this));
+		this.addEventListener(NavigationEvent.SELECTED, this.navigationHandler.bind(this));
 	},
 	navigationHandler: function(event) {
 		if (event.params.navigationId == NavigationConstants.TUTORIAL) {

@@ -28,7 +28,7 @@ NavigationView = soma.View.extend({
 	select: function(navigationId) {
 		this.currentSection = navigationId;
 		this.highlight();
-	},
+	}
 });
 NavigationView.NAME = "View::NavigationView";
 
@@ -111,11 +111,7 @@ StepView = soma.View.extend({
 		console.log('SOLUTION');
 	},
 	refresh:function() {
-		if (this.editor) setTimeout(this.editor.refresh, 20);
-//		$('.CodeMirror').each(function(i, el){
-//			console.log(CodeMirror(el));
-//		    CodeMirror(el).refresh();
-//		});
+		this.editor.refresh();
 	},
 	activate: function() {
 		this.active = true;

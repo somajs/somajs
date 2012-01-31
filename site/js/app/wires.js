@@ -51,11 +51,14 @@ TutorialWire = soma.Wire.extend({
 		this.addWire(value.id, new ChapterWire(value.id, value));
 	},
 	activateHandler: function(event) {
-		this.chapters.each(this.deactivateAllChapters.bind(this));
+		this.deactivateAllChapters(event.params.chapterId);
 	},
-	deactivateAllChapters: function(index, value) {
-		console.log("deactivate chapters", value.id);
-		this.getWire(value.id).deactivate();
+	deactivateAllChapters: function(exception) {
+		for (var i=0; i<this.chapters.length; ++i) {
+			if (this.chapters[i].id != exception){
+				this.getWire(this.chapters[i].id).deactivate();
+			}
+		}
 	}
 });
 TutorialWire.NAME = "Wire::TutorialWire";
@@ -94,19 +97,20 @@ ChapterWire = soma.Wire.extend({
 		this.deactivateAllSteps();
 	},
 	activateCurrentStep: function() {
-		this.deactivateAllSteps();
 		var stepName = this.chapter.id + "-step-" + this.currentStep;
 		if (this.hasWire(stepName)) {
 			console.log('activate chapter', this.chapter.id);
 			this.getWire(stepName).activate();
 		}
+		this.deactivateAllSteps(stepName);
 	},
-	deactivateAllSteps: function() {
-		this.steps.each(this.deactivateStep.bind(this));
-	},
-	deactivateStep: function(index, value) {
-		var stepName = this.chapter.id + "-step-" + index;
-		this.getWire(stepName).deactivate();
+	deactivateAllSteps: function(exception) {
+		for (var i=0; i<this.steps.length; ++i) {
+			var stepName = this.chapter.id + "-step-" + i;
+			if (stepName != exception){
+				this.getWire(stepName).deactivate();
+			}
+		}
 	},
 	next: function() {
 		this.currentStep++;

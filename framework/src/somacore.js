@@ -837,6 +837,10 @@ MyWire.NAME = "Wire::MyWire";
 		 */
 		setName: function(name) {
 			this.name = name;
+		},
+		
+		toString: function() {
+			return "[Class soma.Wire]";
 		}
 
 	});

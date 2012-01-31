@@ -59,12 +59,23 @@
 		<echo message="   - delete doc folder"/>
 		<delete dir="${build.doc.dir}" />
 
-		<echo message="   - update doc"/>
+		<echo message="   - update mootools doc from mootools"/>
 		<exec executable="git" failonerror="true">
 			<arg value="checkout"/>
 			<arg value="mootools"/>
 			<arg value="${build.doc.checkout.path}"/>
 		</exec>
+		<move file="${build.doc.checkout.path}" tofile="${build.doc.mootools.dir}"/>
+		<delete dir="${build.cli.checkout.dir}" />
+
+		<echo message="   - update native doc from master"/>
+		<exec executable="git" failonerror="true">
+			<arg value="checkout"/>
+			<arg value="master"/>
+			<arg value="${build.doc.checkout.path}"/>
+		</exec>
+		<move file="${build.doc.checkout.path}" tofile="${build.doc.native.dir}"/>
+		<delete dir="${build.cli.checkout.dir}" />
 
 	</target>
 

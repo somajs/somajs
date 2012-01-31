@@ -66,7 +66,7 @@
 			<arg value="${build.doc.checkout.path}"/>
 		</exec>
 		<move file="${build.doc.checkout.path}" tofile="${build.doc.mootools.dir}"/>
-		<delete dir="${build.cli.checkout.dir}" />
+		<delete dir="${build.doc.checkout.dir}" />
 
 		<echo message="   - update native doc from master"/>
 		<exec executable="git" failonerror="true">
@@ -75,7 +75,7 @@
 			<arg value="${build.doc.checkout.path}"/>
 		</exec>
 		<move file="${build.doc.checkout.path}" tofile="${build.doc.native.dir}"/>
-		<delete dir="${build.cli.checkout.dir}" />
+		<delete dir="${build.doc.checkout.dir}" />
 
 	</target>
 

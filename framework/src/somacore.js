@@ -329,6 +329,10 @@ var MyCommand = new Class({
 		 */
 		execute: function(event) {
 			
+		},
+
+		toString: function() {
+			return "[Class soma.Command]";
 		}
 
 	});
@@ -550,6 +554,10 @@ var CommandExample = new Class {{
 		 */
 		getCommands: function() {
 			return this.commands;
+		},
+
+		toString: function() {
+			return "[Class soma.SequenceCommand]";
 		}
 
 	});
@@ -678,7 +686,12 @@ this.addSubCommand(new soma.Event("eventType"));
 		 */
 		getCommands: function() {
 			return this.commands;
+		},
+
+		toString: function() {
+			return "[Class soma.ParallelCommand]";
 		}
+
 		
 	});
 
@@ -1771,6 +1784,10 @@ new SomaApplication();
 		this.body = null;
 	},
 
+	toString: function() {
+		return "[Class soma.Application]";
+	},
+
 	/** Method that you can optionally overwrite to initialize elements before anything else, this method is the first one called after that the framework is ready (init > registerModels > registerViews > registerCommands > registerWires > start). */
 	init: function() {
 
@@ -1969,7 +1986,11 @@ MyModel.NAME = "Model::MyModel";
 	/** Sets the name of the model. */
 	setName: function(name) {
 		this.name = name;
-	}
+	},
+
+    toString: function() {
+	    return "[Class soma.Model]";
+    }
 
 });
 
@@ -2131,7 +2152,11 @@ object.removeEventListener("eventType", eventHandler, false);
 	 */
 	dispose: function() {
 
-	}
+	},
+
+    toString: function() {
+	    return "[Class soma.View]";
+    }
 });
 
 /**
@@ -2225,6 +2250,10 @@ soma.Mediator = new Class({
 	dispose: function() {
 		this.viewComponent = null;
 		this.parent();
+	},
+
+	toString: function() {
+		return "[Class soma.Mediator]";
 	}
 
 });
@@ -2314,6 +2343,10 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 	},
 	isIE9: function() {
 	    return document.body.style.scrollbar3dLightColor!=undefined && document.body.style.opacity != undefined;
+    },
+
+    toString: function() {
+	    return "[Class soma.Event]";
     }
 });
 /**

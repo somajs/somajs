@@ -32,7 +32,6 @@
 
 	if (!Function.prototype.bind) {
 		Function.prototype.bind = function bind(that) {
-			console.log('here');
 			var target = this;
 			if (typeof target != "function") {
 				throw new Error("Error, you must bind a function.");
@@ -60,7 +59,7 @@
 			};
 			return bound;
 		};
-	};
+	}
 
 	soma.applyProperties = function(target, extension) {
 		for (var prop in extension) {
@@ -94,7 +93,7 @@
 		// add extend shortcut
 		subclass.extend = function(obj) {
 			return soma.inherit(subclass, obj);
-		}
+		};
 		return subclass;
 	};
 
@@ -190,7 +189,7 @@
 		}
 	});
 
-	soma.AutoBind = soma.extend({
+	soma.AutoBind = {
 		blackList: ["initialize", "parent", "$constructor", "addEventListener", "removeEventListener"],
 		autobind: function() {
 			if (this.wasAutoBound) {
@@ -225,7 +224,7 @@
 			}
 			return false;
 		}
-	});
+	};
 
 	soma.Command = SomaSharedCore.extend({
 		instance: null,
@@ -364,7 +363,7 @@
 			this.name = name;
 		}
 	});
-	soma.applyProperties(soma.Wire.prototype, soma.AutoBind.prototype);
+	soma.applyProperties(soma.Wire.prototype, soma.AutoBind);
 
 	soma.IDisposable = soma.extend({
 		dispose: function() {}
@@ -568,7 +567,6 @@
 			this.lastSequencer = null;
 		},
 		domTreeHandler: function(e) {
-			console.log("dom tree handler", e);
 			if (e.bubbles && this.hasCommand(e.type) && !e.isCloned) {
 				if( e.stopPropagation ) {
                     e.stopPropagation();
@@ -587,7 +585,6 @@
 			}
 		},
 		instanceHandler: function(e) {
-			console.log("instance handler", e);
 			if (e.bubbles && this.hasCommand(e.type)) {
 				// if the event is equal to the lastEvent, this has already been dispatched for execution
 				if (this.lastEvent != e) {
@@ -618,7 +615,7 @@
 				view.instance = this.instance;
 			}
 			if (!this.autoBound) {
-				soma.applyProperties(soma.View.prototype, soma.AutoBind.prototype);
+				soma.applyProperties( soma.View.prototype, soma.AutoBind );
 				this.autoBound = true;
 			}
 			if (view['shouldAutobind']) {
@@ -662,7 +659,9 @@
 		}
 	});
 
-	soma.EventDispatcher = soma.extend({
+	soma.EventDispatcher = ( function() {
+        var listeners;
+        return soma.extend({
 		constructor: function() {
 			listeners = [];
 		},
@@ -722,7 +721,7 @@
 		dispose: function() {
 			listeners = null;
 		}
-	});
+	}); } )();
 
 	soma.Application = soma.EventDispatcher.extend({
 		body:null,

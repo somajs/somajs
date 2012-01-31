@@ -659,34 +659,33 @@
 		}
 	});
 
-	soma.EventDispatcher = ( function() {
-        var listeners;
-        return soma.extend({
+	soma.EventDispatcher = soma.extend({
+		listeners: null,
 		constructor: function() {
-			listeners = [];
+			this.listeners = [];
 		},
 		addEventListener: function(type, listener, priority) {
-			if (!listeners || !type || !listener) return;
+			if (!this.listeners || !type || !listener) return;
 			if (isNaN(priority)) priority = 0;
-			listeners.push({type: type, listener: listener, priority: priority,scope:this});
+			this.listeners.push({type: type, listener: listener, priority: priority,scope:this});
 		},
 		removeEventListener: function(type, listener) {
-			if (!listeners || !type || !listener) return;
+			if (!this.listeners || !type || !listener) return;
 			var i = 0;
-			var l = listeners.length;
+			var l = this.listeners.length;
 			for (i=l-1; i > -1; i--) {
-				var eventObj = listeners[i];
+				var eventObj = this.listeners[i];
 				if (eventObj.type == type && eventObj.listener == listener) {
-					listeners.splice(i, 1);
+					this.listeners.splice(i, 1);
 				}
 			}
 		},
 		hasEventListener: function(type) {
-			if (!listeners || !type) return false;
+			if (!this.listeners || !type) return false;
 			var i = 0;
-			var l = listeners.length;
+			var l = this.listeners.length;
 			for (; i < l; ++i) {
-				var eventObj = listeners[i];
+				var eventObj = this.listeners[i];
 				if (eventObj.type == type) {
 					return true;
 				}
@@ -694,11 +693,11 @@
 			return false;
 		},
 		dispatchEvent: function(event) {
-			if (!listeners || !event) return;
+			if (!this.listeners || !event) return;
 			var events = [];
 			var i;
-			for (i = 0; i < listeners.length; i++) {
-				var eventObj = listeners[i];
+			for (i = 0; i < this.listeners.length; i++) {
+				var eventObj = this.listeners[i];
 				if (eventObj.type == event.type) {
 					events.push(eventObj);
 				}
@@ -713,15 +712,15 @@
 		},
         getListeners: function()
         {
-            return listeners.slice();
+            return this.listeners.slice();
         },
 		toString: function() {
 			return "[Class soma.EventDispatcher]";
 		},
 		dispose: function() {
-			listeners = null;
+			this.listeners = null;
 		}
-	}); } )();
+	});
 
 	soma.Application = soma.EventDispatcher.extend({
 		body:null,

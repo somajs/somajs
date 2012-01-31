@@ -251,9 +251,9 @@ var DispatcherTest = new Class ({
         this.assertFalse(event.isDefaultPrevented());
     }
 
-	,test_not_accessible: function() {
-		this.assertUndefined(this.dispatcher.listeners);
-	}
+//	,test_not_accessible: function() {
+//		this.assertUndefined(this.dispatcher.listeners);
+//	}
 
 
 });

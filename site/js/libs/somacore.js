@@ -233,6 +233,9 @@
 		},
 		execute: function(event) {
 
+		},
+		toString: function() {
+			return "[Class soma.Command]";
 		}
 	});
 
@@ -306,7 +309,11 @@
 		},
 		getCommands: function() {
 			return this.commands;
+		},
+		toString: function() {
+			return "[Class soma.SequenceCommand]";
 		}
+
 	});
 
 	soma.ParallelCommand = soma.Command.extend({
@@ -338,6 +345,9 @@
 		},
 		getCommands: function() {
 			return this.commands;
+		},
+		toString: function() {
+			return "[Class soma.ParallelCommand]";
 		}
 	});
 
@@ -361,6 +371,9 @@
 		},
 		setName: function(name) {
 			this.name = name;
+		},
+		toString: function() {
+			return "[Class soma.Wire]";
 		}
 	});
 	soma.applyProperties(soma.Wire.prototype, soma.AutoBind);
@@ -849,6 +862,9 @@
 			}
 			this.body = null;
 		},
+		toString: function() {
+			return "[Class soma.Application]";
+		},
 		init: function() {
 		},
 		registerModels: function() {
@@ -949,6 +965,9 @@
 		},
 		setName: function(name) {
 			this.name = name;
+		},
+		toString: function() {
+			return "[Class soma.Model]";
 		}
 	});
 
@@ -994,6 +1013,9 @@
 		},
 		dispose: function() {
 
+		},
+		toString: function() {
+			return "[Class soma.View]";
 		}
 	});
 
@@ -1054,6 +1076,9 @@
 		},
 		dispose: function() {
 			this.viewComponent = null;
+		},
+		toString: function() {
+			return "[Class soma.Mediator]";
 		}
 	});
 
@@ -1104,7 +1129,10 @@
 		},
 		isIE9: function() {
 		    return document.body.style.scrollbar3dLightColor!=undefined && document.body.style.opacity != undefined;
-	    }
+	    },
+		toString: function() {
+			return "[Class soma.Event]";
+		}
 	});
 
 	soma.Event.createGenericEvent = function (type, bubbles, cancelable) {

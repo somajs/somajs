@@ -1268,112 +1268,113 @@ function eventHandler(event) {
 
 dispatcher.dispatchEvent(new soma.Event("eventType"));
  */
-soma.EventDispatcher = (function() {
+soma.EventDispatcher = new Class(
 	/** @lends soma.EventDispatcher.prototype */
-	return new Class({
-		initialize: function() {
-			listeners = [];
-		},
-		/**
-		 * Registers an event listener with an EventDispatcher object so that the listener receives notification of an event.
-		 * @param {string} type The type of event.
-		 * @param {function} listener The listener function that processes the event. This function must accept an Event object as its only parameter and must return nothing.
-		 * @param {int} priority The priority level of the event listener (default 0). The higher the number, the higher the priority (can take negative number).
-		 * @example
+
+	{
+	listeners: null,
+	initialize: function() {
+		this.listeners = [];
+	},
+	/**
+	 * Registers an event listener with an EventDispatcher object so that the listener receives notification of an event.
+	 * @param {string} type The type of event.
+	 * @param {function} listener The listener function that processes the event. This function must accept an Event object as its only parameter and must return nothing.
+	 * @param {int} priority The priority level of the event listener (default 0). The higher the number, the higher the priority (can take negative number).
+	 * @example
 dispatcher.addEventListener("eventType", eventHandler);
 function eventHandler(event) {
-	// alert(event.type)
+// alert(event.type)
 }
-		 */
-		addEventListener: function(type, listener, priority) {
-			if (!listeners || !type || !listener) return;
-			if (isNaN(priority)) priority = 0;
-			listeners.push({type: type, listener: listener, priority: priority,scope:this});
-		},
-		/**
-		 * Removes a listener from the EventDispatcher object. If there is no matching listener registered with the EventDispatcher object, a call to this method has no effect.
-		 * @param {string} type The type of event.
-		 * @param {function} listener The listener object to remove.
-		 * @example
+	 */
+	addEventListener: function(type, listener, priority) {
+		if (!this.listeners || !type || !listener) return;
+		if (isNaN(priority)) priority = 0;
+		this.listeners.push({type: type, listener: listener, priority: priority,scope:this});
+	},
+	/**
+	 * Removes a listener from the EventDispatcher object. If there is no matching listener registered with the EventDispatcher object, a call to this method has no effect.
+	 * @param {string} type The type of event.
+	 * @param {function} listener The listener object to remove.
+	 * @example
 dispatcher.removeEventListener("eventType", eventHandler);
-		 */
-		removeEventListener: function(type, listener) {
-			if (!listeners || !type || !listener) return;
-			var i = 0;
-			var l = listeners.length;
-			for (i=l-1; i > -1; i--) {
-				var eventObj = listeners[i];
-				if (eventObj.type == type && eventObj.listener == listener) {
-                    listeners.splice(i, 1);
-				}
+	 */
+	removeEventListener: function(type, listener) {
+		if (!this.listeners || !type || !listener) return;
+		var i = 0;
+		var l = this.listeners.length;
+		for (i=l-1; i > -1; i--) {
+			var eventObj = this.listeners[i];
+			if (eventObj.type == type && eventObj.listener == listener) {
+				this.listeners.splice(i, 1);
 			}
-		},
-		/**
-		 * Checks whether the EventDispatcher object has any listeners registered for a specific type of event.
-		 * @param {string} type The type of event.
-		 * @return {boolean}
-		 * @example
+		}
+	},
+	/**
+	 * Checks whether the EventDispatcher object has any listeners registered for a specific type of event.
+	 * @param {string} type The type of event.
+	 * @return {boolean}
+	 * @example
 dispatcher.hasEventListener("eventType");
-		 */
-		hasEventListener: function(type) {
-			if (!listeners || !type) return false;
-			var i = 0;
-			var l = listeners.length;
-			for (; i < l; ++i) {
-				var eventObj = listeners[i];
-				if (eventObj.type == type) {
-					return true;
-				}
+	 */
+	hasEventListener: function(type) {
+		if (!this.listeners || !type) return false;
+		var i = 0;
+		var l = this.listeners.length;
+		for (; i < l; ++i) {
+			var eventObj = this.listeners[i];
+			if (eventObj.type == type) {
+				return true;
 			}
-			return false;
-		},
-		/**
-		 * Dispatches an event into the event flow. The event target is the EventDispatcher object upon which the dispatchEvent() method is called.
-		 * @param {soma.Event} event The Event object that is dispatched into the event flow. If the event is being redispatched, a clone of the event is created automatically.
-		 * @example
+		}
+		return false;
+	},
+	/**
+	 * Dispatches an event into the event flow. The event target is the EventDispatcher object upon which the dispatchEvent() method is called.
+	 * @param {soma.Event} event The Event object that is dispatched into the event flow. If the event is being redispatched, a clone of the event is created automatically.
+	 * @example
 dispatcher.dispatchEvent(new soma.Event("eventType"));
-		 */
-		dispatchEvent: function(event) {
-			if (!listeners || !event) return;
-			var events = [];
-			var i;
-			for (i = 0; i < listeners.length; i++) {
-				var eventObj = listeners[i];
-				if (eventObj.type == event.type) {
-					events.push(eventObj);
-				}
+	 */
+	dispatchEvent: function(event) {
+		if (!this.listeners || !event) return;
+		var events = [];
+		var i;
+		for (i = 0; i < this.listeners.length; i++) {
+			var eventObj = this.listeners[i];
+			if (eventObj.type == event.type) {
+				events.push(eventObj);
 			}
-			events.sort(function(a, b) {
-				return b.priority - a.priority;
-			});
+		}
+		events.sort(function(a, b) {
+			return b.priority - a.priority;
+		});
 
-			for (i = 0; i < events.length; i++) {
-                events[i].listener.apply((event.srcElement) ? event.srcElement : event.currentTarget, [event]);
-			}
-		},
-        /**
-         * Returns a copy of the listener array.
-         * @param {Array} listeners
-         */
-        getListeners: function()
-        {
-            return listeners.slice();
-        },
+		for (i = 0; i < events.length; i++) {
+            events[i].listener.apply((event.srcElement) ? event.srcElement : event.currentTarget, [event]);
+		}
+	},
+    /**
+     * Returns a copy of the listener array.
+     * @param {Array} listeners
+     */
+    getListeners: function()
+    {
+        return this.listeners.slice();
+    },
 
-		toString: function() {
-			return "[Class soma.EventDispatcher]";
-		},
-		/**
-		 * Destroy the elements of the instance. The instance still needs to be nullified.
-		 * @example
+	toString: function() {
+		return "[Class soma.EventDispatcher]";
+	},
+	/**
+	 * Destroy the elements of the instance. The instance still needs to be nullified.
+	 * @example
 instance.dispose();
 instance = null;
-		 */
-		dispose: function() {
-            listeners = null;
-		}
-	});
-})();
+	 */
+	dispose: function() {
+		this.listeners = null;
+	}
+});
 
 soma.Application = new Class(
 	/** @lends soma.Application.prototype */

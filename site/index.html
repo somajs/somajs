@@ -73,41 +73,43 @@
 		<!--create application-->
 		<section id="create-app" class="chapter">
 			<h2>Create a somacore application</h2>
-			<!--step 1-->
+			<!--step-->
 			<section class="step">
 				<h3>Step 1</h3>
 				<div class="content">
 					Create a somacore application (facade).
 				</div>
 				<div class="code">
-<textarea class="code">
+<textarea class="code" name="code">
 // Edit me
 var SomaApplication = soma.Application.extend();
+log("somacore application created");
 </textarea>
 				</div>
 			</section>
-			<!--step 2-->
+			<!--step-->
 			<section class="step">
 				<h3>Step 2</h3>
 				<div class="content">
 					Instantiate the application.
 				</div>
 				<div class="code">
-<textarea class="code">
+<textarea class="code" name="code">
 // Edit me
 var SomaApplication = soma.Application.extend();
 var app = new SomaApplication();
+log(app);
 </textarea>
 				</div>
 			</section>
-			<!--step 3-->
+			<!--step-->
 			<section class="step">
 				<h3>Step 3</h3>
 				<div class="content">
 					Add an init method.
 				</div>
 				<div class="code">
-<textarea class="code">
+<textarea class="code" name="code">
 // Edit me
 var SomaApplication = soma.Application.extend({
 	init: function() {
@@ -118,14 +120,14 @@ var app = new SomaApplication();
 </textarea>
 				</div>
 			</section>
-			<!--step 4-->
+			<!--step-->
 			<section class="step">
 				<h3>Step 4</h3>
 				<div class="content">
 					Add a start method.
 				</div>
 				<div class="code">
-<textarea class="code">
+<textarea class="code" name="code">
 // Edit me
 var SomaApplication = soma.Application.extend({
 	init: function() {
@@ -139,14 +141,14 @@ var app = new SomaApplication();
 </textarea>
 				</div>
 			</section>
-			<!--step 5-->
+			<!--step-->
 			<section class="step">
 				<h3>Step 5</h3>
 				<div class="content">
 					All methods that can be overridden in order of execution.
 				</div>
 				<div class="code">
-<textarea class="code">
+<textarea class="code" name="code">
 // Edit me
 var SomaApplication = soma.Application.extend({
 	init: function() {
@@ -177,14 +179,14 @@ var app = new SomaApplication();
 
 		<section id="create-wire" class="chapter">
 			<h2>Create a wire</h2>
-			<!--step 1-->
+			<!--step-->
 			<section class="step">
 				<h3>Step 1</h3>
 				<div class="content">
 					Create a wire instance.
 				</div>
 				<div class="code">
-<textarea class="code">
+<textarea class="code" name="code">
 // Edit me
 var WireExample = soma.Wire.extend({
 	init: function() {
@@ -195,17 +197,42 @@ var WireExample = soma.Wire.extend({
 	}
 });
 var wire = new WireExample();
+log(wire);
 </textarea>
 				</div>
 			</section>
-			<!--step 2-->
+			<!--step-->
 			<section class="step">
 				<h3>Step 2</h3>
 				<div class="content">
 					Add a wire to the framework instance.
 				</div>
 				<div class="code">
-<textarea class="code">
+<textarea class="code" name="code">
+// Edit me
+var WireExample = soma.Wire.extend({
+	init: function() {
+		// triggered when the wire is added to the framework.
+		log("init wire");
+	}
+});
+WireExample.NAME = "WireExample";
+
+var SomaApplication = soma.Application.extend();
+var app = new SomaApplication();
+
+app.addWire(WireExample.NAME, new WireExample());
+</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 3</h3>
+				<div class="content">
+					Add a wire to the framework instance from the instance itself.
+				</div>
+				<div class="code">
+					<textarea class="code" name="code">
 // Edit me
 var WireExample = soma.Wire.extend({
 	init: function() {
@@ -224,17 +251,17 @@ var SomaApplication = soma.Application.extend({
 	}
 });
 var app = new SomaApplication();
-</textarea>
+					</textarea>
 				</div>
 			</section>
-			<!--step 3-->
+			<!--step-->
 			<section class="step">
-				<h3>Step 3</h3>
+				<h3>Step 4</h3>
 				<div class="content">
 					Remove a wire from the framework instance.
 				</div>
 				<div class="code">
-<textarea class="code">
+<textarea class="code" name="code">
 // Edit me
 var WireExample = soma.Wire.extend({
 	init: function() {
@@ -263,14 +290,14 @@ var app = new SomaApplication();
 </textarea>
 				</div>
 			</section>
-			<!--step 4-->
+			<!--step-->
 			<section class="step">
-				<h3>Step 4</h3>
+				<h3>Step 5</h3>
 				<div class="content">
 					Access to other framework elements.
 				</div>
 				<div class="code">
-<textarea class="code">
+<textarea class="code" name="code">
 // Edit me
 var WireExample = soma.Wire.extend({
 	init: function() {
@@ -309,6 +336,136 @@ var WireExample = soma.Wire.extend({
 
 		<section id="create-model" class="chapter">
 			<h2>Create a model</h2>
+			<!--step-->
+			<section class="step">
+				<h3>Step 1</h3>
+				<div class="content">
+					Create a model instance.
+				</div>
+				<div class="code">
+					<textarea class="code" name="code">
+// Edit me
+var ModelExample = soma.Model.extend({
+	init: function() {
+		// triggered when the model is added to the framework.
+	},
+	dispose: function() {
+		// triggered when the model is removed from the framework.
+	}
+});
+var model = new ModelExample();
+log(model);
+					</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 2</h3>
+				<div class="content">
+					Add a model to the framework instance.
+				</div>
+				<div class="code">
+					<textarea class="code" name="code">
+// Edit me
+var ModelExample = soma.Model.extend({
+	init: function() {
+		// triggered when the model is added to the framework.
+		log("init model");
+	}
+});
+ModelExample.NAME = "ModelExample";
+
+var SomaApplication = soma.Application.extend();
+var app = new SomaApplication();
+
+app.addModel(ModelExample.NAME, new ModelExample());
+					</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 3</h3>
+				<div class="content">
+					Add a wire to the framework instance from the instance itself.
+				</div>
+				<div class="code">
+					<textarea class="code" name="code">
+// Edit me
+var ModelExample = soma.Model.extend({
+	init: function() {
+		// triggered when the model is added to the framework.
+		log("init model");
+	}
+});
+ModelExample.NAME = "ModelExample";
+
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log("init application");
+	},
+	registerModels: function() {
+		this.addModel(ModelExample.NAME, new ModelExample());
+	}
+});
+var app = new SomaApplication();
+					</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 4</h3>
+				<div class="content">
+					Remove a wire from the framework instance.
+				</div>
+				<div class="code">
+					<textarea class="code" name="code">
+// Edit me
+var ModelExample = soma.Model.extend({
+	init: function() {
+		// triggered when the model is added to the framework.
+		log("init model");
+	},
+	dispose: function() {
+		// triggered when the model is removed from the framework.
+		log("dispose model");
+	}
+});
+ModelExample.NAME = "ModelExample";
+
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log("init application");
+	},
+	registerModels: function() {
+		this.addModel(ModelExample.NAME, new ModelExample());
+		if (this.hasModel(ModelExample.NAME)) {
+			this.removeModel(ModelExample.NAME);
+		}
+	}
+});
+var app = new SomaApplication();
+					</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 5</h3>
+				<div class="content">
+					Access to other framework elements.
+				</div>
+				<div class="code">
+					<textarea class="code" name="code">
+// Edit me
+var ModelExample = soma.Model.extend({
+	init: function() {
+	// this.dispatchEvent(new EventExample(EventExample.DO_SOMETHING));
+	// this.addEventListener(EventExample.DO_SOMETHING, handler);
+	// this.removeEventListener(EventExample.DO_SOMETHING, handler);
+	},
+});
+					</textarea>
+				</div>
+			</section>
 		</section>
 
 		<section id="create-view" class="chapter">

@@ -45,7 +45,7 @@ StepView = soma.View.extend({
 	editor: null,
 	runButton: null,
 	clearButton: null,
-	solutionButton: null,
+	resetButton: null,
 	nextButton: null,
 	logElement: null,
 	count: 0,
@@ -73,15 +73,15 @@ StepView = soma.View.extend({
 		});
 	},
 	createButtons: function() {
-		$(this.domElement).append('<button class="run">run</button>');
-		$(this.domElement).append('<button class="clear">clear</button>');
-		$(this.domElement).append('<button class="solution">solution</button>');
+		$(this.domElement).append('<button class="run">run code</button>');
+		$(this.domElement).append('<button class="reset">reset code</button>');
+		$(this.domElement).append('<button class="clear">clear log</button>');
 		this.runButton = $(this.domElement).find(".run");
+		this.resetButton = $(this.domElement).find(".reset");
 		this.clearButton = $(this.domElement).find(".clear");
-		this.solutionButton = $(this.domElement).find(".solution");
 		$(this.runButton).click(this.runHandler.bind(this));
+		$(this.resetButton).click(this.resetHandler.bind(this));
 		$(this.clearButton).click(this.clearHandler.bind(this));
-		$(this.solutionButton).click(this.solutionHandler.bind(this));
 	},
 	createLog: function() {
 		$(this.domElement).append('<div class="log" style="border: 1px solid red"></div>');
@@ -94,7 +94,7 @@ StepView = soma.View.extend({
 		this.count = 0;
 		$(this.logElement).html("");
 	},
-	runHandler: function() {
+	runHandler: function(event) {
 		console.log('RUN');
 		this.clearLog();
 		try {
@@ -102,13 +102,17 @@ StepView = soma.View.extend({
 		} catch (error) {
 			this.traceCode(error);
 		}
+		return false;
 	},
-	clearHandler: function() {
+	clearHandler: function(event) {
 		console.log('CLEAR');
 		this.clearLog();
+		return false;
 	},
-	solutionHandler: function() {
-		console.log('SOLUTION');
+	resetHandler: function(event) {
+		console.log('RESET');
+		this.editor.setValue(this.solution);
+		return false;
 	},
 	refresh:function() {
 		this.editor.refresh();
@@ -138,6 +142,8 @@ StepView = soma.View.extend({
 	},
 	nextHandler: function(event) {
 		this.dispatchEvent(new ChapterEvent(ChapterEvent.NEXT, this.chapterId));
+		event.stopPropagation();
+		return false;
 	},
 	setChapterId: function(id) {
 		this.chapterId = id;

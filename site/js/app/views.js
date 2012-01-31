@@ -125,7 +125,6 @@ StepView = soma.View.extend({
 	},
 	deactivate: function() {
 		this.active = false;
-		log = null;
 		this.hide();
 	},
 	show: function() {

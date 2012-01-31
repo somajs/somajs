@@ -258,6 +258,36 @@ var app = new SomaApplication();
 			<section class="step">
 				<h3>Step 4</h3>
 				<div class="content">
+					Retrieve a wire from the framework instance.
+				</div>
+				<div class="code">
+<textarea class="code" name="code">
+// Edit me
+var WireExample = soma.Wire.extend({
+	init: function() {
+		// triggered when the wire is added to the framework.
+	},
+});
+WireExample.NAME = "WireExample";
+
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log("init application");
+	},
+	registerWires: function() {
+		this.addWire(WireExample.NAME, new WireExample());
+		var retrievedWire = this.getWire(WireExample.NAME);
+		log("retrieved wire: " + retrievedWire);
+	}
+});
+var app = new SomaApplication();
+</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 5</h3>
+				<div class="content">
 					Remove a wire from the framework instance.
 				</div>
 				<div class="code">
@@ -292,7 +322,7 @@ var app = new SomaApplication();
 			</section>
 			<!--step-->
 			<section class="step">
-				<h3>Step 5</h3>
+				<h3>Step 6</h3>
 				<div class="content">
 					Access to other framework elements.
 				</div>
@@ -306,16 +336,19 @@ var WireExample = soma.Wire.extend({
 	// this.addModel("model", ModelExample);
 	// this.removeModel("model", ModelExample);
 	// this.hasModel("model");
+	// this.getModel("model");
 
 	// wires
 	// this.addWire("wire", WireExample);
 	// this.removeWire("wire", WireExample);
 	// this.hasWire("wire");
+	// this.getWire("wire");
 
 	// views
 	// this.addView("view", ViewExample);
 	// this.removeView("view", ViewExample);
 	// this.hasView("view");
+	// this.getView("view");
 
 	// commands
 	// this.addCommand("eventType", CommandExample);
@@ -386,7 +419,7 @@ app.addModel(ModelExample.NAME, new ModelExample());
 			<section class="step">
 				<h3>Step 3</h3>
 				<div class="content">
-					Add a wire to the framework instance from the instance itself.
+					Add a model to the framework instance from the instance itself.
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
@@ -415,7 +448,37 @@ var app = new SomaApplication();
 			<section class="step">
 				<h3>Step 4</h3>
 				<div class="content">
-					Remove a wire from the framework instance.
+					Retrieve a model from the framework instance.
+				</div>
+				<div class="code">
+<textarea class="code" name="code">
+// Edit me
+var ModelExample = soma.Model.extend({
+	init: function() {
+		// triggered when the model is added to the framework.
+	},
+});
+ModelExample.NAME = "ModelExample";
+
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log("init application");
+	},
+	registerModels: function() {
+		this.addModel(ModelExample.NAME, new ModelExample());
+		var retrievedModel = this.getModel(ModelExample.NAME);
+		log("retrieved model: " + retrievedModel);
+	}
+});
+var app = new SomaApplication();
+</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 5</h3>
+				<div class="content">
+					Remove a model from the framework instance.
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
@@ -449,7 +512,7 @@ var app = new SomaApplication();
 			</section>
 			<!--step-->
 			<section class="step">
-				<h3>Step 5</h3>
+				<h3>Step 6</h3>
 				<div class="content">
 					Access to other framework elements.
 				</div>
@@ -470,6 +533,216 @@ var ModelExample = soma.Model.extend({
 
 		<section id="create-view" class="chapter">
 			<h2>Create a view</h2>
+			<!--step-->
+			<section class="step">
+				<h3>Step 1</h3>
+				<div class="content">
+					Create a view instance (wrapper).
+				</div>
+				<div class="code">
+<textarea class="code" name="code">
+// Edit me
+var ViewExample = soma.View.extend({
+	init: function() {
+		// triggered when the view is added to the framework.
+	},
+	dispose: function() {
+		// triggered when the view is removed from the framework.
+	}
+});
+var view = new ViewExample();
+log(view);
+</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 2</h3>
+				<div class="content">
+					Create a view instance (no wrapper).
+				</div>
+				<div class="code">
+<textarea class="code" name="code">
+// Edit me
+var ViewExample = function(){};
+ViewExample.prototype = {
+	init: function() {
+		// triggered when the view is added to the framework.
+	},
+	dispose: function() {
+		// triggered when the view is removed from the framework.
+	}
+};
+var view = new ViewExample();
+log(view);
+</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 3</h3>
+				<div class="content">
+					Add a view to the framework instance.
+				</div>
+				<div class="code">
+					<textarea class="code" name="code">
+// Edit me
+var ViewExample = soma.View.extend({
+	init: function() {
+		// triggered when the view is added to the framework.
+		log("init view");
+	}
+});
+ViewExample.NAME = "ViewExample";
+
+var SomaApplication = soma.Application.extend();
+var app = new SomaApplication();
+
+app.addView(ViewExample.NAME, new ViewExample());
+					</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 4</h3>
+				<div class="content">
+					Add a view to the framework instance from the instance itself.
+				</div>
+				<div class="code">
+					<textarea class="code" name="code">
+// Edit me
+var ViewExample = soma.View.extend({
+	init: function() {
+		// triggered when the view is added to the framework.
+		log("init view");
+	}
+});
+ViewExample.NAME = "ViewExample";
+
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log("init application");
+	},
+	registerViews: function() {
+		this.addView(ViewExample.NAME, new ViewExample());
+	}
+});
+var app = new SomaApplication();
+					</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 5</h3>
+				<div class="content">
+					Create a view instance with a dom element.
+				</div>
+				<div class="code">
+<textarea class="code" name="code">
+// Edit me
+var ViewExample = soma.View.extend({
+	init: function() {
+		// triggered when the view is added to the framework.
+		log("dom element: " + this.domElement);
+	}
+});
+ViewExample.NAME = "ViewExample";
+
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log("init application");
+	},
+	registerViews: function() {
+		this.addView(ViewExample.NAME, new ViewExample(document.body[0]));
+	}
+});
+var app = new SomaApplication();
+</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 6</h3>
+				<div class="content">
+					Retrieve a view from the framework instance.
+				</div>
+				<div class="code">
+<textarea class="code" name="code">
+// Edit me
+var ViewExample = soma.View.extend({
+	init: function() {
+		// triggered when the view is added to the framework.
+	},
+});
+ViewExample.NAME = "ViewExample";
+
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log("init application");
+	},
+	registerViews: function() {
+		this.addView(ViewExample.NAME, new ViewExample());
+		var retrievedView = this.getView(ViewExample.NAME);
+		log("retrieved view: " + retrievedView);
+	}
+});
+var app = new SomaApplication();
+</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 7</h3>
+				<div class="content">
+					Remove a view from the framework instance.
+				</div>
+				<div class="code">
+<textarea class="code" name="code">
+// Edit me
+var ViewExample = soma.View.extend({
+	init: function() {
+		// triggered when the model is added to the framework.
+		log("init view");
+	},
+	dispose: function() {
+		// triggered when the view is removed from the framework.
+		log("dispose view");
+	}
+});
+ViewExample.NAME = "ViewExample";
+
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log("init application");
+	},
+	registerViews: function() {
+		this.addView(ViewExample.NAME, new ViewExample());
+		if (this.hasView(ViewExample.NAME)) {
+			this.removeView(ViewExample.NAME);
+		}
+	}
+});
+var app = new SomaApplication();
+</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 7</h3>
+				<div class="content">
+					Access to other framework elements.
+				</div>
+				<div class="code">
+					<textarea class="code" name="code">
+// Edit me
+var ViewExample = soma.View.extend({
+	init: function() {
+		// this.dispatchEvent(new EventExample(EventExample.DO_SOMETHING));
+	},
+});
+					</textarea>
+				</div>
+			</section>
 		</section>
 
 		<section id="create-command" class="chapter">

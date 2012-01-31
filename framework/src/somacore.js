@@ -332,7 +332,7 @@ var MyCommand = new Class({
 		},
 
 		toString: function() {
-			return "[Class soma.Command]";
+			return "[soma.Command]";
 		}
 
 	});
@@ -557,7 +557,7 @@ var CommandExample = new Class {{
 		},
 
 		toString: function() {
-			return "[Class soma.SequenceCommand]";
+			return "[soma.SequenceCommand]";
 		}
 
 	});
@@ -689,7 +689,7 @@ this.addSubCommand(new soma.Event("eventType"));
 		},
 
 		toString: function() {
-			return "[Class soma.ParallelCommand]";
+			return "[soma.ParallelCommand]";
 		}
 
 		
@@ -840,7 +840,7 @@ MyWire.NAME = "Wire::MyWire";
 		},
 		
 		toString: function() {
-			return "[Class soma.Wire]";
+			return "[soma.Wire]";
 		}
 
 	});
@@ -1380,7 +1380,7 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));
     },
 
 	toString: function() {
-		return "[Class soma.EventDispatcher]";
+		return "[soma.EventDispatcher]";
 	},
 	/**
 	 * Destroy the elements of the instance. The instance still needs to be nullified.
@@ -1789,7 +1789,7 @@ new SomaApplication();
 	},
 
 	toString: function() {
-		return "[Class soma.Application]";
+		return "[soma.Application]";
 	},
 
 	/** Method that you can optionally overwrite to initialize elements before anything else, this method is the first one called after that the framework is ready (init > registerModels > registerViews > registerCommands > registerWires > start). */
@@ -1993,7 +1993,7 @@ MyModel.NAME = "Model::MyModel";
 	},
 
     toString: function() {
-	    return "[Class soma.Model]";
+	    return "[soma.Model]";
     }
 
 });
@@ -2159,7 +2159,7 @@ object.removeEventListener("eventType", eventHandler, false);
 	},
 
     toString: function() {
-	    return "[Class soma.View]";
+	    return "[soma.View]";
     }
 });
 
@@ -2257,7 +2257,7 @@ soma.Mediator = new Class({
 	},
 
 	toString: function() {
-		return "[Class soma.Mediator]";
+		return "[soma.Mediator]";
 	}
 
 });
@@ -2350,7 +2350,7 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
     },
 
     toString: function() {
-	    return "[Class soma.Event]";
+	    return "[soma.Event]";
     }
 });
 /**

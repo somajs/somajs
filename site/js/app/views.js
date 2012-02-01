@@ -98,6 +98,7 @@ StepView = soma.View.extend({
 		console.log('RUN');
 		this.clearLog();
 		try {
+			this.dispatchEvent(new ApplicationEvent(ApplicationEvent.CLEANUP));
 			eval(this.editor.getValue());
 		} catch (error) {
 			this.traceCode(error);

@@ -11,6 +11,17 @@ ApplicationWire = soma.Wire.extend({
 	setup:function(message) {
 		$("#container").css("display", "block");
 		this.select(NavigationConstants.ABOUT);
+		this.monitorApplicationCreation();
+	},
+	monitorApplicationCreation: function() {
+		// hack to cleanup applications created with codemirror
+		window.listApp = [];
+		var somaConstructor = soma.Application.prototype.constructor;
+		soma.Application.prototype.constructor =  function() {
+			somaConstructor.call(this);
+			window.listApp.push(this);
+		};
+		soma.Application = soma.inherit(soma.EventDispatcher.extend(), soma.Application.prototype);
 	},
 	select: function(navigationId) {
 		$.each(this.sections, function(index, value) {

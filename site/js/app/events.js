@@ -4,6 +4,7 @@ ApplicationEvent = soma.Event.extend({
 	}
 });
 ApplicationEvent.SETUP = "ApplicationEvent.SETUP";
+ApplicationEvent.CLEANUP = "ApplicationEvent.CLEANUP";
 
 NavigationEvent = soma.Event.extend({
 	constructor: function(type, navigationId, bubbles, cancelable) {

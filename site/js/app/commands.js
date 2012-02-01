@@ -5,6 +5,15 @@ ApplicationCommand = soma.Command.extend({
 				this.getWire(ApplicationWire.NAME).setup();
 				this.getWire(NavigationWire.NAME).setup();
 				break;
+			case ApplicationEvent.CLEANUP:
+				// cleanup application created using codemirror
+				for (var i=window.listApp.length-1; i>=0; --i) {
+					if (window.listApp[i] instanceof soma.Application) {
+						window.listApp[i].dispose();
+						window.listApp.splice(i, 1);
+					}
+				}
+				break;
 		}
 	}
 });

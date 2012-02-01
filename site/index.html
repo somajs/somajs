@@ -653,7 +653,7 @@ var SomaApplication = soma.Application.extend({
 		log("init application");
 	},
 	registerViews: function() {
-		this.addView(ViewExample.NAME, new ViewExample(document.body[0]));
+		this.addView(ViewExample.NAME, new ViewExample(document.body.firstChild));
 	}
 });
 var app = new SomaApplication();
@@ -747,6 +747,149 @@ var ViewExample = soma.View.extend({
 
 		<section id="create-command" class="chapter">
 			<h2>Create a command</h2>
+			<!--step-->
+			<section class="step">
+				<h3>Step 1</h3>
+				<div class="content">
+					Register a command to the framework.
+				</div>
+				<div class="code">
+					<textarea class="code" name="code">
+// Edit me
+var SomaApplication = soma.Application.extend();
+var app = new SomaApplication();
+
+var CommandExample = soma.Command.extend({
+	execute: function(event) {
+		// triggered when a command (event) is dispatched
+	}
+});
+
+app.addCommand("eventType", CommandExample);
+log("has command: " + app.hasCommand("eventType"));
+					</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 1</h3>
+				<div class="content">
+					Register a command to the framework instance from the instance itself.
+				</div>
+				<div class="code">
+					<textarea class="code" name="code">
+// Edit me
+var CommandExample = soma.Command.extend({
+	execute: function(event) {
+		// triggered when a command (event) is dispatched
+	}
+});
+
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log("init application");
+	},
+	registerCommands: function() {
+		this.addCommand("eventType", CommandExample);
+		log("has command: " + this.hasCommand("eventType"));
+	}
+});
+var app = new SomaApplication();
+					</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 1</h3>
+				<div class="content">
+					Remove a command from the framework.
+				</div>
+				<div class="code">
+					<textarea class="code" name="code">
+// Edit me
+var CommandExample = soma.Command.extend({
+	execute: function(event) {
+		// triggered when a command (event) is dispatched
+	}
+});
+
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log("init application");
+	},
+	registerCommands: function() {
+		this.addCommand("eventType", CommandExample);
+		if (this.hasCommand("eventType")) {
+			this.removeCommand("eventType");
+			log("has command: " + this.hasCommand("eventType"));
+		}
+	}
+});
+var app = new SomaApplication();
+					</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 1</h3>
+				<div class="content">
+					Dispatch an event and execute a command.
+				</div>
+				<div class="code">
+					<textarea class="code" name="code">
+// Edit me
+var CommandExample = soma.Command.extend({
+	execute: function(event) {
+		// triggered when a command (event) is dispatched
+		log("execute command: " + event.type);
+	}
+});
+
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log("init application");
+	},
+	registerCommands: function() {
+		this.addCommand("eventType", CommandExample);
+	},
+	start: function() {
+		this.dispatchEvent(new soma.Event("eventType"));
+	}
+});
+var app = new SomaApplication();
+					</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 1</h3>
+				<div class="content">
+					Dispatch an event from the DOM and execute a command.
+				</div>
+				<div class="code">
+					<textarea class="code" name="code">
+// Edit me
+var CommandExample = soma.Command.extend({
+	execute: function(event) {
+		// triggered when a command (event) is dispatched
+		log("execute command: " + event.type);
+	}
+});
+
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log("init application");
+	},
+	registerCommands: function() {
+		this.addCommand("eventType", CommandExample);
+	},
+});
+var app = new SomaApplication();
+
+document.body.firstChild.dispatchEvent(new soma.Event("eventType"));
+					</textarea>
+				</div>
+			</section>
 		</section>
 
 	</section>

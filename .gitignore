@@ -47,5 +47,8 @@ phing
 .idea*
 user.properties*
 
+*.sublime-project
+*.sublime-workspace
+
 /tools/cli/java/bin/*
 /tools/docs/NaturalDocs/library/*

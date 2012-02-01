@@ -728,7 +728,7 @@ var app = new SomaApplication();
 			</section>
 			<!--step-->
 			<section class="step">
-				<h3>Step 7</h3>
+				<h3>Step 8</h3>
 				<div class="content">
 					Access to other framework elements.
 				</div>
@@ -772,7 +772,7 @@ log("has command: " + app.hasCommand("eventType"));
 			</section>
 			<!--step-->
 			<section class="step">
-				<h3>Step 1</h3>
+				<h3>Step 2</h3>
 				<div class="content">
 					Register a command to the framework instance from the instance itself.
 				</div>
@@ -800,7 +800,7 @@ var app = new SomaApplication();
 			</section>
 			<!--step-->
 			<section class="step">
-				<h3>Step 1</h3>
+				<h3>Step 3</h3>
 				<div class="content">
 					Remove a command from the framework.
 				</div>
@@ -831,7 +831,7 @@ var app = new SomaApplication();
 			</section>
 			<!--step-->
 			<section class="step">
-				<h3>Step 1</h3>
+				<h3>Step 4</h3>
 				<div class="content">
 					Dispatch an event and execute a command.
 				</div>
@@ -862,9 +862,9 @@ var app = new SomaApplication();
 			</section>
 			<!--step-->
 			<section class="step">
-				<h3>Step 1</h3>
+				<h3>Step 5</h3>
 				<div class="content">
-					Dispatch an event from the DOM and execute a command.
+					Dispatch an event from a DOM element and execute a command.
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
@@ -887,6 +887,136 @@ var SomaApplication = soma.Application.extend({
 var app = new SomaApplication();
 
 document.body.firstChild.dispatchEvent(new soma.Event("eventType"));
+					</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 6</h3>
+				<div class="content">
+					Create a custom event.
+				</div>
+				<div class="code">
+					<textarea class="code" name="code">
+// Edit me
+var EventExample = soma.Event.extend();
+var event = new EventExample("eventType");
+log(event);
+log("type: " + event.type);
+log("bubbles: " + event.bubbles);
+log("cancelable: " + event.cancelable);
+log("default prevented: " + event.isDefaultPrevented());
+					</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 7</h3>
+				<div class="content">
+					Create a custom event and send parameters.
+				</div>
+				<div class="code">
+					<textarea class="code" name="code">
+// Edit me
+var EventExample = soma.Event.extend({
+	constructor: function(type, customVar, anotherVar, bubbles, cancelable) {
+		return soma.Event.call(this, type, {customVar:customVar, anotherVar:anotherVar}, bubbles, cancelable);
+	}
+});
+var event = new EventExample("eventType", "my custom var", "and another var");
+log("params: " + event.params);
+log("customVar: " + event.params.customVar);
+log("anotherVar: " + event.params.anotherVar);
+					</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 8</h3>
+				<div class="content">
+					Dispatch a custom event, execute a command and retrieve parameters.
+				</div>
+				<div class="code">
+					<textarea class="code" name="code">
+// Edit me
+var EventExample = soma.Event.extend({
+	constructor: function(type, customVar, bubbles, cancelable) {
+		return soma.Event.call(this, type, {customVar:customVar}, bubbles, cancelable);
+	}
+});
+EventExample.DO_SOMETHING = "EventExample.DO_SOMETHING"
+
+var CommandExample = soma.Command.extend({
+	execute: function(event) {
+		// triggered when a command (event) is dispatched
+		log("execute command: " + event.type);
+		log("param: " + event.params.customVar);
+	}
+});
+
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log("init application");
+	},
+	registerCommands: function() {
+		this.addCommand(EventExample.DO_SOMETHING, CommandExample);
+	},
+});
+var app = new SomaApplication();
+
+app.dispatchEvent(new EventExample(EventExample.DO_SOMETHING, "custom var content"));
+					</textarea>
+				</div>
+			</section>
+		</section>
+
+		<section id="app-flow" class="chapter">
+			<h2>Application flow</h2>
+			<!--step-->
+			<section class="step">
+				<h3>Step 1</h3>
+				<div class="content">
+					Monitoring application flow.
+				</div>
+				<div class="code">
+					<textarea class="code" name="code">
+// Edit me
+var EventExample = soma.Event.extend();
+EventExample.DO_SOMETHING = "EventExample.DO_SOMETHING"
+
+var CommandExample = soma.Command.extend({
+	execute: function(event) {
+		// triggered when a command (event) is dispatched
+		log("execute command: " + event.type);
+	}
+});
+
+var WireExample = soma.Wire.extend({
+	init: function() {
+		log("init wire");
+		this.addEventListener(EventExample.DO_SOMETHING, this.eventHandler.bind(this));
+	},
+	eventHandler: function(event) {
+		log("monitor command: " + event.type);
+	}
+});
+WireExample.NAME = "WireExample";
+
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log("init application");
+	},
+	registerCommands: function() {
+		this.addCommand(EventExample.DO_SOMETHING, CommandExample);
+	},
+	registerWires: function() {
+		this.addWire(WireExample, new WireExample());
+	},
+	start: function() {
+		this.dispatchEvent(new EventExample(EventExample.DO_SOMETHING));
+	}
+});
+var app = new SomaApplication();
 					</textarea>
 				</div>
 			</section>

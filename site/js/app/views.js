@@ -76,9 +76,9 @@ StepView = soma.View.extend({
 		$(this.domElement).append('<button class="run">run code</button>');
 		$(this.domElement).append('<button class="reset">reset code</button>');
 		$(this.domElement).append('<button class="clear">clear log</button>');
-		this.runButton = $(this.domElement).find(".run");
-		this.resetButton = $(this.domElement).find(".reset");
-		this.clearButton = $(this.domElement).find(".clear");
+		this.runButton = $(".run", $(this.domElement));
+		this.resetButton = $(".reset", $(this.domElement));
+		this.clearButton = $(".clear", $(this.domElement));
 		$(this.runButton).click(this.runHandler.bind(this));
 		$(this.resetButton).click(this.resetHandler.bind(this));
 		$(this.clearButton).click(this.clearHandler.bind(this));
@@ -136,8 +136,9 @@ StepView = soma.View.extend({
 		$(this.domElement).css("display", "none");
 	},
 	createNextButton: function() {
-		$(this.domElement).append('<button class="next">next step</button>');
-		this.nextButton = $(this.domElement).find(".next");
+		var editorContainer = $(this.domElement).find("div.code");
+		$(editorContainer).before('<button class="next">next step</button>');
+		this.nextButton = $(".next", $(this.domElement));
 		$(this.nextButton).click(this.nextHandler.bind(this));
 	},
 	nextHandler: function(event) {

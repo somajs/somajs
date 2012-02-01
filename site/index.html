@@ -81,7 +81,9 @@
 				</div>
 				<div class="code">
 <textarea class="code" name="code">
-// Edit me
+// edit me and run the code
+
+// extend a somacore application object
 var SomaApplication = soma.Application.extend();
 log("somacore application created");
 </textarea>
@@ -95,8 +97,11 @@ log("somacore application created");
 				</div>
 				<div class="code">
 <textarea class="code" name="code">
-// Edit me
+// edit me and run the code
+
+// extend a somacore application object
 var SomaApplication = soma.Application.extend();
+// create an instance of the extended somacore application
 var app = new SomaApplication();
 log(app);
 </textarea>
@@ -110,12 +115,16 @@ log(app);
 				</div>
 				<div class="code">
 <textarea class="code" name="code">
-// Edit me
+// edit me and run the code
+
+// extend a somacore application object
 var SomaApplication = soma.Application.extend({
 	init: function() {
+		// triggered once the framework is ready
 		log('init application');
 	}
 });
+// create an instance of the extended somacore application
 var app = new SomaApplication();
 </textarea>
 				</div>
@@ -128,15 +137,20 @@ var app = new SomaApplication();
 				</div>
 				<div class="code">
 <textarea class="code" name="code">
-// Edit me
+// edit me and run the code
+
+// extend a somacore application object
 var SomaApplication = soma.Application.extend({
 	init: function() {
+		// triggered once the framework is ready
 		log('init application');
 	},
 	start: function() {
+		// triggered by the framework, can be used as the starting point of the application
 		log('start application');
 	}
 });
+// create an instance of the extended somacore application
 var app = new SomaApplication();
 </textarea>
 				</div>
@@ -145,31 +159,72 @@ var app = new SomaApplication();
 			<section class="step">
 				<h3>Step 5</h3>
 				<div class="content">
-					All methods that can be overridden in order of execution.
+					All the methods that can be overridden in order of execution.
 				</div>
 				<div class="code">
 <textarea class="code" name="code">
-// Edit me
+// edit me and run the code
+
+// extend a somacore application object
 var SomaApplication = soma.Application.extend({
 	init: function() {
+		// triggered once the framework is ready
 		log('init application');
 	},
 	registerModels: function() {
+		// triggered by the framework, can be used to register models
 		log('register models');
 	},
 	registerViews: function() {
+		// triggered by the framework, can be used to register views
 		log('register views');
 	},
 	registerCommands: function() {
+		// triggered by the framework, can be used to register commands
 		log('register commands');
 	},
 	registerWires: function() {
+		// triggered by the framework, can be used to register wires
 		log('register wires');
 	},
 	start: function() {
+		// triggered by the framework, can be used as the starting point of the application
 		log('start application');
 	}
 });
+// create an instance of the extended somacore application
+var app = new SomaApplication();
+</textarea>
+				</div>
+			</section>
+			<!--step-->
+			<section class="step">
+				<h3>Step 6</h3>
+				<div class="content">
+					Access to the framework from other elements.
+				</div>
+				<div class="code">
+<textarea class="code" name="code">
+// edit me and run the code
+
+// create another framework element, a wire in this example
+var WireExample = soma.Wire.extend({
+	init: function() {
+		// triggered once the wire is added to the framework
+		// access to the framework instance using the instance member
+		log("framework instance: " + this.instance);
+	}
+});
+
+// extend a somacore application object
+var SomaApplication = soma.Application.extend({
+	registerWires: function() {
+		// add a framework element to the framework instance
+		// a wire in this example
+		this.addWire("wire", new WireExample());
+	},
+});
+// create an instance of the extended somacore application
 var app = new SomaApplication();
 </textarea>
 				</div>
@@ -187,7 +242,7 @@ var app = new SomaApplication();
 				</div>
 				<div class="code">
 <textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var WireExample = soma.Wire.extend({
 	init: function() {
 		// triggered when the wire is added to the framework.
@@ -209,7 +264,7 @@ log(wire);
 				</div>
 				<div class="code">
 <textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var WireExample = soma.Wire.extend({
 	init: function() {
 		// triggered when the wire is added to the framework.
@@ -233,7 +288,7 @@ app.addWire(WireExample.NAME, new WireExample());
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var WireExample = soma.Wire.extend({
 	init: function() {
 		// triggered when the wire is added to the framework.
@@ -262,7 +317,7 @@ var app = new SomaApplication();
 				</div>
 				<div class="code">
 <textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var WireExample = soma.Wire.extend({
 	init: function() {
 		// triggered when the wire is added to the framework.
@@ -292,7 +347,7 @@ var app = new SomaApplication();
 				</div>
 				<div class="code">
 <textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var WireExample = soma.Wire.extend({
 	init: function() {
 		// triggered when the wire is added to the framework.
@@ -328,7 +383,7 @@ var app = new SomaApplication();
 				</div>
 				<div class="code">
 <textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var WireExample = soma.Wire.extend({
 	init: function() {
 
@@ -377,7 +432,7 @@ var WireExample = soma.Wire.extend({
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var ModelExample = soma.Model.extend({
 	init: function() {
 		// triggered when the model is added to the framework.
@@ -399,7 +454,7 @@ log(model);
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var ModelExample = soma.Model.extend({
 	init: function() {
 		// triggered when the model is added to the framework.
@@ -423,7 +478,7 @@ app.addModel(ModelExample.NAME, new ModelExample());
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var ModelExample = soma.Model.extend({
 	init: function() {
 		// triggered when the model is added to the framework.
@@ -452,7 +507,7 @@ var app = new SomaApplication();
 				</div>
 				<div class="code">
 <textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var ModelExample = soma.Model.extend({
 	init: function() {
 		// triggered when the model is added to the framework.
@@ -482,7 +537,7 @@ var app = new SomaApplication();
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var ModelExample = soma.Model.extend({
 	init: function() {
 		// triggered when the model is added to the framework.
@@ -518,7 +573,7 @@ var app = new SomaApplication();
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var ModelExample = soma.Model.extend({
 	init: function() {
 	// this.dispatchEvent(new EventExample(EventExample.DO_SOMETHING));
@@ -541,7 +596,7 @@ var ModelExample = soma.Model.extend({
 				</div>
 				<div class="code">
 <textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var ViewExample = soma.View.extend({
 	init: function() {
 		// triggered when the view is added to the framework.
@@ -563,7 +618,7 @@ log(view);
 				</div>
 				<div class="code">
 <textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var ViewExample = function(){};
 ViewExample.prototype = {
 	init: function() {
@@ -586,7 +641,7 @@ log(view);
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var ViewExample = soma.View.extend({
 	init: function() {
 		// triggered when the view is added to the framework.
@@ -610,7 +665,7 @@ app.addView(ViewExample.NAME, new ViewExample());
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var ViewExample = soma.View.extend({
 	init: function() {
 		// triggered when the view is added to the framework.
@@ -639,7 +694,7 @@ var app = new SomaApplication();
 				</div>
 				<div class="code">
 <textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var ViewExample = soma.View.extend({
 	init: function() {
 		// triggered when the view is added to the framework.
@@ -668,7 +723,7 @@ var app = new SomaApplication();
 				</div>
 				<div class="code">
 <textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var ViewExample = soma.View.extend({
 	init: function() {
 		// triggered when the view is added to the framework.
@@ -698,7 +753,7 @@ var app = new SomaApplication();
 				</div>
 				<div class="code">
 <textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var ViewExample = soma.View.extend({
 	init: function() {
 		// triggered when the model is added to the framework.
@@ -734,7 +789,7 @@ var app = new SomaApplication();
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var ViewExample = soma.View.extend({
 	init: function() {
 		// this.dispatchEvent(new EventExample(EventExample.DO_SOMETHING));
@@ -755,7 +810,7 @@ var ViewExample = soma.View.extend({
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var SomaApplication = soma.Application.extend();
 var app = new SomaApplication();
 
@@ -778,7 +833,7 @@ log("has command: " + app.hasCommand("eventType"));
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var CommandExample = soma.Command.extend({
 	execute: function(event) {
 		// triggered when a command (event) is dispatched
@@ -806,7 +861,7 @@ var app = new SomaApplication();
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var CommandExample = soma.Command.extend({
 	execute: function(event) {
 		// triggered when a command (event) is dispatched
@@ -837,10 +892,13 @@ var app = new SomaApplication();
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var CommandExample = soma.Command.extend({
 	execute: function(event) {
 		// triggered when a command (event) is dispatched
+		// events with a bubbles property set to false will be ignored by the framework
+		// the soma.Event wrapper has its bubbles property set to true by default
+		log("bubbles: " + event.bubbles);
 		log("execute command: " + event.type);
 	}
 });
@@ -868,10 +926,12 @@ var app = new SomaApplication();
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var CommandExample = soma.Command.extend({
 	execute: function(event) {
 		// triggered when a command (event) is dispatched
+		// events with a bubbles property set to false will be ignored by the framework
+		// the soma.Event wrapper has its bubbles property set to true by default
 		log("execute command: " + event.type);
 	}
 });
@@ -898,7 +958,7 @@ document.body.firstChild.dispatchEvent(new soma.Event("eventType"));
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var EventExample = soma.Event.extend();
 var event = new EventExample("eventType");
 log(event);
@@ -917,7 +977,7 @@ log("default prevented: " + event.isDefaultPrevented());
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var EventExample = soma.Event.extend({
 	constructor: function(type, customVar, anotherVar, bubbles, cancelable) {
 		return soma.Event.call(this, type, {customVar:customVar, anotherVar:anotherVar}, bubbles, cancelable);
@@ -938,13 +998,13 @@ log("anotherVar: " + event.params.anotherVar);
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var EventExample = soma.Event.extend({
 	constructor: function(type, customVar, bubbles, cancelable) {
 		return soma.Event.call(this, type, {customVar:customVar}, bubbles, cancelable);
 	}
 });
-EventExample.DO_SOMETHING = "EventExample.DO_SOMETHING"
+EventExample.DO_SOMETHING = "EventExample.DO_SOMETHING";
 
 var CommandExample = soma.Command.extend({
 	execute: function(event) {
@@ -980,7 +1040,7 @@ app.dispatchEvent(new EventExample(EventExample.DO_SOMETHING, "custom var conten
 				</div>
 				<div class="code">
 					<textarea class="code" name="code">
-// Edit me
+// edit me and run the code
 var EventExample = soma.Event.extend();
 EventExample.DO_SOMETHING = "EventExample.DO_SOMETHING"
 
@@ -1020,7 +1080,64 @@ var app = new SomaApplication();
 					</textarea>
 				</div>
 			</section>
+			<!--step-->
+			<section class="step">
+			<h3>Step 2</h3>
+			<div class="content">
+				Interrupting application flow.
+			</div>
+			<div class="code">
+<textarea class="code" name="code">
+// edit me and run the code
+var EventExample = soma.Event.extend({
+	constructor: function(type, customVar, bubbles, cancelable) {
+		return soma.Event.call(this, type, {customVar:customVar}, bubbles, cancelable);
+	}
+});
+EventExample.DO_SOMETHING = "EventExample.DO_SOMETHING";
+
+var CommandExample = soma.Command.extend({
+	execute: function(event) {
+		// triggered when a command (event) is dispatched
+		log("execute command: " + event.type);
+	}
+});
+
+var WireExample = soma.Wire.extend({
+	init: function() {
+		log("init wire");
+		this.addEventListener(EventExample.DO_SOMETHING, this.eventHandler.bind(this));
+	},
+	eventHandler: function(event) {
+		// interrupt application flow if the event
+        // has its cancelable property set to true
+		log("cancelable: " + event.cancelable);
+		log("monitor command: " + event.type);
+		event.preventDefault();
+		log("prevent defaulted: " + event.isDefaultPrevented());
+	}
+});
+WireExample.NAME = "WireExample";
+
+var SomaApplication = soma.Application.extend({
+	registerCommands: function() {
+		this.addCommand(EventExample.DO_SOMETHING, CommandExample);
+	},
+	registerWires: function() {
+		this.addWire(WireExample, new WireExample());
+	},
+	start: function() {
+      this.dispatchEvent(new EventExample(EventExample.DO_SOMETHING, null, true, true));
+	}
+});
+var app = new SomaApplication();
+</textarea>
+					</div>
+				</section>
+			</section>
+
 		</section>
+
 
 	</section>
 

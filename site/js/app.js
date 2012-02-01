@@ -1,3 +1,12 @@
+var somaConstructor = soma.Application.prototype.constructor;
+soma.Application.prototype.constructor =  function() {
+	somaConstructor.call(this);
+	if (!window.list) window.list = [];
+	window.list.push(this);
+	console.log("new constructor");
+};
+soma.Application = soma.inherit(soma.EventDispatcher.extend(), soma.Application.prototype);
+
 var SomaApplication = soma.Application.extend({
 
 	init: function() {
@@ -32,3 +41,5 @@ var SomaApplication = soma.Application.extend({
 });
 
 new SomaApplication();
+
+console.log(window.list);

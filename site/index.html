@@ -83,7 +83,7 @@
 <textarea class="code" name="code">
 // edit me and run the code
 
-// extend a somacore application object
+// extend a somacore application
 var SomaApplication = soma.Application.extend();
 log("somacore application created");
 </textarea>
@@ -99,7 +99,7 @@ log("somacore application created");
 <textarea class="code" name="code">
 // edit me and run the code
 
-// extend a somacore application object
+// extend a somacore application
 var SomaApplication = soma.Application.extend();
 // create an instance of the extended somacore application
 var app = new SomaApplication();
@@ -117,7 +117,7 @@ log(app);
 <textarea class="code" name="code">
 // edit me and run the code
 
-// extend a somacore application object
+// extend a somacore application
 var SomaApplication = soma.Application.extend({
 	init: function() {
 		// triggered once the framework is ready
@@ -139,7 +139,7 @@ var app = new SomaApplication();
 <textarea class="code" name="code">
 // edit me and run the code
 
-// extend a somacore application object
+// extend a somacore application
 var SomaApplication = soma.Application.extend({
 	init: function() {
 		// triggered once the framework is ready
@@ -165,7 +165,7 @@ var app = new SomaApplication();
 <textarea class="code" name="code">
 // edit me and run the code
 
-// extend a somacore application object
+// extend a somacore application
 var SomaApplication = soma.Application.extend({
 	init: function() {
 		// triggered once the framework is ready
@@ -216,7 +216,7 @@ var WireExample = soma.Wire.extend({
 	}
 });
 
-// extend a somacore application object
+// extend a somacore application
 var SomaApplication = soma.Application.extend({
 	registerWires: function() {
 		// add a framework element to the framework instance
@@ -243,14 +243,18 @@ var app = new SomaApplication();
 				<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
+
+// extend a Wire
 var WireExample = soma.Wire.extend({
 	init: function() {
-		// triggered when the wire is added to the framework.
+		// triggered when the wire is added to the framework
 	},
 	dispose: function() {
-		// triggered when the wire is removed from the framework.
+		// triggered when the wire is removed from the framework
 	}
 });
+
+// create an instance of the extended wire
 var wire = new WireExample();
 log(wire);
 </textarea>
@@ -265,17 +269,21 @@ log(wire);
 				<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
+
+// extend a Wire
 var WireExample = soma.Wire.extend({
 	init: function() {
-		// triggered when the wire is added to the framework.
+		// triggered when the wire is added to the framework
 		log("init wire");
 	}
 });
 WireExample.NAME = "WireExample";
 
+// create a framework instance
 var SomaApplication = soma.Application.extend();
 var app = new SomaApplication();
 
+// add a wire to the framework
 app.addWire(WireExample.NAME, new WireExample());
 </textarea>
 				</div>
@@ -289,22 +297,28 @@ app.addWire(WireExample.NAME, new WireExample());
 				<div class="code">
 					<textarea class="code" name="code">
 // edit me and run the code
+
+// extend a Wire
 var WireExample = soma.Wire.extend({
 	init: function() {
-		// triggered when the wire is added to the framework.
+		// triggered when the wire is added to the framework
 		log("init wire");
 	}
 });
 WireExample.NAME = "WireExample";
 
+// extend a framework application
 var SomaApplication = soma.Application.extend({
 	init: function() {
+		// triggered once the framework is ready
 		log("init application");
 	},
 	registerWires: function() {
+		// add a wire to the framework
 		this.addWire(WireExample.NAME, new WireExample());
 	}
 });
+// create a framework instance
 var app = new SomaApplication();
 					</textarea>
 				</div>
@@ -318,23 +332,30 @@ var app = new SomaApplication();
 				<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
+
+// extend a Wire
 var WireExample = soma.Wire.extend({
 	init: function() {
-		// triggered when the wire is added to the framework.
+		// triggered when the wire is added to the framework
 	},
 });
 WireExample.NAME = "WireExample";
 
+// extend a framework application
 var SomaApplication = soma.Application.extend({
 	init: function() {
+		// triggered once the framework is ready
 		log("init application");
 	},
 	registerWires: function() {
+		// add a wire to the framework
 		this.addWire(WireExample.NAME, new WireExample());
+		// retrieve a wire from the framework
 		var retrievedWire = this.getWire(WireExample.NAME);
 		log("retrieved wire: " + retrievedWire);
 	}
 });
+// create a framework instance
 var app = new SomaApplication();
 </textarea>
 				</div>
@@ -348,29 +369,37 @@ var app = new SomaApplication();
 				<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
+
+// extend a Wire
 var WireExample = soma.Wire.extend({
 	init: function() {
-		// triggered when the wire is added to the framework.
+		// triggered when the wire is added to the framework
 		log("init wire");
 	},
 	dispose: function() {
-		// triggered when the wire is removed from the framework.
+		// triggered when the wire is removed from the framework
 		log("dispose wire");
 	}
 });
 WireExample.NAME = "WireExample";
 
+// extend a framework application
 var SomaApplication = soma.Application.extend({
 	init: function() {
+		// triggered once the framework is ready
 		log("init application");
 	},
 	registerWires: function() {
+		// add a wire to the framework
 		this.addWire(WireExample.NAME, new WireExample());
+		// check if the framework has a wire
 		if (this.hasWire(WireExample.NAME)) {
+			// remove a wire
 			this.removeWire(WireExample.NAME);
 		}
 	}
 });
+// create a framework instance
 var app = new SomaApplication();
 </textarea>
 				</div>
@@ -384,6 +413,7 @@ var app = new SomaApplication();
 				<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
+
 var WireExample = soma.Wire.extend({
 	init: function() {
 

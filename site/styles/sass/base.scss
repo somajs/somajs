@@ -3,6 +3,13 @@ $global-link-color: #000;
 $global-font: Lato, Helvetica, sans-serif;
 $global-font-size: 90%;
 
+$menu-width: 260px;
+
+$bg-opacity-100: 30;
+$bg-opacity: 0.3;
+
+$text-shadow-color: #D1D1D1;
+
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
 audio, canvas, video { display: inline-block; *display: inline; *zoom: 1; }
 audio:not([controls]) { display: none; }

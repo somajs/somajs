@@ -19,6 +19,8 @@
 </head>
 <body>
 
+<div id="bg"></div>
+
 <div id="container">
 	<script type="text/javascript" src="js/app/init.js"></script>
 
@@ -27,59 +29,73 @@
 	</header>
 
 	<nav id="nav">
-		<h1>Navigation</h2>
+		<h1>Navigation</h1>
 		<ul>
 			<li id="nav-about"><a href="#about">About</a></li>
-			<li id="nav-download"><a href="#download">Download</a></li>
 			<li id="nav-tutorial"i><a href="#tutorial">Tutorial</a></li>
+			<ul>
+				<li id="chap-createapp"><a href="#createapp">Create a somacore application</a></li>
+				<li id="chap-createwire"><a href="#createwire">Create a wire</a></li>
+				<li id="chap-createmodel"><a href="#createmodel">Create a model</a></li>
+				<li id="chap-createview"><a href="#createview">Create a view</a></li>
+				<li id="chap-createcommand"><a href="#createcommand">Create a command</a></li>
+				<li id="chap-helloworld"><a href="#helloworld">Hello world application</a></li>
+				<li id="chap-appflow"><a href="#appflow">Application flow</a></li>
+			</ul>
 			<li id="nav-doc"><a href="#doc">Documentation</a></li>
+			<li id="nav-download"><a href="#download">Download</a></li>
+			<li id="nav-browsers"><a href="#browser">Browsers information</a></li>
 		</ul>
 	</nav>
 
-	<section id="about">
-		<a name="about"/>
-		<h1>What is somacore.js</h1>
-		<div>
-			<p>
-				somacore.js is a model-view-controller (mvc) javascript framework that is meant to help developers write loosely coupled applications to increase scalability and maintainability.
-			</p>
-			<p>
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-			</p>
-			<p>
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-			</p>
-		</div>
-	</section>
+	<div id="content">
 
-	<section id="download">
-		<a name="download"/>
-		<h1>Download</h1>
-		<div>
-			<p>Coming soon...</p>
-			<p>
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-			</p>
-			<p>
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-			</p>
-		</div>
-	</section>
+		<section id="about">
+			<a name="about"></a>
+			<h1>What is somacore.js</h1>
+			<!--<div>-->
+			<div>
+				<p>
+					somacore.js is a model-view-controller (mvc) javascript framework that is meant to help developers write loosely coupled applications to increase scalability and maintainability.
+				</p>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</p>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</p>
+			</div>
+		</section>
 
-	<section id="tutorial">
-		<a name="tutorial"/>
-		<h1>Tutorials</h1>
+		<section id="download">
+			<a name="download"></a>
+			<h1>Download</h1>
+			<div>
+				<p>Coming soon...</p>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</p>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</p>
+			</div>
+		</section>
 
-		<!--create application-->
-		<section id="create-app" class="chapter">
-			<h2>Create a somacore application</h2>
-			<!--step-->
-			<section class="step">
-				<h3>Step 1</h3>
-				<div class="content">
-					Create a somacore application (facade).
-				</div>
-				<div class="code">
+		<section id="tutorial">
+			<a name="tutorial"></a>
+			<h1>Tutorials</h1>
+
+			<!--create application-->
+			<section id="createapp" class="chapter">
+				<a name="createapp"></a>
+				<h2>Create a somacore application</h2>
+				<!--step-->
+				<section class="step">
+					<h3>Step 1</h3>
+					<div class="content">
+						Create a somacore application (facade).
+					</div>
+					<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
 
@@ -87,15 +103,15 @@
 var SomaApplication = soma.Application.extend();
 log("somacore application created");
 </textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 2</h3>
-				<div class="content">
-					Instantiate the application.
-				</div>
-				<div class="code">
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 2</h3>
+					<div class="content">
+						Instantiate the application.
+					</div>
+					<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
 
@@ -105,15 +121,15 @@ var SomaApplication = soma.Application.extend();
 var app = new SomaApplication();
 log(app);
 </textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 3</h3>
-				<div class="content">
-					Add an init method.
-				</div>
-				<div class="code">
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 3</h3>
+					<div class="content">
+						Add an init method.
+					</div>
+					<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
 
@@ -127,15 +143,15 @@ var SomaApplication = soma.Application.extend({
 // create an instance of the extended somacore application
 var app = new SomaApplication();
 </textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 4</h3>
-				<div class="content">
-					Add a start method.
-				</div>
-				<div class="code">
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 4</h3>
+					<div class="content">
+						Add a start method.
+					</div>
+					<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
 
@@ -153,15 +169,15 @@ var SomaApplication = soma.Application.extend({
 // create an instance of the extended somacore application
 var app = new SomaApplication();
 </textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 5</h3>
-				<div class="content">
-					All the methods that can be overridden in order of execution.
-				</div>
-				<div class="code">
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 5</h3>
+					<div class="content">
+						All the methods that can be overridden in order of execution.
+					</div>
+					<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
 
@@ -195,15 +211,15 @@ var SomaApplication = soma.Application.extend({
 // create an instance of the extended somacore application
 var app = new SomaApplication();
 </textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 6</h3>
-				<div class="content">
-					Access to the framework from other elements.
-				</div>
-				<div class="code">
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 6</h3>
+					<div class="content">
+						Access to the framework from other elements.
+					</div>
+					<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
 
@@ -227,20 +243,21 @@ var SomaApplication = soma.Application.extend({
 // create an instance of the extended somacore application
 var app = new SomaApplication();
 </textarea>
-				</div>
+					</div>
+				</section>
+
 			</section>
 
-		</section>
-
-		<section id="create-wire" class="chapter">
-			<h2>Create a wire</h2>
-			<!--step-->
-			<section class="step">
-				<h3>Step 1</h3>
-				<div class="content">
-					Create a wire instance.
-				</div>
-				<div class="code">
+			<section id="createwire" class="chapter">
+				<a name="createwire"></a>
+				<h2>Create a wire</h2>
+				<!--step-->
+				<section class="step">
+					<h3>Step 1</h3>
+					<div class="content">
+						Create a wire instance.
+					</div>
+					<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
 
@@ -258,15 +275,15 @@ var WireExample = soma.Wire.extend({
 var wire = new WireExample();
 log(wire);
 </textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 2</h3>
-				<div class="content">
-					Add a wire to the framework instance.
-				</div>
-				<div class="code">
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 2</h3>
+					<div class="content">
+						Add a wire to the framework instance.
+					</div>
+					<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
 
@@ -286,16 +303,16 @@ var app = new SomaApplication();
 // add a wire to the framework
 app.addWire(WireExample.NAME, new WireExample());
 </textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 3</h3>
-				<div class="content">
-					Add a wire to the framework instance from the instance itself.
-				</div>
-				<div class="code">
-					<textarea class="code" name="code">
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 3</h3>
+					<div class="content">
+						Add a wire to the framework instance from the instance itself.
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
 // edit me and run the code
 
 // extend a Wire
@@ -320,16 +337,16 @@ var SomaApplication = soma.Application.extend({
 });
 // create a framework instance
 var app = new SomaApplication();
-					</textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 4</h3>
-				<div class="content">
-					Retrieve a wire from the framework instance.
-				</div>
-				<div class="code">
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 4</h3>
+					<div class="content">
+						Retrieve a wire from the framework instance.
+					</div>
+					<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
 
@@ -358,15 +375,15 @@ var SomaApplication = soma.Application.extend({
 // create a framework instance
 var app = new SomaApplication();
 </textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 5</h3>
-				<div class="content">
-					Remove a wire from the framework instance.
-				</div>
-				<div class="code">
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 5</h3>
+					<div class="content">
+						Remove a wire from the framework instance.
+					</div>
+					<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
 
@@ -402,15 +419,15 @@ var SomaApplication = soma.Application.extend({
 // create a framework instance
 var app = new SomaApplication();
 </textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 6</h3>
-				<div class="content">
-					Access to other framework elements.
-				</div>
-				<div class="code">
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 6</h3>
+					<div class="content">
+						Access to other framework elements.
+					</div>
+					<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
 
@@ -447,21 +464,22 @@ var WireExample = soma.Wire.extend({
 });
 
 </textarea>
-				</div>
+					</div>
+				</section>
+
 			</section>
 
-		</section>
-
-		<section id="create-model" class="chapter">
-			<h2>Create a model</h2>
-			<!--step-->
-			<section class="step">
-				<h3>Step 1</h3>
-				<div class="content">
-					Create a model instance.
-				</div>
-				<div class="code">
-					<textarea class="code" name="code">
+			<section id="createmodel" class="chapter">
+				<a name="createmodel"></a>
+				<h2>Create a model</h2>
+				<!--step-->
+				<section class="step">
+					<h3>Step 1</h3>
+					<div class="content">
+						Create a model instance.
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
 // edit me and run the code
 
 // extend a Model
@@ -477,17 +495,17 @@ var ModelExample = soma.Model.extend({
 // create an instance of the extended model
 var model = new ModelExample();
 log(model);
-					</textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 2</h3>
-				<div class="content">
-					Add a model to the framework instance.
-				</div>
-				<div class="code">
-					<textarea class="code" name="code">
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 2</h3>
+					<div class="content">
+						Add a model to the framework instance.
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
 // edit me and run the code
 
 // extend a Model
@@ -505,17 +523,17 @@ var app = new SomaApplication();
 
 // add a model to the framework
 app.addModel(ModelExample.NAME, new ModelExample());
-					</textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 3</h3>
-				<div class="content">
-					Add a model to the framework instance from the instance itself.
-				</div>
-				<div class="code">
-					<textarea class="code" name="code">
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 3</h3>
+					<div class="content">
+						Add a model to the framework instance from the instance itself.
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
 // edit me and run the code
 
 // extend a Model
@@ -541,16 +559,16 @@ var SomaApplication = soma.Application.extend({
 
 // create a framework instance
 var app = new SomaApplication();
-					</textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 4</h3>
-				<div class="content">
-					Retrieve a model from the framework instance.
-				</div>
-				<div class="code">
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 4</h3>
+					<div class="content">
+						Retrieve a model from the framework instance.
+					</div>
+					<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
 
@@ -581,16 +599,16 @@ var SomaApplication = soma.Application.extend({
 // create a framework instance
 var app = new SomaApplication();
 </textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 5</h3>
-				<div class="content">
-					Remove a model from the framework instance.
-				</div>
-				<div class="code">
-					<textarea class="code" name="code">
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 5</h3>
+					<div class="content">
+						Remove a model from the framework instance.
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
 // edit me and run the code
 
 // extend a Model
@@ -625,17 +643,17 @@ var SomaApplication = soma.Application.extend({
 
 // create a framework instance
 var app = new SomaApplication();
-					</textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 6</h3>
-				<div class="content">
-					Access to other framework elements.
-				</div>
-				<div class="code">
-					<textarea class="code" name="code">
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 6</h3>
+					<div class="content">
+						Access to other framework elements.
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
 // edit me and run the code
 
 var ModelExample = soma.Model.extend({
@@ -648,20 +666,21 @@ var ModelExample = soma.Model.extend({
 
 	},
 });
-					</textarea>
-				</div>
+</textarea>
+					</div>
+				</section>
 			</section>
-		</section>
 
-		<section id="create-view" class="chapter">
-			<h2>Create a view</h2>
-			<!--step-->
-			<section class="step">
-				<h3>Step 1</h3>
-				<div class="content">
-					Create a view instance (wrapper).
-				</div>
-				<div class="code">
+			<section id="createview" class="chapter">
+				<a name="createview"></a>
+				<h2>Create a view</h2>
+				<!--step-->
+				<section class="step">
+					<h3>Step 1</h3>
+					<div class="content">
+						Create a view instance (wrapper).
+					</div>
+					<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
 
@@ -679,15 +698,15 @@ var ViewExample = soma.View.extend({
 var view = new ViewExample();
 log(view);
 </textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 2</h3>
-				<div class="content">
-					Create a view instance (no wrapper).
-				</div>
-				<div class="code">
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 2</h3>
+					<div class="content">
+						Create a view instance (no wrapper).
+					</div>
+					<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
 
@@ -708,16 +727,16 @@ ViewExample.prototype = {
 var view = new ViewExample();
 log(view);
 </textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 3</h3>
-				<div class="content">
-					Add a view to the framework instance.
-				</div>
-				<div class="code">
-					<textarea class="code" name="code">
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 3</h3>
+					<div class="content">
+						Add a view to the framework instance.
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
 // edit me and run the code
 
 // extend a view
@@ -735,17 +754,17 @@ var app = new SomaApplication();
 
 // add a view to the framework
 app.addView(ViewExample.NAME, new ViewExample());
-					</textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 4</h3>
-				<div class="content">
-					Add a view to the framework instance from the instance itself.
-				</div>
-				<div class="code">
-					<textarea class="code" name="code">
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 4</h3>
+					<div class="content">
+						Add a view to the framework instance from the instance itself.
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
 // edit me and run the code
 
 // extend a view
@@ -771,16 +790,16 @@ var SomaApplication = soma.Application.extend({
 
 // create a framework instance
 var app = new SomaApplication();
-					</textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 5</h3>
-				<div class="content">
-					Create a view instance with a dom element.
-				</div>
-				<div class="code">
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 5</h3>
+					<div class="content">
+						Create a view instance with a dom element.
+					</div>
+					<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
 
@@ -810,15 +829,15 @@ var SomaApplication = soma.Application.extend({
 // create a framework instance
 var app = new SomaApplication();
 </textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 6</h3>
-				<div class="content">
-					Retrieve a view from the framework instance.
-				</div>
-				<div class="code">
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 6</h3>
+					<div class="content">
+						Retrieve a view from the framework instance.
+					</div>
+					<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
 
@@ -849,15 +868,15 @@ var SomaApplication = soma.Application.extend({
 // create a framework instance
 var app = new SomaApplication();
 </textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 7</h3>
-				<div class="content">
-					Remove a view from the framework instance.
-				</div>
-				<div class="code">
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 7</h3>
+					<div class="content">
+						Remove a view from the framework instance.
+					</div>
+					<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
 
@@ -894,16 +913,16 @@ var SomaApplication = soma.Application.extend({
 // create a framework instance
 var app = new SomaApplication();
 </textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 8</h3>
-				<div class="content">
-					Access to other framework elements.
-				</div>
-				<div class="code">
-					<textarea class="code" name="code">
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 8</h3>
+					<div class="content">
+						Access to other framework elements.
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
 // edit me and run the code
 
 var ViewExample = soma.View.extend({
@@ -914,21 +933,22 @@ var ViewExample = soma.View.extend({
 
 	},
 });
-					</textarea>
-				</div>
+</textarea>
+					</div>
+				</section>
 			</section>
-		</section>
 
-		<section id="create-command" class="chapter">
-			<h2>Create a command</h2>
-			<!--step-->
-			<section class="step">
-				<h3>Step 1</h3>
-				<div class="content">
-					Register a command to the framework.
-				</div>
-				<div class="code">
-					<textarea class="code" name="code">
+			<section id="createcommand" class="chapter">
+				<h2>Create a command</h2>
+				<a name="createcommand"></a>
+				<!--step-->
+				<section class="step">
+					<h3>Step 1</h3>
+					<div class="content">
+						Register a command to the framework.
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
 // edit me and run the code
 
 // create a framework instance
@@ -945,17 +965,17 @@ var CommandExample = soma.Command.extend({
 // add a command to the framework
 app.addCommand("eventType", CommandExample);
 log("has command: " + app.hasCommand("eventType"));
-					</textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 2</h3>
-				<div class="content">
-					Register a command to the framework instance from the instance itself.
-				</div>
-				<div class="code">
-					<textarea class="code" name="code">
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 2</h3>
+					<div class="content">
+						Register a command to the framework instance from the instance itself.
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
 // edit me and run the code
 
 // extend a command
@@ -980,17 +1000,17 @@ var SomaApplication = soma.Application.extend({
 
 // create a framework instance
 var app = new SomaApplication();
-					</textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 3</h3>
-				<div class="content">
-					Remove a command from the framework.
-				</div>
-				<div class="code">
-					<textarea class="code" name="code">
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 3</h3>
+					<div class="content">
+						Remove a command from the framework.
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
 // edit me and run the code
 
 // extend a command
@@ -1020,17 +1040,17 @@ var SomaApplication = soma.Application.extend({
 
 // create a framework instance
 var app = new SomaApplication();
-					</textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 4</h3>
-				<div class="content">
-					Dispatch an event and execute a command.
-				</div>
-				<div class="code">
-					<textarea class="code" name="code">
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 4</h3>
+					<div class="content">
+						Dispatch an event and execute a command.
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
 // edit me and run the code
 
 // extend a command
@@ -1062,17 +1082,17 @@ var SomaApplication = soma.Application.extend({
 
 // create a framework instance
 var app = new SomaApplication();
-					</textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 5</h3>
-				<div class="content">
-					Dispatch an event from a DOM element and execute a command.
-				</div>
-				<div class="code">
-					<textarea class="code" name="code">
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 5</h3>
+					<div class="content">
+						Dispatch an event from a DOM element and execute a command.
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
 // edit me and run the code
 
 // extend a command
@@ -1102,17 +1122,17 @@ var app = new SomaApplication();
 
 // an event that will execute a command can be dispatched from any DOM element
 document.body.firstChild.dispatchEvent(new soma.Event("eventType"));
-					</textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 6</h3>
-				<div class="content">
-					Create a custom event.
-				</div>
-				<div class="code">
-					<textarea class="code" name="code">
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 6</h3>
+					<div class="content">
+						Create a custom event.
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
 // edit me and run the code
 
 // extend an event
@@ -1124,17 +1144,17 @@ log("type: " + event.type);
 log("bubbles: " + event.bubbles);
 log("cancelable: " + event.cancelable);
 log("default prevented: " + event.isDefaultPrevented());
-					</textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 7</h3>
-				<div class="content">
-					Create a custom event and send parameters.
-				</div>
-				<div class="code">
-					<textarea class="code" name="code">
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 7</h3>
+					<div class="content">
+						Create a custom event and send parameters.
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
 // edit me and run the code
 
 // extend an event
@@ -1154,17 +1174,17 @@ var event = new EventExample("eventType", "my custom var", "and another var");
 log("params: " + event.params);
 log("customVar: " + event.params.customVar);
 log("anotherVar: " + event.params.anotherVar);
-					</textarea>
-				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-				<h3>Step 8</h3>
-				<div class="content">
-					Dispatch a custom event, execute a command and retrieve parameters.
-				</div>
-				<div class="code">
-					<textarea class="code" name="code">
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 8</h3>
+					<div class="content">
+						Dispatch a custom event, execute a command and retrieve parameters.
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
 // edit me and run the code
 
 // extend an event
@@ -1207,21 +1227,27 @@ var app = new SomaApplication();
 
 // dispatch an event with a custom value that will execute a command
 app.dispatchEvent(new EventExample(EventExample.DO_SOMETHING, "custom var content"));
-					</textarea>
-				</div>
+</textarea>
+					</div>
+				</section>
 			</section>
-		</section>
 
-		<section id="app-flow" class="chapter">
-			<h2>Application flow</h2>
-			<!--step-->
-			<section class="step">
-				<h3>Step 1</h3>
-				<div class="content">
-					Monitoring application flow.
-				</div>
-				<div class="code">
-					<textarea class="code" name="code">
+			<section id="helloworld" class="chapter">
+				<a name="helloworld"></a>
+				<h2>Hello world application</h2>
+			</section>
+
+			<section id="appflow" class="chapter">
+				<a name="appflow"></a>
+				<h2>Application flow</h2>
+				<!--step-->
+				<section class="step">
+					<h3>Step 1</h3>
+					<div class="content">
+						Monitoring application flow.
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
 // edit me and run the code
 
 // extend an event
@@ -1274,16 +1300,16 @@ var SomaApplication = soma.Application.extend({
 
 // create a framework instance
 var app = new SomaApplication();
-					</textarea>
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+				<h3>Step 2</h3>
+				<div class="content">
+					Interrupting application flow.
 				</div>
-			</section>
-			<!--step-->
-			<section class="step">
-			<h3>Step 2</h3>
-			<div class="content">
-				Interrupting application flow.
-			</div>
-			<div class="code">
+				<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
 
@@ -1352,19 +1378,29 @@ var app = new SomaApplication();
 
 		</section>
 
+		<section id="doc">
+			<a name="doc"></a>
+			<h1>Documentation</h1>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</p>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</p>
+		</section>
 
-	</section>
+		<section id="browsers">
+			<a name="browsers"></a>
+			<h1>Browser information</h1>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</p>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</p>
+		</section>
 
-	<section id="doc">
-		<a name="doc"/>
-		<h1>Documentation</h1>
-			<p>
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-			</p>
-			<p>
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-			</p>
-	</section>
+	</div>
 
 	<footer></footer>
 

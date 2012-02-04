@@ -2,17 +2,47 @@
 @import "base";
 
 body, html {
-	background-color: $global-bg-color;
+	background: url("../../images/linen-white.jpg") repeat fixed;
 	font-family: $global-font;
 	font-size: $global-font-size;
+	//text-shadow: #fff 0px 1px 0, #999 0 -1px 0;
+	text-shadow: $text-shadow-color 0 1px 0;
 }
 
 header, section, nav {
 	margin-bottom: 30px;
 }
 
+#bg {
+	position: fixed;
+    height: 100%;
+    width: 100%;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF', endColorstr='#000'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#FFF), to(#000)); /* for webkit browsers */
+    background: -moz-linear-gradient(top,  #FFF,  #000); /* for firefox 3.6+ */
+    filter: alpha(opacity=$bg-opacity-100); /* internet explorer */
+    -khtml-opacity: $bg-opacity;      /* khtml, old safari */
+    -moz-opacity: $bg-opacity;       /* mozilla, netscape */
+    opacity: $bg-opacity;           /* fx, safari, opera */
+}
+
 #container {
+    position: relative;
 	padding: 20px;
+}
+
+#nav {
+    width: $menu-width;
+    float: left;
+}
+
+#content {
+    margin-left: $menu-width;
+    position: relative;
+}
+
+.code {
+
 }
 
 header h1 {

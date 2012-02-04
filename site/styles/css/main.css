@@ -86,15 +86,44 @@ svg:not(:root) {
   overflow: hidden; }
 
 body, html {
-  background-color: #dbdbdb;
+  background: url("../../images/linen-white.jpg") repeat fixed;
   font-family: Lato, Helvetica, sans-serif;
-  font-size: 90%; }
+  font-size: 90%;
+  text-shadow: #d1d1d1 0 1px 0; }
 
 header, section, nav {
   margin-bottom: 30px; }
 
+#bg {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF', endColorstr='#000');
+  /* for IE */
+  background: -webkit-gradient(linear, left top, left bottom, from(white), to(black));
+  /* for webkit browsers */
+  background: -moz-linear-gradient(top, white, black);
+  /* for firefox 3.6+ */
+  filter: alpha(opacity=30);
+  /* internet explorer */
+  -khtml-opacity: 0.3;
+  /* khtml, old safari */
+  -moz-opacity: 0.3;
+  /* mozilla, netscape */
+  opacity: 0.3;
+  /* fx, safari, opera */ }
+
 #container {
+  position: relative;
   padding: 20px; }
+
+#nav {
+  width: 260px;
+  float: left; }
+
+#content {
+  margin-left: 260px;
+  position: relative; }
 
 header h1 {
   font-weight: 900;

@@ -5,7 +5,8 @@ ApplicationWire = soma.Wire.extend({
 			NavigationConstants.ABOUT,
 			NavigationConstants.DOWNLOAD,
 			NavigationConstants.TUTORIAL,
-			NavigationConstants.DOC
+			NavigationConstants.DOC,
+			NavigationConstants.BROWSERS
 		];
 	},
 	setup:function(message) {

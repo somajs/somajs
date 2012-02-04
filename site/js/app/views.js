@@ -11,8 +11,21 @@ NavigationView = soma.View.extend({
 		$(this.id + " li a").removeAttr("href").css("cursor","pointer");
 	},
 	clickHandler: function() {
-		var navigationId = $(this).attr('id').split("-")[1];
-		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, navigationId))
+		console.log($(this));
+		var navParts = $(this).attr('id').split("-");
+		var navigationId = navParts[1];
+		switch (navParts[0]) {
+			case "nav":
+				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, navigationId))
+				break;
+			case "chap":
+				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.TUTORIAL));
+				this.dispatchEvent(new ChapterEvent(ChapterEvent.ACTIVATE, navigationId));
+				break;
+		}
+
+
+		console.log(navigationId, $(this).attr('id'));
 		return false;
 	},
 	getListElement: function() {

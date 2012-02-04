@@ -3,4 +3,5 @@ var NavigationConstants = {
 	DOWNLOAD: "download",
 	TUTORIAL: "tutorial",
 	DOC: "doc",
+	BROWSERS: "browsers"
 };

@@ -4,6 +4,7 @@
 	background-color: #FFF;
 	font-size: 110%;
 	position: relative;
+	text-shadow: none;
 }
 
 .CodeMirror-scroll {

@@ -37,11 +37,13 @@ ApplicationWire.NAME = "Wire::ApplicationWire";
 
 NavigationWire = soma.Wire.extend({
 	navigationView: null,
+	currentNavigation: null,
 	setup:function(message) {
 		this.navigationView = this.addView(NavigationView.NAME, new NavigationView());
 		this.navigationView.setup("nav");
 	},
 	select: function(navigationId) {
+		this.currentNavigation = navigationId;
 		this.navigationView.select(navigationId);
 	},
 	selectTutorial: function(navigationId) {
@@ -75,7 +77,7 @@ TutorialWire = soma.Wire.extend({
 	},
 	navigationSelectedHandler: function(event) {
 		if (event.params.navigationId == NavigationConstants.TUTORIAL) {
-			this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT_TUTORIAL, this.currentChapter ? this.currentChapter : this.defaultChapter));
+			this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT_TUTORIAL, this.defaultChapter));
 		}
 	},
 	deactivateAllChapters: function(exception) {
@@ -84,7 +86,7 @@ TutorialWire = soma.Wire.extend({
 				this.getWire(this.chapters[i].id).deactivate();
 			}
 		}
-	},
+	}
 });
 TutorialWire.NAME = "Wire::TutorialWire";
 

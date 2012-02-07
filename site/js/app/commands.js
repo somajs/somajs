@@ -24,14 +24,14 @@ NavigationCommand = soma.Command.extend({
 			case NavigationEvent.SELECT:
 				this.getWire(ApplicationWire.NAME).select(event.params.navigationId);
 				this.getWire(NavigationWire.NAME).select(event.params.navigationId);
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECTED, event.params.navigationId));
 				break;
 			case NavigationEvent.SELECT_TUTORIAL:
+				this.getWire(ApplicationWire.NAME).select(NavigationConstants.TUTORIAL);
 				this.getWire(NavigationWire.NAME).selectTutorial(event.params.navigationId);
 				this.dispatchEvent(new ChapterEvent(ChapterEvent.ACTIVATE, event.params.navigationId));
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECTED_TUTORIAL, event.params.navigationId));
 				break;
 			}
+		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECTED, event.params.navigationId));
 	}
 });
 

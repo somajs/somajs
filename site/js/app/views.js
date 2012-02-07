@@ -19,7 +19,6 @@ NavigationView = soma.View.extend({
 				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, navigationId))
 				break;
 			case "chap":
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.TUTORIAL))
 				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT_TUTORIAL, navigationId));
 				break;
 		}
@@ -34,9 +33,9 @@ NavigationView = soma.View.extend({
 	clearTutorial: function() {
 		$(this.id + ' li[id*="chap"]').css("font-weight", "normal");
 	},
-	highlight: function() {
+	highlight: function(target) {
 		this.clear();
-		this.getListElement(this.currentSection).css("font-weight", "bold");
+		this.getListElement(target).css("font-weight", "bold");
 	},
 	highlightTutorial: function(target) {
 		this.clearTutorial();
@@ -44,9 +43,10 @@ NavigationView = soma.View.extend({
 	},
 	select: function(navigationId) {
 		this.currentSection = navigationId;
-		this.highlight();
+		this.highlight(this.currentSection);
 	},
 	selectTutorial: function(navigationId) {
+		this.highlight(NavigationConstants.TUTORIAL);
 		this.highlightTutorial(navigationId);
 	}
 });
@@ -60,7 +60,7 @@ ChapterView = soma.View.extend({
 	},
 	activate: function() {
 		this.active = true;
-		console.log('activate view', this.name);
+		console.log('activate chapter view', this.name);
 		this.show();
 	},
 	deactivate: function() {
@@ -136,6 +136,7 @@ StepView = soma.View.extend({
 		try {
 			this.dispatchEvent(new ApplicationEvent(ApplicationEvent.CLEANUP));
 			eval(this.editor.getValue());
+			alert(this.editor.getValue());
 		} catch (error) {
 			this.traceCode(error);
 		}
@@ -158,7 +159,7 @@ StepView = soma.View.extend({
 	},
 	activate: function() {
 		this.active = true;
-		console.log('activate view', this.name);
+		console.log('activate step view', this.name);
 		log = this.traceCode.bind(this);
 		this.show();
 	},

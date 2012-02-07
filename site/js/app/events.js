@@ -8,13 +8,12 @@ ApplicationEvent.CLEANUP = "ApplicationEvent.CLEANUP";
 
 NavigationEvent = soma.Event.extend({
 	constructor: function(type, navigationId, bubbles, cancelable) {
-		return soma.Event.call(this, type, {navigationId:navigationId}, bubbles, cancelable);
+		return soma.Event.call(this, type, {navigationId:navigationId}, bubbles, cancelable || true);
 	}
 });
 NavigationEvent.SELECT = "NavigationEvent.SELECT";
-NavigationEvent.SELECTED = "NavigationEvent.SELECTED";
 NavigationEvent.SELECT_TUTORIAL = "NavigationEvent.SELECT_TUTORIAL";
-NavigationEvent.SELECTED_TUTORIAL = "NavigationEvent.SELECTED_TUTORIAL";
+NavigationEvent.SELECTED = "NavigationEvent.SELECTED";
 
 ChapterEvent = soma.Event.extend({
 	constructor: function(type, chapterId, bubbles, cancelable) {

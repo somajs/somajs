@@ -9,5 +9,3 @@ var NavigationConstants = {
 var Detect = {
 	CLICK: Modernizr.touch ? "touchend" : "click"
 };
-
-alert(DetectConstants.CLICK_EVENT)

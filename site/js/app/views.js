@@ -11,6 +11,7 @@ NavigationView = soma.View.extend({
 		$(this.id + " li a").removeAttr("href").css("cursor","pointer");
 	},
 	clickHandler: function() {
+		event.stopPropagation();
 		var navParts = $(this).attr('id').split("-");
 		var navigationId = navParts[1];
 		switch (navParts[0]) {
@@ -129,6 +130,7 @@ StepView = soma.View.extend({
 		$(this.logElement).html("");
 	},
 	runHandler: function(event) {
+		event.stopPropagation();
 		console.log('RUN');
 		this.clearLog();
 		try {
@@ -140,11 +142,13 @@ StepView = soma.View.extend({
 		return false;
 	},
 	clearHandler: function(event) {
+		event.stopPropagation();
 		console.log('CLEAR');
 		this.clearLog();
 		return false;
 	},
 	resetHandler: function(event) {
+		event.stopPropagation();
 		console.log('RESET');
 		this.editor.setValue(this.solution);
 		return false;
@@ -181,9 +185,13 @@ StepView = soma.View.extend({
 	},
 	previousHandler: function(event) {
 		this.dispatchEvent(new ChapterEvent(ChapterEvent.PREVIOUS, this.chapterId));
+		event.stopPropagation();
+		return false;
 	},
 	nextHandler: function(event) {
 		this.dispatchEvent(new ChapterEvent(ChapterEvent.NEXT, this.chapterId));
+		event.stopPropagation();
+		return false;
 	},
 	setChapterId: function(id) {
 		this.chapterId = id;

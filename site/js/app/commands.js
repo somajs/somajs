@@ -26,13 +26,21 @@ NavigationCommand = soma.Command.extend({
 				this.getWire(NavigationWire.NAME).select(event.params.navigationId);
 				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECTED, event.params.navigationId));
 				break;
-		}
+			case NavigationEvent.SELECT_TUTORIAL:
+				this.getWire(NavigationWire.NAME).selectTutorial(event.params.navigationId);
+				this.dispatchEvent(new ChapterEvent(ChapterEvent.ACTIVATE, event.params.navigationId));
+				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECTED_TUTORIAL, event.params.navigationId));
+				break;
+			}
 	}
 });
 
 ChapterCommand = soma.Command.extend({
 	execute: function(event) {
 		switch(event.type) {
+			case ChapterEvent.PREVIOUS:
+				this.getWire(event.params.chapterId).previous();
+				break;
 			case ChapterEvent.NEXT:
 				this.getWire(event.params.chapterId).next();
 				break;

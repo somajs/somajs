@@ -11,7 +11,6 @@ NavigationView = soma.View.extend({
 		$(this.id + " li a").removeAttr("href").css("cursor","pointer");
 	},
 	clickHandler: function() {
-		console.log($(this));
 		var navParts = $(this).attr('id').split("-");
 		var navigationId = navParts[1];
 		switch (navParts[0]) {
@@ -19,38 +18,60 @@ NavigationView = soma.View.extend({
 				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, navigationId))
 				break;
 			case "chap":
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.TUTORIAL));
-				this.dispatchEvent(new ChapterEvent(ChapterEvent.ACTIVATE, navigationId));
+				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.TUTORIAL))
+				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT_TUTORIAL, navigationId));
 				break;
 		}
-
-
-		console.log(navigationId, $(this).attr('id'));
 		return false;
 	},
-	getListElement: function() {
-		return $(this.id + ' li[id*="' + this.currentSection + '"]');
+	getListElement: function(target) {
+		return $(this.id + ' li[id*="' + target + '"]');
 	},
 	clear: function() {
 		$(this.id + " li").css("font-weight", "normal");
 	},
+	clearTutorial: function() {
+		$(this.id + ' li[id*="chap"]').css("font-weight", "normal");
+	},
 	highlight: function() {
 		this.clear();
-		this.getListElement().css("font-weight", "bold");
+		this.getListElement(this.currentSection).css("font-weight", "bold");
+	},
+	highlightTutorial: function(target) {
+		this.clearTutorial();
+		this.getListElement(target).css("font-weight", "bold");
 	},
 	select: function(navigationId) {
 		this.currentSection = navigationId;
 		this.highlight();
+	},
+	selectTutorial: function(navigationId) {
+		this.highlightTutorial(navigationId);
 	}
 });
 NavigationView.NAME = "View::NavigationView";
 
 ChapterView = soma.View.extend({
+	active: false,
 	init: function() {
 		this.name = this.domElement.id;
-		var title = $(this.domElement).find("h2")[0];
-		$(title).css("cursor", "pointer");
-	}
+		this.deactivate();
+	},
+	activate: function() {
+		this.active = true;
+		console.log('activate view', this.name);
+		this.show();
+	},
+	deactivate: function() {
+		this.active = false;
+		this.hide();
+	},
+	show: function() {
+		$(this.domElement).css("display", "block");
+	},
+	hide: function() {
+		$(this.domElement).css("display", "none");
+	},
 });
 
 StepView = soma.View.extend({
@@ -65,7 +86,7 @@ StepView = soma.View.extend({
 	active: false,
 	chapterId: null,
 	init: function() {
-		this.code = $(this.domElement).find("textarea.code")[0];
+		this.code = $("textarea.code", $(this.domElement))[0];
 		if (this.code) {
 			this.setSolution();
 			this.createEditor();
@@ -98,7 +119,7 @@ StepView = soma.View.extend({
 	},
 	createLog: function() {
 		$(this.domElement).append('<div class="log" style="border: 1px solid red"></div>');
-		this.logElement = $(this.domElement).find(".log");
+		this.logElement = $(".log", $(this.domElement));
 	},
 	traceCode: function(value) {
 		if (this.active) $(this.logElement).append(++this.count + ". " + value + "<br/>");
@@ -148,16 +169,23 @@ StepView = soma.View.extend({
 	hide: function() {
 		$(this.domElement).css("display", "none");
 	},
+	createPreviousButton: function() {
+		var editorContainer = $("div.code", $(this.domElement));
+		$(editorContainer).before('<button class="previous">previous step</button>');
+		this.previousButton = $(".previous", $(this.domElement));
+		$(this.previousButton).click(this.previousHandler.bind(this));
+	},
 	createNextButton: function() {
-		var editorContainer = $(this.domElement).find("div.code");
+		var editorContainer = $("div.code", $(this.domElement));
 		$(editorContainer).before('<button class="next">next step</button>');
 		this.nextButton = $(".next", $(this.domElement));
 		$(this.nextButton).click(this.nextHandler.bind(this));
 	},
+	previousHandler: function(event) {
+		this.dispatchEvent(new ChapterEvent(ChapterEvent.PREVIOUS, this.chapterId));
+	},
 	nextHandler: function(event) {
 		this.dispatchEvent(new ChapterEvent(ChapterEvent.NEXT, this.chapterId));
-		event.stopPropagation();
-		return false;
 	},
 	setChapterId: function(id) {
 		this.chapterId = id;

@@ -16,6 +16,8 @@ var SomaApplication = soma.Application.extend({
 		this.addCommand(ApplicationEvent.SETUP, ApplicationCommand);
 		this.addCommand(ApplicationEvent.CLEANUP, ApplicationCommand);
 		this.addCommand(NavigationEvent.SELECT, NavigationCommand);
+		this.addCommand(NavigationEvent.SELECT_TUTORIAL, NavigationCommand);
+		this.addCommand(ChapterEvent.PREVIOUS, ChapterCommand);
 		this.addCommand(ChapterEvent.NEXT, ChapterCommand);
 		this.addCommand(ChapterEvent.ACTIVATE, ChapterCommand);
 	},

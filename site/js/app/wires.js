@@ -27,7 +27,7 @@ ApplicationWire = soma.Wire.extend({
 	select: function(navigationId) {
 		$.each(this.sections, function(index, value) {
 			$("#"+value).css("display", (value == navigationId) ? "block" : "none");
-		})
+		});
 	},
 	dispose: function() {
 
@@ -44,6 +44,9 @@ NavigationWire = soma.Wire.extend({
 	select: function(navigationId) {
 		this.navigationView.select(navigationId);
 	},
+	selectTutorial: function(navigationId) {
+		this.navigationView.selectTutorial(navigationId);
+	},
 	dispose: function() {
 		this.navigationView = null;
 	}
@@ -53,17 +56,27 @@ NavigationWire.NAME = "Wire::NavigationWire";
 TutorialWire = soma.Wire.extend({
 	section: null,
 	chapters: null,
+	defaultChapter: null,
+	currentChapter: null,
 	init: function() {
 		this.section = $("#tutorial")[0];
 		this.chapters = $(this.section).find("section .chapter");
 		this.chapters.each(this.createChapter.bind(this));
 		this.addEventListener(ChapterEvent.ACTIVATE, this.activateHandler.bind(this));
+		this.addEventListener(NavigationEvent.SELECTED, this.navigationSelectedHandler.bind(this));
 	},
 	createChapter: function(index, value) {
+		if (index == 0) this.defaultChapter = value.id;
 		this.addWire(value.id, new ChapterWire(value.id, value));
 	},
 	activateHandler: function(event) {
-		this.deactivateAllChapters(event.params.chapterId);
+		this.currentChapter = event.params.chapterId;
+		this.deactivateAllChapters(this.currentChapter);
+	},
+	navigationSelectedHandler: function(event) {
+		if (event.params.navigationId == NavigationConstants.TUTORIAL) {
+			this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT_TUTORIAL, this.currentChapter ? this.currentChapter : this.defaultChapter));
+		}
 	},
 	deactivateAllChapters: function(exception) {
 		for (var i=0; i<this.chapters.length; ++i) {
@@ -71,7 +84,7 @@ TutorialWire = soma.Wire.extend({
 				this.getWire(this.chapters[i].id).deactivate();
 			}
 		}
-	}
+	},
 });
 TutorialWire.NAME = "Wire::TutorialWire";
 
@@ -87,25 +100,21 @@ ChapterWire = soma.Wire.extend({
 		this.addView(this.chapter.id, new ChapterView(this.chapter));
 		this.steps = $(this.chapter).find("section .step");
 		this.steps.each(this.createStep.bind(this));
-		this.createLink();
 	},
 	createStep: function(index, value) {
 		var stepName = this.chapter.id + "-step-" + index;
 		var wire = this.addWire(stepName, new StepWire(stepName, value));
 		wire.setChapterId(this.chapter.id);
+		if (index > 0) wire.createPreviousButton();
 		if (index < this.steps.length-1) wire.createNextButton();
 	},
-	createLink: function() {
-		$(this.chapter).find("h2").click(this.clickHandler.bind(this));
-	},
-	clickHandler: function(event) {
-		this.dispatchEvent(new ChapterEvent(ChapterEvent.ACTIVATE, this.chapter.id));
-	},
 	activate: function() {
+		this.getView(this.chapter.id).activate();
 		this.currentStep = 0;
 		this.activateCurrentStep();
 	},
 	deactivate: function() {
+		this.getView(this.chapter.id).deactivate();
 		this.deactivateAllSteps();
 	},
 	activateCurrentStep: function() {
@@ -126,6 +135,10 @@ ChapterWire = soma.Wire.extend({
 	},
 	next: function() {
 		this.currentStep++;
+		this.activateCurrentStep();
+	},
+	previous: function() {
+		this.currentStep--;
 		this.activateCurrentStep();
 	}
 });
@@ -156,6 +169,9 @@ StepWire = soma.Wire.extend({
 	},
 	deactivate: function() {
 		this.stepView.deactivate();
+	},
+	createPreviousButton: function() {
+		this.stepView.createPreviousButton();
 	},
 	createNextButton: function() {
 		this.stepView.createNextButton();

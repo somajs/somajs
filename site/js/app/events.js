@@ -13,12 +13,15 @@ NavigationEvent = soma.Event.extend({
 });
 NavigationEvent.SELECT = "NavigationEvent.SELECT";
 NavigationEvent.SELECTED = "NavigationEvent.SELECTED";
+NavigationEvent.SELECT_TUTORIAL = "NavigationEvent.SELECT_TUTORIAL";
+NavigationEvent.SELECTED_TUTORIAL = "NavigationEvent.SELECTED_TUTORIAL";
 
 ChapterEvent = soma.Event.extend({
 	constructor: function(type, chapterId, bubbles, cancelable) {
 		return soma.Event.call(this, type, {chapterId:chapterId}, bubbles, cancelable);
 	}
 });
+ChapterEvent.PREVIOUS = "ChapterEvent.PREVIOUS";
 ChapterEvent.NEXT = "ChapterEvent.NEXT";
 ChapterEvent.ACTIVATE = "ChapterEvent.ACTIVATE";
 

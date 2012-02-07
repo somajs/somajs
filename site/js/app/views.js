@@ -7,7 +7,7 @@ NavigationView = soma.View.extend({
 		this.select(NavigationConstants.ABOUT);
 	},
 	createLinks: function() {
-		$(this.id + " li").bind("click", this.clickHandler);
+		$(this.id + " li").bind(Detect.CLICK, this.clickHandler);
 		$(this.id + " li a").removeAttr("href").css("cursor","pointer");
 	},
 	clickHandler: function() {
@@ -113,9 +113,9 @@ StepView = soma.View.extend({
 		this.runButton = $(".run", $(this.domElement));
 		this.resetButton = $(".reset", $(this.domElement));
 		this.clearButton = $(".clear", $(this.domElement));
-		$(this.runButton).bind("click", this.runHandler.bind(this));
-		$(this.resetButton).bind("click", this.resetHandler.bind(this));
-		$(this.clearButton).bind("click", this.clearHandler.bind(this));
+		$(this.runButton).bind(Detect.CLICK, this.runHandler.bind(this));
+		$(this.resetButton).bind(Detect.CLICK, this.resetHandler.bind(this));
+		$(this.clearButton).bind(Detect.CLICK, this.clearHandler.bind(this));
 	},
 	createLog: function() {
 		$(this.domElement).append('<div class="log" style="border: 1px solid red"></div>');
@@ -172,12 +172,12 @@ StepView = soma.View.extend({
 	createPreviousButton: function() {
 		$("div.code", $(this.domElement)).before('<a class="button icon arrowleft previous">previous step</a>');
 		this.previousButton = $(".previous", $(this.domElement));
-		$(this.previousButton).bind("touchstart", this.previousHandler.bind(this));
+		$(this.previousButton).bind(Detect.CLICK, this.previousHandler.bind(this));
 	},
 	createNextButton: function() {
 		$("div.code", $(this.domElement)).before('<a class="button icon arrowright next">next step</a>');
 		this.nextButton = $(".next", $(this.domElement));
-		$(this.nextButton).bind("click", this.nextHandler.bind(this));
+		$(this.nextButton).bind(Detect.CLICK, this.nextHandler.bind(this));
 	},
 	previousHandler: function(event) {
 		this.dispatchEvent(new ChapterEvent(ChapterEvent.PREVIOUS, this.chapterId));

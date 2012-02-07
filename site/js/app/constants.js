@@ -5,3 +5,9 @@ var NavigationConstants = {
 	DOC: "doc",
 	BROWSERS: "browsers"
 };
+
+var DetectConstants = {
+	CLICK_EVENT: Modernizr.touch ? "touchstart" : "click"
+};
+
+alert(DetectConstants.CLICK_EVENT)

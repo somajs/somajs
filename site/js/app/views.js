@@ -170,12 +170,12 @@ StepView = soma.View.extend({
 		$(this.domElement).css("display", "none");
 	},
 	createPreviousButton: function() {
-		$("div.code", $(this.domElement)).before('<button class="previous">previous step</button>');
+		$("div.code", $(this.domElement)).before('<button class="button icon arrowleft previous">previous step</button>');
 		this.previousButton = $(".previous", $(this.domElement));
 		$(this.previousButton).click(this.previousHandler.bind(this));
 	},
 	createNextButton: function() {
-		$("div.code", $(this.domElement)).before('<button class="next">next step</button>');
+		$("div.code", $(this.domElement)).before('<button class="button icon arrowright next">next step</button>');
 		this.nextButton = $(".next", $(this.domElement));
 		$(this.nextButton).click(this.nextHandler.bind(this));
 	},

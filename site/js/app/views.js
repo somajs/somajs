@@ -107,9 +107,9 @@ StepView = soma.View.extend({
 		});
 	},
 	createButtons: function() {
-		$(this.domElement).append('<button class="run">run code</button>');
-		$(this.domElement).append('<button class="reset">reset code</button>');
-		$(this.domElement).append('<button class="clear">clear log</button>');
+		$(this.domElement).append('<a class="button icon clock run">run code</a>');
+		$(this.domElement).append('<a class="button icon loop reset">reset code</a>');
+		$(this.domElement).append('<a class="button icon remove clear">clear log</a>');
 		this.runButton = $(".run", $(this.domElement));
 		this.resetButton = $(".reset", $(this.domElement));
 		this.clearButton = $(".clear", $(this.domElement));
@@ -170,12 +170,12 @@ StepView = soma.View.extend({
 		$(this.domElement).css("display", "none");
 	},
 	createPreviousButton: function() {
-		$("div.code", $(this.domElement)).before('<button class="button icon arrowleft previous">previous step</button>');
+		$("div.code", $(this.domElement)).before('<a class="button icon arrowleft previous">previous step</a>');
 		this.previousButton = $(".previous", $(this.domElement));
 		$(this.previousButton).click(this.previousHandler.bind(this));
 	},
 	createNextButton: function() {
-		$("div.code", $(this.domElement)).before('<button class="button icon arrowright next">next step</button>');
+		$("div.code", $(this.domElement)).before('<a class="button icon arrowright next">next step</a>');
 		this.nextButton = $(".next", $(this.domElement));
 		$(this.nextButton).click(this.nextHandler.bind(this));
 	},

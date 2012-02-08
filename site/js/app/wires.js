@@ -10,7 +10,7 @@ ApplicationWire = soma.Wire.extend({
 		];
 	},
 	setup:function(message) {
-		$("#container").css("display", "block");
+		document.querySelector("#container").style.display = "block";
 		this.select(NavigationConstants.ABOUT);
 		this.monitorApplicationCreation();
 	},
@@ -25,9 +25,10 @@ ApplicationWire = soma.Wire.extend({
 		soma.Application = soma.inherit(soma.EventDispatcher.extend(), soma.Application.prototype);
 	},
 	select: function(navigationId) {
-		$.each(this.sections, function(index, value) {
-			$("#"+value).css("display", (value == navigationId) ? "block" : "none");
-		});
+		for (var i=0; i<this.sections.length; i++) {
+			var el = document.querySelector("#"+this.sections[i]);
+				el.style.display = (this.sections[i] == navigationId) ? "block" : "none";
+		}
 	},
 	dispose: function() {
 
@@ -39,8 +40,8 @@ NavigationWire = soma.Wire.extend({
 	navigationView: null,
 	currentNavigation: null,
 	setup:function(message) {
-		this.navigationView = this.addView(NavigationView.NAME, new NavigationView());
-		this.navigationView.setup("nav");
+		this.navigationView = this.addView(NavigationView.NAME, new NavigationView(document.querySelector("#nav")));
+		this.navigationView.setup();
 	},
 	select: function(navigationId) {
 		this.currentNavigation = navigationId;
@@ -61,9 +62,12 @@ TutorialWire = soma.Wire.extend({
 	defaultChapter: null,
 	currentChapter: null,
 	init: function() {
-		this.section = $("#tutorial")[0];
-		this.chapters = $(this.section).find("section .chapter");
-		this.chapters.each(this.createChapter.bind(this));
+		this.section = document.querySelector("#tutorial");
+		this.chapters = this.section.querySelectorAll("section.chapter");
+		for (var i=0; i<this.chapters.length; i++) {
+			this.createChapter(i, this.chapters[i]);
+			//this.createChapter(i, this.chapters[i]).bind(this);
+		}
 		this.addEventListener(ChapterEvent.ACTIVATE, this.activateHandler.bind(this));
 		this.addEventListener(NavigationEvent.SELECTED, this.navigationSelectedHandler.bind(this));
 	},
@@ -100,8 +104,11 @@ ChapterWire = soma.Wire.extend({
 	},
 	init: function() {
 		this.addView(this.chapter.id, new ChapterView(this.chapter));
-		this.steps = $(this.chapter).find("section .step");
-		this.steps.each(this.createStep.bind(this));
+		this.steps = this.chapter.querySelectorAll("section.step");
+		for (var i=0; i<this.steps.length; i++) {
+			this.createStep(i, this.steps[i]);
+			//this.createStep(i, this.steps[i]).bind(this);
+		}
 	},
 	createStep: function(index, value) {
 		var stepName = this.chapter.id + "-step-" + index;

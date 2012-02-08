@@ -1,18 +1,22 @@
 NavigationView = soma.View.extend({
-	id: null,
 	currentSection: null,
-	setup: function(id) {
-		this.id = id;
+	setup: function() {
 		this.createLinks();
 		this.select(NavigationConstants.ABOUT);
 	},
 	createLinks: function() {
-		$(this.id + " li").bind(Detect.CLICK, this.clickHandler);
-		$(this.id + " li a").removeAttr("href").css("cursor","pointer");
+		var i;
+		var li = this.domElement.querySelectorAll("li");
+		for (i=0; i<li.length; i++) utils.addEventListener(li[i], Detect.CLICK, this.clickHandler);
+		var lia = this.domElement.querySelectorAll("li a");
+		for (i=0; i<li.length; i++) {
+			lia[i].removeAttribute("href");
+			lia[i].style.cursor = "pointer";
+		}
 	},
 	clickHandler: function(event) {
 		event.stopPropagation();
-		var navParts = $(this).attr('id').split("-");
+		var navParts = this.id.split("-");
 		var navigationId = navParts[1];
 		switch (navParts[0]) {
 			case "nav":
@@ -25,21 +29,23 @@ NavigationView = soma.View.extend({
 		return false;
 	},
 	getListElement: function(target) {
-		return $(this.id + ' li[id*="' + target + '"]');
+		return this.domElement.querySelector('li[id*="' + target + '"]');
 	},
 	clear: function() {
-		$(this.id + " li").css("font-weight", "normal");
+		var li = this.domElement.querySelectorAll("li");
+		for (var i=0; i<li.length; i++) li[i].style.fontWeight = "normal";
 	},
 	clearTutorial: function() {
-		$(this.id + ' li[id*="chap"]').css("font-weight", "normal");
+		var li = this.domElement.querySelectorAll('li[id*="chap"]');
+		for (var i=0; i<li.length; i++) li[i].style.fontWeight = "normal";
 	},
 	highlight: function(target) {
 		this.clear();
-		this.getListElement(target).css("font-weight", "bold");
+		this.getListElement(target).style.fontWeight = "bold";
 	},
 	highlightTutorial: function(target) {
 		this.clearTutorial();
-		this.getListElement(target).css("font-weight", "bold");
+		this.getListElement(target).style.fontWeight = "bold";
 	},
 	select: function(navigationId) {
 		this.currentSection = navigationId;
@@ -68,11 +74,11 @@ ChapterView = soma.View.extend({
 		this.hide();
 	},
 	show: function() {
-		$(this.domElement).css("display", "block");
+		this.domElement.style.display = "block";
 	},
 	hide: function() {
-		$(this.domElement).css("display", "none");
-	},
+		this.domElement.style.display = "none";
+	}
 });
 
 StepView = soma.View.extend({
@@ -87,7 +93,7 @@ StepView = soma.View.extend({
 	active: false,
 	chapterId: null,
 	init: function() {
-		this.code = $("textarea.code", $(this.domElement))[0];
+		this.code = this.domElement.querySelector("textarea.code");
 		if (this.code) {
 			this.setSolution();
 			this.createEditor();
@@ -108,26 +114,22 @@ StepView = soma.View.extend({
 		});
 	},
 	createButtons: function() {
-		$(this.domElement).append('<a class="button icon clock run">run code</a>');
-		$(this.domElement).append('<a class="button icon loop reset">reset code</a>');
-		$(this.domElement).append('<a class="button icon remove clear">clear log</a>');
-		this.runButton = $(".run", $(this.domElement));
-		this.resetButton = $(".reset", $(this.domElement));
-		this.clearButton = $(".clear", $(this.domElement));
-		$(this.runButton).bind(Detect.CLICK, this.runHandler.bind(this));
-		$(this.resetButton).bind(Detect.CLICK, this.resetHandler.bind(this));
-		$(this.clearButton).bind(Detect.CLICK, this.clearHandler.bind(this));
+		this.runButton = utils.append(this.domElement, '<a class="button icon clock run">run code</a>');
+		this.resetButton = utils.append(this.domElement, '<a class="button icon loop reset">reset code</a>');
+		this.clearButton = utils.append(this.domElement, '<a class="button icon remove clear">clear log</a>');
+		utils.addEventListener(this.runButton, Detect.CLICK, this.runHandler.bind(this));
+		utils.addEventListener(this.resetButton, Detect.CLICK, this.resetHandler.bind(this));
+		utils.addEventListener(this.clearButton, Detect.CLICK, this.clearHandler.bind(this));
 	},
 	createLog: function() {
-		$(this.domElement).append('<div class="log" style="border: 1px solid red"></div>');
-		this.logElement = $(".log", $(this.domElement));
+		this.logElement = utils.append(this.domElement, '<div class="log" style="border: 1px solid red"></div>');
 	},
 	traceCode: function(value) {
-		if (this.active) $(this.logElement).append(++this.count + ". " + value + "<br/>");
+		if (this.active) utils.append(this.logElement, ++this.count + ". " + value + "<br/>");
 	},
 	clearLog: function() {
 		this.count = 0;
-		$(this.logElement).html("");
+		this.logElement.innerHTML = "";
 	},
 	runHandler: function(event) {
 		event.stopPropagation();
@@ -170,21 +172,19 @@ StepView = soma.View.extend({
 		this.hide();
 	},
 	show: function() {
-		$(this.domElement).css("display", "block");
+		this.domElement.style.display = "block";
 		this.refresh();
 	},
 	hide: function() {
-		$(this.domElement).css("display", "none");
+		this.domElement.style.display = "none";
 	},
 	createPreviousButton: function() {
-		$("div.code", $(this.domElement)).before('<a class="button icon arrowleft previous">previous step</a>');
-		this.previousButton = $(".previous", $(this.domElement));
-		$(this.previousButton).bind(Detect.CLICK, this.previousHandler.bind(this));
+		this.previousButton = utils.before(this.domElement, '<a class="button icon arrowleft previous">previous step</a>', this.code.parentNode);
+		utils.addEventListener(this.previousButton, Detect.CLICK, this.previousHandler.bind(this));
 	},
 	createNextButton: function() {
-		$("div.code", $(this.domElement)).before('<a class="button icon arrowright next">next step</a>');
-		this.nextButton = $(".next", $(this.domElement));
-		$(this.nextButton).bind(Detect.CLICK, this.nextHandler.bind(this));
+		this.nextButton = utils.before(this.domElement, '<a class="button icon arrowright next">next step</a>', this.code.parentNode);
+		utils.addEventListener(this.nextButton, Detect.CLICK, this.nextHandler.bind(this));
 	},
 	previousHandler: function(event) {
 		this.dispatchEvent(new ChapterEvent(ChapterEvent.PREVIOUS, this.chapterId));

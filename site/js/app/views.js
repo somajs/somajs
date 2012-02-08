@@ -125,7 +125,10 @@ StepView = soma.View.extend({
 		this.logElement = utils.append(this.domElement, '<div class="log" style="border: 1px solid red"></div>');
 	},
 	traceCode: function(value) {
-		if (this.active) utils.append(this.logElement, ++this.count + ". " + value + "<br/>");
+		if (this.active) {
+			utils.append(this.logElement, ++this.count + ". " + value);
+			utils.append(this.logElement, "<br/>");
+		}
 	},
 	clearLog: function() {
 		this.count = 0;

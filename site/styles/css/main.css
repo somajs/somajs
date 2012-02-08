@@ -166,6 +166,9 @@ nav a:hover {
   overflow: auto;
   padding: 5px; }
 
+div.code {
+  clear: right; }
+
 .button {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -177,6 +180,9 @@ nav a:hover {
 
 .run, .next, .previous {
   margin-bottom: 10px; }
+
+.next {
+  float: right; }
 
 .content {
   margin-bottom: 10px; }

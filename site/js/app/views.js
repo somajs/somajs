@@ -10,7 +10,7 @@ NavigationView = soma.View.extend({
 		$(this.id + " li").bind(Detect.CLICK, this.clickHandler);
 		$(this.id + " li a").removeAttr("href").css("cursor","pointer");
 	},
-	clickHandler: function() {
+	clickHandler: function(event) {
 		event.stopPropagation();
 		var navParts = $(this).attr('id').split("-");
 		var navigationId = navParts[1];
@@ -134,9 +134,11 @@ StepView = soma.View.extend({
 		console.log('RUN');
 		this.clearLog();
 		try {
-			this.dispatchEvent(new ApplicationEvent(ApplicationEvent.CLEANUP));
+			window.log = this.traceCode.bind(this);
 			eval(this.editor.getValue());
-			alert(this.editor.getValue());
+			window.log = function(){};
+			this.dispatchEvent(new ApplicationEvent(ApplicationEvent.CLEANUP));
+			window.log = null;
 		} catch (error) {
 			this.traceCode(error);
 		}
@@ -160,10 +162,10 @@ StepView = soma.View.extend({
 	activate: function() {
 		this.active = true;
 		console.log('activate step view', this.name);
-		log = this.traceCode.bind(this);
 		this.show();
 	},
 	deactivate: function() {
+		window.log = null;
 		this.active = false;
 		this.hide();
 	},

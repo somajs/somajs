@@ -90,12 +90,22 @@ nav a:hover {
 /*TUTORIAL*/
 
 .log {
+    @include global-shadow;
+    @include global-radius;
 	background: #FFF;
 	font-size: 0.9em;
-	border: 1px solid black;
 	height: auto;
 	overflow: auto;
 	padding: 5px;
+	background: #F2F2F2;
+}
+
+.button {
+	@include global-shadow;
+}
+
+.log.hidden {
+	display: "none";
 }
 
 div.code {
@@ -125,15 +135,11 @@ div.code {
 }
 
 .CodeMirror {
+    @include global-shadow;
+    @include global-radius;
 	text-shadow: none;
-	box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.40);
-	-moz-box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.40);
-	-webkit-box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.40);
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
 	margin-bottom: 20px;
-	margin-left: 3px;
+	background: #F2F2F2;
 }
 .CodeMirror-gutter {
 	-webkit-border-radius: 3px;

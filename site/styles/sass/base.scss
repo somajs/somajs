@@ -10,18 +10,22 @@ $bg-opacity: 0.3;
 
 $text-shadow-color: #D1D1D1;
 
+@mixin global-shadow {
+	box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.40);
+	-moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.40);
+	-webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.40);
+}
+@mixin global-radius {
+
+}
+
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
 audio, canvas, video { display: inline-block; *display: inline; *zoom: 1; }
 audio:not([controls]) { display: none; }
 [hidden] { display: none; }
-
 ::-moz-selection { background: #5268BE; color: #fff; text-shadow: none; }
 ::selection { background: #5268BE; color: #fff; text-shadow: none; }
-
 a:hover, a:active { outline: 0; }
-
 pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; }
-
 img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; }
-
 svg:not(:root) { overflow: hidden; }

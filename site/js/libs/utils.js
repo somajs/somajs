@@ -25,20 +25,6 @@ utils.before = function(target, strElement, refElement) {
 	return el;
 };
 
-// css
-utils.hasClass = function (el,cl) {
-	return el.className.match(new RegExp('(\\s|^)'+cl+'(\\s|$)'));
-};
-utils.addClass = function (el,cl) {
-	if (!this.hasClass(el,cl)) el.className += " "+cl;
-};
-utils.removeClass = function (el,cl) {
-	if (this.hasClass(el,cl)) {
-    	var reg = new RegExp('(\\s|^)'+cl+'(\\s|$)');
-		el.className=el.className.replace(reg,' ');
-	}
-};
-
 // event
 utils.addEventListener = function(el, evt, fn, bubble) {
   if("addEventListener" in el) {

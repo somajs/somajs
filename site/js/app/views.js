@@ -33,22 +33,19 @@ NavigationView = soma.View.extend({
 	},
 	clear: function() {
 		var li = this.domElement.querySelectorAll("li");
-		for (var i=0; i<li.length; i++) {
-			console.log(li[i]);
-			utils.removeClass(li[i], "selected");
-		}
+		for (var i=0; i<li.length; i++) li[i].classList.remove("selected");
 	},
 	clearTutorial: function() {
 		var li = this.domElement.querySelectorAll('li[id*="chap"]');
-		for (var i=0; i<li.length; i++) utils.removeClass(li[i], "selected");
+		for (var i=0; i<li.length; i++) li[i].classList.remove("selected");
 	},
 	highlight: function(target) {
 		this.clear();
-		utils.addClass(this.getListElement(target), "selected");
+		this.getListElement(target).classList.add("selected");
 	},
 	highlightTutorial: function(target) {
 		this.clearTutorial();
-		utils.addClass(this.getListElement(target), "selected");
+		this.getListElement(target).classList.add("selected");
 	},
 	select: function(navigationId) {
 		this.currentSection = navigationId;
@@ -77,10 +74,10 @@ ChapterView = soma.View.extend({
 		this.hide();
 	},
 	show: function() {
-		utils.removeClass(this.domElement, "hidden");
+		this.domElement.classList.remove("hidden");
 	},
 	hide: function() {
-		utils.addClass(this.domElement, "hidden");
+		this.domElement.classList.add("hidden");
 	}
 });
 
@@ -126,16 +123,22 @@ StepView = soma.View.extend({
 	},
 	createLog: function() {
 		this.logElement = utils.append(this.domElement, '<div class="log"></div>');
+		this.checkLog();
+	},
+	checkLog: function() {
+		this.logElement.classList[this.logElement.innerHTML==""?"add":"remove"]("hidden");
 	},
 	traceCode: function(value) {
 		if (this.active) {
 			utils.append(this.logElement, ++this.count + ". " + value);
 			utils.append(this.logElement, "<br/>");
+			this.checkLog();
 		}
 	},
 	clearLog: function() {
 		this.count = 0;
 		this.logElement.innerHTML = "";
+		this.checkLog();
 	},
 	runHandler: function(event) {
 		event.stopPropagation();
@@ -178,11 +181,11 @@ StepView = soma.View.extend({
 		this.hide();
 	},
 	show: function() {
-		utils.removeClass(this.domElement, "hidden");
+		this.domElement.classList.remove("hidden");
 		this.refresh();
 	},
 	hide: function() {
-		utils.addClass(this.domElement, "hidden");
+		this.domElement.classList.add("hidden");
 	},
 	createPreviousButton: function() {
 		this.previousButton = utils.before(this.domElement, '<a class="button icon arrowleft previous">previous step</a>', this.code.parentNode);

@@ -167,12 +167,23 @@ nav a:hover {
 
 /*TUTORIAL*/
 .log {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
   background: #FFF;
   font-size: 0.9em;
-  border: 1px solid black;
   height: auto;
   overflow: auto;
-  padding: 5px; }
+  padding: 5px;
+  background: #F2F2F2; }
+
+.button {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4); }
+
+.log.hidden {
+  display: "none"; }
 
 div.code {
   clear: right; }
@@ -196,15 +207,12 @@ div.code {
   margin-bottom: 10px; }
 
 .CodeMirror {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
   text-shadow: none;
-  box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4);
-  -moz-box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4);
-  -webkit-box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4);
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
   margin-bottom: 20px;
-  margin-left: 3px; }
+  background: #F2F2F2; }
 
 .CodeMirror-gutter {
   -webkit-border-radius: 3px;

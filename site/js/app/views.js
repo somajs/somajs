@@ -142,6 +142,7 @@ StepView = soma.View.extend({
 	},
 	runHandler: function(event) {
 		event.stopPropagation();
+		event.preventDefault();
 		console.log('RUN');
 		this.clearLog();
 		try {
@@ -157,12 +158,14 @@ StepView = soma.View.extend({
 	},
 	clearHandler: function(event) {
 		event.stopPropagation();
+		event.preventDefault();
 		console.log('CLEAR');
 		this.clearLog();
 		return false;
 	},
 	resetHandler: function(event) {
 		event.stopPropagation();
+		event.preventDefault();
 		console.log('RESET');
 		this.editor.setValue(this.solution);
 		return false;

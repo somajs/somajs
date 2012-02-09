@@ -1,7 +1,7 @@
 var SomaApplication = soma.Application.extend({
 
 	init: function() {
-		
+
 	},
 
 	registerModels: function() {

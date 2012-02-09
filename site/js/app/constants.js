@@ -7,5 +7,6 @@ var NavigationConstants = {
 };
 
 var Detect = {
-	CLICK: Modernizr.touch ? "touchend" : "click"
+	CLICK: Modernizr.touch ? "touchstart" : "click",
+	IS_TOUCH: Modernizr.touch
 };

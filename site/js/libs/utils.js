@@ -1,21 +1,45 @@
-var utils = {};
-// dom manipulation polyfill
-utils.createElement = function(strElement) {
-	var el = document.createElement("div");
-	el.innerHTML = strElement;
-	return el.childNodes[0];
-};
+var utils = utils || {};
+
+// dom manipulation
+utils.create = (function() {
+	var el = document.createElement('div');
+	return function(inEl) {
+		if(typeof inEl === 'string') {
+			el.innerHTML = inEl;
+			return el.childNodes[0];
+		}
+		else if(inEl instanceof HTMLElement) {
+			return inEl.cloneNode();
+		}
+		return this;
+	}
+}());
 utils.append = function(target, strElement) {
-	var el = this.createElement(strElement);
+	var el = this.create(strElement);
 	target.appendChild(el);
 	return el;
 };
 utils.before = function(target, strElement, refElement) {
-	var el = this.createElement(strElement);
+	var el = this.create(strElement);
 	target.insertBefore(el, refElement);
 	return el;
 };
-// event polyfill
+
+// css
+utils.hasClass = function (el,cl) {
+	return el.className.match(new RegExp('(\\s|^)'+cl+'(\\s|$)'));
+};
+utils.addClass = function (el,cl) {
+	if (!this.hasClass(el,cl)) el.className += " "+cl;
+};
+utils.removeClass = function (el,cl) {
+	if (this.hasClass(el,cl)) {
+    	var reg = new RegExp('(\\s|^)'+cl+'(\\s|$)');
+		el.className=el.className.replace(reg,' ');
+	}
+};
+
+// event
 utils.addEventListener = function(el, evt, fn, bubble) {
   if("addEventListener" in el) {
     // BBOS6 doesn't support handleEvent, catch and polyfill

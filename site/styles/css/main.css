@@ -118,11 +118,11 @@ header, section, nav {
   padding: 20px; }
 
 #nav {
-  width: 260px;
+  width: 250px;
   float: left; }
 
 #content {
-  margin-left: 260px;
+  margin-left: 250px;
   position: relative; }
 
 header h1 {
@@ -145,11 +145,18 @@ section h3 {
 section p {
   margin-bottom: 10px; }
 
+section.hidden {
+  display: none; }
+
 nav ul {
-  padding-left: 30px; }
+  padding-left: 20px; }
 
 nav li {
-  margin-bottom: 5px; }
+  margin-top: 5px;
+  font-weight: normal; }
+
+nav li.selected {
+  font-weight: bold; }
 
 nav a {
   text-decoration: none;
@@ -160,6 +167,7 @@ nav a:hover {
 
 /*TUTORIAL*/
 .log {
+  background: #FFF;
   font-size: 0.9em;
   border: 1px solid black;
   height: auto;

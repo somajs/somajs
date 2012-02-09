@@ -33,19 +33,22 @@ NavigationView = soma.View.extend({
 	},
 	clear: function() {
 		var li = this.domElement.querySelectorAll("li");
-		for (var i=0; i<li.length; i++) li[i].style.fontWeight = "normal";
+		for (var i=0; i<li.length; i++) {
+			console.log(li[i]);
+			utils.removeClass(li[i], "selected");
+		}
 	},
 	clearTutorial: function() {
 		var li = this.domElement.querySelectorAll('li[id*="chap"]');
-		for (var i=0; i<li.length; i++) li[i].style.fontWeight = "normal";
+		for (var i=0; i<li.length; i++) utils.removeClass(li[i], "selected");
 	},
 	highlight: function(target) {
 		this.clear();
-		this.getListElement(target).style.fontWeight = "bold";
+		utils.addClass(this.getListElement(target), "selected");
 	},
 	highlightTutorial: function(target) {
 		this.clearTutorial();
-		this.getListElement(target).style.fontWeight = "bold";
+		utils.addClass(this.getListElement(target), "selected");
 	},
 	select: function(navigationId) {
 		this.currentSection = navigationId;
@@ -74,10 +77,10 @@ ChapterView = soma.View.extend({
 		this.hide();
 	},
 	show: function() {
-		this.domElement.style.display = "block";
+		utils.removeClass(this.domElement, "hidden");
 	},
 	hide: function() {
-		this.domElement.style.display = "none";
+		utils.addClass(this.domElement, "hidden");
 	}
 });
 
@@ -122,7 +125,7 @@ StepView = soma.View.extend({
 		utils.addEventListener(this.clearButton, Detect.CLICK, this.clearHandler.bind(this));
 	},
 	createLog: function() {
-		this.logElement = utils.append(this.domElement, '<div class="log" style="border: 1px solid red"></div>');
+		this.logElement = utils.append(this.domElement, '<div class="log"></div>');
 	},
 	traceCode: function(value) {
 		if (this.active) {
@@ -175,11 +178,11 @@ StepView = soma.View.extend({
 		this.hide();
 	},
 	show: function() {
-		this.domElement.style.display = "block";
+		utils.removeClass(this.domElement, "hidden");
 		this.refresh();
 	},
 	hide: function() {
-		this.domElement.style.display = "none";
+		utils.addClass(this.domElement, "hidden");
 	},
 	createPreviousButton: function() {
 		this.previousButton = utils.before(this.domElement, '<a class="button icon arrowleft previous">previous step</a>', this.code.parentNode);

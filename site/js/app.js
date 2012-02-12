@@ -4,14 +4,6 @@ var SomaApplication = soma.Application.extend({
 
 	},
 
-	registerModels: function() {
-		//this.addModel(scjs.ApplicationModel.NAME, new scjs.ApplicationModel());
-	},
-
-	registerViews: function() {
-		//this.addView(scjs.ApplicationView.NAME, new scjs.ApplicationView());
-	},
-
 	registerCommands: function() {
 		this.addCommand(ApplicationEvent.SETUP, ApplicationCommand);
 		this.addCommand(ApplicationEvent.CLEANUP, ApplicationCommand);
@@ -20,6 +12,7 @@ var SomaApplication = soma.Application.extend({
 		this.addCommand(ChapterEvent.PREVIOUS, ChapterCommand);
 		this.addCommand(ChapterEvent.NEXT, ChapterCommand);
 		this.addCommand(ChapterEvent.ACTIVATE, ChapterCommand);
+		this.addCommand(ExerciseEvent.RECORD, ExerciseCommand);
 	},
 
 	registerWires: function() {

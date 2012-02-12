@@ -85,6 +85,53 @@ img {
 svg:not(:root) {
   overflow: hidden; }
 
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+  display: block; }
+
+audio, canvas, video {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1; }
+
+audio:not([controls]) {
+  display: none; }
+
+[hidden] {
+  display: none; }
+
+::-moz-selection {
+  background: #5268BE;
+  color: #fff;
+  text-shadow: none; }
+
+::selection {
+  background: #5268BE;
+  color: #fff;
+  text-shadow: none; }
+
+a:hover, a:active {
+  outline: 0; }
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word; }
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle; }
+
+svg:not(:root) {
+  overflow: hidden; }
+
+a,
+a:hover {
+  -webkit-transition: color 0.2s ease-out;
+  -moz-transition: color 0.2s ease-out;
+  -o-transition: color 0.2s ease-out;
+  transition: color 0.2s ease-out; }
+
 body, html {
   background: url("../../images/linen-white.jpg") repeat fixed;
   font-family: Lato, Helvetica, sans-serif;
@@ -95,6 +142,14 @@ header, section, nav {
   margin-bottom: 30px; }
 
 #bg {
+  filter: alpha(opacity=30);
+  /* internet explorer */
+  -khtml-opacity: 0.3;
+  /* khtml, old safari */
+  -moz-opacity: 0.3;
+  /* mozilla, netscape */
+  opacity: 0.3;
+  /* fx, safari, opera */
   position: fixed;
   height: 100%;
   width: 100%;
@@ -104,13 +159,13 @@ header, section, nav {
   /* for webkit browsers */
   background: -moz-linear-gradient(top, white, black);
   /* for firefox 3.6+ */
-  filter: alpha(opacity=30);
+  /*filter: alpha(opacity=$bg-opacity-100); */
   /* internet explorer */
-  -khtml-opacity: 0.3;
+  /*-khtml-opacity: $bg-opacity;      */
   /* khtml, old safari */
-  -moz-opacity: 0.3;
+  /*-moz-opacity: $bg-opacity;       */
   /* mozilla, netscape */
-  opacity: 0.3;
+  /*opacity: $bg-opacity;           */
   /* fx, safari, opera */ }
 
 #container {
@@ -146,7 +201,7 @@ section p {
   margin-bottom: 10px; }
 
 section.hidden {
-  display: none; }
+  display: block; }
 
 nav ul {
   padding-left: 20px; }
@@ -175,7 +230,13 @@ nav a {
   height: auto;
   overflow: auto;
   padding: 5px;
-  background: #F2F2F2; }
+  background: #F2F2F2;
+  text-shadow: none;
+  margin-bottom: 20px; }
+
+.log-count {
+  color: #AAA;
+  padding-left: 2px; }
 
 .button {
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
@@ -185,8 +246,10 @@ nav a {
 .log.hidden {
   display: "none"; }
 
-div.code {
-  clear: right; }
+.codequote {
+  font-family: monospace;
+  color: #166b36;
+  font-size: 110%; }
 
 .button {
   -webkit-touch-callout: none;
@@ -203,8 +266,11 @@ div.code {
 .next {
   float: right; }
 
-.content {
+.step .content {
   margin-bottom: 10px; }
+
+.step .content ul {
+  margin-left: 30px; }
 
 .CodeMirror {
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);

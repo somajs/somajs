@@ -1,5 +1,6 @@
 @import "reset";
 @import "base";
+@import "transitions";
 
 body, html {
 	background: url("../../images/linen-white.jpg") repeat fixed;
@@ -13,16 +14,20 @@ header, section, nav {
 }
 
 #bg {
+    @include opacity($bg-opacity);
 	position: fixed;
     height: 100%;
     width: 100%;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF', endColorstr='#000'); /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#FFF), to(#000)); /* for webkit browsers */
     background: -moz-linear-gradient(top,  #FFF,  #000); /* for firefox 3.6+ */
-    filter: alpha(opacity=$bg-opacity-100); /* internet explorer */
-    -khtml-opacity: $bg-opacity;      /* khtml, old safari */
-    -moz-opacity: $bg-opacity;       /* mozilla, netscape */
-    opacity: $bg-opacity;           /* fx, safari, opera */
+
+
+
+    /*filter: alpha(opacity=$bg-opacity-100); *//* internet explorer */
+    /*-khtml-opacity: $bg-opacity;      *//* khtml, old safari */
+    /*-moz-opacity: $bg-opacity;       *//* mozilla, netscape */
+    /*opacity: $bg-opacity;           *//* fx, safari, opera */
 }
 
 #container {
@@ -66,7 +71,7 @@ section p {
 }
 
 section.hidden {
-	display: none;
+    display: block;
 }
 
 nav ul {
@@ -102,6 +107,13 @@ nav a:hover {
 	overflow: auto;
 	padding: 5px;
 	background: #F2F2F2;
+	text-shadow: none;
+	margin-bottom: 20px;
+}
+
+.log-count {
+	color: #AAA;
+	padding-left: 2px;
 }
 
 .button {
@@ -113,7 +125,13 @@ nav a:hover {
 }
 
 div.code {
-	clear: right;
+
+}
+
+.codequote {
+    font-family: monospace;
+	color: #166b36;
+	font-size: 110%;
 }
 
 .button {
@@ -134,8 +152,11 @@ div.code {
 	float: right;
 }
 
-.content {
+.step .content {
 	margin-bottom: 10px;
+}
+.step .content ul {
+	margin-left: 30px;
 }
 
 .CodeMirror {

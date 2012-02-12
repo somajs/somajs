@@ -45,8 +45,17 @@ ChapterCommand = soma.Command.extend({
 				this.getWire(event.params.chapterId).next();
 				break;
 			case ChapterEvent.ACTIVATE:
-				console.log(event.params.chapterId  );
 				this.getWire(event.params.chapterId).activate();
+				break;
+		}
+	}
+});
+
+ExerciseCommand = soma.Command.extend({
+	execute: function(event) {
+		switch(event.type) {
+			case ExerciseEvent.RECORD:
+				this.getModel(event.params.chapterId).record(event.params.code);
 				break;
 		}
 	}

@@ -24,3 +24,10 @@ ChapterEvent.PREVIOUS = "ChapterEvent.PREVIOUS";
 ChapterEvent.NEXT = "ChapterEvent.NEXT";
 ChapterEvent.ACTIVATE = "ChapterEvent.ACTIVATE";
 
+ExerciseEvent = soma.Event.extend({
+	constructor: function(type, chapterId, code, bubbles, cancelable) {
+		return soma.Event.call(this, type, {chapterId:chapterId, code:code}, bubbles, cancelable);
+	}
+});
+ExerciseEvent.RECORD = "ExerciseEvent.RECORD";
+

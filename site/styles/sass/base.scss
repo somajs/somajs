@@ -5,7 +5,6 @@ $global-font-size: 90%;
 
 $menu-width: 250px;
 
-$bg-opacity-100: 30;
 $bg-opacity: 0.3;
 
 $text-shadow-color: #D1D1D1;
@@ -14,6 +13,18 @@ $text-shadow-color: #D1D1D1;
 	box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.40);
 	-moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.40);
 	-webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.40);
+}
+@mixin transition($tag, $time) {
+	-webkit-transition:$tag $time ease-out;
+	-moz-transition:$tag $time ease-out;
+	-o-transition:$tag $time ease-out;
+	transition:$tag $time ease-out;
+}
+@mixin opacity($value) {
+	filter: alpha(opacity=$value*100);   /* internet explorer */
+    -khtml-opacity: $value;              /* khtml, old safari */
+    -moz-opacity: $value;                /* mozilla, netscape */
+    opacity: $value;                     /* fx, safari, opera */
 }
 @mixin global-radius {
 

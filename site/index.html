@@ -40,8 +40,8 @@
 					<li id="tuto-createmodel"><a href="#createmodel">Create a model</a></li>
 					<li id="tuto-createview"><a href="#createview">Create a view</a></li>
 					<li id="tuto-createcommand"><a href="#createcommand">Create a command</a></li>
-					<li id="tuto-helloworld"><a href="#helloworld">Hello world application</a></li>
 					<li id="tuto-appflow"><a href="#appflow">Application flow</a></li>
+					<li id="tuto-helloworld"><a href="#helloworld">Hello world application</a></li>
 				</ul>
 			</li>
 			<li id="main-doc"><a href="#doc">Documentation</a></li>
@@ -74,12 +74,10 @@
 			<h1>Download</h1>
 			<div>
 				<p>Coming soon...</p>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				</p>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				</p>
+				<ul>
+					<li><a href="https://github.com/somacorejs/somacorejs/" target="_blank">Git repository</a></li>
+					<li><a href="https://github.com/somacorejs/somacorejs/zipball/master">Download a zip file</a></li>
+				</ul>
 			</div>
 		</section>
 
@@ -95,7 +93,10 @@
 				<section class="step">
 					<h3>Step 1</h3>
 					<div class="content">
-						Create a somacore application (facade).
+						<p>The first step to start building an application using somacore is to create an object that will extend the framework.</p>
+						<p>The framework object that can be extended is the <span class="codequote">soma.Application</span> object.</p>
+						<p>In this example, an object named <span class="codequote">SomaApplication</span> is created and the shortest way to do that is the following:</p>
+						<p>See the <a href="js/app.js" target="_blank">framework instance</a> of this site.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -111,7 +112,7 @@ log("somacore application created");
 				<section class="step">
 					<h3>Step 2</h3>
 					<div class="content">
-						Instantiate the application.
+						<p>Once the framework has been extended to hold you own application, it can now be instantiated.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -129,7 +130,11 @@ log(app);
 				<section class="step">
 					<h3>Step 3</h3>
 					<div class="content">
-						Add an init method.
+						<p>However, the best way to create the "extended framework object" is to create a class that will be the <a href="http://en.wikipedia.org/wiki/Facade_pattern" target="_blank">Facade</a> of the application.</p>
+						<p>The framework instance will be used as the starting point of the application. It is a good practice to create the major application elements in the framework, so the framework instance can show what has been created and what it is possible to do with it.</p>
+						<p>For example, a framework instance could create a login object that will take care of the visual (view), a login object that will access to the server-side and hold the application state (model), and some commands to show the login window and log a user in.</p>
+						<p>The framework will automatically call a series of methods that can be used to create the application elements. All the  methods are optional but are providing a structured way to create important elements.</p>
+						<p>The first method called is the <span class="codequote">init</span> method:</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -151,7 +156,7 @@ var app = new SomaApplication();
 				<section class="step">
 					<h3>Step 4</h3>
 					<div class="content">
-						Add a start method.
+						<p>The last method called is the <span class="codequote">start</span> method.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -177,7 +182,18 @@ var app = new SomaApplication();
 				<section class="step">
 					<h3>Step 5</h3>
 					<div class="content">
-						All the methods that can be overridden in order of execution.
+						<p>Here is the list of the methods called by the framework, in order of execution:
+						<ul>
+							<li>1. <span class="codequote">init</span></li>
+							<li>2. <span class="codequote">registerModels</span></li>
+							<li>3. <span class="codequote">registerViews</span></li>
+							<li>4. <span class="codequote">registerCommands</span></li>
+							<li>5. <span class="codequote">registerWires</span></li>
+							<li>6. <span class="codequote">start</span></li>
+						</ul>
+
+						</p>
+
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -219,7 +235,8 @@ var app = new SomaApplication();
 				<section class="step">
 					<h3>Step 6</h3>
 					<div class="content">
-						Access to the framework from other elements.
+						<p>The framework instance can be retrieve from other framework elements, such as <span class="codequote">wires</span> and <span class="codequote">commands</span>.</p>
+						<p>In the following example, the framework instance creates another framework element (a <span class="codequote">wire</span>) and access to the framework instance using the <span class="codequote">instance</span> member.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -257,7 +274,16 @@ var app = new SomaApplication();
 				<section class="step">
 					<h3>Step 1</h3>
 					<div class="content">
-						Create a wire instance.
+						<p>One of the most important framework elements are the <span class="codequote">wires</span>.</p>
+						<p>The wires are the objects that hold the logic of the application. They are the glue between other framework elements such as models, views and other wires. Most of the time, a wire will have a specific role and responsibility in your application. A wire is a central point that can creates other wires, commands, models and views.</p>
+						<p>You can create as many wires as you need, they are the "free" elements in the framework.</p>
+						<p>A wire is also the framework element that has an easy access to everything else, such as other wires, models, views, commands, framework instance, and so on. Wires can be flexible or rigid depending of the needs of your application.</p>
+						<p>The name of a wire is necessary to register it to the framework</p>
+						<p>A wire is a good place to control the flow of the application. Monitoring what is happening in the application can be done listening to events and commands that can be intercepted to stop their action if necessary. A wire can be used as a mediator and manage a single view (one to one relation), or can be responsible for anything.</p>
+						<p>The wire object can be created extending the framework wire object <span class="codequote">soma.Wire</span>.</p>
+						<p>Two methods can be overridden, the <span class="codequote">init</span> method that will be called once a wire has been added to the framework and the <span class="codequote">dispose</span> method that will be called once a wire has been removed from the framework.</p>
+						<p>The <span class="codequote">init</span> method can be used as a starting point to create other framework elements, listen to events and commands while the dispose method is used to destroy what has been created or what it is responsible for.</p>
+						<p>See the <a href="js/app/wires.js" target="_blank">wires</a> of this site.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -283,7 +309,15 @@ log(wire);
 				<section class="step">
 					<h3>Step 2</h3>
 					<div class="content">
-						Add a wire to the framework instance.
+						<p>A wire can be registered to the framework in three places:
+							<ul>
+								<li>1. in the framework instance</li>
+								<li>2. in another wire</li>
+								<li>3. in a command</li>
+							</ul>
+						</p>
+						<p>In either place, a wire can be registered using the <span class="codequote">addWire</span> method.</p>
+						<p>Here is an example to add a wire using the framework instance directly.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -311,7 +345,7 @@ app.addWire(WireExample.NAME, new WireExample());
 				<section class="step">
 					<h3>Step 3</h3>
 					<div class="content">
-						Add a wire to the framework instance from the instance itself.
+						<p>In the following example, the wire is added to the framework from the framework instance itself.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -346,7 +380,8 @@ var app = new SomaApplication();
 				<section class="step">
 					<h3>Step 4</h3>
 					<div class="content">
-						Retrieve a wire from the framework instance.
+						<p>The wire instances registered to the framework can easily be retrieved in the same three places (wires, commands, and framework instance).</p>
+						<p>In either place, a wire can be retrieved using the <span class="codequote">getWire</span> method.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -383,8 +418,10 @@ var app = new SomaApplication();
 				<section class="step">
 					<h3>Step 5</h3>
 					<div class="content">
-						Remove a wire from the framework instance.
+						<p>The wire instances registered to the framework can easily be removed in the same three places (wires, commands, and framework instance).</p>
+						<p>In either place, a wire can be removed using the <span class="codequote">removeWire</span> method.</p>
 					</div>
+					<p>The <span class="codequote">dispose</span> method of the removed wires will be automatically called by the framework. The <span class="codequote">dispose</span> method is a good place to destroy what the wire has created.</p>
 					<div class="code">
 <textarea class="code" name="code">
 // edit me and run the code
@@ -427,7 +464,7 @@ var app = new SomaApplication();
 				<section class="step">
 					<h3>Step 6</h3>
 					<div class="content">
-						Access to other framework elements.
+						<p>A wire has access to all the other framework elements.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -478,7 +515,12 @@ var WireExample = soma.Wire.extend({
 				<section class="step">
 					<h3>Step 1</h3>
 					<div class="content">
-						Create a model instance.
+						<p>The models are objects used to manage you application <a href="http://en.wikipedia.org/wiki/Data_model" target="_blank">data model</a>.</p>
+						<p>The data can be XML, JSON, local data, data retrieved from a server, arrays or anything. Ideally, the data should be set to the <span class="codequote">data</span> property of the model instance, but you are free to create specific getters and variables.</p>
+						<p>You can create as many models as you need. Your model object can extend the framework object	<span class="codequote">soma.Model</span>.</p>
+						<p>Two methods can be overridden, the <span class="codequote">init</span> method that will be called once a model has been added to the framework and the <span class="codequote">dispose</span> method that will be called once a model has been removed from the framework.</p>
+						<p>It is important that your model has no reference to the framework so it stays decoupled from the rest of the application. Your application will be built in an efficient loose-coupling way making it easily maintainable.</p>
+						<p>See the <a href="js/app/models.js" target="_blank">models</a> of this site.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -504,7 +546,15 @@ log(model);
 				<section class="step">
 					<h3>Step 2</h3>
 					<div class="content">
-						Add a model to the framework instance.
+						<p>A model can be registered to the framework in three places:
+							<ul>
+								<li>1. in the framework instance</li>
+								<li>2. in a wire</li>
+								<li>3. in a command</li>
+							</ul>
+						</p>
+						<p>In either place, a model can be registered using the <span class="codequote">addModel</span> method.</p>
+						<p>Here is an example to add a model using the framework instance directly.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -532,7 +582,7 @@ app.addModel(ModelExample.NAME, new ModelExample());
 				<section class="step">
 					<h3>Step 3</h3>
 					<div class="content">
-						Add a model to the framework instance from the instance itself.
+						<p>In the following example, the model is added to the framework from the framework instance itself.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -568,7 +618,8 @@ var app = new SomaApplication();
 				<section class="step">
 					<h3>Step 4</h3>
 					<div class="content">
-						Retrieve a model from the framework instance.
+						<p>The model instances registered to the framework can easily be retrieved in the same three places (wires, commands, and framework instance).</p>
+						<p>In either place, a model can be retrieved using the <span class="codequote">getModel</span> method.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -607,7 +658,8 @@ var app = new SomaApplication();
 				<section class="step">
 					<h3>Step 5</h3>
 					<div class="content">
-						Remove a model from the framework instance.
+						<p>The model instances registered to the framework can easily be removed in the same three places (wires, commands, and framework instance).</p>
+						<p>In either place, a model can be removed using the <span class="codequote">removeWire</span> method.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -652,7 +704,11 @@ var app = new SomaApplication();
 				<section class="step">
 					<h3>Step 6</h3>
 					<div class="content">
-						Access to other framework elements.
+						<p>A model instance does not have a direct access to the framework instance, or to other methods that can be found in wires and commands. However, a model instance can listen to events and commands and also dispatch events and commands to the framework.</p>
+						<p>A model instance makes use of handy shortcuts to provide the same API as native built-in events: addEventListener, dispatchEvent, and so on.</p>
+						<p>A dispatcher (<span class="codequote">soma.EventDispatcher</span>) can be registered to a model instance (<span class="codequote">dispatcher</span> property), the default dispatcher is the framework instance itself, but it is not a good practice to access it as a framework instance, this would tied the model to the application. It is a better practice to dispatch some events to tell the application that this model has done its job, that the data is ready or has changed, and that this event/command can be used everywhere in the application.</p>
+						<p>The following example demonstrates how a command could be used to dispatch a notification to the framework.</p>
+						<p>A command could be used to update several wires or views. Wires could also listen directly to the event without using a commands.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -661,13 +717,29 @@ var app = new SomaApplication();
 var ModelExample = soma.Model.extend({
 	init: function() {
 
-	// commands
-	// this.dispatchEvent(new EventExample(EventExample.DO_SOMETHING));
-	// this.addEventListener(EventExample.DO_SOMETHING, handler);
-	// this.removeEventListener(EventExample.DO_SOMETHING, handler);
+		// commands
+		// this.dispatchEvent(new EventExample(EventExample.DO_SOMETHING));
+		// this.addEventListener(EventExample.DO_SOMETHING, handler);
+		// this.removeEventListener(EventExample.DO_SOMETHING, handler);
+
+        log("init model");
+
+		// assign some data to the data property
+		this.data = [1, 2, 3];
+		// notify the framework that the data has changed
+		this.dispatchEvent(new soma.Event("dataChange"));
 
 	},
 });
+ModelExample.NAME = "ModelExample";
+
+// create a framework instance
+var SomaApp = new soma.Application.extend();
+var app = new SomaApp();
+
+// add the model the framework
+app.addModel(ModelExample.NAME, new ModelExample());
+
 </textarea>
 					</div>
 				</section>
@@ -680,7 +752,12 @@ var ModelExample = soma.Model.extend({
 				<section class="step">
 					<h3>Step 1</h3>
 					<div class="content">
-						Create a view instance (wrapper).
+						<p>The view are classes that will display your application graphic elements such as buttons, animations, user interface, and so on. Your views should be completely free of framework code. They must be written in a efficient decoupled way so your views can easily be changed and re-used.</p>
+						<p>Ideally, the logic of the view should be written in other classes (such as wires), so the view stays as simple as possible. But that is a choice and not required at all.</p>
+						<p>You can create as many views as you need. Your view object can (optionally) extend the framework object soma.View, a simple wrapper that provides some shortcuts to dispatch events.</p>
+						<p>Two methods can be overridden, the <span class="codequote">init</span> method that will be called once a model has been added to the framework and the <span class="codequote">dispose</span> method that will be called once a model has been removed from the framework.</p>
+						<p>See the <a href="js/app/views.js" target="_blank">views</a> of this site.</p>
+						<p class="note">If the application needs to target IE7 or IE8, the view object must extend the <span class="codequote">soma.View</span> wrapper. The wrapper is fixing several IE events implementation problems and makes possible to easily dispatched custom events using a common and native event interface (<span class="codequote">dispatchEvent</span>, <span class="codequote">addEventListener</span>, <span class="codequote">removeEventListener</span>).</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -706,7 +783,7 @@ log(view);
 				<section class="step">
 					<h3>Step 2</h3>
 					<div class="content">
-						Create a view instance (no wrapper).
+						<p>In the following example, the view is created as a simple javascript object, without the wrapper <span class="codequote">soma.View</span>.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -735,7 +812,15 @@ log(view);
 				<section class="step">
 					<h3>Step 3</h3>
 					<div class="content">
-						Add a view to the framework instance.
+						<p>A view can be registered to the framework in three places:
+							<ul>
+								<li>1. in the framework instance</li>
+								<li>2. in a wire</li>
+								<li>3. in a command</li>
+							</ul>
+						</p>
+						<p>In either place, a view can be registered using the <span class="codequote">addView</span> method.</p>
+						<p>Here is an example to add a view using the framework instance directly.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -763,7 +848,7 @@ app.addView(ViewExample.NAME, new ViewExample());
 				<section class="step">
 					<h3>Step 4</h3>
 					<div class="content">
-						Add a view to the framework instance from the instance itself.
+						<p>In the following example, the view is added to the framework from the framework instance itself.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -799,7 +884,8 @@ var app = new SomaApplication();
 				<section class="step">
 					<h3>Step 5</h3>
 					<div class="content">
-						Create a view instance with a dom element.
+						<p>The <span class="codequote">soma.View</span> wrapper provides some shortcuts. In the following example a DOM Element is sent in the constructor to act as a "base" and dynamic DOM Element in the view.</p>
+						<p>The DOM Element can be retrieve using the <span class="codequote">domElement</span> member.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -837,7 +923,8 @@ var app = new SomaApplication();
 				<section class="step">
 					<h3>Step 6</h3>
 					<div class="content">
-						Retrieve a view from the framework instance.
+						<p>The view instances registered to the framework can easily be retrieved in the same three places (wires, commands, and framework instance).</p>
+						<p>In either place, a view can be retrieved using the <span class="codequote">getView</span> method.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -876,7 +963,8 @@ var app = new SomaApplication();
 				<section class="step">
 					<h3>Step 7</h3>
 					<div class="content">
-						Remove a view from the framework instance.
+						<p>The view instances registered to the framework can easily be removed in the same three places (wires, commands, and framework instance).</p>
+						<p>In either place, a view can be removed using the <span class="codequote">removeView</span> method.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -921,7 +1009,10 @@ var app = new SomaApplication();
 				<section class="step">
 					<h3>Step 8</h3>
 					<div class="content">
-						Access to other framework elements.
+						<p>A view does not have (and should not have) access to any framework elements in order to be completely decoupled from the framework. This ensure that the application is maintainable and that the views are re-usable.</p>
+						<p>A view can send notification to the framework using native event, and will get updated from the framework elements that are responsible of the view.</p>
+						<p>Simple custom methods on the view can be used to update its content (the view API).</p>
+						<p>The events (commands) can be dispatched from the <span class="codequote">soma.View</span> wrapper or from any DOM Element.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -932,6 +1023,7 @@ var ViewExample = soma.View.extend({
 
 		// commands
 		// this.dispatchEvent(new EventExample(EventExample.DO_SOMETHING));
+		// document.body.dispatchEvent(new EventExample(EventExample.DO_SOMETHING));
 
 	},
 });
@@ -1234,11 +1326,6 @@ app.dispatchEvent(new EventExample(EventExample.DO_SOMETHING, "custom var conten
 				</section>
 			</section>
 
-			<section id="helloworld" class="chapter">
-				<a name="helloworld"></a>
-				<h2>Hello world application</h2>
-			</section>
-
 			<section id="appflow" class="chapter">
 				<a name="appflow"></a>
 				<h2>Application flow</h2>
@@ -1378,6 +1465,430 @@ var app = new SomaApplication();
 				</section>
 			</section>
 
+			<section id="helloworld" class="chapter exercise">
+				<a name="helloworld"></a>
+				<h2>Hello world application</h2>
+				<!--step-->
+				<section class="step">
+					<h3>Step 1</h3>
+					<div class="content">
+						<p>We are going to create a simple Hello world application. This application will update a DOM Element from a model, using a command.</p>
+						<p>The first step will be creating a Model that will hold the data:</p>
+						<ul>
+							<li>1. create an object that extends <span class="codequote">soma.Model</span> and name it: "HelloWorldModel"</li>
+							<li>2. create an <span class="codequote">init</span> method on this object</li>
+							<li>3. create a property (static) "NAME" on the model object and set its name to "HelloWorldModel"</li>
+							<li>4. in the <span class="codequote">init</span> method, set the <span class="codequote">data</span> property a string "Hello world"</li>
+						</ul>
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
+// edit me and run the code
+
+var HelloWorldModel = soma.Model.extend({
+    init: function() {
+        this.data = "Hello World";
+    }
+});
+HelloWorldModel.NAME = "HelloWorldModel";
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 2</h3>
+					<div class="content">
+						<p>We are now going to create the view that will update a DOM Element with a new content.</p>
+						<ul>
+							<li>1. create an object that extends <span class="codequote">soma.View</span> and name it: "HelloWorldView"</li>
+							<li>2. create an <span class="codequote">init</span> method on this object</li>
+							<li>3. create a property (static) "NAME" on the model object to hold its name</li>
+							<li>4. add the following lines in the init method of the view:
+								<ul>
+									<li><span class="codequote">this.domElement.classList.remove("hidden");</span></li>
+									<li><span class="codequote">this.domElement.innerHTML = value + " on " + new Date();</span></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
+// edit me and run the code
+
+var HelloWorldModel = soma.Model.extend({
+    init: function() {
+        this.data = "Hello World";
+    }
+});
+HelloWorldModel.NAME = "HelloWorldModel";
+
+var HelloWorldView = soma.View.extend({
+    updateMessage: function(value) {
+        this.domElement.classList.remove("hidden");
+        this.domElement.innerHTML = value + " on " + new Date();
+    }
+});
+HelloWorldView.NAME = "HelloWorldView";
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 3</h3>
+					<div class="content">
+						<p>We need to create an event, this event will use to trigger a command and update the view from the model.</p>
+						<ul>
+							<li>1. create an event object that extends <span class="codequote">soma.Event</span> and name it: "HelloWorldEvent"</li>
+							<li>2. create a property (static) "SHOW_MESSAGE" on the event object and set it to "showMessage"</li>
+						</ul>
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
+// edit me and run the code
+
+var HelloWorldModel = soma.Model.extend({
+    init: function() {
+        this.data = "Hello World";
+    }
+});
+HelloWorldModel.NAME = "HelloWorldModel";
+
+var HelloWorldView = soma.View.extend({
+    updateMessage: function(value) {
+        this.domElement.classList.remove("hidden");
+        this.domElement.innerHTML = value + " on " + new Date();
+    }
+});
+HelloWorldView.NAME = "HelloWorldView";
+
+var HelloWorldEvent = soma.Event.extend();
+HelloWorldEvent.SHOW_MESSAGE = "showMessage";
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 4</h3>
+					<div class="content">
+						<p>We can now create a command, this command will be registered and triggered when the related event will be dispatched.</p>
+						<p>We could have created a wire responsible of getting the data from the model to update the view but for simplicity, the command will do this task.</p>
+						<ul>
+							<li>1. create an command object that extends <span class="codequote">soma.Command</span> and name it: "HelloWorldCommand"</li>
+							<li>2. create an empty execute method in the command</li>
+						</ul>
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
+// edit me and run the code
+
+var HelloWorldModel = soma.Model.extend({
+    init: function() {
+        this.data = "Hello World";
+    }
+});
+HelloWorldModel.NAME = "HelloWorldModel";
+
+var HelloWorldView = soma.View.extend({
+    updateMessage: function(value) {
+        this.domElement.classList.remove("hidden");
+        this.domElement.innerHTML = value + " on " + new Date();
+    }
+});
+HelloWorldView.NAME = "HelloWorldView";
+
+var HelloWorldEvent = soma.Event.extend();
+HelloWorldEvent.SHOW_MESSAGE = "showMessage";
+
+var HelloWorldCommand = soma.Command.extend({
+    execute: function() {
+        
+    }
+});
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 5</h3>
+					<div class="content">
+						<p>Inside the execute method of the command, we can write two steps. The first one is getting the data from the model, and the second one is sending this data to the view.</p>
+						<ul>
+							<li>1. get the model <span class="codequote">HelloWorldModel</span> using the model name <span class="codequote">HelloWorldModel.NAME</span></li>
+							<li>2. get the model data (<span class="codequote">data</span> property)</li>
+							<li>3. get the view <span class="codequote">HelloWorldView</span> using the view name <span class="codequote">HelloWorldView.NAME</span></li>
+							<li>4. send the model data using the <span class="codequote">updateMessage</span> method of the view</li>
+						</ul>
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
+// edit me and run the code
+
+var HelloWorldModel = soma.Model.extend({
+    init: function() {
+        this.data = "Hello World";
+    }
+});
+HelloWorldModel.NAME = "HelloWorldModel";
+
+var HelloWorldView = soma.View.extend({
+    updateMessage: function(value) {
+        this.domElement.classList.remove("hidden");
+        this.domElement.innerHTML = value + " on " + new Date();
+    }
+});
+HelloWorldView.NAME = "HelloWorldView";
+
+var HelloWorldEvent = soma.Event.extend();
+HelloWorldEvent.SHOW_MESSAGE = "showMessage";
+
+var HelloWorldCommand = soma.Command.extend({
+    execute: function() {
+		var message = this.getModel(HelloWorldModel.NAME).data;
+        this.getView(HelloWorldView.NAME).updateMessage(message);
+    }
+});
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 6</h3>
+					<div class="content">
+						<p>All the framework elements are created, we can now created a framework instance and instantiate it.</p>
+						<ul>
+							<li>1. create a framework object that extend <span class="codequote">soma.Application</span> and call it "HelloWorldApplication"</li>
+							<li>2. add a <span class="codequote">registerModels</span>, <span class="codequote">registerCommands</span>, <span class="codequote">registerViews</span> and <span class="codequote">start</span> method to the framework object</li>
+							<li>3. instantiate the framework instance</li>
+						</ul>
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
+// edit me and run the code
+
+var HelloWorldModel = soma.Model.extend({
+    init: function() {
+        this.data = "Hello World";
+    }
+});
+HelloWorldModel.NAME = "HelloWorldModel";
+
+var HelloWorldView = soma.View.extend({
+    updateMessage: function(value) {
+        this.domElement.classList.remove("hidden");
+        this.domElement.innerHTML = value + " on " + new Date();
+    }
+});
+HelloWorldView.NAME = "HelloWorldView";
+
+var HelloWorldEvent = soma.Event.extend();
+HelloWorldEvent.SHOW_MESSAGE = "showMessage";
+
+var HelloWorldCommand = soma.Command.extend({
+    execute: function() {
+		var message = this.getModel(HelloWorldModel.NAME).data;
+        this.getView(HelloWorldView.NAME).updateMessage(message);
+    }
+});
+
+var HelloWorldApplication = soma.Application.extend({
+    registerModels: function() {
+
+    },
+    registerCommands: function() {
+
+    },
+    registerViews: function() {
+
+    },
+    start: function() {
+
+    }
+});
+var app = new HelloWorldApplication();
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 7</h3>
+					<div class="content">
+						<p>Let's add the model and the register the command we previously created.</p>
+						<ul>
+							<li>1. in the <span class="codequote">registerModels</span> method, register a new instance of the model <span class="codequote">HelloWorldModel</span></li>
+							<li>2. in the <span class="codequote">registerCommands</span> method, register the <span class="codequote">HelloWorldCommand</span> with the <span class="codequote">HelloWorldEvent.SHOW_MESSAGE</span> even type</li>
+						</ul>
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
+// edit me and run the code
+
+var HelloWorldModel = soma.Model.extend({
+    init: function() {
+        this.data = "Hello World";
+    }
+});
+HelloWorldModel.NAME = "HelloWorldModel";
+
+var HelloWorldView = soma.View.extend({
+    updateMessage: function(value) {
+        this.domElement.classList.remove("hidden");
+        this.domElement.innerHTML = value + " on " + new Date();
+    }
+});
+HelloWorldView.NAME = "HelloWorldView";
+
+var HelloWorldEvent = soma.Event.extend();
+HelloWorldEvent.SHOW_MESSAGE = "showMessage";
+
+var HelloWorldCommand = soma.Command.extend({
+    execute: function() {
+		var message = this.getModel(HelloWorldModel.NAME).data;
+        this.getView(HelloWorldView.NAME).updateMessage(message);
+    }
+});
+
+var HelloWorldApplication = soma.Application.extend({
+    registerModels: function() {
+		this.addModel(HelloWorldModel.NAME, new HelloWorldModel());
+    },
+    registerCommands: function() {
+		this.addCommand(HelloWorldEvent.SHOW_MESSAGE, HelloWorldCommand);
+    },
+    registerViews: function() {
+
+    },
+    start: function() {
+
+    }
+});
+var app = new HelloWorldApplication();
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 8</h3>
+					<div class="content">
+						<p>We can now register the view to the framework. We will pass the reference of a DOM Element to the constructor.</p>
+						<p>For the purpose of this demo, we will pass a specific DOM Element (that is at the bottom of the current exercise, so we can see the result.</p>
+						<ul>
+							<li>1. in the <span class="codequote">registerView</span> method, get the DOM Element that will receive the hello world message:
+								<ul>
+									<li class="codequote">var element = document.querySelector("#helloworld-output");</li>
+								</ul>
+							</li>
+							<li>2. in the <span class="codequote">registerView</span> method, register a new <span class="codequote">HelloWorldView</span> to the framework and send the DOM Element to the constructor</li>
+						</ul>
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
+// edit me and run the code
+
+var HelloWorldModel = soma.Model.extend({
+    init: function() {
+        this.data = "Hello World";
+    }
+});
+HelloWorldModel.NAME = "HelloWorldModel";
+
+var HelloWorldView = soma.View.extend({
+    updateMessage: function(value) {
+        this.domElement.classList.remove("hidden");
+        this.domElement.innerHTML = value + " on " + new Date();
+    }
+});
+HelloWorldView.NAME = "HelloWorldView";
+
+var HelloWorldEvent = soma.Event.extend();
+HelloWorldEvent.SHOW_MESSAGE = "showMessage";
+
+var HelloWorldCommand = soma.Command.extend({
+    execute: function() {
+		var message = this.getModel(HelloWorldModel.NAME).data;
+        this.getView(HelloWorldView.NAME).updateMessage(message);
+    }
+});
+
+var HelloWorldApplication = soma.Application.extend({
+    registerModels: function() {
+		this.addModel(HelloWorldModel.NAME, new HelloWorldModel());
+    },
+    registerCommands: function() {
+		this.addCommand(HelloWorldEvent.SHOW_MESSAGE, HelloWorldCommand);
+    },
+    registerViews: function() {
+		var element = document.querySelector("#helloworld-output");
+	    this.addView(HelloWorldView.NAME, new HelloWorldView(element));
+    },
+    start: function() {
+
+    }
+});
+var app = new HelloWorldApplication();
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 8</h3>
+					<div class="content">
+						<p>The last step is dispatching the event that will show the message (scroll down the page to see the DOM Element updated at the bottom).</p>
+						<ul>
+							<li>1. in the <span class="codequote">start</span> method, dispatch a new event <span class="codequote">HelloWorldEvent</span> or type <span class="codequote">HelloWorldEvent.SHOW_MESSAGE</span></li>
+						</ul>
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
+// edit me and run the code
+
+var HelloWorldModel = soma.Model.extend({
+    init: function() {
+        this.data = "Hello World";
+    }
+});
+HelloWorldModel.NAME = "HelloWorldModel";
+
+var HelloWorldView = soma.View.extend({
+    updateMessage: function(value) {
+        this.domElement.classList.remove("hidden");
+        this.domElement.innerHTML = value + " on " + new Date();
+    }
+});
+HelloWorldView.NAME = "HelloWorldView";
+
+var HelloWorldEvent = soma.Event.extend();
+HelloWorldEvent.SHOW_MESSAGE = "showMessage";
+
+var HelloWorldCommand = soma.Command.extend({
+    execute: function() {
+		var message = this.getModel(HelloWorldModel.NAME).data;
+        this.getView(HelloWorldView.NAME).updateMessage(message);
+    }
+});
+
+var HelloWorldApplication = soma.Application.extend({
+    registerModels: function() {
+		this.addModel(HelloWorldModel.NAME, new HelloWorldModel());
+    },
+    registerCommands: function() {
+		this.addCommand(HelloWorldEvent.SHOW_MESSAGE, HelloWorldCommand);
+    },
+    registerViews: function() {
+		var element = document.querySelector("#helloworld-output");
+	    this.addView(HelloWorldView.NAME, new HelloWorldView(element));
+    },
+    start: function() {
+		this.dispatchEvent(new HelloWorldEvent(HelloWorldEvent.SHOW_MESSAGE));
+    }
+});
+var app = new HelloWorldApplication();
+</textarea>
+					</div>
+				</section>
+				<div id="helloworld-output"></div>
+
+			</section>
+
 		</section>
 
 		<section id="doc">
@@ -1386,9 +1897,9 @@ var app = new SomaApplication();
 				<p>
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 				</p>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				</p>
+				<ul>
+					<li><a href="../docs/native" target="_blank">Documentation</a></li>
+				</ul>
 		</section>
 
 		<section id="browsers">

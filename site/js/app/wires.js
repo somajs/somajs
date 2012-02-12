@@ -104,10 +104,12 @@ ChapterWire = soma.Wire.extend({
 	},
 	init: function() {
 		this.addView(this.chapter.id, new ChapterView(this.chapter));
+		if (this.chapter.classList.contains("exercise")) {
+			this.addModel(this.chapter.id, new ExerciseModel());
+		}
 		this.steps = this.chapter.querySelectorAll("section.step");
 		for (var i=0; i<this.steps.length; i++) {
 			this.createStep(i, this.steps[i]);
-			//this.createStep(i, this.steps[i]).bind(this);
 		}
 	},
 	createStep: function(index, value) {
@@ -163,7 +165,12 @@ StepWire = soma.Wire.extend({
 		soma.Wire.call(this, name);
 	},
 	init: function() {
-		this.stepView = this.addView(this.name, new StepView(this.step));
+		if (this.step.parentNode.classList.contains("exercise")) {
+			this.stepView = this.addView(this.name, new StepExerciseView(this.step));
+		}
+		else {
+			this.stepView = this.addView(this.name, new StepView(this.step));
+		}
 		this.stepView.name = this.name;
 		this.addEventListener(NavigationEvent.SELECTED, this.navigationHandler.bind(this));
 	},
@@ -174,6 +181,9 @@ StepWire = soma.Wire.extend({
 	},
 	activate: function() {
 		console.log('activate step', this.name);
+		if (this.hasModel(this.chapterId)) {
+			this.stepView.setCode(this.getModel(this.chapterId).getRecord());
+		}
 		this.stepView.activate();
 	},
 	deactivate: function() {

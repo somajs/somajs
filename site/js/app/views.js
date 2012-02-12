@@ -29,13 +29,13 @@ NavigationView = soma.View.extend({
 	clickMainHandler: function(event) {
 		event.stopPropagation();
 		event.preventDefault();
-		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, this.id.split("-")[1]))
+		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, this.id.split("-")[1]));
 		return false;
 	},
 	clickTutoHandler: function(event) {
 		event.stopPropagation();
 		event.preventDefault();
-		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT_TUTORIAL, this.id.split("-")[1]))
+		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT_TUTORIAL, this.id.split("-")[1]));
 		return false;
 	},
 	getListElement: function(target) {
@@ -101,6 +101,8 @@ StepView = soma.View.extend({
 	count: 0,
 	active: false,
 	chapterId: null,
+	stepNav: null,
+	resetLabel: "reset code",
 	init: function() {
 		this.code = this.domElement.querySelector("textarea.code");
 		if (this.code) {
@@ -108,6 +110,7 @@ StepView = soma.View.extend({
 			this.createEditor();
 			this.createButtons();
 			this.createLog();
+			this.createNavContainer();
 			this.hide();
 		}
 	},
@@ -124,7 +127,7 @@ StepView = soma.View.extend({
 	},
 	createButtons: function() {
 		this.runButton = utils.append(this.domElement, '<a class="button icon clock run">run code</a>');
-		this.resetButton = utils.append(this.domElement, '<a class="button icon loop reset">reset code</a>');
+		this.resetButton = utils.append(this.domElement, '<a class="button icon loop reset">' + this.resetLabel +'</a>');
 		this.clearButton = utils.append(this.domElement, '<a class="button icon remove clear">clear log</a>');
 		utils.addEventListener(this.runButton, Detect.CLICK, this.runHandler.bind(this));
 		utils.addEventListener(this.resetButton, Detect.CLICK, this.resetHandler.bind(this));
@@ -134,12 +137,15 @@ StepView = soma.View.extend({
 		this.logElement = utils.append(this.domElement, '<div class="log"></div>');
 		this.checkLog();
 	},
+	createNavContainer: function() {
+		this.stepNav = utils.append(this.domElement, '<div class="step-nav"></div>');
+	},
 	checkLog: function() {
 		this.logElement.classList[this.logElement.innerHTML==""?"add":"remove"]("hidden");
 	},
 	traceCode: function(value) {
 		if (this.active) {
-			utils.append(this.logElement, ++this.count + ". " + value);
+			utils.append(this.logElement, '<span><span class="log-count">' + ++this.count + ".</span> " + value + "</span>");
 			utils.append(this.logElement, "<br/>");
 			this.checkLog();
 		}
@@ -200,11 +206,11 @@ StepView = soma.View.extend({
 		this.domElement.classList.add("hidden");
 	},
 	createPreviousButton: function() {
-		this.previousButton = utils.before(this.domElement, '<a class="button icon arrowleft previous">previous step</a>', this.code.parentNode);
+		this.previousButton = utils.append(this.stepNav, '<a class="button icon arrowleft previous">previous step</a>');
 		utils.addEventListener(this.previousButton, Detect.CLICK, this.previousHandler.bind(this));
 	},
 	createNextButton: function() {
-		this.nextButton = utils.before(this.domElement, '<a class="button icon arrowright next">next step</a>', this.code.parentNode);
+		this.nextButton = utils.append(this.stepNav, '<a class="button icon arrowright next">next step</a>');
 		utils.addEventListener(this.nextButton, Detect.CLICK, this.nextHandler.bind(this));
 	},
 	previousHandler: function(event) {
@@ -222,3 +228,27 @@ StepView = soma.View.extend({
 	}
 });
 
+var StepExerciseView = StepView.extend({
+	init: function() {
+		this.resetLabel = "see solution";
+		StepView.prototype.init.call(this);
+	},
+	setCode: function(value) {
+		this.editor.setValue(value);
+	},
+	record: function() {
+		if (this.active) this.dispatchEvent(new ExerciseEvent(ExerciseEvent.RECORD, this.chapterId, this.editor.getValue()));
+	},
+	previousHandler: function(event) {
+		this.record();
+		StepView.prototype.previousHandler.call(this, event);
+	},
+	nextHandler: function(event) {
+		this.record();
+		StepView.prototype.nextHandler.call(this, event);
+	},
+	deactivate: function() {
+		this.record();
+		StepView.prototype.deactivate.call(this, event);
+	}
+});

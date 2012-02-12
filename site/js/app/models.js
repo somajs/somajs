@@ -1,12 +1,12 @@
-ApplicationModel = soma.Model.extend({
-
+ExerciseModel = soma.Model.extend({
 	init: function() {
-		this.data = "Hello somacore";
+		this.data = '// edit me and run the code\nlog("use the log method to print information");\n\n';
 	},
-
-	dispose: function() {
-		this.data = null;
+	record: function(value) {
+		this.data = value;
+	},
+	getRecord: function() {
+		return this.data;
 	}
-
 });
-ApplicationModel.NAME = "Model::ApplicationModel";
+

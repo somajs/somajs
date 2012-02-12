@@ -45,6 +45,7 @@ ChapterCommand = soma.Command.extend({
 				this.getWire(event.params.chapterId).next();
 				break;
 			case ChapterEvent.ACTIVATE:
+				console.log(event.params.chapterId  );
 				this.getWire(event.params.chapterId).activate();
 				break;
 		}

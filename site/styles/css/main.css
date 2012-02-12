@@ -162,8 +162,8 @@ nav a {
   text-decoration: none;
   color: black; }
 
-nav a:hover {
-  text-decoration: underline; }
+.pointer {
+  cursor: pointer; }
 
 /*TUTORIAL*/
 .log {
@@ -223,9 +223,6 @@ div.code {
   max-height: 400px;
   overflow: auto; }
 
-/*div .code {*/
-/*background-color: #FFF;*/
-/*}*/
 /* ==|== media queries ======================================================
    PLACEHOLDER Media Queries for Responsive Design.
    These override the primary ('mobile first') styles

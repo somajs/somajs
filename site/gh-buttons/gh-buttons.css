@@ -38,7 +38,7 @@ http://github.com/necolas/css3-github-buttons
     *display: inline;
 }
 
-.button:hover,
+.no-touch .button:hover,
 .button:focus,
 .button:active,
 .button.active {
@@ -54,7 +54,8 @@ http://github.com/necolas/css3-github-buttons
     background-image: linear-gradient(#599bdc, #3072b3);
 }
 
-.button:active,
+.no-touch .button:active,
+.touch .button:active,
 .button.active {
     border-color: #2a65a0;
     border-bottom-color: #3884CF;
@@ -135,7 +136,7 @@ http://github.com/necolas/css3-github-buttons
 .button.chat.icon:active:before { background-position: -12px -96px; }
 
 .button.clock.icon:before { background-position: 0 -108px; }
-.button.clock.icon:hover:before,
+.no-touch .button.clock.icon:hover:before,
 .button.clock.icon:focus:before,
 .button.clock.icon:active:before { background-position: -12px -108px; }
 

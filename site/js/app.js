@@ -30,6 +30,7 @@ var SomaApplication = soma.Application.extend({
 
 	start: function() {
 		this.dispatchEvent(new ApplicationEvent(ApplicationEvent.SETUP));
+		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.ABOUT));
 	}
 
 });

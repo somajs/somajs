@@ -11,8 +11,8 @@ ApplicationWire = soma.Wire.extend({
 	},
 	setup:function(message) {
 		document.querySelector("#container").style.display = "block";
-		this.select(NavigationConstants.ABOUT);
 		this.monitorApplicationCreation();
+		this.select(null);
 	},
 	monitorApplicationCreation: function() {
 		// hack to cleanup applications created with codemirror
@@ -27,7 +27,7 @@ ApplicationWire = soma.Wire.extend({
 	select: function(navigationId) {
 		for (var i=0; i<this.sections.length; i++) {
 			var el = document.querySelector("#"+this.sections[i]);
-				el.style.display = (this.sections[i] == navigationId) ? "block" : "none";
+			el.classList[this.sections[i]==navigationId?"remove":"add"]("hidden");
 		}
 	},
 	dispose: function() {

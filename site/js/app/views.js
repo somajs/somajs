@@ -1,43 +1,52 @@
 NavigationView = soma.View.extend({
 	currentSection: null,
+	main: null,
+	mainList: null,
+	tuto: null,
+	tutoList: null,
 	setup: function() {
-		this.createLinks();
+		this.setup();
 		this.select(NavigationConstants.ABOUT);
 	},
-	createLinks: function() {
-		var i;
-		var li = this.domElement.querySelectorAll("li");
-		for (i=0; i<li.length; i++) utils.addEventListener(li[i], Detect.CLICK, this.clickHandler);
-		var lia = this.domElement.querySelectorAll("li a");
-		for (i=0; i<li.length; i++) {
-			lia[i].removeAttribute("href");
-			lia[i].style.cursor = "pointer";
+	setup: function() {
+		this.main = this.domElement.querySelector("#main");
+		this.mainList = this.domElement.querySelectorAll("#main>li");
+		this.createLinks(this.mainList, this.clickMainHandler);
+		this.tuto = this.domElement.querySelector("#tuto");
+		this.tutoList = this.domElement.querySelectorAll("#tuto>li");
+		this.createLinks(this.tutoList, this.clickTutoHandler);
+	},
+	createLinks: function(list, handler) {
+		for (var i=0; i<list.length; i++) {
+			utils.addEventListener(list[i], Detect.CLICK, handler);
+			this.removeHref(list[i].querySelector("a"));
 		}
 	},
-	clickHandler: function(event) {
+	removeHref: function(a) {
+		a.removeAttribute("href");
+		a.classList.add("pointer");
+	},
+	clickMainHandler: function(event) {
 		event.stopPropagation();
-		var navParts = this.id.split("-");
-		var navigationId = navParts[1];
-		switch (navParts[0]) {
-			case "nav":
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, navigationId))
-				break;
-			case "chap":
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT_TUTORIAL, navigationId));
-				break;
-		}
+		event.preventDefault();
+		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, this.id.split("-")[1]))
+		return false;
+	},
+	clickTutoHandler: function(event) {
+		event.stopPropagation();
+		event.preventDefault();
+		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT_TUTORIAL, this.id.split("-")[1]))
 		return false;
 	},
 	getListElement: function(target) {
 		return this.domElement.querySelector('li[id*="' + target + '"]');
 	},
 	clear: function() {
-		var li = this.domElement.querySelectorAll("li");
-		for (var i=0; i<li.length; i++) li[i].classList.remove("selected");
+		this.clearTutorial();
+		for (var i=0; i<this.mainList.length; i++) this.mainList[i].classList.remove("selected");
 	},
 	clearTutorial: function() {
-		var li = this.domElement.querySelectorAll('li[id*="chap"]');
-		for (var i=0; i<li.length; i++) li[i].classList.remove("selected");
+		for (var i=0; i<this.tutoList.length; i++) this.tutoList[i].classList.remove("selected");
 	},
 	highlight: function(target) {
 		this.clear();

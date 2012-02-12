@@ -84,7 +84,11 @@ nav a {
 	color: $global-link-color;
 }
 nav a:hover {
-	text-decoration: underline;
+	//text-decoration: underline;
+}
+
+.pointer {
+	cursor: pointer;
 }
 
 /*TUTORIAL*/
@@ -150,10 +154,6 @@ div.code {
 	max-height: 400px;
 	overflow: auto;
 }
-
-/*div .code {*/
-	/*background-color: #FFF;*/
-/*}*/
 
 @import "media-query";
 @import "helpers";

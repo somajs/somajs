@@ -4,7 +4,7 @@
 	<property file="user.properties"/>
 	<property file="build.properties"/>
 
-	<target name="build" description="build somacore" depends="prepare-git, update-templates, update-doc, update-cli, cleanup-git"/>
+	<target name="build" description="build somacore" depends="prepare-git, update-templates, update-doc, update-cli, update-demos, cleanup-git"/>
 
 	<target name="prepare-git" description="pull and checkout git branches">
 		<echo message="   - pull master and mootools branches"/>
@@ -66,7 +66,6 @@
 			<arg value="${build.doc.checkout.path}"/>
 		</exec>
 		<move file="${build.doc.checkout.path}" tofile="${build.doc.mootools.dir}"/>
-		<delete dir="${build.doc.checkout.dir}" />
 
 		<echo message="   - update native doc from master"/>
 		<exec executable="git" failonerror="true">
@@ -75,7 +74,6 @@
 			<arg value="${build.doc.checkout.path}"/>
 		</exec>
 		<move file="${build.doc.checkout.path}" tofile="${build.doc.native.dir}"/>
-		<delete dir="${build.doc.checkout.dir}" />
 
 	</target>
 
@@ -104,6 +102,49 @@
 
 	</target>
 
+	<target name="update-demos" description="get the demos from the master and mootools branch">
+
+		<echo message="   - delete demos folder"/>
+		<delete dir="${build.demos.dir}" />
+
+		<echo message="   - update mootools demos from mootools"/>
+		<exec executable="git" failonerror="true">
+			<arg value="checkout"/>
+			<arg value="mootools"/>
+			<arg value="${build.demos.checkout.path}"/>
+		</exec>
+		<move file="${build.demos.checkout.path}" tofile="${build.demos.mootools.dir}"/>
+		<delete dir="${build.demos.checkout.dir}" />
+
+		<echo message="   - update mootools framework from mootools"/>
+		<exec executable="git" failonerror="true">
+			<arg value="checkout"/>
+			<arg value="mootools"/>
+			<arg value="${build.framework.checkout.path}"/>
+		</exec>
+		<move file="${build.framework.checkout.path}" tofile="${build.framework.mootools.dir}"/>
+		<delete dir="${build.framework.checkout.dir}" />
+
+		<echo message="   - update native demos from master"/>
+		<exec executable="git" failonerror="true">
+			<arg value="checkout"/>
+			<arg value="master"/>
+			<arg value="${build.demos.checkout.path}"/>
+		</exec>
+		<move file="${build.demos.checkout.path}" tofile="${build.demos.native.dir}"/>
+		<delete dir="${build.demos.checkout.dir}" />
+
+		<echo message="   - update native framework from master"/>
+		<exec executable="git" failonerror="true">
+			<arg value="checkout"/>
+			<arg value="master"/>
+			<arg value="${build.framework.checkout.path}"/>
+		</exec>
+		<move file="${build.framework.checkout.path}" tofile="${build.framework.native.dir}"/>
+		<delete dir="${build.framework.checkout.dir}" />
+
+	</target>
+
 	<target name="cleanup-git" description="delete git cached files">
 
 		<echo message="   - cleanup"/>
@@ -121,6 +162,16 @@
 		<exec executable="git" failonerror="true">
 			<arg value="rm"/>
 			<arg value="../tools"/>
+			<arg value="-r"/>
+		</exec>
+		<exec executable="git" failonerror="true">
+			<arg value="rm"/>
+			<arg value="../demos"/>
+			<arg value="-r"/>
+		</exec>
+		<exec executable="git" failonerror="true">
+			<arg value="rm"/>
+			<arg value="../framework"/>
 			<arg value="-r"/>
 		</exec>
 		<!--#	deleted:    templates/export/compact-namespace.zip-->

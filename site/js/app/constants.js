@@ -2,8 +2,8 @@ var NavigationConstants = {
 	ABOUT: "about",
 	DOWNLOAD: "download",
 	TUTORIAL: "tutorial",
-	DOC: "doc",
-	BROWSERS: "browsers"
+	BROWSERS: "browsers",
+	DEMOS: "demos"
 };
 
 var Detect = {

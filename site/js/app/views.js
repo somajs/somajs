@@ -10,7 +10,8 @@ NavigationView = soma.View.extend({
 	},
 	setup: function() {
 		this.main = this.domElement.querySelector("#main");
-		this.mainList = this.domElement.querySelectorAll("#main>li");
+		this.mainList = this.domElement.querySelectorAll('#main>li:not([class="external"])');
+		console.log(this.mainList);
 		this.createLinks(this.mainList, this.clickMainHandler);
 		this.tuto = this.domElement.querySelector("#tuto");
 		this.tutoList = this.domElement.querySelectorAll("#tuto>li");
@@ -247,7 +248,13 @@ var StepExerciseView = StepView.extend({
 		this.record();
 		StepView.prototype.nextHandler.call(this, event);
 	},
+	activate: function() {
+		this.logElement.id = "log";
+		console.log('id:', this.logElement.id, this.logElement);
+		StepView.prototype.activate.call(this, event);
+	},
 	deactivate: function() {
+		this.logElement.id = "";
 		this.record();
 		StepView.prototype.deactivate.call(this, event);
 	}

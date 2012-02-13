@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>Twitter search</title>
+	<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<div id="app">
+
+	<div id="search">
+		<input id="search-input" placeholder="Search tweets" />
+		<div id="message"></div>
+	</div>
+
+	<div id="result">
+		<ul id="result-list" data-bind="template: {name:'template-tweet', foreach: list}"></ul>
+	</div>
+
+	<script type="text/x-jquery-tmpl" id="template-tweet">
+		<li>
+			<div class="tpl-tweet">
+				<img src="${profile_image_url}" alt=""/>
+				<div class="tpl-tweet-username">${from_user || 'Anonymous'}</div>
+				<div class="tpl-tweet-text">${text}</div>
+			</div>
+		</li>
+	</script>
+
+</div>
+
+<script type="text/javascript" src="js/libs/jquery-1.6.4.min.js"></script>
+<script type="text/javascript" src="js/libs/jquery.tmpl.min.js"></script>
+<script type="text/javascript" src="js/libs/json2.js"></script>
+<script type="text/javascript" src="../../framework/src/somacore.js"></script>
+<script type="text/javascript" src="js/app/wires.js"></script>
+<script type="text/javascript" src="js/app/views.js"></script>
+<script type="text/javascript" src="js/app/services.js"></script>
+<script type="text/javascript" src="js/app/commands.js"></script>
+<script type="text/javascript" src="js/app/events.js"></script>
+<script type="text/javascript" src="js/twittersearch.js"></script>
+
+</body>
+</html>

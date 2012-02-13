@@ -44,8 +44,9 @@
 					<li id="tuto-helloworld"><a href="#helloworld">Hello world application</a></li>
 				</ul>
 			</li>
-			<li id="main-doc"><a href="#doc">Documentation</a></li>
+			<li id="main-demos"><a href="#demos">Demos</a></li>
 			<li id="main-download"><a href="#download">Download</a></li>
+			<li id="main-doc" class="external"><a href="../docs/native" target="_blank">Documentation</a></li>
 			<li id="main-browsers"><a href="#browsers">Browsers information</a></li>
 		</ul>
 	</nav>
@@ -67,6 +68,18 @@
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 				</p>
 			</div>
+		</section>
+
+		<section id="demos">
+			<a name="demos"></a>
+			<h1>Demos</h1>
+			<ul>
+				<li>Hello World</li>
+				<li>Cafe Town Send</li>
+				<li>Twitter Search</li>
+				<li>Soma Color</li>
+				<li>App Note</li>
+			</ul>
 		</section>
 
 		<section id="download">
@@ -1770,11 +1783,11 @@ var app = new HelloWorldApplication();
 					<h3>Step 8</h3>
 					<div class="content">
 						<p>We can now register the view to the framework. We will pass the reference of a DOM Element to the constructor.</p>
-						<p>For the purpose of this demo, we will pass a specific DOM Element (that is at the bottom of the current exercise, so we can see the result.</p>
+						<p>For the purpose of this demo, we will use a specific DOM Element: the log element that will appear right below the current code editor.</p>
 						<ul>
 							<li>1. in the <span class="codequote">registerView</span> method, get the DOM Element that will receive the hello world message:
 								<ul>
-									<li class="codequote">var element = document.querySelector("#helloworld-output");</li>
+									<li class="codequote">var element = document.querySelector("#log");</li>
 								</ul>
 							</li>
 							<li>2. in the <span class="codequote">registerView</span> method, register a new <span class="codequote">HelloWorldView</span> to the framework and send the DOM Element to the constructor</li>
@@ -1817,7 +1830,7 @@ var HelloWorldApplication = soma.Application.extend({
 		this.addCommand(HelloWorldEvent.SHOW_MESSAGE, HelloWorldCommand);
     },
     registerViews: function() {
-		var element = document.querySelector("#helloworld-output");
+		var element = document.querySelector("#log");
 	    this.addView(HelloWorldView.NAME, new HelloWorldView(element));
     },
     start: function() {
@@ -1874,7 +1887,7 @@ var HelloWorldApplication = soma.Application.extend({
 		this.addCommand(HelloWorldEvent.SHOW_MESSAGE, HelloWorldCommand);
     },
     registerViews: function() {
-		var element = document.querySelector("#helloworld-output");
+		var element = document.querySelector("#log");
 	    this.addView(HelloWorldView.NAME, new HelloWorldView(element));
     },
     start: function() {
@@ -1891,26 +1904,32 @@ var app = new HelloWorldApplication();
 
 		</section>
 
-		<section id="doc">
-			<a name="doc"></a>
-			<h1>Documentation</h1>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				</p>
-				<ul>
-					<li><a href="../docs/native" target="_blank">Documentation</a></li>
-				</ul>
-		</section>
-
 		<section id="browsers">
 			<a name="browsers"></a>
 			<h1>Browser information</h1>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				</p>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				</p>
+			<div>
+				<img src="images/browser_chrome.png" alt="chrome"/>
+				<img src="images/browser_firefox.png" alt="firefox"/>
+				<img src="images/browser_ie.png" alt="internet explorer"/>
+				<img src="images/browser_opera.png" alt="opera"/>
+				<img src="images/browser_safari.png" alt="safari"/>
+			</div>
+			<div>
+				<h2>Chrome</h2>
+				<p>Latest version supported.</p>
+				<h2>Firefox</h2>
+				<p>Version 3.6 until latest version.</p>
+				<h2>Internet Explorer</h2>
+				<p>Version 6 not supported.</p>
+				<p>Version 7 supported.</p>
+				<p>Version 8 supported.</p>
+				<p>Version 9 supported.</p>
+				<p class="note">Note: IE7 and IE8 require to use the <span class="codequote">soma.View</span> wrapper to solve different event implementation.</p>
+				<h2>Opera</h2>
+				<p>Latest version supported.</p>
+				<h2>Safari</h2>
+				<p>Latest version supported.</p>
+			</div>
 		</section>
 
 	</div>

@@ -156,7 +156,7 @@
 		</exec>
 		<exec executable="git" failonerror="true">
 			<arg value="rm"/>
-			<arg value="../docs"/>
+			<arg value="../documentation"/>
 			<arg value="-r"/>
 		</exec>
 		<exec executable="git" failonerror="true">

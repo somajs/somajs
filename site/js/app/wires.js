@@ -66,7 +66,6 @@ TutorialWire = soma.Wire.extend({
 		this.chapters = this.section.querySelectorAll("section.chapter");
 		for (var i=0; i<this.chapters.length; i++) {
 			this.createChapter(i, this.chapters[i]);
-			//this.createChapter(i, this.chapters[i]).bind(this);
 		}
 		this.addEventListener(ChapterEvent.ACTIVATE, this.activateHandler.bind(this));
 		this.addEventListener(NavigationEvent.SELECTED, this.navigationSelectedHandler.bind(this));

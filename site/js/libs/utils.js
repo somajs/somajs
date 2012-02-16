@@ -25,6 +25,20 @@ utils.before = function(target, strElement, refElement) {
 	return el;
 };
 
+// css
+utils.hasClass = function (el,cl) {
+	return el.className.match(new RegExp('(\\s|^)'+cl+'(\\s|$)'));
+};
+utils.addClass = function (el,cl) {
+	if (!this.hasClass(el,cl)) el.className += " "+cl;
+};
+utils.removeClass = function (el,cl) {
+	if (this.hasClass(el,cl)) {
+    	var reg = new RegExp('(\\s|^)'+cl+'(\\s|$)');
+		el.className=el.className.replace(reg,' ');
+	}
+};
+
 // event
 utils.addEventListener = function(el, evt, fn, bubble) {
   if("addEventListener" in el) {
@@ -80,3 +94,21 @@ utils.removeEventListener = function(el, evt, fn, bubble) {
     }
   }
 }
+
+// array (from underscore)
+utils.each = function(obj, iterator, context) {
+	if (obj == null) return;
+	if (Array.prototype.forEach && obj.forEach === Array.prototype.forEach) {
+		obj.forEach(iterator, context);
+	} else if (obj.length === +obj.length) {
+		for (var i = 0, l = obj.length; i < l; i++) {
+			if (i in obj && iterator.call(context, obj[i], i, obj) === breaker) return;
+		}
+	} else {
+		for (var key in obj) {
+			if (obj.hasOwnProperty && obj.hasOwnProperty(key)) {
+				if (iterator.call(context, obj[key], key, obj) === breaker) return;
+			}
+		}
+	}
+};

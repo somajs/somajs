@@ -10,7 +10,7 @@ ApplicationWire = soma.Wire.extend({
 		];
 	},
 	setup:function(message) {
-		document.querySelector("#container").style.display = "block";
+		qwery("#container")[0].style.display = "block";
 		this.monitorApplicationCreation();
 		this.select(null);
 	},
@@ -26,8 +26,9 @@ ApplicationWire = soma.Wire.extend({
 	},
 	select: function(navigationId) {
 		for (var i=0; i<this.sections.length; i++) {
-			var el = document.querySelector("#"+this.sections[i]);
-			el.classList[this.sections[i]==navigationId?"remove":"add"]("hidden");
+			var el = qwery("#"+this.sections[i])[0];
+			if (this.sections[i] == navigationId) utils.removeClass(el, "hidden");
+			else utils.addClass(el, "hidden");
 		}
 	},
 	dispose: function() {
@@ -40,7 +41,7 @@ NavigationWire = soma.Wire.extend({
 	navigationView: null,
 	currentNavigation: null,
 	setup:function(message) {
-		this.navigationView = this.addView(NavigationView.NAME, new NavigationView(document.querySelector("#nav")));
+		this.navigationView = this.addView(NavigationView.NAME, new NavigationView(qwery("#nav")[0]));
 		this.navigationView.setup();
 	},
 	select: function(navigationId) {
@@ -62,15 +63,13 @@ TutorialWire = soma.Wire.extend({
 	defaultChapter: null,
 	currentChapter: null,
 	init: function() {
-		this.section = document.querySelector("#tutorial");
-		this.chapters = this.section.querySelectorAll("section.chapter");
-		for (var i=0; i<this.chapters.length; i++) {
-			this.createChapter(i, this.chapters[i]);
-		}
+		this.section = qwery("#tutorial")[0];
+		this.chapters = qwery("section.chapter", this.section);
+		utils.each(this.chapters, this.createChapter, this);
 		this.addEventListener(ChapterEvent.ACTIVATE, this.activateHandler.bind(this));
 		this.addEventListener(NavigationEvent.SELECTED, this.navigationSelectedHandler.bind(this));
 	},
-	createChapter: function(index, value) {
+	createChapter: function(value, index) {
 		if (index == 0) this.defaultChapter = value.id;
 		this.addWire(value.id, new ChapterWire(value.id, value));
 	},
@@ -103,15 +102,13 @@ ChapterWire = soma.Wire.extend({
 	},
 	init: function() {
 		this.addView(this.chapter.id, new ChapterView(this.chapter));
-		if (this.chapter.classList.contains("exercise")) {
+		if (utils.hasClass(this.chapter, "exercise")) {
 			this.addModel(this.chapter.id, new ExerciseModel());
 		}
-		this.steps = this.chapter.querySelectorAll("section.step");
-		for (var i=0; i<this.steps.length; i++) {
-			this.createStep(i, this.steps[i]);
-		}
+		this.steps = qwery("section.step", this.chapter);
+		utils.each(this.steps, this.createStep, this);
 	},
-	createStep: function(index, value) {
+	createStep: function(value, index) {
 		var stepName = this.chapter.id + "-step-" + index;
 		var wire = this.addWire(stepName, new StepWire(stepName, value));
 		wire.setChapterId(this.chapter.id);
@@ -164,7 +161,7 @@ StepWire = soma.Wire.extend({
 		soma.Wire.call(this, name);
 	},
 	init: function() {
-		if (this.step.parentNode.classList.contains("exercise")) {
+		if (utils.hasClass(this.step.parentNode, "exercise")) {
 			this.stepView = this.addView(this.name, new StepExerciseView(this.step));
 		}
 		else {

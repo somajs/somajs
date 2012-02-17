@@ -1052,7 +1052,20 @@ var ViewExample = soma.View.extend({
 				<section class="step">
 					<h3>Step 1</h3>
 					<div class="content">
-						Register a command to the framework.
+						<p>A <a href="http://en.wikipedia.org/wiki/Command_pattern" target="_blank">Command</a> is a design-pattern that is used to execute a portion of code at any time.</p>
+						<p>The command is used to transport data from framework elements (wires, models and views) without the elements to know about each other. It is also the only way for a view to tell the other framework elements to do their tasks without calling them directly. Calling them directly from a view would be a very bad practice in order to keep the view without framework code. As dispatching an event to trigger a command is a native process, we ensure that the app is built in a loosely coupled way.</p>
+						<p>The process of executing a command in the framework is:
+							<ul>
+								<li>1. Create a command object that contains an <span class="codequote">execute</span> method</li>
+								<li>2. Register the command object to the framework, assigned to an event type</li>
+								<li>3. Dispatch an event from the framework or the DOM to execute the command</li>
+							</ul>
+						</p>
+						<p>The framework is responsible of instantiating the command object and call its execute method. The command are also called "short-living" object, they are not meant to remain. The command object will be instantiated by the framework every time a command is triggered and destroyed after its task is complete.</p>
+						<p>The event used to triggered the command can be used to transport data (send parameters to the command). The event used will always be sent to the <span class="codequote">execute</span> method of the command.</p>
+						<p>The framework contains a simple <span class="codequote">Command</span> object, a <span class="codequote">SequenceCommand</span> object to execute a series of commands one after the other and a <span class="codequote">ParallelCommand</span> object to execute a bunch of commands all at once.</p>
+						<p>See the <a href="js/app/commands.js" target="_blank">commands</a> of this site.</p>
+						<p>To create a command object, you can extend the framework object <span class="codequote">soma.Command</span>.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -1079,7 +1092,15 @@ log("has command: " + app.hasCommand("eventType"));
 				<section class="step">
 					<h3>Step 2</h3>
 					<div class="content">
-						Register a command to the framework instance from the instance itself.
+						<p>A command can be registered to the framework in three places:
+						<ul>
+							<li>1. in the framework instance</li>
+							<li>2. in a wire</li>
+							<li>3. in another command</li>
+						</ul>
+						</p>
+						<p>In either place, a command can be registered using the <span class="codequote">addCommand</span> method, the parameters will be a string (an event type), and the command object to instantiate..</p>
+						<p>Here is an example to add a command using the framework instance directly.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">

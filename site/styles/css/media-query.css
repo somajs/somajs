@@ -1,9 +1,56 @@
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+  display: block; }
+
+audio, canvas, video {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1; }
+
+audio:not([controls]) {
+  display: none; }
+
+[hidden] {
+  display: none; }
+
+::-moz-selection {
+  background: #5268BE;
+  color: #fff;
+  text-shadow: none; }
+
+::selection {
+  background: #5268BE;
+  color: #fff;
+  text-shadow: none; }
+
+a:hover, a:active {
+  outline: 0; }
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word; }
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle; }
+
+svg:not(:root) {
+  overflow: hidden; }
+
 /* ==|== media queries ======================================================
    PLACEHOLDER Media Queries for Responsive Design.
    These override the primary ('mobile first') styles
    Modify as content requires.
    ========================================================================== */
-@media only screen and (min-width: 480px) {
-  /* Style adjustments for viewports 480px and over go here */ }
-@media only screen and (min-width: 768px) {
-  /* Style adjustments for viewports 768px and over go here */ }
+@media only screen and (max-width: 800px) {
+  #nav {
+    float: none;
+    width: 100%; }
+
+  #content {
+    margin-left: 0px;
+    position: relative; }
+
+  .button + .button {
+    margin-left: 5px; } }

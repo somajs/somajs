@@ -235,7 +235,7 @@
 
 		},
 		toString: function() {
-			return "[Class soma.Command]";
+			return "[soma.Command]";
 		}
 	});
 
@@ -311,7 +311,7 @@
 			return this.commands;
 		},
 		toString: function() {
-			return "[Class soma.SequenceCommand]";
+			return "[soma.SequenceCommand]";
 		}
 
 	});
@@ -347,7 +347,7 @@
 			return this.commands;
 		},
 		toString: function() {
-			return "[Class soma.ParallelCommand]";
+			return "[soma.ParallelCommand]";
 		}
 	});
 
@@ -373,7 +373,7 @@
 			this.name = name;
 		},
 		toString: function() {
-			return "[Class soma.Wire]";
+			return "[soma.Wire]";
 		}
 	});
 	soma.applyProperties(soma.Wire.prototype, soma.AutoBind);
@@ -728,7 +728,7 @@
             return this.listeners.slice();
         },
 		toString: function() {
-			return "[Class soma.EventDispatcher]";
+			return "[soma.EventDispatcher]";
 		},
 		dispose: function() {
 			this.listeners = null;
@@ -863,7 +863,7 @@
 			this.body = null;
 		},
 		toString: function() {
-			return "[Class soma.Application]";
+			return "[soma.Application]";
 		},
 		init: function() {
 		},
@@ -967,7 +967,7 @@
 			this.name = name;
 		},
 		toString: function() {
-			return "[Class soma.Model]";
+			return "[soma.Model]";
 		}
 	});
 
@@ -1015,7 +1015,7 @@
 
 		},
 		toString: function() {
-			return "[Class soma.View]";
+			return "[soma.View]";
 		}
 	});
 
@@ -1078,7 +1078,7 @@
 			this.viewComponent = null;
 		},
 		toString: function() {
-			return "[Class soma.Mediator]";
+			return "[soma.Mediator]";
 		}
 	});
 
@@ -1131,7 +1131,7 @@
 		    return document.body.style.scrollbar3dLightColor!=undefined && document.body.style.opacity != undefined;
 	    },
 		toString: function() {
-			return "[Class soma.Event]";
+			return "[soma.Event]";
 		}
 	});
 

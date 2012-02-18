@@ -180,6 +180,9 @@ header, section, nav {
   margin-left: 250px;
   position: relative; }
 
+p {
+  line-height: 125%; }
+
 header h1 {
   font-weight: 900;
   font-size: 250%; }
@@ -206,8 +209,12 @@ section.hidden {
 nav ul {
   padding-left: 20px; }
 
+nav > ul {
+  padding-left: 0px; }
+
 nav li {
-  margin-top: 5px;
+  display: block;
+  line-height: 160%;
   font-weight: normal; }
 
 nav li.selected {
@@ -217,6 +224,16 @@ nav a {
   text-decoration: none;
   color: black; }
 
+section li a, section p a {
+  color: #0095b9;
+  font-weight: bold;
+  text-decoration: none; }
+
+/*#button a {*/
+/*color: $button-link-color;*/
+/*font-weight: bold;*/
+/*text-decoration: none;*/
+/*}*/
 .pointer {
   cursor: pointer; }
 
@@ -294,15 +311,66 @@ nav a {
   max-height: 400px;
   overflow: auto; }
 
+.space-around {
+  margin-top: 30px;
+  margin-bottom: 30px; }
+
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+  display: block; }
+
+audio, canvas, video {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1; }
+
+audio:not([controls]) {
+  display: none; }
+
+[hidden] {
+  display: none; }
+
+::-moz-selection {
+  background: #5268BE;
+  color: #fff;
+  text-shadow: none; }
+
+::selection {
+  background: #5268BE;
+  color: #fff;
+  text-shadow: none; }
+
+a:hover, a:active {
+  outline: 0; }
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word; }
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle; }
+
+svg:not(:root) {
+  overflow: hidden; }
+
 /* ==|== media queries ======================================================
    PLACEHOLDER Media Queries for Responsive Design.
    These override the primary ('mobile first') styles
    Modify as content requires.
    ========================================================================== */
-@media only screen and (min-width: 480px) {
-  /* Style adjustments for viewports 480px and over go here */ }
-@media only screen and (min-width: 768px) {
-  /* Style adjustments for viewports 768px and over go here */ }
+@media only screen and (max-width: 800px) {
+  #nav {
+    float: none;
+    width: 100%; }
+
+  #content {
+    margin-left: 0px;
+    position: relative; }
+
+  .button + .button {
+    margin-left: 5px; } }
 /* ==|== non-semantic helper classes ========================================
    Please define your styles before this section.
    ========================================================================== */

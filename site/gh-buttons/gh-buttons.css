@@ -9,18 +9,18 @@ http://github.com/necolas/css3-github-buttons
 
 .button {
     position: relative;
-    overflow: visible; 
-    display: inline-block; 
-    padding: 0.5em 1em; 
-    border: 1px solid #d4d4d4; 
+    overflow: visible;
+    display: inline-block;
+    padding: 0.5em 1em;
+    border: 1px solid #d4d4d4;
     margin: 0;
-    text-decoration: none; 
-    text-shadow: 1px 1px 0 #fff; 
-    font:11px/normal sans-serif; 
-    color: #333; 
-    white-space: nowrap; 
-    cursor: pointer; 
-    outline: none; 
+    text-decoration: none;
+    text-shadow: 1px 1px 0 #fff;
+    font:11px/normal sans-serif;
+    color: #333;
+    white-space: nowrap;
+    cursor: pointer;
+    outline: none;
     background-color: #ececec;
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f4f4f4), to(#ececec));
     background-image: -moz-linear-gradient(#f4f4f4, #ececec);
@@ -28,13 +28,13 @@ http://github.com/necolas/css3-github-buttons
     background-image: linear-gradient(#f4f4f4, #ececec);
     -webkit-background-clip: padding;
     -moz-background-clip: padding;
-    -o-background-clip: padding-box; 
+    -o-background-clip: padding-box;
     /*background-clip: padding-box;*/ /* commented out due to Opera 11.10 bug */
-    -webkit-border-radius: 0.2em; 
-    -moz-border-radius: 0.2em; 
-    border-radius: 0.2em; 
+    -webkit-border-radius: 0.2em;
+    -moz-border-radius: 0.2em;
+    border-radius: 0.2em;
     /* IE hacks */
-    zoom: 1; 
+    zoom: 1;
     *display: inline;
 }
 

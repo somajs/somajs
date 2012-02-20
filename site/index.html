@@ -1176,7 +1176,7 @@ var app = new SomaApplication();
 					<h3>Step 4</h3>
 					<div class="content">
 						<p>To trigger the execution of a command, an event must be dispatched.</p>
-						<p>The framework provides an event wrapper (<span class="codequote">soma.Event</span>) to solve cross-browsing issues. The way a native event is created differs from Internet Explorer and other browser.</p>
+						<p>The framework provides an event wrapper (<span class="codequote">soma.Event</span>) to solve cross-browsing issues. The way a native event is created differs from Internet Explorer and other browsers.</p>
 						<p>Creating an instance of the <span class="codequote">soma.Event</span> object does not create a framework object but instead returns the browser specific event. The <span class="codequote">soma.Event</span> wrapper can be used without the framework.</p>
 						<p>In the following example, the command has been registered using the string "eventType", which will be used as the event type to trigger the command. For the sake of the example, the event type is not referenced in a constant variable but it is a good practice to do so as you will see in other examples.</p>
 						<p>An event (of the type the command that has been registered with) is dispatched to trigger the execution of the command.</p>
@@ -1236,7 +1236,7 @@ var app = new SomaApplication();
 						<p>An event that will trigger a command can also be dispatched from any DOM Element that has been added the DOM.</p>
 						<p>In other words, an event can be dispatched from a button element, a div element or anything else.</p>
 						<p class="note">This capability will not work in Internet Explorer 7 and 8, as it is not possible to dispatch custom events without hacks. If the application must target these two browsers, it is necessary to use the <span class="codequote">soma.View</span> object to create your views. The <span class="codequote">soma.View</span> object provides shortcut to dispatch custom events and trigger commands that have the same signature than the native ECMA events provided in more recent browsers: <span class="codequote">addEventListener</span>, <span class="codequote">removeEventListener</span> and <span class="codequote">dispatchEvent</span>.</p>
-						<p class="note">These <span class="codequote">soma.View</span> shortcuts can be used in any browsers but are optional in others. To resume, you can use the same <span class="codequote">soma.View</span> methods to dispatch events in any browsers, ot dispatch events from a DOM Element for other browsers than Internet Explorer 7 and 8 (making the <span class="codequote">soma.View</span> optional in the other browsers).</p>
+						<p class="note">In short, the shortcuts of the <span class="codequote">soma.View</span>: <span class="codequote">addEventListener</span>, <span class="codequote">removeEventListener</span> and <span class="codequote">dispatchEvent</span>, can be used in any browsers but are required with Internet Explorer 7 and 8.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -1334,7 +1334,7 @@ log("anotherVar: " + event.params.anotherVar);
 				<section class="step">
 					<h3>Step 8</h3>
 					<div class="content">
-						<p>In the following example, a custom event is dispatched, it executes a command and retrieve parameters.</p>
+						<p>In the following example, a custom event is dispatched, it executes a command and the command retrieves parameters.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">

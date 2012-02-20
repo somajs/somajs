@@ -58,7 +58,7 @@
 			<h1>What is somacore.js?</h1>
 			<div>
 				<p>somacore.js is a javascript <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller" target="_blank">model-view-controller</a> (MVC) framework that is meant to help developers to write <a href="http://en.wikipedia.org/wiki/Loose_coupling" target="_blank">loosely-coupled</a> applications to increase scalability and maintainability.</p>
-				<p>The main idea behind the MVC pattern is to separate the data (model), the user interface (view) and the logic of the application (controller). They must independent and should not about each other in order to increase the scalability of the application.</p>
+				<p>The main idea behind the MVC pattern is to separate the data (model), the user interface (view) and the logic of the application (controller). They must independent and should not know about each other in order to increase the scalability of the application.</p>
 				<p>somacore.js is providing tools to make the three parts "talks" to each other, keeping the view and the model free of framework code, using only native events that can be dispatched from either the framework of the DOM itself.</p>
 				<p>The framework makes an heavy use of the <a href="http://addyosmani.com/resources/essentialjsdesignpatterns/book/#observerpatternjavascript" target="_blank">Observer pattern</a> using native javascript events. Here is a quote from <a href="http://addyosmani.com/" target="_blank">Addy Osmani</a> about the Observer pattern:</p>
 				<p class="note">The motivation behind using the observer pattern is where you need to maintain consistency between related objects without making classes tightly coupled. For example, when an object needs to be able to notify other objects without making assumptions regarding those objects.</p>
@@ -1099,7 +1099,7 @@ log("has command: " + app.hasCommand("eventType"));
 						</ul>
 						</p>
 						<p>In either place, a command can be registered using the <span class="codequote">addCommand</span> method, the parameters will be a string (an event type), and the command object to instantiate..</p>
-						<p>Here is an example to add a command using the framework instance directly.</p>
+						<p>In the following example, the view is added to the framework from the framework instance itself.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -1134,7 +1134,8 @@ var app = new SomaApplication();
 				<section class="step">
 					<h3>Step 3</h3>
 					<div class="content">
-						Remove a command from the framework.
+						<p>The commands registered to the framework can easily be removed (un-registered) in the same three places (wires, commands, and framework instance).</p>
+						<p>In either place, a command can be removed using the <span class="codequote">removeCommand</span> method.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -1174,7 +1175,23 @@ var app = new SomaApplication();
 				<section class="step">
 					<h3>Step 4</h3>
 					<div class="content">
-						Dispatch an event and execute a command.
+						<p>To trigger the execution of a command, an event must be dispatched.</p>
+						<p>The framework provides an event wrapper (<span class="codequote">soma.Event</span>) to solve cross-browsing issues. The way a native event is created differs from Internet Explorer and other browser.</p>
+						<p>Creating an instance of the <span class="codequote">soma.Event</span> object does not create a framework object but instead returns the browser specific event. The <span class="codequote">soma.Event</span> wrapper can be used without the framework.</p>
+						<p>In the following example, the command has been registered using the string "eventType", which will be used as the event type to trigger the command. For the sake of the example, the event type is not referenced in a constant variable but it is a good practice to do so as you will see in other examples.</p>
+						<p>An event (of the type the command that has been registered with) is dispatched to trigger the execution of the command.</p>
+						<p>Once an event has been dispatched, the framework will do the following:
+							<ul>
+								<li>1. "catch" the event</li>
+								<li>2. dispatch a clone to give you a chance to control the flow</li>
+								<li>3. create the command instance</li>
+								<li>4. call its execute method</li>
+							</ul>
+						</p>
+						<p>Some details to know about the <span class="codequote">soma.Event</span> wrapper:</p>
+						<p class="note">Other cross-browsing issues are solved using the <span class="codequote">soma.Event</span> wrapper, such as the property <span class="codequote">defaultPrevented</span>. It is recommended to use <span class="codequote">event.isDefaultPrevented()</span> rather than the browser specific one to ensure the same response in all browsers.</p>
+						<p class="note">A event property <span class="codequote">event.params</span> has been added to hold custom variables.</p>
+						<p class="note">Any event dispatched with a <span class="codequote">bubbles</span> property set to false will be ignored by the frameworl, the <span class="codequote">soma.Event</span> wrapper has the <span class="codequote">bubbles</span> property set to true by default.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -1216,7 +1233,10 @@ var app = new SomaApplication();
 				<section class="step">
 					<h3>Step 5</h3>
 					<div class="content">
-						Dispatch an event from a DOM element and execute a command.
+						<p>An event that will trigger a command can also be dispatched from any DOM Element that has been added the DOM.</p>
+						<p>In other words, an event can be dispatched from a button element, a div element or anything else.</p>
+						<p class="note">This capability will not work in Internet Explorer 7 and 8, as it is not possible to dispatch custom events without hacks. If the application must target these two browsers, it is necessary to use the <span class="codequote">soma.View</span> object to create your views. The <span class="codequote">soma.View</span> object provides shortcut to dispatch custom events and trigger commands that have the same signature than the native ECMA events provided in more recent browsers: <span class="codequote">addEventListener</span>, <span class="codequote">removeEventListener</span> and <span class="codequote">dispatchEvent</span>.</p>
+						<p class="note">These <span class="codequote">soma.View</span> shortcuts can be used in any browsers but are optional in others. To resume, you can use the same <span class="codequote">soma.View</span> methods to dispatch events in any browsers, ot dispatch events from a DOM Element for other browsers than Internet Explorer 7 and 8 (making the <span class="codequote">soma.View</span> optional in the other browsers).</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -1256,7 +1276,7 @@ document.body.firstChild.dispatchEvent(new soma.Event("eventType"));
 				<section class="step">
 					<h3>Step 6</h3>
 					<div class="content">
-						Create a custom event.
+						<p>The <span class="codequote">soma.Event</span> wrapper can be used directly to create an event, but it can also be extended.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -1278,7 +1298,12 @@ log("default prevented: " + event.isDefaultPrevented());
 				<section class="step">
 					<h3>Step 7</h3>
 					<div class="content">
-						Create a custom event and send parameters.
+						<p>Extend the <span class="codequote">soma.Event</span> wrapper is optional but is a good practice for two reasons:
+						<ul>
+							<li>1. The event object can show explicitly what parameters can be used</li>
+							<li>2. Static variable can be added to hold the event types (<span class="codequote">EventExample.MY_EVENT</span> in this example)</li>
+						</ul>
+						</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -1289,13 +1314,14 @@ var EventExample = soma.Event.extend({
 	// custom properties added to the constructor
 	constructor: function(type, customVar, anotherVar, bubbles, cancelable) {
 		// must call the super object and return it
-		// the customs properties are stored in a single object
+		// the customs properties are stored in a single object (event.params)
 		return soma.Event.call(this, type, {customVar:customVar, anotherVar:anotherVar}, bubbles, cancelable);
 	}
 });
+EventExample.MY_EVENT = "myEvent";
 
 // create an event and send parameters
-var event = new EventExample("eventType", "my custom var", "and another var");
+var event = new EventExample(EventExample.MY_EVENT, "my custom var", "and another var");
 
 // event.params is an object containing the parameters send with the event
 log("params: " + event.params);
@@ -1308,7 +1334,7 @@ log("anotherVar: " + event.params.anotherVar);
 				<section class="step">
 					<h3>Step 8</h3>
 					<div class="content">
-						Dispatch a custom event, execute a command and retrieve parameters.
+						<p>In the following example, a custom event is dispatched, it executes a command and retrieve parameters.</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">

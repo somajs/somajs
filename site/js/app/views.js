@@ -18,8 +18,9 @@ NavigationView = soma.View.extend({
 	},
 	createLinks: function(list, handler) {
 		for (var i=0; i<list.length; i++) {
-			utils.addEventListener(list[i], Detect.CLICK, handler);
-			this.removeHref(qwery("a", list[i])[0]);
+			var a = qwery("a", list[i])[0];
+			utils.addEventListener(a, Detect.CLICK, handler);
+			this.removeHref(a);
 		}
 	},
 	removeHref: function(a) {
@@ -29,16 +30,18 @@ NavigationView = soma.View.extend({
 	clickMainHandler: function(event) {
 		event.stopPropagation();
 		event.preventDefault();
-		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, this.id.split("-")[1]));
+		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, this.parentNode.id.split("-")[1]));
 		return false;
 	},
 	clickTutoHandler: function(event) {
 		event.stopPropagation();
 		event.preventDefault();
-		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT_TUTORIAL, this.id.split("-")[1]));
+		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT_TUTORIAL, this.parentNode.id.split("-")[1]));
 		return false;
 	},
 	getListElement: function(target) {
+		console.log(target);
+		console.log(qwery('li[id*="' + target + '"]', this.domElement)[0]);
 		return qwery('li[id*="' + target + '"]', this.domElement)[0];
 	},
 	removeClassSelected: function(value, index) {
@@ -52,6 +55,7 @@ NavigationView = soma.View.extend({
 		utils.each(this.tutoList, this.removeClassSelected);
 	},
 	highlight: function(target) {
+		console.log(this.domElement.id);
 		this.clear();
 		utils.addClass(this.getListElement(target), "selected");
 	},
@@ -60,6 +64,7 @@ NavigationView = soma.View.extend({
 		utils.addClass(this.getListElement(target), "selected");
 	},
 	select: function(navigationId) {
+		console.log(navigationId);
 		this.currentSection = navigationId;
 		this.highlight(this.currentSection);
 	},

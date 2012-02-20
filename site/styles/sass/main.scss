@@ -45,6 +45,10 @@ header, section, nav {
     position: relative;
 }
 
+p {
+	line-height: 125%;
+}
+
 header h1 {
 	font-weight: 900;
 	font-size: 250%;
@@ -77,8 +81,12 @@ section.hidden {
 nav ul {
 	padding-left: 20px;
 }
+nav > ul {
+	padding-left: 0px;
+}
 nav li {
-	margin-top: 5px;
+    display: block;
+	line-height: 160%;
 	font-weight: normal;
 }
 nav li.selected {
@@ -86,11 +94,23 @@ nav li.selected {
 }
 nav a {
 	text-decoration: none;
-	color: $global-link-color;
+	color: $nav-link-color;
 }
 nav a:hover {
 	//text-decoration: underline;
 }
+
+section li a, section p a {
+	color: $main-link-color;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+/*#button a {*/
+	/*color: $button-link-color;*/
+	/*font-weight: bold;*/
+	/*text-decoration: none;*/
+/*}*/
 
 .pointer {
 	cursor: pointer;
@@ -180,6 +200,11 @@ div.code {
 .CodeMirror-scroll {
 	max-height: 400px;
 	overflow: auto;
+}
+
+.space-around {
+	margin-top: 30px;
+	margin-bottom: 30px;
 }
 
 @import "media-query";

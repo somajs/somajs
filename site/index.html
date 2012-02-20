@@ -9,7 +9,7 @@
 	<title>somacore.js</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="viewport" content="initial-scale=1.0, minimum-scale=1, maximum-scale=1, width=device-width" />
 
 	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'/>
 	<link rel="stylesheet" href="gh-buttons/gh-buttons.css"/>
@@ -30,7 +30,7 @@
 	</header>
 
 	<nav id="nav">
-		<h1>Navigation</h1>
+		<h1 class="hidden">Navigation</h1>
 		<ul id="main">
 			<li id="main-about"><a href="#about">About</a></li>
 			<li id="main-tutorial"i><a href="#tutorial">Tutorial</a>
@@ -55,18 +55,17 @@
 
 		<section id="about">
 			<a name="about"></a>
-			<h1>What is somacore.js</h1>
-			<!--<div>-->
+			<h1>What is somacore.js?</h1>
 			<div>
-				<p>
-					somacore.js is a model-view-controller (mvc) javascript framework that is meant to help developers write loosely coupled applications to increase scalability and maintainability.
-				</p>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				</p>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				</p>
+				<p>somacore.js is a javascript <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller" target="_blank">model-view-controller</a> (MVC) framework that is meant to help developers to write <a href="http://en.wikipedia.org/wiki/Loose_coupling" target="_blank">loosely-coupled</a> applications to increase scalability and maintainability.</p>
+				<p>The main idea behind the MVC pattern is to separate the data (model), the user interface (view) and the logic of the application (controller). They must independent and should not about each other in order to increase the scalability of the application.</p>
+				<p>somacore.js is providing tools to make the three parts "talks" to each other, keeping the view and the model free of framework code, using only native events that can be dispatched from either the framework of the DOM itself.</p>
+				<p>The framework makes an heavy use of the <a href="http://addyosmani.com/resources/essentialjsdesignpatterns/book/#observerpatternjavascript" target="_blank">Observer pattern</a> using native javascript events. Here is a quote from <a href="http://addyosmani.com/" target="_blank">Addy Osmani</a> about the Observer pattern:</p>
+				<p class="note">The motivation behind using the observer pattern is where you need to maintain consistency between related objects without making classes tightly coupled. For example, when an object needs to be able to notify other objects without making assumptions regarding those objects.</p>
+				<p>The framework also provides tools to use the <a href="http://addyosmani.com/resources/essentialjsdesignpatterns/book/#commandpatternjavascript" target="_blank">Command pattern</a> that will get triggered using native javascript events. Here is a quote about the Command pattern:</p>
+				<p class="note">The command pattern aims to encapsulate method invocation, requests or operations into a single object and gives you the ability to both parameterize and pass method calls around that can be executed at your discretion. In addition, it enables you to decouple objects invoking the action from the objects which implement them, giving you a greater degree of overall flexibility in swapping out concrete 'classes'.</p>
+				<p>The framework also provides an easy way to use prototypal inheritance. Two different versions can be used, a "javascript native" version and a <a href="http://mootools.net/" target="_blank">Mootools</a> version.</p>
+				<p>somacore.js is a "base" framework and does not provide tools for common javascript tasks. External libraries can be used with the framework if you wish to, such as jquery or others.</p>
 			</div>
 		</section>
 
@@ -108,8 +107,8 @@
 					<div class="content">
 						<p>The first step to start building an application using somacore is to create an object that will extend the framework.</p>
 						<p>The framework object that can be extended is the <span class="codequote">soma.Application</span> object.</p>
-						<p>In this example, an object named <span class="codequote">SomaApplication</span> is created and the shortest way to do that is the following:</p>
 						<p>See the <a href="js/app.js" target="_blank">framework instance</a> of this site.</p>
+						<p>In this example, an object named <span class="codequote">SomaApplication</span> is created and the shortest way to do that is the following:</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">
@@ -248,7 +247,7 @@ var app = new SomaApplication();
 				<section class="step">
 					<h3>Step 6</h3>
 					<div class="content">
-						<p>The framework instance can be retrieve from other framework elements, such as <span class="codequote">wires</span> and <span class="codequote">commands</span>.</p>
+						<p>The framework instance can be retrieved from other framework elements, such as <span class="codequote">wires</span> and <span class="codequote">commands</span>.</p>
 						<p>In the following example, the framework instance creates another framework element (a <span class="codequote">wire</span>) and access to the framework instance using the <span class="codequote">instance</span> member.</p>
 					</div>
 					<div class="code">
@@ -291,8 +290,8 @@ var app = new SomaApplication();
 						<p>The wires are the objects that hold the logic of the application. They are the glue between other framework elements such as models, views and other wires. Most of the time, a wire will have a specific role and responsibility in your application. A wire is a central point that can creates other wires, commands, models and views.</p>
 						<p>You can create as many wires as you need, they are the "free" elements in the framework.</p>
 						<p>A wire is also the framework element that has an easy access to everything else, such as other wires, models, views, commands, framework instance, and so on. Wires can be flexible or rigid depending of the needs of your application.</p>
-						<p>The name of a wire is necessary to register it to the framework</p>
-						<p>A wire is a good place to control the flow of the application. Monitoring what is happening in the application can be done listening to events and commands that can be intercepted to stop their action if necessary. A wire can be used as a mediator and manage a single view (one to one relation), or can be responsible for anything.</p>
+						<p>The name of a wire is necessary to register it to the framework.</p>
+						<p>A wire is a good place to control the flow of the application. Monitoring what is happening can be done listening to events and commands. They can be intercepted to interrupt their action if necessary. A wire can be used as a mediator and manage a single view (one to one relation), or can be responsible for anything.</p>
 						<p>The wire object can be created extending the framework wire object <span class="codequote">soma.Wire</span>.</p>
 						<p>Two methods can be overridden, the <span class="codequote">init</span> method that will be called once a wire has been added to the framework and the <span class="codequote">dispose</span> method that will be called once a wire has been removed from the framework.</p>
 						<p>The <span class="codequote">init</span> method can be used as a starting point to create other framework elements, listen to events and commands while the dispose method is used to destroy what has been created or what it is responsible for.</p>
@@ -1391,7 +1390,7 @@ var WireExample = soma.Wire.extend({
 		// triggered when the wire is added to the framework
 		log("init wire");
 		// add a listener to monitor a command (or an event)
-		this.addEventListener(EventExample.DO_SOMETHING, this.eventHandler.bind(this));
+		this.addEventListener(EventExample.DO_SOMETHING, this.eventHandler.bind(this), false);
 	},
 	eventHandler: function(event) {
 		// triggered if a command is about to be executed
@@ -1461,7 +1460,7 @@ var WireExample = soma.Wire.extend({
 		// triggered when the wire is added to the framework
 		log("init wire");
 		// add a listener to monitor a command (or an event)
-		this.addEventListener(EventExample.DO_SOMETHING, this.eventHandler.bind(this));
+		this.addEventListener(EventExample.DO_SOMETHING, this.eventHandler.bind(this), false);
 	},
 	eventHandler: function(event) {
 		log("monitor command: " + event.type);
@@ -1535,11 +1534,11 @@ HelloWorldModel.NAME = "HelloWorldModel";
 						<p>We are now going to create the view that will update a DOM Element with a new content.</p>
 						<ul>
 							<li>1. create an object that extends <span class="codequote">soma.View</span> and name it: "HelloWorldView"</li>
-							<li>2. create an <span class="codequote">init</span> method on this object</li>
+							<li>2. create an <span class="codequote">updateMessage</span> method on this object that receive a parameter named "value"</li>
 							<li>3. create a property (static) "NAME" on the model object to hold its name</li>
 							<li>4. add the following lines in the init method of the view:
 								<ul>
-									<li><span class="codequote">this.domElement.classList.remove("hidden");</span></li>
+									<li><span class="codequote">utils.removeClass(this.domElement, "hidden");</span></li>
 									<li><span class="codequote">this.domElement.innerHTML = value + " on " + new Date();</span></li>
 								</ul>
 							</li>
@@ -1558,7 +1557,7 @@ HelloWorldModel.NAME = "HelloWorldModel";
 
 var HelloWorldView = soma.View.extend({
     updateMessage: function(value) {
-        this.domElement.classList.remove("hidden");
+		utils.removeClass(this.domElement, "hidden");
         this.domElement.innerHTML = value + " on " + new Date();
     }
 });
@@ -1589,7 +1588,7 @@ HelloWorldModel.NAME = "HelloWorldModel";
 
 var HelloWorldView = soma.View.extend({
     updateMessage: function(value) {
-        this.domElement.classList.remove("hidden");
+        utils.removeClass(this.domElement, "hidden");
         this.domElement.innerHTML = value + " on " + new Date();
     }
 });
@@ -1624,7 +1623,7 @@ HelloWorldModel.NAME = "HelloWorldModel";
 
 var HelloWorldView = soma.View.extend({
     updateMessage: function(value) {
-        this.domElement.classList.remove("hidden");
+        utils.removeClass(this.domElement, "hidden");
         this.domElement.innerHTML = value + " on " + new Date();
     }
 });
@@ -1666,7 +1665,7 @@ HelloWorldModel.NAME = "HelloWorldModel";
 
 var HelloWorldView = soma.View.extend({
     updateMessage: function(value) {
-        this.domElement.classList.remove("hidden");
+        utils.removeClass(this.domElement, "hidden");
         this.domElement.innerHTML = value + " on " + new Date();
     }
 });
@@ -1708,7 +1707,7 @@ HelloWorldModel.NAME = "HelloWorldModel";
 
 var HelloWorldView = soma.View.extend({
     updateMessage: function(value) {
-        this.domElement.classList.remove("hidden");
+        utils.removeClass(this.domElement, "hidden");
         this.domElement.innerHTML = value + " on " + new Date();
     }
 });
@@ -1765,7 +1764,7 @@ HelloWorldModel.NAME = "HelloWorldModel";
 
 var HelloWorldView = soma.View.extend({
     updateMessage: function(value) {
-        this.domElement.classList.remove("hidden");
+        utils.removeClass(this.domElement, "hidden");
         this.domElement.innerHTML = value + " on " + new Date();
     }
 });
@@ -1808,7 +1807,7 @@ var app = new HelloWorldApplication();
 						<ul>
 							<li>1. in the <span class="codequote">registerView</span> method, get the DOM Element that will receive the hello world message:
 								<ul>
-									<li class="codequote">var element = document.querySelector("#log");</li>
+									<li class="codequote">var element = qwery("#log")[0];</li>
 								</ul>
 							</li>
 							<li>2. in the <span class="codequote">registerView</span> method, register a new <span class="codequote">HelloWorldView</span> to the framework and send the DOM Element to the constructor</li>
@@ -1827,7 +1826,7 @@ HelloWorldModel.NAME = "HelloWorldModel";
 
 var HelloWorldView = soma.View.extend({
     updateMessage: function(value) {
-        this.domElement.classList.remove("hidden");
+        utils.removeClass(this.domElement, "hidden");
         this.domElement.innerHTML = value + " on " + new Date();
     }
 });
@@ -1851,7 +1850,7 @@ var HelloWorldApplication = soma.Application.extend({
 		this.addCommand(HelloWorldEvent.SHOW_MESSAGE, HelloWorldCommand);
     },
     registerViews: function() {
-		var element = document.querySelector("#log");
+		var element = qwery("#log")[0];
 	    this.addView(HelloWorldView.NAME, new HelloWorldView(element));
     },
     start: function() {
@@ -1884,7 +1883,7 @@ HelloWorldModel.NAME = "HelloWorldModel";
 
 var HelloWorldView = soma.View.extend({
     updateMessage: function(value) {
-        this.domElement.classList.remove("hidden");
+        utils.removeClass(this.domElement, "hidden");
         this.domElement.innerHTML = value + " on " + new Date();
     }
 });
@@ -1908,7 +1907,7 @@ var HelloWorldApplication = soma.Application.extend({
 		this.addCommand(HelloWorldEvent.SHOW_MESSAGE, HelloWorldCommand);
     },
     registerViews: function() {
-		var element = document.querySelector("#log");
+		var element = qwery("#log")[0];
 	    this.addView(HelloWorldView.NAME, new HelloWorldView(element));
     },
     start: function() {
@@ -1927,8 +1926,8 @@ var app = new HelloWorldApplication();
 
 		<section id="browsers">
 			<a name="browsers"></a>
-			<h1>Browser information</h1>
-			<div>
+			<h1>Browsers information</h1>
+			<div class="space-around">
 				<img src="images/browser_chrome.png" alt="chrome"/>
 				<img src="images/browser_firefox.png" alt="firefox"/>
 				<img src="images/browser_ie.png" alt="internet explorer"/>

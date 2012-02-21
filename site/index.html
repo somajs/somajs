@@ -1392,7 +1392,25 @@ app.dispatchEvent(new EventExample(EventExample.DO_SOMETHING, "custom var conten
 				<section class="step">
 					<h3>Step 1</h3>
 					<div class="content">
-						Monitoring application flow.
+						<p>In the following example, we are going to monitor what is happening in an application in a very simple way.</p>
+						<p>An application is created, a command is registered to the framework using the event type <span class="codequote">EventExample.DO_SOMETHING</span> and an event is dispatched in the <span class="codequote">start</span> method to trigger this command.</p>
+						<p>Independently, a wire is also created and it will add an event listener. Every time this event will be dispatched, the listener handler method in this wire will receive a notification before the command is executed.</p>
+						<p>The event can also be caught by other frameworks elements (wires and models) if there are not registered with a command, the framework elements shares the same dispatcher. With that said, to monitor events dispatched from views, they must be registered as commands in order for the framework to catch them.</p>
+						<p>Adding listeners is a good way to link framework elements to each other without them to know about each other. For eample, an event can be dispatched (and listened to) in twenty other wires and models to react on this single event, do their task and probably dispatch other events upon completion.</p>
+						<p>Here are the steps in order of execution for the following example:
+						<ul>
+							<li>1. An application is instantiated</li>
+							<li>2. A command is registered in the <span class="codequote">registerCommands</span> method</li>
+							<li>3. A wire is registered in the <span class="codequote">registerWires</span> method</li>
+							<li>4. The framework registers the wire and call the <span class="codequote">init</span> method of the wire</li>
+							<li>5. The <span class="codequote">init</span> method of the wire add an event listener</li>
+							<li>6. An event is dispatched in the <span class="codequote">start</span> method</li>
+							<li>7. The framework catch the event and recognize it as a command</li>
+							<li>8. The framework creates a clone of the event and dispatch it</li>
+							<li>9. The wire event handler receive the event</li>
+							<li>10. The framework instantiates the command object and call its execute method</li>
+						</ul>
+						</p>
 					</div>
 					<div class="code">
 <textarea class="code" name="code">

@@ -136,7 +136,8 @@ body, html {
   background: #FFFFFF;
   font-family: Lato, Helvetica, sans-serif;
   font-size: 90%;
-  text-shadow: #d1d1d1 0 1px 0; }
+  text-shadow: #d1d1d1 0 1px 0;
+  color: #1f1f1f; }
 
 header, section, nav {
   margin-bottom: 30px; }
@@ -213,8 +214,9 @@ p {
   line-height: 125%; }
 
 header h1 {
+  font-family: Homenaje, Helvetica, sans-serif;
   font-weight: 900;
-  font-size: 250%; }
+  font-size: 340%; }
 
 section h1, nav h1 {
   font-weight: bold;
@@ -269,7 +271,7 @@ section li a, section p a {
 .note {
   font-style: italic;
   font-size: 100%;
-  color: #3E3E3E; }
+  color: #464646; }
 
 /*TUTORIAL*/
 .log {
@@ -299,8 +301,14 @@ section li a, section p a {
   -moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
   -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4); }
 
-.log.hidden {
+.log .hidden {
   display: "none"; }
+
+div .code {
+  margin-top: 20px; }
+
+.chapter li {
+  margin-top: 4px; }
 
 .codequote {
   font-family: monospace;
@@ -353,6 +361,17 @@ section li a, section p a {
 .space-around {
   margin-top: 30px;
   margin-bottom: 30px; }
+
+#demos ul > li, #download ul > li {
+  margin-left: 30px;
+  margin-top: 4px; }
+
+#demos ul, #download ul {
+  margin-bottom: 10px; }
+
+#demos > ul > li, #download > ul > li {
+  margin-left: 0px;
+  margin-top: 30px; }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
   display: block; }

@@ -7,6 +7,7 @@ body, html {
 	font-family: $global-font;
 	font-size: $global-font-size;
 	text-shadow: $text-shadow-color 0 1px 0;
+	color: $global-font-color;
 }
 
 header, section, nav {
@@ -77,8 +78,9 @@ p {
 }
 
 header h1 {
+    font-family: Homenaje, Helvetica, sans-serif;
 	font-weight: 900;
-	font-size: 250%;
+	font-size: 340%;
 }
 
 section h1, nav h1 {
@@ -146,7 +148,7 @@ section li a, section p a {
 .note {
 	font-style: italic;
 	font-size: 100%;
-	color: #3E3E3E;
+	color: $color-font-note;
 }
 
 /*TUTORIAL*/
@@ -173,12 +175,16 @@ section li a, section p a {
 	@include global-shadow;
 }
 
-.log.hidden {
+.log .hidden {
 	display: "none";
 }
 
-div.code {
+div .code {
+	margin-top: 20px;
+}
 
+.chapter li {
+	margin-top: 4px;
 }
 
 .codequote {
@@ -232,6 +238,20 @@ div.code {
 .space-around {
 	margin-top: 30px;
 	margin-bottom: 30px;
+}
+
+#demos ul > li, #download ul > li {
+	margin-left: 30px;
+	margin-top: 4px;
+}
+
+#demos ul, #download ul {
+	margin-bottom: 10px;
+}
+
+#demos > ul > li, #download > ul > li {
+    margin-left: 0px;
+	margin-top: 30px;
 }
 
 @import "media-query";

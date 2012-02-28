@@ -11,7 +11,7 @@
 	<meta name="author" content="">
 	<meta name="viewport" content="initial-scale=1.0, minimum-scale=1, maximum-scale=1, width=device-width" />
 
-	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'/>
+	<link href='http://fonts.googleapis.com/css?family=Lato|Homenaje' rel='stylesheet' type='text/css'/>
 	<link rel="stylesheet" href="gh-buttons/gh-buttons.css"/>
 	<link rel="stylesheet" href="codemirror/css/codemirror.css"/>
 	<link rel="stylesheet" href="codemirror/theme/eclipse.css"/>
@@ -50,7 +50,7 @@
 				</ul>
 			</li>
 			<li id="main-demos"><a href="#demos">Demos</a></li>
-			<li id="main-download"><a href="#download">Download</a></li>
+			<li id="main-download"><a href="#download">Downloads</a></li>
 			<li id="main-doc" class="external"><a href="../docs/native" target="_blank">Documentation</a></li>
 			<li id="main-browsers"><a href="#browsers">Browsers information</a></li>
 		</ul>
@@ -70,32 +70,115 @@
 				<p>The framework also provides tools to use the <a href="http://addyosmani.com/resources/essentialjsdesignpatterns/book/#commandpatternjavascript" target="_blank">Command pattern</a> that will get triggered using native javascript events. Here is a quote about the Command pattern:</p>
 				<p class="note">The command pattern aims to encapsulate method invocation, requests or operations into a single object and gives you the ability to both parameterize and pass method calls around that can be executed at your discretion. In addition, it enables you to decouple objects invoking the action from the objects which implement them, giving you a greater degree of overall flexibility in swapping out concrete 'classes'.</p>
 				<p>The framework also provides an easy way to use prototypal inheritance. Two different versions can be used, a "javascript native" version and a <a href="http://mootools.net/" target="_blank">Mootools</a> version.</p>
-				<p>somacore.js is a "base" framework and does not provide tools for common javascript tasks. External libraries can be used with the framework if you wish to, such as jquery or others.</p>
+				<p>somacore.js is a "base" framework and does not provide tools for common javascript tasks. External libraries can be used with the framework if you wish to, such as <a href="http://jquery.com/" target="_blank">jquery</a> or others.</p>
 			</div>
 		</section>
 
 		<section id="demos">
 			<a name="demos"></a>
 			<h1>Demos</h1>
+			<p>Each demo is available in two versions, a somacore native version (no library required) and a mootools version.</p>
 			<ul>
-				<li><a href="../examples/native/demos/SomaCoreJsHelloWorld/" target="_blank">Hello World</a></li>
-				<li><a href="../examples/native/demos/SomaCoreJsCafeTownSend/" target="_blank">Cafe Town Send</a></li>
-				<li><a href="../examples/native/demos/SomaCoreJsTwitterSearch/" target="_blank">Twitter Search</a></li>
-				<li><a href="../examples/native/demos/SomaCoreJsTwitterSearch/" target="_blank">Soma Color</a></li>
-				<li><a href="../examples/native/demos/SomaCoreJsAppNote/" target="_blank">App Note</a></li>
+				<li>
+					<h2>Hello World</h2>
+					<p>Print a message in the DOM, from a model, using a command.</p>
+					<ul>
+						<li>demo (<a href="../examples/native/demos/SomaCoreJsHelloWorld/" target="_blank">native version</a> - <a href="../examples/mootools/demos/SomaCoreJsHelloWorld/" target="_blank">mootools version</a>)</li>
+						<li>code (<a href="https://github.com/somacorejs/somacorejs/tree/master/demos/SomaCoreJsHelloWorld" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/tree/mootools/demos/SomaCoreJsHelloWorld" target="_blank">mootools version</a>)</li>
+					</ul>
+				</li>
+				<li>
+					<h2>Cafe Town Send</h2>
+					<p>Application with a login to display a list of employees, add and remove employees.</p>
+					<ul>
+						<li>demo (<a href="../examples/native/demos/SomaCoreJsCafeTownSend/" target="_blank">native version</a> - <a href="../examples/mootools/demos/SomaCoreJsCafeTownSend/" target="_blank">mootools version</a>)</li>
+						<li>code (<a href="https://github.com/somacorejs/somacorejs/tree/master/demos/SomaCoreJsCafeTownSend" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/tree/mootools/demos/SomaCoreJsCafeTownSend" target="_blank">mootools version</a>)</li>
+					</ul>
+				</li>
+				<li>
+					<h2>Twitter Search</h2>
+					<p>Use keywords to make a search with the Twitter API and display the result.</p>
+					<ul>
+						<li>demo (<a href="../examples/native/demos/SomaCoreJsTwitterSearch/" target="_blank">native version</a> - <a href="../examples/mootools/demos/SomaCoreJsTwitterSearch/" target="_blank">mootools version</a>)</li>
+						<li>code (<a href="https://github.com/somacorejs/somacorejs/tree/master/demos/SomaCoreJsTwitterSearch" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/tree/mootools/demos/SomaCoreJsTwitterSearch" target="_blank">mootools version</a>)</li>
+					</ul>
+				</li>
+				<li>
+					<h2>Soma Color</h2>
+					<p>Color application that is using other somacore.js capabilities, such as parallel commands and sequence commands.</p>
+					<ul>
+						<li>demo (<a href="../examples/native/demos/SomaCoreJsSomaColor/" target="_blank">native version</a> - <a href="../examples/mootools/demos/SomaCoreJsSomaColor/" target="_blank">mootools version</a>)</li>
+						<li>code (<a href="https://github.com/somacorejs/somacorejs/tree/master/demos/SomaCoreJsSomaColor" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/tree/mootools/demos/SomaCoreJsSomaColor" target="_blank">mootools version</a>)</li>
+					</ul>
+				</li>
+				<li>
+					<h2>App Note</h2>
+					<p>Mobile application to add and remove notes, using local storage.</p>
+					<ul>
+						<li>demo (<a href="../examples/native/demos/SomaCoreJsAppNote/" target="_blank">native version</a> - <a href="../examples/mootools/demos/SomaCoreJsAppNote/" target="_blank">mootools version</a>)</li>
+						<li>code (<a href="https://github.com/somacorejs/somacorejs/tree/master/demos/SomaCoreJsAppNote" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/tree/mootools/demos/SomaCoreJsAppNote" target="_blank">mootools version</a>)</li>
+					</ul>
+				</li>
 			</ul>
 		</section>
 
 		<section id="download">
 			<a name="download"></a>
-			<h1>Download</h1>
-			<div>
-				<p>Coming soon...</p>
-				<ul>
-					<li><a href="https://github.com/somacorejs/somacorejs/" target="_blank">Git repository</a></li>
-					<li><a href="https://github.com/somacorejs/somacorejs/zipball/master">Download a zip file</a></li>
-				</ul>
-			</div>
+			<h1>Downloads</h1>
+
+			<ul>
+				<li>
+					<h2>Get somacore.js</h2>
+					<p>somacore.js is available in two versions: a javascript native version with no dependency, and a Mootools version that will require the <a href="http://mootools.net/" target="_blank">Mootools framework</a>. Both versions are open source and available on Github.</p>
+					<ul>
+						<li>Git framework repository (<a href="https://github.com/somacorejs/somacorejs/" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/tree/mootools" target="_blank">mootools version</a>)</li>
+						<li>Download a zip file (<a href="https://github.com/somacorejs/somacorejs/zipball/master" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/zipball/mootools" target="_blank">mootools version</a>)</li>
+					</ul>
+				</li>
+				<li>
+					<h2>See the demos</h2>
+					<ul>
+						<li>Git demos repository (<a href="https://github.com/somacorejs/somacorejs/tree/master/demos" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/tree/mootools/demos" target="_blank">mootools version</a>)</li>
+					</ul>
+				</li>
+				<li>
+					<h2>See the unit tests</h2>
+					
+				</li>
+				<li>
+					<h2>Get the CLI (command line interface)</h2>
+					<p>somacore.js projects can be generated from templates to get started.<br/>You must have <a href="http://www.java.com/" target="_blank">Java</a> installed on your operating system in order to use the CLI.</p>
+					<ul>
+						<li>Download (<a href="../cli/native/somacorejs.jar" target="_blank">native version</a> - <a href="../cli/mootools/somacorejs.jar" target="_blank">mootools version</a>)</li>
+					</ul>
+					<h3>Usage</h3>
+					<p>Navigate to the folder where you downloaded the file somacorejs.jar.</p>
+					<p>Print the help</p>
+					<p class="codequote">java -jar somacorejs.jar -help</p>
+					<p>Create an application (in the current folder of the CLI)</p>
+					<p class="codequote">java -jar somacorejs.jar</p>
+					<p>Specify an application name</p>
+					<p class="codequote">java jar somacorejs.jar -n my_application</p>
+					<p>Specify an javascript namespace</p>
+					<p class="codequote">java jar somacorejs.jar -ns my_app</p>
+					<p>Specify the output folder</p>
+					<p class="codequote">java jar somacorejs.jar -o /Users/my_user/Desktop</p>
+					<p>Specify a template (standard, standard-namespace, compact, compact-namespace)</p>
+					<p class="codequote">java jar somacorejs.jar -t compact-namespace</p>
+					<p>Specify a template url for custom templates (url or directory)</p>
+					<p class="codequote">java jar somacorejs.jar -l http://domain.com/templates</p>
+					<p class="codequote">java jar somacorejs.jar -l /Users/my_user/templates</p>
+				</li>
+			</ul>
+
+
+
+
+
+
+
+
+
 		</section>
 
 		<section id="tutorial">
@@ -1588,7 +1671,7 @@ HelloWorldModel.NAME = "HelloWorldModel";
 							<li>3. create a property (static) "NAME" on the model object to hold its name</li>
 							<li>4. add the following lines in the init method of the view:
 								<ul>
-									<li><span class="codequote">utils.removeClass(this.domElement, "hidden");</span></li>
+									<li><span class="codequote">$(this.domElement).removeClass("hidden");</span></li>
 									<li><span class="codequote">this.domElement.innerHTML = value + " on " + new Date();</span></li>
 								</ul>
 							</li>
@@ -1607,7 +1690,7 @@ HelloWorldModel.NAME = "HelloWorldModel";
 
 var HelloWorldView = soma.View.extend({
     updateMessage: function(value) {
-		utils.removeClass(this.domElement, "hidden");
+		$(this.domElement).removeClass("hidden");
         this.domElement.innerHTML = value + " on " + new Date();
     }
 });
@@ -1638,7 +1721,7 @@ HelloWorldModel.NAME = "HelloWorldModel";
 
 var HelloWorldView = soma.View.extend({
     updateMessage: function(value) {
-        utils.removeClass(this.domElement, "hidden");
+        $(this.domElement).removeClass("hidden");
         this.domElement.innerHTML = value + " on " + new Date();
     }
 });
@@ -1673,7 +1756,7 @@ HelloWorldModel.NAME = "HelloWorldModel";
 
 var HelloWorldView = soma.View.extend({
     updateMessage: function(value) {
-        utils.removeClass(this.domElement, "hidden");
+        $(this.domElement).removeClass("hidden");
         this.domElement.innerHTML = value + " on " + new Date();
     }
 });
@@ -1715,7 +1798,7 @@ HelloWorldModel.NAME = "HelloWorldModel";
 
 var HelloWorldView = soma.View.extend({
     updateMessage: function(value) {
-        utils.removeClass(this.domElement, "hidden");
+        $(this.domElement).removeClass("hidden");
         this.domElement.innerHTML = value + " on " + new Date();
     }
 });
@@ -1757,7 +1840,7 @@ HelloWorldModel.NAME = "HelloWorldModel";
 
 var HelloWorldView = soma.View.extend({
     updateMessage: function(value) {
-        utils.removeClass(this.domElement, "hidden");
+        $(this.domElement).removeClass("hidden");
         this.domElement.innerHTML = value + " on " + new Date();
     }
 });
@@ -1814,7 +1897,7 @@ HelloWorldModel.NAME = "HelloWorldModel";
 
 var HelloWorldView = soma.View.extend({
     updateMessage: function(value) {
-        utils.removeClass(this.domElement, "hidden");
+        $(this.domElement).removeClass("hidden");
         this.domElement.innerHTML = value + " on " + new Date();
     }
 });
@@ -1857,7 +1940,7 @@ var app = new HelloWorldApplication();
 						<ul>
 							<li>1. in the <span class="codequote">registerView</span> method, get the DOM Element that will receive the hello world message:
 								<ul>
-									<li class="codequote">var element = qwery("#log")[0];</li>
+									<li class="codequote">var element = $("#log")[0];</li>
 								</ul>
 							</li>
 							<li>2. in the <span class="codequote">registerView</span> method, register a new <span class="codequote">HelloWorldView</span> to the framework and send the DOM Element to the constructor</li>
@@ -1876,7 +1959,7 @@ HelloWorldModel.NAME = "HelloWorldModel";
 
 var HelloWorldView = soma.View.extend({
     updateMessage: function(value) {
-        utils.removeClass(this.domElement, "hidden");
+        $(this.domElement).removeClass("hidden");
         this.domElement.innerHTML = value + " on " + new Date();
     }
 });
@@ -1900,7 +1983,7 @@ var HelloWorldApplication = soma.Application.extend({
 		this.addCommand(HelloWorldEvent.SHOW_MESSAGE, HelloWorldCommand);
     },
     registerViews: function() {
-		var element = qwery("#log")[0];
+		var element = $("#log")[0];
 	    this.addView(HelloWorldView.NAME, new HelloWorldView(element));
     },
     start: function() {
@@ -1933,7 +2016,7 @@ HelloWorldModel.NAME = "HelloWorldModel";
 
 var HelloWorldView = soma.View.extend({
     updateMessage: function(value) {
-        utils.removeClass(this.domElement, "hidden");
+        $(this.domElement).removeClass("hidden");
         this.domElement.innerHTML = value + " on " + new Date();
     }
 });
@@ -1957,7 +2040,7 @@ var HelloWorldApplication = soma.Application.extend({
 		this.addCommand(HelloWorldEvent.SHOW_MESSAGE, HelloWorldCommand);
     },
     registerViews: function() {
-		var element = qwery("#log")[0];
+		var element = $("#log")[0];
 	    this.addView(HelloWorldView.NAME, new HelloWorldView(element));
     },
     start: function() {
@@ -2017,7 +2100,7 @@ var app = new HelloWorldApplication();
 <script type="text/javascript" src="js/libs/modernizr.js"></script>
 <script type="text/javascript" src="js/libs/jquery-1.7.min.js"></script>
 <script type="text/javascript" src="js/libs/utils.js"></script>
-<script type="text/javascript" src="js/libs/somacore.js"></script>
+<script type="text/javascript" src="../examples/native/framework/src/somacore.js"></script>
 
 <script type="text/javascript" src="js/app/constants.js"></script>
 <script type="text/javascript" src="js/app/commands.js"></script>

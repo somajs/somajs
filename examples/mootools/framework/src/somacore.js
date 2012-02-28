@@ -1903,7 +1903,7 @@ soma.Model = new Class(
 
 	/** Name of the model. */
 	name: null,
-	/** Variable that can be used to hold you data. */
+	/** Variable that can be used to hold data. */
 	data: null,
 	/** Instance of a EventDispatcher that can be used to dispatch commands. */
 	dispatcher:null,

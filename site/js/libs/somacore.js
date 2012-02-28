@@ -401,7 +401,7 @@
 			if (this.instance.body.addEventListener) {
 				this.instance.body.addEventListener(commandName, this.boundDomtree, true);
 			}
-			this.instance.addEventListener(commandName, this.boundInstance, Number.NEGATIVE_INFINITY);
+			this.instance.addEventListener(commandName, this.boundInstance, Number.MIN_VALUE);
 		},
 		removeInterceptor: function(commandName) {
 			if (this.instance.body.removeEventListener) {
@@ -718,7 +718,6 @@
 			events.sort(function(a, b) {
 				return b.priority - a.priority;
 			});
-
 			for (i = 0; i < events.length; i++) {
                 events[i].listener.apply((event.srcElement) ? event.srcElement : event.currentTarget, [event]);
 			}

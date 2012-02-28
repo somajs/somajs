@@ -10,7 +10,7 @@ ApplicationWire = soma.Wire.extend({
 		];
 	},
 	setup:function(message) {
-		qwery("#container")[0].style.display = "block";
+		$("#container")[0].style.display = "block";
 		this.monitorApplicationCreation();
 		this.select(null);
 	},
@@ -26,9 +26,9 @@ ApplicationWire = soma.Wire.extend({
 	},
 	select: function(navigationId) {
 		for (var i=0; i<this.sections.length; i++) {
-			var el = qwery("#"+this.sections[i])[0];
-			if (this.sections[i] == navigationId) utils.removeClass(el, "hidden");
-			else utils.addClass(el, "hidden");
+			var el = $("#"+this.sections[i])[0];
+			if (this.sections[i] == navigationId) $(el).removeClass("hidden");
+			else $(el).addClass("hidden");
 		}
 	},
 	dispose: function() {
@@ -41,7 +41,7 @@ NavigationWire = soma.Wire.extend({
 	navigationView: null,
 	currentNavigation: null,
 	setup:function(message) {
-		this.navigationView = this.addView(NavigationView.NAME, new NavigationView(qwery("#nav")[0]));
+		this.navigationView = this.addView(NavigationView.NAME, new NavigationView($("#nav")[0]));
 		this.navigationView.setup();
 	},
 	select: function(navigationId) {
@@ -63,8 +63,8 @@ TutorialWire = soma.Wire.extend({
 	defaultChapter: null,
 	currentChapter: null,
 	init: function() {
-		this.section = qwery("#tutorial")[0];
-		this.chapters = qwery("section.chapter", this.section);
+		this.section = $("#tutorial")[0];
+		this.chapters = $("section.chapter", this.section);
 		utils.each(this.chapters, this.createChapter, this);
 		this.addEventListener(ChapterEvent.ACTIVATE, this.activateHandler.bind(this));
 		this.addEventListener(NavigationEvent.SELECTED, this.navigationSelectedHandler.bind(this));
@@ -102,10 +102,10 @@ ChapterWire = soma.Wire.extend({
 	},
 	init: function() {
 		this.addView(this.chapter.id, new ChapterView(this.chapter));
-		if (utils.hasClass(this.chapter, "exercise")) {
+		if ($(this.chapter).hasClass("exercise")) {
 			this.addModel(this.chapter.id, new ExerciseModel());
 		}
-		this.steps = qwery("section.step", this.chapter);
+		this.steps = $("section.step", this.chapter);
 		utils.each(this.steps, this.createStep, this);
 	},
 	createStep: function(value, index) {
@@ -127,7 +127,6 @@ ChapterWire = soma.Wire.extend({
 	activateCurrentStep: function() {
 		var stepName = this.chapter.id + "-step-" + this.currentStep;
 		if (this.hasWire(stepName)) {
-			console.log('activate chapter', this.chapter.id);
 			this.getWire(stepName).activate();
 		}
 		this.deactivateAllSteps(stepName);
@@ -161,7 +160,7 @@ StepWire = soma.Wire.extend({
 		soma.Wire.call(this, name);
 	},
 	init: function() {
-		if (utils.hasClass(this.step.parentNode, "exercise")) {
+		if ($(this.step.parentNode).hasClass("exercise")) {
 			this.stepView = this.addView(this.name, new StepExerciseView(this.step));
 		}
 		else {
@@ -176,7 +175,6 @@ StepWire = soma.Wire.extend({
 		}
 	},
 	activate: function() {
-		console.log('activate step', this.name);
 		if (this.hasModel(this.chapterId)) {
 			this.stepView.setCode(this.getModel(this.chapterId).getRecord());
 		}

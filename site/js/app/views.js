@@ -9,43 +9,42 @@ NavigationView = soma.View.extend({
 		this.select(NavigationConstants.ABOUT);
 	},
 	setup: function() {
-		this.main = qwery("#main", this.domElement)[0];
-		this.mainList = qwery('li:not([class="external"])', this.main);
+		this.main = $("#main", this.domElement)[0];
+		this.mainList = $('#main').children(':not([class="external"])');
 		this.createLinks(this.mainList, this.clickMainHandler);
-		this.tuto = qwery("#tuto", this.domElement)[0];
-		this.tutoList = qwery("li", this.tuto);
+		this.tuto = $("#tuto", this.domElement)[0];
+		this.tutoList = $(this.tuto).children();
 		this.createLinks(this.tutoList, this.clickTutoHandler);
 	},
 	createLinks: function(list, handler) {
+		var self = this;
 		for (var i=0; i<list.length; i++) {
-			var a = qwery("a", list[i])[0];
-			utils.addEventListener(a, Detect.CLICK, handler);
+			var a = $("a", list[i])[0];
 			this.removeHref(a);
+			$(a).bind(Detect.CLICK, {self:this, id: $(a).parent()[0].id}, handler);
 		}
 	},
 	removeHref: function(a) {
-		a.removeAttribute("href");
-		utils.addClass(a, "pointer");
+		$(a).removeAttr("href");
+		$(a).addClass("pointer");
 	},
 	clickMainHandler: function(event) {
-		event.stopPropagation();
-		event.preventDefault();
-		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, this.parentNode.id.split("-")[1]));
+		//event.stopPropagation();
+		//event.preventDefault();
+		event.data.self.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, event.data.id.split("-")[1]));
 		return false;
 	},
 	clickTutoHandler: function(event) {
-		event.stopPropagation();
-		event.preventDefault();
-		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT_TUTORIAL, this.parentNode.id.split("-")[1]));
+		//event.stopPropagation();
+		//event.preventDefault();
+		event.data.self.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT_TUTORIAL, event.data.id.split("-")[1]));
 		return false;
 	},
 	getListElement: function(target) {
-		console.log(target);
-		console.log(qwery('li[id*="' + target + '"]', this.domElement)[0]);
-		return qwery('li[id*="' + target + '"]', this.domElement)[0];
+		return $('li[id*="' + target + '"]', this.domElement)[0];
 	},
 	removeClassSelected: function(value, index) {
-		utils.removeClass(value, "selected");
+		$(value).removeClass("selected");
 	},
 	clear: function() {
 		this.clearTutorial();
@@ -55,16 +54,14 @@ NavigationView = soma.View.extend({
 		utils.each(this.tutoList, this.removeClassSelected);
 	},
 	highlight: function(target) {
-		console.log(this.domElement.id);
 		this.clear();
-		utils.addClass(this.getListElement(target), "selected");
+		$(this.getListElement(target)).addClass("selected");
 	},
 	highlightTutorial: function(target) {
 		this.clearTutorial();
-		utils.addClass(this.getListElement(target), "selected");
+		$(this.getListElement(target)).addClass("selected");
 	},
 	select: function(navigationId) {
-		console.log(navigationId);
 		this.currentSection = navigationId;
 		this.highlight(this.currentSection);
 	},
@@ -83,7 +80,6 @@ ChapterView = soma.View.extend({
 	},
 	activate: function() {
 		this.active = true;
-		console.log('activate chapter view', this.name);
 		this.show();
 	},
 	deactivate: function() {
@@ -91,10 +87,10 @@ ChapterView = soma.View.extend({
 		this.hide();
 	},
 	show: function() {
-		utils.removeClass(this.domElement, "hidden");
+		$(this.domElement).removeClass("hidden");
 	},
 	hide: function() {
-		utils.addClass(this.domElement, "hidden");
+		$(this.domElement).addClass("hidden");
 	}
 });
 
@@ -112,7 +108,7 @@ StepView = soma.View.extend({
 	stepNav: null,
 	resetLabel: "reset code",
 	init: function() {
-		this.code = qwery("textarea.code", this.domElement)[0];
+		this.code = $("textarea.code", this.domElement)[0];
 		if (this.code) {
 			this.setSolution();
 			this.createEditor();
@@ -149,8 +145,8 @@ StepView = soma.View.extend({
 		this.stepNav = utils.append(this.domElement, '<div class="step-nav"></div>');
 	},
 	checkLog: function() {
-		if (this.logElement.innerHTML=="") utils.addClass(this.logElement, "hidden");
-		else utils.removeClass(this.logElement, "hidden");
+		if (this.logElement.innerHTML=="") $(this.logElement).addClass("hidden");
+		else $(this.logElement).removeClass("hidden");
 	},
 	traceCode: function(value) {
 		if (this.active) {
@@ -167,7 +163,6 @@ StepView = soma.View.extend({
 	runHandler: function(event) {
 		event.stopPropagation();
 		event.preventDefault();
-		console.log('RUN');
 		this.clearLog();
 		try {
 			window.log = this.traceCode.bind(this);
@@ -183,14 +178,12 @@ StepView = soma.View.extend({
 	clearHandler: function(event) {
 		event.stopPropagation();
 		event.preventDefault();
-		console.log('CLEAR');
 		this.clearLog();
 		return false;
 	},
 	resetHandler: function(event) {
 		event.stopPropagation();
 		event.preventDefault();
-		console.log('RESET');
 		this.editor.setValue(this.solution);
 		return false;
 	},
@@ -199,7 +192,6 @@ StepView = soma.View.extend({
 	},
 	activate: function() {
 		this.active = true;
-		console.log('activate step view', this.name);
 		this.show();
 	},
 	deactivate: function() {
@@ -208,11 +200,11 @@ StepView = soma.View.extend({
 		this.hide();
 	},
 	show: function() {
-		utils.removeClass(this.domElement, "hidden");
+		$(this.domElement).removeClass("hidden");
 		this.refresh();
 	},
 	hide: function() {
-		utils.addClass(this.domElement, "hidden");
+		$(this.domElement).addClass("hidden");
 	},
 	createPreviousButton: function() {
 		this.previousButton = utils.append(this.stepNav, '<a class="button icon arrowleft previous">previous step</a>');
@@ -258,7 +250,6 @@ var StepExerciseView = StepView.extend({
 	},
 	activate: function() {
 		this.logElement.id = "log";
-		console.log('id:', this.logElement.id, this.logElement);
 		StepView.prototype.activate.call(this, event);
 	},
 	deactivate: function() {

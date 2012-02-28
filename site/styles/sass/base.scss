@@ -1,6 +1,7 @@
 $global-bg-color: #DBDBDB;
 $global-font: Lato, Helvetica, sans-serif;
 $global-font-size: 90%;
+$global-radius: 5px;
 
 $nav-link-color: #000;
 $main-link-color: #0095B9;
@@ -24,13 +25,18 @@ $text-shadow-color: #D1D1D1;
 	transition:$tag $time ease-out;
 }
 @mixin opacity($value) {
-	filter: alpha(opacity=$value*100);   /* internet explorer */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{round($value*100)}";
+	filter: alpha(opacity=$value*100); 	 /* IE */
     -khtml-opacity: $value;              /* khtml, old safari */
     -moz-opacity: $value;                /* mozilla, netscape */
     opacity: $value;                     /* fx, safari, opera */
 }
-@mixin global-radius {
-
+@mixin border-radius($rad) {
+  -webkit-border-radius: $rad;
+     -moz-border-radius: $rad;
+      -ms-border-radius: $rad;
+       -o-border-radius: $rad;
+          border-radius: $rad;
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }

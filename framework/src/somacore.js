@@ -907,7 +907,7 @@ removeCommand("eventType");
 				}
 
 				// handle events dispatched from the Soma facade
-				this.instance.addEventListener(commandName, boundInstance, Number.NEGATIVE_INFINITY);
+				this.instance.addEventListener(commandName, boundInstance, -Number.MAX_VALUE);
 
 			},
 

@@ -914,7 +914,7 @@
 <span class='line'>907</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>908</span> 
 <span class='line'>909</span> </span><span class="WHIT">				</span><span class="COMM">// handle events dispatched from the Soma facade</span><span class="WHIT">
-<span class='line'>910</span> </span><span class="WHIT">				</span><span class="NAME">this.instance.addEventListener</span><span class="PUNC">(</span><span class="NAME">commandName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">boundInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Number.NEGATIVE_INFINITY</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>910</span> </span><span class="WHIT">				</span><span class="NAME">this.instance.addEventListener</span><span class="PUNC">(</span><span class="NAME">commandName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">boundInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NAME">Number.MAX_VALUE</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>911</span> 
 <span class='line'>912</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>913</span> 
@@ -1910,7 +1910,7 @@
 <span class='line'>1903</span> 
 <span class='line'>1904</span> </span><span class="WHIT">	</span><span class="COMM">/** Name of the model. */</span><span class="WHIT">
 <span class='line'>1905</span> </span><span class="WHIT">	</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>1906</span> </span><span class="WHIT">	</span><span class="COMM">/** Variable that can be used to hold you data. */</span><span class="WHIT">
+<span class='line'>1906</span> </span><span class="WHIT">	</span><span class="COMM">/** Variable that can be used to hold data. */</span><span class="WHIT">
 <span class='line'>1907</span> </span><span class="WHIT">	</span><span class="NAME">data</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>1908</span> </span><span class="WHIT">	</span><span class="COMM">/** Instance of a EventDispatcher that can be used to dispatch commands. */</span><span class="WHIT">
 <span class='line'>1909</span> </span><span class="WHIT">	</span><span class="NAME">dispatcher</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">

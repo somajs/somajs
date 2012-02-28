@@ -4,7 +4,7 @@
 	<property file="user.properties"/>
 	<property file="build.properties"/>
 
-	<target name="build" description="build somacore" depends="prepare-git, update-templates, update-doc, update-cli, update-demos, cleanup-git"/>
+	<target name="build" description="build somacore" depends="prepare-git, update-templates, update-doc, update-cli, update-demos, update-tests, cleanup-git"/>
 
 	<target name="prepare-git" description="pull and checkout git branches">
 		<echo message="   - pull master and mootools branches"/>
@@ -122,7 +122,7 @@
 			<arg value="mootools"/>
 			<arg value="${build.framework.checkout.path}"/>
 		</exec>
-		<move file="${build.framework.checkout.path}" tofile="${build.framework.mootools.dir}"/>
+		<move file="${build.framework.checkout.path}" tofile="${build.demos.framework.mootools.dir}"/>
 		<delete dir="${build.framework.checkout.dir}" />
 
 		<echo message="   - update native demos from master"/>
@@ -140,7 +140,50 @@
 			<arg value="master"/>
 			<arg value="${build.framework.checkout.path}"/>
 		</exec>
-		<move file="${build.framework.checkout.path}" tofile="${build.framework.native.dir}"/>
+		<move file="${build.framework.checkout.path}" tofile="${build.demos.framework.native.dir}"/>
+		<delete dir="${build.framework.checkout.dir}" />
+
+	</target>
+
+	<target name="update-tests" description="get the tests from the master and mootools branch">
+
+		<echo message="   - delete test folder"/>
+		<delete dir="${build.tests.dir}" />
+
+		<echo message="   - update mootools tests from mootools"/>
+		<exec executable="git" failonerror="true">
+			<arg value="checkout"/>
+			<arg value="mootools"/>
+			<arg value="${build.tests.checkout.path}"/>
+		</exec>
+		<move file="${build.tests.checkout.path}" tofile="${build.tests.mootools.dir}"/>
+		<delete dir="${build.tests.mootools.dir}" />
+
+		<echo message="   - update mootools framework from mootools"/>
+		<exec executable="git" failonerror="true">
+			<arg value="checkout"/>
+			<arg value="mootools"/>
+			<arg value="${build.framework.checkout.path}"/>
+		</exec>
+		<move file="${build.framework.checkout.path}" tofile="${build.tests.framework.mootools.dir}"/>
+		<delete dir="${build.framework.checkout.dir}" />
+
+		<echo message="   - update native demos from master"/>
+		<exec executable="git" failonerror="true">
+			<arg value="checkout"/>
+			<arg value="master"/>
+			<arg value="${build.tests.checkout.path}"/>
+		</exec>
+		<move file="${build.tests.checkout.path}" tofile="${build.tests.native.dir}"/>
+		<delete dir="${build.tests.checkout.dir}" />
+
+		<echo message="   - update native framework from master"/>
+		<exec executable="git" failonerror="true">
+			<arg value="checkout"/>
+			<arg value="master"/>
+			<arg value="${build.framework.checkout.path}"/>
+		</exec>
+		<move file="${build.framework.checkout.path}" tofile="${build.tests.framework.native.dir}"/>
 		<delete dir="${build.framework.checkout.dir}" />
 
 	</target>
@@ -174,11 +217,11 @@
 			<arg value="../framework"/>
 			<arg value="-r"/>
 		</exec>
-		<!--#	deleted:    templates/export/compact-namespace.zip-->
-		<!--#	deleted:    templates/export/compact.zip-->
-		<!--#	deleted:    templates/export/standard-namespace.zip-->
-		<!--#	deleted:    templates/export/standard.zip-->
-		<!--#	deleted:    tools/cli/java/release/somacorejs.jar-->
+		<exec executable="git" failonerror="true">
+			<arg value="rm"/>
+			<arg value="../tests"/>
+			<arg value="-r"/>
+		</exec>
 
 	</target>
 

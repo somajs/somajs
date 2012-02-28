@@ -157,7 +157,7 @@
 			<arg value="${build.tests.checkout.path}"/>
 		</exec>
 		<move file="${build.tests.checkout.path}" tofile="${build.tests.mootools.dir}"/>
-		<delete dir="${build.tests.mootools.dir}" />
+		<delete dir="${build.tests.checkout.dir}" />
 
 		<echo message="   - update mootools framework from mootools"/>
 		<exec executable="git" failonerror="true">
@@ -168,7 +168,7 @@
 		<move file="${build.framework.checkout.path}" tofile="${build.tests.framework.mootools.dir}"/>
 		<delete dir="${build.framework.checkout.dir}" />
 
-		<echo message="   - update native demos from master"/>
+		<echo message="   - update native tests from master"/>
 		<exec executable="git" failonerror="true">
 			<arg value="checkout"/>
 			<arg value="master"/>

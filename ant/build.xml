@@ -114,7 +114,7 @@
 			<arg value="${build.demos.checkout.path}"/>
 		</exec>
 		<move file="${build.demos.checkout.path}" tofile="${build.demos.mootools.dir}"/>
-		<delete dir="${build.demos.checkout.dir}" />
+		<delete dir="${build.demos.checkout.path}" />
 
 		<echo message="   - update mootools framework from mootools"/>
 		<exec executable="git" failonerror="true">
@@ -123,7 +123,7 @@
 			<arg value="${build.framework.checkout.path}"/>
 		</exec>
 		<move file="${build.framework.checkout.path}" tofile="${build.demos.framework.mootools.dir}"/>
-		<delete dir="${build.framework.checkout.dir}" />
+		<delete dir="${build.framework.checkout.path}" />
 
 		<echo message="   - update native demos from master"/>
 		<exec executable="git" failonerror="true">
@@ -132,7 +132,7 @@
 			<arg value="${build.demos.checkout.path}"/>
 		</exec>
 		<move file="${build.demos.checkout.path}" tofile="${build.demos.native.dir}"/>
-		<delete dir="${build.demos.checkout.dir}" />
+		<delete dir="${build.demos.checkout.path}" />
 
 		<echo message="   - update native framework from master"/>
 		<exec executable="git" failonerror="true">
@@ -141,7 +141,7 @@
 			<arg value="${build.framework.checkout.path}"/>
 		</exec>
 		<move file="${build.framework.checkout.path}" tofile="${build.demos.framework.native.dir}"/>
-		<delete dir="${build.framework.checkout.dir}" />
+		<delete dir="${build.framework.checkout.path}" />
 
 	</target>
 
@@ -157,7 +157,7 @@
 			<arg value="${build.tests.checkout.path}"/>
 		</exec>
 		<move file="${build.tests.checkout.path}" tofile="${build.tests.mootools.dir}"/>
-		<delete dir="${build.tests.checkout.dir}" />
+		<delete dir="${build.tests.checkout.path}" />
 
 		<echo message="   - update mootools framework from mootools"/>
 		<exec executable="git" failonerror="true">
@@ -166,7 +166,7 @@
 			<arg value="${build.framework.checkout.path}"/>
 		</exec>
 		<move file="${build.framework.checkout.path}" tofile="${build.tests.framework.mootools.dir}"/>
-		<delete dir="${build.framework.checkout.dir}" />
+		<delete dir="${build.framework.checkout.path}" />
 
 		<echo message="   - update native tests from master"/>
 		<exec executable="git" failonerror="true">
@@ -175,7 +175,7 @@
 			<arg value="${build.tests.checkout.path}"/>
 		</exec>
 		<move file="${build.tests.checkout.path}" tofile="${build.tests.native.dir}"/>
-		<delete dir="${build.tests.checkout.dir}" />
+		<delete dir="${build.tests.checkout.path}" />
 
 		<echo message="   - update native framework from master"/>
 		<exec executable="git" failonerror="true">
@@ -184,7 +184,7 @@
 			<arg value="${build.framework.checkout.path}"/>
 		</exec>
 		<move file="${build.framework.checkout.path}" tofile="${build.tests.framework.native.dir}"/>
-		<delete dir="${build.framework.checkout.dir}" />
+		<delete dir="${build.framework.checkout.path}" />
 
 	</target>
 

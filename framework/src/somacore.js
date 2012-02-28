@@ -401,7 +401,7 @@
 			if (this.instance.body.addEventListener) {
 				this.instance.body.addEventListener(commandName, this.boundDomtree, true);
 			}
-			this.instance.addEventListener(commandName, this.boundInstance, Number.NEGATIVE_INFINITY);
+			this.instance.addEventListener(commandName, this.boundInstance, -Number.MAX_VALUE);
 		},
 		removeInterceptor: function(commandName) {
 			if (this.instance.body.removeEventListener) {

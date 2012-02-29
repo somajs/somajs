@@ -1,26 +1,36 @@
-var ColorEvent = soma.Event.extend({
-	constructor: function( type, color )
-	{
-		return soma.Event.call(this, type, {color:color}, true, true);
-	}
-});
+var ColorEvent = new Class
+({
+	Extends: soma.Event,
 
-var MoveEvent = soma.Event.extend({
-	constructor: function( type, coords )
+	initialize: function( type, color )
 	{
-		return soma.Event.call(this, type, {coords:coords}, true, true );
+		return this.parent( type, {color:color}, true, true );
 	}
 });
+var MoveEvent = new Class
+({
+	Extends: soma.Event,
 
-var ChainEvent = soma.Event.extend({
-	constructor: function( type )
+	initialize: function( type, coords )
 	{
-		return soma.Event.call(this, type, null, true, true );
+		return this.parent( type, {coords:coords}, true, true );
 	}
 });
-var TweenEvent = soma.Event.extend({
-	constructor: function( type, tweenData )
+var ChainEvent = new Class
+({
+	Extends: soma.Event,
+
+	initialize: function( type )
 	{
-		return soma.Event.call(this, type, {tweenData:tweenData}, true, true );
+		return this.parent( type, null, true, true );
+	}
+});
+var TweenEvent = new Class
+({
+	Extends: soma.Event,
+
+	initialize: function( type, tweenData )
+	{
+		return this.parent( type, {tweenData:tweenData}, true, true );
 	}
 });

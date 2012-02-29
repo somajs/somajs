@@ -8,7 +8,16 @@
  *
  */
 
-var ColorCommand = soma.Command.extend({
+
+var ColorCommand = function() {};
+ColorCommand.prototype =
+{
+	Extends:soma.Command,
+
+	/**#
+	 *
+	 * @param {ColorEvent} e
+	 */
 	execute: function( e )
 	{
 		var commandEventName = e.type;
@@ -37,27 +46,37 @@ var ColorCommand = soma.Command.extend({
 		}
 	}
 	
-});
+};
 
-var ParallelTestCommand = soma.ParallelCommand.extend({
+var ParallelTestCommand = function() {};
+ParallelTestCommand.prototype =
+{
+	Extends: soma.ParallelCommand,
+
 	initializeSubCommands: function()
 	{
-
-		console.log('initialize sub command');
-
 		var colorModel = this.getModel( ColorModel.NAME );
 		this.addSubCommand( new ColorEvent( CommandEventList.COLOR_CHANGE, colorModel.getRandomColor() ) );
 		var newX = Math.round( Math.random() * 100 + 10 );
 		var newY = Math.round( Math.random() * 100 + 10 );
 		this.addSubCommand( new MoveEvent( CommandEventList.MOVEVIEW_MOVE, [ newX, newY ] ) );
 	}
-});
+};
 
 
-var AsyncCommand = soma.Command.extend({
+var AsyncCommand = function() {};
+AsyncCommand.prototype =
+{
+	Extends: soma.Command,
+
+	/** @type soma.core.controller.SequenceCommand **/
 	sequencer: null,
 	commandEvent: null,
 
+	/**
+	 *
+	 * @param {soma.Event} e
+	 */
 	execute: function( e )
 	{
 		this.sequencer = this.getSequencer( e );
@@ -90,13 +109,15 @@ var AsyncCommand = soma.Command.extend({
 			console.log("Async operation failed" );
 		}
 	}
-});
+};
 
-var SequenceTestCommand = soma.SequenceCommand.extend({
+var SequenceTestCommand = new Class
+({
+	Extends: soma.SequenceCommand,
 
-	constructor: function()
+	initialize: function()
 	{
-		soma.SequenceCommand.call(this, "sequencer.test" );
+		this.parent( "sequencer.test" );
 	},
 	
 	initializeSubCommands: function()
@@ -118,29 +139,31 @@ var SequenceTestCommand = soma.SequenceCommand.extend({
 
 });
 
-var TweenSequenceCommand = soma.SequenceCommand.extend({
+var TweenSequenceCommand = new Class
+({
+	Extends: soma.SequenceCommand,
 
-	constructor: function( id )
+	initialize: function( id )
 	{
-		soma.SequenceCommand.call(this, "sequencer.tweentest" );
+		this.parent( "sequencer.tweentest" );	
 	},
 
 	getSize: function() {
 		var s = {};
 		if (typeof window.innerWidth != 'undefined')
 		{
-		  s.x = window.innerWidth;
-		  s.y = window.innerHeight;
+		  s.x = window.innerWidth,
+		  s.y = window.innerHeight
 		}
 		else if (typeof document.documentElement != 'undefined' && typeof document.documentElement.clientWidth != 'undefined' && document.documentElement.clientWidth != 0)
 		{
-		   s.x = document.documentElement.clientWidth;
-		   s.y = document.documentElement.clientHeight;
+		   s.x = document.documentElement.clientWidth,
+		   s.y = document.documentElement.clientHeight
 		}
 		else
 		{
-		   s.x = document.getElementsByTagName('body')[0].clientWidth;
-		   s.y = document.getElementsByTagName('body')[0].clientHeight;
+		   s.x = document.getElementsByTagName('body')[0].clientWidth,
+		   s.y = document.getElementsByTagName('body')[0].clientHeight
 		}
 		return s;
 	},
@@ -184,7 +207,10 @@ var TweenSequenceCommand = soma.SequenceCommand.extend({
 	
 });
 
-var SequenceStopCommand = soma.Command.extend({
+var SequenceStopCommand = new Class
+({
+	Extends:soma.Command,
+
 	execute: function( e )
 	{
 		console.log( "SequenceStopCommand::execute(): ", e.type, e.params );
@@ -195,10 +221,17 @@ var SequenceStopCommand = soma.Command.extend({
 	}
 });
 
-var TweenCommand = soma.Command.extend({
+var TweenCommand = new Class
+({
+	Extends: soma.Command,
 
+	/** @type {soma.core.controller.SequenceCommand}  **/
 	sequencer:null,
 
+	/**
+	 *
+	 * @param {TweenEvent} e
+	 */
 	execute: function( e )
 	{
 		var data = e.params.tweenData;
@@ -229,7 +262,14 @@ var TweenCommand = soma.Command.extend({
 
 });
 
-var MoveViewCommand = soma.Command.extend({
+var MoveViewCommand = new Class
+({
+   	Extends: soma.Command,
+
+	/**
+	 *
+	 * @param {MoveEvent} e
+	 */
 	execute: function( e )
 	{
 		var coords = e.params.coords;

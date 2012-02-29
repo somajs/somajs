@@ -2,11 +2,15 @@
  * @author Henry Schmieder
  */
 
-var ColorReceiver = soma.View.extend({
+var ColorReceiver = new Class
+({
+	Extends:soma.View,
 
-    panel:null,
+	panel:null,
 	bg:null,
-	shouldAutobind: true,
+
+	autobind: true,
+	
 
 	init: function()
 	{
@@ -33,6 +37,8 @@ var ColorReceiver = soma.View.extend({
 
 	chainListener: function()
 	{
+		//soma.core.EventProxy.send( CommandEventList.CHAIN_CHAIN );
+		//this.fireEvent( CommandEventList.CHAIN_CHAIN );
 		this.dispatchEvent( new soma.Event( CommandEventList.CHAIN_CHAIN ) );
 	},
 	
@@ -53,14 +59,19 @@ var ColorReceiver = soma.View.extend({
 	
 	stopAllSequencesListener: function()
 	{
+		 //soma.core.EventProxy.send( CommandEventList.SEQUENCE_STOP_ALL )
+		 //this.fireEvent( CommandEventList.SEQUENCE_STOP_ALL );
 		this.dispatchEvent( new soma.Event( CommandEventList.SEQUENCE_STOP_ALL ) );
 	}
 });
 ColorReceiver.TWEEN_SEQUENCE_EVENT = "startTweenSequenceEvent";
 
 
-var ColorSelector = soma.View.extend({
-	shouldAutobind: true,
+var ColorSelector = new Class
+({
+	Extends: soma.View,
+
+	autobind: true,
 
 	sprite1:null,
 	sprite2:null,
@@ -75,6 +86,7 @@ var ColorSelector = soma.View.extend({
 	color2:null,
 	color3:null,
 
+
 	init: function()
 	{
 		this.sprite1 = document.getElementById("selCol1");
@@ -86,9 +98,9 @@ var ColorSelector = soma.View.extend({
 		this.btnCol3 = document.getElementById("btnCol3");
 		this.btnCol4 = document.getElementById("btnCol4");
 
-		this.sprite1.addEventListener( "click", this.clickedColListener, false );
-		this.sprite2.addEventListener( "click", this.clickedColListener, false );
-		this.sprite3.addEventListener( "click", this.clickedColListener, false );
+		this.sprite1.addEventListener( "click", this.clickedColListener.bind( this ), false );
+		this.sprite2.addEventListener( "click", this.clickedColListener.bind( this ), false );
+		this.sprite3.addEventListener( "click", this.clickedColListener.bind( this ), false );
 
 		this.btnCol1.addEventListener( "click", this.clickedRandomColorListener, false );
 		this.btnCol2.addEventListener( "click", this.clickedMoveViewListener, false );
@@ -97,6 +109,10 @@ var ColorSelector = soma.View.extend({
 
 	},
 
+	/**
+	 *
+	 * @param {ColorVO} data
+	 */
 	updateColors: function(data)
 	{
 		this.color1 = data.color1;
@@ -157,8 +173,12 @@ var ColorSelector = soma.View.extend({
 });
 ColorSelector.EVENT_CLICKED_RANDOM = "colorsel.random";
 
-var ColorSquare = soma.View.extend({
+var ColorSquare = new Class
+({
+	Extends: soma.View,
+	
 	morph:null,
+
 	setColor: function( col )
 	{
 		this.domElement.style.backgroundColor = col;

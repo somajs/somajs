@@ -21,7 +21,7 @@ NavigationView = soma.View.extend({
 		for (var i=0; i<list.length; i++) {
 			var a = $("a", list[i])[0];
 			this.removeHref(a);
-			$(a).bind(Detect.CLICK, {self:this, id: $(a).parent()[0].id}, handler);
+			$(a).bind(Detect.CLICK, {id: $(a).parent()[0].id.split("-")[1]}, handler.bind(this));
 		}
 	},
 	removeHref: function(a) {
@@ -29,15 +29,15 @@ NavigationView = soma.View.extend({
 		$(a).addClass("pointer");
 	},
 	clickMainHandler: function(event) {
-		//event.stopPropagation();
-		//event.preventDefault();
-		event.data.self.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, event.data.id.split("-")[1]));
+		if (event.stopPropagation) event.stopPropagation();
+		if (event.preventDefault) event.preventDefault();
+		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, event.data.id));
 		return false;
 	},
 	clickTutoHandler: function(event) {
-		//event.stopPropagation();
-		//event.preventDefault();
-		event.data.self.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT_TUTORIAL, event.data.id.split("-")[1]));
+		if (event.stopPropagation) event.stopPropagation();
+		if (event.preventDefault) event.preventDefault();
+		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT_TUTORIAL, event.data.id));
 		return false;
 	},
 	getListElement: function(target) {
@@ -133,9 +133,9 @@ StepView = soma.View.extend({
 		this.runButton = utils.append(this.domElement, '<a class="button icon clock run">run code</a>');
 		this.resetButton = utils.append(this.domElement, '<a class="button icon loop reset">' + this.resetLabel +'</a>');
 		this.clearButton = utils.append(this.domElement, '<a class="button icon remove clear">clear log</a>');
-		utils.addEventListener(this.runButton, Detect.CLICK, this.runHandler.bind(this));
-		utils.addEventListener(this.resetButton, Detect.CLICK, this.resetHandler.bind(this));
-		utils.addEventListener(this.clearButton, Detect.CLICK, this.clearHandler.bind(this));
+		$(this.runButton).bind(Detect.CLICK, this.runHandler.bind(this));
+		$(this.resetButton).bind(Detect.CLICK, this.resetHandler.bind(this));
+		$(this.clearButton).bind(Detect.CLICK, this.clearHandler.bind(this));
 	},
 	createLog: function() {
 		this.logElement = utils.append(this.domElement, '<div class="log"></div>');
@@ -208,11 +208,11 @@ StepView = soma.View.extend({
 	},
 	createPreviousButton: function() {
 		this.previousButton = utils.append(this.stepNav, '<a class="button icon arrowleft previous">previous step</a>');
-		utils.addEventListener(this.previousButton, Detect.CLICK, this.previousHandler.bind(this));
+		$(this.previousButton).bind(Detect.CLICK, this.previousHandler.bind(this));
 	},
 	createNextButton: function() {
 		this.nextButton = utils.append(this.stepNav, '<a class="button icon arrowright next">next step</a>');
-		utils.addEventListener(this.nextButton, Detect.CLICK, this.nextHandler.bind(this));
+		$(this.nextButton).bind(Detect.CLICK, this.nextHandler.bind(this));
 	},
 	previousHandler: function(event) {
 		this.dispatchEvent(new ChapterEvent(ChapterEvent.PREVIOUS, this.chapterId));

@@ -64,36 +64,29 @@ var EmployeeListView = new Class({
 	},
 	
 	updateList: function(data) {
-		this.tableListContainer.innerHTML = '<table cellpadding="0" cellspacing="0" border="0" width="100%" id="employee-list-table"><tr class="header"><th width="50%">Name</th><th>Age</th></tr></table>';
+		var str = '<table cellpadding="0" cellspacing="0" border="0" width="100%" id="employee-list-table"><tr class="header"><th width="50%">Name</th><th>Age</th></tr>'
+		for (var i = 0; i < data.length; i++) {
+			str += '<tr class="row">';
+			str += '<td style="display:none">' + data[i].id + '</td>' + '<td>' + data[i].name + '</td>' + '<td>' + data[i].age + '</td>';
+			str += '</tr>';
+		}
+		str += '</table>';
+		this.tableListContainer.innerHTML = str;
 		this.tableList = document.getElementById('employee-list-table');
+
 		// it is not possible without hacks to dispatch custom event from a DOM element with IE7 and IE8
 		// the variable "self" keeps a reference to the view (soma.View) so an event can be dispatched from
 		var self = this;
-		for (var i = 0; i < data.length; i++) {
-			var row = document.createElement("tr");
-			var cellId = document.createElement("td");
-			var cellName = document.createElement("td");
-			var cellAge = document.createElement("td");
-			var textId = document.createTextNode(data[i].id);
-			var textName = document.createTextNode(data[i].name);
-			var textAge = document.createTextNode(data[i].age);
-			cellId.appendChild(textId);
-			cellName.appendChild(textName);
-			cellAge.appendChild(textAge);
-			row.appendChild(cellId);
-			row.appendChild(cellName);
-			row.appendChild(cellAge);
-			cellId.style.display = "none"; // hide id cell
-			this.tableList.appendChild(row);
+		$$('.row').each(function(row, index) {
 			$(row).addEvent("click", function() {
 				var vo = new EmployeeVO();
-				vo.id = self.getNodeContent(this.childNodes[0]);
-				vo.name = self.getNodeContent(this.childNodes[1]);
-				vo.age = self.getNodeContent(this.childNodes[2]);
+				vo.id = self.getNodeContent(row.childNodes[0]);
+				vo.name = self.getNodeContent(row.childNodes[1]);
+				vo.age = self.getNodeContent(row.childNodes[2]);
 				self.dispatchEvent(new EmployeeEvent(EmployeeEvent.SELECT, vo));
 				self.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_DETAILS));
 			});
-		}
+		});
 	},
 	getNodeContent: function(node) {
 		return node.textContent ? node.textContent : node.innerText;

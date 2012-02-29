@@ -250,11 +250,11 @@ var StepExerciseView = StepView.extend({
 	},
 	activate: function() {
 		this.logElement.id = "log";
-		StepView.prototype.activate.call(this, event);
+		StepView.prototype.activate.call(this);
 	},
 	deactivate: function() {
 		this.logElement.id = "";
 		this.record();
-		StepView.prototype.deactivate.call(this, event);
+		StepView.prototype.deactivate.call(this);
 	}
 });

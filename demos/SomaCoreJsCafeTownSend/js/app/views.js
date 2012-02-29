@@ -8,7 +8,7 @@ var LoginView = soma.View.extend({
 		this.username = document.getElementById('username');
 		this.password = document.getElementById('password');
 		this.login = document.getElementById('login');
-		utils.addEventListener(this.login, "click", this.clickHandler.bind(this));
+		$(this.login).click(this.clickHandler.bind(this));
 	},
 	clickHandler: function(event){
 		if (event.preventDefault) event.preventDefault();
@@ -36,9 +36,9 @@ var EmployeeListView = soma.View.extend({
 	init: function() {
 		this.tableListContainer = document.getElementById('list-table-container');
 		this.logout = document.getElementById('buttonLogoutList');
-		utils.addEventListener(this.logout, "click", this.logoutClickHandler.bind(this));
+		$(this.logout).click(this.logoutClickHandler.bind(this));
 		this.create = document.getElementById('buttonCreate');
-		utils.addEventListener(this.create, "click", this.createClickHandler.bind(this));
+		$(this.create).click(this.createClickHandler.bind(this));
 	},
 	logoutClickHandler: function(event){
 		if (event.preventDefault) event.preventDefault();
@@ -49,36 +49,29 @@ var EmployeeListView = soma.View.extend({
 		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_DETAILS));
 	},
 	updateList: function(data) {
-		this.tableListContainer.innerHTML = '<table cellpadding="0" cellspacing="0" border="0" width="100%" id="employee-list-table"><tr class="header"><th width="50%">Name</th><th>Age</th></tr></table>';
+		var str = '<table cellpadding="0" cellspacing="0" border="0" width="100%" id="employee-list-table"><tr class="header"><th width="50%">Name</th><th>Age</th></tr>'
+		for (var i = 0; i < data.length; i++) {
+			str += '<tr class="row">';
+			str += '<td style="display:none">' + data[i].id + '</td>' + '<td>' + data[i].name + '</td>' + '<td>' + data[i].age + '</td>';
+			str += '</tr>';
+		}
+		str += '</table>';
+		this.tableListContainer.innerHTML = str;
 		this.tableList = document.getElementById('employee-list-table');
+
 		// it is not possible without hacks to dispatch custom event from a DOM element with IE7 and IE8
 		// the variable "self" keeps a reference to the view (soma.View) so an event can be dispatched from
 		var self = this;
-		for (var i = 0; i < data.length; i++) {
-			var row = document.createElement("tr");
-			var cellId = document.createElement("td");
-			var cellName = document.createElement("td");
-			var cellAge = document.createElement("td");
-			var textId = document.createTextNode(data[i].id);
-			var textName = document.createTextNode(data[i].name);
-			var textAge = document.createTextNode(data[i].age);
-			cellId.appendChild(textId);
-			cellName.appendChild(textName);
-			cellAge.appendChild(textAge);
-			row.appendChild(cellId);
-			row.appendChild(cellName);
-			row.appendChild(cellAge);
-			cellId.style.display = "none"; // hide id cell
-			this.tableList.appendChild(row);
-			utils.addEventListener(row, "click", function(event) {
+		$('.row').each(function(index, value) {
+			$(this).click(function() {
 				var vo = new EmployeeVO();
 				vo.id = self.getNodeContent(this.childNodes[0]);
 				vo.name = self.getNodeContent(this.childNodes[1]);
 				vo.age = self.getNodeContent(this.childNodes[2]);
 				self.dispatchEvent(new EmployeeEvent(EmployeeEvent.SELECT, vo));
 				self.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_DETAILS));
-			}.bind(row));
-		}
+			});
+		});
 	},
 	getNodeContent: function(node) {
 		return node.textContent ? node.textContent : node.innerText;
@@ -97,13 +90,13 @@ var EmployeeEditView = soma.View.extend({
     shouldAutobind: true,
 	init: function() {
 		this.logout = document.getElementById('buttonLogoutEdit');
-		utils.addEventListener(this.logout, "click", this.logoutClickHandler);
+		$(this.logout).click(this.logoutClickHandler);
 		this.cancel = document.getElementById('button-edit-cancel');
-		utils.addEventListener(this.cancel, "click", this.cancelClickHandler);
+		$(this.cancel).click(this.cancelClickHandler);
 		this.submit = document.getElementById('button-edit-submit');
-		utils.addEventListener(this.submit, "click", this.submitClickHandler);
+		$(this.submit).click(this.submitClickHandler);
 		this.deleteEmployee = document.getElementById('buttonDelete');
-		utils.addEventListener(this.deleteEmployee, "click", this.deleteClickHandler);
+		$(this.deleteEmployee).click(this.deleteClickHandler);
 		this.inputName = document.getElementById('employeeName');
 		this.inputAge = document.getElementById('employeeAge');
 	},

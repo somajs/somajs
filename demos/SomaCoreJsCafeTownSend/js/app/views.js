@@ -12,13 +12,14 @@ var LoginView = new Class({
 		this.username = document.getElementById('username');
 		this.password = document.getElementById('password');
 		this.login = document.getElementById('login');
-		this.login.addEventListener('click', this.clickHandler.bind(this), false);
+		$(this.login).addEvent("click", this.clickHandler.bind(this));
 	},
 
 	clickHandler: function(event){
-		event.preventDefault();
+		if (event.preventDefault) event.preventDefault();
 		var vo = new LoginVO(this.username.value, this.password.value);
 		this.dispatchEvent(new LoginEvent(LoginEvent.LOGIN, vo, "Please wait..."));
+		return false;
 	},
 	
 	showMessage: function(message) {
@@ -47,9 +48,9 @@ var EmployeeListView = new Class({
 	init: function() {
 		this.tableListContainer = document.getElementById('list-table-container');
 		this.logout = document.getElementById('buttonLogoutList');
-		this.logout.addEventListener('click', this.logoutClickHandler.bind(this), false);
+		$(this.logout).addEvent("click", this.logoutClickHandler.bind(this));
 		this.create = document.getElementById('buttonCreate');
-		this.create.addEventListener('click', this.createClickHandler.bind(this), false);
+		$(this.create).addEvent("click", this.createClickHandler.bind(this));
 	},
 
 	logoutClickHandler: function(event){
@@ -67,7 +68,6 @@ var EmployeeListView = new Class({
 		this.tableList = document.getElementById('employee-list-table');
 		for (var i = 0; i < data.length; i++) {
 			var row = document.createElement("tr");
-			row.addEventListener("click", this.rowClickHandler, false);
 			var cellId = document.createElement("td");
 			var cellName = document.createElement("td");
 			var cellAge = document.createElement("td");
@@ -82,16 +82,15 @@ var EmployeeListView = new Class({
 			row.appendChild(cellAge);
 			cellId.style.display = "none"; // hide id cell
 			this.tableList.appendChild(row);
+			$(row).addEvent("click", function() {
+				var vo = new EmployeeVO();
+				vo.id = this.childNodes[0].textContent;
+				vo.name = this.childNodes[1].textContent;
+				vo.age = this.childNodes[2].textContent;
+				this.dispatchEvent(new EmployeeEvent(EmployeeEvent.SELECT, vo));
+				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_DETAILS));
+			});
 		}
-	},
-	
-	rowClickHandler: function(event) {
-		var vo = new EmployeeVO();
-		vo.id = this.childNodes[0].textContent;
-		vo.name = this.childNodes[1].textContent;
-		vo.age = this.childNodes[2].textContent;
-		this.dispatchEvent(new EmployeeEvent(EmployeeEvent.SELECT, vo));
-		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_DETAILS));
 	}
 
 });
@@ -111,13 +110,13 @@ var EmployeeEditView = new Class({
 
 	init: function() {
 		this.logout = document.getElementById('buttonLogoutEdit');
-		this.logout.addEventListener('click', this.logoutClickHandler.bind(this), false);
+		$(this.logout).addEvent('click', this.logoutClickHandler.bind(this));
 		this.cancel = document.getElementById('button-edit-cancel');
-		this.cancel.addEventListener('click', this.cancelClickHandler.bind(this), false);
+		$(this.cancel).addEvent('click', this.cancelClickHandler.bind(this));
 		this.submit = document.getElementById('button-edit-submit');
-		this.submit.addEventListener('click', this.submitClickHandler.bind(this), false);
+		$(this.submit).addEvent('click', this.submitClickHandler.bind(this));
 		this.deleteEmployee = document.getElementById('buttonDelete');
-		this.deleteEmployee.addEventListener('click', this.deleteClickHandler.bind(this), false);
+		$(this.deleteEmployee).addEvent('click', this.deleteClickHandler.bind(this));
 		this.inputName = document.getElementById('employeeName');
 		this.inputAge = document.getElementById('employeeAge');
 	},

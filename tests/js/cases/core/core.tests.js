@@ -715,13 +715,19 @@ var AutobindTest = new Class
 
 	,test_view_autobind: function()
 	{
+		alert(1)
 		var sprite = document.createElement("div");
+		alert(2)
 		document.body.appendChild( sprite );
+		alert(3)
 		var view = new cases.core.TestView( sprite );
+		alert(4)
         this.soma.addView( "viewname", view );
-		view.addEventListener( "testFromView", view.viewListener, false );
-		view.dispatchEvent( new soma.Event("testFromView", {test:"test"}) );
-		view.removeEventListener( "testFromView", view.viewListener, false );
+		alert(5)
+		alert($(view))
+		$(view).addEvent("testFromView", view.viewListener);
+		view.fireEvent( new soma.Event("testFromView", {test:"test"}) );
+		view.removeEvent( "testFromView", view.viewListener);
 		this.soma.removeView( "viewname" );
 		this.assertTrue( view.scopeConfirmed  );
 		cases.core.TestView.scope = null;

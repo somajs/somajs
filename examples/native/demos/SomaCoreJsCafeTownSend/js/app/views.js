@@ -32,7 +32,7 @@ var EmployeeListView = soma.View.extend({
 	tableList: null,
 	tableListContainer: null,
 	create: null,
-    shouldAutobind: true,
+    shouldAutobind: false,
 	init: function() {
 		this.tableListContainer = document.getElementById('list-table-container');
 		this.logout = document.getElementById('buttonLogoutList');
@@ -72,6 +72,9 @@ var EmployeeListView = soma.View.extend({
 	},
 	rowClickHandler: function(event) {
 		var vo = new EmployeeVO();
+		console.log(this);
+		console.log(this.childNodes[0]);
+		console.log(this.childNodes[0].textContent);
 		vo.id = this.childNodes[0].textContent;
 		vo.name = this.childNodes[1].textContent;
 		vo.age = this.childNodes[2].textContent;

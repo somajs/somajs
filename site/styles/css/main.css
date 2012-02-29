@@ -189,7 +189,6 @@ header, section, nav {
   zoom: 1; }
 
 #bg-gradient {
-  background: #FFFFFF;
   background: -moz-linear-gradient(top, white 0%, black 100%);
   /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, black));
@@ -202,9 +201,9 @@ header, section, nav {
   /* IE10+ */
   background: linear-gradient(top, white 0%, black 100%);
   /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#000000',GradientType=0);
+  \9filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#000000',GradientType=0);
   /* IE6-9 */
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#4cFFFFFF', endColorstr='#4c000000')";
+  \9-ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#4cFFFFFF', endColorstr='#4c000000')";
   /* IE8 */
   width: 100%;
   height: 100%;

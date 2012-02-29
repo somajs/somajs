@@ -4,14 +4,6 @@
 
 window.addEventListener( "load", function() { new SomaApp(  ); }, false );
 
-function d()
-{
-	if( window["console"] ) {
-		console.log( arguments );
-	}
-
-}
-
 var CommandEventList =
 {
 	STARTUP: "startup",

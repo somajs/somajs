@@ -1,22 +1,20 @@
 var MessageView = new Class({
 
+	Extends: soma.View,
+
 	element:null,
 	button:null,
 	text:null,
 
-	initialize: function() {
+	init: function() {
 		this.element = document.getElementById("message");
 		this.button = document.getElementById("requestMessageButton");
 		this.text = document.getElementById("textContainer");
-		this.setupUI();
+		$(this.button).addEvent('click', this.clickHandler.bind(this), false);
 	},
-
-	setupUI: function() {
-		this.button.addEventListener("click", function() {
-			this.dispatchEvent(new MessageEvent(MessageEvent.REQUEST));
-		}, false);
+	clickHandler: function() {
+		this.dispatchEvent(new MessageEvent(MessageEvent.REQUEST));
 	},
-
     updateMessage: function(message) {
         this.text.innerHTML = message;
     }

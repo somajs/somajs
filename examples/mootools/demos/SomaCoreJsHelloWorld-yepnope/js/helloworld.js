@@ -4,7 +4,7 @@ yepnope([
 	{
 		test: loadFramework,
 		yep: [
-			'../../framework/libs/mootools-core-1.4.2.js',
+			'../../framework/libs/mootools-core-1.4.5.js',
 			'../../framework/src/somacore.js'
 		],
 		nope: [],

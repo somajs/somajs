@@ -66,6 +66,9 @@ var EmployeeListView = new Class({
 	updateList: function(data) {
 		this.tableListContainer.innerHTML = '<table cellpadding="0" cellspacing="0" border="0" width="100%" id="employee-list-table"><tr class="header"><th width="50%">Name</th><th>Age</th></tr></table>';
 		this.tableList = document.getElementById('employee-list-table');
+		// it is not possible without hacks to dispatch custom event from a DOM element with IE7 and IE8
+		// the variable "self" keeps a reference to the view (soma.View) so an event can be dispatched from
+		var self = this;
 		for (var i = 0; i < data.length; i++) {
 			var row = document.createElement("tr");
 			var cellId = document.createElement("td");
@@ -84,15 +87,17 @@ var EmployeeListView = new Class({
 			this.tableList.appendChild(row);
 			$(row).addEvent("click", function() {
 				var vo = new EmployeeVO();
-				vo.id = this.childNodes[0].textContent;
-				vo.name = this.childNodes[1].textContent;
-				vo.age = this.childNodes[2].textContent;
-				this.dispatchEvent(new EmployeeEvent(EmployeeEvent.SELECT, vo));
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_DETAILS));
+				vo.id = self.getNodeContent(this.childNodes[0]);
+				vo.name = self.getNodeContent(this.childNodes[1]);
+				vo.age = self.getNodeContent(this.childNodes[2]);
+				self.dispatchEvent(new EmployeeEvent(EmployeeEvent.SELECT, vo));
+				self.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, NavigationConstants.EMPLOYEE_DETAILS));
 			});
 		}
+	},
+	getNodeContent: function(node) {
+		return node.textContent ? node.textContent : node.innerText;
 	}
-
 });
 EmployeeListView.NAME = "View::EmployeeListView";
 
@@ -123,8 +128,8 @@ var EmployeeEditView = new Class({
 
 	logoutClickHandler: function(event){
 		event.preventDefault();
-		this.dispatchEvent(new LoginEvent(LoginEvent.LOGOUT));
 		this.leaveForm();
+		this.dispatchEvent(new LoginEvent(LoginEvent.LOGOUT));
 	},
 
 	deleteClickHandler: function(event) {

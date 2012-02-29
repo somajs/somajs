@@ -85,6 +85,20 @@ img {
 svg:not(:root) {
   overflow: hidden; }
 
+@font-face {
+  font-family: 'LatoRegular';
+  src: url("../../fonts/lato-webfont.eot");
+  src: url("../../fonts/lato-webfont.eot?#iefix") format("embedded-opentype"), url("../../fonts/lato-webfont.woff") format("woff"), url("../../fonts/lato-webfont.ttf") format("truetype"), url("../../fonts/lato-webfont.svg#LatoRegular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'HomenajeRegular';
+  src: url("../../fonts/homenaje-webfont.eot");
+  src: url("../../fonts/homenaje-webfont.eot?#iefix") format("embedded-opentype"), url("../../fonts/homenaje-webfont.woff") format("woff"), url("../../fonts/homenaje-webfont.ttf") format("truetype"), url("../../fonts/homenaje-webfont.svg#HomenajeRegular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
   display: block; }
 
@@ -134,7 +148,7 @@ a:hover {
 
 body, html {
   background: #FFFFFF;
-  font-family: Lato, Helvetica, sans-serif;
+  font-family: LatoRegular, Helvetica, sans-serif;
   font-size: 90%;
   text-shadow: #d1d1d1 0 1px 0;
   color: #1f1f1f; }
@@ -214,7 +228,7 @@ p {
   line-height: 125%; }
 
 header h1 {
-  font-family: Homenaje, Helvetica, sans-serif;
+  font-family: HomenajeRegular, Helvetica, sans-serif;
   font-weight: 900;
   font-size: 340%; }
 

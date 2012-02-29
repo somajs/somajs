@@ -1,5 +1,6 @@
 @import "reset";
 @import "base";
+@import "fonts";
 @import "transitions";
 
 body, html {
@@ -78,7 +79,7 @@ p {
 }
 
 header h1 {
-    font-family: Homenaje, Helvetica, sans-serif;
+    font-family: HomenajeRegular, Helvetica, sans-serif;
 	font-weight: 900;
 	font-size: 340%;
 }

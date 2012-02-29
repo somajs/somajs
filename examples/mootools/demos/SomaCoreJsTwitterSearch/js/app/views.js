@@ -1,20 +1,25 @@
 var MainView = new Class({
 
+	Extends: soma.View,
+
 	searchInput: null,
 	messageView: null,
 	listView: null,
 	listTemplate: null,
 
-	initialize: function() {
+	init: function() {
 		this.messageView = document.getElementById("message");
 		this.listView = document.getElementById("result-list");
 		this.listTemplate = document.getElementById("template-tweet");
 		this.searchInput = document.getElementById("search-input");
-		this.searchInput.addEventListener('keypress', function(event) {
+		// it is not possible without hacks to dispatch custom event from a DOM element with IE7 and IE8
+		// the variable "self" keeps a reference to the view (soma.View) so an event can be dispatched from
+		var self = this;
+		$(this.searchInput).keypress(function(event) {
 			if (event.keyCode == 13 && this.value != "") {
-				this.dispatchEvent(new TwitterEvent(TwitterEvent.SEARCH, this.value));
+				self.dispatchEvent(new TwitterEvent(TwitterEvent.SEARCH, this.value));
 			}
-		}, false);
+		});
 	},
 
 	updateTweets: function(data) {

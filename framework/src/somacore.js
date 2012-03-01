@@ -999,16 +999,14 @@
 	        if (this.domElement.addEventListener) {
 	            this.domElement.addEventListener.apply(this.domElement, arguments);
 	        } else if(this.instance) {
-	            // TODO IE problem : target is now document.body
-	            this.instance.addEventListener.apply(this.domElement, arguments);
+	            this.instance.addEventListener.apply(this.instance, arguments);
 	        }
 		},
 		removeEventListener: function() {
 	        if(this.domElement.addEventListener) {
 			    this.domElement.removeEventListener.apply(this.domElement, arguments);
 	        } else if(this.instance) {
-	            // TODO IE problem : target is now document.body
-	             this.instance.removeEventListener.apply(this.domElement, arguments);
+	             this.instance.removeEventListener.apply(this.instance, arguments);
 	        }
 		},
 		dispose: function() {

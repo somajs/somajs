@@ -167,7 +167,7 @@
 
 	var AutoBindProto = {
 		/** @private */
-		blackList: ["initialize", "parent", "$constructor", "addEventListener", "removeEventListener" ]
+		blackList: ["initialize", "parent", "constructor", "$constructor", "addEventListener", "removeEventListener" ]
 		/**
 		 * AutoBind the application.
 		 * @name autobind

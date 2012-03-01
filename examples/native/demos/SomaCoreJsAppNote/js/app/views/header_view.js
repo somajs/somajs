@@ -8,8 +8,8 @@ var HeaderView = soma.View.extend({
 		this.updateForList();
 	},
 	createLinks: function() {
-		this.newButton.addEventListener("click", this.newClickHandler, false);
-		this.backButton.addEventListener("click", this.backClickHandler, false);
+		utils.addEventListener(this.newButton, "click", this.newClickHandler.bind(this));
+		utils.addEventListener(this.backButton, "click", this.backClickHandler.bind(this));
 	},
 	newClickHandler: function() {
 		this.dispatchEvent(new NoteEvent(NoteEvent.NEW));

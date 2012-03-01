@@ -13,14 +13,14 @@ var NoteDetailsView = soma.View.extend({
 		this.createHints();
 	},
 	createLinks: function() {
-		this.saveButton.addEventListener("click", this.saveClickHandler.bind(this), false);
-		this.deleteButton.addEventListener("click", this.deleteClickHandler.bind(this), false);
+		utils.addEventListener(this.saveButton, "click", this.saveClickHandler.bind(this));
+		utils.addEventListener(this.deleteButton, "click", this.deleteClickHandler.bind(this));
 	},
 	createHints: function() {
-		this.title.addEventListener("focus", this.titleFocusHandler, false);
-		this.title.addEventListener("blur", this.titleBlurHandler, false);
-		this.content.addEventListener("focus", this.contentFocusHandler, false);
-		this.content.addEventListener("blur", this.contentBlurHandler, false);
+		utils.addEventListener(this.title, "focus", this.titleFocusHandler.bind(this.title));
+		utils.addEventListener(this.title, "blur", this.titleBlurHandler.bind(this.title));
+		utils.addEventListener(this.content, "focus", this.contentFocusHandler.bind(this.content));
+		utils.addEventListener(this.content, "blur", this.contentBlurHandler.bind(this.content));
 	},
 	titleFocusHandler: function() {
 		if (this.value == "Title") this.value = "";

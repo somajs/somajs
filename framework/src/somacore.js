@@ -190,7 +190,7 @@
 	});
 
 	soma.AutoBind = {
-		blackList: ["initialize", "parent", "$constructor", "addEventListener", "removeEventListener"],
+		blackList: ["initialize", "parent", "constructor", "$constructor", "addEventListener", "removeEventListener"],
 		autobind: function() {
 			if (this.wasAutoBound) {
 				return;

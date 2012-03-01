@@ -43,8 +43,6 @@ cases.core.TestView = soma.View.extend({
 	},
 	viewListener: function( event )
 	{
-		alert(this)
-		alert(this.scopeConfirmed)
 		this.scopeConfirmed = true;
 		cases.core.TestView.scope = this;
 	}

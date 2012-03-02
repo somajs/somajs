@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="somacore.js" basedir="." default="build">
+<project name="soma.js" basedir="." default="build">
 
 	<property file="user.properties"/>
 	<property file="build.properties"/>
 
-	<target name="build" description="build somacore" depends="prepare-git, update-templates, update-doc, update-cli, update-demos, update-tests, cleanup-git"/>
+	<target name="build" description="build soma" depends="prepare-git, update-templates, update-doc, update-cli, update-demos, update-tests, cleanup-git"/>
 
 	<target name="prepare-git" description="pull and checkout git branches">
 		<echo message="   - pull master and mootools branches"/>

@@ -402,7 +402,7 @@ Options -MultiViews
 # ----------------------------------------------------------------------
 
 # You can add custom pages to handle 500 or 403 pretty easily, if you like.
-ErrorDocument 404 http://somacorejs.github.com/somacorejs/404.html
+ErrorDocument 404 http://somajs.github.com/somajs/404.html
 #ErrorDocument 404 "Create a 404.html and edit .htaccess"
 
 

@@ -4,7 +4,7 @@ yepnope([
 	{
 		test: loadFramework,
 		yep: [
-			'../../framework/src/somacore.js'
+			'../../framework/src/soma.js'
 		],
 		nope: [],
 		both: [],

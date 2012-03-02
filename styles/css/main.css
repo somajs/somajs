@@ -216,11 +216,11 @@ header, section, nav {
   padding: 20px; }
 
 #nav {
-  width: 250px;
+  width: 220px;
   float: left; }
 
 #content {
-  margin-left: 250px;
+  margin-left: 220px;
   position: relative; }
 
 p {

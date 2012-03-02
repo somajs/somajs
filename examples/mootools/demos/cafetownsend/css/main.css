@@ -1,0 +1,170 @@
+html, body {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+}
+body {
+    background: #FDFDFD;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 0.8em;
+    line-height: 1.4em;
+    color: #333333;
+    overflow: hidden;
+    height: 100%;
+}
+button {
+	cursor: pointer;
+}
+
+/*LOGIN*/
+
+#screen-login-wrapper {
+    position: relative;
+    top: 50%;
+    margin-top: -105px;
+}
+#screen-login {
+    margin: 0 auto 0 auto;
+    width: 445px;
+    height: 210px;
+    border: 1px solid black;
+}
+#credentials {
+	padding: 10px 0px 10px 95px;
+}
+#screen-login label {
+	float: left;
+	width: 70px;
+	padding: 0 0 0 25px;
+}
+#screen-login input {
+	margin-bottom: 5px;
+	border: 1px solid black;
+	height: 18px;
+	width: 180px;
+}
+#screen-login button {
+	width: 80px;
+	margin: 0 0 0 95px;
+}
+#screen-login .message {
+	margin: 10px 0 0 95px;
+}
+
+/*EMPLOYEE LIST*/
+
+#screen-employee-list-wrapper {
+	display: none;
+    position: relative;
+    top: 50%;
+    margin-top: -134px;
+}
+#screen-employee-list {
+    margin: 0 auto 0 auto;
+    width: 445px;
+    height: 268px;
+    border: 1px solid black;
+}
+#employee-list-button {
+	padding: 10px;
+}
+#buttonLogoutList {
+	float: right;
+}
+#list-table-container {
+	padding: 0 10px 0 10px;
+	overflow: auto;
+	height: 180px;
+}
+#list-table-container {
+	
+}
+#list-table-container tr:hover {
+	background: #A8C6EE;
+	cursor: pointer;
+}
+#list-table-container .header:hover {
+	background: #FFF;
+}
+#list-table-container tr:nth-child(2n+3):hover {
+	background: #A8C6EE;
+}
+#list-table-container tr:nth-child(2n+3) {
+	background: #EDF1F8
+}
+#list-table-container td, #list-table-container th {
+	padding: 3px;
+	border-bottom: 1px solid black;
+	text-align: left;
+}
+
+/*EMPLOYEE EDIT*/
+
+#screen-employee-edit-wrapper {
+	display: none;
+    position: relative;
+    top: 50%;
+    margin-top: -134px;
+}
+#screen-employee-edit {
+    margin: 0 auto 0 auto;
+    width: 445px;
+    height: 268px;
+    border: 1px solid black;
+}
+#employee-edit-button {
+	padding: 10px;
+}
+#buttonLogoutEdit {
+	float: right;
+}
+#employee-edit-form {
+	margin: 15px 0 0 0;
+}
+#employee-edit-form label {
+	float: left;
+	width: 120px;
+	padding: 0 0 0 25px;
+}
+#employee-edit-form input {
+	margin-bottom: 5px;
+	border: 1px solid black;
+	height: 18px;
+	width: 180px;
+}
+#employee-edit-form-buttons {
+	margin: 0 0 0 145px;
+}
+#employee-edit-form-buttons button {
+	width: 80px;
+}
+
+/*CLASS*/
+
+.panel {
+    -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
+	-o-box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
+	box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
+    /*-moz-border-radius: 5px;*/
+    /*border-radius: 5px;*/
+}
+.panel-title {
+    background: #DDDDDD;
+    padding: 5px;
+    font-weight: bold;
+    border-bottom: 1px solid #C0C0C0;
+}
+.button {
+	padding: 4px 7px;
+	background-color:#eee;
+	background-image:-webkit-gradient(linear, 0 0, 0 100%,
+		color-stop(0, #fff),
+		color-stop(0.05, #eee),
+		color-stop(1, #bbb));
+	/*text-shadow:0 1px 0 #f6f6f6;*/
+	/*-webkit-border-radius:2px;*/
+	border:1px solid #888;
+	-webkit-box-shadow:0 1px 2px rgba(0,0,0,0.3);
+}

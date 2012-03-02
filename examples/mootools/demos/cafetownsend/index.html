@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+	<title>Cafe Town Send</title>
+	<meta name="viewport" content="initial-scale=1.0, minimum-scale=1, maximum-scale=1, width=device-width" />
+	<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+    <div id="screen-login-wrapper">
+        <div id="screen-login" class="panel">
+            <div class="panel-title">Login</div>
+            <div>
+				<div id="credentials">username: js, password: soma</div>
+				<div>
+					<form>
+						<label for="username">Username:</label>
+						<input type="text" value="js" id="username"/><br/>
+						<label for="password">Password:</label>
+						<input type="password" value="soma" id="password"/><br/>
+						<button class="button" id="login">Login</button>
+					</form>
+				</div>
+				<div class="message" id="message"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-employee-list-wrapper">
+        <div id="screen-employee-list" class="panel">
+			<div class="panel-title">Employee</div>
+			<div id="employee-list-button">
+				<button class="button" id="buttonCreate">Create Employee</button>
+				<button class="button" id="buttonLogoutList">Logout</button>
+			</div>
+			<div id="list-table-container"></div>
+        </div>
+    </div>
+
+    <div id="screen-employee-edit-wrapper">
+        <div id="screen-employee-edit" class="panel">
+			<div class="panel-title">Employee</div>
+			<div id="employee-edit-button">
+				<button class="button" id="buttonDelete">Delete Employee</button>
+				<button class="button" id="buttonLogoutEdit">Logout</button>
+			</div>
+			<div id="employee-edit-form">
+				<form>
+					<label for="employeeName">Employee Name</label>
+					<input type="text" id="employeeName"/><br/>
+					<label for="employeeAge">Employee Age</label>
+					<input type="text" id="employeeAge"/><br/>
+					<div id="employee-edit-form-buttons">
+						<button class="button" id="button-edit-submit">Submit</button>
+						<button class="button" id="button-edit-cancel">Cancel</button>
+					</div>
+				</form>
+			</div>
+        </div>
+    </div>
+
+<script type="text/javascript" src="../../framework/libs/mootools-core-1.4.5.js"></script>
+<script type="text/javascript" src="../../framework/src/soma.js"></script>
+<script type="text/javascript" src="js/app/models.js"></script>
+<script type="text/javascript" src="js/app/wires.js"></script>
+<script type="text/javascript" src="js/app/views.js"></script>
+<script type="text/javascript" src="js/app/services.js"></script>
+<script type="text/javascript" src="js/app/commands.js"></script>
+<script type="text/javascript" src="js/app/events.js"></script>
+<script type="text/javascript" src="js/app/vo.js"></script>
+<script type="text/javascript" src="js/cafetownsend.js"></script>
+
+</body>
+</html>

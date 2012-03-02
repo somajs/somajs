@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta id="viewport" name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+	<title>Information Fields</title>
+	<link rel="stylesheet" href="stylesheets/iphone.css" />
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+	<script type="text/javascript" charset="utf-8">
+		window.onload = function() {
+		  setTimeout(function(){window.scrollTo(0, 1);}, 100);
+		}
+	</script>
+	<!-- for profile image -->
+	<style type="text/css" media="screen">
+		li.picture { background: #fff url(images/minid-profile.png) no-repeat !important; }
+	</style>
+	<!-- end line customization -->
+</head>
+
+<body>
+	
+	<div id="header">
+		<h1>Information Fields</h1>
+		<a href="info-lists.html" id="backButton">Back</a>
+	</div>
+
+<h1>With images and content</h1>
+
+<ul class="profile">
+	<li class="picture"><a href="http://www.minid.net"><!--use this space to define tooltip title when user taps-->Julio Alonso Picture</a></li>
+	<li class="clearfix"><h2>Diego Martín Lafuente</h2><p>Minid.net</p></li>
+</ul>
+
+<ul class="field">
+	<li><h3>E-mail</h3> <a href="mailto:info@gmail.com">info@example.com</a></li>
+	<li class="arrow"><h3>Website</h3> <small>Blog</small> <a href="http://www.minid.net">Merodeando</a></li>
+	<li class="arrow"><h3>Address</h3> <a href="http://www.google.com/maps?f=q&hl=en&geocode=&q=Carrer+de+Cal%C3%A0bria+168,+08015+Barcelona,+Spain&sll=40.416741,-3.70325&sspn=0.720381,1.005249&ie=UTF8&z=16&iwloc=addr">Carrer de Calàbria 168,<br />08015 Barcelona, Spain<br />World</a>
+	<li><h3>Location</h3> <a href="http://www.google.com/maps?f=q&hl=en&geocode=&q=madrid&ie=UTF8&z=10">Map</a></li>
+	<li><h3>Mobile</h3> <a href="tel:+34999888777">+34 999 888 777</a></li>
+	<li><h3>Work</h3> <a href="tel:+34999888777">+34 212 462 174</a></li>
+	<li><h3>Notes</h3> <big>Hello there this is a very small note I want to write.</big></li>
+</ul>
+
+<ul class="data">
+	<li><p>This is how the picture works: You only need to print in the <code>HEAD</code> element of this page an <code>STYLE</code> element with a <code>li.picture</code> class and a background property.</p><p>View the source of this page as an example.</p><p>Only two <code>LI</code> elements can be used on <code>UL.profile</code>. The first one sets the picture dimentions, background and borders. The other holds the data, cleaning all possible styling.</p><p>Both Title and description on the second <code>LI</code> will overflow hidden with ellipsis if the text is really longer, but if you  use horizontally it will scaled perfectly. You can test it on this page by turning the iPhone/iPod Touch vertical and horizontal position.</p></li>
+</ul>
+
+<p><strong>Best enjoyed on a real iPhone</strong><br />This iPhone UI Framework kit is licenced under GNU Affero General Public License (<a href="http://www.gnu.org/licenses/agpl.html">GNU AGPL 3</a>)</p>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+@font-face {
+  font-family: 'LatoRegular';
+  src: url("../../fonts/lato-webfont.eot");
+  src: url("../../fonts/lato-webfont.eot?#iefix") format("embedded-opentype"), url("../../fonts/lato-webfont.woff") format("woff"), url("../../fonts/lato-webfont.ttf") format("truetype"), url("../../fonts/lato-webfont.svg#LatoRegular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'HomenajeRegular';
+  src: url("../../fonts/homenaje-webfont.eot");
+  src: url("../../fonts/homenaje-webfont.eot?#iefix") format("embedded-opentype"), url("../../fonts/homenaje-webfont.woff") format("woff"), url("../../fonts/homenaje-webfont.ttf") format("truetype"), url("../../fonts/homenaje-webfont.svg#HomenajeRegular") format("svg");
+  font-weight: normal;
+  font-style: normal; }

@@ -1,0 +1,569 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+  display: block; }
+
+audio, canvas, video {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1; }
+
+audio:not([controls]) {
+  display: none; }
+
+[hidden] {
+  display: none; }
+
+::-moz-selection {
+  background: #5268BE;
+  color: #fff;
+  text-shadow: none; }
+
+::selection {
+  background: #5268BE;
+  color: #fff;
+  text-shadow: none; }
+
+a:hover, a:active {
+  outline: 0; }
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word; }
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle; }
+
+svg:not(:root) {
+  overflow: hidden; }
+
+@font-face {
+  font-family: 'LatoRegular';
+  src: url("../../fonts/lato-webfont.eot");
+  src: url("../../fonts/lato-webfont.eot?#iefix") format("embedded-opentype"), url("../../fonts/lato-webfont.woff") format("woff"), url("../../fonts/lato-webfont.ttf") format("truetype"), url("../../fonts/lato-webfont.svg#LatoRegular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'HomenajeRegular';
+  src: url("../../fonts/homenaje-webfont.eot");
+  src: url("../../fonts/homenaje-webfont.eot?#iefix") format("embedded-opentype"), url("../../fonts/homenaje-webfont.woff") format("woff"), url("../../fonts/homenaje-webfont.ttf") format("truetype"), url("../../fonts/homenaje-webfont.svg#HomenajeRegular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+  display: block; }
+
+audio, canvas, video {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1; }
+
+audio:not([controls]) {
+  display: none; }
+
+[hidden] {
+  display: none; }
+
+::-moz-selection {
+  background: #5268BE;
+  color: #fff;
+  text-shadow: none; }
+
+::selection {
+  background: #5268BE;
+  color: #fff;
+  text-shadow: none; }
+
+a:hover, a:active {
+  outline: 0; }
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word; }
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle; }
+
+svg:not(:root) {
+  overflow: hidden; }
+
+a,
+a:hover {
+  -webkit-transition: color 0.2s ease-out;
+  -moz-transition: color 0.2s ease-out;
+  -o-transition: color 0.2s ease-out;
+  transition: color 0.2s ease-out; }
+
+body, html {
+  background: #FFFFFF;
+  font-family: LatoRegular, Helvetica, sans-serif;
+  font-size: 90%;
+  text-shadow: #d1d1d1 0 1px 0;
+  color: #1f1f1f; }
+
+header, section, nav {
+  margin-bottom: 30px; }
+
+#download pre {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  font-family: Helvetica, Arial, FreeSans, sans-serif;
+  background: #000;
+  color: #fff;
+  padding: 10px;
+  text-shadow: none; }
+
+#bg {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  position: fixed;
+  zoom: 1; }
+
+#bg-image {
+  background: #FFFFFF;
+  background: url("../../images/linen-white.jpg") repeat fixed;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  position: fixed;
+  zoom: 1; }
+
+#bg-transparent {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30";
+  filter: alpha(opacity=30);
+  /* IE */
+  -khtml-opacity: 0.3;
+  /* khtml, old safari */
+  -moz-opacity: 0.3;
+  /* mozilla, netscape */
+  opacity: 0.3;
+  /* fx, safari, opera */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  position: fixed;
+  zoom: 1; }
+
+#bg-gradient {
+  background: -moz-linear-gradient(top, white 0%, black 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, black));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, white 0%, black 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, white 0%, black 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, white 0%, black 100%);
+  /* IE10+ */
+  background: linear-gradient(top, white 0%, black 100%);
+  /* W3C */
+  \9filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#000000',GradientType=0);
+  /* IE6-9 */
+  \9-ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#4cFFFFFF', endColorstr='#4c000000')";
+  /* IE8 */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  position: fixed;
+  zoom: 1; }
+
+#container {
+  position: relative;
+  padding: 20px; }
+
+#nav {
+  width: 220px;
+  float: left; }
+
+#content {
+  margin-left: 220px;
+  position: relative; }
+
+p {
+  line-height: 125%; }
+
+header h1 {
+  font-family: HomenajeRegular, Helvetica, sans-serif;
+  font-weight: 900;
+  font-size: 340%; }
+
+section h1, nav h1 {
+  font-weight: bold;
+  font-size: 180%;
+  margin-bottom: 10px; }
+
+section h2 {
+  font-weight: bold;
+  font-size: 130%;
+  margin-bottom: 10px; }
+
+section h3 {
+  margin-bottom: 10px;
+  font-size: 110%;
+  font-weight: bold; }
+
+section p {
+  margin-bottom: 10px; }
+
+section.hidden {
+  display: block; }
+
+nav ul {
+  padding-left: 20px; }
+
+nav > ul {
+  padding-left: 0px; }
+
+nav li {
+  display: block;
+  line-height: 160%;
+  font-weight: normal; }
+
+nav li.selected {
+  font-weight: bold; }
+
+nav a {
+  text-decoration: none;
+  color: black; }
+
+section li a, section p a {
+  color: #0095b9;
+  font-weight: bold;
+  text-decoration: none; }
+
+.bold {
+  font-weight: bold; }
+
+.pointer {
+  cursor: pointer; }
+
+.red {
+  color: #BC0D0D; }
+
+.note {
+  font-style: italic;
+  font-size: 100%;
+  color: #464646; }
+
+.notesmall {
+  font-style: italic;
+  font-size: 90%;
+  color: #464646; }
+
+/*TUTORIAL*/
+.log {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  background: #FFF;
+  font-size: 0.9em;
+  height: auto;
+  overflow: auto;
+  padding: 5px;
+  background: #F2F2F2;
+  text-shadow: none;
+  margin-bottom: 20px; }
+
+.log-count {
+  color: #AAA;
+  padding-left: 2px; }
+
+.button {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4); }
+
+.log .hidden {
+  display: "none"; }
+
+div .code {
+  margin-top: 20px; }
+
+.chapter li {
+  margin-top: 4px; }
+
+.codequote {
+  font-family: monospace;
+  color: #166b36;
+  font-size: 110%; }
+
+.button {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none; }
+
+.run, .next, .previous {
+  margin-bottom: 20px; }
+
+.next {
+  float: right; }
+
+.step .content {
+  margin-bottom: 10px; }
+
+.step .content ul {
+  margin-left: 30px; }
+
+.CodeMirror {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  text-shadow: none;
+  margin-bottom: 20px;
+  background: #F2F2F2; }
+
+.CodeMirror-gutter {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px; }
+
+.CodeMirror-scroll {
+  max-height: 400px;
+  overflow: auto; }
+
+.space-around {
+  margin-top: 30px;
+  margin-bottom: 30px; }
+
+#demos ul > li, #download ul > li {
+  margin-left: 30px;
+  margin-top: 4px; }
+
+#demos ul, #download ul {
+  margin-bottom: 10px; }
+
+#demos > ul > li, #download > ul > li {
+  margin-left: 0px;
+  margin-top: 30px; }
+
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+  display: block; }
+
+audio, canvas, video {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1; }
+
+audio:not([controls]) {
+  display: none; }
+
+[hidden] {
+  display: none; }
+
+::-moz-selection {
+  background: #5268BE;
+  color: #fff;
+  text-shadow: none; }
+
+::selection {
+  background: #5268BE;
+  color: #fff;
+  text-shadow: none; }
+
+a:hover, a:active {
+  outline: 0; }
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word; }
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle; }
+
+svg:not(:root) {
+  overflow: hidden; }
+
+/* ==|== media queries ======================================================
+   PLACEHOLDER Media Queries for Responsive Design.
+   These override the primary ('mobile first') styles
+   Modify as content requires.
+   ========================================================================== */
+@media only screen and (max-width: 800px) {
+  #nav {
+    float: none;
+    width: 100%; }
+
+  #content {
+    margin-left: 0px;
+    position: relative; }
+
+  .button + .button {
+    margin-left: 5px; } }
+/* ==|== non-semantic helper classes ========================================
+   Please define your styles before this section.
+   ========================================================================== */
+/* For image replacement */
+.ir {
+  display: block;
+  border: 0;
+  text-indent: -999em;
+  overflow: hidden;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  text-align: left;
+  direction: ltr; }
+
+.ir br {
+  display: none; }
+
+/* Hide from both screenreaders and browsers: h5bp.com/u */
+.hidden {
+  display: none !important;
+  visibility: hidden; }
+
+/* Hide only visually, but have it available for screenreaders: h5bp.com/v */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; }
+
+/* Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: h5bp.com/p */
+.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto; }
+
+/* Hide visually and from screenreaders, but maintain layout */
+.invisible {
+  visibility: hidden; }
+
+/* Contain floats: h5bp.com/q */
+.clearfix:before, .clearfix:after {
+  content: "";
+  display: table; }
+
+.clearfix:after {
+  clear: both; }
+
+.clearfix {
+  zoom: 1; }
+
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    text-shadow: none !important;
+    filter: none !important;
+    -ms-filter: none !important; }
+
+  /* Black prints faster: h5bp.com/s */
+  a, a:visited {
+    text-decoration: underline; }
+
+  a[href]:after {
+    content: " (" attr(href) ")"; }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")"; }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: ""; }
+
+  /* Don't show links for images, or javascript/internal links */
+  pre, blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid; }
+
+  thead {
+    display: table-header-group; }
+
+  /* h5bp.com/t */
+  tr, img {
+    page-break-inside: avoid; }
+
+  img {
+    max-width: 100% !important; }
+
+  @page {
+    margin: 0.5cm; }
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3; }
+
+  h2, h3 {
+    page-break-after: avoid; } }

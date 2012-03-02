@@ -1,0 +1,15 @@
+@import "base";
+
+textarea {
+    @include global-shadow;
+    @include border-radius($global-radius);
+	width: 100%;
+	height: auto;
+	min-height: 300px;
+	max-height: 400px;
+	max-height: 400px;
+	font-size: 110%;
+	border: none;
+	background: #F8F8F8;
+	font-family: monospace;
+}

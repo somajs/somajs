@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>soma | somacore.js</title>
+		<title>soma.SomaWires | somacore.js</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<meta name="mobileoptimized" content="0" />
@@ -92,12 +92,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Namespace <span>soma</span>
+					Class <span>soma.SomaWires</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						Global namespace.
+						soma.SomaWires
 					</p>
 						
 					
@@ -116,8 +116,8 @@
 			
 				<section>
 					<div class="props">
-						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.">
-							<caption class="sectionTitle">Namespace Summary</caption>
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.SomaWires.">
+							<caption class="sectionTitle">Class Summary</caption>
 							<thead>
 								<tr>
 									<th scope="col">Constructor Attributes</th>
@@ -129,9 +129,9 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/soma.html#constructor">soma</a></b>
+											<b><a href="../symbols/soma.SomaWires.html#constructor">soma.SomaWires</a></b>()
 										</div>
-										<div class="description"></div>
+										<div class="description">The SomaWires class handles the wires of the application.</div>
 									</td>
 								</tr>
 							</tbody>
@@ -146,7 +146,7 @@
 					
 						<nav>
 							<div class="props">
-								<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class soma.">
+								<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class soma.SomaWires.">
 									<caption class="sectionTitle">Field Summary</caption>
 									
 									<thead>
@@ -159,12 +159,12 @@
 									<tbody>
 										
 											<tr>
-												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
 													<div class="fixedFont">
-													soma.<b><a href="../symbols/soma.html#.AutoBind">AutoBind</a></b>
+													<b><a href="../symbols/soma.SomaWires.html#instance">instance</a></b>
 													</div>
-													<div class="description">Provides the functionality to autobind with implicit need to keep object scope like event listeners and handlers/callbacks ending with *Listener or *Handler.</div>
+													<div class="description"></div>
 												</td>
 											</tr>
 										
@@ -189,7 +189,7 @@
 						
 						
 							<nav>
-								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.">
+								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.SomaWires.">
 									<thead>
 										<tr>
 											<th scope="col">Method Attributes</th>
@@ -203,33 +203,55 @@
 											<tr
 												 class='item0'
 											>
-												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">soma.<b><a href="../symbols/soma.html#.applyProperties">applyProperties</a></b>(target, extension)
+													<div class="fixedFont"><b><a href="../symbols/soma.SomaWires.html#addWire">addWire</a></b>(wireName, wire)
 													</div>
-													<div class="description">Apply an object properties on another object</div>
+													<div class="description">Registers a wire to the framework.</div>
 												</td>
 											</tr>
 										
 											<tr
 												 class='item1'
 											>
-												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">soma.<b><a href="../symbols/soma.html#.extend">extend</a></b>(obj)
+													<div class="fixedFont"><b><a href="../symbols/soma.SomaWires.html#getWire">getWire</a></b>(wireName)
 													</div>
-													<div class="description">Create a function that extends the function it is called from</div>
+													<div class="description">Retrieves the wire instance that has been registered using its name.</div>
 												</td>
 											</tr>
 										
 											<tr
 												 class='item2'
 											>
-												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">soma.<b><a href="../symbols/soma.html#.inherit">inherit</a></b>(target, obj)
+													<div class="fixedFont"><b><a href="../symbols/soma.SomaWires.html#getWires">getWires</a></b>()
 													</div>
-													<div class="description">Apply inheritance to a function</div>
+													<div class="description">Retrieves an array of the registered wires.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item3'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.SomaWires.html#hasWire">hasWire</a></b>(wireName)
+													</div>
+													<div class="description">Indicates whether a wire has been registered to the framework.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item4'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.SomaWires.html#removeWire">removeWire</a></b>(wireName)
+													</div>
+													<div class="description">Removes a wire from the framework and calls the dispose method of this wire.</div>
 												</td>
 											</tr>
 										
@@ -255,18 +277,25 @@
 					<div class="details props">
 						<div class="innerProps">
 							<h2 class="sectionTitle" id="constructor">
-								Namespace Detail
+								Class Detail
 							</h2>
 							
 							<div class="fixedFont">
-								<b>soma</b>
+								<b>soma.SomaWires</b>()
 							</div>
 							
 							<div class="description">
-								
+								The SomaWires class handles the wires of the application. See the Wire class documentation for implementation.
 								
 							</div>
 							
+							
+								
+									<pre class="code">
+this.addWire("myWireName", new MyWire());
+this.removeWire("myWireName");
+var wire = this.getWire("myWireName");</pre>
+								
 							
 						
 							
@@ -288,54 +317,23 @@
 							</h2>
 							
 							
-								<div class="fixedFont heading" id=".AutoBind">
+								<div class="fixedFont heading" id="instance">
 									<span class='lighter'>
-									&lt;static&gt; 
+									
 									</span>
 									
 									
 									
-									<span class="light">soma.</span><b>AutoBind</b>							
+									<b>instance</b>							
 								</div>
 								
 								<div class="description">
-									Provides the functionality to autobind with implicit need to keep object scope like event listeners and handlers/callbacks ending with *Listener or *Handler.Wires and Mediators as framework objects are implementing instance scope autobinding upon registration.
-Creates a new AutoBind class.
+									
 									
 									
 									
 								</div>
 								
-								
-									
-										<pre class="code">
-// wire not autobound
-var MyWire = soma.Wire.extend({
-	init: function() {
-		this.addEventListener("eventType", this.eventHandler.bind(this));
-	},
-	eventHandler: function(event) {
-		// "this" keyword is this wire.
-	}
-});
-
-// wire autobound
-var MyWire = soma.Wire.extend({
-	shouldAutobind: true,
-	init: function() {
-		this.addEventListener("eventType", this.eventHandler);
-	},
-	eventHandler: function(event) {
-		// "this" keyword is this wire.
-	}
-});
-
-// custom class autobind
-var MyClassToAutobind = soma.extend({
-	shouldAutobind: true
-});
-soma.applyProperties(MyClassToAutobind.prototype, soma.AutoBind);</pre>
-									
 								
 									
 								
@@ -362,18 +360,18 @@ soma.applyProperties(MyClassToAutobind.prototype, soma.AutoBind);</pre>
 									<li 
 										 class='item0'
 									>
-										<div class="fixedFont heading" id=".applyProperties">
+										<div class="fixedFont heading" id="addWire">
 											<span class='lighter'>
-											&lt;static&gt; 
+											
 											</span>
 											
+											<span class="light">{<a href="../symbols/soma.Wire.html">soma.Wire</a>}</span>
 											
-											
-											<span class="light">soma.</span><b>applyProperties</b>(target, extension)
+											<b>addWire</b>(wireName, wire)
 										</div>
 										
 										<div class="description">
-											Apply an object properties on another object
+											Registers a wire to the framework.
 											
 											
 											
@@ -382,35 +380,7 @@ soma.applyProperties(MyClassToAutobind.prototype, soma.AutoBind);</pre>
 										
 										
 											
-												<pre class="code">
-// example with objects
-var objectTarget = {};
-var objectExtension = {
-	name: "John",
-	say: function() {
-		alert("My name is " + this.name);
-	}
-};
-soma.applyProperties(objectTarget, objectExtension);
-objectTarget.say();
-
-// example with prototype (no inheritance)
-var Person = function(name) {
-	this.name = name;
-}
-Person.prototype = {
-	say: function() {
-	    alert("My name is " + this.name);
-	}
-}
-var Man = function(name){
-	this.name = name
-};
-soma.applyProperties(Man.prototype, Person.prototype);
-var one = new Person("Person");
-one.say();
-var john = new Man("John");
-john.say();</pre>
+												<pre class="code">this.addWire("myWireName", new MyWire());</pre>
 											
 										
 										
@@ -419,20 +389,41 @@ john.say();</pre>
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{object}</span> <b>target</b>
+														<span class="light fixedFont">{string}</span> <b>wireName</b>
 														
 													</dt>
-													<dd>An object to receive properties</dd>
+													<dd>The name of the wire.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{object}</span> <b>extension</b>
+														<span class="light fixedFont">{<a href="../symbols/soma.Wire.html">soma.Wire</a>}</span> <b>wire</b>
 														
 													</dt>
-													<dd>An object holding the properties</dd>
+													<dd>A wire instance.</dd>
 												
 											</dl>
 										
 										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{<a href="../symbols/soma.Wire.html">soma.Wire</a>}</span> The wire instance.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
 										
 										<div class="hr"></div>
 									</li>
@@ -440,18 +431,18 @@ john.say();</pre>
 									<li 
 										 class='item1'
 									>
-										<div class="fixedFont heading" id=".extend">
+										<div class="fixedFont heading" id="getWire">
 											<span class='lighter'>
-											&lt;static&gt; 
+											
 											</span>
 											
+											<span class="light">{<a href="../symbols/soma.Wire.html">soma.Wire</a>}</span>
 											
-											
-											<span class="light">soma.</span><b>extend</b>(obj)
+											<b>getWire</b>(wireName)
 										</div>
 										
 										<div class="description">
-											Create a function that extends the function it is called from
+											Retrieves the wire instance that has been registered using its name.
 											
 											
 											
@@ -460,41 +451,7 @@ john.say();</pre>
 										
 										
 											
-												<pre class="code">
-var Person = soma.extend({
-	name: null,
-	// Person constructor
-	constructor: function(name) {
-	    this.name = name;
-	    alert("Person constructor: Person created with name " + this.name);
-	},
-	// Person methods
-	say: function() {
-	    alert("Person method: My name is " + this.name);
-	}
-});
-
-var Man = Person.extend({
-	// Man constructor
-	constructor: function(name) {
-	    // call super constructor
-	    Person.call(this, name);
-	    alert("Man constructor: Man created with name " + this.name);
-	},
-	// Man methods
-	say: function() {
-	    // call super method "say"
-	    Person.prototype.say.call(this);
-	    alert("Man method: I'm a man and my name is " + this.name);
-	}
-});
-
-// create Person
-var one = new Person("Person");
-one.say();
-// create Man
-var john = new Man("John");
-john.say();</pre>
+												<pre class="code">var myWire = this.getWire("myWireName");</pre>
 											
 										
 										
@@ -503,14 +460,35 @@ john.say();</pre>
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{object}</span> <b>obj</b>
+														<span class="light fixedFont">{string}</span> <b>wireName</b>
 														
 													</dt>
-													<dd>Object containing the extension</dd>
+													<dd>The name of the wire.</dd>
 												
 											</dl>
 										
 										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{<a href="../symbols/soma.Wire.html">soma.Wire</a>}</span> A wire instance.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
 										
 										<div class="hr"></div>
 									</li>
@@ -518,18 +496,18 @@ john.say();</pre>
 									<li 
 										 class='item2'
 									>
-										<div class="fixedFont heading" id=".inherit">
+										<div class="fixedFont heading" id="getWires">
 											<span class='lighter'>
-											&lt;static&gt; 
+											
 											</span>
 											
+											<span class="light">{array}</span>
 											
-											
-											<span class="light">soma.</span><b>inherit</b>(target, obj)
+											<b>getWires</b>()
 										</div>
 										
 										<div class="description">
-											Apply inheritance to a function
+											Retrieves an array of the registered wires.
 											
 											
 											
@@ -538,40 +516,61 @@ john.say();</pre>
 										
 										
 											
-												<pre class="code">
-// Person constructor
-var Person = function(name){
-	this.name = name;
-	alert("Person constructor: Person created with name " + this.name);
-};
-// Person methods
-Person.prototype = {
-	say: function() {
-	    alert("Person method: My name is " + this.name);
-	}
-}
-// Man constructor
-var Man = function(name) {
-	// call super constructor
-	Person.call(this, name);
-	alert("Man constructor: Man created with name " + this.name);
-}
-// Man methods
-Man.prototype = {
-	say: function() {
-	    // call super method "say"
-	    Person.prototype.say.call(this);
-	    alert("Man method: I'm a man and my name is " + this.name);
-	}
-}
-// Man inheritance from Person
-soma.inherit(Person, Man.prototype);
-// create Person
-var one = new Person("Person");
-one.say();
-// create Man
-var john = new Man("John");
-john.say();</pre>
+												<pre class="code">var wires = this.getWires();</pre>
+											
+										
+										
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{array}</span> An array of wires.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item3'
+									>
+										<div class="fixedFont heading" id="hasWire">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{boolean}</span>
+											
+											<b>hasWire</b>(wireName)
+										</div>
+										
+										<div class="description">
+											Indicates whether a wire has been registered to the framework.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">this.hasWire("myWireName");</pre>
 											
 										
 										
@@ -580,16 +579,75 @@ john.say();</pre>
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{function}</span> <b>target</b>
+														<span class="light fixedFont">{string}</span> <b>wireName</b>
 														
 													</dt>
-													<dd>A function to receive inheritance</dd>
+													<dd>The name of the wire.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{boolean}</span> </dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item4'
+									>
+										<div class="fixedFont heading" id="removeWire">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>removeWire</b>(wireName)
+										</div>
+										
+										<div class="description">
+											Removes a wire from the framework and calls the dispose method of this wire.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">this.removeWire("myWireName");</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{object}</span> <b>obj</b>
+														<span class="light fixedFont">{string}</span> <b>wireName</b>
 														
 													</dt>
-													<dd>An object holding the properties to inherit from</dd>
+													<dd>The name of the wire.</dd>
 												
 											</dl>
 										

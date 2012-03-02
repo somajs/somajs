@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>soma | somacore.js</title>
+		<title>soma.EventDispatcher | somacore.js</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<meta name="mobileoptimized" content="0" />
@@ -92,12 +92,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Namespace <span>soma</span>
+					Class <span>soma.EventDispatcher</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						Global namespace.
+						soma.EventDispatcher
 					</p>
 						
 					
@@ -116,8 +116,8 @@
 			
 				<section>
 					<div class="props">
-						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.">
-							<caption class="sectionTitle">Namespace Summary</caption>
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.EventDispatcher.">
+							<caption class="sectionTitle">Class Summary</caption>
 							<thead>
 								<tr>
 									<th scope="col">Constructor Attributes</th>
@@ -129,9 +129,9 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/soma.html#constructor">soma</a></b>
+											<b><a href="../symbols/soma.EventDispatcher.html#constructor">soma.EventDispatcher</a></b>()
 										</div>
-										<div class="description"></div>
+										<div class="description">Class on which on you can add and remove listeners of an event.</div>
 									</td>
 								</tr>
 							</tbody>
@@ -140,42 +140,6 @@
 				</section>
 			
 			
-			
-				
-				<section>
-					
-						<nav>
-							<div class="props">
-								<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class soma.">
-									<caption class="sectionTitle">Field Summary</caption>
-									
-									<thead>
-										<tr>
-											<th scope="col">Field Attributes</th>
-											<th scope="col">Field Name and Description</th>
-										</tr>
-									</thead>
-									
-									<tbody>
-										
-											<tr>
-												<td class="attributes">&lt;static&gt; &nbsp;</td>
-												<td class="nameDescription">
-													<div class="fixedFont">
-													soma.<b><a href="../symbols/soma.html#.AutoBind">AutoBind</a></b>
-													</div>
-													<div class="description">Provides the functionality to autobind with implicit need to keep object scope like event listeners and handlers/callbacks ending with *Listener or *Handler.</div>
-												</td>
-											</tr>
-										
-									</tbody>
-								</table>
-							</div>
-						</nav>
-					
-					
-					
-				</section>
 			
 	<!--
 	#### METHODS SUMMARY
@@ -189,7 +153,7 @@
 						
 						
 							<nav>
-								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.">
+								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class soma.EventDispatcher.">
 									<thead>
 										<tr>
 											<th scope="col">Method Attributes</th>
@@ -203,33 +167,66 @@
 											<tr
 												 class='item0'
 											>
-												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">soma.<b><a href="../symbols/soma.html#.applyProperties">applyProperties</a></b>(target, extension)
+													<div class="fixedFont"><b><a href="../symbols/soma.EventDispatcher.html#addEventListener">addEventListener</a></b>(type, listener, priority)
 													</div>
-													<div class="description">Apply an object properties on another object</div>
+													<div class="description">Registers an event listener with an EventDispatcher object so that the listener receives notification of an event.</div>
 												</td>
 											</tr>
 										
 											<tr
 												 class='item1'
 											>
-												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">soma.<b><a href="../symbols/soma.html#.extend">extend</a></b>(obj)
+													<div class="fixedFont"><b><a href="../symbols/soma.EventDispatcher.html#dispatchEvent">dispatchEvent</a></b>(event)
 													</div>
-													<div class="description">Create a function that extends the function it is called from</div>
+													<div class="description">Dispatches an event into the event flow.</div>
 												</td>
 											</tr>
 										
 											<tr
 												 class='item2'
 											>
-												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">soma.<b><a href="../symbols/soma.html#.inherit">inherit</a></b>(target, obj)
+													<div class="fixedFont"><b><a href="../symbols/soma.EventDispatcher.html#dispose">dispose</a></b>()
 													</div>
-													<div class="description">Apply inheritance to a function</div>
+													<div class="description">Destroy the elements of the instance.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item3'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.EventDispatcher.html#getListeners">getListeners</a></b>(listeners)
+													</div>
+													<div class="description">Returns a copy of the listener array.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item4'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.EventDispatcher.html#hasEventListener">hasEventListener</a></b>(type)
+													</div>
+													<div class="description">Checks whether the EventDispatcher object has any listeners registered for a specific type of event.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item5'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.EventDispatcher.html#removeEventListener">removeEventListener</a></b>(type, listener)
+													</div>
+													<div class="description">Removes a listener from the EventDispatcher object.</div>
 												</td>
 											</tr>
 										
@@ -255,18 +252,28 @@
 					<div class="details props">
 						<div class="innerProps">
 							<h2 class="sectionTitle" id="constructor">
-								Namespace Detail
+								Class Detail
 							</h2>
 							
 							<div class="fixedFont">
-								<b>soma</b>
+								<b>soma.EventDispatcher</b>()
 							</div>
 							
 							<div class="description">
-								
+								Class on which on you can add and remove listeners of an event. A event can be dispatched from it and a notification will be sent to all registered listeners.
 								
 							</div>
 							
+							
+								
+									<pre class="code">
+var dispatcher = new soma.EventDispatcher();
+dispatcher.addEventListener("eventType", eventHandler);
+function eventHandler(event) {
+	// alert(event.type);
+}
+dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
+								
 							
 						
 							
@@ -279,71 +286,6 @@
 	<!--
 	#### FIELD DETAILS
 	-->
-			
-				<section>
-					<div class="details props">
-						<div class="innerProps">
-							<h2 class="sectionTitle">
-								Field Detail
-							</h2>
-							
-							
-								<div class="fixedFont heading" id=".AutoBind">
-									<span class='lighter'>
-									&lt;static&gt; 
-									</span>
-									
-									
-									
-									<span class="light">soma.</span><b>AutoBind</b>							
-								</div>
-								
-								<div class="description">
-									Provides the functionality to autobind with implicit need to keep object scope like event listeners and handlers/callbacks ending with *Listener or *Handler.Wires and Mediators as framework objects are implementing instance scope autobinding upon registration.
-Creates a new AutoBind class.
-									
-									
-									
-								</div>
-								
-								
-									
-										<pre class="code">
-// wire not autobound
-var MyWire = soma.Wire.extend({
-	init: function() {
-		this.addEventListener("eventType", this.eventHandler.bind(this));
-	},
-	eventHandler: function(event) {
-		// "this" keyword is this wire.
-	}
-});
-
-// wire autobound
-var MyWire = soma.Wire.extend({
-	shouldAutobind: true,
-	init: function() {
-		this.addEventListener("eventType", this.eventHandler);
-	},
-	eventHandler: function(event) {
-		// "this" keyword is this wire.
-	}
-});
-
-// custom class autobind
-var MyClassToAutobind = soma.extend({
-	shouldAutobind: true
-});
-soma.applyProperties(MyClassToAutobind.prototype, soma.AutoBind);</pre>
-									
-								
-									
-								
-								
-							
-						</div>
-					</div>
-				</section>
 			
 	<!--
 	#### METHOD DETAILS
@@ -362,18 +304,18 @@ soma.applyProperties(MyClassToAutobind.prototype, soma.AutoBind);</pre>
 									<li 
 										 class='item0'
 									>
-										<div class="fixedFont heading" id=".applyProperties">
+										<div class="fixedFont heading" id="addEventListener">
 											<span class='lighter'>
-											&lt;static&gt; 
+											
 											</span>
 											
 											
 											
-											<span class="light">soma.</span><b>applyProperties</b>(target, extension)
+											<b>addEventListener</b>(type, listener, priority)
 										</div>
 										
 										<div class="description">
-											Apply an object properties on another object
+											Registers an event listener with an EventDispatcher object so that the listener receives notification of an event.
 											
 											
 											
@@ -383,34 +325,10 @@ soma.applyProperties(MyClassToAutobind.prototype, soma.AutoBind);</pre>
 										
 											
 												<pre class="code">
-// example with objects
-var objectTarget = {};
-var objectExtension = {
-	name: "John",
-	say: function() {
-		alert("My name is " + this.name);
-	}
-};
-soma.applyProperties(objectTarget, objectExtension);
-objectTarget.say();
-
-// example with prototype (no inheritance)
-var Person = function(name) {
-	this.name = name;
-}
-Person.prototype = {
-	say: function() {
-	    alert("My name is " + this.name);
-	}
-}
-var Man = function(name){
-	this.name = name
-};
-soma.applyProperties(Man.prototype, Person.prototype);
-var one = new Person("Person");
-one.say();
-var john = new Man("John");
-john.say();</pre>
+dispatcher.addEventListener("eventType", eventHandler);
+function eventHandler(event) {
+	// alert(event.type)
+}</pre>
 											
 										
 										
@@ -419,16 +337,22 @@ john.say();</pre>
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{object}</span> <b>target</b>
+														<span class="light fixedFont">{string}</span> <b>type</b>
 														
 													</dt>
-													<dd>An object to receive properties</dd>
+													<dd>The type of event.</dd>
 												
 													<dt>
-														<span class="light fixedFont">{object}</span> <b>extension</b>
+														<span class="light fixedFont">{function}</span> <b>listener</b>
 														
 													</dt>
-													<dd>An object holding the properties</dd>
+													<dd>The listener function that processes the event. This function must accept an Event object as its only parameter and must return nothing.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{int}</span> <b>priority</b>
+														
+													</dt>
+													<dd>The priority level of the event listener (default 0). The higher the number, the higher the priority (can take negative number).</dd>
 												
 											</dl>
 										
@@ -440,18 +364,18 @@ john.say();</pre>
 									<li 
 										 class='item1'
 									>
-										<div class="fixedFont heading" id=".extend">
+										<div class="fixedFont heading" id="dispatchEvent">
 											<span class='lighter'>
-											&lt;static&gt; 
+											
 											</span>
 											
 											
 											
-											<span class="light">soma.</span><b>extend</b>(obj)
+											<b>dispatchEvent</b>(event)
 										</div>
 										
 										<div class="description">
-											Create a function that extends the function it is called from
+											Dispatches an event into the event flow. The event target is the EventDispatcher object upon which the dispatchEvent() method is called.
 											
 											
 											
@@ -461,40 +385,7 @@ john.say();</pre>
 										
 											
 												<pre class="code">
-var Person = soma.extend({
-	name: null,
-	// Person constructor
-	constructor: function(name) {
-	    this.name = name;
-	    alert("Person constructor: Person created with name " + this.name);
-	},
-	// Person methods
-	say: function() {
-	    alert("Person method: My name is " + this.name);
-	}
-});
-
-var Man = Person.extend({
-	// Man constructor
-	constructor: function(name) {
-	    // call super constructor
-	    Person.call(this, name);
-	    alert("Man constructor: Man created with name " + this.name);
-	},
-	// Man methods
-	say: function() {
-	    // call super method "say"
-	    Person.prototype.say.call(this);
-	    alert("Man method: I'm a man and my name is " + this.name);
-	}
-});
-
-// create Person
-var one = new Person("Person");
-one.say();
-// create Man
-var john = new Man("John");
-john.say();</pre>
+dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
 											
 										
 										
@@ -503,10 +394,10 @@ john.say();</pre>
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{object}</span> <b>obj</b>
+														<span class="light fixedFont">{<a href="../symbols/soma.Event.html">soma.Event</a>}</span> <b>event</b>
 														
 													</dt>
-													<dd>Object containing the extension</dd>
+													<dd>The Event object that is dispatched into the event flow. If the event is being redispatched, a clone of the event is created automatically.</dd>
 												
 											</dl>
 										
@@ -518,18 +409,18 @@ john.say();</pre>
 									<li 
 										 class='item2'
 									>
-										<div class="fixedFont heading" id=".inherit">
+										<div class="fixedFont heading" id="dispose">
 											<span class='lighter'>
-											&lt;static&gt; 
+											
 											</span>
 											
 											
 											
-											<span class="light">soma.</span><b>inherit</b>(target, obj)
+											<b>dispose</b>()
 										</div>
 										
 										<div class="description">
-											Apply inheritance to a function
+											Destroy the elements of the instance. The instance still needs to be nullified.
 											
 											
 											
@@ -539,39 +430,82 @@ john.say();</pre>
 										
 											
 												<pre class="code">
-// Person constructor
-var Person = function(name){
-	this.name = name;
-	alert("Person constructor: Person created with name " + this.name);
-};
-// Person methods
-Person.prototype = {
-	say: function() {
-	    alert("Person method: My name is " + this.name);
-	}
-}
-// Man constructor
-var Man = function(name) {
-	// call super constructor
-	Person.call(this, name);
-	alert("Man constructor: Man created with name " + this.name);
-}
-// Man methods
-Man.prototype = {
-	say: function() {
-	    // call super method "say"
-	    Person.prototype.say.call(this);
-	    alert("Man method: I'm a man and my name is " + this.name);
-	}
-}
-// Man inheritance from Person
-soma.inherit(Person, Man.prototype);
-// create Person
-var one = new Person("Person");
-one.say();
-// create Man
-var john = new Man("John");
-john.say();</pre>
+instance.dispose();
+instance = null;</pre>
+											
+										
+										
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item3'
+									>
+										<div class="fixedFont heading" id="getListeners">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>getListeners</b>(listeners)
+										</div>
+										
+										<div class="description">
+											Returns a copy of the listener array.
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{Array}</span> <b>listeners</b>
+														
+													</dt>
+													<dd></dd>
+												
+											</dl>
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item4'
+									>
+										<div class="fixedFont heading" id="hasEventListener">
+											<span class='lighter'>
+											
+											</span>
+											
+											<span class="light">{boolean}</span>
+											
+											<b>hasEventListener</b>(type)
+										</div>
+										
+										<div class="description">
+											Checks whether the EventDispatcher object has any listeners registered for a specific type of event.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">
+dispatcher.hasEventListener("eventType");</pre>
 											
 										
 										
@@ -580,16 +514,82 @@ john.say();</pre>
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{function}</span> <b>target</b>
+														<span class="light fixedFont">{string}</span> <b>type</b>
 														
 													</dt>
-													<dd>A function to receive inheritance</dd>
+													<dd>The type of event.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{boolean}</span> </dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item5'
+									>
+										<div class="fixedFont heading" id="removeEventListener">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>removeEventListener</b>(type, listener)
+										</div>
+										
+										<div class="description">
+											Removes a listener from the EventDispatcher object. If there is no matching listener registered with the EventDispatcher object, a call to this method has no effect.
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">
+dispatcher.removeEventListener("eventType", eventHandler);</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{object}</span> <b>obj</b>
+														<span class="light fixedFont">{string}</span> <b>type</b>
 														
 													</dt>
-													<dd>An object holding the properties to inherit from</dd>
+													<dd>The type of event.</dd>
+												
+													<dt>
+														<span class="light fixedFont">{function}</span> <b>listener</b>
+														
+													</dt>
+													<dd>The listener object to remove.</dd>
 												
 											</dl>
 										

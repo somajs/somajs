@@ -288,6 +288,11 @@ section li a, section p a {
   font-size: 100%;
   color: #464646; }
 
+.notesmall {
+  font-style: italic;
+  font-size: 90%;
+  color: #464646; }
+
 /*TUTORIAL*/
 .log {
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);

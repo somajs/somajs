@@ -75,6 +75,7 @@
 			<p class="note">The command pattern aims to encapsulate method invocation, requests or operations into a single object and gives you the ability to both parameterize and pass method calls around that can be executed at your discretion. In addition, it enables you to decouple objects invoking the action from the objects which implement them, giving you a greater degree of overall flexibility in swapping out concrete 'classes'.</p>
 			<p>The framework also provides an easy way to use prototypal inheritance. Two different versions can be used, a "javascript native" version and a <a href="http://mootools.net/" target="_blank">Mootools</a> version.</p>
 			<p>somacore.js is a "base" framework and does not provide tools for specific javascript tasks. External libraries can be used with the framework if you wish to, such as <a href="http://jquery.com/" target="_blank">jquery</a> or anything you like.</p>
+			<p class="notesmall">somacore.js is released under the <a href="http://www.mozilla.org/MPL/" target="_blank">Mozilla Public License</a>.</p>
 		</section>
 
 		<section id="docs">
@@ -2100,8 +2101,10 @@ var app = new HelloWorldApplication();
 
 </div>
 
+<a href="https://github.com/somacorejs/somacorejs" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+
 <!--[if lt IE 9]>
-<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<script src="js/libs/html5.js"></script>
 <![endif]-->
 
 <script type="text/javascript" src="codemirror/js/codemirror.js"></script>
@@ -2118,6 +2121,20 @@ var app = new HelloWorldApplication();
 <script type="text/javascript" src="js/app/views.js"></script>
 <script type="text/javascript" src="js/app/wires.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
+
+<script type="text/javascript">
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-28629754-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+</script>
 
 </body>
 </html>

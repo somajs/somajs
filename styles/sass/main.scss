@@ -15,6 +15,16 @@ header, section, nav {
 	margin-bottom: 30px;
 }
 
+#download pre {
+    @include global-shadow;
+    @include border-radius($global-radius);
+    font-family: Helvetica, Arial, FreeSans, sans-serif;
+    background: #000;
+    color: #fff;
+    padding: 10px;
+    text-shadow: none;
+}
+
 #bg {
     width: 100%;
     height: 100%;
@@ -137,14 +147,16 @@ section li a, section p a {
 	text-decoration: none;
 }
 
-/*#button a {*/
-	/*color: $button-link-color;*/
-	/*font-weight: bold;*/
-	/*text-decoration: none;*/
-/*}*/
+.bold {
+	font-weight: bold;
+}
 
 .pointer {
 	cursor: pointer;
+}
+
+.red {
+	color: #BC0D0D;
 }
 
 .note {

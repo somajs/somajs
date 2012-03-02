@@ -156,6 +156,21 @@ body, html {
 header, section, nav {
   margin-bottom: 30px; }
 
+#download pre {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  font-family: Helvetica, Arial, FreeSans, sans-serif;
+  background: #000;
+  color: #fff;
+  padding: 10px;
+  text-shadow: none; }
+
 #bg {
   width: 100%;
   height: 100%;
@@ -275,13 +290,14 @@ section li a, section p a {
   font-weight: bold;
   text-decoration: none; }
 
-/*#button a {*/
-/*color: $button-link-color;*/
-/*font-weight: bold;*/
-/*text-decoration: none;*/
-/*}*/
+.bold {
+  font-weight: bold; }
+
 .pointer {
   cursor: pointer; }
+
+.red {
+  color: #BC0D0D; }
 
 .note {
   font-style: italic;
@@ -298,11 +314,11 @@ section li a, section p a {
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
   -moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
   -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
   background: #FFF;
   font-size: 0.9em;
   height: auto;
@@ -360,11 +376,11 @@ div .code {
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
   -moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
   -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
   text-shadow: none;
   margin-bottom: 20px;
   background: #F2F2F2; }

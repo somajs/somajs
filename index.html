@@ -15,7 +15,9 @@
 	<link rel="stylesheet" href="codemirror/css/codemirror.css"/>
 	<link rel="stylesheet" href="codemirror/theme/eclipse.css"/>
 	<link rel="stylesheet" href="styles/css/main.css"/>
-
+	<noscript>
+		<link rel="stylesheet" href="styles/css/no-js.css"/>
+	</noscript>
 </head>
 <body>
 
@@ -73,68 +75,9 @@
 			<p class="note">The motivation behind using the observer pattern is where you need to maintain consistency between related objects without making classes tightly coupled. For example, when an object needs to be able to notify other objects without making assumptions regarding those objects.</p>
 			<p>The framework also provides tools to use the <a href="http://addyosmani.com/resources/essentialjsdesignpatterns/book/#commandpatternjavascript" target="_blank">Command pattern</a> that will get triggered using native javascript events. Here is a quote about the Command pattern:</p>
 			<p class="note">The command pattern aims to encapsulate method invocation, requests or operations into a single object and gives you the ability to both parameterize and pass method calls around that can be executed at your discretion. In addition, it enables you to decouple objects invoking the action from the objects which implement them, giving you a greater degree of overall flexibility in swapping out concrete 'classes'.</p>
-			<p>The framework also provides an easy way to use prototypal inheritance. Two different versions can be used, a "javascript native" version and a <a href="http://mootools.net/" target="_blank">Mootools</a> version.</p>
+			<p>The framework also provides an easy way to use prototypal inheritance. Two different versions can be used, a <span class="bold">javascript native version</span> with no dependency to other libraries and a <a href="http://mootools.net/" target="_blank">Mootools</a> version.</p>
 			<p>somacore.js is a "base" framework and does not provide tools for specific javascript tasks. External libraries can be used with the framework if you wish to, such as <a href="http://jquery.com/" target="_blank">jquery</a> or anything you like.</p>
 			<p class="notesmall">somacore.js is released under the <a href="http://www.mozilla.org/MPL/" target="_blank">Mozilla Public License</a>.</p>
-		</section>
-
-		<section id="docs">
-			<a name="docs"></a>
-			<h1>Documentation</h1>
-			<div>
-				<p>The documentation is available for each somacore.js version and contains code examples.</p>
-				<ul>
-					<li>See the documentation (<a href="docs/native/" target="_blank">native version</a> - <a href="docs/mootools/" target="_blank">mootools version</a>)</li>
-				</ul>
-			</div>
-		</section>
-
-		<section id="demos">
-			<a name="demos"></a>
-			<h1>Demos</h1>
-			<p>Each demo is available in two versions, a somacore native version (no library required) and a mootools version.</p>
-			<ul>
-				<li>
-					<h2>Hello World</h2>
-					<p>Print a message in the DOM, from a model, using a command.</p>
-					<ul>
-						<li>demo (<a href="examples/native/demos/SomaCoreJsHelloWorld/" target="_blank">native version</a> - <a href="examples/mootools/demos/SomaCoreJsHelloWorld/" target="_blank">mootools version</a>)</li>
-						<li>code (<a href="https://github.com/somacorejs/somacorejs/tree/master/demos/SomaCoreJsHelloWorld" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/tree/mootools/demos/SomaCoreJsHelloWorld" target="_blank">mootools version</a>)</li>
-					</ul>
-				</li>
-				<li>
-					<h2>Cafe Town Send</h2>
-					<p>Application with a login to display a list of employees, add and remove employees.</p>
-					<ul>
-						<li>demo (<a href="examples/native/demos/SomaCoreJsCafeTownSend/" target="_blank">native version</a> - <a href="examples/mootools/demos/SomaCoreJsCafeTownSend/" target="_blank">mootools version</a>)</li>
-						<li>code (<a href="https://github.com/somacorejs/somacorejs/tree/master/demos/SomaCoreJsCafeTownSend" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/tree/mootools/demos/SomaCoreJsCafeTownSend" target="_blank">mootools version</a>)</li>
-					</ul>
-				</li>
-				<li>
-					<h2>Twitter Search</h2>
-					<p>Use keywords to make a search with the Twitter API and display the result.</p>
-					<ul>
-						<li>demo (<a href="examples/native/demos/SomaCoreJsTwitterSearch/" target="_blank">native version</a> - <a href="examples/mootools/demos/SomaCoreJsTwitterSearch/" target="_blank">mootools version</a>)</li>
-						<li>code (<a href="https://github.com/somacorejs/somacorejs/tree/master/demos/SomaCoreJsTwitterSearch" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/tree/mootools/demos/SomaCoreJsTwitterSearch" target="_blank">mootools version</a>)</li>
-					</ul>
-				</li>
-				<li>
-					<h2>Soma Color</h2>
-					<p>Color application that is using other somacore.js capabilities, such as parallel commands and sequence commands.</p>
-					<ul>
-						<li>demo (<a href="examples/native/demos/SomaCoreJsSomaColor/" target="_blank">native version</a> - <a href="examples/mootools/demos/SomaCoreJsSomaColor/" target="_blank">mootools version</a>)</li>
-						<li>code (<a href="https://github.com/somacorejs/somacorejs/tree/master/demos/SomaCoreJsSomaColor" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/tree/mootools/demos/SomaCoreJsSomaColor" target="_blank">mootools version</a>)</li>
-					</ul>
-				</li>
-				<li>
-					<h2>App Note</h2>
-					<p>Mobile application to add and remove notes, using local storage.</p>
-					<ul>
-						<li>demo (<a href="examples/native/demos/SomaCoreJsAppNote/" target="_blank">native version</a> - <a href="examples/mootools/demos/SomaCoreJsAppNote/" target="_blank">mootools version</a>)</li>
-						<li>code (<a href="https://github.com/somacorejs/somacorejs/tree/master/demos/SomaCoreJsAppNote" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/tree/mootools/demos/SomaCoreJsAppNote" target="_blank">mootools version</a>)</li>
-					</ul>
-				</li>
-			</ul>
 		</section>
 
 		<section id="download">
@@ -144,11 +87,17 @@
 			<ul>
 				<li>
 					<h2>Get somacore.js</h2>
-					<p>somacore.js is available in two versions: a javascript native version with no dependency, and a Mootools version that will require the <a href="http://mootools.net/" target="_blank">Mootools framework</a>. Both versions are open source and available on Github.</p>
+					<p>somacore.js is available in two versions: a <span class="bold">javascript native version</span> with no dependency, and a Mootools version that will require the <a href="http://mootools.net/" target="_blank">Mootools framework</a>. Both versions are open source and available on Github.</p>
+					<p>somacore.js is a lightweight framework: 4.48 KB minified and compressed.</p>
+					<p>Get started with <a href="http://git-scm.com" target="_blank">Git</a>.</p>
 					<ul>
 						<li>Git framework repository (<a href="https://github.com/somacorejs/somacorejs/" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/tree/mootools" target="_blank">mootools version</a>)</li>
-						<li>Download a zip file (<a href="https://github.com/somacorejs/somacorejs/zipball/master" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/zipball/mootools" target="_blank">mootools version</a>)</li>
+						<li>Download a zip file (<a href="https://github.com/somacorejs/somacorejs/zipball/master">native version</a> - <a href="https://github.com/somacorejs/somacorejs/zipball/mootools">mootools version</a>)</li>
 					</ul>
+				</li>
+				<li>
+					<h2>Quick Git clone</h2>
+					<pre>$ git clone https://github.com/somacorejs/somacorejs.git</pre>
 				</li>
 				<li>
 					<h2>Demos repository</h2>
@@ -166,11 +115,12 @@
 				<li>
 					<h2>Get the CLI (command line interface)</h2>
 					<p>somacore.js projects can be generated from templates to get started.<br/>You must have <a href="http://www.java.com/" target="_blank">Java</a> installed on your operating system in order to use the CLI.</p>
+					<p>Most of the time, java is already installed. Open a terminal and type <span class="codequote">java -version</span> to verify the Java version installed on your operating system (in a command prompt on Windows).</p>
 					<ul>
-						<li>Download (<a href="cli/native/somacorejs.jar" target="_blank">native version</a> - <a href="cli/mootools/somacorejs.jar" target="_blank">mootools version</a>)</li>
+						<li>Download the CLI (<a href="cli/native/somacorejs.jar">native version</a> - <a href="cli/mootools/somacorejs.jar">mootools version</a>)</li>
 					</ul>
 					<h3>Usage</h3>
-					<p>Navigate to the folder where you downloaded the file somacorejs.jar.</p>
+					<p>Navigate to the folder where you downloaded the file somacorejs.jar, open a terminal and try the following commands.</p>
 					<p>Print the help</p>
 					<p class="codequote">java -jar somacorejs.jar -help</p>
 					<p>Create an application (in the current folder of the CLI)</p>
@@ -186,6 +136,7 @@
 					<p>Specify a template url for custom templates (url or directory)</p>
 					<p class="codequote">java jar somacorejs.jar -l http://domain.com/templates</p>
 					<p class="codequote">java jar somacorejs.jar -l /Users/my_user/templates</p>
+					<p class="note">Templates and source code are available in the repository.</p>
 				</li>
 			</ul>
 
@@ -2067,6 +2018,65 @@ var app = new HelloWorldApplication();
 
 		</section>
 
+		<section id="demos">
+			<a name="demos"></a>
+			<h1>Demos</h1>
+			<p>Each demo is available in two versions, a somacore native version (no library required) and a mootools version.</p>
+			<ul>
+				<li>
+					<h2>Hello World</h2>
+					<p>Print a message in the DOM, from a model, using a command.</p>
+					<ul>
+						<li>demo (<a href="examples/native/demos/SomaCoreJsHelloWorld/" target="_blank">native version</a> - <a href="examples/mootools/demos/SomaCoreJsHelloWorld/" target="_blank">mootools version</a>)</li>
+						<li>code (<a href="https://github.com/somacorejs/somacorejs/tree/master/demos/SomaCoreJsHelloWorld" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/tree/mootools/demos/SomaCoreJsHelloWorld" target="_blank">mootools version</a>)</li>
+					</ul>
+				</li>
+				<li>
+					<h2>Cafe Town Send</h2>
+					<p>Application with a login to display a list of employees, add and remove employees.</p>
+					<ul>
+						<li>demo (<a href="examples/native/demos/SomaCoreJsCafeTownSend/" target="_blank">native version</a> - <a href="examples/mootools/demos/SomaCoreJsCafeTownSend/" target="_blank">mootools version</a>)</li>
+						<li>code (<a href="https://github.com/somacorejs/somacorejs/tree/master/demos/SomaCoreJsCafeTownSend" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/tree/mootools/demos/SomaCoreJsCafeTownSend" target="_blank">mootools version</a>)</li>
+					</ul>
+				</li>
+				<li>
+					<h2>Twitter Search</h2>
+					<p>Use keywords to make a search with the Twitter API and display the result.</p>
+					<ul>
+						<li>demo (<a href="examples/native/demos/SomaCoreJsTwitterSearch/" target="_blank">native version</a> - <a href="examples/mootools/demos/SomaCoreJsTwitterSearch/" target="_blank">mootools version</a>)</li>
+						<li>code (<a href="https://github.com/somacorejs/somacorejs/tree/master/demos/SomaCoreJsTwitterSearch" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/tree/mootools/demos/SomaCoreJsTwitterSearch" target="_blank">mootools version</a>)</li>
+					</ul>
+				</li>
+				<li>
+					<h2>Soma Color</h2>
+					<p>Color application that is using other somacore.js capabilities, such as parallel commands and sequence commands.</p>
+					<ul>
+						<li>demo (<a href="examples/native/demos/SomaCoreJsSomaColor/" target="_blank">native version</a> - <a href="examples/mootools/demos/SomaCoreJsSomaColor/" target="_blank">mootools version</a>)</li>
+						<li>code (<a href="https://github.com/somacorejs/somacorejs/tree/master/demos/SomaCoreJsSomaColor" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/tree/mootools/demos/SomaCoreJsSomaColor" target="_blank">mootools version</a>)</li>
+					</ul>
+				</li>
+				<li>
+					<h2>App Note</h2>
+					<p>Mobile application to add and remove notes, using local storage.</p>
+					<ul>
+						<li>demo (<a href="examples/native/demos/SomaCoreJsAppNote/" target="_blank">native version</a> - <a href="examples/mootools/demos/SomaCoreJsAppNote/" target="_blank">mootools version</a>)</li>
+						<li>code (<a href="https://github.com/somacorejs/somacorejs/tree/master/demos/SomaCoreJsAppNote" target="_blank">native version</a> - <a href="https://github.com/somacorejs/somacorejs/tree/mootools/demos/SomaCoreJsAppNote" target="_blank">mootools version</a>)</li>
+					</ul>
+				</li>
+			</ul>
+		</section>
+
+		<section id="docs">
+			<a name="docs"></a>
+			<h1>Documentation</h1>
+			<div>
+				<p>The documentation is available for each somacore.js version and contains more code examples.</p>
+				<ul>
+					<li>See the documentation (<a href="docs/native/" target="_blank">native version</a> - <a href="docs/mootools/" target="_blank">mootools version</a>)</li>
+				</ul>
+			</div>
+		</section>
+
 		<section id="browsers">
 			<a name="browsers"></a>
 			<h1>Browsers information</h1>
@@ -2083,7 +2093,7 @@ var app = new HelloWorldApplication();
 				<h2>Firefox</h2>
 				<p>Version 3.6 until latest version.</p>
 				<h2>Internet Explorer</h2>
-				<p>Version 6 not supported.</p>
+				<p class="red">Version 6 not supported.</p>
 				<p>Version 7 supported.</p>
 				<p>Version 8 supported.</p>
 				<p>Version 9 supported.</p>

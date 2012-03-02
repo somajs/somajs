@@ -1,3 +1,3 @@
-h2. somacore.js
+soma.js is a javascript model-view-controller (MVC) framework that is meant to help developers to write loosely-coupled applications to increase scalability and maintainability.
 
-Coming soon...
+* "http://somajs.github.com/somajs/":http://somajs.github.com/somajs/

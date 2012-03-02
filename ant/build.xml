@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="somacore.js" basedir="." default="build">
+<project name="soma.js" basedir="." default="build">
 
 	<property file="user.properties"/>
 	<property file="build.properties"/>
@@ -10,9 +10,9 @@
 		</classpath>
 	</taskdef>
 	
-	<target name="build" description="build somacore" depends="minify, docs, template"/>
+	<target name="build" description="build soma" depends="minify, docs, template"/>
 
-	<target name="minify" description="compress somacore.js">
+	<target name="minify" description="compress soma.js">
 		<echo message="minify start"/>
 		<echo message="source: ${build.dir.source}/${build.project.name}.js"/>
 		<echo message="target: ${build.dir.min}/${build.project.fullname.min}.js"/>
@@ -25,7 +25,7 @@
 		<echo message="minify complete"/>
 	</target>
 	
-	<target name="docs" description="generate somacore.js documentation">
+	<target name="docs" description="generate soma.js documentation">
 		<echo message="doc start"/>
 		<java jar="${build.docs.executable}" fork="true">
 			<arg value="${build.docs.app}"/>
@@ -33,12 +33,12 @@
 			<arg value="${build.docs.source}"/>
 			<arg value="-d=${build.docs.export}"/>
 			<arg value="-D=noGlobal:true"/>
-			<arg value="-D=title:somacore.js"/>
+			<arg value="-D=title:soma.js"/>
 	    </java>
 		<echo message="doc complete"/>
 	</target>
 	
-	<target name="template" description="compress somacore.js">
+	<target name="template" description="compress soma.js">
 		<echo message="template start"/>
 		<echo message="copy templates"/>
 		<copy todir="${build.dir.templates.temp}">

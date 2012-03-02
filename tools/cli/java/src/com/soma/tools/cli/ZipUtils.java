@@ -1,4 +1,4 @@
-package com.soma.core.tools.cli;
+package com.soma.tools.cli;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

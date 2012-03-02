@@ -7,7 +7,7 @@ var MessageModel = new Class({
 	},
 
     requestMessage: function() {
-        this.data = "Hello SomaCore JS!";
+        this.data = "Hello soma.js!";
         this.dispatchEvent(new MessageEvent(MessageEvent.READY, this.data));
     }
 

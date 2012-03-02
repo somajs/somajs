@@ -1416,13 +1416,13 @@ soma.Application = new Class(
 	 * @constructs
 	 * @class
 	 * <b>Introduction</b><br/><br/>
-	 * somacore.js is a javascript model-view-controller (MVC) framework that is meant to help developers to write loosely-coupled applications to increase scalability and maintainability.<br/><br/>
+	 * soma.js is a javascript model-view-controller (MVC) framework that is meant to help developers to write loosely-coupled applications to increase scalability and maintainability.<br/><br/>
 	 * The main idea behind the MVC pattern is to separate the data (model), the user interface (view) and the logic of the application (controller). They must be independent and should not know about each other in order to increase the scalability of the application.<br/><br/>
-	 * somacore.js is providing tools to make the three parts "talks" to each other, keeping the view and the model free of framework code, using only native events that can be dispatched from either the framework of the DOM itself.<br/><br/>
-	 * <b>When to use somacore.js?</b><br/><br/>
-	 * One of the great things about javascript is that it scales up with the skill of the developers. Javascript is suitable to write small functions to handle some basics in a site, but javascript is also powerful enough to handle more complex applications, this is where somacore.js will shine.<br/><br/>
+	 * soma.js is providing tools to make the three parts "talks" to each other, keeping the view and the model free of framework code, using only native events that can be dispatched from either the framework of the DOM itself.<br/><br/>
+	 * <b>When to use soma.js?</b><br/><br/>
+	 * One of the great things about javascript is that it scales up with the skill of the developers. Javascript is suitable to write small functions to handle some basics in a site, but javascript is also powerful enough to handle more complex applications, this is where soma.js will shine.<br/><br/>
 	 * The primary goal of the framework is to help developers to write "decoupled" modules. The amount of code might be greater than what you can achieve with other frameworks because the goals are different.<br/><br/>
-	 * For that reason, while you can use the framework for anything, somacore.js might not be the best option for small tasks. For larger applications, where it is important to easily refactor and swap out modules, important to work in large team or collaborate with developers, somacore.js will be a great tools and is made for that.<br/><br/>
+	 * For that reason, while you can use the framework for anything, soma.js might not be the best option for small tasks. For larger applications, where it is important to easily refactor and swap out modules, important to work in large team or collaborate with developers, soma.js will be a great tools and is made for that.<br/><br/>
 	 * Somacore.js is suitable to work for both mobile and desktop application without problem.<br/><br/>
 	 * <b>Tools at your disposition</b><br/><br/>
 	 * The framework makes an heavy use of the Observer pattern using native javascript events. Here is a quote from Addy Osmani about the Observer pattern:<br/><br/>
@@ -1430,8 +1430,8 @@ soma.Application = new Class(
 	 * The framework also provides tools to use the Command pattern that will get triggered using native javascript events. Here is a quote about the Command pattern:<br/><br/>
 	 * The command pattern aims to encapsulate method invocation, requests or operations into a single object and gives you the ability to both parameterize and pass method calls around that can be executed at your discretion. In addition, it enables you to decouple objects invoking the action from the objects which implement them, giving you a greater degree of overall flexibility in swapping out concrete 'classes'.<br/><br/>
 	 * The framework also provides an easy way to use prototypal inheritance. Two different versions can be used, a "javascript native" version and a Mootools version.<br/><br/>
-	 * somacore.js is a "base" framework and does not provide tools for specific javascript tasks. External libraries can be used with the framework if you wish to, such as jquery or anything you like.<br/><br/>
-	 * somacore.js can be used for anything, except to include/distribute it in another framework, application, template, component or structure that is meant to build, scaffold or generate source files.<br/><br/>
+	 * soma.js is a "base" framework and does not provide tools for specific javascript tasks. External libraries can be used with the framework if you wish to, such as jquery or anything you like.<br/><br/>
+	 * soma.js can be used for anything, except to include/distribute it in another framework, application, template, component or structure that is meant to build, scaffold or generate source files.<br/><br/>
 	 * <b>Few things to know</b><br/>
 	 *     - Wires are the glue of the frameworks elements (models, commands, views, wires) and can be used the way you wish, as proxy/mediators or managers.<br/>
 	 *     - Wires can manage one class or multiple classes.<br/>

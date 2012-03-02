@@ -1,4 +1,4 @@
-package com.soma.core.tools.cli;
+package com.soma.tools.cli;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,7 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class Main {
 	
-	private static final String DEFAULT_TEMPLATE_PATH = "http://somacorejs.github.com/somacorejs/templates/mootools";
+	private static final String DEFAULT_TEMPLATE_PATH = "http://somajs.github.com/somajs/templates/mootools";
 	private static final String DEFAULT_TEMPLATE_EXTENSION = ".zip";
 	private static final String DDEFAULT_TEMPORARY_FOLDER_NAME = "scjs-btt";
 	
@@ -91,11 +91,11 @@ public class Main {
 	}
 
 	private static void printBeginning() {
-		System.out.println("somacorejs application creation in progress");
+		System.out.println("soma.js application creation in progress");
 	}
 
 	private static void printEnd() {
-		System.out.println("somacorejs application created in:");
+		System.out.println("soma.js application created in:");
 		System.out.println(new File(getCurrentOutput() + _applicationDirName).getAbsolutePath());
 	}
 
@@ -153,13 +153,13 @@ public class Main {
 
 	private static void printHelp() {
 		StringBuilder str = new StringBuilder();
-		str.append("somacorejs command line interface\n");
+		str.append("soma.js command line interface\n");
 		str.append("usage examples:\n");
-		str.append(" >java jar somacorejs.jar -n my_application -ns my_app\n");
-		str.append(" >java jar somacorejs.jar -o /Users/my_user/Desktop\n");
-		str.append(" >java jar somacorejs.jar -t compact-namespace\n");
-		str.append(" >java jar somacorejs.jar -l http://domain.com/templates\n");
-		str.append(" >java jar somacorejs.jar -l /Users/my_user/templates\n");
+		str.append(" >java jar somajs.jar -n my_application -ns my_app\n");
+		str.append(" >java jar somajs.jar -o /Users/my_user/Desktop\n");
+		str.append(" >java jar somajs.jar -t compact-namespace\n");
+		str.append(" >java jar somajs.jar -l http://domain.com/templates\n");
+		str.append(" >java jar somajs.jar -l /Users/my_user/templates\n");
 		_formatter.printHelp(str.toString(), _options);
 	}
 

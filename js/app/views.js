@@ -29,13 +29,13 @@ NavigationView = soma.View.extend({
 		$(a).addClass("pointer");
 	},
 	clickMainHandler: function(event) {
-		if (event.stopPropagation) if (event.stopPropagation) event.stopPropagation();
+		if (event.stopPropagation) event.stopPropagation();
 		if (event.preventDefault) event.preventDefault();
 		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT, event.data.id));
 		return false;
 	},
 	clickTutoHandler: function(event) {
-		if (event.stopPropagation) if (event.stopPropagation) event.stopPropagation();
+		if (event.stopPropagation) event.stopPropagation();
 		if (event.preventDefault) event.preventDefault();
 		this.dispatchEvent(new NavigationEvent(NavigationEvent.SELECT_TUTORIAL, event.data.id));
 		return false;
@@ -162,7 +162,7 @@ StepView = soma.View.extend({
 	},
 	runHandler: function(event) {
 		this.dispatchEvent(new TrackingEvent(TrackingEvent.SEND, TrackingConstants.BUTTON, "run"));
-		if (event.stopPropagation) event.stopPropagation();
+		event.stopPropagation();
 		event.preventDefault();
 		this.clearLog();
 		try {
@@ -178,14 +178,14 @@ StepView = soma.View.extend({
 	},
 	clearHandler: function(event) {
 		this.dispatchEvent(new TrackingEvent(TrackingEvent.SEND, TrackingConstants.BUTTON, "clear"));
-		if (event.stopPropagation) event.stopPropagation();
+		event.stopPropagation();
 		event.preventDefault();
 		this.clearLog();
 		return false;
 	},
 	resetHandler: function(event) {
 		this.dispatchEvent(new TrackingEvent(TrackingEvent.SEND, TrackingConstants.BUTTON, "reset/solution"));
-		if (event.stopPropagation) event.stopPropagation();
+		event.stopPropagation();
 		event.preventDefault();
 		this.editor.setValue(this.solution);
 		return false;
@@ -219,12 +219,12 @@ StepView = soma.View.extend({
 	},
 	previousHandler: function(event) {
 		this.dispatchEvent(new ChapterEvent(ChapterEvent.PREVIOUS, this.chapterId));
-		if (event.stopPropagation) event.stopPropagation();
+		event.stopPropagation();
 		return false;
 	},
 	nextHandler: function(event) {
 		this.dispatchEvent(new ChapterEvent(ChapterEvent.NEXT, this.chapterId));
-		if (event.stopPropagation) event.stopPropagation();
+		event.stopPropagation();
 		return false;
 	},
 	setChapterId: function(id) {

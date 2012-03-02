@@ -60,3 +60,13 @@ ExerciseCommand = soma.Command.extend({
 		}
 	}
 });
+
+TrackingCommand = soma.Command.extend({
+	execute: function(event) {
+		switch(event.type) {
+			case TrackingEvent.SEND:
+				_gaq.push(['_trackEvent', event.params.category, event.params.info]);
+				break;
+		}
+	}
+});

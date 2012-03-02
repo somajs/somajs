@@ -48,9 +48,11 @@ NavigationWire = soma.Wire.extend({
 	select: function(navigationId) {
 		this.currentNavigation = navigationId;
 		this.navigationView.select(navigationId);
+		this.dispatchEvent(new TrackingEvent(TrackingEvent.SEND, TrackingConstants.NAVIGATION, "/" + navigationId));
 	},
 	selectTutorial: function(navigationId) {
 		this.navigationView.selectTutorial(navigationId);
+		this.dispatchEvent(new TrackingEvent(TrackingEvent.SEND, TrackingConstants.NAVIGATION, "/tutorials/" + navigationId));
 	},
 	dispose: function() {
 		this.navigationView = null;
@@ -180,6 +182,7 @@ StepWire = soma.Wire.extend({
 			this.stepView.setCode(this.getModel(this.chapterId).getRecord());
 		}
 		this.stepView.activate();
+		this.dispatchEvent(new TrackingEvent(TrackingEvent.SEND, TrackingConstants.NAVIGATION, "/tutorial/" + this.chapterId + "/" + this.name));
 	},
 	deactivate: function() {
 		this.stepView.deactivate();

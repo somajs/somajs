@@ -13,6 +13,7 @@ var SomaApplication = soma.Application.extend({
 		this.addCommand(ChapterEvent.NEXT, ChapterCommand);
 		this.addCommand(ChapterEvent.ACTIVATE, ChapterCommand);
 		this.addCommand(ExerciseEvent.RECORD, ExerciseCommand);
+		this.addCommand(TrackingEvent.SEND, TrackingCommand);
 	},
 
 	registerWires: function() {

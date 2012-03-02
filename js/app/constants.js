@@ -11,3 +11,8 @@ var Detect = {
 	CLICK: Modernizr.touch ? "touchstart" : "click",
 	IS_TOUCH: Modernizr.touch
 };
+
+var TrackingConstants = {
+	NAVIGATION: "navigation",
+	BUTTON: "button"
+};

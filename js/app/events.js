@@ -31,3 +31,10 @@ ExerciseEvent = soma.Event.extend({
 });
 ExerciseEvent.RECORD = "ExerciseEvent.RECORD";
 
+TrackingEvent = soma.Event.extend({
+	constructor: function(type, category, info, bubbles, cancelable) {
+		return soma.Event.call(this, type, {category:category, info:info}, bubbles, cancelable);
+	}
+});
+TrackingEvent.SEND = "TrackingEvent.SEND";
+

@@ -10,7 +10,7 @@
  * See the License for the specific language governing rights and
  * limitations under the License.
  * 
- * The Original Code is SomaCore.
+ * The Original Code is soma.js.
  * 
  * The Initial Developer of the Original Code is Romuald Quantin (original actionscript version).
  * romu@soundstep.com (www.soundstep.com).

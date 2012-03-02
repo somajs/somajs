@@ -79,7 +79,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2012-2-1' pubdate>2012-2-1 2:16</time>
+			<time datetime='2012-2-2' pubdate>2012-2-2 0:25</time>
 		</footer>
 	</div>
 </div>
@@ -238,6 +238,17 @@
 											>
 												<td class="attributes">&nbsp;</td>
 												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.View.html#init">init</a></b>()
+													</div>
+													<div class="description">Optional method that will be called by the framework (if it exists) when the view is added to the framework.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item4'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
 													<div class="fixedFont"><b><a href="../symbols/soma.View.html#removeEventListener">removeEventListener</a></b>(type, function, capture)
 													</div>
 													<div class="description">DOM native method.</div>
@@ -297,28 +308,11 @@ var view = this.getView("myViewName");</pre>
 // the event "eventType" is considered a command in this example.
 var MyView = new Class({
 	Extends: soma.View,
-
 	init: function() {
-		this.dispatchEvent(new soma.Event("eventType"))
+		this.dispatchEvent(new soma.Event("eventType")); // works in all browsers
+		// or
+		this.domElement.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
 	},
-
-	dispose: function() {
-
-	}
-});
-MyView.NAME = "View::MyView";
-
-var view = new MyView();</pre>
-								
-									<pre class="code">
-// view that does not extends soma.View and uses the domElement property.
-// the event "eventType" is considered a command in this example.
-var MyView = new Class({
-
-	init: function() {
-		this.domElement.dispatchEvent(new soma.Event("eventType"))
-	},
-
 	dispose: function() {
 
 	}
@@ -328,15 +322,32 @@ MyView.NAME = "View::MyView";
 var view = new MyView(document.getElementById("myDomElement"));</pre>
 								
 									<pre class="code">
-// view that does not extends soma.View and does not use the domElement property.
+// view that does not extend soma.View and uses a domElement property (as the soma.View).
 // the event "eventType" is considered a command in this example.
 var MyView = new Class({
-
-	init: function() {
-		var myDomElement = document.getElementById("myDomElement")
-		myDomElement.dispatchEvent(new soma.Event("eventType"))
+	domElement: null,
+	initialize: function(domElement) {
+		this.domElement = domElement;
 	},
+	init: function() {
+		this.domElement.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
+	},
+	dispose: function() {
 
+	}
+});
+MyView.NAME = "View::MyView";
+
+var view = new MyView(document.getElementById("myDomElement"));</pre>
+								
+									<pre class="code">
+// view that does not extend soma.View and does not use the domElement property.
+// the event "eventType" is considered a command in this example.
+var MyView = new Class({
+	init: function() {
+		var myDomElement = document.getElementById("myDomElement");
+		myDomElement.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
+	},
 	dispose: function() {
 
 	}
@@ -347,14 +358,12 @@ var view = new MyView();
 // another example
 // the event "eventType" is considered a command in this example.
 var MyView = new Class({
-
 	init: function() {
 		var button = document.getElementById("requestMessageButton");
 		button.addEventListener("click", function() {
-			this.dispatchEvent(new soma.Event("eventType"))
+			this.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
 		});
 	},
-
 	dispose: function() {
 
 	}
@@ -448,7 +457,7 @@ var view = new MyView();</pre>
 										</div>
 										
 										<div class="description">
-											DOM native method.
+											DOM native method.If no DOM Element are specified when instantiated, the body is used by default.(IE7 and IE8 use the framework instance)
 											
 											
 											
@@ -458,7 +467,7 @@ var view = new MyView();</pre>
 										
 											
 												<pre class="code">
-object.addEventListener("eventType", eventHandler, false);</pre>
+this.addEventListener("eventType", eventHandler, false);</pre>
 											
 										
 										
@@ -505,7 +514,7 @@ object.addEventListener("eventType", eventHandler, false);</pre>
 										</div>
 										
 										<div class="description">
-											DOM native method. The soma.Event class can be used as a shortcut to create the event.
+											DOM native method. The soma.Event class can be used as a shortcut to create the event.If no DOM Element are specified when instantiated, the body is used by default.(IE7 and IE8 use the framework instance)
 											
 											
 											
@@ -515,7 +524,7 @@ object.addEventListener("eventType", eventHandler, false);</pre>
 										
 											
 												<pre class="code">
-object.dispatchEvent(new soma.Event("eventType"));</pre>
+this.dispatchEvent(new soma.Event("eventType"));</pre>
 											
 										
 										
@@ -568,6 +577,35 @@ object.dispatchEvent(new soma.Event("eventType"));</pre>
 									<li 
 										 class='item3'
 									>
+										<div class="fixedFont heading" id="init">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>init</b>()
+										</div>
+										
+										<div class="description">
+											Optional method that will be called by the framework (if it exists) when the view is added to the framework.
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item4'
+									>
 										<div class="fixedFont heading" id="removeEventListener">
 											<span class='lighter'>
 											
@@ -579,7 +617,7 @@ object.dispatchEvent(new soma.Event("eventType"));</pre>
 										</div>
 										
 										<div class="description">
-											DOM native method.
+											DOM native method.If no DOM Element are specified when instantiated, the body is used by default.(IE7 and IE8 use the framework instance)
 											
 											
 											
@@ -589,7 +627,7 @@ object.dispatchEvent(new soma.Event("eventType"));</pre>
 										
 											
 												<pre class="code">
-object.removeEventListener("eventType", eventHandler, false);</pre>
+this.removeEventListener("eventType", eventHandler, false);</pre>
 											
 										
 										

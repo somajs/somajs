@@ -79,7 +79,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2012-2-1' pubdate>2012-2-1 2:16</time>
+			<time datetime='2012-2-2' pubdate>2012-2-2 0:28</time>
 		</footer>
 	</div>
 </div>
@@ -312,7 +312,7 @@
 												<td class="nameDescription">
 													<div class="fixedFont"><b><a href="../symbols/soma.SequenceCommand.html#execute">execute</a></b>(event)
 													</div>
-													<div class="description">Method called by the framework when the command is executed by the framework.</div>
+													<div class="description">Should not be overridden in a sequence command class.</div>
 												</td>
 											</tr>
 										
@@ -716,7 +716,7 @@ var SequenceTestCommand = new Class ({
 });</pre>
 								
 									<pre class="code">
-var CommandExample = new Class {{
+var CommandExample = new Class ({
 	   Extends: soma.Command,
 
 	execute: function(event) {
@@ -1271,7 +1271,7 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
 										</div>
 										
 										<div class="description">
-											Method called by the framework when the command is executed by the framework. All the framework elements are accessible in this method (wires, commands, models, views, instance of the framework and body).
+											Should not be overridden in a sequence command class.
 											
 											
 											
@@ -1279,26 +1279,16 @@ dispatcher.dispatchEvent(new soma.Event("eventType"));</pre>
 										</div>
 										
 										
-											
-												<pre class="code">
-var MyCommand = new Class({
- 	Extends:soma.Command,
-	execute: function(event) {
-		// alert(event.type)
-	}
-});</pre>
-											
-										
 										
 										
 											<dl class="detailList params">
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{<a href="../symbols/soma.Event.html">soma.Event</a>}</span> <b>event</b>
+														<b>event</b>
 														
 													</dt>
-													<dd>The event dispatched to triggered the command.</dd>
+													<dd></dd>
 												
 											</dl>
 										
@@ -1331,7 +1321,7 @@ var MyCommand = new Class({
 										
 											
 												<pre class="code">
-var CommandExample = new Class {{
+var CommandExample = new Class ({
 	   Extends: soma.Command,
 
 	execute: function(event) {

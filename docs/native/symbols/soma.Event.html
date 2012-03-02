@@ -36,11 +36,11 @@
 		<nav>
 			<ul class="classList" id="ClassList">
 				
+					<li><a href="../symbols/bind.html">bind</a></li>
+				
 					<li><a href="../symbols/soma.html">soma</a></li>
 				
 					<li><a href="../symbols/soma.Application.html">soma<span class='break'> </span>.<span class='break'> </span>Application</a></li>
-				
-					<li><a href="../symbols/soma.AutoBind.html">soma<span class='break'> </span>.<span class='break'> </span>AutoBind</a></li>
 				
 					<li><a href="../symbols/soma.Command.html">soma<span class='break'> </span>.<span class='break'> </span>Command</a></li>
 				
@@ -79,7 +79,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2012-2-1' pubdate>2012-2-1 2:16</time>
+			<time datetime='2012-2-2' pubdate>2012-2-2 0:27</time>
 		</footer>
 	</div>
 </div>
@@ -97,7 +97,7 @@
 				
 				<div class="intro">
 					<p class="description summary">
-						Event wrapper class for the native event created with "document.createEvent".
+						Event wrapper class for a native event.
 					</p>
 						
 					
@@ -131,7 +131,7 @@
 										<div class="fixedFont">
 											<b><a href="../symbols/soma.Event.html#constructor">soma.Event</a></b>(type, params, bubbles, cancelable)
 										</div>
-										<div class="description">Create an instance of an soma.Event class.</div>
+										<div class="description">Create an instance of an native event.</div>
 									</td>
 								</tr>
 							</tbody>
@@ -171,7 +171,7 @@
 												<td class="nameDescription">
 													<div class="fixedFont"><b><a href="../symbols/soma.Event.html#clone">clone</a></b>()
 													</div>
-													<div class="description">Duplicates an instance of an Event subclass.</div>
+													<div class="description">Duplicates an event.</div>
 												</td>
 											</tr>
 										
@@ -194,6 +194,17 @@
 													<div class="fixedFont"><b><a href="../symbols/soma.Event.html#isDefaultPrevented">isDefaultPrevented</a></b>()
 													</div>
 													<div class="description">Checks whether the preventDefault() method has been called on the event.</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item3'
+											>
+												<td class="attributes">&nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont"><b><a href="../symbols/soma.Event.html#preventDefault">preventDefault</a></b>()
+													</div>
+													<div class="description">Prevent the default action of an event.</div>
 												</td>
 											</tr>
 										
@@ -227,7 +238,7 @@
 							</div>
 							
 							<div class="description">
-								Create an instance of an soma.Event class.
+								Create an instance of an native event.
 								
 							</div>
 							
@@ -240,14 +251,11 @@ var event = new soma.Event("eventType", {myData:"my data"}, true, true);</pre>
 								
 									<pre class="code">
 // create an event class
-var MyEvent = new Class({
-    Extends: soma.Event,
-
-    initialize: function(type, params, bubbles, cancelable) {
+var MyEvent = soma.Event.extend({
+    constructor: function(type, params, bubbles, cancelable) {
         // alert(params.myData)
-        return this.parent(type, params, bubbles, cancelable);
+        return soma.Event.call(this, type, params, bubbles, cancelable);
     }
-
 });
 MyEvent.DO_SOMETHING = "ApplicationEvent.DO_SOMETHING"; // constant use as an event type
 var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});</pre>
@@ -341,7 +349,7 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});</pre>
 										</div>
 										
 										<div class="description">
-											Duplicates an instance of an Event subclass.
+											Duplicates an event.
 											
 											
 											
@@ -496,6 +504,35 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});</pre>
 												
 											
 											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item3'
+									>
+										<div class="fixedFont heading" id="preventDefault">
+											<span class='lighter'>
+											
+											</span>
+											
+											
+											
+											<b>preventDefault</b>()
+										</div>
+										
+										<div class="description">
+											Prevent the default action of an event.
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+										
 										
 										
 									</li>

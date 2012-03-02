@@ -36,11 +36,11 @@
 		<nav>
 			<ul class="classList" id="ClassList">
 				
+					<li><a href="../symbols/bind.html">bind</a></li>
+				
 					<li><a href="../symbols/soma.html">soma</a></li>
 				
 					<li><a href="../symbols/soma.Application.html">soma<span class='break'> </span>.<span class='break'> </span>Application</a></li>
-				
-					<li><a href="../symbols/soma.AutoBind.html">soma<span class='break'> </span>.<span class='break'> </span>AutoBind</a></li>
 				
 					<li><a href="../symbols/soma.Command.html">soma<span class='break'> </span>.<span class='break'> </span>Command</a></li>
 				
@@ -79,7 +79,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2012-2-1' pubdate>2012-2-1 2:16</time>
+			<time datetime='2012-2-2' pubdate>2012-2-2 0:27</time>
 		</footer>
 	</div>
 </div>
@@ -92,12 +92,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Namespace <span>soma.SomaController</span>
+					Class <span>soma.SomaController</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						The SomaController class handles the commands added to the framework and the events dispatched from either a display list or a framework element (instance of the framework, commands or wires).<br/>All the events dispatched with a property bubbles set to false will be ignored, that is why the event mapped to a command class must have this property set to true.<br/>You can add commands, remove commands and dispatch commands from: the framework instance, the body, a view, a wire, a command or a model.<br/>You can create 4 types of commands: synchronous (Command), asynchronous, parallel (ParallelCommand) and sequence (SequenceCommand). See each class for a detailed explanation and examples.<br/>You can use the properties of a custom event to send parameters and receive them in the commands.<br/>
+						soma.SomaController
 					</p>
 						
 					
@@ -117,7 +117,7 @@
 				<section>
 					<div class="props">
 						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class soma.SomaController.">
-							<caption class="sectionTitle">Namespace Summary</caption>
+							<caption class="sectionTitle">Class Summary</caption>
 							<thead>
 								<tr>
 									<th scope="col">Constructor Attributes</th>
@@ -129,9 +129,9 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/soma.SomaController.html#constructor">soma.SomaController</a></b>
+											<b><a href="../symbols/soma.SomaController.html#constructor">soma.SomaController</a></b>()
 										</div>
-										<div class="description"></div>
+										<div class="description">The SomaController class handles the commands added to the framework and the events dispatched from either a display list or a framework element (instance of the framework, commands or wires).</div>
 									</td>
 								</tr>
 							</tbody>
@@ -318,24 +318,24 @@
 					<div class="details props">
 						<div class="innerProps">
 							<h2 class="sectionTitle" id="constructor">
-								Namespace Detail
+								Class Detail
 							</h2>
 							
 							<div class="fixedFont">
-								<b>soma.SomaController</b>
+								<b>soma.SomaController</b>()
 							</div>
 							
 							<div class="description">
-								
+								The SomaController class handles the commands added to the framework and the events dispatched from either a display list or a framework element (instance of the framework, commands or wires).<br/>All the events dispatched with a property bubbles set to false will be ignored, that is why the event mapped to a command class must have this property set to true.<br/>You can add commands, remove commands and dispatch commands from: the framework instance, the body, a view, a wire, a command or a model.<br/>You can create 4 types of commands: synchronous (Command), asynchronous, parallel (ParallelCommand) and sequence (SequenceCommand). See each class for a detailed explanation and examples.<br/>You can use the properties of a custom event to send parameters and receive them in the commands.<br/>
 								
 							</div>
 							
 							
 								
 									<pre class="code">
-addCommand("eventType", CommandExample);
-dispatchEvent(new soma.Event("eventType"));
-removeCommand("eventType");</pre>
+this.addCommand("eventType", CommandExample);
+ this.dispatchEvent(new soma.Event("eventType"));
+ this.removeCommand("eventType");</pre>
 								
 							
 						

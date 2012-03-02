@@ -17,8 +17,9 @@
  * 
  * Javascript port of the AS3 MVC framework SomaCore (http://www.soundstep.com/blog/downloads/somacore/).
  * The Initial Developer of the port is Henry Schmieder (javascript version).
- * @author Henry Schmieder
+ *
  * @author Henry Romuald Quantin
+ * @author Henry Schmieder
  *
  * Initial Developer are Copyright (C) 2008-2012 Soundstep. All Rights Reserved.
  * All Rights Reserved.
@@ -420,7 +421,7 @@ var SequenceTestCommand = new Class ({
 
 });
 		 * @example
-var CommandExample = new Class {{
+var CommandExample = new Class ({
 	   Extends: soma.Command,
 
 	execute: function(event) {
@@ -479,7 +480,9 @@ this.addSubCommand(new soma.Event("eventType"));
 			this.commands.push(c);
 			this.instance.controller.registerSequencedCommand(this, c);
 		},
-
+		/**
+		 * Should not be overridden in a sequence command class.
+		 */
 		execute: function(event) {
 			if (this.commands == null || this.commands.length === 0) {
 				return;
@@ -493,7 +496,7 @@ this.addSubCommand(new soma.Event("eventType"));
 		/**
 		 * Method used to execute the next command in the list of subcommands. If a command is part of a sequence, you must call the executeNextCommand in the command itself.
 		 * @example
-var CommandExample = new Class {{
+var CommandExample = new Class ({
 	   Extends: soma.Command,
 
 	execute: function(event) {
@@ -659,7 +662,7 @@ this.addSubCommand(new soma.Event("eventType"));
 		},
 
 		/**
-		 * Should not be overridden in a parallel class.
+		 * Should not be overridden in a parallel command class.
 		 */
 		execute: function() {
 			while (this.commands.length > 0) {
@@ -866,9 +869,9 @@ MyWire.NAME = "Wire::MyWire";
 	 * @borrows soma.Application#getLastSequencer
 	 * @borrows soma.Application#getRunningSequencers
 	 * @example
-addCommand("eventType", CommandExample);
-dispatchEvent(new soma.Event("eventType"));
-removeCommand("eventType");
+this.addCommand("eventType", CommandExample);
+this.dispatchEvent(new soma.Event("eventType"));
+this.removeCommand("eventType");
 	 */
 	soma.SomaController = (function() {
 		/** @lends soma.SomaController.prototype */
@@ -1412,9 +1415,22 @@ soma.Application = new Class(
 	/**
 	 * @constructs
 	 * @class
-	 * <b>Introduction</b><br/>
-	 * somacore.js is a lightweight event-based model-view-controller (mvc) javascript framework that is meant to help developers write loosely coupled applications to increase scalability and maintainability.<br/>
-	 * somacore.js provides a structure, models, views management and commands and uses a concept of wires to code in a efficient decoupled way.<br/>
+	 * <b>Introduction</b><br/><br/>
+	 * somacore.js is a javascript model-view-controller (MVC) framework that is meant to help developers to write loosely-coupled applications to increase scalability and maintainability.<br/><br/>
+	 * The main idea behind the MVC pattern is to separate the data (model), the user interface (view) and the logic of the application (controller). They must be independent and should not know about each other in order to increase the scalability of the application.<br/><br/>
+	 * somacore.js is providing tools to make the three parts "talks" to each other, keeping the view and the model free of framework code, using only native events that can be dispatched from either the framework of the DOM itself.<br/><br/>
+	 * <b>When to use somacore.js?</b><br/><br/>
+	 * One of the great things about javascript is that it scales up with the skill of the developers. Javascript is suitable to write small functions to handle some basics in a site, but javascript is also powerful enough to handle more complex applications, this is where somacore.js will shine.<br/><br/>
+	 * The primary goal of the framework is to help developers to write "decoupled" modules. The amount of code might be greater than what you can achieve with other frameworks because the goals are different.<br/><br/>
+	 * For that reason, while you can use the framework for anything, somacore.js might not be the best option for small tasks. For larger applications, where it is important to easily refactor and swap out modules, important to work in large team or collaborate with developers, somacore.js will be a great tools and is made for that.<br/><br/>
+	 * Somacore.js is suitable to work for both mobile and desktop application without problem.<br/><br/>
+	 * <b>Tools at your disposition</b><br/><br/>
+	 * The framework makes an heavy use of the Observer pattern using native javascript events. Here is a quote from Addy Osmani about the Observer pattern:<br/><br/>
+	 * The motivation behind using the observer pattern is where you need to maintain consistency between related objects without making classes tightly coupled. For example, when an object needs to be able to notify other objects without making assumptions regarding those objects.<br/><br/>
+	 * The framework also provides tools to use the Command pattern that will get triggered using native javascript events. Here is a quote about the Command pattern:<br/><br/>
+	 * The command pattern aims to encapsulate method invocation, requests or operations into a single object and gives you the ability to both parameterize and pass method calls around that can be executed at your discretion. In addition, it enables you to decouple objects invoking the action from the objects which implement them, giving you a greater degree of overall flexibility in swapping out concrete 'classes'.<br/><br/>
+	 * The framework also provides an easy way to use prototypal inheritance. Two different versions can be used, a "javascript native" version and a Mootools version.<br/><br/>
+	 * somacore.js is a "base" framework and does not provide tools for specific javascript tasks. External libraries can be used with the framework if you wish to, such as jquery or anything you like.<br/><br/>
 	 * somacore.js can be used for anything, except to include/distribute it in another framework, application, template, component or structure that is meant to build, scaffold or generate source files.<br/><br/>
 	 * <b>Few things to know</b><br/>
 	 *     - Wires are the glue of the frameworks elements (models, commands, views, wires) and can be used the way you wish, as proxy/mediators or managers.<br/>
@@ -2029,27 +2045,11 @@ var view = this.getView("myViewName");
 // the event "eventType" is considered a command in this example.
 var MyView = new Class({
 	Extends: soma.View,
-
 	init: function() {
-		this.dispatchEvent(new soma.Event("eventType"))
+		this.dispatchEvent(new soma.Event("eventType")); // works in all browsers
+		// or
+		this.domElement.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
 	},
-
-	dispose: function() {
-
-	}
-});
-MyView.NAME = "View::MyView";
-
-var view = new MyView();
-	 * @example
-// view that does not extends soma.View and uses the domElement property.
-// the event "eventType" is considered a command in this example.
-var MyView = new Class({
-
-	init: function() {
-		this.domElement.dispatchEvent(new soma.Event("eventType"))
-	},
-
 	dispose: function() {
 
 	}
@@ -2058,15 +2058,31 @@ MyView.NAME = "View::MyView";
 
 var view = new MyView(document.getElementById("myDomElement"));
 	 * @example
-// view that does not extends soma.View and does not use the domElement property.
+// view that does not extend soma.View and uses a domElement property (as the soma.View).
 // the event "eventType" is considered a command in this example.
 var MyView = new Class({
-
-	init: function() {
-		var myDomElement = document.getElementById("myDomElement")
-		myDomElement.dispatchEvent(new soma.Event("eventType"))
+	domElement: null,
+	initialize: function(domElement) {
+		this.domElement = domElement;
 	},
+	init: function() {
+		this.domElement.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
+	},
+	dispose: function() {
 
+	}
+});
+MyView.NAME = "View::MyView";
+
+var view = new MyView(document.getElementById("myDomElement"));
+	 * @example
+// view that does not extend soma.View and does not use the domElement property.
+// the event "eventType" is considered a command in this example.
+var MyView = new Class({
+	init: function() {
+		var myDomElement = document.getElementById("myDomElement");
+		myDomElement.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
+	},
 	dispose: function() {
 
 	}
@@ -2077,14 +2093,12 @@ var view = new MyView();
 // another example
 // the event "eventType" is considered a command in this example.
 var MyView = new Class({
-
 	init: function() {
 		var button = document.getElementById("requestMessageButton");
 		button.addEventListener("click", function() {
-			this.dispatchEvent(new soma.Event("eventType"))
+			this.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
 		});
 	},
-
 	dispose: function() {
 
 	}
@@ -2107,9 +2121,11 @@ var view = new MyView();
 	},
 	/**
 	 * DOM native method. The soma.Event class can be used as a shortcut to create the event.
+	 * If no DOM Element are specified when instantiated, the body is used by default.
+	 * (IE7 and IE8 use the framework instance)
 	 * @param {event or soma.Event} An event instance.
 	 * @example
-object.dispatchEvent(new soma.Event("eventType"));
+this.dispatchEvent(new soma.Event("eventType"));
 	 */
 	dispatchEvent: function(event) {
 		if (this.domElement.dispatchEvent) {
@@ -2120,11 +2136,13 @@ object.dispatchEvent(new soma.Event("eventType"));
 	},
 	/**
 	 * DOM native method.
+	 * If no DOM Element are specified when instantiated, the body is used by default.
+	 * (IE7 and IE8 use the framework instance)
 	 * @param {string} type Type of the event.
 	 * @param {function} function The listener that will be notified.
 	 * @param {boolean} capture Capture phase of the event.
 	 * @example
-object.addEventListener("eventType", eventHandler, false);
+this.addEventListener("eventType", eventHandler, false);
 	 */
 	addEventListener: function() {
 
@@ -2136,11 +2154,13 @@ object.addEventListener("eventType", eventHandler, false);
 	},
 	/**
 	 * DOM native method.
+	 * If no DOM Element are specified when instantiated, the body is used by default.
+	 * (IE7 and IE8 use the framework instance)
 	 * @param {string} type Type of the event.
 	 * @param {function} function The listener that will be notified.
 	 * @param {boolean} capture Capture phase of the event.
 	 * @example
-object.removeEventListener("eventType", eventHandler, false);
+this.removeEventListener("eventType", eventHandler, false);
 	 */
 	removeEventListener: function() {
         if(this.domElement.addEventListener) {
@@ -2149,13 +2169,18 @@ object.removeEventListener("eventType", eventHandler, false);
              this.instance.removeEventListener.apply(this.instance, arguments);
         }
 	},
+    /**
+     * Optional method that will be called by the framework (if it exists) when the view is added to the framework.
+     */
+    init: function() {
+
+    },
 	/**
 	 * Optional method that will be called by the framework (if it exists) when the view is removed from the framework.
 	 */
 	dispose: function() {
 
 	},
-
     toString: function() {
 	    return "[soma.View]";
     }
@@ -2265,8 +2290,8 @@ soma.Event = new Class(
     {
     /**
      * @constructs
-     * @class Event wrapper class for the native event created with "document.createEvent".
-     * @description Create an instance of an soma.Event class.
+     * @class Event wrapper class for a native event.
+     * @description Create an instance of an native event.
      * @param {string} type The type of the event.
      * @param {object} params An object for a custom use and that can hold data.
      * @param {boolean} bubbles Indicates whether an event is a bubbling event. If the event can bubble, this value is true; otherwise it is false. The default is true for framework purposes: the commands are mapped with events types, the framework will ignore events that are commands if the bubbles property is set to false.
@@ -2306,7 +2331,7 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 		return e;
 	},
     /**
-     * Duplicates an instance of an Event subclass.
+     * Duplicates an event.
      * @returns {event} A event instance.
      */
 	clone: function() {
@@ -2319,6 +2344,9 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
 	    if (this.isIE9()) e.IE9PreventDefault = this.IE9PreventDefault;
 		return e;
 	},
+    /**
+     * Prevent the default action of an event.
+     */
 	preventDefault: function() {
 		if (!this.cancelable) return false;
 		this.defaultPrevented = true;
@@ -2343,6 +2371,7 @@ var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
         }
         return false;
 	},
+    /** @private */
 	isIE9: function() {
 	    return document.body.style.scrollbar3dLightColor!=undefined && document.body.style.opacity != undefined;
     },

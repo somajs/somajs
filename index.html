@@ -1,14 +1,14 @@
 <!doctype html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
-<!-- Consider adding an manifest.appcache: h5bp.com/d/Offline -->
-<!--[if gt IE 8]><!--> <html lang="en"> <!--<![endif]-->
-<html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
 	<title>soma.js</title>
+	<meta charset="utf-8">
 	<meta name="description" content="">
-	<meta name="author" content="">
 	<meta name="viewport" content="initial-scale=1.0, minimum-scale=1, maximum-scale=1, width=device-width" />
 
 	<link rel="icon" href="favicon.ico" type="image/x-icon" />
@@ -77,7 +77,7 @@
 			<p>One of the great things about javascript is that it scales up with the skill of the developers. Javascript is suitable to write small functions to handle some basics in a site, but javascript is also powerful enough to handle more complex applications, this is where soma.js will shine.</p>
 			<p>The primary goal of the framework is to help developers to write "decoupled" modules. The amount of code might be greater than what you can achieve with other frameworks because the goals are different.</p>
 			<p>For that reason, while you can use the framework for anything, soma.js might not be the best option for small tasks. For larger applications, where it is important to easily refactor and swap out modules, important to work in large team or collaborate with developers, soma.js will be a great tools and is made for that.</p>
-			<p>soma.js is suitable to work for both mobile and desktop application without problem.</p>
+			<p>soma.js is suitable to work for both mobile and desktop.</p>
 			<h1>Tools at your disposition</h1>
 			<p>The framework makes an heavy use of the <a href="http://addyosmani.com/resources/essentialjsdesignpatterns/book/#observerpatternjavascript" target="_blank">Observer pattern</a> using native javascript events. Here is a quote from <a href="http://addyosmani.com/" target="_blank">Addy Osmani</a> about the Observer pattern:</p>
 			<p class="note">The motivation behind using the observer pattern is where you need to maintain consistency between related objects without making classes tightly coupled. For example, when an object needs to be able to notify other objects without making assumptions regarding those objects.</p>

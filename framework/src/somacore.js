@@ -1988,7 +1988,7 @@ MyView.NAME = "View::MyView";
 
 var view = new MyView(document.getElementById("myDomElement"));
 	 * @example
-// view that does not extends soma.View and does not use the domElement property.
+// view that does not extend soma.View and does not use the domElement property.
 // the event "eventType" is considered a command in this example.
 var MyView = function(){};
 MyView.prototype = {

@@ -290,6 +290,10 @@ section li a, section p a {
   font-weight: bold;
   text-decoration: none; }
 
+li.download {
+  padding-top: 10px;
+  padding-bottom: 15px; }
+
 .bold {
   font-weight: bold; }
 

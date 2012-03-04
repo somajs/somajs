@@ -1,6 +1,6 @@
 @import "base";
 
 a,
-a:hover{
+a:hover {
     @include transition(color, 0.2s);
 }

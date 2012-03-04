@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+	<title>Knockout</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+
+</head>
+<body>
+
+<div id="list">
+	<p>First name: <strong data-bind="text: firstName"></strong></p>
+	<p>Last name: <strong data-bind="text: lastName"></strong></p>
+	<p>First name: <input data-bind="value: firstName" /></p>
+	<p>Last name: <input data-bind="value: lastName" /></p>
+	<p>Full name: <strong data-bind="text: fullName"></strong></p>
+</div>
+
+<div id="buttons">
+	<button data-bind="click: changeCase">Change case</button>
+</div>
+
+<script type="text/javascript" src="js/libs/knockout-2.0.0.js"></script>
+<script type="text/javascript" src="../../framework/src/soma.js"></script>
+<script type="text/javascript" src="js/app/events.js"></script>
+<script type="text/javascript" src="js/app/commands.js"></script>
+<script type="text/javascript" src="js/app/models.js"></script>
+<script type="text/javascript" src="js/app/views.js"></script>
+<script type="text/javascript" src="js/app-knockout.js"></script>
+
+</body>
+</html>

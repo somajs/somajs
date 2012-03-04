@@ -10,7 +10,7 @@ var InfoModel = new Class({
 
 	isLowerCase: true,
 
-	constructor: function(domElement) {
+	initialize: function(domElement) {
 		this.domElement = domElement;
 	},
 
@@ -25,8 +25,7 @@ var InfoModel = new Class({
 		return this.firstName() + " " + this.lastName();
 	},
 
-	applyChangeCase: function() {
-		console.log('MODEL changeCase');
+	changeCase: function() {
 		this.isLowerCase = !this.isLowerCase;
 		if (this.isLowerCase) {
 			this.lastName(this.lastName().toLowerCase());

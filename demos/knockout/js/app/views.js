@@ -7,7 +7,6 @@ var InfoView = new Class({
 	},
 
 	changeCase: function() {
-		console.log('changeCase');
 		this.dispatchEvent(new CaseEvent(CaseEvent.CHANGE));
 	},
 

@@ -3,7 +3,7 @@ var CaseCommand = new Class({
 	execute: function(event) {
 		switch (event.type) {
 			case CaseEvent.CHANGE:
-				this.getModel(InfoModel.NAME).applyChangeCase();
+				this.getModel(InfoModel.NAME).changeCase();
 				break;
 		}
 	}

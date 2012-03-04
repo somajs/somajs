@@ -6,6 +6,10 @@ var InfoView = new soma.View.extend({
 
 	changeCase: function() {
 		this.dispatchEvent(new CaseEvent(CaseEvent.CHANGE));
+	},
+
+	dispose: function() {
+		ko.cleanNode(this.domElement);
 	}
 
 });

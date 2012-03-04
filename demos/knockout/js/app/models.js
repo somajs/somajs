@@ -6,7 +6,7 @@ var InfoModel = new soma.Model.extend({
 	lastName: null,
 	fullName: null,
 
-	isLowerCase: false,
+	isLowerCase: true,
 
 	constructor: function(domElement) {
 		this.domElement = domElement;
@@ -26,11 +26,15 @@ var InfoModel = new soma.Model.extend({
 	changeCase: function() {
 		this.isLowerCase = !this.isLowerCase;
 		if (this.isLowerCase) {
-			this.lastName(this.lastName().toUpperCase());
-		}
-		else {
 			this.lastName(this.lastName().toLowerCase());
 		}
+		else {
+			this.lastName(this.lastName().toUpperCase());
+		}
+	},
+
+	dispose: function() {
+		ko.cleanNode(this.domElement);
 	}
 
 });

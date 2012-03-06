@@ -5,7 +5,7 @@ var SomaApplication = soma.Application.extend({
 	},
 
 	start: function() {
-		this.addEventListener(SomaAssetsEvent.CONFIG_LOADED, this.readyHandler.bind(this));
+		this.addEventListener(SomaAssetsEvent.CONFIG_LOADED, this.configLoadedHandler.bind(this));
 		this.addEventListener(SomaAssetsEvent.START, this.startHandler);
 		this.addEventListener(SomaAssetsEvent.ITEM_COMPLETE, this.progressHandler);
 		this.addEventListener(SomaAssetsEvent.COMPLETE, this.completeHandler);
@@ -13,7 +13,7 @@ var SomaApplication = soma.Application.extend({
 		this.getWire(SomaAssetsWire.NAME).loadConfig("assets/config.json");
 	},
 
-	readyHandler: function(event) {
+	configLoadedHandler: function(event) {
 		console.log('> ready', this.getWire(SomaAssetsWire.NAME).config);
 		this.dispatchEvent(new SomaAssetsEvent(SomaAssetsEvent.START, ['menu', 'game']));
 	},

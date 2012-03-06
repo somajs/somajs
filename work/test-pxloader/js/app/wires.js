@@ -57,7 +57,7 @@ var SomaAssetsWire = soma.Wire.extend({
 				for (var i = 0; i < assets.length; ++i) {
 					this.addImage(assets[i].id, assets[i].url, assets[i].tag, assets[i].priority);
 				}
-				this.dispatchEvent(new SomaAssetsEvent(SomaAssetsEvent.READY));
+				this.dispatchEvent(new SomaAssetsEvent(SomaAssetsEvent.CONFIG_LOADED));
 			}
 		}.bind(this);
 		xmlhttp.open("POST", config, true);

@@ -91,6 +91,10 @@ function PxLoaderImage(url, tags, priority) {
         }
     };
 
+	this.dispose = function() {
+		removeEventHandlers();
+	}
+
 }
 
 // add a convenience method to PxLoader for adding an image

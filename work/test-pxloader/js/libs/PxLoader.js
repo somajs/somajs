@@ -4,6 +4,8 @@
  */
 function PxLoader(settings) {
 
+	var timeoutId;
+
     // merge settings with defaults
     settings = settings || {};
 
@@ -73,6 +75,18 @@ function PxLoader(settings) {
         });
     };
 
+	this.dispose = function() {
+		for (var i=0; i<entries.length; ++i) {
+			entries[i].resource.dispose();
+		}
+		this.removeListeners();
+		clearTimeout(this.timeoutId);
+	}
+
+	this.removeListeners = function() {
+		progressListeners = null;
+	};
+
     this.addProgressListener = function(callback, tags) {
         progressListeners.push({
             callback: callback,
@@ -137,7 +151,7 @@ function PxLoader(settings) {
         }
 
         // do an initial status check soon since items may be loaded from the cache
-        setTimeout(statusCheck, 100);
+	    this.timeoutId = setTimeout(statusCheck, 100);
     };
 
     var statusCheck = function() {
@@ -216,7 +230,9 @@ function PxLoader(settings) {
         var numResourceTags = resource.tags.length;
 
         // fire callbacks for interested listeners
+
         for (var i = 0, numListeners = progressListeners.length; i < numListeners; i++) {
+	        if (!progressListeners) return;
             var listener = progressListeners[i],
                 shouldCall;
 

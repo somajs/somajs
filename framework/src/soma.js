@@ -229,6 +229,9 @@ john.say();
 	 * @private
 	 */
 	var SomaSharedCore = soma.extend({
+		createPlugin: function() {
+			this.instance.createPlugin.apply(this.instance, arguments);
+		},
 		dispatchEvent: function() {
 			this.instance.dispatchEvent.apply(this.instance, arguments);
 		},
@@ -1477,6 +1480,16 @@ new SomaApplication();
 			this.registerCommands();
 			this.registerWires();
 			this.start();
+		},
+		createPlugin: function() {
+			if (arguments.length == 0 || !arguments[0]) {
+				throw new Error("Error creating a plugin, plugin class is missing.");
+			}
+			var PluginClass = arguments[0];
+			arguments[0] = this;
+			var args = [null];
+			args = args.concat([].splice.call(arguments, 0));
+			return new (Function.prototype.bind.apply(PluginClass, args));
 		},
 		/**
 		 * Indicates whether a command has been registered to the framework.

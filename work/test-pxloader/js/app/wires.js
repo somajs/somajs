@@ -1,6 +1,7 @@
 var SomaAssetsWire = soma.Wire.extend({
 
 	config: null,
+	configLoaded: false,
 
 	constructor: function() {
 		soma.Wire.call(this, SomaAssetsWire.NAME);
@@ -30,7 +31,6 @@ var SomaAssetsWire = soma.Wire.extend({
 
 	init: function() {
 		this.addCommand(SomaAssetsEvent.START, SomaAssetsCommand);
-		this.addCommand(SomaAssetsEvent.COMPLETE, SomaAssetsCommand);
 	},
 
 	addImage: function(id, url, tag, priority) {
@@ -57,6 +57,7 @@ var SomaAssetsWire = soma.Wire.extend({
 				for (var i = 0; i < assets.length; ++i) {
 					this.addImage(assets[i].id, assets[i].url, assets[i].tag, assets[i].priority);
 				}
+				this.configLoaded = true;
 				this.dispatchEvent(new SomaAssetsEvent(SomaAssetsEvent.CONFIG_LOADED));
 			}
 		}.bind(this);

@@ -101,10 +101,10 @@ var SomaImageLoaderEvent = new Class({
 		return this.parent(type, params, true, true);
 	}
 });
-SomaImageLoaderEvent.CONFIG_LOADED = "SomaAssetsEvent.CONFIG_LOADED";
-SomaImageLoaderEvent.START = "SomaAssetsEvent.START";
-SomaImageLoaderEvent.ITEM_COMPLETE = "SomaAssetsEvent.ITEM_COMPLETE";
-SomaImageLoaderEvent.QUEUE_COMPLETE = "SomaAssetsEvent.QUEUE_COMPLETE";
+SomaImageLoaderEvent.CONFIG_LOADED = "SomaImageLoaderEvent.CONFIG_LOADED";
+SomaImageLoaderEvent.START = "SomaImageLoaderEvent.START";
+SomaImageLoaderEvent.ITEM_COMPLETE = "SomaImageLoaderEvent.ITEM_COMPLETE";
+SomaImageLoaderEvent.QUEUE_COMPLETE = "SomaImageLoaderEvent.QUEUE_COMPLETE";
 
 var SomaImageLoaderCommand = new Class({
 	Extends: soma.Command,

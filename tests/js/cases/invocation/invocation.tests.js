@@ -148,7 +148,6 @@ var InvocationTest = new Class
 
 	,test_command_from_body: function()
 	{
-		testlog(isIeLt9())
 		if (isIeLt9()) {
 			// invalid on IE 7 and 8
 			this.assertTrue(true);

@@ -1423,7 +1423,7 @@ soma.Application = new Class(
 	 * One of the great things about javascript is that it scales up with the skill of the developers. Javascript is suitable to write small functions to handle some basics in a site, but javascript is also powerful enough to handle more complex applications, this is where soma.js will shine.<br/><br/>
 	 * The primary goal of the framework is to help developers to write "decoupled" modules. The amount of code might be greater than what you can achieve with other frameworks because the goals are different.<br/><br/>
 	 * For that reason, while you can use the framework for anything, soma.js might not be the best option for small tasks. For larger applications, where it is important to easily refactor and swap out modules, important to work in large team or collaborate with developers, soma.js will be a great tools and is made for that.<br/><br/>
-	 * Somacore.js is suitable to work for both mobile and desktop application without problem.<br/><br/>
+	 * soma.js is suitable to work for both mobile and desktop application without problem.<br/><br/>
 	 * <b>Tools at your disposition</b><br/><br/>
 	 * The framework makes an heavy use of the Observer pattern using native javascript events. Here is a quote from Addy Osmani about the Observer pattern:<br/><br/>
 	 * The motivation behind using the observer pattern is where you need to maintain consistency between related objects without making classes tightly coupled. For example, when an object needs to be able to notify other objects without making assumptions regarding those objects.<br/><br/>
@@ -1475,7 +1475,7 @@ new SomaApplication();
         this.parent();
         this.body = document.body;
 		if (!this.body) {
-			throw new Error("SomaCore requires body of type Element");
+			throw new Error("Soma requires body of type Element");
 		}
 		this.controller = new soma.SomaController(this);
 		this.models = new soma.SomaModels(this);

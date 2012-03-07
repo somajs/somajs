@@ -12,7 +12,14 @@ cases.core.PluginExampleExtend = soma.extend({
 cases.core.PluginExampleNative = function(instance) {
 	this.instance = instance;
 	this.params = arguments;
-}
+};
+
+cases.core.PluginExampleExtendChild = cases.core.PluginExampleExtend.extend({
+	constructor: function(instance, param1) {
+		cases.core.PluginExampleExtend.call(this, instance);
+		this.param1 = param1;
+	}
+});
 
 cases.core.StartCommand = soma.Command.extend({
 	execute: function()

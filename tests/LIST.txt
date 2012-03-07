@@ -11,6 +11,7 @@ test_plugin_params_instance (DONE)
 test_plugin_params (DONE)
 test_plugin_params_array (DONE)
 test_plugin_params_object (DONE)
+test_plugin_inheritance (DONE)
 
 - Autobind  ##DONE
 test_custom_autobind_rule (DONE)

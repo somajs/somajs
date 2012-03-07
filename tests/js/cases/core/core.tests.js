@@ -127,6 +127,20 @@ var FacadeTests = new Class({
 		this.assertEquals(plugin.params[1].p3, params.p3);
 	}
 
+	,test_plugin_inheritance: function() {
+		var plugin = this.app.createPlugin(cases.core.PluginExampleExtendChild, "param 1");
+		this.assertNotNull(plugin);
+		this.assertNotUndefined(plugin);
+		this.assertNotNull(plugin.instance);
+		this.assertNotUndefined(plugin.instance);
+		this.assertTrue(plugin instanceof cases.core.PluginExampleExtend);
+		this.assertTrue(plugin instanceof cases.core.PluginExampleExtendChild);
+		this.assertNotNull(plugin.param1);
+		this.assertNotUndefined(plugin.param1);
+		this.assertEquals(plugin.param1, "param 1");
+	}
+
+
 });
 
 var CommandTest = new Class

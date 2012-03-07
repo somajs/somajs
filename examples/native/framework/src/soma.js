@@ -30,6 +30,10 @@
 
 	/** @namespace Global namespace. */
 	soma = {};
+	/** framework version */
+	soma.version = "1.0.1";
+	/** framework type */
+	soma.type = "native";
 
 	/**
 	 * @name bind
@@ -229,6 +233,9 @@ john.say();
 	 * @private
 	 */
 	var SomaSharedCore = soma.extend({
+		createPlugin: function() {
+			this.instance.createPlugin.apply(this.instance, arguments);
+		},
 		dispatchEvent: function() {
 			this.instance.dispatchEvent.apply(this.instance, arguments);
 		},
@@ -389,6 +396,7 @@ soma.applyProperties(MyClassToAutobind.prototype, soma.AutoBind);
 	/**
 	 * @class Class that will be instantiated when a registered event (command) is dispatched, the framework will automatically call the execute method.
 	 * @description Creates a new Command, should be instantiated by the framework only.
+	 * @borrows soma.Application#createPlugin
 	 * @borrows soma.Application#addWire
 	 * @borrows soma.Application#getWire
 	 * @borrows soma.Application#getWires
@@ -475,6 +483,7 @@ var MyCommand = soma.Command.extend({
 	 * @param {string} id The id of the sequence.
 	 * @extends soma.Command
 	 * @borrows soma.Command#execute
+	 * @borrows soma.Application#createPlugin
 	 * @borrows soma.Application#addWire
 	 * @borrows soma.Application#getWire
 	 * @borrows soma.Application#getWires
@@ -666,6 +675,7 @@ var CommandExample = soma.Command.extend({
 	 * @description Creates a new ParallelCommand, should be instantiated by the framework only.
 	 * @extends soma.Command
 	 * @borrows soma.Command#execute
+	 * @borrows soma.Application#createPlugin
 	 * @borrows soma.Application#addWire
 	 * @borrows soma.Application#getWire
 	 * @borrows soma.Application#getWires
@@ -787,6 +797,7 @@ this.addSubCommand(new soma.Event("eventType"));
 	 * A wire can also be in control of the commands that are dispatched by listening to them and even stop their execution if needed (see the examples in this page).<br/>
 	 * @description Create an instance of a Wire class.
 	 * @param {string} name The name of the wire.
+	 * @borrows soma.Application#createPlugin
 	 * @borrows soma.Application#addWire
 	 * @borrows soma.Application#getWire
 	 * @borrows soma.Application#getWires
@@ -1477,6 +1488,47 @@ new SomaApplication();
 			this.registerCommands();
 			this.registerWires();
 			this.start();
+		},
+		/**
+		 * Create a plugin instance.
+		 * @param {object} object plugin to instantiate
+		 * @returns {object} the plugin
+		 * @example
+var PluginExample1 = soma.extend({
+	constructor: function(instance) {
+		this.instance = instance;
+	}
+});
+
+var PluginExample2 = function(instance) {
+	this.instance = instance;
+}
+
+var PluginExampleWithParams = function(instance, myParam1, myParam2) {
+	this.instance = instance;
+}
+
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		var plugin1 = this.createPlugin(PluginExample1);
+		var plugin2 = this.createPlugin(PluginExample2);
+		var plugin3 = this.createPlugin(PluginExampleWithParams, "param1", "param2");
+	}
+});
+var app = new SomaApplication();
+		 */
+		createPlugin: function() {
+			if (arguments.length == 0 || !arguments[0]) {
+				throw new Error("Error creating a plugin, plugin class is missing.");
+			}
+			var PluginClass = arguments[0];
+			arguments[0] = this;
+			var args = [null];
+			// args.concat([].splice.call(arguments, 0)); // doesn't work on IE7 and IE8
+			for (var i=0; i<arguments.length; i++) {
+				args.push(arguments[i]);
+			}
+			return new (Function.prototype.bind.apply(PluginClass, args));
 		},
 		/**
 		 * Indicates whether a command has been registered to the framework.

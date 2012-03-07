@@ -12,16 +12,16 @@ var SomaApplication = soma.Application.extend({
 var AssetsWire = soma.Wire.extend({
 	init: function() {
 		// listen the plugin events
-		this.addEventListener(SomaAssetsEvent.CONFIG_LOADED, this.configLoadedHandler.bind(this));
-		this.addEventListener(SomaAssetsEvent.START, this.startHandler.bind(this));
-		this.addEventListener(SomaAssetsEvent.ITEM_COMPLETE, this.itemCompleteHandler.bind(this));
-		this.addEventListener(SomaAssetsEvent.QUEUE_COMPLETE, this.completeHandler.bind(this));
+		this.addEventListener(SomaImageLoaderEvent.CONFIG_LOADED, this.configLoadedHandler.bind(this));
+		this.addEventListener(SomaImageLoaderEvent.START, this.startHandler.bind(this));
+		this.addEventListener(SomaImageLoaderEvent.ITEM_COMPLETE, this.itemCompleteHandler.bind(this));
+		this.addEventListener(SomaImageLoaderEvent.QUEUE_COMPLETE, this.completeHandler.bind(this));
 	},
 	configLoadedHandler: function(event) {
 		this.log('> ready');
 		// config is loaded
 		// dispatch the plugin command START to start the loading (plugin.start() could be used)
-		this.dispatchEvent(new SomaAssetsEvent(SomaAssetsEvent.START));
+		this.dispatchEvent(new SomaImageLoaderEvent(SomaImageLoaderEvent.START));
 	},
 	startHandler: function(event) {
 		// event.preventDefault() can be used to stop the execution of the command at this point

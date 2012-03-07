@@ -2,42 +2,42 @@ var SomaImageLoader = soma.extend({
 	instance: null,
 	constructor: function(instance, config) {
 		this.instance = instance;
-		var wire = this.instance.addWire(SomaAssetsWire.NAME, new SomaAssetsWire());
+		var wire = this.instance.addWire(SomaImageLoaderWire.NAME, new SomaImageLoaderWire());
 		if (config) wire.loadConfig(config);
 	},
 	addImage: function(id, url, tag, priority) {
-		return this.instance.getWire(SomaAssetsWire.NAME).addImage(id, url, tag, priority);
+		return this.instance.getWire(SomaImageLoaderWire.NAME).addImage(id, url, tag, priority);
 	},
 	start: function(tags) {
-		this.instance.getWire(SomaAssetsWire.NAME).start(tags);
+		this.instance.getWire(SomaImageLoaderWire.NAME).start(tags);
 	},
 	loadConfig: function(config) {
-		this.instance.getWire(SomaAssetsWire.NAME).loadConfig(config);
+		this.instance.getWire(SomaImageLoaderWire.NAME).loadConfig(config);
 	},
 	getConfig: function() {
-		return this.instance.getWire(SomaAssetsWire.NAME).config;
+		return this.instance.getWire(SomaImageLoaderWire.NAME).config;
 	},
 	isConfigLoaded: function() {
-		return this.instance.getWire(SomaAssetsWire.NAME).configLoaded;
+		return this.instance.getWire(SomaImageLoaderWire.NAME).configLoaded;
 	},
 	dispose: function() {
-		this.instance.removeWire(SomaAssetsWire.NAME);
+		this.instance.removeWire(SomaImageLoaderWire.NAME);
 		instance = null;
 	}
 });
 
-var SomaAssetsWire = soma.Wire.extend({
+var SomaImageLoaderWire = soma.Wire.extend({
 	config: null,
 	configLoaded: false,
 	constructor: function() {
-		soma.Wire.call(this, SomaAssetsWire.NAME);
+		soma.Wire.call(this, SomaImageLoaderWire.NAME);
 		// private
 		var loader = new PxLoader();
 		this.getLoader = function() {return loader};
 		// private listeners
 		var itemCompleteHandler = function(event) {
 			var data = event.resource.img;
-			this.dispatchEvent(new SomaAssetsEvent(SomaAssetsEvent.ITEM_COMPLETE, null, event.resource, data, event.completedCount, event.totalCount));
+			this.dispatchEvent(new SomaImageLoaderEvent(SomaImageLoaderEvent.ITEM_COMPLETE, null, event.resource, data, event.completedCount, event.totalCount));
 		}.bind(this);
 		var completeHandler = function(event) {
 			var data = [];
@@ -45,13 +45,13 @@ var SomaAssetsWire = soma.Wire.extend({
 			for (var i = 0; i < entries.length; ++i) {
 				data[entries[i].resource.id] = entries[i].resource.img;
 			}
-			this.dispatchEvent(new SomaAssetsEvent(SomaAssetsEvent.QUEUE_COMPLETE, null, this.getLoader(), data));
+			this.dispatchEvent(new SomaImageLoaderEvent(SomaImageLoaderEvent.QUEUE_COMPLETE, null, this.getLoader(), data));
 		}.bind(this);
 		loader.addProgressListener(itemCompleteHandler);
 		loader.addCompletionListener(completeHandler);
 	},
 	init: function() {
-		this.addCommand(SomaAssetsEvent.START, SomaAssetsCommand);
+		this.addCommand(SomaImageLoaderEvent.START, SomaImageLoaderCommand);
 	},
 	addImage: function(id, url, tag, priority) {
 		var imageLoader = new PxLoaderImage(url, tag, priority);
@@ -74,7 +74,7 @@ var SomaAssetsWire = soma.Wire.extend({
 					this.addImage(assets[i].id, assets[i].url, assets[i].tag, assets[i].priority);
 				}
 				this.configLoaded = true;
-				this.dispatchEvent(new SomaAssetsEvent(SomaAssetsEvent.CONFIG_LOADED));
+				this.dispatchEvent(new SomaImageLoaderEvent(SomaImageLoaderEvent.CONFIG_LOADED));
 			}
 		}.bind(this);
 		xmlhttp.open("POST", config, true);
@@ -85,9 +85,9 @@ var SomaAssetsWire = soma.Wire.extend({
 		config = null;
 	}
 });
-SomaAssetsWire.NAME = "Wire::SomaAssetsWire";
+SomaImageLoaderWire.NAME = "Wire::SomaAssetsWire";
 
-var SomaAssetsEvent = soma.Event.extend({
+var SomaImageLoaderEvent = soma.Event.extend({
 	constructor: function(type, tags, loader, data, completed, total) {
 		var params = {
 			tags:tags,
@@ -99,16 +99,16 @@ var SomaAssetsEvent = soma.Event.extend({
 		return soma.Event.call(this, type, params, true, true);
 	}
 });
-SomaAssetsEvent.CONFIG_LOADED = "SomaAssetsEvent.CONFIG_LOADED";
-SomaAssetsEvent.START = "SomaAssetsEvent.START";
-SomaAssetsEvent.ITEM_COMPLETE = "SomaAssetsEvent.ITEM_COMPLETE";
-SomaAssetsEvent.QUEUE_COMPLETE = "SomaAssetsEvent.QUEUE_COMPLETE";
+SomaImageLoaderEvent.CONFIG_LOADED = "SomaImageLoaderEvent.CONFIG_LOADED";
+SomaImageLoaderEvent.START = "SomaImageLoaderEvent.START";
+SomaImageLoaderEvent.ITEM_COMPLETE = "SomaImageLoaderEvent.ITEM_COMPLETE";
+SomaImageLoaderEvent.QUEUE_COMPLETE = "SomaImageLoaderEvent.QUEUE_COMPLETE";
 
-var SomaAssetsCommand = soma.Command.extend({
+var SomaImageLoaderCommand = soma.Command.extend({
 	execute: function(event) {
-		var wire = this.getWire(SomaAssetsWire.NAME);
+		var wire = this.getWire(SomaImageLoaderWire.NAME);
 		switch (event.type) {
-			case SomaAssetsEvent.START:
+			case SomaImageLoaderEvent.START:
 				wire.start(event.params.tags);
 				break;
 		}

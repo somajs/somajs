@@ -147,12 +147,16 @@ var FacadeTests = new Class({
 		// extend
 		var pluginExtend = this.app.createPlugin(cases.core.PluginExampleExtend);
 		this.assertNotNull(pluginExtend);
+		this.assertNotUndefined(pluginExtend);
 		this.assertNotNull(pluginExtend.instance);
+		this.assertNotUndefined(pluginExtend.instance);
 		this.assertTrue(pluginExtend instanceof cases.core.PluginExampleExtend);
 		// native
 		var pluginNative = this.app.createPlugin(cases.core.PluginExampleNative);
 		this.assertNotNull(pluginNative);
+		this.assertNotUndefined(pluginNative);
 		this.assertNotNull(pluginNative.instance);
+		this.assertNotUndefined(pluginNative.instance);
 		this.assertTrue(pluginNative instanceof cases.core.PluginExampleNative);
 	}
 
@@ -160,7 +164,9 @@ var FacadeTests = new Class({
 		var plugin1 = this.app.createPlugin(cases.core.PluginExampleExtend);
 		var plugin2 = this.app.createPlugin(cases.core.PluginExampleExtend);
 		this.assertNotNull(plugin1);
+		this.assertNotUndefined(plugin1);
 		this.assertNotNull(plugin2);
+		this.assertNotUndefined(plugin2);
 		this.assertNotEquals(plugin1, plugin2);
 		this.assertEquals(plugin1.instance, plugin2.instance);
 	}
@@ -200,6 +206,19 @@ var FacadeTests = new Class({
 		this.assertEquals(plugin.params[1].p1, params.p1);
 		this.assertEquals(plugin.params[1].p2, params.p2);
 		this.assertEquals(plugin.params[1].p3, params.p3);
+	}
+
+	,test_plugin_inheritance: function() {
+		var plugin = this.app.createPlugin(cases.core.PluginExampleExtendChild, "param 1");
+		this.assertNotNull(plugin);
+		this.assertNotUndefined(plugin);
+		this.assertNotNull(plugin.instance);
+		this.assertNotUndefined(plugin.instance);
+		this.assertTrue(plugin instanceof cases.core.PluginExampleExtend);
+		this.assertTrue(plugin instanceof cases.core.PluginExampleExtendChild);
+		this.assertNotNull(plugin.param1);
+		this.assertNotUndefined(plugin.param1);
+		this.assertEquals(plugin.param1, "param 1");
 	}
 
 });

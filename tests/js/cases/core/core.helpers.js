@@ -14,6 +14,14 @@ cases.core.PluginExampleNative = function(instance) {
 	this.params = arguments;
 }
 
+cases.core.PluginExampleExtendChild = new Class({
+	Extends: cases.core.PluginExampleExtend,
+	initialize: function(instance, param1) {
+		this.parent(instance);
+		this.param1 = param1;
+	}
+});
+
 cases.core.StartCommand = new Class
 ({
 	Extends: soma.Command,

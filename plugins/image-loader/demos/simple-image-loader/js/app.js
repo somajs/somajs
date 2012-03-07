@@ -20,7 +20,7 @@ var AssetsWire = soma.Wire.extend({
 	configLoadedHandler: function(event) {
 		this.log('> ready');
 		// config is loaded
-		// dispatch the plugin command START to start the loading
+		// dispatch the plugin command START to start the loading (plugin.start() could be used)
 		this.dispatchEvent(new SomaAssetsEvent(SomaAssetsEvent.START));
 	},
 	startHandler: function(event) {

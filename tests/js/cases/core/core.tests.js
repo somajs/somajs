@@ -68,79 +68,64 @@ var FacadeTests = new Class({
 		this.assertNotNull(soma);
 	}
 
-//	,test_create_class_instance: function() {
-//		this.assertNotNull(soma.createClassInstance);
-//		var TestClass = new Class({});
-//		var instance = soma.createClassInstance(TestClass);
-//		this.assertNotNull(instance);
-//		this.assertInstanceOf(TestClass, instance);
-//
-//	}
-//
-//	,test_create_class_instance_from_prototype: function()
-//	{
-//   		this.assertNotNull(soma.createClassInstance);
-//   		var TestClass = function() {};
-//		TestClass.prototype = {
-//			p1: null,
-//			p2: null,
-//			initialize: function(p1, p2) {
-//				this.p1 = p1;
-//				this.p2 = p2;
-//			}
-//		};
-//
-//		var instance = soma.createClassInstance( TestClass, "param1", "param2" );
-//		this.assertNotNull(instance);
-//		this.assertNotNull(instance.p1);
-//		this.assertNotNull(instance.p2);
-//		this.assertEquals(instance.p1, "param1");
-//		this.assertEquals(instance.p2, "param2");
-//	}
-//
-//	,test_create_class_instance_from_Function: function()
-//	{
-//   		this.assertNotNull(soma.createClassInstance);
-//   		var TestClass = function()
-//		{
-//		    this.p1 = null,
-//			this.p2 = null,
-//
-//			this.initialize = function(p1, p2) {
-//				this.p1 = p1;
-//				this.p2 = p2;
-//			}
-//	  	};
-//
-//
-//		var instance = soma.createClassInstance( TestClass, "param1", "param2" );
-//		this.assertNotNull(instance);
-//		this.assertNotNull(instance.p1);
-//		this.assertNotNull(instance.p2);
-//		this.assertEquals(instance.p1, "param1");
-//		this.assertEquals(instance.p2, "param2");
-//	}
-//
-//
-//	,test_create_class_instance_parameters: function() {
-//		this.assertNotNull(soma.createClassInstance);
-//		var TestClass = new Class({
-//			p1: null,
-//			p2: null,
-//			initialize: function(p1, p2) {
-//				this.p1 = p1;
-//				this.p2 = p2;
-//			}
-//		});
-//
-//		var instance = soma.createClassInstance(TestClass, "param1", "param2");
-//		this.assertNotNull(instance);
-//		this.assertInstanceOf(TestClass, instance);
-//		this.assertNotNull(instance.p1);
-//		this.assertNotNull(instance.p2);
-//		this.assertEquals(instance.p1, "param1");
-//		this.assertEquals(instance.p2, "param2");
-//	}
+	,test_plugin_create: function() {
+		// extend
+		var pluginExtend = this.app.createPlugin(cases.core.PluginExampleExtend);
+		this.assertNotNull(pluginExtend);
+		this.assertNotNull(pluginExtend.instance);
+		this.assertTrue(pluginExtend instanceof cases.core.PluginExampleExtend);
+		// native
+		var pluginNative = this.app.createPlugin(cases.core.PluginExampleNative);
+		this.assertNotNull(pluginNative);
+		this.assertNotNull(pluginNative.instance);
+		this.assertTrue(pluginNative instanceof cases.core.PluginExampleNative);
+	}
+
+	,test_plugin_create_multiple: function() {
+		var plugin1 = this.app.createPlugin(cases.core.PluginExampleExtend);
+		var plugin2 = this.app.createPlugin(cases.core.PluginExampleExtend);
+		this.assertNotNull(plugin1);
+		this.assertNotNull(plugin2);
+		this.assertNotEquals(plugin1, plugin2);
+		this.assertEquals(plugin1.instance, plugin2.instance);
+	}
+
+	,test_plugin_params_instance: function() {
+		var plugin = this.app.createPlugin(cases.core.PluginExampleExtend);
+		this.assertEquals(plugin.params.length, 1);
+		this.assertEquals(plugin.params[0], this.app);
+	}
+
+	,test_plugin_params: function() {
+		var plugin = this.app.createPlugin(cases.core.PluginExampleExtend, 1, "param", true);
+		this.assertEquals(plugin.params.length, 4);
+		this.assertEquals(plugin.params[0], this.app);
+		this.assertEquals(plugin.params[1], 1);
+		this.assertEquals(plugin.params[2], "param");
+		this.assertEquals(plugin.params[3], true);
+	}
+
+	,test_plugin_params_array: function() {
+		var params = [1,"param", true];
+		var plugin = this.app.createPlugin(cases.core.PluginExampleExtend, params);
+		this.assertEquals(plugin.params.length, 2);
+		this.assertEquals(plugin.params[0], this.app);
+		this.assertTrue(plugin.params[1] instanceof Array);
+		this.assertEquals(plugin.params[1][0], params[0]);
+		this.assertEquals(plugin.params[1][1], params[1]);
+		this.assertEquals(plugin.params[1][2], params[2]);
+	}
+
+	,test_plugin_params_object: function() {
+		var params = {p1:1, p2:"param", p3:true};
+		var plugin = this.app.createPlugin(cases.core.PluginExampleExtend, params);
+		this.assertEquals(plugin.params.length, 2);
+		this.assertEquals(plugin.params[0], this.app);
+		this.assertTrue(plugin.params[1] instanceof Object);
+		this.assertEquals(plugin.params[1].p1, params.p1);
+		this.assertEquals(plugin.params[1].p2, params.p2);
+		this.assertEquals(plugin.params[1].p3, params.p3);
+	}
 
 });
 

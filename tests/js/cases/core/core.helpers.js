@@ -2,6 +2,18 @@ cases.core = {};
 cases.core.globalModelTestDisposeCalled = false;
 cases.core.globalWireTestDisposeCalled = false;
 
+cases.core.PluginExampleExtend = new Class({
+	initialize: function(instance) {
+		this.instance = instance;
+		this.params = arguments;
+	}
+});
+
+cases.core.PluginExampleNative = function(instance) {
+	this.instance = instance;
+	this.params = arguments;
+}
+
 cases.core.StartCommand = new Class
 ({
 	Extends: soma.Command,

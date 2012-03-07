@@ -5,6 +5,12 @@ test_create_instance (DONE)
 test_component_creation (DONE)
 test_dispose (DONE)
 test_packages_creation (DONE)
+test_plugin_create (DONE)
+test_plugin_create_multiple (DONE)
+test_plugin_params_instance (DONE)
+test_plugin_params (DONE)
+test_plugin_params_array (DONE)
+test_plugin_params_object (DONE)
 
 - Autobind  ##DONE
 test_custom_autobind_rule (DONE)

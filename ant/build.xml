@@ -33,7 +33,7 @@
 			<arg value="${build.docs.source}"/>
 			<arg value="-d=${build.docs.export}"/>
 			<arg value="-D=noGlobal:true"/>
-			<arg value="-D=title:soma.js"/>
+			<arg value="-D=title:soma.js ${build.project.version}"/>
 	    </java>
 		<echo message="doc complete"/>
 	</target>

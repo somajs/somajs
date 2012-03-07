@@ -30,6 +30,10 @@
 	
 	/** @namespace Global namespace. */
 	soma = {};
+	/** framework version */
+	soma.version = "1.0.1";
+	/** framework type */
+	soma.type = "mootools";
 
 	/**
 	 * @function

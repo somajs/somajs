@@ -4,6 +4,7 @@ var NavigationConstants = {
 	TUTORIAL: "tutorial",
 	BROWSERS: "browsers",
 	DEMOS: "demos",
+	PLUGINS: "plugins",
 	DOCS: "docs"
 };
 

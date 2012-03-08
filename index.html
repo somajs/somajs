@@ -57,9 +57,11 @@
 					<li id="tuto-createcommand"><a href="#createcommand">Create a command</a></li>
 					<li id="tuto-appflow"><a href="#appflow">Application flow</a></li>
 					<li id="tuto-helloworld"><a href="#helloworld">Hello world application</a></li>
+					<li id="tuto-createplugin"><a href="#createplugin">Create a plugin</a></li>
 				</ul>
 			</li>
 			<li id="main-demos"><a href="#demos">Demos</a></li>
+			<li id="main-plugins"><a href="#plugins">Plugins</a></li>
 			<li id="main-download"><a href="#download">Downloads</a></li>
 			<li id="main-docs"><a href="#docs" target="_blank">Documentation</a></li>
 			<li id="main-browsers"><a href="#browsers">Browsers information</a></li>
@@ -2024,7 +2026,208 @@ var app = new HelloWorldApplication();
 					</div>
 				</section>
 				<div id="helloworld-output"></div>
+			</section>
 
+			<!--create plugin -->
+			<section id="createplugin" class="chapter">
+				<a name="createplugin"></a>
+				<h2>Create a soma plugin</h2>
+				<!--step-->
+				<section class="step">
+					<h3>Step 1</h3>
+					<div class="content">
+						<p>Creating a soma plugin is very easy. You will need to create a function and send it to a <span class="codequote">createPlugin</span> method.</p>
+						<p>The framework will instantiate the plugin and send the framework instance to the constructor. From this point you should be able to do anything, such as creating wires, commands, events, and so on.</p>
+						<p>The <span class="codequote">createPlugin</span> method is accessible from the framework instance, the wires and the commands.</p>
+						<p>Let's have a look at a real example, the <a href="plugin/native/plugin/image-loader/demos/simple-image-loader/" target="_blank">image loader plugin</a>.</p>
+						<p>This plugin is able to do different things:</p>
+						<ul>
+							<li>1. take a json file as a parameter to describe a list of images</li>
+							<li>2. load the json file and notify the framework elements (framework instance, wires, models)</li>
+							<li>3. load a list of images</li>
+							<li>4. notify the framework elements every time an image is loaded</li>
+							<li>5. notify the framework elements when all the images are loaded</li>
+						</ul>
+						<p>The usage is very simple, creation of the plugin:</p>
+						<p class="codequote">var plugin = this.createPlugin(SomaImageLoader, "assets/config.json");</p>
+						<p>Add a listener to be notified when the json config file is loaded:</p>
+						<p class="codequote">this.addEventListener(SomaImageLoaderEvent.CONFIG_LOADED, this.configLoadedHandler.bind(this));</p>
+						<p>Start the loading using a command the plugin has registered:</p>
+						<p class="codequote">this.dispatchEvent(new SomaImageLoaderEvent(SomaImageLoaderEvent.START));</p>
+						<p>Add some listeners to be notified when the images are loaded to display them:</p>
+						<p class="codequote">
+							this.addEventListener(SomaImageLoaderEvent.ITEM_COMPLETE, this.itemCompleteHandler.bind(this));<br/>
+							this.addEventListener(SomaImageLoaderEvent.QUEUE_COMPLETE, this.completeHandler.bind(this));
+						</p>
+						<p>See the <a href="plugin/native/plugin/image-loader/src/soma-image-loader.js" target="_blank">image-loader plugin code</a>, the <a href="plugin/native/plugin/image-loader/demos/simple-image-loader/assets/config.json" target="_blank">config json file</a> and <a href="plugin/native/plugin/image-loader/demos/simple-image-loader/js/app.js" target="_blank">how it is used</a>.</p>
+						<p>Now let's create some plugins, go to the next step.</p>
+					</div>
+					<!--<div class="code">-->
+<!--<textarea class="code" name="code">-->
+<!--// edit me and run the code-->
+
+<!--// extend a soma application-->
+<!--var SomaApplication = soma.Application.extend();-->
+<!--log("soma application created");-->
+<!--</textarea>-->
+					<!--</div>-->
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 2</h3>
+					<div class="content">
+						<p>To create a plugin we just need to follow 2 steps:</p>
+						<ul>
+							<li>1. create a function that will receive a framework instance as a first parameter</li>
+							<li>2. send the class to the <span class="codequote">createPlugin</span> method</li>
+						</ul>
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
+// edit me and run the code
+
+var AlertPlugin = function(instance) {
+	this.instance = instance;
+	log('plugin created and framework instance received: ' + this.instance);
+	log('framework instanceof: ' + (this.instance instanceof soma.Application));
+}
+
+// extend a soma application
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log("create plugin");
+		var plugin = this.createPlugin(AlertPlugin);
+		log("plugin instance: " + plugin);
+		log("plugin instanceof: " + (plugin instanceof AlertPlugin));
+	}
+});
+
+var app = new SomaApplication();
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 3</h3>
+					<div class="content">
+						<p>This is the same example as the previous one but with a different syntax.</p>
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
+// edit me and run the code
+
+var AlertPlugin = soma.extend({
+	constructor: function(instance) {
+		this.instance = instance;
+		log('plugin created and framework instance received: ' + this.instance);
+		log('framework instanceof: ' + (this.instance instanceof soma.Application));
+	}
+});
+
+// extend a soma application
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		log("create plugin");
+		var plugin = this.createPlugin(AlertPlugin);
+		log("plugin instance: " + plugin);
+		log("plugin instanceof: " + (plugin instanceof AlertPlugin));
+	}
+});
+
+var app = new SomaApplication();
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 4</h3>
+					<div class="content">
+						<p>Parameters can also be sent to the constructor. In this example we will send 2 other parameters: the message to alert, and a boolean to also print it in the log. </p>
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
+// edit me and run the code
+
+var AlertPlugin = soma.extend({
+	constructor: function(instance, message, printInLog) {
+		this.instance = instance;
+		if (printInLog) log(message);
+		alert(message);
+	},
+});
+
+// extend a soma application
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		var plugin = this.createPlugin(AlertPlugin, "Hello from AlertPlugin", true);
+	}
+});
+
+var app = new SomaApplication();
+</textarea>
+					</div>
+				</section>
+				<!--step-->
+				<section class="step">
+					<h3>Step 5</h3>
+					<div class="content">
+						<p>Instead of sending the alert directly from the constructor of the plugin. Let's delegate this job to a command.</p>
+						<p>The advantage of creating a command is that a simple event can be dispatched from anywhere in the application without knowing about the plugin. It could be dispatched from the framework instance, from a wire, from a model, from a view, or even from a DOM element.</p>
+						<p>Ideally you can package these three objects: <span class="codequote">AlertPlugin</span>, <span class="codequote">AlertCommand</span> and <span class="codequote">AlertEvent</span> in a single javascript file and the plugin is ready.</p>
+						<p>The usage of this plugin is very simple and only two lines:</p>
+						<ul>
+							<li class="codequote">this.createPlugin(AlertPlugin);</li>
+							<li class="codequote">this.dispatchEvent(new AlertEvent(AlertEvent.SEND, "Hello from a command", true));</li>
+						</ul>
+						<p>It is also a good practice to create a <span class="codequote">dispose</span> method to let a user destroy/remove the elements created in your plugin:</p>
+						<ul>
+							<li class="codequote">this.plugin.dispose();</li>
+							<li class="codequote">this.plugin = null;</li>
+						</ul>
+					</div>
+					<div class="code">
+<textarea class="code" name="code">
+// edit me and run the code
+
+var AlertPlugin = soma.extend({
+	constructor: function(instance) {
+		this.instance = instance;
+		this.instance.addCommand(AlertEvent.SEND, AlertCommand);
+	},
+	dispose: function() {
+		this.instance.removeCommand(AlertEvent.SEND);
+		this.instance = null;
+	}
+});
+
+var AlertCommand = soma.Command.extend({
+	execute: function(event) {
+		if (event.params.printInLog) log(event.params.message);
+		alert(event.params.message);
+	}
+});
+
+var AlertEvent = soma.Event.extend({
+	constructor: function(type, message, printInLog) {
+		return soma.Event.call(this, type, {message:message, printInLog:printInLog});
+	}
+});
+AlertEvent.SEND = "send";
+
+// extend a soma application
+var SomaApplication = soma.Application.extend({
+	init: function() {
+		this.createPlugin(AlertPlugin);
+	},
+	start: function() {
+		this.dispatchEvent(new AlertEvent(AlertEvent.SEND, "Hello from a command", true));
+	}
+});
+
+var app = new SomaApplication();
+</textarea>
+					</div>
+				</section>
 			</section>
 
 		</section>
@@ -2080,6 +2283,21 @@ var app = new HelloWorldApplication();
 					<ul>
 						<li>demo (<a href="examples/native/demos/knockout/" target="_blank">native version</a> - <a href="examples/mootools/demos/knockout/" target="_blank">mootools version</a>)</li>
 						<li>code (<a href="https://github.com/somajs/somajs/tree/master/demos/knockout" target="_blank">native version</a> - <a href="https://github.com/somajs/somajs/tree/mootools/demos/knockout" target="_blank">mootools version</a>)</li>
+					</ul>
+				</li>
+			</ul>
+		</section>
+
+		<section id="plugins">
+			<a name="plugins"></a>
+			<h1>Plugins</h1>
+			<ul>
+				<li>
+					<h2>ImageLoader (with <a href="http://thinkpixellab.com/pxloader/" target="_blank">PxLoader</a>)</h2>
+					<p>Load images from a json <a href="plugin/native/plugin/image-loader/demos/simple-image-loader/assets/config.json" target="_blank">config file</a>, with queue progress and complete events.</p>
+					<ul>
+						<li>demo (<a href="plugin/native/plugin/image-loader/demos/simple-image-loader/" target="_blank">native version</a> - <a href="plugin/mootools/plugin/image-loader/demos/simple-image-loader/" target="_blank">mootools version</a>)</li>
+						<li>code (<a href="https://github.com/somajs/somajs/tree/master/plugins/image-loader" target="_blank">native version</a> - <a href="https://github.com/somajs/somajs/tree/mootools/plugins/image-loader" target="_blank">mootools version</a>)</li>
 					</ul>
 				</li>
 			</ul>

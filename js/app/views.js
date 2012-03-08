@@ -114,9 +114,9 @@ StepView = soma.View.extend({
 			this.createEditor();
 			this.createButtons();
 			this.createLog();
-			this.createNavContainer();
-			this.hide();
 		}
+		this.createNavContainer();
+		this.hide();
 	},
 	setSolution: function() {
 		this.solution = this.code.value;
@@ -191,7 +191,7 @@ StepView = soma.View.extend({
 		return false;
 	},
 	refresh:function() {
-		this.editor.refresh();
+		if (this.editor) this.editor.refresh();
 	},
 	activate: function() {
 		this.active = true;

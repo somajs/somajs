@@ -402,14 +402,17 @@ div .code {
   margin-top: 30px;
   margin-bottom: 30px; }
 
-#demos ul > li, #download ul > li {
+.content > ul {
+  margin-bottom: 10px; }
+
+#demos ul > li, #plugins ul > li, #download ul > li {
   margin-left: 30px;
   margin-top: 4px; }
 
-#demos ul, #download ul {
+#demos ul, #plugins ul, #download ul {
   margin-bottom: 10px; }
 
-#demos > ul > li, #download > ul > li {
+#demos > ul > li, #plugins > ul > li, #download > ul > li {
   margin-left: 0px;
   margin-top: 30px; }
 

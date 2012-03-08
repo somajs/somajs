@@ -19,6 +19,8 @@ var AssetsWire = soma.Wire.extend({
 	},
 	configLoadedHandler: function(event) {
 		this.log('> ready');
+		var elOutput = document.getElementById("output");
+		elOutput.innerHTML = "Config loaded.<br/>";
 		// config is loaded
 		// dispatch the plugin command START to start the loading (plugin.start() could be used)
 		this.dispatchEvent(new SomaImageLoaderEvent(SomaImageLoaderEvent.START));
@@ -27,7 +29,7 @@ var AssetsWire = soma.Wire.extend({
 		// event.preventDefault() can be used to stop the execution of the command at this point
 		this.log('> start');
 		var elOutput = document.getElementById("output");
-		elOutput.innerHTML = "Config loaded, start loading images...<br/>";
+		elOutput.innerHTML = elOutput.innerHTML + "Start loading images...<br/>";
 	},
 	itemCompleteHandler: function(event) {
 		// notification received when an item is loaded

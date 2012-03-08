@@ -26,6 +26,8 @@ var AssetsWire = soma.Wire.extend({
 	startHandler: function(event) {
 		// event.preventDefault() can be used to stop the execution of the command at this point
 		this.log('> start');
+		var elOutput = document.getElementById("output");
+		elOutput.innerHTML = "Config loaded, start loading images...<br/>";
 	},
 	itemCompleteHandler: function(event) {
 		// notification received when an item is loaded

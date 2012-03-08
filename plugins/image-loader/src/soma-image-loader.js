@@ -78,7 +78,7 @@ var SomaImageLoaderWire = new Class({
 				this.dispatchEvent(new SomaImageLoaderEvent(SomaImageLoaderEvent.CONFIG_LOADED));
 			}
 		}.bind(this);
-		xmlhttp.open("POST", config, true);
+		xmlhttp.open("GET", config, true);
 		xmlhttp.send();
 	},
 	dispose: function() {

@@ -4,13 +4,13 @@ var app = Davis(function () {
 		console.log("START", Davis.location.current());
 	})
 
-	this.get('/', function (req) {
+	this.get('/router/', function (req) {
 		console.log("Hello ROOT " + req.params['name'])
 	});
-	this.get('/about/:name', function (req) {
+	this.get('/router/about/:name', function (req) {
 		console.log("Hello " + req.params['name'])
 	});
-	this.state('/about/:name', function(rep) {
+	this.state('/router/about/:name', function(rep) {
 		console.log("state " + req.params['name'])
 	});
 

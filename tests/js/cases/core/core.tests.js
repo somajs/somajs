@@ -160,6 +160,14 @@ var FacadeTests = new Class({
 		this.assertTrue(pluginNative instanceof cases.core.PluginExampleNative);
 	}
 
+	,test_plugin_create_wire: function() {
+		var wire = this.app.addWire("wire", new soma.Wire());
+		var plugin = this.app.getWire("wire").createPlugin(cases.core.PluginExampleNative);
+		this.assertNotNull(plugin);
+		this.assertNotNull(plugin.instance);
+		this.assertTrue(plugin instanceof cases.core.PluginExampleNative);
+	}
+
 	,test_plugin_create_multiple: function() {
 		var plugin1 = this.app.createPlugin(cases.core.PluginExampleExtend);
 		var plugin2 = this.app.createPlugin(cases.core.PluginExampleExtend);

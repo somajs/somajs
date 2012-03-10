@@ -58,7 +58,7 @@
 	var SomaSharedCore = new Class({
 
 		createPlugin: function() {
-			this.instance.createPlugin.apply(this.instance, arguments);
+			return this.instance.createPlugin.apply(this.instance, arguments);
 		},
 
 		dispatchEvent: function() {

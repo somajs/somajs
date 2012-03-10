@@ -234,7 +234,7 @@ john.say();
 	 */
 	var SomaSharedCore = soma.extend({
 		createPlugin: function() {
-			this.instance.createPlugin.apply(this.instance, arguments);
+			return this.instance.createPlugin.apply(this.instance, arguments);
 		},
 		dispatchEvent: function() {
 			this.instance.dispatchEvent.apply(this.instance, arguments);

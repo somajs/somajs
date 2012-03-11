@@ -1,0 +1,112 @@
+/*
+Template Name: Jumo HTML Template
+Description: A Photography Portfolio HTML Template
+Author: Chris Creed
+URL: http://www.chris-creed.com
+*/
+
+/* Colors: Orange - #F34607 */
+
+@import "reset.css";
+
+/* -------------------- */
+/* -- General Styles -- */
+/* -------------------- */
+#wrap { width: 960px; margin: 0 auto; text-align: center; border: 1px solid blue }
+body { background: url(../images/main-bg.jpg) repeat-x; background-color: #fff; color: #555; line-height: 24px; font: 13px/21px "Helvetica Neue", Helvetica, Arial, sans-serif; text-align: center; }
+h1 { font-size: 30px; margin: 30px 0 10px 0; }
+h2 { font-size: 20px; margin: 30px 0 10px 0; }
+h3 { font-size: 17px; margin: 30px 0 10px 0; }
+h4 { font-size: 16px; font-style: italic; margin: 30px 0 10px 0; }
+h5 { font-size: 14px; margin: 20px 0 10px 0; }
+h6 { font-size: 12px; margin: 20px 0 10px 0; }
+a { color: #F34607; text-decoration: none; }
+a:hover { color: #222; }
+em { font-style: italic; }
+ol, ul { list-style: none; }
+p { margin: 0 0 15px 0; }
+
+/* ------------- */
+/* -- Helpers -- */
+/* ------------- */
+.title { margin: 0 0 15px 0; line-height: 30px; font-size: 18px; font-weight: bold; }
+.no-top-margin { margin-top: 0; }
+.cache-images { display: none; }
+.line { clear: both; border-bottom: 2px solid #eee; margin-bottom: 45px;  }
+.hide { display: none; }
+
+/* ----------------- */
+/* -- Main Layout -- */
+/* ----------------- */
+.content { width: 530px; padding: 0px; text-align: center; margin: 40px auto; }
+
+/* ------------ */
+/* -- Header -- */
+/* ------------ */
+#header { padding: 60px 0 0 0; overflow: hidden; }
+#header h1 { color: #555; letter-spacing: -1px; font-weight: bold; font-size: 38px; margin: 0 0 14px 0; }
+#header h2 { color: #ccc; font-size: 26px; letter-spacing: -1px; margin: 0; font-weight: normal; }
+
+/* --------- */
+/* -- Nav -- */
+/* --------- */
+#nav { float: left; width: 100%; overflow: hidden; position: relative; margin: 40px 0 10px 0; border-top: 1px #eee dotted; border-bottom: 1px #eee dotted; padding: 10px 0 8px 0; }
+#nav ul { clear: left; float: left; margin: 0; padding: 0; position: relative; left: 50%; text-align: center; }
+#nav ul li { float: left; list-style: none; margin: 0; padding: 0; position: relative; right: 50%; }
+#nav ul li a { margin: 0 0 0 1px; padding: 0; font-size: 14px; color: #666; text-transform: uppercase; }
+#nav ul li a:hover { color: #F34607; }
+#nav li span { padding: 0 18px; color: #666; font-size: 14px; }
+#nav li .current { color: #F34607; }
+
+/* ------------- */
+/* -- Gallery -- */
+/* ------------- */
+.frontpage { margin: 0 0 80px 0 !important; }
+#photo-gallery { border: 1px #eee solid; position: relative; height: 390px; width: 580px; margin: 40px auto 70px; background: #f5f5f5; }
+#photo-gallery img { margin: 5px 0 0 0; }
+#photo-gallery-nav img { float: left; width: 150px; height: auto; padding: 6px; background: #f5f5f5; border: 1px #eee solid; margin: 0 0 35px 35px; }
+#photo-gallery-nav .first { margin-left: 0; }
+#photo-gallery-nav .current { background-color: #e5e5e5; }
+#photo-gallery-nav img:hover { opacity: 0.7; cursor: pointer; }
+
+/* -------------- */
+/* -- Articles -- */
+/* -------------- */
+.article { margin: 0 0 45px 0; }
+.article .title { margin: 0 0 -2px 0; font-size: 18px; }
+.article p.meta { font-size: 16px; margin: 0 0 15px 0; color: #aaa; }
+.next-articles { margin: 0 0 0 0; }
+.more-link { display: block; margin: 20px 0 0 0; }
+
+/* ------------------ */
+/* -- Testimonials -- */
+/* ------------------ */
+.testimonial em { color: #555; }
+.testimonial .author { color: #222; margin: 2px 0 0 0; display: block; }
+
+/* ------------- */
+/* -- Sidebar -- */
+/* ------------- */
+#sidebar { text-align: left; }
+.author-photo { width: 200px; padding: 5px; background-color: #f5f5f5; border: 1px #eee solid; }
+#author-details { margin: 25px 0 0 0; }
+#author-details h3 { font-size: 14px; margin: 0 0 10px 0 }
+#author-details .status { font-style: italic; }
+#author-details p { font-size: 12px; margin: 0 0 15px 1px; line-height: 20px; }
+
+/* ------------- */
+/* -- Contact -- */
+/* ------------- */
+#contact-form { margin: 30px 0 0 0; }
+#contact-form input { background: url(../images/main-bg.jpg) repeat-x; border: 1px #e5e5e5 solid; padding: 12px 10px 10px 10px; font: 12px/20px "Helvetica Neue", Helvetica, Arial, sans-serif; margin: 0 200px 15px 0; width: 275px; color: #555; }
+#contact-form textarea { background: url(../images/main-bg.jpg) repeat-x; border: 1px #e5e5e5 solid; width: 515px; height: 250px; font: 12px/20px "Helvetica Neue", Helvetica, Arial, sans-serif; margin: 0 0 15px 0; padding: 10px; width: 450px; color: #555; }
+#contact-form .submit { background: url(../images/submit-button-orange.jpg) no-repeat; width: 109px; height: 38px; border: none; cursor: pointer; margin: 0 0 0 -6px; }
+#contact-form .submit:hover { background: url(../images/submit-button-orange-hover.jpg) no-repeat; }
+#response { background-color: #eee; border: 1px #ddd solid; padding: 15px; color: #cc0000; margin-bottom: -10px; }
+
+/* ------------ */
+/* -- Footer -- */
+/* ------------ */
+#footer { clear: both; font-size: 14px; color: #888; padding: 0 0 20px 0; }
+#footer .copyright { text-align: center; padding: 8px 0 0 0; }
+.footer-line { border-bottom: 2px solid #eee; }

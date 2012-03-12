@@ -2,10 +2,16 @@
 
 body { color: #555; line-height: 24px; font: 13px/21px "Helvetica Neue", Helvetica, Arial, sans-serif; text-align: center; }
 
-#nav { float: left; width: 100%; overflow: hidden; position: relative; margin: 10px 0 10px 0; border-top: 1px #eee dotted; border-bottom: 1px #eee dotted; padding: 10px 0 8px 0; }
-#nav ul { clear: left; float: left; margin: 0; padding: 0; position: relative; left: 50%; text-align: center; }
-#nav ul li { float: left; list-style: none; margin: 0; padding: 0; position: relative; right: 50%; }
-#nav ul li a { margin: 0 0 0 1px; padding: 0; font-size: 14px; color: #666; text-transform: uppercase; }
-#nav ul li a:hover { color: #F34607; }
-#nav li span { padding: 0 18px; color: #666; font-size: 14px; }
-#nav li .current { color: #F34607; }
+#nav, #subnav { float: left; width: 100%; overflow: hidden; position: relative; margin: 20px 0 0 0; border-top: 1px #eee dotted; border-bottom: 1px #eee dotted; padding: 10px 0 8px 0; }
+#nav ul, #subnav ul { clear: left; float: left; margin: 0; padding: 0; position: relative; left: 50%; text-align: center; }
+#nav ul li, #subnav ul li { float: left; list-style: none; margin: 0; padding: 0; position: relative; right: 50%; }
+#nav ul li a, #subnav ul li a { text-decoration: none; margin: 0 0 0 1px; padding: 0; font-size: 14px; color: #666; text-transform: uppercase; }
+#nav ul li a:hover, #subnav ul li a:hover { color: #F34607; }
+#nav li span, #subnav li span { padding: 0 18px; color: #666; font-size: 14px; }
+#nav ul li a.current, #subnav ul li a.current { color: #F34607; text-decoration: underline }
+#subnav { display: none }
+
+#content { float: left; width: 100%; margin: 20px 0 0 0; }
+#content div { width: 500px; margin: 20px auto; }
+#content h1 { font-size:20px; margin: 0 0 10px 0; }
+#content p { text-align: left }

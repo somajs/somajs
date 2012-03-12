@@ -1,11 +1,13 @@
 var SomaRouter = soma.extend({
 	instance: null,
 	wire:null,
+	app: null,
 	constructor: function(instance, routes) {
 		this.instance = instance;
 		console.log('soma state constructor');
 		this.wire = this.instance.addWire(SomaRouterWire.NAME, new SomaRouterWire());
 		this.wire.create();
+		this.app = this.wire.app;
 		if (routes) this.wire.setConfig(routes);
 	},
 	setConfig: function(routes) {
@@ -17,9 +19,6 @@ var SomaRouter = soma.extend({
 	},
 	getBaseHref: function() {
 		return $('base').attr("href");
-	},
-	getApp: function() {
-		return this.instance.getWire(SomaRouterWire.NAME).app;
 	},
 	replaceAnchors: function(replacement) {
 		$('a[href^="#"]').each(function(index, value) {
@@ -63,7 +62,7 @@ var SomaRouterWire = soma.Wire.extend({
 		this.app = null;
 	},
 	create: function() {
-		this.app = Davis(function(){});
+		this.app = Davis();
 	},
 	start: function() {
 		this.app.start();

@@ -1,43 +1,66 @@
+SomaRouterEvent.ROOT = "rootEvent";
+SomaRouterEvent.NAV = "navEvent";
+SomaRouterEvent.SUB_NAV = "subnavEvent";
+
 var SomaApplication = new soma.Application.extend({
 	registerWires: function() {
+		this.addWire(ContentWire.NAME, new ContentWire());
 		this.addWire(RouterWire.NAME, new RouterWire());
+	},
+	start: function() {
+		this.dispatchEvent(new SomaRouterEvent(SomaRouterEvent.START));
+//		this.dispatchEvent(new SomaRouterEvent(SomaRouterEvent.STOP));
 	}
 });
 
 var RouterWire = new soma.Wire.extend({
-	router: null,
 	init:function() {
-		Davis.extend(Davis.hashRouting({prefix:"!"}))
+		// prepare routes
 		var routes = {
-			"/" : this.root.bind(this),
-			"/:nav" : this.mainNav.bind(this),
-			"/:nav/:subnav" : this.subNav.bind(this)
+			"/" : SomaRouterEvent.ROOT,
+			"/:nav" : SomaRouterEvent.NAV,
+			"/:nav/:subnav" : SomaRouterEvent.SUB_NAV
 		};
-		this.router = this.createPlugin(SomaRouter, routes);
-		//this.router.replaceAnchors("/");
-		this.router.setGenerateRequestOnPageLoad(true);
-		this.router.start();
-		// styles
+		// create plugin
+		var router = this.createPlugin(SomaRouter, routes);
+		router.enableHashRouting({prefix:"!"});
+		router.setGenerateRequestOnPageLoad(true);
+	}
+});
+RouterWire.NAME = "RouterWire";
+
+var ContentWire = new soma.Wire.extend({
+	init: function() {
+		this.addEventListener(SomaRouterEvent.CHANGED, this.change.bind(this));
+		this.addEventListener(SomaRouterEvent.ROOT, this.root.bind(this));
+		this.addEventListener(SomaRouterEvent.NAV, this.mainNav.bind(this));
+		this.addEventListener(SomaRouterEvent.SUB_NAV, this.subNav.bind(this));
+		console.log(SomaRouterEvent.ROOT);
 	},
-	root: function(req) {
-		console.log('root:');
+	change: function(event) {
+		console.log('change:', event.params.path, event);
+		if (event.params.path == "/:nav/:subnav") {
+			//event.preventDefault();
+		}
+	},
+	root: function(event) {
+		console.log('root:', event);
 		this.showNav();
 		this.showContent("home");
-		this.showStyle("");
+		this.highlight("");
 	},
-	mainNav: function(req) {
-		console.log('main nav:', req.params['nav']);
-		this.showNav(req.params['nav']);
-		this.showContent(req.params['nav']);
-		this.showStyle(req.params['nav'], "");
+	mainNav: function(event) {
+		console.log('main nav:', event.params['nav']);
+		this.showNav(event.params['nav']);
+		this.showContent(event.params['nav']);
+		this.highlight(event.params['nav'], "");
 	},
-	subNav: function(req) {
-		console.log('sub nav:', req.params['nav'], req.params['subnav']);
-		this.showNav(req.params['nav']);
-		this.showContent(req.params['subnav']);
-		this.showStyle(req.params['nav'], req.params['subnav']);
+	subNav: function(event) {
+		console.log('sub nav:', event.params['nav'], event.params['subnav']);
+		this.showNav(event.params['nav']);
+		this.showContent(event.params['subnav']);
+		this.highlight(event.params['nav'], event.params['subnav']);
 	},
-	// styles
 	showNav: function(nav) {
 		if (nav == "articles") $("#subnav").show();
 		else $("#subnav").hide();
@@ -46,11 +69,12 @@ var RouterWire = new soma.Wire.extend({
 		$("#content div").hide();
 		$("#" + nav).show();
 	},
-	showStyle: function(nav, subnav) {
+	highlight: function(nav, subnav) {
 		$("#nav a, #subnav a").removeClass("current");
 		$('#nav a[href="/' + nav + '"]').addClass("current");
 		$('#subnav a[href$="/' + subnav + '"]').addClass("current");
 	}
 });
+ContentWire.NAME = "ContentWire";
 
 var app = new SomaApplication();

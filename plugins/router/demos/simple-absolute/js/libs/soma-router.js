@@ -4,7 +4,6 @@ var SomaRouter = soma.extend({
 	app: null,
 	constructor: function(instance, routes) {
 		this.instance = instance;
-		console.log('soma state constructor');
 		this.wire = this.instance.addWire(SomaRouterWire.NAME, new SomaRouterWire());
 		this.wire.create();
 		this.app = this.wire.app;
@@ -13,8 +12,13 @@ var SomaRouter = soma.extend({
 	setConfig: function(routes) {
 		this.wire.setConfig(routes);
 	},
+	enableHashRouting: function(options) {
+		Davis.extend(Davis.hashRouting(options))
+	},
 	dispose: function() {
 		this.instance.removeWire(SomaRouterWire.NAME);
+		app = null
+		wire = null;
 		instance = null;
 	},
 	getBaseHref: function() {
@@ -25,9 +29,6 @@ var SomaRouter = soma.extend({
 			var href = $(value).attr("href").toString().replace("#", replacement);
 			$(value).attr("href", href);
 		});
-	},
-	getBaseHref: function() {
-		return $('base').attr("href");
 	},
 	setLinkSelector: function(value) {
 		this.wire.setLinkSelector(value);
@@ -52,28 +53,87 @@ var SomaRouter = soma.extend({
 	}
 });
 
+var SomaRouterCommand = soma.Command.extend({
+	execute: function(event) {
+		var wire = this.getWire(SomaRouterWire.NAME);
+		switch(event.type) {
+			case SomaRouterEvent.START:
+				wire.start();
+				break;
+			case SomaRouterEvent.STOP:
+				wire.stop();
+				break;
+			case SomaRouterEvent.CHANGED:
+				this.dispatchEvent(new SomaRouterEvent(event.params.type, event.params, true, true));
+				break;
+		}
+	}
+});
+
+var SomaRouteWire = soma.Wire.extend({
+	path:null,
+	type:null,
+	routeHandler: function(req) {
+		var params = {
+			request:req,
+			path:this.path,
+			type: this.name
+		};
+		for (var s in req.params) {
+			params[s] = req.params[s];
+		}
+		this.dispatchEvent(new SomaRouterEvent(SomaRouterEvent.CHANGED, params, true, true));
+	}
+});
+
+var SomaRouterEvent = soma.Event.extend();
+SomaRouterEvent.CHANGED = "SomaRouterEvent.CHANGED";
+SomaRouterEvent.START = "SomaRouterEvent.START";
+SomaRouterEvent.STOP = "SomaRouterEvent.STOP";
+
 var SomaRouterWire = soma.Wire.extend({
 	app: null,
+	config: null,
 	init: function() {
-
+		this.addCommand(SomaRouterEvent.CHANGED, SomaRouterCommand);
+		this.addCommand(SomaRouterEvent.START, SomaRouterCommand);
+		this.addCommand(SomaRouterEvent.STOP, SomaRouterCommand);
 	},
 	dispose: function() {
+		this.removeCommand(SomaRouterEvent.CHANGED);
+		this.removeCommand(SomaRouterEvent.START);
+		this.removeCommand(SomaRouterEvent.STOP);
+		this.disposeConfig();
 		this.app.stop();
 		this.app = null;
+	},
+	disposeConfig: function() {
+		for (var path in this.config) {
+			this.removeWire(this.config[path]);
+		}
 	},
 	create: function() {
 		this.app = Davis();
 	},
 	start: function() {
+		console.log('START');
 		this.app.start();
 	},
 	stop: function() {
+		console.log('STOP');
 		this.app.stop();
 	},
 	setConfig: function(routes) {
-		for (var r in routes) {
-			console.log('add route', r, routes[r]);
-			this.app.get(r, routes[r]);
+		this.disposeConfig();
+		this.config = routes;
+		for (var path in routes) {
+			var routeWire = this.addWire(routes[path], new SomaRouteWire(routes[path]));
+			routeWire.path = path;
+
+			console.log("add route:", path)
+
+			this.app.get(path, routeWire.routeHandler.bind(routeWire));
+
 		}
 	},
 	setLinkSelector: function(value) {
@@ -92,4 +152,5 @@ var SomaRouterWire = soma.Wire.extend({
 		this.app.settings.generateRequestOnPageLoad = value;
 	}
 });
-SomaRouterWire.NAME = "Wire::SomaStateWire";
+SomaRouterWire.NAME = "Wire::SomaRouterWire";
+

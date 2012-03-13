@@ -245,6 +245,9 @@ john.say();
 		removeEventListener: function() {
 			this.instance.removeEventListener.apply(this.instance, arguments);
 		},
+		hasEventListener: function() {
+			return this.instance.hasEventListener.apply(this.instance, arguments);
+		},
 		hasCommand: function(commandName) {
 			return this.instance.hasCommand(commandName);
 		},

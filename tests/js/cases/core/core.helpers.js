@@ -2,6 +2,13 @@ cases.core = {};
 cases.core.globalModelTestDisposeCalled = false;
 cases.core.globalWireTestDisposeCalled = false;
 
+cases.core.HandlerReceiver = soma.extend({
+	received: false,
+	handler: function() {
+		this.received = true;
+	}
+});
+
 cases.core.PluginExampleExtend = soma.extend({
 	constructor: function(instance) {
 		this.instance = instance;

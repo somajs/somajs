@@ -2,6 +2,13 @@ cases.core = {};
 cases.core.globalModelTestDisposeCalled = false;
 cases.core.globalWireTestDisposeCalled = false;
 
+cases.core.HandlerReceiver = new Class({
+	received: false,
+	handler: function() {
+		this.received = true;
+	}
+});
+
 cases.core.PluginExampleExtend = new Class({
 	initialize: function(instance) {
 		this.instance = instance;

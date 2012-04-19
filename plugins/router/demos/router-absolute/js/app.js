@@ -21,14 +21,14 @@ var RouterWire = new soma.Wire.extend({
 				"/:nav/:subnav" : RouterEventTypes.SUBNAV
 			}
 		};
-		// add Davis hash plugin
+		// add Davis hash plugin for browsers that don't support html5 states
 		Davis.extend(Davis.hashRouting({ prefix: "!" }));
 		// create plugin
-		var router = this.createPlugin(SomaRouter, routes, function() {
+		var router = this.createPlugin(soma.router.Router, routes, function() {
 			// Davis
 			this.settings.generateRequestOnPageLoad = true;
 			this.bind('start', function(req) {
-				console.log("> start:", Davis.location.current());
+
 			});
 		});
 	}
@@ -37,7 +37,7 @@ RouterWire.NAME = "RouterWire";
 
 var ContentWire = new soma.Wire.extend({
 	init: function() {
-		this.addEventListener(SomaRouterEvent.CHANGED, this.changed.bind(this));
+		this.addEventListener(soma.router.RouterEvent.CHANGED, this.changed.bind(this));
 		this.addEventListener(RouterEventTypes.ROOT, this.root.bind(this));
 		this.addEventListener(RouterEventTypes.NAV, this.nav.bind(this));
 		this.addEventListener(RouterEventTypes.SUBNAV, this.subnav.bind(this));

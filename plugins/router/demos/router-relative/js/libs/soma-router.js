@@ -1,4 +1,6 @@
-var SomaRouter = soma.extend({
+soma.router = soma.router || {};
+
+soma.router.Router = soma.extend({
 
 	instance: null,
 	router: null,
@@ -7,7 +9,6 @@ var SomaRouter = soma.extend({
 	somaRoutes: null,
 
 	constructor: function(instance, routes, handler) {
-		console.log("Plugin created", instance);
 		this.instance = instance;
 		this.routes = routes;
 		this.handler = handler;
@@ -18,21 +19,19 @@ var SomaRouter = soma.extend({
 	},
 
 	createElements: function() {
-		this.instance.addCommand(SomaRouterEvent.CHANGED, SomaRouterCommand);
+		this.instance.addCommand(soma.router.RouterEvent.CHANGED, soma.router.RouterCommand);
 	},
 
 	removeElements: function() {
-		this.instance.removeCommand(SomaRouterEvent.CHANGED, SomaRouterCommand);
+		this.instance.removeCommand(soma.router.RouterEvent.CHANGED, soma.router.RouterCommand);
 	},
 
 	createRoutes: function() {
-		console.log("Create routes");
 		this.somaRoutes = [];
 		for (var method in this.routes) {
 			if (this.router.hasOwnProperty(method) && typeof this.router[method] === "function") {
 				for (var route in this.routes[method]) {
-					console.log(route, this.routes[method][route]);
-					var somaRoute = new SomaRoute(this.instance, route, this.routes[method][route]);
+					var somaRoute = new soma.router.Route(this.instance, route, this.routes[method][route]);
 					this.router[method](route, somaRoute.handler.bind(somaRoute));
 					this.somaRoutes.push(somaRoute);
 				}
@@ -40,14 +39,14 @@ var SomaRouter = soma.extend({
 		}
 	},
 
-	disposeSomaRoutes: function() {
+	disposeRoutes: function() {
 		for (var i=0; i<this.somaRoutes.length; ++i) {
 			this.somaRoutes[i].dispose();
 		}
 	},
 
 	dispose: function() {
-		this.disposeSomaRoutes();
+		this.disposeRoutes();
 		this.removeElements();
 		this.instance = null;
 		this.router = null;
@@ -58,7 +57,7 @@ var SomaRouter = soma.extend({
 
 });
 
-var SomaRoute = soma.extend({
+soma.router.Route = soma.extend({
 
 	instance: null,
 	rule: null,
@@ -71,7 +70,7 @@ var SomaRoute = soma.extend({
 	},
 
 	handler: function(req) {
-		this.instance.dispatchEvent(new SomaRouterEvent(SomaRouterEvent.CHANGED, this.routeEvent, this.rule, req));
+		this.instance.dispatchEvent(new soma.router.RouterEvent(soma.router.RouterEvent.CHANGED, this.routeEvent, this.rule, req));
 	},
 
 	dispose: function() {
@@ -80,22 +79,21 @@ var SomaRoute = soma.extend({
 
 });
 
-var SomaRouterEvent = soma.Event.extend({
+soma.router.RouterEvent = soma.Event.extend({
 
 	constructor: function(type, routeEvent, rule, request) {
 		return soma.Event.call(this, type, {routeEvent:routeEvent, rule:rule, request:request}, true, true);
 	}
 
 });
-SomaRouterEvent.CHANGED = "SomaRouterEvent.CHANGED";
+soma.router.RouterEvent.CHANGED = "SomaRouterEvent.CHANGED";
 
-var SomaRouterCommand = soma.Command.extend({
+soma.router.RouterCommand = soma.Command.extend({
 
 	execute: function(event) {
 		switch(event.type) {
-			case SomaRouterEvent.CHANGED:
-				console.log("dispatch update", event.params.routeEvent)
-				this.dispatchEvent(new SomaRouterEvent(event.params.routeEvent, event.params.routeEvent, event.params.rule, event.params.request, true, true));
+			case soma.router.RouterEvent.CHANGED:
+				this.dispatchEvent(new soma.router.RouterEvent(event.params.routeEvent, event.params.routeEvent, event.params.rule, event.params.request, true, true));
 				break;
 		}
 	}

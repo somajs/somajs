@@ -22,17 +22,16 @@ var RouterWire = new soma.Wire.extend({
 				":nav/:subnav" : RouterEventTypes.SUBNAV
 			}
 		};
-		// add Davis hash plugin
+		// add Davis hash plugin for browsers that don't support html5 states
 		Davis.extend(Davis.hashRouting({ prefix: "!/" }));
 		// create plugin
-		var router = this.createPlugin(SomaRouter, routes, function() {
+		var router = this.createPlugin(soma.router.Router, routes, function() {
 			// Davis
 			this.settings.generateRequestOnPageLoad = true;
 			this.bind('start', function(req) {
-				console.log("> start:", Davis.location.current());
+
 			});
 			this.bind('lookupRoute', function(req) {
-				console.log("> lookup:", req);
 				// remove base href from all routes
 				req['path'] = req['path'].replace($('base').attr("href"), "");
 			});
@@ -43,30 +42,27 @@ RouterWire.NAME = "RouterWire";
 
 var ContentWire = new soma.Wire.extend({
 	init: function() {
-		this.addEventListener(SomaRouterEvent.CHANGED, this.changed.bind(this));
+		this.addEventListener(soma.router.RouterEvent.CHANGED, this.changed.bind(this));
 		this.addEventListener(RouterEventTypes.ROOT, this.root.bind(this));
 		this.addEventListener(RouterEventTypes.NAV, this.nav.bind(this));
 		this.addEventListener(RouterEventTypes.SUBNAV, this.subnav.bind(this));
 	},
 	changed: function(event) {
-		console.log("> changed", event);
+		// uncommented to disable all routes
 		//event.preventDefault();
 	},
 	root: function(event) {
-		console.log("> root", event);
 		this.showNav("home");
 		this.showContent("home");
 		this.highlight("home", "");
 	},
 	nav: function(event) {
-		console.log("> nav", event);
 		var request = event.params.request;
 		this.showNav(request.params['nav']);
 		this.showContent(request.params['nav']);
 		this.highlight(request.params['nav'], "");
 	},
 	subnav: function(event) {
-		console.log("> subnav", event);
 		var request = event.params.request;
 		this.showNav(request.params['nav']);
 		this.showContent(request.params['subnav']);

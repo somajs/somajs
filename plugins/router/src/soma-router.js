@@ -70,6 +70,7 @@ soma.router.Route = soma.extend({
 	},
 
 	handler: function(req) {
+		if (!this.instance) return;
 		this.instance.dispatchEvent(new soma.router.RouterEvent(soma.router.RouterEvent.CHANGED, this.routeEvent, this.rule, req));
 	},
 
@@ -93,6 +94,7 @@ soma.router.RouterCommand = soma.Command.extend({
 	execute: function(event) {
 		switch(event.type) {
 			case soma.router.RouterEvent.CHANGED:
+				console.log("EXECUTE");
 				this.dispatchEvent(new soma.router.RouterEvent(event.params.routeEvent, event.params.routeEvent, event.params.rule, event.params.request, true, true));
 				break;
 		}

@@ -48,3 +48,4 @@ function changeUrl(path) {
 	});
 	Davis.location.assign(req);
 }
+

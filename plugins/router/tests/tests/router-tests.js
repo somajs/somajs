@@ -88,12 +88,8 @@ describe("soma router plugin", function() {
 
 	it("test command executed", function() {
 		var executed = false;
-		function getExecuted() {
-			return executed;
-		}
-		function setExecuted(event) {
-			executed = true;
-		}
+		function getExecuted() { return executed; };
+		function setExecuted(event) { executed = true; };
 		router = app.createPlugin(soma.router.Router, routes);
 		app.addEventListener(soma.router.RouterEvent.CHANGED, setExecuted);
 		waitsFor(getExecuted, "Time out!", 500);
@@ -104,6 +100,42 @@ describe("soma router plugin", function() {
 			app.removeEventListener(soma.router.RouterEvent.CHANGED, setExecuted);
 			changeUrl(current);
 		});
+	});
+
+	it("test prevent default", function() {
+		var executed = false;
+		var RouterCustomCommand = soma.Command.extend({
+			execute: function(event) {
+				switch(event.type) {
+					case soma.router.RouterEvent.CHANGED:
+						console.log("EXEC");
+						executed = true;
+						break;
+				}
+			}
+		});
+		function changeHandler(event) {
+			event.preventDefault();
+		};
+		router = app.createPlugin(soma.router.Router, routes);
+		app.removeCommand(soma.router.RouterEvent.CHANGED);
+		app.addCommand(soma.router.RouterEvent.CHANGED, RouterCustomCommand);
+		app.addEventListener(soma.router.RouterEvent.CHANGED, changeHandler);
+		var current = Davis.location.current();
+		changeUrl("dummy");
+		expect(executed).not.toBeTruthy();
+		changeUrl(current);
+	});
+
+	it("test dispose", function() {
+		router = app.createPlugin(soma.router.Router, routes);
+		router.dispose();
+		expect(app.hasCommand(soma.router.RouterEvent.CHANGED)).not.toBeTruthy();
+		expect(router.instance).toBeNull();
+		expect(router.router).toBeNull();
+		expect(router.routes).toBeNull();
+		expect(router.handler).toBeNull();
+		expect(router.somaRoutes).toBeNull();
 	});
 
 });

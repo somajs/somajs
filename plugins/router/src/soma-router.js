@@ -19,10 +19,12 @@ soma.router.Router = soma.extend({
 	},
 
 	createElements: function() {
+		if (!this.instance) return;
 		this.instance.addCommand(soma.router.RouterEvent.CHANGED, soma.router.RouterCommand);
 	},
 
 	removeElements: function() {
+		if (!this.instance) return;
 		this.instance.removeCommand(soma.router.RouterEvent.CHANGED, soma.router.RouterCommand);
 	},
 
@@ -40,6 +42,7 @@ soma.router.Router = soma.extend({
 	},
 
 	disposeRoutes: function() {
+		if (!this.somaRoutes) return;
 		for (var i=0; i<this.somaRoutes.length; ++i) {
 			this.somaRoutes[i].dispose();
 		}
@@ -87,14 +90,13 @@ soma.router.RouterEvent = soma.Event.extend({
 	}
 
 });
-soma.router.RouterEvent.CHANGED = "SomaRouterEvent.CHANGED";
+soma.router.RouterEvent.CHANGED = "soma.router.RouterEvent.CHANGED";
 
 soma.router.RouterCommand = soma.Command.extend({
 
 	execute: function(event) {
 		switch(event.type) {
 			case soma.router.RouterEvent.CHANGED:
-				console.log("EXECUTE");
 				this.dispatchEvent(new soma.router.RouterEvent(event.params.routeEvent, event.params.routeEvent, event.params.rule, event.params.request, true, true));
 				break;
 		}

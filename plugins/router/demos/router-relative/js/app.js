@@ -2,7 +2,7 @@ var SomaApplication = new soma.Application.extend({
 	registerWires: function() {
 		this.addWire(ContentWire.NAME, new ContentWire());
 		this.addWire(RouterWire.NAME, new RouterWire());
-	},
+	}
 });
 
 var RouterEventTypes = {

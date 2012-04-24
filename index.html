@@ -2293,6 +2293,30 @@ var app = new SomaApplication();
 			<h1>Plugins</h1>
 			<ul>
 				<li>
+					<h2>Router (with <a href="http://davisjs.com/" target="_blank">Davis.js</a>)</h2>
+					<p>Add HTML 5 history states to the URL with a hash routing fallback possible.</p>
+					<ul>
+						<li>demo (<a href="http://soundstep.com/somajs/router/native/" target="_blank">native version</a> - <a href="http://soundstep.com/somajs/router/mootools/" target="_blank">mootools version</a>)</li>
+						<li>code (<a href="https://github.com/somajs/somajs/tree/master/plugins/router" target="_blank">native version</a> - <a href="https://github.com/somajs/somajs/tree/mootools/plugins/router" target="_blank">mootools version</a>)</li>
+					</ul>
+					<p>Here is a quick overview, create routes and map events:</p>
+					<p class="codeblock">var routes = {
+	"get": {
+		"/" : RouterEventTypes.ROOT,
+		":nav" : RouterEventTypes.NAV,
+		":nav/:subnav" : RouterEventTypes.SUBNAV
+	}
+};
+					</p>
+					<p>Create the plugin:</p>
+					<p class="codeblock">this.createPlugin(soma.router.Router, routes);</p>
+					<p>Add event listeners to handle the url changes and links:</p>
+					<p class="codeblock">this.addEventListener(RouterEventTypes.ROOT, this.rootHandler);
+this.addEventListener(RouterEventTypes.NAV, this.navHandler);
+this.addEventListener(RouterEventTypes.SUBNAV, this.subnavHandler);
+					</p>
+				</li>
+				<li>
 					<h2>ImageLoader (with <a href="http://thinkpixellab.com/pxloader/" target="_blank">PxLoader</a>)</h2>
 					<p>Load images from a json <a href="plugin/native/plugin/image-loader/demos/simple-image-loader/assets/config.json" target="_blank">config file</a>, with queue progress and complete events.</p>
 					<ul>

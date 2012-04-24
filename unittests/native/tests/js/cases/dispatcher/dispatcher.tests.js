@@ -255,6 +255,138 @@ var DispatcherTest = new Class ({
 //		this.assertUndefined(this.dispatcher.listeners);
 //	}
 
+	,test_addEventListener_type_undefined: function() {
+		var dummy, error;
+		try {
+			this.dispatcher.addEventListener(dummy, this.handlerPreventDefaultBound);
+		} catch (err) {
+			error = err;
+		}
+		this.assertNotUndefined(error);
+		this.assertTrue(error instanceof Error);
+	}
+
+	,test_addEventListener_type_null: function() {
+		var error;
+		try {
+			this.dispatcher.addEventListener(null, this.handlerPreventDefaultBound);
+		} catch (err) {
+			error = err;
+		}
+		this.assertNotUndefined(error);
+		this.assertTrue(error instanceof Error);
+	}
+
+	,test_addEventListener_handler_undefined: function() {
+		var dummy, error;
+		try {
+			this.dispatcher.addEventListener("event", dummy);
+		} catch (err) {
+			error = err;
+		}
+		this.assertNotUndefined(error);
+		this.assertTrue(error instanceof Error);
+	}
+
+	,test_addEventListener_handler_null: function() {
+		var error;
+		try {
+			this.dispatcher.addEventListener("event", null);
+		} catch (err) {
+			error = err;
+		}
+		this.assertNotUndefined(error);
+		this.assertTrue(error instanceof Error);
+	}
+
+	,test_removeEventListener_type_undefined: function() {
+		var dummy, error;
+		try {
+			this.dispatcher.removeEventListener(dummy, this.handlerPreventDefaultBound);
+		} catch (err) {
+			error = err;
+		}
+		this.assertNotUndefined(error);
+		this.assertTrue(error instanceof Error);
+	}
+
+	,test_removeEventListener_type_null: function() {
+		var error;
+		try {
+			this.dispatcher.removeEventListener(null, this.handlerPreventDefaultBound);
+		} catch (err) {
+			error = err;
+		}
+		this.assertNotUndefined(error);
+		this.assertTrue(error instanceof Error);
+	}
+
+	,test_removeEventListener_handler_undefined: function() {
+		var dummy, error;
+		try {
+			this.dispatcher.removeEventListener("event", dummy);
+		} catch (err) {
+			error = err;
+		}
+		this.assertNotUndefined(error);
+		this.assertTrue(error instanceof Error);
+	}
+
+	,test_removeEventListener_handler_null: function() {
+		var error;
+		try {
+			this.dispatcher.removeEventListener("event", null);
+		} catch (err) {
+			error = err;
+		}
+		this.assertNotUndefined(error);
+		this.assertTrue(error instanceof Error);
+	}
+
+	,test_hasEventListener_type_undefined: function() {
+		var dummy, error;
+		try {
+			this.dispatcher.hasEventListener(dummy);
+		} catch (err) {
+			error = err;
+		}
+		this.assertNotUndefined(error);
+		this.assertTrue(error instanceof Error);
+	}
+
+	,test_hasEventListener_type_null: function() {
+		var error;
+		try {
+			this.dispatcher.hasEventListener(null);
+		} catch (err) {
+			error = err;
+		}
+		this.assertNotUndefined(error);
+		this.assertTrue(error instanceof Error);
+	}
+
+	,test_dispatchEvent_event_undefined: function() {
+		var dummy, error;
+		try {
+			this.dispatcher.dispatchEvent(dummy);
+		} catch (err) {
+			error = err;
+		}
+		this.assertNotUndefined(error);
+		this.assertTrue(error instanceof Error);
+	}
+
+	,test_dispatchEvent_event_null: function() {
+		var error;
+		try {
+			this.dispatcher.dispatchEvent(null);
+		} catch (err) {
+			error = err;
+		}
+		this.assertNotUndefined(error);
+		this.assertTrue(error instanceof Error);
+	}
+
 
 });
 

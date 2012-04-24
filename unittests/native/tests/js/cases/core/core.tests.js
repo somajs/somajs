@@ -45,7 +45,6 @@ var FacadeTests = new Class({
 		app.addModel(cases.core.TestModel.NAME, new cases.core.TestModel);
 		app.addView(cases.core.TestView.NAME, new cases.core.TestView);
 
-
 		app.dispose();
 		this.assertNull(app.body);
 		this.assertNull(app.wires);
@@ -63,9 +62,72 @@ var FacadeTests = new Class({
 		this.assertNull(app.getLastSequencer());
 		this.assertNull(app.getRunningSequencers());
 	}
-	
+
 	,test_packages_creation: function() {
 		this.assertNotNull(soma);
+	}
+
+	,test_instance_dispatch: function() {
+		this.assertNotNull(this.app.dispatchEvent);
+		var receiver = new cases.core.HandlerReceiver();
+		this.app.addEventListener("event", receiver.handler.bind(receiver));
+		this.app.dispatchEvent(new soma.Event("event"));
+		this.assertTrue(receiver.received);
+	}
+
+	,test_instance_addEventListener: function() {
+		this.assertNotNull(this.app.addEventListener);
+	}
+
+	,test_instance_removeEventListener: function() {
+		this.assertNotNull(this.app.removeEventListener);
+		this.assertFalse(this.app.hasEventListener("event"));
+		var receiver = new cases.core.HandlerReceiver();
+		var boundHandler = receiver.handler.bind(receiver);
+		this.app.addEventListener("event", boundHandler);
+		this.assertTrue(this.app.hasEventListener("event"));
+		this.app.removeEventListener("event", boundHandler);
+		this.assertFalse(this.app.hasEventListener("event"));
+	}
+
+	,test_instance_hasEventListener: function() {
+		this.assertNotNull(this.app.hasEventListener);
+		this.assertFalse(this.app.hasEventListener("event"));
+		var receiver = new cases.core.HandlerReceiver();
+		this.app.addEventListener("event", receiver.handler.bind(receiver));
+		this.assertTrue(this.app.hasEventListener("event"));
+	}
+
+	,test_element_dispatch: function() {
+		var wire = this.app.addWire("wire", new soma.Wire());
+		this.assertNotNull(wire.dispatchEvent);
+		var receiver = new cases.core.HandlerReceiver();
+		wire.addEventListener("event", receiver.handler.bind(receiver));
+		wire.dispatchEvent(new soma.Event("event"));
+		this.assertTrue(receiver.received);
+	}
+
+	,test_element_addEventListener: function() {
+		var wire = this.app.addWire("wire", new soma.Wire());
+		this.assertNotNull(wire.addEventListener);
+	}
+
+	,test_element_removeEventListener: function() {
+		var wire = this.app.addWire("wire", new soma.Wire());
+		this.assertNotNull(wire.hasEventListener);
+		this.assertFalse(wire.hasEventListener("event"));
+		var receiver = new cases.core.HandlerReceiver();
+		wire.addEventListener("event", receiver.handler.bind(receiver));
+		this.assertTrue(wire.hasEventListener("event"));
+	}
+
+	,test_element_hasEventListener: function() {
+		var wire = this.app.addWire("wire", new soma.Wire());
+		this.assertNotNull(wire.hasEventListener);
+		this.assertFalse(wire.hasEventListener("event"));
+		var receiver = new cases.core.HandlerReceiver();
+		wire.addEventListener("event", receiver.handler.bind(receiver));
+		this.assertTrue(wire.hasEventListener("event"));
 	}
 
 	,test_plugin_create: function() {
@@ -79,6 +141,14 @@ var FacadeTests = new Class({
 		this.assertNotNull(pluginNative);
 		this.assertNotNull(pluginNative.instance);
 		this.assertTrue(pluginNative instanceof cases.core.PluginExampleNative);
+	}
+
+	,test_plugin_create_wire: function() {
+		var wire = this.app.addWire("wire", new soma.Wire());
+		var plugin = this.app.getWire("wire").createPlugin(cases.core.PluginExampleNative);
+		this.assertNotNull(plugin);
+		this.assertNotNull(plugin.instance);
+		this.assertTrue(plugin instanceof cases.core.PluginExampleNative);
 	}
 
 	,test_plugin_create_multiple: function() {

@@ -31,7 +31,7 @@
 	/** @namespace Global namespace. */
 	soma = {};
 	/** framework version */
-	soma.version = "1.0.1";
+	soma.version = "1.0.2";
 	/** framework type */
 	soma.type = "mootools";
 
@@ -58,7 +58,7 @@
 	var SomaSharedCore = new Class({
 
 		createPlugin: function() {
-			this.instance.createPlugin.apply(this.instance, arguments);
+			return this.instance.createPlugin.apply(this.instance, arguments);
 		},
 
 		dispatchEvent: function() {
@@ -71,6 +71,10 @@
 
 		removeEventListener: function() {
 			this.instance.removeEventListener.apply(this.instance, arguments);
+		},
+
+		hasEventListener: function() {
+			return this.instance.hasEventListener.apply(this.instance, arguments);
 		},
 
 		hasCommand: function(commandName) {
@@ -1320,7 +1324,7 @@ function eventHandler(event) {
 }
 	 */
 	addEventListener: function(type, listener, priority) {
-		if (!this.listeners || !type || !listener) return;
+		if (!this.listeners || !type || !listener) throw new Error("Error in EventDispatcher (addEventListener), one of the parameters is null or undefined.");
 		if (isNaN(priority)) priority = 0;
 		this.listeners.push({type: type, listener: listener, priority: priority,scope:this});
 	},
@@ -1332,7 +1336,8 @@ function eventHandler(event) {
 dispatcher.removeEventListener("eventType", eventHandler);
 	 */
 	removeEventListener: function(type, listener) {
-		if (!this.listeners || !type || !listener) return;
+		if (!this.listeners) return false;
+		if (!type || !listener) throw new Error("Error in EventDispatcher (removeEventListener), one of the parameters is null or undefined.");
 		var i = 0;
 		var l = this.listeners.length;
 		for (i=l-1; i > -1; i--) {
@@ -1350,7 +1355,8 @@ dispatcher.removeEventListener("eventType", eventHandler);
 dispatcher.hasEventListener("eventType");
 	 */
 	hasEventListener: function(type) {
-		if (!this.listeners || !type) return false;
+		if (!this.listeners) return false;
+		if (!type) throw new Error("Error in EventDispatcher (hasEventListener), one of the parameters is null or undefined.");
 		var i = 0;
 		var l = this.listeners.length;
 		for (; i < l; ++i) {
@@ -1368,7 +1374,7 @@ dispatcher.hasEventListener("eventType");
 dispatcher.dispatchEvent(new soma.Event("eventType"));
 	 */
 	dispatchEvent: function(event) {
-		if (!this.listeners || !event) return;
+		if (!this.listeners || !event) throw new Error("Error in EventDispatcher (dispatchEvent), one of the parameters is null or undefined.");
 		var events = [];
 		var i;
 		for (i = 0; i < this.listeners.length; i++) {
@@ -1835,7 +1841,6 @@ var app = new SomaApplication();
 	},
 
 	dispose: function() {
-		this.parent();
 		if (this.models) {
 			this.models.dispose();
 			this.models = null;
@@ -1857,6 +1862,7 @@ var app = new SomaApplication();
 			this.mediators = null;
 		}
 		this.body = null;
+		this.parent();
 	},
 
 	toString: function() {

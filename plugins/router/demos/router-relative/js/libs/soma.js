@@ -31,7 +31,7 @@
 	/** @namespace Global namespace. */
 	soma = {};
 	/** framework version */
-	soma.version = "1.0.1";
+	soma.version = "1.0.2";
 	/** framework type */
 	soma.type = "mootools";
 

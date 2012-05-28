@@ -1,7 +1,5 @@
 (function(soma) {
 
-	console.log(soma);
-
 	soma.router = soma.router || {};
 
 	soma.router.Router = soma.extend({

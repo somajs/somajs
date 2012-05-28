@@ -1014,7 +1014,7 @@ this.addCommand("eventType", CommandExample);
 		},
 		/** @private */
 		registerSequencedCommand: function(sequencer, c) {
-			if (!( c instanceof SequenceCommandProxy )) {
+			if (!c) {
 				throw new Error("capsulate sequence commands in SequenceCommandProxy objects!");
 			}
 			var s = this.sequencersInfo;

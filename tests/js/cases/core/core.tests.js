@@ -292,6 +292,38 @@ var FacadeTests = new Class({
 		this.assertEquals(plugin.param1, "param 1");
 	}
 
+	,test_load_amd: function() {
+		require.config({
+			baseUrl: './',
+			paths: {
+				soma: '../framework/src/soma'
+			}
+		});
+		var testCase = this;
+		require(["soma"], function(s){
+			testCase.assertEquals(soma, s);
+			testCase.resume();
+		});
+		this.wait();
+	}
+
+	,test_load_plugin_amd: function() {
+		require.config({
+			baseUrl: './',
+			paths: {
+				soma: '../framework/src/soma',
+				somarouter: '../plugins/router/src/soma-router'
+			}
+		});
+		var testCase = this;
+		require(["soma", "somarouter"], function(s, router){
+			testCase.assertEquals(soma, s);
+			testCase.assertEquals(soma.router, router);
+			testCase.resume();
+		});
+		this.wait();
+	}
+
 });
 
 var CommandTest = new Class

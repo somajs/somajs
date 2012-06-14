@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>soma.View | soma.js v1.0.2</title>
+		<title>soma.View | soma.js v1.0.3</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<meta name="mobileoptimized" content="0" />
@@ -79,7 +79,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2012-3-24' pubdate>2012-3-24 14:13</time>
+			<time datetime='2012-4-28' pubdate>2012-4-28 12:15</time>
 		</footer>
 	</div>
 </div>
@@ -292,84 +292,84 @@
 							
 								
 									<pre class="code">
-// add a view to the framework
-this.addView("myViewName", new MyView());</pre>
+	// add a view to the framework
+	this.addView("myViewName", new MyView());</pre>
 								
 									<pre class="code">
-// remove a view from the framework
-this.removeView("myViewName");</pre>
+	// remove a view from the framework
+	this.removeView("myViewName");</pre>
 								
 									<pre class="code">
-// retrieve a view
-var view = this.getView("myViewName");</pre>
+	// retrieve a view
+	var view = this.getView("myViewName");</pre>
 								
 									<pre class="code">
-// view that extends soma.View
-// the event "eventType" is considered a command in this example.
-var MyView = new Class({
-	Extends: soma.View,
-	init: function() {
-		this.dispatchEvent(new soma.Event("eventType")); // works in all browsers
-		// or
-		this.domElement.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
-	},
-	dispose: function() {
+	// view that extends soma.View
+	// the event "eventType" is considered a command in this example.
+	var MyView = new Class({
+		Extends: soma.View,
+		init: function() {
+			this.dispatchEvent(new soma.Event("eventType")); // works in all browsers
+			// or
+			this.domElement.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
+		},
+		dispose: function() {
 
-	}
-});
-MyView.NAME = "View::MyView";
+		}
+	});
+	MyView.NAME = "View::MyView";
 
-var view = new MyView(document.getElementById("myDomElement"));</pre>
+	var view = new MyView(document.getElementById("myDomElement"));</pre>
 								
 									<pre class="code">
-// view that does not extend soma.View and uses a domElement property (as the soma.View).
-// the event "eventType" is considered a command in this example.
-var MyView = new Class({
-	domElement: null,
-	initialize: function(domElement) {
-		this.domElement = domElement;
-	},
-	init: function() {
-		this.domElement.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
-	},
-	dispose: function() {
+	// view that does not extend soma.View and uses a domElement property (as the soma.View).
+	// the event "eventType" is considered a command in this example.
+	var MyView = new Class({
+		domElement: null,
+		initialize: function(domElement) {
+			this.domElement = domElement;
+		},
+		init: function() {
+			this.domElement.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
+		},
+		dispose: function() {
 
-	}
-});
-MyView.NAME = "View::MyView";
+		}
+	});
+	MyView.NAME = "View::MyView";
 
-var view = new MyView(document.getElementById("myDomElement"));</pre>
+	var view = new MyView(document.getElementById("myDomElement"));</pre>
 								
 									<pre class="code">
-// view that does not extend soma.View and does not use the domElement property.
-// the event "eventType" is considered a command in this example.
-var MyView = new Class({
-	init: function() {
-		var myDomElement = document.getElementById("myDomElement");
-		myDomElement.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
-	},
-	dispose: function() {
+	// view that does not extend soma.View and does not use the domElement property.
+	// the event "eventType" is considered a command in this example.
+	var MyView = new Class({
+		init: function() {
+			var myDomElement = document.getElementById("myDomElement");
+			myDomElement.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
+		},
+		dispose: function() {
 
-	}
-});
-MyView.NAME = "View::MyView";
-var view = new MyView();
+		}
+	});
+	MyView.NAME = "View::MyView";
+	var view = new MyView();
 
-// another example
-// the event "eventType" is considered a command in this example.
-var MyView = new Class({
-	init: function() {
-		var button = document.getElementById("requestMessageButton");
-		button.addEventListener("click", function() {
-			this.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
-		});
-	},
-	dispose: function() {
+	// another example
+	// the event "eventType" is considered a command in this example.
+	var MyView = new Class({
+		init: function() {
+			var button = document.getElementById("requestMessageButton");
+			button.addEventListener("click", function() {
+				this.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
+			});
+		},
+		dispose: function() {
 
-	}
-});
-MyView.NAME = "View::MyView";
-var view = new MyView();</pre>
+		}
+	});
+	MyView.NAME = "View::MyView";
+	var view = new MyView();</pre>
 								
 							
 						
@@ -467,7 +467,7 @@ var view = new MyView();</pre>
 										
 											
 												<pre class="code">
-this.addEventListener("eventType", eventHandler, false);</pre>
+	this.addEventListener("eventType", eventHandler, false);</pre>
 											
 										
 										
@@ -524,7 +524,7 @@ this.addEventListener("eventType", eventHandler, false);</pre>
 										
 											
 												<pre class="code">
-this.dispatchEvent(new soma.Event("eventType"));</pre>
+	this.dispatchEvent(new soma.Event("eventType"));</pre>
 											
 										
 										
@@ -627,7 +627,7 @@ this.dispatchEvent(new soma.Event("eventType"));</pre>
 										
 											
 												<pre class="code">
-this.removeEventListener("eventType", eventHandler, false);</pre>
+	this.removeEventListener("eventType", eventHandler, false);</pre>
 											
 										
 										

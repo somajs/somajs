@@ -31,7 +31,7 @@
 	/** @namespace Global namespace. */
 	soma = {};
 	/** framework version */
-	soma.version = "1.0.2";
+	soma.version = "1.0.3";
 	/** framework type */
 	soma.type = "mootools";
 
@@ -267,6 +267,29 @@ var MyClassToAutobind = new Class({
 	soma.AutoBind = new Class(
 		/** @lends soma.AutoBind.prototype */
 		AutoBindProto);
+
+	/**
+	 * To save instantiation latency for singular class libraries, It is recommended not to build the Class Objects upon request, if they are not used in each page where they get loaded in.<br/>
+	 * This static method creates a class instance by either taking the class object or the Function, that is the base for the class object creation.<br/>
+	 * @param {class | function} clazz Mootools Class Object or Function.
+	 * @param {object} parameters Parameters that get passed to the constructor.
+	 * @return object
+	 * @example
+	this.addWire("myWireName", soma.createClassInstance(MyWire));
+	 */
+	soma.createClassInstance = function(clazz, parameters) {
+		if (clazz.$constructor != Class) {
+			clazz = new Class(new clazz());
+		}
+		if (arguments.length == 1) {
+			return new clazz();
+		}
+		var a = [];
+		for (var i = 1; i < arguments.length; i++) {
+			a.push(arguments[i]);
+		}
+		return clazz.instantiate(a);
+	};
 
 	/**
 	 * @class Class that will be instantiated when a registered event (command) is dispatched, the framework will automatically call the execute method.
@@ -889,281 +912,275 @@ this.addCommand("eventType", CommandExample);
 this.dispatchEvent(new soma.Event("eventType"));
 this.removeCommand("eventType");
 	 */
-	soma.SomaController = (function() {
+	soma.SomaController = new Class(
 		/** @lends soma.SomaController.prototype */
-		
-		var boundInstance = null;
-		var boundDomtree = null;
-		var commands = null;
-		var sequencers = null;
-		var sequencersInfo = null;
-		var lastEvent = null;
-		var lastSequencer = null;
+		{
+		Implements: soma.IDisposable,
 
-		return new Class({
-			Implements: soma.IDisposable,
-			
-			instance:null,
+		instance:null,
 
-			initialize:function(instance) {
-				this.instance = instance;
-				commands = {};
-				sequencersInfo = {};
-				sequencers = {};
-				boundInstance = this.instanceHandler.bind(this);
-				boundDomtree = this.domTreeHandler.bind(this);
-			},
+		initialize:function(instance) {
 
-			/** @private */
-			addInterceptor: function(commandName) {
-				if (!soma) {
-					throw new Error("soma package has been overwritten by local variable");
-				}
+			this.instance = instance;
+			this.boundInstance = this.instanceHandler.bind(this);
+			this.boundDomtree = this.domTreeHandler.bind(this);
+			this.commands = {};
+			this.sequencers = {};
+			this.sequencersInfo = {};
+			this.lastEvent = null;
+			this.lastSequencer = null;
 
-				// handle events dispatched from the domTree
-				if (this.instance.body.addEventListener) {
-					this.instance.body.addEventListener(commandName, boundDomtree, true);
-				}
+		},
 
-				// handle events dispatched from the Soma facade
-				this.instance.addEventListener(commandName, boundInstance, -Number.MAX_VALUE);
+		/** @private */
+		addInterceptor: function(commandName) {
+			if (!soma) {
+				throw new Error("soma package has been overwritten by local variable");
+			}
 
-			},
+			// handle events dispatched from the domTree
+			if (this.instance.body.addEventListener) {
+				this.instance.body.addEventListener(commandName, this.boundDomtree, true);
+			}
 
-			/** @private */
-			removeInterceptor: function(commandName) {
-				if (this.instance.body.removeEventListener) {
-					this.instance.body.removeEventListener(commandName, boundDomtree, true);
-				}
-				this.instance.removeEventListener(commandName, boundInstance);
-			},
+			// handle events dispatched from the Soma facade
+			this.instance.addEventListener(commandName, this.boundInstance, -Number.MAX_VALUE);
 
-			/** @private */
-			executeCommand: function(e) {
-				var commandName = e.type;
-				if (this.hasCommand(commandName)) {
-					var command = soma.createClassInstance(commands[ commandName ]);
-					command.registerInstance(this.instance);
-					command.execute(e);
-				}
-			},
+		},
 
-			/** @private */
-			registerSequencedCommand: function(sequencer, c) {
-				if (!( c instanceof SequenceCommandProxy )) {
-					throw new Error("capsulate sequence commands in SequenceCommandProxy objects!");
-				}
-				var s = sequencersInfo;
-				if (s[sequencer.id] == null || sequencers[sequencer.id] == null) {
-					lastSequencer = sequencer;
-					s[sequencer.id] = [];
-					sequencers[sequencer.id] = sequencer;
-				}
-				c.sequenceId = sequencer.id;
-				s[sequencer.id].push(c);
-			},
+		/** @private */
+		removeInterceptor: function(commandName) {
+			if (this.instance.body.removeEventListener) {
+				this.instance.body.removeEventListener(commandName, this.boundDomtree, true);
+			}
+			this.instance.removeEventListener(commandName, this.boundInstance);
+		},
 
-			/** @private */
-			unregisterSequencedCommand: function(sequencer, commandName) {
-				if (typeof commandName != "string") {
-					throw new Error("Controller::unregisterSequencedCommand() expects commandName to be of type String, given:" + commandName);
-				}
-				var s = sequencersInfo;
-				if (s[sequencer.id] != null && s[sequencer.id] != undefined) {
-					var len = s[sequencer.id].length;
-					for (var i = 0; i < len; i++) {
-						if (s[sequencer.id][i].event.type == commandName) {
-							s[sequencer.id][i] = null;
-							s[sequencer.id].splice(i, 1);
-							if (s[sequencer.id].length == 0) {
-								s[sequencer.id] = null;
-								delete s[sequencer.id];
-							}
-							break;
+		/** @private */
+		executeCommand: function(e) {
+			var commandName = e.type;
+			if (this.hasCommand(commandName)) {
+				var command = soma.createClassInstance(this.commands[ commandName ]);
+				command.registerInstance(this.instance);
+				command.execute(e);
+			}
+		},
+
+		/** @private */
+		registerSequencedCommand: function(sequencer, c) {
+			if (!c) {
+				throw new Error("capsulate sequence commands in SequenceCommandProxy objects!");
+			}
+			var s = this.sequencersInfo;
+			if (s[sequencer.id] == null || this.sequencers[sequencer.id] == null) {
+				this.lastSequencer = sequencer;
+				s[sequencer.id] = [];
+				this.sequencers[sequencer.id] = sequencer;
+			}
+			c.sequenceId = sequencer.id;
+			s[sequencer.id].push(c);
+		},
+
+		/** @private */
+		unregisterSequencedCommand: function(sequencer, commandName) {
+			if (typeof commandName != "string") {
+				throw new Error("Controller::unregisterSequencedCommand() expects commandName to be of type String, given:" + commandName);
+			}
+			var s = this.sequencersInfo;
+			if (s[sequencer.id] != null && s[sequencer.id] != undefined) {
+				var len = s[sequencer.id].length;
+				for (var i = 0; i < len; i++) {
+					if (s[sequencer.id][i].event.type == commandName) {
+						s[sequencer.id][i] = null;
+						s[sequencer.id].splice(i, 1);
+						if (s[sequencer.id].length == 0) {
+							s[sequencer.id] = null;
+							delete s[sequencer.id];
 						}
+						break;
 					}
 				}
-			},
+			}
+		},
 
-			/** @private */
-			unregisterSequencer: function(sequencer) {
-				var s = sequencers;
-				if (s[sequencer.id] != null && s[sequencer.id] != undefined) {
+		/** @private */
+		unregisterSequencer: function(sequencer) {
+			var s = this.sequencers;
+			if (s[sequencer.id] != null && s[sequencer.id] != undefined) {
+				s[sequencer.id] = null;
+				delete s[sequencer.id];
+				s = this.sequencersInfo;
+				if (s[sequencer.id] != null) {
+					var len = s[sequencer.id].length;
+					for (var i = 0; i < len; i++) {
+						s[sequencer.id][i] = null;
+					}
 					s[sequencer.id] = null;
 					delete s[sequencer.id];
-					s = sequencersInfo;
-					if (s[sequencer.id] != null) {
-						var len = s[sequencer.id].length;
-						for (var i = 0; i < len; i++) {
-							s[sequencer.id][i] = null;
+					return true;
+				}
+			}
+			return false;
+		},
+
+		hasCommand: function(commandName) {
+			return this.commands[ commandName ] != null;
+		},
+
+		getCommand: function(commandName) {
+			if (this.hasCommand(commandName)) {
+				return this.commands[commandName];
+			}
+			return null;
+		},
+
+		getCommands: function() {
+			var a = [];
+			var cmds = this.commands;
+			for (var c in cmds) {
+				a.push(c);
+			}
+			return a;
+		},
+
+		addCommand: function(commandName, command) {
+			if (this.hasCommand(commandName)) {
+				throw new Error("Error in " + this + " Command \"" + commandName + "\" already registered.");
+			}
+			this.commands[ commandName ] = command;
+			this.addInterceptor(commandName);
+		},
+
+		removeCommand: function(commandName) {
+			if (!this.hasCommand(commandName)) {
+				return;
+			}
+			this.commands[commandName] = null;
+			delete this.commands[commandName];
+			this.removeInterceptor(commandName);
+		},
+
+		getSequencer: function(event) {
+			var ss = this.sequencersInfo;
+			for (var s  in ss) {
+				var len = ss[s].length;
+				for (var i = 0; i < len; i++) {
+					if (ss[s][i] && ss[s][i].event.type === event.type) {
+						var seq = this.sequencers[ ss[s][i].sequenceId ];
+						return !!seq ? seq : null;
+					}
+				}
+			}
+			return null;
+		},
+
+		stopSequencerWithEvent: function(event) {
+			var ss = this.sequencersInfo;
+			for (var s in ss) {
+				var len = ss[s].length;
+				for (var i = 0; i < len; i++) {
+					if (ss[s][i].event.type === event.type) {
+						try {
+							this.sequencers[ ss[s][i].sequenceId ].stop();
+						} catch(e) {
+							return false;
 						}
-						s[sequencer.id] = null;
-						delete s[sequencer.id];
 						return true;
 					}
 				}
+			}
+			return false;
+		},
+
+		stopSequencer: function(sequencer) {
+			if (sequencer == null) {
 				return false;
-			},
+			}
+			sequencer.stop();
+			return true;
+		},
 
-			hasCommand: function(commandName) {
-				return commands[ commandName ] != null;
-			},
-
-			getCommand: function(commandName) {
-				if (this.hasCommand(commandName)) {
-					return commands[commandName];
+		stopAllSequencers: function() {
+			var ss = this.sequencers;
+			var sis = this.sequencersInfo;
+			for (var s in ss) {
+				if (sis[s] == null) {
+					continue;
 				}
-				return null;
-			},
+				var cl = sis[s].length;
+				sis[s] = null;
+				delete sis[s];
+				ss[s].stop();
+				ss[s] = null;
+				delete ss[s];
+			}
+		},
 
-			getCommands: function() {
-				var a = [];
-				var cmds = commands;
-				for (var c in cmds) {
-					a.push(c);
+		isPartOfASequence: function(event) {
+			return ( this.getSequencer(event) != null );
+		},
+
+		getRunningSequencers: function() {
+			var a = [];
+			var ss = this.sequencers;
+			for (var s in ss) {
+				a.push(ss[s]);
+			}
+			return a;
+		},
+
+		getLastSequencer: function() {
+			return this.lastSequencer;
+		},
+
+		dispose: function() {
+			for (var nameCommand in this.commands) {
+				this.removeCommand(nameCommand);
+			}
+			for (var nameSequencer in this.sequencers) {
+				this.sequencers[nameSequencer] = null;
+				delete this.sequencers[nameSequencer];
+			}
+			this.commands = null;
+			this.sequencers = null;
+			this.lastEvent = null;
+			this.lastSequencer = null;
+		},
+
+		/** @private */
+		domTreeHandler: function(e) {
+			if (e.bubbles && this.hasCommand(e.type) && !e.isCloned) {
+				if( e.stopPropagation ) {
+                    e.stopPropagation();
+                }else{
+                    e.cancelBubble = true;
+                }
+				var clonedEvent = e.clone();
+				// store a reference of the events not to dispatch it twice
+				// in case it is dispatched from the display list
+				this.lastEvent = clonedEvent;
+				this.instance.dispatchEvent(clonedEvent);
+				if (!clonedEvent.isDefaultPrevented()) {
+					this.executeCommand(e);
 				}
-				return a;
-			},
+				this.lastEvent = null;
+			}
+		},
 
-			addCommand: function(commandName, command) {
-				if (this.hasCommand(commandName)) {
-					throw new Error("Error in " + this + " Command \"" + commandName + "\" already registered.");
-				}
-				commands[ commandName ] = command;
-				this.addInterceptor(commandName);
-			},
-
-			removeCommand: function(commandName) {
-				if (!this.hasCommand(commandName)) {
-					return;
-				}
-				commands[commandName] = null;
-				delete commands[commandName];
-				this.removeInterceptor(commandName);
-			},
-
-			getSequencer: function(event) {
-				var ss = sequencersInfo;
-				for (var s  in ss) {
-					var len = ss[s].length;
-					for (var i = 0; i < len; i++) {
-						if (ss[s][i] && ss[s][i].event.type === event.type) {
-							var seq = sequencers[ ss[s][i].sequenceId ];
-							return !!seq ? seq : null;
-						}
-					}
-				}
-				return null;
-			},
-
-			stopSequencerWithEvent: function(event) {
-				var ss = sequencersInfo;
-				for (var s in ss) {
-					var len = ss[s].length;
-					for (var i = 0; i < len; i++) {
-						if (ss[s][i].event.type === event.type) {
-							try {
-								sequencers[ ss[s][i].sequenceId ].stop();
-							} catch(e) {
-								return false;
-							}
-							return true;
-						}
-					}
-				}
-				return false;
-			},
-
-			stopSequencer: function(sequencer) {
-				if (sequencer == null) {
-					return false;
-				}
-				sequencer.stop();
-				return true;
-			},
-
-			stopAllSequencers: function() {
-				var ss = sequencers;
-				var sis = sequencersInfo;
-				for (var s in ss) {
-					if (sis[s] == null) {
-						continue;
-					}
-					var cl = sis[s].length;
-					sis[s] = null;
-					delete sis[s];
-					ss[s].stop();
-					ss[s] = null;
-					delete ss[s];
-				}
-			},
-
-			isPartOfASequence: function(event) {
-				return ( this.getSequencer(event) != null );
-			},
-
-			getRunningSequencers: function() {
-				var a = [];
-				var ss = sequencers;
-				for (var s in ss) {
-					a.push(ss[s]);
-				}
-				return a;
-			},
-
-			getLastSequencer: function() {
-				return lastSequencer;
-			},
-
-			dispose: function() {
-				for (var nameCommand in commands) {
-					this.removeCommand(nameCommand);
-				}
-				for (var nameSequencer in sequencers) {
-					sequencers[nameSequencer] = null;
-					delete sequencers[nameSequencer];
-				}
-				commands = null;
-				sequencers = null;
-				lastEvent = null;
-				lastSequencer = null;
-			},
-
-			/** @private */
-			domTreeHandler: function(e) {
-				if (e.bubbles && this.hasCommand(e.type) && !e.isCloned) {
-					if( e.stopPropagation ) {
-                        e.stopPropagation();
-                    }else{
-                        e.cancelBubble = true;
-                    }
-					var clonedEvent = e.clone();
-					// store a reference of the events not to dispatch it twice
-					// in case it is dispatched from the display list
-					lastEvent = clonedEvent;
-					this.instance.dispatchEvent(clonedEvent);
-					if (!clonedEvent.isDefaultPrevented()) {
+		/** @private */
+		instanceHandler: function(e) {
+			if (e.bubbles && this.hasCommand(e.type)) {
+				// if the event is equal to the lastEvent, this has already been dispatched for execution
+				if (this.lastEvent != e) {
+					if (!e.isDefaultPrevented()) {
 						this.executeCommand(e);
 					}
-					lastEvent = null;
 				}
-			},
-
-			/** @private */
-			instanceHandler: function(e) {
-				if (e.bubbles && this.hasCommand(e.type)) {
-					// if the event is equal to the lastEvent, this has already been dispatched for execution
-					if (lastEvent != e) {
-						if (!e.isDefaultPrevented()) {
-							this.executeCommand(e);
-						}
-					}
-				}
-				lastEvent = null;
 			}
+			this.lastEvent = null;
+		}
 
-		});
-	})();
+	});
 
 	/**
 	 * @name soma.SomaViews
@@ -1178,767 +1195,735 @@ this.addView("myViewName", new MyView());
 this.removeView("myViewName");
 var view = this.getView("myViewName");
 	 */
-	soma.SomaViews = (function() {
+	soma.SomaViews = new Class(
 		/** @lends soma.SomaViews.prototype */
+		{
+		Implements: soma.IDisposable,
 
-		var views = null;
+		autoBound:false,
 
-		return new Class({
+        /**
+         * {SomaApplication}
+         */
+        instance:null,
 
-			Implements: soma.IDisposable,
+        /**
+         *
+         * @param {SomaApplication} instance
+         */
+		initialize:function( instance ) {
+			views = {};
+            this.instance = instance;
+		},
 
-			autoBound:false,
+		hasView: function(viewName) {
+			return views[ viewName ] != null;
+		},
 
-            /**
-             * {SomaApplication}
-             */
-            instance:null,
-
-            /**
-             *
-             * @param {SomaApplication} instance
-             */
-			initialize:function( instance ) {
-				views = {};
-                this.instance = instance;
-			},
-
-			hasView: function(viewName) {
-				return views[ viewName ] != null;
-			},
-
-			addView: function(viewName, view) {
-				if (this.hasView(viewName)) {
-					throw new Error("View \"" + viewName + "\" already exists");
-				}
-
-				if (document.attachEvent) {
-					view.instance = this.instance;
-				}
-				if (!this.autoBound) {
-					soma.View.implement(AutoBindProto);
-					this.autoBound = true;
-				}
-				if (view['shouldAutobind']) {
-                    view.autobind();
-                }
-				views[ viewName ] = view;
-				if (view[ "init" ] != null) {
-					view.init();
-				}
-				return view;
-			},
-
-			getView: function(viewName) {
-				if (this.hasView(viewName)) {
-					return views[ viewName ];
-				}
-				return null;
-			},
-
-			getViews: function() {
-				var clone = {};
-				for (var name in views) {
-					clone[name] = views[name];
-				}
-				return clone;
-			},
-
-			removeView: function(viewName) {
-				if (!this.hasView(viewName)) {
-					return;
-				}
-				if (views[viewName]["dispose"] != null) {
-					views[viewName].dispose();
-				}
-				views[ viewName ] = null;
-				delete views[ viewName ];
-			},
-
-			dispose: function() {
-				for (var name in views) {
-					this.removeView(name);
-				}
-				views = null;
-                this.instance = null;
+		addView: function(viewName, view) {
+			if (this.hasView(viewName)) {
+				throw new Error("View \"" + viewName + "\" already exists");
 			}
-		});
-	})();
 
-})();
+			if (document.attachEvent) {
+				view.instance = this.instance;
+			}
+			if (!this.autoBound) {
+				soma.View.implement(AutoBindProto);
+				this.autoBound = true;
+			}
+			if (view['shouldAutobind']) {
+                view.autobind();
+            }
+			views[ viewName ] = view;
+			if (view[ "init" ] != null) {
+				view.init();
+			}
+			return view;
+		},
 
-/**
- * To save instantiation latency for singular class libraries, It is recommended not to build the Class Objects upon request, if they are not used in each page where they get loaded in.<br/>
- * This static method creates a class instance by either taking the class object or the Function, that is the base for the class object creation.<br/>
- * @param {class | function} clazz Mootools Class Object or Function.
- * @param {object} parameters Parameters that get passed to the constructor.
- * @return object
- * @example
-this.addWire("myWireName", soma.createClassInstance(MyWire));
- */
-soma.createClassInstance = function(clazz, parameters) {
-	if (clazz.$constructor != Class) {
-		clazz = new Class(new clazz());
-	}
-	if (arguments.length == 1) {
-		return new clazz();
-	}
-	var a = [];
-	for (var i = 1; i < arguments.length; i++) {
-		a.push(arguments[i]);
-	}
-	return clazz.instantiate(a);
-};
+		getView: function(viewName) {
+			if (this.hasView(viewName)) {
+				return views[ viewName ];
+			}
+			return null;
+		},
 
-/**
- * @name soma.EventDispatcher
- * @namespace Class on which on you can add and remove listeners of an event. A event can be dispatched from it and a notification will be sent to all registered listeners.
- * @example
-var dispatcher = new soma.EventDispatcher();
+		getViews: function() {
+			var clone = {};
+			for (var name in views) {
+				clone[name] = views[name];
+			}
+			return clone;
+		},
 
-dispatcher.addEventListener("eventType", eventHandler);
+		removeView: function(viewName) {
+			if (!this.hasView(viewName)) {
+				return;
+			}
+			if (views[viewName]["dispose"] != null) {
+				views[viewName].dispose();
+			}
+			views[ viewName ] = null;
+			delete views[ viewName ];
+		},
 
-function eventHandler(event) {
-	 // alert(event.type);
-}
+		dispose: function() {
+			for (var name in views) {
+				this.removeView(name);
+			}
+			views = null;
+            this.instance = null;
+		}
 
-dispatcher.dispatchEvent(new soma.Event("eventType"));
- */
-soma.EventDispatcher = new Class(
-	/** @lends soma.EventDispatcher.prototype */
+	});
 
-	{
-	listeners: null,
-	initialize: function() {
-		this.listeners = [];
-	},
+
 	/**
-	 * Registers an event listener with an EventDispatcher object so that the listener receives notification of an event.
-	 * @param {string} type The type of event.
-	 * @param {function} listener The listener function that processes the event. This function must accept an Event object as its only parameter and must return nothing.
-	 * @param {int} priority The priority level of the event listener (default 0). The higher the number, the higher the priority (can take negative number).
+	 * @name soma.EventDispatcher
+	 * @namespace Class on which on you can add and remove listeners of an event. A event can be dispatched from it and a notification will be sent to all registered listeners.
 	 * @example
-dispatcher.addEventListener("eventType", eventHandler);
-function eventHandler(event) {
-// alert(event.type)
-}
+	var dispatcher = new soma.EventDispatcher();
+
+	dispatcher.addEventListener("eventType", eventHandler);
+
+	function eventHandler(event) {
+		 // alert(event.type);
+	}
+
+	dispatcher.dispatchEvent(new soma.Event("eventType"));
 	 */
-	addEventListener: function(type, listener, priority) {
-		if (!this.listeners || !type || !listener) throw new Error("Error in EventDispatcher (addEventListener), one of the parameters is null or undefined.");
-		if (isNaN(priority)) priority = 0;
-		this.listeners.push({type: type, listener: listener, priority: priority,scope:this});
-	},
-	/**
-	 * Removes a listener from the EventDispatcher object. If there is no matching listener registered with the EventDispatcher object, a call to this method has no effect.
-	 * @param {string} type The type of event.
-	 * @param {function} listener The listener object to remove.
-	 * @example
+	soma.EventDispatcher = new Class(
+		/** @lends soma.EventDispatcher.prototype */
+		{
+		initialize: function() {
+			this.listeners = [];
+		},
+		/**
+		 * Registers an event listener with an EventDispatcher object so that the listener receives notification of an event.
+		 * @param {string} type The type of event.
+		 * @param {function} listener The listener function that processes the event. This function must accept an Event object as its only parameter and must return nothing.
+		 * @param {int} priority The priority level of the event listener (default 0). The higher the number, the higher the priority (can take negative number).
+		 * @example
+dispatcher.addEventListener("eventType", eventHandler);
+function eventHandler(event) {
+	// alert(event.type)
+}
+		 */
+		addEventListener: function(type, listener, priority) {
+			if (!this.listeners || !type || !listener) throw new Error("Error in EventDispatcher (addEventListener), one of the parameters is null or undefined.");
+			if (isNaN(priority)) priority = 0;
+			this.listeners.push({type: type, listener: listener, priority: priority,scope:this});
+		},
+		/**
+		 * Removes a listener from the EventDispatcher object. If there is no matching listener registered with the EventDispatcher object, a call to this method has no effect.
+		 * @param {string} type The type of event.
+		 * @param {function} listener The listener object to remove.
+		 * @example
 dispatcher.removeEventListener("eventType", eventHandler);
-	 */
-	removeEventListener: function(type, listener) {
-		if (!this.listeners) return false;
-		if (!type || !listener) throw new Error("Error in EventDispatcher (removeEventListener), one of the parameters is null or undefined.");
-		var i = 0;
-		var l = this.listeners.length;
-		for (i=l-1; i > -1; i--) {
-			var eventObj = this.listeners[i];
-			if (eventObj.type == type && eventObj.listener == listener) {
-				this.listeners.splice(i, 1);
+		 */
+		removeEventListener: function(type, listener) {
+			if (!this.listeners) return false;
+			if (!type || !listener) throw new Error("Error in EventDispatcher (removeEventListener), one of the parameters is null or undefined.");
+			var i = 0;
+			var l = this.listeners.length;
+			for (i=l-1; i > -1; i--) {
+				var eventObj = this.listeners[i];
+				if (eventObj.type == type && eventObj.listener == listener) {
+					this.listeners.splice(i, 1);
+				}
 			}
-		}
-	},
-	/**
-	 * Checks whether the EventDispatcher object has any listeners registered for a specific type of event.
-	 * @param {string} type The type of event.
-	 * @return {boolean}
-	 * @example
+		},
+		/**
+		 * Checks whether the EventDispatcher object has any listeners registered for a specific type of event.
+		 * @param {string} type The type of event.
+		 * @return {boolean}
+		 * @example
 dispatcher.hasEventListener("eventType");
-	 */
-	hasEventListener: function(type) {
-		if (!this.listeners) return false;
-		if (!type) throw new Error("Error in EventDispatcher (hasEventListener), one of the parameters is null or undefined.");
-		var i = 0;
-		var l = this.listeners.length;
-		for (; i < l; ++i) {
-			var eventObj = this.listeners[i];
-			if (eventObj.type == type) {
-				return true;
+		 */
+		hasEventListener: function(type) {
+			if (!this.listeners) return false;
+			if (!type) throw new Error("Error in EventDispatcher (hasEventListener), one of the parameters is null or undefined.");
+			var i = 0;
+			var l = this.listeners.length;
+			for (; i < l; ++i) {
+				var eventObj = this.listeners[i];
+				if (eventObj.type == type) {
+					return true;
+				}
 			}
-		}
-		return false;
-	},
-	/**
-	 * Dispatches an event into the event flow. The event target is the EventDispatcher object upon which the dispatchEvent() method is called.
-	 * @param {soma.Event} event The Event object that is dispatched into the event flow. If the event is being redispatched, a clone of the event is created automatically.
-	 * @example
+			return false;
+		},
+		/**
+		 * Dispatches an event into the event flow. The event target is the EventDispatcher object upon which the dispatchEvent() method is called.
+		 * @param {soma.Event} event The Event object that is dispatched into the event flow. If the event is being redispatched, a clone of the event is created automatically.
+		 * @example
 dispatcher.dispatchEvent(new soma.Event("eventType"));
-	 */
-	dispatchEvent: function(event) {
-		if (!this.listeners || !event) throw new Error("Error in EventDispatcher (dispatchEvent), one of the parameters is null or undefined.");
-		var events = [];
-		var i;
-		for (i = 0; i < this.listeners.length; i++) {
-			var eventObj = this.listeners[i];
-			if (eventObj.type == event.type) {
-				events.push(eventObj);
+		 */
+		dispatchEvent: function(event) {
+			if (!this.listeners || !event) throw new Error("Error in EventDispatcher (dispatchEvent), one of the parameters is null or undefined.");
+			var events = [];
+			var i;
+			for (i = 0; i < this.listeners.length; i++) {
+				var eventObj = this.listeners[i];
+				if (eventObj.type == event.type) {
+					events.push(eventObj);
+				}
 			}
-		}
-		events.sort(function(a, b) {
-			return b.priority - a.priority;
-		});
+			events.sort(function(a, b) {
+				return b.priority - a.priority;
+			});
 
-		for (i = 0; i < events.length; i++) {
-            events[i].listener.apply((event.srcElement) ? event.srcElement : event.currentTarget, [event]);
-		}
-	},
-    /**
-     * Returns a copy of the listener array.
-     * @param {Array} listeners
-     */
-    getListeners: function()
-    {
-        return this.listeners.slice();
-    },
+			for (i = 0; i < events.length; i++) {
+	            events[i].listener.apply((event.srcElement) ? event.srcElement : event.currentTarget, [event]);
+			}
+		},
+	    /**
+	     * Returns a copy of the listener array.
+	     * @param {Array} listeners
+	     */
+	    getListeners: function()
+	    {
+	        return this.listeners.slice();
+	    },
 
-	toString: function() {
-		return "[soma.EventDispatcher]";
-	},
-	/**
-	 * Destroy the elements of the instance. The instance still needs to be nullified.
-	 * @example
+		toString: function() {
+			return "[soma.EventDispatcher]";
+		},
+		/**
+		 * Destroy the elements of the instance. The instance still needs to be nullified.
+		 * @example
 instance.dispose();
 instance = null;
-	 */
-	dispose: function() {
-		this.listeners = null;
-	}
-});
-
-soma.Application = new Class(
-	/** @lends soma.Application.prototype */
-	{
-	Extends: soma.EventDispatcher,
-	Implements: soma.IDisposable,
-	/** Gets the document.body (DOM Element). */
-	body:null,
-	/** Gets the models manager instance (soma.SomaModel). */
-	models:null,
-	/** Gets the commands manager instance (soma.SomaController). */
-	controller:null,
-	/** Gets the wires manager instance (soma.SomaWire). */
-	wires:null,
-	/** Gets the views manager instance (soma.SomaViews). */
-	views:null,
-
-	/**
-	 * @constructs
-	 * @class
-	 * <b>Introduction</b><br/><br/>
-	 * soma.js is a javascript model-view-controller (MVC) framework that is meant to help developers to write loosely-coupled applications to increase scalability and maintainability.<br/><br/>
-	 * The main idea behind the MVC pattern is to separate the data (model), the user interface (view) and the logic of the application (controller). They must be independent and should not know about each other in order to increase the scalability of the application.<br/><br/>
-	 * soma.js is providing tools to make the three parts "talks" to each other, keeping the view and the model free of framework code, using only native events that can be dispatched from either the framework of the DOM itself.<br/><br/>
-	 * <b>When to use soma.js?</b><br/><br/>
-	 * One of the great things about javascript is that it scales up with the skill of the developers. Javascript is suitable to write small functions to handle some basics in a site, but javascript is also powerful enough to handle more complex applications, this is where soma.js will shine.<br/><br/>
-	 * The primary goal of the framework is to help developers to write "decoupled" modules. The amount of code might be greater than what you can achieve with other frameworks because the goals are different.<br/><br/>
-	 * For that reason, while you can use the framework for anything, soma.js might not be the best option for small tasks. For larger applications, where it is important to easily refactor and swap out modules, important to work in large team or collaborate with developers, soma.js will be a great tools and is made for that.<br/><br/>
-	 * soma.js is suitable to work for both mobile and desktop application without problem.<br/><br/>
-	 * <b>Tools at your disposition</b><br/><br/>
-	 * The framework makes an heavy use of the Observer pattern using native javascript events. Here is a quote from Addy Osmani about the Observer pattern:<br/><br/>
-	 * The motivation behind using the observer pattern is where you need to maintain consistency between related objects without making classes tightly coupled. For example, when an object needs to be able to notify other objects without making assumptions regarding those objects.<br/><br/>
-	 * The framework also provides tools to use the Command pattern that will get triggered using native javascript events. Here is a quote about the Command pattern:<br/><br/>
-	 * The command pattern aims to encapsulate method invocation, requests or operations into a single object and gives you the ability to both parameterize and pass method calls around that can be executed at your discretion. In addition, it enables you to decouple objects invoking the action from the objects which implement them, giving you a greater degree of overall flexibility in swapping out concrete 'classes'.<br/><br/>
-	 * The framework also provides an easy way to use prototypal inheritance. Two different versions can be used, a "javascript native" version and a Mootools version.<br/><br/>
-	 * soma.js is a "base" framework and does not provide tools for specific javascript tasks. External libraries can be used with the framework if you wish to, such as jquery or anything you like.<br/><br/>
-	 * soma.js can be used for anything, except to include/distribute it in another framework, application, template, component or structure that is meant to build, scaffold or generate source files.<br/><br/>
-	 * <b>Few things to know</b><br/>
-	 *     - Wires are the glue of the frameworks elements (models, commands, views, wires) and can be used the way you wish, as proxy/mediators or managers.<br/>
-	 *     - Wires can manage one class or multiple classes.<br/>
-	 *     - Parallel and sequence commands are built-in.<br/>
-	 *     - You can access to all the framework elements that you have registered (framework instance, wires, models, views, injector, reflector, mediators and commands) from commands, wires and mediators.<br/>
-	 *     - Commands are native events with the bubbles property set to true.<br/>
-	 *     - Commands can be executed, monitored, and stopped using native methods (dispatchEvent, addEventListener, removeEventListener, preventDefault, and so on).<br/>
-	 * @description Creates a new Application and acts as the facade and main entry point of the application.<br/>
-	 * The Application class can be extended to create a framework instance and start the application.
-	 * @extends soma.EventDispatcher
-	 * @borrows soma.EventDispatcher#addEventListener
-	 * @borrows soma.EventDispatcher#removeEventListener
-	 * @borrows soma.EventDispatcher#hasEventListener
-	 * @borrows soma.EventDispatcher#dispatchEvent
-	 * @borrows soma.EventDispatcher#dispose
-	 * @example
-var SomaApplication = new Class({
-	Extends: soma.Application,
-	init: function() {
-
-	},
-	registerModels: function() {
-
-	},
-	registerViews: function() {
-
-	},
-	registerCommands: function() {
-
-	},
-	registerWires: function() {
-
-	},
-	start: function() {
-
-	}
-});
-new SomaApplication();
-	 */
-	initialize:function() {
-        this.parent();
-        this.body = document.body;
-		if (!this.body) {
-			throw new Error("Soma requires body of type Element");
+		 */
+		dispose: function() {
+			this.listeners = null;
 		}
-		this.controller = new soma.SomaController(this);
-		this.models = new soma.SomaModels(this);
-		this.wires = new soma.SomaWires(this);
-		this.views = new soma.SomaViews(this);
-		this.init();
-		this.registerModels();
-		this.registerViews();
-		this.registerCommands();
-		this.registerWires();
-		this.start();
-	},
+	});
 
-	/**
-	 * Create a plugin instance.
-	 * @param {object} object plugin to instantiate
-	 * @returns {object} the plugin
-	 * @example
-var PluginExample1 = new Class({
-	initialize: function(instance) {
+	soma.Application = new Class(
+		/** @lends soma.Application.prototype */
+		{
+		Extends: soma.EventDispatcher,
+		Implements: soma.IDisposable,
+		/** Gets the document.body (DOM Element). */
+		body:null,
+		/** Gets the models manager instance (soma.SomaModel). */
+		models:null,
+		/** Gets the commands manager instance (soma.SomaController). */
+		controller:null,
+		/** Gets the wires manager instance (soma.SomaWire). */
+		wires:null,
+		/** Gets the views manager instance (soma.SomaViews). */
+		views:null,
+
+		/**
+		 * @constructs
+		 * @class
+		 * <b>Introduction</b><br/><br/>
+		 * soma.js is a javascript model-view-controller (MVC) framework that is meant to help developers to write loosely-coupled applications to increase scalability and maintainability.<br/><br/>
+		 * The main idea behind the MVC pattern is to separate the data (model), the user interface (view) and the logic of the application (controller). They must be independent and should not know about each other in order to increase the scalability of the application.<br/><br/>
+		 * soma.js is providing tools to make the three parts "talks" to each other, keeping the view and the model free of framework code, using only native events that can be dispatched from either the framework of the DOM itself.<br/><br/>
+		 * <b>When to use soma.js?</b><br/><br/>
+		 * One of the great things about javascript is that it scales up with the skill of the developers. Javascript is suitable to write small functions to handle some basics in a site, but javascript is also powerful enough to handle more complex applications, this is where soma.js will shine.<br/><br/>
+		 * The primary goal of the framework is to help developers to write "decoupled" modules. The amount of code might be greater than what you can achieve with other frameworks because the goals are different.<br/><br/>
+		 * For that reason, while you can use the framework for anything, soma.js might not be the best option for small tasks. For larger applications, where it is important to easily refactor and swap out modules, important to work in large team or collaborate with developers, soma.js will be a great tools and is made for that.<br/><br/>
+		 * soma.js is suitable to work for both mobile and desktop application without problem.<br/><br/>
+		 * <b>Tools at your disposition</b><br/><br/>
+		 * The framework makes an heavy use of the Observer pattern using native javascript events. Here is a quote from Addy Osmani about the Observer pattern:<br/><br/>
+		 * The motivation behind using the observer pattern is where you need to maintain consistency between related objects without making classes tightly coupled. For example, when an object needs to be able to notify other objects without making assumptions regarding those objects.<br/><br/>
+		 * The framework also provides tools to use the Command pattern that will get triggered using native javascript events. Here is a quote about the Command pattern:<br/><br/>
+		 * The command pattern aims to encapsulate method invocation, requests or operations into a single object and gives you the ability to both parameterize and pass method calls around that can be executed at your discretion. In addition, it enables you to decouple objects invoking the action from the objects which implement them, giving you a greater degree of overall flexibility in swapping out concrete 'classes'.<br/><br/>
+		 * The framework also provides an easy way to use prototypal inheritance. Two different versions can be used, a "javascript native" version and a Mootools version.<br/><br/>
+		 * soma.js is a "base" framework and does not provide tools for specific javascript tasks. External libraries can be used with the framework if you wish to, such as jquery or anything you like.<br/><br/>
+		 * soma.js can be used for anything, except to include/distribute it in another framework, application, template, component or structure that is meant to build, scaffold or generate source files.<br/><br/>
+		 * <b>Few things to know</b><br/>
+		 *     - Wires are the glue of the frameworks elements (models, commands, views, wires) and can be used the way you wish, as proxy/mediators or managers.<br/>
+		 *     - Wires can manage one class or multiple classes.<br/>
+		 *     - Parallel and sequence commands are built-in.<br/>
+		 *     - You can access to all the framework elements that you have registered (framework instance, wires, models, views, injector, reflector, mediators and commands) from commands, wires and mediators.<br/>
+		 *     - Commands are native events with the bubbles property set to true.<br/>
+		 *     - Commands can be executed, monitored, and stopped using native methods (dispatchEvent, addEventListener, removeEventListener, preventDefault, and so on).<br/>
+		 * @description Creates a new Application and acts as the facade and main entry point of the application.<br/>
+		 * The Application class can be extended to create a framework instance and start the application.
+		 * @extends soma.EventDispatcher
+		 * @borrows soma.EventDispatcher#addEventListener
+		 * @borrows soma.EventDispatcher#removeEventListener
+		 * @borrows soma.EventDispatcher#hasEventListener
+		 * @borrows soma.EventDispatcher#dispatchEvent
+		 * @borrows soma.EventDispatcher#dispose
+		 * @example
+	var SomaApplication = new Class({
+		Extends: soma.Application,
+		init: function() {
+
+		},
+		registerModels: function() {
+
+		},
+		registerViews: function() {
+
+		},
+		registerCommands: function() {
+
+		},
+		registerWires: function() {
+
+		},
+		start: function() {
+
+		}
+	});
+	new SomaApplication();
+		 */
+		initialize:function() {
+	        this.parent();
+	        this.body = document.body;
+			if (!this.body) {
+				throw new Error("Soma requires body of type Element");
+			}
+			this.controller = new soma.SomaController(this);
+			this.models = new soma.SomaModels(this);
+			this.wires = new soma.SomaWires(this);
+			this.views = new soma.SomaViews(this);
+			this.init();
+			this.registerModels();
+			this.registerViews();
+			this.registerCommands();
+			this.registerWires();
+			this.start();
+		},
+
+		/**
+		 * Create a plugin instance.
+		 * @param {object} object plugin to instantiate
+		 * @returns {object} the plugin
+		 * @example
+	var PluginExample1 = new Class({
+		initialize: function(instance) {
+			this.instance = instance;
+		}
+	});
+
+	var PluginExample2 = function(instance) {
 		this.instance = instance;
 	}
-});
 
-var PluginExample2 = function(instance) {
-	this.instance = instance;
-}
-
-var PluginExampleWithParams = function(instance, myParam1, myParam2) {
-	this.instance = instance;
-}
-
-var SomaApplication = new Class({
-	Extends: soma.Application,
-	init: function() {
-		var plugin1 = this.createPlugin(PluginExample1);
-		var plugin2 = this.createPlugin(PluginExample2);
-		var plugin3 = this.createPlugin(PluginExampleWithParams, "param1", "param2");
-	}
-});
-var app = new SomaApplication();
-	 */
-	createPlugin: function() {
-		if (arguments.length == 0 || !arguments[0]) {
-			throw new Error("Error creating a plugin, plugin class is missing.");
-		}
-		var PluginClass = arguments[0];
-		arguments[0] = this;
-		var args = [null];
-		// args.concat([].splice.call(arguments, 0)); // doesn't work on IE7 and IE8
-		for (var i=0; i<arguments.length; i++) {
-			args.push(arguments[i]);
-		}
-		return new (Function.prototype.bind.apply(PluginClass, args));
-	},
-
-	/**
-	 * Indicates whether a command has been registered to the framework.
-	 * @param {string} commandName Event type that is used as a command name.
-	 * @returns {boolean}
-	 * @example
-	 * this.hasCommand("eventType");
-	 */
-	hasCommand: function(commandName) {
-		return (!this.controller) ? false : this.controller.hasCommand(commandName);
-	},
-
-	/**
-	 * Retrieves the command class that has been registered with a command name.
-	 * @param {string} commandName Event type that is used as a command name.
-	 * @returns {class} A command Class.
-	 * @example
-	 * var commandClass = this.getCommand("eventType");
-	 */
-	getCommand: function(commandName) {
-		return (!this.controller) ? null : this.controller.getCommand(commandName);
-	},
-
-	/**
-	 * Retrieves all the command names (event type) that have been registered to the framework.
-	 * @returns {array} An array of command names (string).
-	 * @example
-	 * var commands = this.getCommands();
-	 */
-	getCommands: function() {
-		return (!this.controller) ? null : this.controller.getCommands();
-	},
-
-	/**
-	 * Registers a command to the framework.
-	 * @param {string} commandName Event type that is used as a command name.
-	 * @param {class} command Class that will be executed when a command has been dispatched.
-	 * @example
-	 * this.addCommand("eventType", MyCommand);
-	 */
-	addCommand: function(commandName, command) {
-		this.controller.addCommand(commandName, command);
-	},
-
-	/**
-	 * Removes a command from the framework.
-	 * @param {string} commandName Event type that is used as a command name.
-	 * @example
-	 * this.removeCommand("eventType");
-	 */
-	removeCommand: function(commandName) {
-		this.controller.removeCommand(commandName);
-	},
-
-	/**
-	 * Indicates whether a wire has been registered to the framework.
-	 * @param {string} wireName The name of the wire.
-	 * @returns {boolean}
-	 * @example
-	 * this.hasWire("myWireName");
-	 */
-	hasWire: function(wireName) {
-		return (!this.wires) ? false : this.wires.hasWire(wireName);
-	},
-
-	/**
-	 * Retrieves the wire instance that has been registered using its name.
-	 * @param {string} wireName The name of the wire.
-	 * @returns {soma.Wire} A wire instance.
-	 * @example
-	 * var myWire = this.getWire("myWireName");
-	 */
-	getWire: function(wireName) {
-		return (!this.wires) ? null : this.wires.getWire(wireName);
-	},
-
-	/**
-	 * Retrieves an array of the registered wires.
-	 * @returns {array} An array of wires.
-	 * @example
-	 * var wires = this.getWires();
-	 */
-	getWires: function() {
-		return (!this.wires) ? null : this.wires.getWires();
-	},
-
-	/**
-	 * Registers a wire to the framework.
-	 * @param {string} wireName The name of the wire.
-	 * @param {soma.Wire} wire A wire instance.
-	 * @returns {soma.Wire} The wire instance.
-	 * @example
-	 * this.addWire("myWireName", new MyWire());
-	 */
-	addWire: function(wireName, wire) {
-		return this.wires.addWire(wireName, wire);
-	},
-
-	/**
-	 * Removes a wire from the framework and calls the dispose method of this wire.
-	 * @param {string} wireName The name of the wire.
-	 * @example
-	 * this.removeWire("myWireName");
-	 */
-	removeWire: function(wireName) {
-		this.wires.removeWire(wireName);
-	},
-
-	/**
-	 * Indicates whether a model has been registered to the framework.
-	 * @param {string} modelName The name of the model.
-	 * @returns {boolean}
-	 * @example
-	 * this.hasModel("myModelName");
-	 */
-	hasModel: function(modelName) {
-		return (!this.models) ? false : this.models.hasModel(modelName);
-	},
-
-	/**
-	 * Retrieves the model instance that has been registered using its name.
-	 * @param {string} modelName The name of the model.
-	 * @returns {soma.Model} A model instance.
-	 * @example
-	 * var myModel = this.getModel("myModelName");
-	 */
-	getModel: function(modelName) {
-		return (!this.models) ? null : this.models.getModel(modelName);
-	},
-
-	/**
-	 * Retrieves an array of the registered models.
-	 * @returns {array} An array of models.
-	 * @example
-	 * var models = this.getModels();
-	 */
-	getModels: function() {
-		return (!this.models) ? null : this.models.getModels();
-	},
-
-	/**
-	 * Registers a model to the framework.
-	 * @param {string} modelName The name of the model.
-	 * @param {soma.Model} model A model instance.
-	 * @returns {soma.Model} The model instance.
-	 * @example
-	 * this.addModel("myModelName", new MyModel());
-	 */
-	addModel: function(modelName, model) {
-		return this.models.addModel(modelName, model);
-	},
-
-	/**
-	 * Removes a model from the framework and call the dispose method of this model.
-	 * @param {string} modelName The name of the model.
-	 * @example
-	 * this.removeModel("myModelName");
-	 */
-	removeModel: function(modelName) {
-		this.models.removeModel(modelName);
-	},
-
-	/**
-	 * Indicates whether a view has been registered to the framework.
-	 * @param {string} viewName The name of the view.
-	 * @returns {boolean}
-	 * @example
-	 * this.hasView("myViewName");
-	 */
-	hasView: function(viewName) {
-		return (!this.views) ? false : this.views.hasView(viewName);
-	},
-
-	/**
-	 * Retrieves the view instance that has been registered using its name.
-	 * @param {string} viewName The name of the view.
-	 * @returns {soma.View or custom class} A view instance.
-	 * @example
-	 * var myView = this.getView("myViewName");
-	 */
-	getView: function(viewName) {
-		return (!this.views) ? null : this.views.getView(viewName);
-	},
-
-	/**
-	 * Retrieves an array of the registered views.
-	 * @returns {array} An array of views.
-	 * @example
-	 * var views = this.getViews();
-	 */
-	getViews: function() {
-		return (!this.views) ? null : this.views.getViews();
-	},
-
-	/**
-	 * Registers a view to the framework.
-	 * @param {string} viewName The name of the view.
-	 * @param {soma.View or custom class} view A view instance.
-	 * @returns {soma.View or custom class} The view instance.
-	 * @example
-	 * this.addView("myViewName", new MyView());
-	 */
-	addView: function(viewName, view) {
-		return this.views.addView(viewName, view);
-	},
-
-	/**
-	 * Removes a view from the framework and call the (optional) dispose method of this view.
-	 * @param {string} viewName The name of the view.
-	 * @example
-	 * this.removeView("myViewName");
-	 */
-	removeView: function(viewName) {
-		this.views.removeView(viewName);
-	},
-
-	/**
-	 * Retrieves the sequence command instance using an event instance that has been created from this sequence command.
-	 * @param {soma.Event} event Event instance.
-	 * @returns {soma.SequenceCommand} A sequence command.
-	 * @example
-	 * var sequencer = this.getSequencer(myEvent);
-	 */
-	getSequencer: function(event) {
-		return !!this.controller ? this.controller.getSequencer(event) : null;
-	},
-
-	/**
-	 * Indicates whether an event has been instantiated from a ISequenceCommand class.
-	 * @param {soma.Event} event Event instance.
-	 * @returns {boolean}
-	 * @example
-	 * var inSequence = this.isPartOfASequence(myEvent);
-	 */
-	isPartOfASequence: function(event) {
-		return ( this.getSequencer(event) != null );
-	},
-
-	/**
-	 * Stops a sequence command using an event instance that has been created from this sequence command.
-	 * @param {soma.Event} event Event instance.
-	 * @returns {boolean}
-	 * @example
-	 * var success = this.stopSequencerWithEvent(myEvent);
-	 */
-	stopSequencerWithEvent: function(event) {
-		return !!this.controller ? this.controller.stopSequencerWithEvent(event) : false;
-	},
-
-	/**
-	 * Stops a sequence command using the sequence command instance itself.
-	 * @param {soma.SequenceCommand} sequencer A sequence command.
-	 * @returns {boolean}
-	 * @example
-	 * var success = this.stopSequencer(mySequenceCommand);
-	 */
-	stopSequencer: function(sequencer) {
-		return !!this.controller ? this.controller.stopSequencer(sequencer) : false;
-	},
-
-	/**
-	 * Stops all the sequence command instances that are running.
-	 * @example
-	 * this.stopAllSequencers();
-	 */
-	stopAllSequencers: function() {
-		if (this.controller) {
-			this.controller.stopAllSequencers();
-		}
-	},
-
-	/**
-	 * Retrieves all the sequence command instances that are running.
-	 * @returns {array} An array of sequence commands.
-	 * @example
-	 * var sequencers = this.getRunningSequencers();
-	 */
-	getRunningSequencers: function() {
-		return !!this.controller ? this.controller.getRunningSequencers() : null;
-	},
-
-	/**
-	 * Retrieves the last sequence command that has been instantiated in the framework.
-	 * @returns {soma.SequenceCommand} A sequence command.
-	 * @example
-	 * var lastSequencer = this.getLastSequencer();
-	 */
-	getLastSequencer: function() {
-		return !!this.controller ? this.controller.getLastSequencer() : null;
-	},
-
-	dispose: function() {
-		if (this.models) {
-			this.models.dispose();
-			this.models = null;
-		}
-		if (this.views) {
-			this.views.dispose();
-			this.views = null;
-		}
-		if (this.controller) {
-			this.controller.dispose();
-			this.controller = null;
-		}
-		if (this.wires) {
-			this.wires.dispose();
-			this.wires = null;
-		}
-		if (this.mediators) {
-			this.mediators.dispose();
-			this.mediators = null;
-		}
-		this.body = null;
-		this.parent();
-	},
-
-	toString: function() {
-		return "[soma.Application]";
-	},
-
-	/** Method that you can optionally overwrite to initialize elements before anything else, this method is the first one called after that the framework is ready (init > registerModels > registerViews > registerCommands > registerWires > start). */
-	init: function() {
-
-	},
-
-	/** Method that you can optionally overwrite to register models to the framework (init > registerModels > registerViews > registerCommands > registerWires > start). */
-	registerModels: function() {
-	},
-
-	/** Method that you can optionally overwrite to register views to the framework (init > registerModels > registerViews > registerCommands > registerWires > start). */
-	registerViews: function() {
-	},
-
-	/** Method that you can optionally overwrite to register commands (mapping events to command classes) to the framework (init > registerModels > registerViews > registerCommands > registerWires > start). */
-	registerCommands: function() {
-	},
-
-	/** Method that you can optionally overwrite to register wires to the framework (init > registerModels > registerViews > registerCommands > registerWires > start). */
-	registerWires: function() {
-	},
-
-	/** Method that you can optionally overwrite, this method is the last one called by the framework and comes after all the registration methods (init > registerModels > registerViews > registerCommands > registerWires > start). */
-	start: function() {
-
+	var PluginExampleWithParams = function(instance, myParam1, myParam2) {
+		this.instance = instance;
 	}
 
-});
+	var SomaApplication = new Class({
+		Extends: soma.Application,
+		init: function() {
+			var plugin1 = this.createPlugin(PluginExample1);
+			var plugin2 = this.createPlugin(PluginExample2);
+			var plugin3 = this.createPlugin(PluginExampleWithParams, "param1", "param2");
+		}
+	});
+	var app = new SomaApplication();
+		 */
+		createPlugin: function() {
+			if (arguments.length == 0 || !arguments[0]) {
+				throw new Error("Error creating a plugin, plugin class is missing.");
+			}
+			var PluginClass = arguments[0];
+			arguments[0] = this;
+			var args = [null];
+			// args.concat([].splice.call(arguments, 0)); // doesn't work on IE7 and IE8
+			for (var i=0; i<arguments.length; i++) {
+				args.push(arguments[i]);
+			}
+			return new (Function.prototype.bind.apply(PluginClass, args));
+		},
 
-/**
- * @name soma.SomaModels
- * @namespace The SomaModels class handles the models of the application. See the Model class documentation for implementation.
- * @borrows soma.Application#addModel
- * @borrows soma.Application#getModel
- * @borrows soma.Application#getModels
- * @borrows soma.Application#hasModel
- * @borrows soma.Application#removeModel
- * @example
-this.addModel("myModelName", new MyModel());
-this.removeModel("myModelName");
-var model = this.getModel("myModelName");
- */
-soma.SomaModels = (function() {
+		/**
+		 * Indicates whether a command has been registered to the framework.
+		 * @param {string} commandName Event type that is used as a command name.
+		 * @returns {boolean}
+		 * @example
+		 * this.hasCommand("eventType");
+		 */
+		hasCommand: function(commandName) {
+			return (!this.controller) ? false : this.controller.hasCommand(commandName);
+		},
+
+		/**
+		 * Retrieves the command class that has been registered with a command name.
+		 * @param {string} commandName Event type that is used as a command name.
+		 * @returns {class} A command Class.
+		 * @example
+		 * var commandClass = this.getCommand("eventType");
+		 */
+		getCommand: function(commandName) {
+			return (!this.controller) ? null : this.controller.getCommand(commandName);
+		},
+
+		/**
+		 * Retrieves all the command names (event type) that have been registered to the framework.
+		 * @returns {array} An array of command names (string).
+		 * @example
+		 * var commands = this.getCommands();
+		 */
+		getCommands: function() {
+			return (!this.controller) ? null : this.controller.getCommands();
+		},
+
+		/**
+		 * Registers a command to the framework.
+		 * @param {string} commandName Event type that is used as a command name.
+		 * @param {class} command Class that will be executed when a command has been dispatched.
+		 * @example
+		 * this.addCommand("eventType", MyCommand);
+		 */
+		addCommand: function(commandName, command) {
+			this.controller.addCommand(commandName, command);
+		},
+
+		/**
+		 * Removes a command from the framework.
+		 * @param {string} commandName Event type that is used as a command name.
+		 * @example
+		 * this.removeCommand("eventType");
+		 */
+		removeCommand: function(commandName) {
+			this.controller.removeCommand(commandName);
+		},
+
+		/**
+		 * Indicates whether a wire has been registered to the framework.
+		 * @param {string} wireName The name of the wire.
+		 * @returns {boolean}
+		 * @example
+		 * this.hasWire("myWireName");
+		 */
+		hasWire: function(wireName) {
+			return (!this.wires) ? false : this.wires.hasWire(wireName);
+		},
+
+		/**
+		 * Retrieves the wire instance that has been registered using its name.
+		 * @param {string} wireName The name of the wire.
+		 * @returns {soma.Wire} A wire instance.
+		 * @example
+		 * var myWire = this.getWire("myWireName");
+		 */
+		getWire: function(wireName) {
+			return (!this.wires) ? null : this.wires.getWire(wireName);
+		},
+
+		/**
+		 * Retrieves an array of the registered wires.
+		 * @returns {array} An array of wires.
+		 * @example
+		 * var wires = this.getWires();
+		 */
+		getWires: function() {
+			return (!this.wires) ? null : this.wires.getWires();
+		},
+
+		/**
+		 * Registers a wire to the framework.
+		 * @param {string} wireName The name of the wire.
+		 * @param {soma.Wire} wire A wire instance.
+		 * @returns {soma.Wire} The wire instance.
+		 * @example
+		 * this.addWire("myWireName", new MyWire());
+		 */
+		addWire: function(wireName, wire) {
+			return this.wires.addWire(wireName, wire);
+		},
+
+		/**
+		 * Removes a wire from the framework and calls the dispose method of this wire.
+		 * @param {string} wireName The name of the wire.
+		 * @example
+		 * this.removeWire("myWireName");
+		 */
+		removeWire: function(wireName) {
+			this.wires.removeWire(wireName);
+		},
+
+		/**
+		 * Indicates whether a model has been registered to the framework.
+		 * @param {string} modelName The name of the model.
+		 * @returns {boolean}
+		 * @example
+		 * this.hasModel("myModelName");
+		 */
+		hasModel: function(modelName) {
+			return (!this.models) ? false : this.models.hasModel(modelName);
+		},
+
+		/**
+		 * Retrieves the model instance that has been registered using its name.
+		 * @param {string} modelName The name of the model.
+		 * @returns {soma.Model} A model instance.
+		 * @example
+		 * var myModel = this.getModel("myModelName");
+		 */
+		getModel: function(modelName) {
+			return (!this.models) ? null : this.models.getModel(modelName);
+		},
+
+		/**
+		 * Retrieves an array of the registered models.
+		 * @returns {array} An array of models.
+		 * @example
+		 * var models = this.getModels();
+		 */
+		getModels: function() {
+			return (!this.models) ? null : this.models.getModels();
+		},
+
+		/**
+		 * Registers a model to the framework.
+		 * @param {string} modelName The name of the model.
+		 * @param {soma.Model} model A model instance.
+		 * @returns {soma.Model} The model instance.
+		 * @example
+		 * this.addModel("myModelName", new MyModel());
+		 */
+		addModel: function(modelName, model) {
+			return this.models.addModel(modelName, model);
+		},
+
+		/**
+		 * Removes a model from the framework and call the dispose method of this model.
+		 * @param {string} modelName The name of the model.
+		 * @example
+		 * this.removeModel("myModelName");
+		 */
+		removeModel: function(modelName) {
+			this.models.removeModel(modelName);
+		},
+
+		/**
+		 * Indicates whether a view has been registered to the framework.
+		 * @param {string} viewName The name of the view.
+		 * @returns {boolean}
+		 * @example
+		 * this.hasView("myViewName");
+		 */
+		hasView: function(viewName) {
+			return (!this.views) ? false : this.views.hasView(viewName);
+		},
+
+		/**
+		 * Retrieves the view instance that has been registered using its name.
+		 * @param {string} viewName The name of the view.
+		 * @returns {soma.View or custom class} A view instance.
+		 * @example
+		 * var myView = this.getView("myViewName");
+		 */
+		getView: function(viewName) {
+			return (!this.views) ? null : this.views.getView(viewName);
+		},
+
+		/**
+		 * Retrieves an array of the registered views.
+		 * @returns {array} An array of views.
+		 * @example
+		 * var views = this.getViews();
+		 */
+		getViews: function() {
+			return (!this.views) ? null : this.views.getViews();
+		},
+
+		/**
+		 * Registers a view to the framework.
+		 * @param {string} viewName The name of the view.
+		 * @param {soma.View or custom class} view A view instance.
+		 * @returns {soma.View or custom class} The view instance.
+		 * @example
+		 * this.addView("myViewName", new MyView());
+		 */
+		addView: function(viewName, view) {
+			return this.views.addView(viewName, view);
+		},
+
+		/**
+		 * Removes a view from the framework and call the (optional) dispose method of this view.
+		 * @param {string} viewName The name of the view.
+		 * @example
+		 * this.removeView("myViewName");
+		 */
+		removeView: function(viewName) {
+			this.views.removeView(viewName);
+		},
+
+		/**
+		 * Retrieves the sequence command instance using an event instance that has been created from this sequence command.
+		 * @param {soma.Event} event Event instance.
+		 * @returns {soma.SequenceCommand} A sequence command.
+		 * @example
+		 * var sequencer = this.getSequencer(myEvent);
+		 */
+		getSequencer: function(event) {
+			return !!this.controller ? this.controller.getSequencer(event) : null;
+		},
+
+		/**
+		 * Indicates whether an event has been instantiated from a ISequenceCommand class.
+		 * @param {soma.Event} event Event instance.
+		 * @returns {boolean}
+		 * @example
+		 * var inSequence = this.isPartOfASequence(myEvent);
+		 */
+		isPartOfASequence: function(event) {
+			return ( this.getSequencer(event) != null );
+		},
+
+		/**
+		 * Stops a sequence command using an event instance that has been created from this sequence command.
+		 * @param {soma.Event} event Event instance.
+		 * @returns {boolean}
+		 * @example
+		 * var success = this.stopSequencerWithEvent(myEvent);
+		 */
+		stopSequencerWithEvent: function(event) {
+			return !!this.controller ? this.controller.stopSequencerWithEvent(event) : false;
+		},
+
+		/**
+		 * Stops a sequence command using the sequence command instance itself.
+		 * @param {soma.SequenceCommand} sequencer A sequence command.
+		 * @returns {boolean}
+		 * @example
+		 * var success = this.stopSequencer(mySequenceCommand);
+		 */
+		stopSequencer: function(sequencer) {
+			return !!this.controller ? this.controller.stopSequencer(sequencer) : false;
+		},
+
+		/**
+		 * Stops all the sequence command instances that are running.
+		 * @example
+		 * this.stopAllSequencers();
+		 */
+		stopAllSequencers: function() {
+			if (this.controller) {
+				this.controller.stopAllSequencers();
+			}
+		},
+
+		/**
+		 * Retrieves all the sequence command instances that are running.
+		 * @returns {array} An array of sequence commands.
+		 * @example
+		 * var sequencers = this.getRunningSequencers();
+		 */
+		getRunningSequencers: function() {
+			return !!this.controller ? this.controller.getRunningSequencers() : null;
+		},
+
+		/**
+		 * Retrieves the last sequence command that has been instantiated in the framework.
+		 * @returns {soma.SequenceCommand} A sequence command.
+		 * @example
+		 * var lastSequencer = this.getLastSequencer();
+		 */
+		getLastSequencer: function() {
+			return !!this.controller ? this.controller.getLastSequencer() : null;
+		},
+
+		dispose: function() {
+			if (this.models) {
+				this.models.dispose();
+				this.models = null;
+			}
+			if (this.views) {
+				this.views.dispose();
+				this.views = null;
+			}
+			if (this.controller) {
+				this.controller.dispose();
+				this.controller = null;
+			}
+			if (this.wires) {
+				this.wires.dispose();
+				this.wires = null;
+			}
+			if (this.mediators) {
+				this.mediators.dispose();
+				this.mediators = null;
+			}
+			this.body = null;
+			this.parent();
+		},
+
+		toString: function() {
+			return "[soma.Application]";
+		},
+
+		/** Method that you can optionally overwrite to initialize elements before anything else, this method is the first one called after that the framework is ready (init > registerModels > registerViews > registerCommands > registerWires > start). */
+		init: function() {
+
+		},
+
+		/** Method that you can optionally overwrite to register models to the framework (init > registerModels > registerViews > registerCommands > registerWires > start). */
+		registerModels: function() {
+		},
+
+		/** Method that you can optionally overwrite to register views to the framework (init > registerModels > registerViews > registerCommands > registerWires > start). */
+		registerViews: function() {
+		},
+
+		/** Method that you can optionally overwrite to register commands (mapping events to command classes) to the framework (init > registerModels > registerViews > registerCommands > registerWires > start). */
+		registerCommands: function() {
+		},
+
+		/** Method that you can optionally overwrite to register wires to the framework (init > registerModels > registerViews > registerCommands > registerWires > start). */
+		registerWires: function() {
+		},
+
+		/** Method that you can optionally overwrite, this method is the last one called by the framework and comes after all the registration methods (init > registerModels > registerViews > registerCommands > registerWires > start). */
+		start: function() {
+
+		}
+
+	});
+
+	/**
+	 * @name soma.SomaModels
+	 * @namespace The SomaModels class handles the models of the application. See the Model class documentation for implementation.
+	 * @borrows soma.Application#addModel
+	 * @borrows soma.Application#getModel
+	 * @borrows soma.Application#getModels
+	 * @borrows soma.Application#hasModel
+	 * @borrows soma.Application#removeModel
+	 * @example
+	this.addModel("myModelName", new MyModel());
+	this.removeModel("myModelName");
+	var model = this.getModel("myModelName");
+	 */
+	soma.SomaModels = new Class(
 	/** @lends soma.SomaModels.prototype */
+		{
 
-	var models = null;
-
-	return new Class({
 		Implements: soma.IDisposable,
 
 		instance:null,
 
 		initialize:function(instance) {
+			this.models = {};
 			this.instance = instance;
-			models = {};
 		},
 
 		hasModel: function(modelName) {
-			return models[ modelName ] != null;
+			return this.models[ modelName ] != null;
 		},
 
 		getModel: function(modelName) {
 			if (this.hasModel(modelName)) {
-				return models[ modelName ];
+				return this.models[ modelName ];
 			}
 			return null;
 		},
 
 		getModels: function() {
 			var clone = {};
-			var ms = models;
+			var ms = this.models;
 			for (var name in ms) {
 				clone[name] = ms[name];
 			}
@@ -1949,7 +1934,7 @@ soma.SomaModels = (function() {
 			if (this.hasModel(modelName)) {
 				throw new Error("Model \"" + modelName + "\" already exists");
 			}
-			models[ modelName ] = model;
+			this.models[ modelName ] = model;
 			if (!model.dispatcher) model.dispatcher = this.instance;
 			model.init();
 			return model;
@@ -1959,323 +1944,320 @@ soma.SomaModels = (function() {
 			if (!this.hasModel(modelName)) {
 				return;
 			}
-			models[ modelName ].dispose();
-			models[ modelName ] = null;
-			delete models[ modelName ];
+			this.models[ modelName ].dispose();
+			this.models[ modelName ] = null;
+			delete this.models[ modelName ];
 		},
 
 		dispose: function() {
 			for (var name in this.models) {
 				this.removeModel(name);
 			}
-			models = null;
-            this.instance = null;
+			this.models = null;
+	        this.instance = null;
 		}
 	});
-})();
 
-soma.Model = new Class(
-    /** @lends soma.Model.prototype */
-    {
+	soma.Model = new Class(
+	    /** @lends soma.Model.prototype */
+	    {
 
-	/** Name of the model. */
-	name: null,
-	/** Variable that can be used to hold data. */
-	data: null,
-	/** Instance of a EventDispatcher that can be used to dispatch commands. */
-	dispatcher:null,
+		/** Name of the model. */
+		name: null,
+		/** Variable that can be used to hold data. */
+		data: null,
+		/** Instance of a EventDispatcher that can be used to dispatch commands. */
+		dispatcher:null,
 
-	/**
-	 * @constructs
-	 * @class
-	 * The model is the class used to manage you application's data model.
-	 * The data can be XML, local data, data retrieved from a server or anything.
-	 * Ideally, the data should be set to the data property of the model instance, but you are free to create specific getters.
-	 * @description Create an instance of a Model class.
-	 * @param {string} name The name of the wire.
-	 * @borrows soma.EventDispatcher#addEventListener
-	 * @borrows soma.EventDispatcher#removeEventListener
-	 * @borrows soma.EventDispatcher#hasEventListener
-	 * @borrows soma.EventDispatcher#dispatchEvent
-	 * @example
-// add a model to the framework
-this.addModel("myModelName", new MyModel());
-	 * @example
-// remove a model from the framework
-this.removeModel("myModelName");
-	 * @example
-// retrieve a model
-var model = this.getModel("myModelName");
-	 * @example
-var MyModel = new Class({
-	Extends: soma.Model,
+		/**
+		 * @constructs
+		 * @class
+		 * The model is the class used to manage you application's data model.
+		 * The data can be XML, local data, data retrieved from a server or anything.
+		 * Ideally, the data should be set to the data property of the model instance, but you are free to create specific getters.
+		 * @description Create an instance of a Model class.
+		 * @param {string} name The name of the wire.
+		 * @borrows soma.EventDispatcher#addEventListener
+		 * @borrows soma.EventDispatcher#removeEventListener
+		 * @borrows soma.EventDispatcher#hasEventListener
+		 * @borrows soma.EventDispatcher#dispatchEvent
+		 * @example
+	// add a model to the framework
+	this.addModel("myModelName", new MyModel());
+		 * @example
+	// remove a model from the framework
+	this.removeModel("myModelName");
+		 * @example
+	// retrieve a model
+	var model = this.getModel("myModelName");
+		 * @example
+	var MyModel = new Class({
+		Extends: soma.Model,
 
-	init: function() {
-		this.data = "my data example";
-		// the model can be used as a dispatcher (default dispatcher is the framework instance) to dispatch commands, example:
-        this.dispatchEvent(new soma.Event("dataReady"));
-	},
+		init: function() {
+			this.data = "my data example";
+			// the model can be used as a dispatcher (default dispatcher is the framework instance) to dispatch commands, example:
+	        this.dispatchEvent(new soma.Event("dataReady"));
+		},
 
-	dispose: function() {
-		this.data = null;
-	}
-
-});
-MyModel.NAME = "Model::MyModel";
-	 */
-	initialize: function(name, data, dispatcher) {
-		this.data = data;
-		this.dispatcher = dispatcher;
-		if (name != null) {
-			this.name = name;
+		dispose: function() {
+			this.data = null;
 		}
-	}
 
-	/** Method that can you can override, called when the model has been registered to the framework. */
-	,init: function() {
-
-	}
-
-	/** Method that can you can override, called when the model has been removed from the framework. */
-	,dispose: function() {
-
-	},
-
-	dispatchEvent: function() {
-		if (this.dispatcher) {
-			this.dispatcher.dispatchEvent.apply(this.dispatcher, arguments);
-		}
-	},
-
-	addEventListener: function() {
-		if (this.dispatcher) {
-			this.dispatcher.addEventListener.apply(this.dispatcher, arguments);
-		}
-	},
-
-	removeEventListener: function() {
-		if (this.dispatcher) {
-			this.dispatcher.addEventListener.apply(this.dispatcher, arguments);
-		}
-	},
-
-	/** Retrieves the name of the model. */
-	getName: function() {
-		return this.name;
-	},
-
-	/** Sets the name of the model. */
-	setName: function(name) {
-		this.name = name;
-	},
-
-    toString: function() {
-	    return "[soma.Model]";
-    }
-
-});
-
-soma.View = new Class(
-    /** @lends soma.View.prototype */
-    {
-
-	instance: null,
-	/** {DOM Element} An optional DOM Element. */
-	domElement: null,
-
-	/**
-	 * @constructs
-	 * @class
-	 * The View class is not dependant of the framework and is completely optional.
-	 * Its purpose is to dispatch commands in an easier way.
-	 * Commands can be dispatched from views and will not tight your views to the framework as they are simple native events (with a property bubbles set to true to be considered as command by the framework).
-	 * The commmands must be dispatched from a DOM Element in order for the framework to catch them (see the examples).
-	 * @description Create an instance of a View class.
-	 * @param {DOM Element optional} domElement A DOM Element.
-	 * @example
-// add a view to the framework
-this.addView("myViewName", new MyView());
-	 * @example
-// remove a view from the framework
-this.removeView("myViewName");
-	 * @example
-// retrieve a view
-var view = this.getView("myViewName");
-	 * @example
-// view that extends soma.View
-// the event "eventType" is considered a command in this example.
-var MyView = new Class({
-	Extends: soma.View,
-	init: function() {
-		this.dispatchEvent(new soma.Event("eventType")); // works in all browsers
-		// or
-		this.domElement.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
-	},
-	dispose: function() {
-
-	}
-});
-MyView.NAME = "View::MyView";
-
-var view = new MyView(document.getElementById("myDomElement"));
-	 * @example
-// view that does not extend soma.View and uses a domElement property (as the soma.View).
-// the event "eventType" is considered a command in this example.
-var MyView = new Class({
-	domElement: null,
-	initialize: function(domElement) {
-		this.domElement = domElement;
-	},
-	init: function() {
-		this.domElement.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
-	},
-	dispose: function() {
-
-	}
-});
-MyView.NAME = "View::MyView";
-
-var view = new MyView(document.getElementById("myDomElement"));
-	 * @example
-// view that does not extend soma.View and does not use the domElement property.
-// the event "eventType" is considered a command in this example.
-var MyView = new Class({
-	init: function() {
-		var myDomElement = document.getElementById("myDomElement");
-		myDomElement.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
-	},
-	dispose: function() {
-
-	}
-});
-MyView.NAME = "View::MyView";
-var view = new MyView();
-
-// another example
-// the event "eventType" is considered a command in this example.
-var MyView = new Class({
-	init: function() {
-		var button = document.getElementById("requestMessageButton");
-		button.addEventListener("click", function() {
-			this.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
-		});
-	},
-	dispose: function() {
-
-	}
-});
-MyView.NAME = "View::MyView";
-var view = new MyView();
-	 */
-	initialize: function(domElement) {
-		var d;
-		if( domElement != undefined ) {
-			if( domElement.nodeType ) {
-				d = domElement;
-			}else{
-                throw new Error( "domElement has to be a DOM-ELement");
+	});
+	MyModel.NAME = "Model::MyModel";
+		 */
+		initialize: function(name, data, dispatcher) {
+			this.data = data;
+			this.dispatcher = dispatcher;
+			if (name != null) {
+				this.name = name;
 			}
-		}else{
-			d = document.body;
 		}
-		this.domElement = d;
-	},
-	/**
-	 * DOM native method. The soma.Event class can be used as a shortcut to create the event.
-	 * If no DOM Element are specified when instantiated, the body is used by default.
-	 * (IE7 and IE8 use the framework instance)
-	 * @param {event or soma.Event} An event instance.
-	 * @example
-this.dispatchEvent(new soma.Event("eventType"));
-	 */
-	dispatchEvent: function(event) {
-		if (this.domElement.dispatchEvent) {
-			this.domElement.dispatchEvent(event);
-		} else if (this.instance) {
-			this.instance.dispatchEvent(event);
+
+		/** Method that can you can override, called when the model has been registered to the framework. */
+		,init: function() {
+
 		}
-	},
+
+		/** Method that can you can override, called when the model has been removed from the framework. */
+		,dispose: function() {
+
+		},
+
+		dispatchEvent: function() {
+			if (this.dispatcher) {
+				this.dispatcher.dispatchEvent.apply(this.dispatcher, arguments);
+			}
+		},
+
+		addEventListener: function() {
+			if (this.dispatcher) {
+				this.dispatcher.addEventListener.apply(this.dispatcher, arguments);
+			}
+		},
+
+		removeEventListener: function() {
+			if (this.dispatcher) {
+				this.dispatcher.addEventListener.apply(this.dispatcher, arguments);
+			}
+		},
+
+		/** Retrieves the name of the model. */
+		getName: function() {
+			return this.name;
+		},
+
+		/** Sets the name of the model. */
+		setName: function(name) {
+			this.name = name;
+		},
+
+	    toString: function() {
+		    return "[soma.Model]";
+	    }
+
+	});
+
+	soma.View = new Class(
+	    /** @lends soma.View.prototype */
+	    {
+
+		instance: null,
+		/** {DOM Element} An optional DOM Element. */
+		domElement: null,
+
+		/**
+		 * @constructs
+		 * @class
+		 * The View class is not dependant of the framework and is completely optional.
+		 * Its purpose is to dispatch commands in an easier way.
+		 * Commands can be dispatched from views and will not tight your views to the framework as they are simple native events (with a property bubbles set to true to be considered as command by the framework).
+		 * The commmands must be dispatched from a DOM Element in order for the framework to catch them (see the examples).
+		 * @description Create an instance of a View class.
+		 * @param {DOM Element optional} domElement A DOM Element.
+		 * @example
+	// add a view to the framework
+	this.addView("myViewName", new MyView());
+		 * @example
+	// remove a view from the framework
+	this.removeView("myViewName");
+		 * @example
+	// retrieve a view
+	var view = this.getView("myViewName");
+		 * @example
+	// view that extends soma.View
+	// the event "eventType" is considered a command in this example.
+	var MyView = new Class({
+		Extends: soma.View,
+		init: function() {
+			this.dispatchEvent(new soma.Event("eventType")); // works in all browsers
+			// or
+			this.domElement.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
+		},
+		dispose: function() {
+
+		}
+	});
+	MyView.NAME = "View::MyView";
+
+	var view = new MyView(document.getElementById("myDomElement"));
+		 * @example
+	// view that does not extend soma.View and uses a domElement property (as the soma.View).
+	// the event "eventType" is considered a command in this example.
+	var MyView = new Class({
+		domElement: null,
+		initialize: function(domElement) {
+			this.domElement = domElement;
+		},
+		init: function() {
+			this.domElement.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
+		},
+		dispose: function() {
+
+		}
+	});
+	MyView.NAME = "View::MyView";
+
+	var view = new MyView(document.getElementById("myDomElement"));
+		 * @example
+	// view that does not extend soma.View and does not use the domElement property.
+	// the event "eventType" is considered a command in this example.
+	var MyView = new Class({
+		init: function() {
+			var myDomElement = document.getElementById("myDomElement");
+			myDomElement.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
+		},
+		dispose: function() {
+
+		}
+	});
+	MyView.NAME = "View::MyView";
+	var view = new MyView();
+
+	// another example
+	// the event "eventType" is considered a command in this example.
+	var MyView = new Class({
+		init: function() {
+			var button = document.getElementById("requestMessageButton");
+			button.addEventListener("click", function() {
+				this.dispatchEvent(new soma.Event("eventType")); // does not work with IE7 and 8
+			});
+		},
+		dispose: function() {
+
+		}
+	});
+	MyView.NAME = "View::MyView";
+	var view = new MyView();
+		 */
+		initialize: function(domElement) {
+			var d;
+			if( domElement != undefined ) {
+				if( domElement.nodeType ) {
+					d = domElement;
+				}else{
+	                throw new Error( "domElement has to be a DOM-ELement");
+				}
+			}else{
+				d = document.body;
+			}
+			this.domElement = d;
+		},
+		/**
+		 * DOM native method. The soma.Event class can be used as a shortcut to create the event.
+		 * If no DOM Element are specified when instantiated, the body is used by default.
+		 * (IE7 and IE8 use the framework instance)
+		 * @param {event or soma.Event} An event instance.
+		 * @example
+	this.dispatchEvent(new soma.Event("eventType"));
+		 */
+		dispatchEvent: function(event) {
+			if (this.domElement.dispatchEvent) {
+				this.domElement.dispatchEvent(event);
+			} else if (this.instance) {
+				this.instance.dispatchEvent(event);
+			}
+		},
+		/**
+		 * DOM native method.
+		 * If no DOM Element are specified when instantiated, the body is used by default.
+		 * (IE7 and IE8 use the framework instance)
+		 * @param {string} type Type of the event.
+		 * @param {function} function The listener that will be notified.
+		 * @param {boolean} capture Capture phase of the event.
+		 * @example
+	this.addEventListener("eventType", eventHandler, false);
+		 */
+		addEventListener: function() {
+
+	        if (this.domElement.addEventListener) {
+	            this.domElement.addEventListener.apply(this.domElement, arguments);
+	        } else if(this.instance) {
+	            this.instance.addEventListener.apply(this.instance, arguments);
+	        }
+		},
+		/**
+		 * DOM native method.
+		 * If no DOM Element are specified when instantiated, the body is used by default.
+		 * (IE7 and IE8 use the framework instance)
+		 * @param {string} type Type of the event.
+		 * @param {function} function The listener that will be notified.
+		 * @param {boolean} capture Capture phase of the event.
+		 * @example
+	this.removeEventListener("eventType", eventHandler, false);
+		 */
+		removeEventListener: function() {
+	        if(this.domElement.addEventListener) {
+			    this.domElement.removeEventListener.apply(this.domElement, arguments);
+	        } else if(this.instance) {
+	             this.instance.removeEventListener.apply(this.instance, arguments);
+	        }
+		},
+	    /**
+	     * Optional method that will be called by the framework (if it exists) when the view is added to the framework.
+	     */
+	    init: function() {
+
+	    },
+		/**
+		 * Optional method that will be called by the framework (if it exists) when the view is removed from the framework.
+		 */
+		dispose: function() {
+
+		},
+	    toString: function() {
+		    return "[soma.View]";
+	    }
+	});
+
 	/**
-	 * DOM native method.
-	 * If no DOM Element are specified when instantiated, the body is used by default.
-	 * (IE7 and IE8 use the framework instance)
-	 * @param {string} type Type of the event.
-	 * @param {function} function The listener that will be notified.
-	 * @param {boolean} capture Capture phase of the event.
+	 * @name soma.SomaWires
+	 * @namespace The SomaWires class handles the wires of the application. See the Wire class documentation for implementation.
+	 * @borrows soma.Application#addWire
+	 * @borrows soma.Application#getWire
+	 * @borrows soma.Application#getWires
+	 * @borrows soma.Application#hasWire
+	 * @borrows soma.Application#removeWire
 	 * @example
-this.addEventListener("eventType", eventHandler, false);
+	 this.addWire("myWireName", new MyWire());
+	 this.removeWire("myWireName");
+	 var wire = this.getWire("myWireName");
 	 */
-	addEventListener: function() {
-
-        if (this.domElement.addEventListener) {
-            this.domElement.addEventListener.apply(this.domElement, arguments);
-        } else if(this.instance) {
-            this.instance.addEventListener.apply(this.instance, arguments);
-        }
-	},
-	/**
-	 * DOM native method.
-	 * If no DOM Element are specified when instantiated, the body is used by default.
-	 * (IE7 and IE8 use the framework instance)
-	 * @param {string} type Type of the event.
-	 * @param {function} function The listener that will be notified.
-	 * @param {boolean} capture Capture phase of the event.
-	 * @example
-this.removeEventListener("eventType", eventHandler, false);
-	 */
-	removeEventListener: function() {
-        if(this.domElement.addEventListener) {
-		    this.domElement.removeEventListener.apply(this.domElement, arguments);
-        } else if(this.instance) {
-             this.instance.removeEventListener.apply(this.instance, arguments);
-        }
-	},
-    /**
-     * Optional method that will be called by the framework (if it exists) when the view is added to the framework.
-     */
-    init: function() {
-
-    },
-	/**
-	 * Optional method that will be called by the framework (if it exists) when the view is removed from the framework.
-	 */
-	dispose: function() {
-
-	},
-    toString: function() {
-	    return "[soma.View]";
-    }
-});
-
-/**
- * @name soma.SomaWires
- * @namespace The SomaWires class handles the wires of the application. See the Wire class documentation for implementation.
- * @borrows soma.Application#addWire
- * @borrows soma.Application#getWire
- * @borrows soma.Application#getWires
- * @borrows soma.Application#hasWire
- * @borrows soma.Application#removeWire
- * @example
- this.addWire("myWireName", new MyWire());
- this.removeWire("myWireName");
- var wire = this.getWire("myWireName");
- */
-soma.SomaWires = (function() {
-    /** @lends soma.SomaWires.prototype */
-
-	var wires = null;
-	return new Class({
+	soma.SomaWires = new Class(
+		/** @lends soma.SomaWires.prototype */
+		{
 		Implements: soma.IDisposable,
 
 		instance:null,
 
 		initialize:function(instance) {
 			this.instance = instance;
-			wires = {};
+			this.wires = {};
 		},
 
 		hasWire: function(wireName) {
-			return wires[ wireName ] != null;
+			return this.wires[ wireName ] != null;
 		},
 
 		addWire: function(wireName, wire) {
@@ -2283,7 +2265,7 @@ soma.SomaWires = (function() {
 				throw new Error("Wire \"" + wireName + "\" already exists");
 			}
 			if (wire['shouldAutobind']) wire.autobind();
-			wires[ wireName ] = wire;
+			this.wires[ wireName ] = wire;
 			wire.registerInstance(this.instance);
 			wire.init();
 			return wire;
@@ -2291,15 +2273,15 @@ soma.SomaWires = (function() {
 
 		getWire: function(wireName) {
 			if (this.hasWire(wireName)) {
-				return wires[ wireName ];
+				return this.wires[ wireName ];
 			}
 			return null;
 		},
 
 		getWires: function() {
 			var clone = {};
-			for (var name in wires) {
-				clone[name] = wires[name];
+			for (var name in this.wires) {
+				clone[name] = this.wires[name];
 			}
 			return clone;
 		},
@@ -2308,212 +2290,218 @@ soma.SomaWires = (function() {
 			if (!this.hasWire(wireName)) {
 				return;
 			}
-			wires[ wireName ].dispose();
-			wires[ wireName ] = null;
-			delete wires[ wireName ];
+			this.wires[ wireName ].dispose();
+			this.wires[ wireName ] = null;
+			delete this.wires[ wireName ];
 		},
 
 		dispose: function() {
-			for (var name in wires) {
+			for (var name in this.wires) {
 				this.removeWire(name);
 			}
-			wires = null;
-            this.instance = null;
+			this.wires = null;
+	        this.instance = null;
 		}
 	});
-})();
 
-soma.Mediator = new Class({
+	soma.Mediator = new Class({
 
-	Extends: soma.Wire,
-	Implements: soma.IDisposable,
+		Extends: soma.Wire,
+		Implements: soma.IDisposable,
 
-	viewComponent: null,
+		viewComponent: null,
 
-	initialize: function(viewComponent) {
-		this.viewComponent = viewComponent;
-		this.parent();
-	},
+		initialize: function(viewComponent) {
+			this.viewComponent = viewComponent;
+			this.parent();
+		},
 
-	dispose: function() {
-		this.viewComponent = null;
-		this.parent();
-	},
+		dispose: function() {
+			this.viewComponent = null;
+			this.parent();
+		},
 
-	toString: function() {
-		return "[soma.Mediator]";
-	}
-
-});
-
-soma.Event = new Class(
-    /** @lends soma.Event.prototype */
-    {
-    /**
-     * @constructs
-     * @class Event wrapper class for a native event.
-     * @description Create an instance of an native event.
-     * @param {string} type The type of the event.
-     * @param {object} params An object for a custom use and that can hold data.
-     * @param {boolean} bubbles Indicates whether an event is a bubbling event. If the event can bubble, this value is true; otherwise it is false. The default is true for framework purposes: the commands are mapped with events types, the framework will ignore events that are commands if the bubbles property is set to false.
-     * @param {boolean} cancelable Indicates whether the behavior associated with the event can be prevented (using event.preventDefault()). If the behavior can be canceled, this value is true; otherwise it is false.
-     * @returns {event} A event instance.
-     * @example
-// create an event
-var event = new soma.Event("eventType");
-var event = new soma.Event("eventType", {myData:"my data"}, true, true);
-     * @example
-// create an event class
-var MyEvent = new Class({
-    Extends: soma.Event,
-
-    initialize: function(type, params, bubbles, cancelable) {
-        // alert(params.myData)
-        return this.parent(type, params, bubbles, cancelable);
-    }
-
-});
-MyEvent.DO_SOMETHING = "ApplicationEvent.DO_SOMETHING"; // constant use as an event type
-var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
-      */
-    initialize: function(type, params, bubbles, cancelable) {
-        var e = soma.Event.createGenericEvent(type, bubbles, cancelable);
-		if (params != null && params != undefined) {
-			e.params = params;
+		toString: function() {
+			return "[soma.Mediator]";
 		}
-	    e.isCloned = false;
-	    e.clone = this.clone.bind(e);
-	    e.isIE9 = this.isIE9;
-        e.isDefaultPrevented = this.isDefaultPrevented;
-	    if (this.isIE9() || !e.preventDefault || (e.getDefaultPrevented == undefined && e.defaultPrevented == undefined ) ) {
-		    e.preventDefault = this.preventDefault.bind(e);
+
+	});
+
+	soma.Event = new Class(
+	    /** @lends soma.Event.prototype */
+	    {
+	    /**
+	     * @constructs
+	     * @class Event wrapper class for a native event.
+	     * @description Create an instance of an native event.
+	     * @param {string} type The type of the event.
+	     * @param {object} params An object for a custom use and that can hold data.
+	     * @param {boolean} bubbles Indicates whether an event is a bubbling event. If the event can bubble, this value is true; otherwise it is false. The default is true for framework purposes: the commands are mapped with events types, the framework will ignore events that are commands if the bubbles property is set to false.
+	     * @param {boolean} cancelable Indicates whether the behavior associated with the event can be prevented (using event.preventDefault()). If the behavior can be canceled, this value is true; otherwise it is false.
+	     * @returns {event} A event instance.
+	     * @example
+	// create an event
+	var event = new soma.Event("eventType");
+	var event = new soma.Event("eventType", {myData:"my data"}, true, true);
+	     * @example
+	// create an event class
+	var MyEvent = new Class({
+	    Extends: soma.Event,
+
+	    initialize: function(type, params, bubbles, cancelable) {
+	        // alert(params.myData)
+	        return this.parent(type, params, bubbles, cancelable);
 	    }
-	    if (this.isIE9()) e.IE9PreventDefault = false;
-		return e;
-	},
-    /**
-     * Duplicates an event.
-     * @returns {event} A event instance.
-     */
-	clone: function() {
-        var e = soma.Event.createGenericEvent(this.type, this.bubbles, this.cancelable);
-		e.params = this.params;
-		e.isCloned = true;
-		e.clone = this.clone;
-        e.isDefaultPrevented = this.isDefaultPrevented;
-	    e.isIE9 = this.isIE9;
-	    if (this.isIE9()) e.IE9PreventDefault = this.IE9PreventDefault;
-		return e;
-	},
-    /**
-     * Prevent the default action of an event.
-     */
-	preventDefault: function() {
-		if (!this.cancelable) return false;
-		this.defaultPrevented = true;
-		if (this.isIE9()) this.IE9PreventDefault = true;
-        this.returnValue = false;
-        return this;
-	},
-    /**
-     * Checks whether the preventDefault() method has been called on the event. If the preventDefault() method has been called, returns true; otherwise, returns false.<br/>
-     * This method should be used rather than the native property: event.defaultPrevented, as the latter has different implementations in browsers.
-     * @returns {boolean}
-     */
-	isDefaultPrevented: function() {
-	    if (!this.cancelable) return false;
-	    if (this.isIE9()) {
-		    return this.IE9PreventDefault;
+
+	});
+	MyEvent.DO_SOMETHING = "ApplicationEvent.DO_SOMETHING"; // constant use as an event type
+	var event = new MyEvent(MyEvent.DO_SOMETHING, {myData:"my data"});
+	      */
+	    initialize: function(type, params, bubbles, cancelable) {
+	        var e = soma.Event.createGenericEvent(type, bubbles, cancelable);
+			if (params != null && params != undefined) {
+				e.params = params;
+			}
+		    e.isCloned = false;
+		    e.clone = this.clone.bind(e);
+		    e.isIE9 = this.isIE9;
+	        e.isDefaultPrevented = this.isDefaultPrevented;
+		    if (this.isIE9() || !e.preventDefault || (e.getDefaultPrevented == undefined && e.defaultPrevented == undefined ) ) {
+			    e.preventDefault = this.preventDefault.bind(e);
+		    }
+		    if (this.isIE9()) e.IE9PreventDefault = false;
+			return e;
+		},
+	    /**
+	     * Duplicates an event.
+	     * @returns {event} A event instance.
+	     */
+		clone: function() {
+	        var e = soma.Event.createGenericEvent(this.type, this.bubbles, this.cancelable);
+			e.params = this.params;
+			e.isCloned = true;
+			e.clone = this.clone;
+	        e.isDefaultPrevented = this.isDefaultPrevented;
+		    e.isIE9 = this.isIE9;
+		    if (this.isIE9()) e.IE9PreventDefault = this.IE9PreventDefault;
+			return e;
+		},
+	    /**
+	     * Prevent the default action of an event.
+	     */
+		preventDefault: function() {
+			if (!this.cancelable) return false;
+			this.defaultPrevented = true;
+			if (this.isIE9()) this.IE9PreventDefault = true;
+	        this.returnValue = false;
+	        return this;
+		},
+	    /**
+	     * Checks whether the preventDefault() method has been called on the event. If the preventDefault() method has been called, returns true; otherwise, returns false.<br/>
+	     * This method should be used rather than the native property: event.defaultPrevented, as the latter has different implementations in browsers.
+	     * @returns {boolean}
+	     */
+		isDefaultPrevented: function() {
+		    if (!this.cancelable) return false;
+		    if (this.isIE9()) {
+			    return this.IE9PreventDefault;
+		    }
+	        if( this.defaultPrevented != undefined ) {
+	           return this.defaultPrevented;
+	        }else if( this.getDefaultPrevented != undefined ) {
+	            return this.getDefaultPrevented();
+	        }
+	        return false;
+		},
+	    /** @private */
+		isIE9: function() {
+		    return document.body.style.scrollbar3dLightColor!=undefined && document.body.style.opacity != undefined;
+	    },
+
+	    toString: function() {
+		    return "[soma.Event]";
 	    }
-        if( this.defaultPrevented != undefined ) {
-           return this.defaultPrevented;
-        }else if( this.getDefaultPrevented != undefined ) {
-            return this.getDefaultPrevented();
-        }
-        return false;
-	},
-    /** @private */
-	isIE9: function() {
-	    return document.body.style.scrollbar3dLightColor!=undefined && document.body.style.opacity != undefined;
-    },
-
-    toString: function() {
-	    return "[soma.Event]";
-    }
-});
-/**
- * @static
- * @param {string} type
- * @param {boolean} bubbles
- * @param {boolean} cancelable
- * @returns {event} a generic event object
- */
-soma.Event.createGenericEvent = function (type, bubbles, cancelable) {
-    var e;
-    bubbles = bubbles !== undefined ? bubbles : true;
-    if (document.createEvent) {
-        e = document.createEvent("Event");
-        e.initEvent(type, bubbles, !!cancelable);
-    } else {
-        e = document.createEventObject();
-        e.type = type;
-        e.bubbles = !!bubbles;
-        e.cancelable = !!cancelable;
-    }
-    return e;
-};
-
-/**
- * @name soma.IResponder
- * @namespace This interface provides the contract for any service that needs to respond to remote or asynchronous calls.
- * @example
-var MyAsyncClass = new Class({
-	Implements: soma.IResponder,
-	fault: function(info) {
-	},
-	result: function(data) {
-	},
-});
- */
-soma.IResponder = new Class(
-    /** @lends soma.IResponder.prototype **/
-    {
-    /**
-     * This method is called by a service when an error has been received.
-     * @param {object} info Description of the error.
-     * @name fault
-     * @methodOf soma.IResponder#
-     */
-	fault: function(info) {
-	},
-    /**
-     * This method is called by a service when the return value has been received.
-     * @param {object} data Object containing the result.
-     * @name result
-     * @methodOf soma.IResponder#
-     */
-	result: function(data) {
-	}
-});
-
-/**
- * @name soma.IDisposable
- * @namespace This interface provides the method that can be called to dispose the elements created inside this instance.
- * @example
-var MyDisposableClass = new Class({
-	Implements: soma.IDisposable,
-	dispose: function() {
-	},
-});
-*/
-soma.IDisposable = new Class(
-	/** @lends soma.IDisposable.prototype **/
-	{
+	});
 	/**
-	 * Method will dispose the elements created.
-	 * @name dispose
-	 * @methodOf soma.IDisposable#
+	 * @static
+	 * @param {string} type
+	 * @param {boolean} bubbles
+	 * @param {boolean} cancelable
+	 * @returns {event} a generic event object
 	 */
-	dispose: function() {
+	soma.Event.createGenericEvent = function (type, bubbles, cancelable) {
+	    var e;
+	    bubbles = bubbles !== undefined ? bubbles : true;
+	    if (document.createEvent) {
+	        e = document.createEvent("Event");
+	        e.initEvent(type, bubbles, !!cancelable);
+	    } else {
+	        e = document.createEventObject();
+	        e.type = type;
+	        e.bubbles = !!bubbles;
+	        e.cancelable = !!cancelable;
+	    }
+	    return e;
+	};
+
+	/**
+	 * @name soma.IResponder
+	 * @namespace This interface provides the contract for any service that needs to respond to remote or asynchronous calls.
+	 * @example
+	var MyAsyncClass = new Class({
+		Implements: soma.IResponder,
+		fault: function(info) {
+		},
+		result: function(data) {
+		},
+	});
+	 */
+	soma.IResponder = new Class(
+	    /** @lends soma.IResponder.prototype **/
+	    {
+	    /**
+	     * This method is called by a service when an error has been received.
+	     * @param {object} info Description of the error.
+	     * @name fault
+	     * @methodOf soma.IResponder#
+	     */
+		fault: function(info) {
+		},
+	    /**
+	     * This method is called by a service when the return value has been received.
+	     * @param {object} data Object containing the result.
+	     * @name result
+	     * @methodOf soma.IResponder#
+	     */
+		result: function(data) {
+		}
+	});
+
+	/**
+	 * @name soma.IDisposable
+	 * @namespace This interface provides the method that can be called to dispose the elements created inside this instance.
+	 * @example
+	var MyDisposableClass = new Class({
+		Implements: soma.IDisposable,
+		dispose: function() {
+		},
+	});
+	*/
+	soma.IDisposable = new Class(
+		/** @lends soma.IDisposable.prototype **/
+		{
+		/**
+		 * Method will dispose the elements created.
+		 * @name dispose
+		 * @methodOf soma.IDisposable#
+		 */
+		dispose: function() {
+		}
+	});
+
+	// register for AMD module
+	if (typeof define === 'function' && define.amd) {
+	    define("soma", soma);
 	}
-});
+
+})();

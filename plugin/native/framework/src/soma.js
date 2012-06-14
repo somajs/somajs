@@ -31,7 +31,7 @@
 	/** @namespace Global namespace. */
 	soma = {};
 	/** framework version */
-	soma.version = "1.0.2";
+	soma.version = "1.0.3";
 	/** framework type */
 	soma.type = "native";
 
@@ -1014,7 +1014,7 @@ this.addCommand("eventType", CommandExample);
 		},
 		/** @private */
 		registerSequencedCommand: function(sequencer, c) {
-			if (!( c instanceof SequenceCommandProxy )) {
+			if (!c) {
 				throw new Error("capsulate sequence commands in SequenceCommandProxy objects!");
 			}
 			var s = this.sequencersInfo;
@@ -2396,5 +2396,10 @@ soma.applyProperties(MyResponderClass.prototype, soma.IResponder.prototype);
 		result: function(data) {
 		}
 	});
+
+	// register for AMD module
+	if (typeof define === 'function' && define.amd) {
+	    define("soma", soma);
+	}
 
 })();

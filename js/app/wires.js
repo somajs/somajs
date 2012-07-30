@@ -8,7 +8,8 @@ ApplicationWire = soma.Wire.extend({
 			NavigationConstants.BROWSERS,
 			NavigationConstants.PLUGINS,
 			NavigationConstants.DEMOS,
-			NavigationConstants.DOCS
+			NavigationConstants.DOCS,
+			NavigationConstants.DISCUSSION
 		];
 	},
 	setup:function(message) {

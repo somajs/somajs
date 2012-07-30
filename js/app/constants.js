@@ -5,7 +5,8 @@ var NavigationConstants = {
 	BROWSERS: "browsers",
 	DEMOS: "demos",
 	PLUGINS: "plugins",
-	DOCS: "docs"
+	DOCS: "docs",
+	DISCUSSION: "discussion"
 };
 
 var Detect = {

@@ -12,7 +12,7 @@
 
 # OS or Editor folders
 .idea
-.DS_Store?
+.DS_Store
 .cache
 .project
 .settings

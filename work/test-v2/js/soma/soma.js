@@ -550,7 +550,6 @@
 
 	soma.Application = soma.extend({
 		constructor: function() {
-			soma.EventDispatcher.call(this);
 			setup.bind(this)();
 			this.init();
 			this.start();

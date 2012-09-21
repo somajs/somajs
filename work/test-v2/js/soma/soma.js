@@ -312,9 +312,9 @@
 			return new (Function.prototype.bind.apply(TargetClass, args));
 		},
 
-		inject:function (target) {
+		inject:function (target, isParent) {
 			if (this.parent) {
-				this.parent.inject(target);
+				this.parent.inject(target, true);
 			}
 			for (var name in this.mappings) {
 				var vo = this.getMappingVo(name);
@@ -323,7 +323,7 @@
 					target[name] = val;
 				}
 			}
-			if (typeof target.postConstruct === 'function') {
+			if (typeof target.postConstruct === 'function' && !isParent) {
 				target.postConstruct();
 			}
 			return this;
@@ -555,11 +555,18 @@
 			this.start();
 
 			function setup() {
+				// injector
+				this.injector = new soma.Injector(this.dispatcher);
+				// dispatcher
 				this.dispatcher = new soma.EventDispatcher();
 				soma.applyProperties(this, this.dispatcher, ['dispatchEvent', 'addEventListener', 'removeEventListener', 'hasEventListener']);
-				this.injector = new soma.Injector(this.dispatcher);
+				// mapping
+				this.injector.mapValue('injector', this.injector);
 				this.injector.mapValue('instance', this);
 				this.injector.mapValue('dispatcher', this.dispatcher);
+				// mediator
+				this.injector.mapClass('mediators', soma.Mediators, true);
+				this.mediators = this.injector.getInstance(soma.Mediators);
 			}
 
 		},
@@ -568,6 +575,22 @@
 		},
 		start: function() {
 
+		}
+	});
+
+	soma.Mediators = soma.extend({
+		constructor: function() {
+			this.injector = null;
+		},
+		map: function(name, cl, list) {
+			if (typeof list === 'object' && list.length > 0) {
+				var length = list.length;
+				for (var i=0; i<length; i++) {
+					var injector = this.injector.createChild();
+					injector.mapValue(name, list[i]);
+					injector.createInstance(cl);
+				}
+			}
 		}
 	});
 

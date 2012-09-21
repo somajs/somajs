@@ -12,6 +12,8 @@
 
 			this.injector.getInstance(ns.Model);
 
+			this.mediators.map("li", ns.Mediator, document.getElementsByTagName("li"));
+
 		},
 
 		start: function() {

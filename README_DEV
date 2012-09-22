@@ -1,0 +1,5 @@
+- concat file on changes (with grunt):
+
+https://github.com/joh/when-changed
+command:
+python watch.py src/ grunt concat

@@ -1,5 +1,9 @@
-- concat file on changes (with grunt):
+- grunt
 
-https://github.com/joh/when-changed
-command:
+You need grunt to concatenate the file to /build/soma.js
+npm install -g grunt
+
+- watch files changes and concatenate (https://github.com/joh/when-changed):
+
+Type in command line:
 python watch.py src/ grunt concat

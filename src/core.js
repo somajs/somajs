@@ -23,6 +23,12 @@
 			}
 
 		},
+		createPlugin: function() {
+			if (arguments.length == 0 || !arguments[0]) {
+				throw new Error("Error creating a plugin, plugin class is missing.");
+			}
+			return this.injector.createInstance.apply(this.injector, arguments);
+		},
 		init: function() {
 
 		},
@@ -114,4 +120,3 @@
 			}
 		}
 	});
-

@@ -702,6 +702,12 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 
 		},
+		createPlugin: function() {
+			if (arguments.length == 0 || !arguments[0]) {
+				throw new Error("Error creating a plugin, plugin class is missing.");
+			}
+			return this.injector.createInstance.apply(this.injector, arguments);
+		},
 		init: function() {
 
 		},
@@ -793,7 +799,6 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 		}
 	});
-
 
 
 	// register for AMD module

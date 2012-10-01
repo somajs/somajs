@@ -16,6 +16,9 @@
 			// create commands
 			this.commands.add("exec", ns.Command);
 
+			var plugin = this.createPlugin(PluginTest, "data", 1, true, {d:"d"}, [1, 2, 3]);
+			console.log(plugin, "plugin instance");
+
 		},
 
 		start: function() {

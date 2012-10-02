@@ -720,13 +720,16 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		constructor: function() {
 			this.injector = null;
 		},
-		create: function(name, cl, list) {
+		create: function(cl, list) {
+			if (!cl || typeof cl !== "function") {
+				throw new Error("Error creating a mediator, the first parameter must be a function.");
+			}
 			if (typeof list === 'object' && list.length > 0) {
 				var arr = [];
 				var length = list.length;
 				for (var i=0; i<length; i++) {
 					var injector = this.injector.createChild();
-					injector.mapValue(name, list[i]);
+					injector.mapValue("scope", list[i]);
 					var mediator = injector.createInstance(cl);
 					arr.push(mediator);
 				}

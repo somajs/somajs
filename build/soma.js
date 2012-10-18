@@ -582,47 +582,6 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 	soma.version = "2.0.0";
 
-	if (!Function.prototype.bind) {
-		Function.prototype.bind = function bind(that) {
-			var target = this;
-			if (typeof target != "function") {
-				throw new Error("Error, you must bind a function.");
-			}
-			var args = Array.prototype.slice.call(arguments, 1); // for normal call
-			var bound = function () {
-				if (this instanceof bound) {
-					var F = function () {
-					};
-					F.prototype = target.prototype;
-					var self = new F;
-					var result = target.apply(
-						self,
-						args.concat(Array.prototype.slice.call(arguments))
-					);
-					if (Object(result) === result) {
-						return result;
-					}
-					return self;
-				} else {
-					return target.apply(
-						that,
-						args.concat(Array.prototype.slice.call(arguments))
-					);
-				}
-			};
-			return bound;
-		};
-	};
-
-	if (!Array.prototype.contains) {
-		Array.prototype.contains = function (value) {
-			var i = this.length;
-			while (i--) {
-				if (this[i] === value) return true;
-			}
-			return false;
-		};
-	};
 	soma.applyProperties = function(target, extension, list) {
 		if (typeof list === 'object' && list instanceof Array && list.length > 0) {
 			var length = list.length;
@@ -834,7 +793,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	// register for AMD module
 	if (typeof define === 'function' && define.amd) {
 		define("soma", soma);
-	};
+	}
 
 	// export for node.js
 	if (typeof exports !== 'undefined') {
@@ -842,6 +801,6 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			exports = module.exports = soma;
 		}
 		exports = soma;
-	};
+	}
 
 })(this['soma'] = this['soma'] || {});

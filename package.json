@@ -1,0 +1,12 @@
+{
+	"name":"soma.js",
+	"version":"2.0.0",
+	"description":"soma.js is a minimalist javascript mvc framework",
+	"author":{
+		"name":"Romuald Quantin",
+		"email":"romuald@stinkdigital.com"
+	},
+	"scripts": {
+		"preinstall": ["sudo npm install -g grunt"]
+	}
+}

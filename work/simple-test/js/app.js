@@ -21,17 +21,16 @@
 			this.injector.mapValue('dom', document.getElementById('div'));
 			this.injector.mapValue("router", router);
 			//create model
-			this.injector.getInstance(ns.Model);
+			this.injector.getValue('model');
 			// create mediators
 			this.mediators.create(ns.Mediator, document.getElementsByTagName("li"));
 			// create commands
 			this.commands.add("exec", ns.Command);
 			// create plugin
+			var Custom = function(){this.customParam="custom"};
+			this.injector.mapClass("custom", Custom);
 			var plugin = this.createPlugin(PluginTest, "data", 1, true, {d:"d"}, [1, 2, 3]);
 			console.log(plugin, "plugin instance");
-
-
-
 		},
 
 		start: function() {

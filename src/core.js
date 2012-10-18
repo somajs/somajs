@@ -16,10 +16,10 @@
 				this.injector.mapValue('dispatcher', this.dispatcher);
 				// mediator
 				this.injector.mapClass('mediators', Mediators, true);
-				this.mediators = this.injector.getInstance(Mediators);
+				this.mediators = this.injector.getValue('mediators');
 				// commands
 				this.injector.mapClass('commands', Commands, true);
-				this.commands = this.injector.getInstance(Commands);
+				this.commands = this.injector.getValue('commands');
 			}
 
 		},
@@ -27,7 +27,17 @@
 			if (arguments.length == 0 || !arguments[0]) {
 				throw new Error("Error creating a plugin, plugin class is missing.");
 			}
-			return this.injector.createInstance.apply(this.injector, arguments);
+			var params = infuse.getConstructorParams(arguments[0]);
+			var args = [arguments[0]];
+			for (var i=0; i<params.length; i++) {
+				if (this.injector.hasMapping(params[i]) || this.injector.hasInheritedMapping(params[i])) {
+					args.push(this.injector.getValue(params[i]));
+				}
+			}
+			for (var i=1; i<arguments.length; i++) {
+				args.push(arguments[i]);
+			}
+			return this.injector.createInstance.apply(this.injector, args);
 		},
 		init: function() {
 
@@ -50,6 +60,7 @@
 				var length = list.length;
 				for (var i=0; i<length; i++) {
 					var injector = this.injector.createChild();
+					injector.mapValue("injector", injector);
 					injector.mapValue("scope", list[i]);
 					var mediator = injector.createInstance(cl);
 					arr.push(mediator);

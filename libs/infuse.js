@@ -1,26 +1,26 @@
 /*
-Copyright (c) | 2012 | infuse.js | Romuald Quantin | www.soundstep.com | romu@soundstep.com
+ Copyright (c) | 2012 | infuse.js | Romuald Quantin | www.soundstep.com | romu@soundstep.com
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software
-and associated documentation files (the "Software"), to deal in the Software without restriction,
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ and associated documentation files (the "Software"), to deal in the Software without restriction,
+ including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+ subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial
-portions of the Software.
+ The above copyright notice and this permission notice shall be included in all copies or substantial
+ portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
 ;(function(infuse, undefined) {
-    "use strict";
+	"use strict";
 
-	infuse.version = "0.5.5";
+	infuse.version = "0.6.0";
 
 	// regex from angular JS (https://github.com/angular/angular.js)
 	var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
@@ -29,23 +29,23 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
 
 	if(!Array.prototype.contains) {
-	    Array.prototype.contains = function(value) {
-	        var i = this.length;
-	        while (i--) {
-	            if (this[i] === value) return true;
-	        }
-	        return false;
-	    };
+		Array.prototype.contains = function(value) {
+			var i = this.length;
+			while (i--) {
+				if (this[i] === value) return true;
+			}
+			return false;
+		};
 	}
 
 	infuse.InjectorError = {
 		MAPPING_BAD_PROP: "[Error infuse.Injector.mapClass/mapValue] the first parameter is invalid, a string is expected",
-		MAPPING_BAD_VALUE: "[Error infuse.Injector.mapClass/mapValue] the sescond parameter is invalid, it can't null or undefined, with property: ",
+		MAPPING_BAD_VALUE: "[Error infuse.Injector.mapClass/mapValue] the second parameter is invalid, it can't null or undefined, with property: ",
 		MAPPING_BAD_CLASS: "[Error infuse.Injector.mapClass/mapValue] the second parameter is invalid, a function is expected, with property: ",
 		MAPPING_BAD_SINGLETON: "[Error infuse.Injector.mapClass] the third parameter is invalid, a boolean is expected, with property: ",
 		MAPPING_ALREADY_EXISTS: "[Error infuse.Injector.mapClass/mapValue] this mapping already exists, with property: ",
 		CREATE_INSTANCE_INVALID_PARAM: "[Error infuse.Injector.createInstance] invalid parameter, a function is expected",
-		GET_INSTANCE_NO_MAPPING: "[Error infuse.Injector.getInstance] no mapping found",
+		NO_MAPPING_FOUND: "[Error infuse.Injector.getInstance] no mapping found",
 		INJECT_INSTANCE_IN_ITSELF_PROPERTY: "[Error infuse.Injector.getInjectedValue] A matching property has been found in the target, you can't inject an instance in itself",
 		INJECT_INSTANCE_IN_ITSELF_CONSTRUCTOR: "[Error infuse.Injector.getInjectedValue] A matching constructor parameter has been found in the target, you can't inject an instance in itself"
 	};
@@ -82,7 +82,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	};
 
 	var validateConstructorInjectionLoop = function(name, cl) {
-		var params = getConstructorParams(cl);
+		var params = infuse.getConstructorParams(cl);
 		if (params.contains(name)) {
 			throw new Error(infuse.InjectorError.INJECT_INSTANCE_IN_ITSELF_CONSTRUCTOR);
 		}
@@ -92,20 +92,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		if (target.hasOwnProperty(name)) {
 			throw new Error(infuse.InjectorError.INJECT_INSTANCE_IN_ITSELF_PROPERTY);
 		}
-	};
-
-	var getConstructorParams = function(cl) {
-		var args = [];
-		var clStr = cl.toString().replace(STRIP_COMMENTS, '');
-		var argsFlat = clStr.match(FN_ARGS);
-		var spl = argsFlat[1].split(FN_ARG_SPLIT);
-		for (var i=0; i<spl.length; i++) {
-			var arg = spl[i];
-			arg.replace(FN_ARG, function(all, underscore, name){
-				args.push(name);
-	        });
-		}
-		return args;
 	};
 
 	var instantiateIgnoringConstructor = function() {
@@ -123,6 +109,20 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	infuse.Injector = function() {
 		this.mappings = {};
 		this.parent = null;
+	};
+
+	infuse.getConstructorParams = function(cl) {
+		var args = [];
+		var clStr = cl.toString().replace(STRIP_COMMENTS, '');
+		var argsFlat = clStr.match(FN_ARGS);
+		var spl = argsFlat[1].split(FN_ARG_SPLIT);
+		for (var i=0; i<spl.length; i++) {
+			var arg = spl[i];
+			arg.replace(FN_ARG, function(all, underscore, name){
+				args.push(name);
+			});
+		}
+		return args;
 	};
 
 	infuse.Injector.prototype = {
@@ -184,11 +184,27 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 		},
 
-		getMappingValue: function(prop) {
+		getValue: function(prop) {
 			var vo = this.mappings[prop];
-			if (!vo) return undefined;
-			if (vo.cl) return vo.cl;
+			if (!vo) {
+				if (this.parent) return this.parent.getValue.apply(this.parent, arguments);
+				else throw new Error(infuse.InjectorError.NO_MAPPING_FOUND);
+			}
+			if (vo.cl) {
+				arguments[0] = vo.cl;
+				return this.getValueFromClass.apply(this, arguments);
+			}
 			if (vo.value) return vo.value;
+			return undefined;
+		},
+
+		getClass: function(prop) {
+			var vo = this.mappings[prop];
+			if (!vo) {
+				if (this.parent) return this.parent.getClass(prop);
+				else return undefined;
+			}
+			if (vo.cl) return vo.cl;
 			return undefined;
 		},
 
@@ -198,7 +214,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 			var TargetClass = arguments[0];
 			var args = [null];
-			var params = getConstructorParams(TargetClass, this.mappings);
+			var params = infuse.getConstructorParams(TargetClass, this.mappings);
 			for (var i=0; i<params.length; i++) {
 				if (arguments[i+1]) {
 					// argument found
@@ -243,7 +259,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			var val = vo.value;
 			var injectee;
 			if (vo.cl) {
-				var params = getConstructorParams(vo.cl);
+				var params = infuse.getConstructorParams(vo.cl);
 				if (vo.singleton) {
 					if (!vo.value) {
 						validateConstructorInjectionLoop(name, vo.cl);
@@ -271,7 +287,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			return instance;
 		},
 
-		getInstance: function(cl) {
+		getValueFromClass: function(cl) {
 			for (var name in this.mappings) {
 				var vo = this.mappings[name];
 				if (vo.cl == cl) {
@@ -285,9 +301,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				}
 			}
 			if (this.parent) {
-				return this.parent.getInstance(cl);
+				return this.parent.getValueFromClass.apply(this.parent, arguments);
 			} else {
-				throw new Error(infuse.InjectorError.GET_INSTANCE_NO_MAPPING);
+				throw new Error(infuse.InjectorError.NO_MAPPING_FOUND);
 			}
 		},
 
@@ -330,9 +346,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 	// register for AMD module
 	if (typeof define === 'function' && define.amd) {
-	    define("infuse", infuse);
+		define("infuse", infuse);
 	}
-	
+
 	// export for node.js
 	if (typeof exports !== 'undefined') {
 		if (typeof module !== 'undefined' && module.exports) {

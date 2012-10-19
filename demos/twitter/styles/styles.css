@@ -1,0 +1,80 @@
+html {
+	background: #eeeeee;
+}
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	line-height: 1.4em;
+	background: #eeeeee;
+	color: #333333;
+}
+.twitter {
+	width: 400px;
+	margin: 0 auto 40px;
+	background: white;
+	padding: 20px;
+	-moz-box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
+	-o-box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
+	box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
+}
+.twitter .queryInput {
+	float: left;
+	width: 380px;
+	font-size: 24px;
+	font-family: inherit;
+	line-height: 1.4em;
+	border: 0;
+	outline: none;
+	padding: 6px;
+	border: 1px solid #999999;
+	-moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+	-o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+	box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+}
+.twitter .message {
+	font-size: 12px;
+	font-family: inherit;
+	line-height: 1.4em;
+	color: #CCC;
+}
+
+.twitter .result {
+	clear: both;
+}
+.twitter .result ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+.twitter .result li {
+	margin: 0;
+	padding: 0;
+	border-bottom: 1px solid black;
+}
+.twitter .tpl-tweet {
+	padding: 10px;
+	cursor: pointer;
+}
+.twitter .tpl-tweet img {
+	margin: 0;
+	float: left;
+}
+.twitter .tpl-tweet-username {
+	font-size: 22px;
+	font-family: inherit;
+	line-height: 1.4em;
+	padding-top: 8px;
+	padding-left: 60px;
+}
+.twitter .tpl-tweet-text {
+	font-size: 12px;
+	font-family: inherit;
+	line-height: 1.4em;
+	clear: both;
+	padding-top: 5px;
+}
+.twitter .tpl-tweet:hover {
+	background: #EEEEEE;
+}

@@ -40,11 +40,9 @@
 	};
 
 	var MediatorInput = function (scope, dispatcher) {
-		setTimeout(function () {
-			$(scope).focus();
-		}, 50);
+		setTimeout(function () { $(scope).focus(); }, 50);
 		$(scope).keypress(function (event) {
-			if (event.keyCode == 13 && this.value != "") {
+			if (event.keyCode === 13 && this.value !== "") {
 				dispatcher.dispatch(Events.SEARCH, this.value);
 			}
 		});

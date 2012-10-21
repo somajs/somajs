@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.myClass {
+			color: #FF0000;
+		}
+		.myClass2 {
+			color: #FFFF00;
+		}
+		.myClass3 {
+			color: #0000FF;
+		}
+		.myClass4 {
+			color: #00FFFF;
+		}
+	</style>
+</head>
+<body>
+
+<div id="ct" class="{{cl}}">
+	asdfasf {{test1}} sdasds{{test2}}asdasd
+	<p class="{{cl2}}">{{test1}}</p>
+	<p class="{{functions.getClass()}}">{{functions.fn1()}}</p>
+	<p>{{functions.fn2("hello", "world")}}</p>
+	<p data-skip>do a interpolation skip here: {{test1}}</p>
+	<input type="checkbox" {{checked}}>
+	<div>
+		<p class="{{cl3}}">{{test3.obj.val}}</p>
+	</div>
+	<ul>
+		<li data-repeat="item in items">
+			<div>{{item.name}}</div>
+		</li>
+	</ul>
+</div>
+
+<script type="text/javascript" src="js/app.js"></script>
+
+</body>
+</html>

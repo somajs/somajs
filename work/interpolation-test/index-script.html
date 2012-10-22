@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.myClass {
+			color: #B06E00;
+			font-weight: bold;
+		}
+		.myClass2 {
+			color: #A60B60;
+		}
+		.myClass3 {
+			color: #0B41A6;
+		}
+		.myClass4 {
+			color: #85A907;
+		}
+		.myClass5 {
+			color: #B00B00;
+		}
+		.myClass6 {
+			color: #26988B;
+		}
+		.list0 {
+			color: #266498;
+		}
+		.list1 {
+			color: #8C2698;
+		}
+		.list2 {
+			color: #BE2E00;
+		}
+	</style>
+</head>
+<body>
+
+<button class="switch">switch data</button>
+<div class="time"></div>
+
+<hr>
+
+<div id="ct">
+
+</div>
+
+<script id="tpl" type="text/x-soma-template">
+	<p class="{{cl}}">class on div + text {{test1}} dummy{{test2}}dummy</p>
+	<p class="{{cl2}}">class on div + text {{test1}}</p>
+	<p class="{{functions.getClass()}}">class function on div + text function {{functions.fn1()}}</p>
+	<p class="{{functions.getClassParam('p1.p1','p2.p2')}}">class function on div with param + text function with param {{functions.fnParam("p1.p1", "p2.p2")}}</p>
+	<p class="{{functions.getClassParam(params.param1,params.param2)}}">class function on div with param var + text function with param var {{functions.fnParam(params.param1, params.param2)}}</p>
+	<p>text function + string params {{functions.fn2("hello", "world")}}</p>
+	<p>do a interpolation skip here: <span data-skip>{{test1}}</span> but not here: {{test1}}</p>
+	checked attribute on an input from boolean: <input type="checkbox" {{checked}}><br/>
+	checked attribute on an input from function: <input type="checkbox" {{functions.checked()}}>
+	<p><img data-src="{{img}}" width="60" height="60"></p>
+	<p data-hide="{{hideValue}}">HIDE ON VALUE, THIS SHOULD NOT APPEAR!!</p>
+	<p data-hide="{{functions.hideFn()}}">HIDE ON FUNCTION, THIS SHOULD NOT APPEAR!!</p>
+	<p style="display:none" data-show="{{showValue}}">show on value, this should appear</p>
+	<p style="display:none" data-show="{{functions.showFn()}}">show on function, this should appear</p>
+	<a data-href="http://{{link}}" target="_blank">This is link</a>
+	<div>
+		<div>
+			<div>
+				<p class="{{test3.obj.cl}}">deep div with deep data {{test3.obj.val}}</p>
+			</div>
+		</div>
+	</div>
+	<ul>
+		<li>repeat image with index:</li>
+		<li data-repeat="img in imgrep">
+			assets/{{img}}{{index}}.jpg<br/>
+			<img data-src="assets/{{img}}{{index}}.jpg" width="60" height="60">
+		</li>
+	</ul>
+	<ul>
+		<li>repeat on array:</li>
+		<li data-repeat="item in arr">
+			<div class="list{{index}}">[{{index}}] - {{item}}</div>
+		</li>
+	</ul>
+	<ul>
+		<li>repeat on array containing object:</li>
+		<li data-repeat="item in items">
+			<div class="list{{index}}">[{{index}}] - {{item.name}} {{item.deep.other}}</div>
+		</li>
+	</ul>
+	<ul>
+		<li>repeat on object:</li>
+		<li data-repeat="o in obj">
+			<div>
+				{{o.title}}
+				<ul data-repeat="arr in o.data">
+					<li>{{arr}}</li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+	<ul>
+		<li data-repeat="l1 in l0">
+			<strong>Level 1, index {{index}}:</strong>
+			<ul>
+				<li data-repeat="l2 in l1">
+					<strong>Level 2, index {{index}}:</strong>
+					<ul>
+						<li data-repeat="l3 in l2">
+							<strong>Level 3, index {{index}}:</strong> {{l3}}
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</script>
+
+<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="js/app-script.js"></script>
+
+</body>
+</html>

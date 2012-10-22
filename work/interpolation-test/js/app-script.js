@@ -378,7 +378,8 @@ function compile() {
 	var element = document.getElementById("ct");
 	if (!cache.element) {
 		cache.element = element;
-		cache.clone = element.innerHTML;
+		cache.clone = document.getElementById("tpl").innerHTML;
+		cache.element.innerHTML = cache.clone;
 	}
 	else {
 		cache.element.innerHTML = cache.clone;

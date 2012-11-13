@@ -23,10 +23,19 @@
 	</noscript>
 
 	<script type="text/javascript">
-		var _gaq = _gaq || [];
-		_gaq.push(['_setAccount', 'UA-28629754-1']);
-		_gaq.push(['_trackPageview']);
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-36294101-3']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
 	</script>
+
 </head>
 <body>
 
@@ -2404,14 +2413,6 @@ this.addEventListener(RouterEventTypes.SUBNAV, this.subnavHandler);
 <script type="text/javascript" src="js/app/views.js"></script>
 <script type="text/javascript" src="js/app/wires.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
-
-<script type="text/javascript">
-(function() {
-var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-</script>
 
 </body>
 </html>

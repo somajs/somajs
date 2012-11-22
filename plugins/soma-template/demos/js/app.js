@@ -3,7 +3,7 @@
 	var App = soma.Application.extend({
 		init:function () {
 			this.createPlugin(soma.template.plugin);
-			this.createTemplate(Template, $('#template')[0]);
+			this.createTemplate(Template, document.getElementById('content'));
 		}
 	});
 

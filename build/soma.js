@@ -722,7 +722,7 @@
 				for (var i=0; i<length; i++) {
 					var injector = this.injector.createChild();
 					injector.mapValue("injector", injector);
-					injector.mapValue("scope", list[i]);
+					injector.mapValue("target", list[i]);
 					var mediator = injector.createInstance(cl);
 					arr.push(mediator);
 				}

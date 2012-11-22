@@ -30,7 +30,7 @@ module.exports = function(grunt) {
 		},
 		uglify:{
 			mangle:{
-				except:["scope"]
+				except:["target"]
 			}
 		},
 		watch:{

@@ -12,9 +12,9 @@
 		return "hello soma.js";
 	};
 
-	var Mediator = function(scope, model) {
-		$('button', scope).click(function() {
-			$('.messageContainer', scope).html(model.getData());
+	var Mediator = function(target, model) {
+		$('button', target).click(function() {
+			$('.messageContainer', target).html(model.getData());
 		});
 	};
 

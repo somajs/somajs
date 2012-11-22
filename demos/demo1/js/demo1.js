@@ -29,29 +29,29 @@
 		}
 	};
 
-	var ContainerMediator = function(scope, mediators) {
+	var ContainerMediator = function(target, mediators) {
 		for (var i=0; i<20; i++) {
-			$(scope).append('<div class="widget" data-id="' + i + '"><button class="all">Change All</button><button class="others">Change Others</button></div>');
+			$(target).append('<div class="widget" data-id="' + i + '"><button class="all">Change All</button><button class="others">Change Others</button></div>');
 		}
 		mediators.create(WidgetMediator, $('.widget'));
 	};
 
-	var WidgetMediator = function(scope, dispatcher, colorModel) {
-		var id = $(scope).attr('data-id');
+	var WidgetMediator = function(target, dispatcher, colorModel) {
+		var id = $(target).attr('data-id');
 		dispatcher.addEventListener('all', allHandler);
 		dispatcher.addEventListener('others', othersHandler);
-		$('.all', scope).click(function(event) {
+		$('.all', target).click(function(event) {
 			dispatcher.dispatch('all');
 		});
-		$('.others', scope).click(function(event) {
+		$('.others', target).click(function(event) {
 			dispatcher.dispatch('others', id);
 		});
 		function allHandler(event) {
-			$(scope).css('background-color', colorModel.getColor());
+			$(target).css('background-color', colorModel.getColor());
 		}
 		function othersHandler(event) {
 			if (id !== event.params) {
-				$(scope).css('background-color', colorModel.getColor());
+				$(target).css('background-color', colorModel.getColor());
 			}
 		}
 	};

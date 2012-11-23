@@ -24,6 +24,11 @@
 		    }
 		    return null;
 	    }
+
+		soma.template.bootstrap = function(attrValue, element, func) {
+			instance.createTemplate(func, element);
+		}
+
     };
 
 	function isElement(value) {

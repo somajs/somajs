@@ -1,3 +1,0 @@
-provide compile function (after and before compiling)
-test with template script tag
-check data before doing the dom action

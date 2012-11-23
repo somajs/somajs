@@ -3,15 +3,18 @@
 	var App = soma.Application.extend({
 		init:function () {
 			this.createPlugin(soma.template.plugin);
-			this.createTemplate(Template, document.getElementById('content'));
+			// create template manually (the other template is created from the dom)
+			this.createTemplate(MyTemplate, document.getElementById('content'));
 		}
 	});
 
-	var Template = function (scope) {
+	var MyTemplate = function (scope, dispatcher) {
 		scope.name = "John";
 		this.render();
 	};
 
 	var app = new App();
+
+	ns.MyTemplate = MyTemplate;
 
 })(this['ns'] = this['ns'] || {});

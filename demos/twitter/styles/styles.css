@@ -78,3 +78,6 @@ body {
 .twitter .tpl-tweet:hover {
 	background: #EEEEEE;
 }
+.data-cloak {
+	display: none;
+}

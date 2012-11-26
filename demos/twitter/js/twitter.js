@@ -25,8 +25,8 @@
 		}
 	};
 
-	// service that retrieve the list of tweets from the twitter API
-	// dispatches a search result events, can be listened to from anywhere
+	// service that retrieves the list of tweets from the twitter API
+	// dispatches a search result event that can be listened to from anywhere
 	var TwitterService = function (dispatcher) {
 		var url = "http://search.twitter.com/search.json";
 		return {
@@ -45,30 +45,29 @@
 
 	// template to display the list of tweets
 	var TwitterTemplate = function(scope, template, element, mediators, dispatcher) {
-		// create a mediator to handle the output
-		// optional task but for the sake of the example
+		// creates a mediator to handle the output (for the sake of the example)
 		mediators.create(MediatorInput, $('.queryInput', element));
-		// register listeners to handle search and search results events
+		// registers listeners to handle search and search results events
 		dispatcher.addEventListener(Events.SEARCH, searchHandler);
 		dispatcher.addEventListener(Events.SEARCH_RESULT, resultHandler);
-		// handle search event, change message
+		// handles a search event, change the message
 		function searchHandler(event) {
 			scope.message = "Searching...";
 			template.render();
 		}
-		// handle search result event, change message and update template repeater
+		// handles a search result event, change the message and update the tweet list
 		function resultHandler(event) {
 			scope.tweets = event.params.results;
 			scope.message = "Search result: " + scope.tweets.length;
 			template.render();
 		}
-		// open a new window to the selected tweet
+		// opens a new window to the selected tweet
 		$(element).on('click', 'li', function() {
 			window.open("http://twitter.com/" + $(this).attr('data-user') + "/statuses/" + $(this).attr('data-id-str'));
 		});
 	};
 
-	// mediator that handle the text input
+	// mediator that handles the text input
 	var MediatorInput = function (target, dispatcher) {
 		// set focus on the text input
 		setTimeout(function () { $(target).focus(); }, 50);

@@ -19,35 +19,18 @@ module.exports = function(grunt) {
 					'src/core.js',
 					'src/suffix.js'
 				],
-				dest: 'build/core/soma.js'
-			},
-			template: {
-				src: [
-					'libs/infuse.js',
-					'libs/soma-events.js',
-					'plugins/soma-template/src/soma-template.js',
-					'plugins/soma-template/src/soma-template-plugin.js',
-					'src/prefix.js',
-					'src/utils.js',
-					'src/core.js',
-					'src/suffix.js'
-				],
-				dest: 'build/template/soma.js'
+				dest: 'build/soma.js'
 			}
 		},
 		min:{
 			core:{
 				src:['<banner:meta.banner>', '<config:concat.core.dest>'],
-				dest:'build/core/soma-v<%= meta.version %>.min.js'
-			},
-			template:{
-				src:['<banner:meta.banner>', '<config:concat.template.dest>'],
-				dest:'build/template/soma-v<%= meta.version %>.min.js'
+				dest:'build/soma-v<%= meta.version %>.min.js'
 			}
 		},
 		uglify:{
 			mangle:{
-				except:['instance', 'injector'] // dont' mangle these for the soma-template-plugin
+				except:[]
 			}
 		},
 		watch:{
@@ -55,6 +38,7 @@ module.exports = function(grunt) {
 				files:[
 					'libs/*.js',
 					'src/*.js',
+					'plugins/**/*.js',
 					'grunt.js'
 				],
 				tasks:'concat min'

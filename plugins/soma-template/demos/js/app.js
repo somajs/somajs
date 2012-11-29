@@ -2,8 +2,7 @@
 
 	var App = soma.Application.extend({
 		init:function () {
-			this.createPlugin(soma.template.plugin);
-			// create template manually (the other template is created from the dom)
+			// create template manually (the other template is created from the dom wit data-template)
 			this.createTemplate(MyTemplate, document.getElementById('content'));
 		}
 	});

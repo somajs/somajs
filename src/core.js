@@ -14,6 +14,12 @@ soma.plugins.remove = function(plugin) {
 	}
 };
 
+// helpers
+function isElement(value) {
+	return value ? value.nodeType > 0 : false;
+};
+
+// framework
 soma.Application = soma.extend({
 	constructor: function() {
 		setup.bind(this)();
@@ -85,6 +91,9 @@ var Mediators = soma.extend({
 				injector.mapValue("target", list[i]);
 				var mediator = injector.createInstance(cl);
 				arr.push(mediator);
+				if (isElement(list[i]) && soma.interact) {
+					soma.interact.parse(list[i], mediator);
+				}
 			}
 			return arr;
 		}

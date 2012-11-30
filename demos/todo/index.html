@@ -16,26 +16,26 @@
 </head>
 <body>
 
-	<section id="todoapp" data-template="todo.Template">
+	<section id="todoapp">
 		<header id="header">
 			<h1>todos</h1>
-			<input id="new-todo" placeholder="What needs to be done?" autofocus>
+			<input id="new-todo" placeholder="What needs to be done?" autofocus data-keypress="add()" data-blur="clear()">
 		</header>
 		<section id="main">
 			<input id="toggle-all" type="checkbox">
 			<label for="toggle-all">Mark all as complete</label>
 			<ul id="todo-list" class="data-cloak">
-				<li data-repeat="todo in todos" data-id="{{id}}">
+				<li data-repeat="todo in todos" class="{{completedClass(todo.completed)}}" data-id="{{todo.id}}">
 					<div class="view">
-						<input class="toggle" type="checkbox" data-checked="{{completed}}">
-						<label>{{title}}</label>
-						<button class="destroy"></button>
+						<input class="toggle" type="checkbox" data-checked="{{todo.completed}}" data-click="complete()">
+						<label>{{todo.title}}</label>
+						<button class="destroy" data-click="remove()"></button>
 					</div>
-					<input class="edit" value="{{title}}">
+					<input class="edit" value="{{todo.title}}">
 				</li>
 			</ul>
 		</section>
-		<footer id="footer" class="data-cloak">
+		<footer id="footer" class="data-cloak" data-show="{{footerVisible}}">
 			<span id="todo-count"><strong>{{active}}</strong> {{itemLabel}} left</span>
 			<button id="clear-completed">Clear completed ({{completed}})</button>
 		</footer>
@@ -49,11 +49,12 @@
 	</footer>
 
 	<!--<script src="../../../assets/base.js"></script>-->
-	<script src="../../build/soma-v2.0.0.min.js"></script>
 	<script src="assets/jquery.min.js"></script>
+	<script src="../../build/soma-v2.0.0.min.js"></script>
+	<script src="js/lib/soma-template.js"></script>
 	<script src="js/todos/models/models.js"></script>
 	<script src="js/todos/views/views.js"></script>
-	<!--<script src="js/todos/controllers/controllers.js"></script>-->
+	<script src="js/todos/controllers/controllers.js"></script>
 	<script src="js/app.js"></script>
 </body>
 </html>

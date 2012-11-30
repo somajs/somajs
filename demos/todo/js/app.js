@@ -3,13 +3,31 @@ var todo = window.todo || {};
 (function( window ) {
 	'use strict';
 
+	todo.events = {
+		'ADD':'TodoEvent.ADD',
+		'RENDER':'TodoEvent.RENDER',
+		'REMOVE':'TodoEvent.REMOVE',
+		'TOGGLE':'TodoEvent.TOGGLE'
+	};
+//	todo.TodoEvent.CREATE = 'TodoEvent.CREATE';
+//	todo.TodoEvent.DELETE = 'TodoEvent.DELETE';
+//	todo.TodoEvent.UPDATE = 'TodoEvent.UPDATE';
+//	todo.TodoEvent.TOGGLE = 'TodoEvent.TOGGLE';
+//	todo.TodoEvent.TOGGLE_ALL = 'TodoEvent.TOGGLE_ALL';
+//	todo.TodoEvent.CLEAR_COMPLETED = 'TodoEvent.CLEAR_COMPLETED';
+
 	todo.TodoApp = soma.Application.extend({
 
 		init: function() {
 
-			this.createPlugin(soma.template.plugin);
+			this.injector.mapClass('model', todo.Model, true);
 
-			this.injector.mapClass("model", todo.Model, true);
+			this.commands.add( todo.events.ADD, todo.TodoCommand );
+			this.commands.add( todo.events.REMOVE, todo.TodoCommand );
+			this.commands.add( todo.events.TOGGLE, todo.TodoCommand );
+			this.commands.add( todo.events.RENDER, todo.TodoCommand );
+
+			this.createTemplate(todo.Template, document.getElementById('todoapp'));
 
 //			this.addModel( todo.TodoModel.NAME, new todo.TodoModel() );
 //
@@ -27,7 +45,8 @@ var todo = window.todo || {};
 		},
 
 		start: function() {
-//			this.dispatchEvent( new todo.TodoEvent( todo.TodoEvent.RENDER ) );
+			var model = this.injector.getValue('model');
+			this.dispatcher.dispatch( todo.events.RENDER, model.data );
 		}
 
 	});

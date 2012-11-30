@@ -3,7 +3,6 @@
 	// application
 	var App = soma.Application.extend({
 		init:function () {
-			this.createPlugin(soma.template.plugin);
 			this.injector.mapClass('service', TwitterService, true);
 			this.commands.add(Events.SEARCH, SearchCommand);
 		}
@@ -49,7 +48,7 @@
 		mediators.create(MediatorInput, $('.queryInput', element));
 		// registers listeners to handle search and search results events
 		dispatcher.addEventListener(Events.SEARCH, searchHandler);
-		dispatcher.addEventListener(Events.SEARCH_RESULT, resultHandler);
+		dispatcher.addEventListener(Events.SEARCH_RESULT, resultHandler.bind(this));
 		// handles a search event, change the message
 		function searchHandler(event) {
 			scope.message = "Searching...";
@@ -60,23 +59,21 @@
 			scope.tweets = event.params.results;
 			scope.message = "Search result: " + scope.tweets.length;
 			template.render();
+			soma.interact.parse(element, this);
 		}
 		// opens a new window to the selected tweet
-		$(element).on('click', 'li', function() {
-			window.open("http://twitter.com/" + $(this).attr('data-user') + "/statuses/" + $(this).attr('data-id-str'));
-		});
+		this.openTweet = function(event) {
+			window.open("http://twitter.com/" + event.currentTarget.getAttribute('data-user') + "/statuses/" + event.currentTarget.getAttribute('data-id-str'));
+		}
 	};
 
 	// mediator that handles the text input
 	var MediatorInput = function (target, dispatcher) {
-		// set focus on the text input
-		setTimeout(function () { $(target).focus(); }, 50);
-		// handle keyboard event (ENTER)
-		$(target).keypress(function (event) {
-			if (event.keyCode === 13 && this.value !== "") {
+		this.search = function(event) {
+			if (event.which === 13 && this.value !== "") {
 				dispatcher.dispatch(Events.SEARCH, this.value);
 			}
-		});
+		}
 	};
 
 	// create application

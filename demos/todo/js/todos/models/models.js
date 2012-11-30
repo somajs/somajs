@@ -3,7 +3,8 @@ var todo = window.todo || {};
 (function( window ) {
 	'use strict';
 
-	todo.Model = function() {
+	todo.Model = function(dispatcher) {
+		this.dispatcher = dispatcher;
 		this.dataFooter = null;
 		this.storeKey = 'todos-somajs';
 		this.data = JSON.parse( this.getStore() ) || [];
@@ -95,9 +96,9 @@ var todo = window.todo || {};
 		},
 
 		update: function() {
-			this.updateDataFooter();
+			//this.updateDataFooter();
 			this.setStore( this.data );
-			this.dispatchEvent( new todo.TodoEvent( todo.TodoEvent.RENDER ) );
+			this.dispatcher.dispatch( todo.events.RENDER, this.data );
 		},
 
 		getStore: function() {

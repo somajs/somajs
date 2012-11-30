@@ -5,7 +5,63 @@ var todo = window.todo || {};
 
 	var ENTER_KEY = 13;
 
-	todo.Template = function(scope, template, model) {
+	todo.Template = function(scope, template, dispatcher) {
+
+		scope.completedClass = function(completed) {
+			return completed ? 'completed' : '';
+		}
+
+		dispatcher.addEventListener( todo.events.RENDER, function(event) {
+			scope.todos = event.params;
+			scope.active = getActiveItems(event.params);
+			scope.completed = scope.todos.length - scope.active;
+			scope.footerVisible = scope.todos.length > 0 ? true : false;
+			scope.itemLabel = scope.active === 1 ? 'item' : 'items';
+			template.render();
+			soma.interact.parse(template.element, this);
+		}.bind(this));
+
+		function getActiveItems(data) {
+			var i,
+				count = 0;
+
+			for ( i = 0; i < data.length; i++ ) {
+				if ( !data[ i ].completed ) {
+					count++;
+				}
+			}
+
+			return count;
+		};
+
+		function getId(element) {
+			if (element && element.tagName === 'LI' && element.getAttribute('data-id')) {
+				return element.getAttribute('data-id');
+			}
+			else {
+				return getId(element.parentNode);
+			}
+		};
+
+		this.add = function(event) {
+			if ( event.which === ENTER_KEY ) {
+				var value = event.currentTarget.value.trim();
+				dispatcher.dispatch( todo.events.ADD, value );
+				event.currentTarget.value = '';
+			}
+		};
+
+		this.remove = function(event, id) {
+			dispatcher.dispatch( todo.events.REMOVE, getId(event.currentTarget) );
+		};
+
+		this.complete = function() {
+			dispatcher.dispatch( todo.events.TOGGLE, getId(event.currentTarget) );
+		};
+
+		this.clear = function(event) {
+			event.currentTarget.value = '';
+		};
 
 	}
 

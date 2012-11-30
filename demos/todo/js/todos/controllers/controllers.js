@@ -15,6 +15,9 @@ var todo = window.todo || {};
 				case todo.events.TOGGLE:
 					model.toggleItem( event.params );
 					break;
+				case todo.events.CLEAR_COMPLETED:
+					model.clearCompleted();
+					break;
 			}
 		}
 	}

@@ -786,13 +786,8 @@ Attribute.prototype = {
 		}
 		// checked
 		if (this.name === attributes.checked) {
-			if (ie === 7) {
-				// IE
-				element.checked = isAttributeDefined(this.value) ? true : false;
-			}
-			else {
-				renderSpecialAttribute(this.name, this.value, 'checked');
-			}
+			renderSpecialAttribute(this.name, this.value, 'checked');
+			element.checked = isAttributeDefined(this.value) ? true : false;
 		}
 		// disabled
 		if (this.name === attributes.disabled) {

@@ -4,10 +4,11 @@ var todo = window.todo || {};
 	'use strict';
 
 	todo.events = {
-		'ADD':'TodoEvent.ADD',
-		'RENDER':'TodoEvent.RENDER',
-		'REMOVE':'TodoEvent.REMOVE',
-		'TOGGLE':'TodoEvent.TOGGLE'
+		'ADD':'add',
+		'RENDER':'render',
+		'REMOVE':'remove',
+		'TOGGLE':'toggle',
+		'CLEAR_COMPLETED':'clear_completed'
 	};
 //	todo.TodoEvent.CREATE = 'TodoEvent.CREATE';
 //	todo.TodoEvent.DELETE = 'TodoEvent.DELETE';
@@ -25,6 +26,7 @@ var todo = window.todo || {};
 			this.commands.add( todo.events.ADD, todo.TodoCommand );
 			this.commands.add( todo.events.REMOVE, todo.TodoCommand );
 			this.commands.add( todo.events.TOGGLE, todo.TodoCommand );
+			this.commands.add( todo.events.CLEAR_COMPLETED, todo.TodoCommand );
 			this.commands.add( todo.events.RENDER, todo.TodoCommand );
 
 			this.createTemplate(todo.Template, document.getElementById('todoapp'));

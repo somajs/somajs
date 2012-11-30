@@ -15,10 +15,14 @@ var todo = window.todo || {};
 			scope.todos = event.params;
 			scope.active = getActiveItems(event.params);
 			scope.completed = scope.todos.length - scope.active;
+			scope.clearCompletedVisible = scope.completed > 0 ? true : false;
 			scope.footerVisible = scope.todos.length > 0 ? true : false;
 			scope.itemLabel = scope.active === 1 ? 'item' : 'items';
 			template.render();
 			soma.interact.parse(template.element, this);
+
+			console.log($('li', template.element));
+
 		}.bind(this));
 
 		function getActiveItems(data) {
@@ -44,8 +48,8 @@ var todo = window.todo || {};
 		};
 
 		this.add = function(event) {
-			if ( event.which === ENTER_KEY ) {
-				var value = event.currentTarget.value.trim();
+			var value = event.currentTarget.value.trim();
+			if ( event.which === ENTER_KEY && value !== '' ) {
 				dispatcher.dispatch( todo.events.ADD, value );
 				event.currentTarget.value = '';
 			}
@@ -57,6 +61,10 @@ var todo = window.todo || {};
 
 		this.complete = function() {
 			dispatcher.dispatch( todo.events.TOGGLE, getId(event.currentTarget) );
+		};
+
+		this.clearCompleted = function() {
+			dispatcher.dispatch( todo.events.CLEAR_COMPLETED );
 		};
 
 		this.clear = function(event) {

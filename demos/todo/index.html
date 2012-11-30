@@ -37,7 +37,7 @@
 		</section>
 		<footer id="footer" class="data-cloak" data-show="{{footerVisible}}">
 			<span id="todo-count"><strong>{{active}}</strong> {{itemLabel}} left</span>
-			<button id="clear-completed">Clear completed ({{completed}})</button>
+			<button id="clear-completed" data-show="{{clearCompletedVisible()}}" data-click="clearCompleted()">Clear completed ({{completed}})</button>
 		</footer>
 	</section>
 

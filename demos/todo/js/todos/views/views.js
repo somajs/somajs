@@ -5,25 +5,30 @@ var todo = window.todo || {};
 
 	var ENTER_KEY = 13;
 
-	todo.Template = function(scope, template, dispatcher) {
+	todo.Template = function( scope, template, dispatcher ) {
 
-		scope.completedClass = function(completed) {
-			return completed ? 'completed' : '';
-		}
+		dispatcher.addEventListener( todo.events.RENDER, function( event ) {
 
-		dispatcher.addEventListener( todo.events.RENDER, function(event) {
+			// update template data
 			scope.todos = event.params;
-			scope.active = getActiveItems(event.params);
+			scope.active = getActiveItems( event.params );
 			scope.completed = scope.todos.length - scope.active;
+			scope.allCompleted = scope.todos.length > 0 && scope.active == 0 ? true : false;
 			scope.clearCompletedVisible = scope.completed > 0 ? true : false;
 			scope.footerVisible = scope.todos.length > 0 ? true : false;
 			scope.itemLabel = scope.active === 1 ? 'item' : 'items';
+
+			// render template
 			template.render();
+
+			// update template links
 			soma.interact.parse(template.element, this);
 
-			console.log($('li', template.element));
+		}.bind( this ));
 
-		}.bind(this));
+		scope.completedClass = function( completed ) {
+			return completed ? 'completed' : '';
+		};
 
 		function getActiveItems(data) {
 			var i,
@@ -38,16 +43,15 @@ var todo = window.todo || {};
 			return count;
 		};
 
-		function getId(element) {
-			if (element && element.tagName === 'LI' && element.getAttribute('data-id')) {
-				return element.getAttribute('data-id');
-			}
-			else {
-				return getId(element.parentNode);
-			}
+		function getLi( element ) {
+			return element && element.tagName === 'LI' ? element : getLi( element.parentNode );
 		};
 
-		this.add = function(event) {
+		function getLiId( element ) {
+			return getLi( element ).getAttribute( 'data-id' );
+		};
+
+		this.add = function( event ) {
 			var value = event.currentTarget.value.trim();
 			if ( event.which === ENTER_KEY && value !== '' ) {
 				dispatcher.dispatch( todo.events.ADD, value );
@@ -55,12 +59,37 @@ var todo = window.todo || {};
 			}
 		};
 
-		this.remove = function(event, id) {
-			dispatcher.dispatch( todo.events.REMOVE, getId(event.currentTarget) );
+		this.edit = function( event ) {
+			getLi( event.currentTarget ).classList.add( 'editing' );
 		};
 
-		this.complete = function() {
-			dispatcher.dispatch( todo.events.TOGGLE, getId(event.currentTarget) );
+		this.update = function( event ) {
+			var value = event.currentTarget.value.trim();
+			if ( event.which === ENTER_KEY ) {
+				var id = getLiId( event.currentTarget );
+				if ( value ) {
+					dispatcher.dispatch( todo.events.UPDATE, {
+						id: id,
+						title: value
+					});
+				}
+				else {
+					dispatcher.dispatch( todo.events.REMOVE, id );
+				}
+				getLi( event.currentTarget ).classList.remove( 'editing' );
+			}
+		};
+
+		this.remove = function( event, id ) {
+			dispatcher.dispatch( todo.events.REMOVE, getLiId( event.currentTarget ) );
+		};
+
+		this.toggle = function(event) {
+			dispatcher.dispatch( todo.events.TOGGLE, getLiId(event.currentTarget) );
+		};
+
+		this.toggleAll = function(event) {
+			dispatcher.dispatch( todo.events.TOGGLE_ALL, event.currentTarget.checked );
 		};
 
 		this.clearCompleted = function() {
@@ -71,119 +100,6 @@ var todo = window.todo || {};
 			event.currentTarget.value = '';
 		};
 
-	}
-
-//	todo.TodoListView = soma.View.extend({
-//		template: null,
-//
-//		init: function() {
-//			this.template = Handlebars.compile( $( '#' + this.domElement.id + '-template' ).html() );
-//			$( this.domElement ).on( 'click', '.destroy', this.destroy.bind( this ) );
-//			$( this.domElement ).on( 'click', '.toggle', this.toggle.bind( this ) );
-//			$( this.domElement ).on( 'dblclick', 'label', this.edit );
-//			$( this.domElement ).on( 'blur', '.edit', this.update.bind( this ) );
-//			$( this.domElement ).on( 'keypress', '.edit', this.blurInput );
-//			$('#toggle-all').click( this.toggleAll );
-//		},
-//
-//		render: function( data, activeCount ) {
-//			$(this.domElement).html( this.template( data ) );
-//			$('#toggle-all').prop( 'checked', !activeCount );
-//			$('#main').toggle( !!data.length );
-//		},
-//
-//		destroy: function( event ) {
-//			var id = $(event.target).closest('li').attr('data-id');
-//			this.dispatchEvent( new todo.TodoEvent( todo.TodoEvent.DELETE, null, id ) );
-//		},
-//
-//		toggle: function( event ) {
-//			var id = $(event.target).closest('li').attr('data-id');
-//			this.dispatchEvent( new todo.TodoEvent( todo.TodoEvent.TOGGLE, null, id ) );
-//		},
-//
-//		toggleAll: function() {
-//			this.dispatchEvent( new todo.TodoEvent( todo.TodoEvent.TOGGLE_ALL, null, null, $( this ).prop('checked') ) );
-//		},
-//
-//		edit: function( event ) {
-//			$( this ).closest('li').addClass('editing').find('.edit').focus();
-//		},
-//
-//		update: function( event ) {
-//			var li = $( event.target ).closest('li').removeClass('editing'),
-//				id = li.data('id'),
-//				val = li.find('.edit').val().trim();
-//
-//			if ( val ) {
-//				this.dispatchEvent( new todo.TodoEvent( todo.TodoEvent.UPDATE, val, id ) );
-//			}
-//			else {
-//				this.dispatchEvent( new todo.TodoEvent( todo.TodoEvent.DELETE, null, id ) );
-//			}
-//		},
-//
-//		blurInput: function( event ) {
-//			if ( event.which === ENTER_KEY ) {
-//				event.target.blur();
-//			}
-//		}
-//	});
-//
-//	todo.TodoListView.NAME = 'TodoListView';
-//
-//	todo.TodoInputView = soma.View.extend({
-//
-//		init: function() {
-//			$( this.domElement ).keypress( this.keyPressHandler.bind( this ) );
-//			$( this.domElement ).blur( this.blur );
-//		},
-//
-//		keyPressHandler: function( event ) {
-//			if ( event.which === ENTER_KEY ) {
-//				this.createItem();
-//			}
-//		},
-//
-//		createItem: function() {
-//			var value = this.domElement.value.trim();
-//
-//			if ( value ) {
-//				this.dispatchEvent( new todo.TodoEvent( todo.TodoEvent.CREATE, value ) );
-//			}
-//
-//			this.domElement.value = '';
-//		},
-//
-//		blur: function( event ) {
-//			if ( !this.value.trim() ) {
-//				this.value = '';
-//			}
-//		}
-//
-//	});
-//
-//	todo.TodoInputView.NAME = 'TodoInputView';
-//
-//	todo.FooterView = soma.View.extend({
-//		template: null,
-//
-//		init: function() {
-//			this.template = Handlebars.compile( $( '#' + this.domElement.id + '-template' ).html() );
-//			$( this.domElement ).on( 'click', '#clear-completed', this.clearCompleted.bind( this ) );
-//		},
-//
-//		render: function( data ) {
-//			$( this.domElement ).html( this.template( data ) );
-//			$( this.domElement ).toggle( !!data.length );
-//			$('#clear-completed').toggle( !!data.completed );
-//		},
-//
-//		clearCompleted: function( event ) {
-//			this.dispatchEvent( new todo.TodoEvent( todo.TodoEvent.CLEAR_COMPLETED ) );
-//		}
-//	});
-//
-//	todo.FooterView.NAME = 'FooterView';
+	};
 
 })( window );

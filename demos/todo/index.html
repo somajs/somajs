@@ -22,16 +22,16 @@
 			<input id="new-todo" placeholder="What needs to be done?" autofocus data-keypress="add()" data-blur="clear()">
 		</header>
 		<section id="main">
-			<input id="toggle-all" type="checkbox">
+			<input id="toggle-all" type="checkbox" data-click="toggleAll()" data-checked="{{allCompleted}}">
 			<label for="toggle-all">Mark all as complete</label>
 			<ul id="todo-list" class="data-cloak">
 				<li data-repeat="todo in todos" class="{{completedClass(todo.completed)}}" data-id="{{todo.id}}">
 					<div class="view">
-						<input class="toggle" type="checkbox" data-checked="{{todo.completed}}" data-click="complete()">
-						<label>{{todo.title}}</label>
+						<input class="toggle" type="checkbox" data-checked="{{todo.completed}}" data-click="toggle()">
+						<label data-dblclick="edit()">{{todo.title}}</label>
 						<button class="destroy" data-click="remove()"></button>
 					</div>
-					<input class="edit" value="{{todo.title}}">
+					<input class="edit" value="{{todo.title}}" data-keypress="update()">
 				</li>
 			</ul>
 		</section>
@@ -48,10 +48,9 @@
 		<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
 	</footer>
 
-	<!--<script src="../../../assets/base.js"></script>-->
-	<script src="assets/jquery.min.js"></script>
 	<script src="../../build/soma-v2.0.0.min.js"></script>
 	<script src="js/lib/soma-template.js"></script>
+	<script src="js/lib/classList.js"></script>
 	<script src="js/todos/models/models.js"></script>
 	<script src="js/todos/views/views.js"></script>
 	<script src="js/todos/controllers/controllers.js"></script>

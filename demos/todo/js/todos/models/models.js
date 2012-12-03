@@ -3,25 +3,13 @@ var todo = window.todo || {};
 (function( window ) {
 	'use strict';
 
-	todo.Model = function(dispatcher) {
+	todo.Model = function( dispatcher ) {
 		this.dispatcher = dispatcher;
-		this.dataFooter = null;
 		this.storeKey = 'todos-somajs';
 		this.data = JSON.parse( this.getStore() ) || [];
-		this.updateDataFooter();
 	};
 
 	todo.Model.prototype = {
-
-		updateDataFooter: function() {
-			var active = this.getActiveLength();
-			this.dataFooter = {
-				active: active,
-				itemLabel: active === 1 ? 'item' : 'items',
-				completed: this.data.length - active,
-				length: this.data.length
-			};
-		},
 
 		addItem: function( title ) {
 			this.data.push({
@@ -50,53 +38,33 @@ var todo = window.todo || {};
 
 		toggleAll: function( toggleValue ) {
 			var i;
-
 			for ( i = 0; i < this.data.length; i++ ) {
 				this.data[i].completed = toggleValue;
 			}
-
 			this.update();
 		},
 
 		clearCompleted: function() {
 			var i = this.data.length;
-
 			while ( i-- ) {
 				if ( this.data[ i ].completed ) {
 					this.data.splice( i, 1 );
 				}
 			}
-
 			this.update();
 		},
 
 		getIndexById: function( id ) {
 			var i;
-
 			for ( i = 0; i < this.data.length; i++ ) {
 				if ( this.data[ i ].id === id ) {
 					return i;
 				}
 			}
-
 			return -1;
 		},
 
-		getActiveLength: function() {
-			var i,
-				count = 0;
-
-			for ( i = 0; i < this.data.length; i++ ) {
-				if ( !this.data[ i ].completed ) {
-					count++;
-				}
-			}
-
-			return count;
-		},
-
 		update: function() {
-			//this.updateDataFooter();
 			this.setStore( this.data );
 			this.dispatcher.dispatch( todo.events.RENDER, this.data );
 		},

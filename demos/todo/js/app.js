@@ -17,7 +17,7 @@ var todo = window.todo || {};
 			this.commands.add( todo.events.CLEAR_COMPLETED, todo.TodoCommand );
 			this.commands.add( todo.events.RENDER, todo.TodoCommand );
 
-			this.createTemplate(todo.Template, document.getElementById( 'todoapp' ));
+			this.createTemplate( todo.Template, document.getElementById( 'todoapp' ) );
 
 		},
 

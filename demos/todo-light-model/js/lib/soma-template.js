@@ -282,22 +282,17 @@ function getValue(scope, pattern, pathString, params, getFunction, getParams, pa
 	// remove parent string
 	pattern = pattern.replace(/..\//g, '');
 	pathString = pathString.replace(/..\//g, '');
-	console.log('SEARCH FOR:', pattern, scope);
 	if (!scopeTarget) return undefined;
 	// search path
 	var path = scopeTarget;
 	var pathParts = pathString.split(/\.|\[|\]/g);
-	console.log('pathParts', pathParts);
 	if (pathParts.length > 0) {
 		var i = -1, l = pathParts.length;
 		while (++i < l) {
 			if (pathParts[i] !== "") {
-				console.log('val', path, pathParts[i], path[pathParts[i]]);
 				path = path[pathParts[i]];
-				console.log('res', path);
 			}
 			if (!isDefined(path)) {
-				console.log('NOT DEFINED');
 				// no path, search in parent
 				if (scopeTarget._parent) return getValue(scopeTarget._parent, pattern, pathString, params, getFunction, getParams, paramsValues);
 				else return undefined;
@@ -305,7 +300,6 @@ function getValue(scope, pattern, pathString, params, getFunction, getParams, pa
 		}
 	}
 	// return value
-	console.log('PATH', path, isFunction(path));
 	if (!isFunction(path)) {
 		return path;
 	}
@@ -380,9 +374,12 @@ function handleEvent(event) {
 	for (var i in handlers) {
 		this.$$handleEvent = handlers[i];
 
-		if (this.$$handleEvent.$params) {
-			this.$$handleEvent.$params.unshift(event);
-			if (this.$$handleEvent.apply(null, this.$$handleEvent.$params) === false) {
+
+		console.log(event.currentTarget.$params);
+
+		if (event.currentTarget.$params && event.currentTarget.$params[event.type]) {
+			event.currentTarget.$params[event.type].unshift(event);
+			if (this.$$handleEvent.apply(null, event.currentTarget.$params[event.type]) === false) {
 				returnValue = false;
 			}
 		}
@@ -444,38 +441,41 @@ function getNodeFromElement(element, scope, isRepeaterDescendant) {
 					name === settings.attributes.multiple ||
 					name === settings.attributes.readonly ||
 					name === settings.attributes.selected ||
+					name === 'data-click' ||
+					name === 'data-keypress' ||
+					name === 'data-dblclick' ||
 					value.indexOf(settings.attributes.cloak) !== -1
 				) {
 				attributes.push(new Attribute(name, value, node));
 			}
-			console.log(name);
-			if (name === 'data-click') {
-				var exp = new Expression(value, node);
-				var handler = exp.getValue(node.scope, true);
-				if (handler) {
-					var expParams = new Expression(value, node);
-					handler.$params = expParams.getValue(node.scope, false, true);
-					addEvent(element, 'click', handler);
-				}
-			}
-			else if (name === 'data-dblclick') {
-				var exp = new Expression(value, node);
-				var handler = exp.getValue(node.scope, true);
-				if (handler) {
-					var expParams = new Expression(value, node);
-					handler.$params = expParams.getValue(node.scope, false, true);
-					addEvent(element, 'dblclick', handler);
-				}
-			}
-			else if (name === 'data-keypress') {
-				var exp = new Expression(value, node);
-				var handler = exp.getValue(node.scope, true);
-				if (handler) {
-					var expParams = new Expression(value, node);
-					handler.$params = expParams.getValue(node.scope, false, true);
-					addEvent(element, 'keypress', handler);
-				}
-			}
+//			if (name === 'data-click') {
+//				var exp = new Expression(value, node);
+//				var handler = exp.getValue(node.scope, true);
+//				if (handler) {
+//					var expParams = new Expression(value, node);
+//					handler.$params = expParams.getValue(node.scope, false, true);
+//					addEvent(element, 'click', handler);
+//				}
+//			}
+//			else if (name === 'data-dblclick') {
+//				var exp = new Expression(value, node);
+//				var handler = exp.getValue(node.scope, true);
+//				if (handler) {
+//					var expParams = new Expression(value, node);
+//					handler.$params = expParams.getValue(node.scope, false, true);
+//					addEvent(element, 'dblclick', handler);
+//				}
+//			}
+//			else if (name === 'data-keypress') {
+//				var exp = new Expression(value, node);
+//				var handler = exp.getValue(node.scope, true);
+//				if (handler) {
+//					var expParams = new Expression(value, node);
+//					element.$params = element.$params || {};
+//					element.$params['keypress'] = expParams.getValue(node.scope, false, true);
+//					addEvent(element, 'keypress', handler);
+//				}
+//			}
 		}
 	}
 	node.attributes = attributes;
@@ -838,6 +838,9 @@ var Attribute = function(name, value, node) {
 	this.interpolationValue = new Interpolation(this.value, null, this);
 	this.invalidate = false;
 };
+
+var handlers = new HashMap();
+
 Attribute.prototype = {
 	toString: function() {
 		return '[object Attribute]';
@@ -859,6 +862,26 @@ Attribute.prototype = {
 	render: function() {
 		if (this.node.repeater) return;
 		var element = this.node.element;
+
+
+
+
+
+		if (this.name === 'data-click' || this.name === 'data-dblclick' || this.name === 'data-keypress') {
+			var exp = new Expression(this.value, this.node);
+			var handler = exp.getValue(this.node.scope, true);
+			if (handler) {
+				var expParams = new Expression(this.value, this.node);
+				element.$params = element.$params || {};
+				element.$params[this.name.replace('data-','')] = expParams.getValue(this.node.scope, false, true);
+				addEvent(element, this.name.replace('data-',''), handler);
+			}
+		}
+
+
+
+
+
 		if (this.invalidate) {
 			this.invalidate = false;
 			this.previousName = this.name;

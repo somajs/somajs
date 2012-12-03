@@ -10,8 +10,11 @@ var todo = window.todo || {};
 		var todos = scope.todos = model.get();
 
 		scope.remove = function(event, todo) {
-			todos.splice(todos.indexOf(todo), 1);
-			render();
+			console.log('remove', todo);
+			if (todo) {
+				todos.splice(todos.indexOf(todo), 1);
+				render();
+			}
 		};
 
 		scope.addItem = function(event) {

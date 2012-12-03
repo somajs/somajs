@@ -710,6 +710,11 @@
 			if (isFunction(object[func])) {
 				return object[func];
 			}
+			else {
+				if (object._parent) {
+					return getHandlerFromPattern(object._parent, pattern, child)
+				}
+			}
 		}
 	}
 

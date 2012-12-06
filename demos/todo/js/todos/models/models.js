@@ -37,14 +37,17 @@ var todo = window.todo || {};
 		},
 
 		toggleAll: function( toggleValue ) {
-			var i;
-			for ( i = 0; i < this.data.length; i++ ) {
-				this.data[i].completed = toggleValue;
-			}
+			this.data.forEach(function( item ) {
+				item.completed = toggleValue;
+			});
 			this.update();
 		},
 
 		clearCompleted: function() {
+			this.data = this.data.filter(function( item ) {
+				return !item.completed;
+			});
+
 			var i = this.data.length;
 			while ( i-- ) {
 				if ( this.data[ i ].completed ) {

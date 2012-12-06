@@ -59,11 +59,10 @@
 			scope.tweets = event.params.results;
 			scope.message = "Search result: " + scope.tweets.length;
 			template.render();
-			soma.interact.parse(element, this);
 		}
 		// opens a new window to the selected tweet
-		this.openTweet = function(event) {
-			window.open("http://twitter.com/" + event.currentTarget.getAttribute('data-user') + "/statuses/" + event.currentTarget.getAttribute('data-id-str'));
+		scope.visit = function(event, user, id) {
+			window.open("http://twitter.com/" + user + "/statuses/" + id);
 		}
 	};
 

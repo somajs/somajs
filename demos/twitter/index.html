@@ -8,12 +8,12 @@
 
 <div class="twitter" data-template="twitter.TwitterTemplate">
 	<div class="search">
-		<input class="queryInput" placeholder="Search twitter" data-keypress="search()"/>
+		<input class="queryInput" placeholder="Search twitter" data-keypress="search()" autofocus/>
 		<div class="message data-cloak">{{message}}</div>
 	</div>
 	<div class="result">
 		<ul class="data-cloak">
-			<li data-repeat="tweet in tweets" data-id-str="{{tweet.id_str}}" data-user="{{tweet.from_user}}" data-click="openTweet()">
+			<li data-repeat="tweet in tweets" data-click="visit(tweet.from_user, tweet.id_str)">
 				<div class="tpl-tweet">
 					<img data-src="{{tweet.profile_image_url}}" alt=""/>
 					<div class="tpl-tweet-username">{{tweet.from_user}}</div>

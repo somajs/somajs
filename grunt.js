@@ -14,7 +14,6 @@ module.exports = function(grunt) {
 				src: [
 					'libs/infuse.js',
 					'libs/soma-events.js',
-					'libs/soma-interact.js',
 					'src/prefix.js',
 					'src/utils.js',
 					'src/core.js',

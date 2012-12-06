@@ -25,13 +25,13 @@
 			<input id="toggle-all" type="checkbox" data-click="toggleAll()" data-checked="{{allCompleted}}">
 			<label for="toggle-all">Mark all as complete</label>
 			<ul id="todo-list" class="data-cloak">
-				<li data-repeat="todo in todos" class="{{completedClass(todo.completed)}}" data-id="{{todo.id}}">
+				<li data-repeat="todo in todos" class="{{completedClass(todo.completed)}}">
 					<div class="view">
-						<input class="toggle" type="checkbox" data-checked="{{todo.completed}}" data-click="toggle()">
+						<input class="toggle" type="checkbox" data-checked="{{todo.completed}}" data-click="toggle(todo.id)">
 						<label data-dblclick="edit()">{{todo.title}}</label>
-						<button class="destroy" data-click="remove()"></button>
+						<button class="destroy" data-click="remove(todo.id)"></button>
 					</div>
-					<input class="edit" value="{{todo.title}}" data-keypress="update()">
+					<input class="edit" value="{{todo.title}}" data-keypress="update(todo.id)">
 				</li>
 			</ul>
 		</section>

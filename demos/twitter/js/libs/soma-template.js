@@ -3,7 +3,7 @@
 	'use strict';
 
 soma.template = soma.template || {};
-soma.template.version = "0.0.8";
+soma.template.version = "0.1.0";
 
 var errors = soma.template.errors = {
 	TEMPLATE_STRING_NO_ELEMENT: "Error in soma.template, a string template requirement a second parameter: an element target - soma.template.create('string', element)",
@@ -56,6 +56,15 @@ var vars = settings.vars = {
 	index: "$index",
 	key: "$key"
 };
+
+var events = settings.events = {};
+settings.eventsPrefix = 'data-';
+var eventsString = 'click dblclick mousedown mouseup mouseover mouseout mousemove mouseenter mouseleave keydown keyup focus blur change select selectstart scroll copy cut paste mousewheel keypress error contextmenu input textinput drag dragenter dragleave dragover dragend dragstart dragover drop load submit reset search resize beforepaste beforecut beforecopy';
+var eventsArray = eventsString.split(' ');
+var i = -1, l = eventsArray.length;
+while(++i < l) {
+	events[settings.eventsPrefix + eventsArray[i]] = eventsArray[i];
+}
 
 var regex = {
 	sequence: null,
@@ -180,6 +189,25 @@ function removeClass(elm, className) {
 	}
 	removeClass(elm, className);
 }
+// jquery contains
+var contains = document.documentElement.contains ?
+	function( a, b ) {
+		var adown = a.nodeType === 9 ? a.documentElement : a,
+			bup = b && b.parentNode;
+		return a === bup || !!( bup && bup.nodeType === 1 && adown.contains && adown.contains(bup) );
+	} :
+	document.documentElement.compareDocumentPosition ?
+		function( a, b ) {
+			return b && !!( a.compareDocumentPosition( b ) & 16 );
+		} :
+		function( a, b ) {
+			while ( (b = b.parentNode) ) {
+				if ( b === a ) {
+					return true;
+				}
+			}
+			return false;
+		};
 function HashMap(){
 	var uuid = function(a,b){for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b;}
 	var data = {};
@@ -258,10 +286,10 @@ function getScopeFromPattern(scope, pattern) {
 
 function getValueFromPattern(scope, pattern) {
 	var exp = new Expression(pattern);
-	return getValue(scope, exp.pattern, exp.path, exp.params, exp.isFunction);
+	return getValue(scope, exp.pattern, exp.path, exp.params);
 }
 
-function getValue(scope, pattern, pathString, params, paramsFound) {
+function getValue(scope, pattern, pathString, params, getFunction, getParams, paramsFound) {
 	// string
 	if (regex.string.test(pattern)) {
 		return trimQuotes(pattern);
@@ -275,6 +303,7 @@ function getValue(scope, pattern, pathString, params, paramsFound) {
 		}
 	}
 	else paramsValues = paramsFound;
+	if (getParams) return paramsValues;
 	// find scope
 	var scopeTarget = getScopeFromPattern(scope, pattern);
 	// remove parent string
@@ -292,7 +321,7 @@ function getValue(scope, pattern, pathString, params, paramsFound) {
 			}
 			if (!isDefined(path)) {
 				// no path, search in parent
-				if (scopeTarget._parent) return getValue(scopeTarget._parent, pattern, pathString, params, paramsValues);
+				if (scopeTarget._parent) return getValue(scopeTarget._parent, pattern, pathString, params, getFunction, getParams, paramsValues);
 				else return undefined;
 			}
 		}
@@ -302,7 +331,8 @@ function getValue(scope, pattern, pathString, params, paramsFound) {
 		return path;
 	}
 	else {
-		return path.apply(null, paramsValues);
+		if (getFunction) return path;
+		else return path.apply(null, paramsValues);
 	}
 	return undefined;
 }
@@ -352,6 +382,10 @@ function getNodeFromElement(element, scope, isRepeaterDescendant) {
 					name === settings.attributes.selected ||
 					value.indexOf(settings.attributes.cloak) !== -1
 				) {
+				attributes.push(new Attribute(name, value, node));
+			}
+			if (events[name]) {
+				node.addEvent(events[name], value);
 				attributes.push(new Attribute(name, value, node));
 			}
 		}
@@ -493,6 +527,9 @@ function cloneRepeaterNode(element, node) {
 				var attribute = new Attribute(node.attributes[i].name, node.attributes[i].value, newNode);
 				attrs.push(attribute);
 			}
+			if (events[node.attributes[i].name]) {
+				newNode.addEvent(events[node.attributes[i].name], node.attributes[i].value);
+			}
 		}
 		newNode.isRepeaterDescendant = true;
 		newNode.attributes = attrs;
@@ -572,6 +609,7 @@ var Node = function(element, scope) {
 	this.previousSibling = null;
 	this.nextSibling = null;
 	this.template = null;
+	this.eventHandlers = {};
 
 	if (isTextNode(this.element)) {
 		this.value = this.element.nodeValue;
@@ -584,6 +622,7 @@ Node.prototype = {
 		return '[object Node]';
 	},
 	dispose: function() {
+		this.clearEvents();
 		var i, l;
 		if (this.children) {
 			i = -1; l = this.children.length;
@@ -619,6 +658,7 @@ Node.prototype = {
 		this.previousSibling = null;
 		this.nextSibling = null;
 		this.template = null;
+		this.eventHandlers = null;
 	},
 	getNode: function(element) {
 		var node;
@@ -627,7 +667,6 @@ Node.prototype = {
 			var k = -1, kl = this.childrenRepeater.length;
 			while (++k < kl) {
 				node = this.childrenRepeater[k].getNode(element);
-
 				if (node) return node;
 			}
 		}
@@ -686,6 +725,47 @@ Node.prototype = {
 			this.children[i].invalidateData();
 		}
 	},
+	addEvent: function(type, pattern) {
+		if (this.repeater) return;
+		if (this.eventHandlers[type]) {
+			this.removeEvent(type);
+		}
+		var scope = this.scope;
+		var node = node;
+		var handler = function(event) {
+			var exp = new Expression(pattern, node);
+			var func = exp.getValue(scope, true);
+			var params = exp.getValue(scope, false, true);
+			params.unshift(event);
+			if (func) func.apply(null, params);
+		};
+		this.eventHandlers[type] = handler;
+		addEvent(this.element, type, handler);
+	},
+	removeEvent: function(type) {
+		removeEvent(this.element, type, this.eventHandlers[type]);
+		this.eventHandlers[type] = null;
+		delete this.eventHandlers[type];
+	},
+	clearEvents: function() {
+		if (this.eventHandlers) {
+			for (var key in this.eventHandlers) {
+				this.removeEvent(key, this.eventHandlers[key]);
+			}
+		}
+		if (this.children) {
+			var k = -1, kl = this.children.length;
+			while (++k < kl) {
+				this.children[k].clearEvents();
+			}
+		}
+		if (this.childrenRepeater) {
+			var f = -1, fl = this.childrenRepeater.length;
+			while (++f < fl) {
+				this.childrenRepeater[f].clearEvents();
+			}
+		}
+	},
 	render: function() {
 		if (childNodeIsTemplate(this)) return;
 		if (this.invalidate) {
@@ -740,8 +820,8 @@ Attribute.prototype = {
 		if (this.invalidate) {
 			this.invalidate = false;
 			this.previousName = this.name;
-			this.value = this.interpolationName ? this.interpolationName.render() : this.name;
-			this.value = this.interpolationValue ? this.interpolationValue.render() : this.value;
+			this.name = this.interpolationName.render() ? this.interpolationName.render() : this.name;
+			this.value = this.interpolationValue.render() ? this.interpolationValue.render() : this.value;
 			if (this.name === attributes.src) {
 				renderSrc(this.name, this.value);
 			}
@@ -786,13 +866,8 @@ Attribute.prototype = {
 		}
 		// checked
 		if (this.name === attributes.checked) {
-			if (ie === 7) {
-				// IE
-				element.checked = isAttributeDefined(this.value) ? true : false;
-			}
-			else {
-				renderSpecialAttribute(this.name, this.value, 'checked');
-			}
+			renderSpecialAttribute(this.name, this.value, 'checked');
+			element.checked = isAttributeDefined(this.value) ? true : false;
 		}
 		// disabled
 		if (this.name === attributes.disabled) {
@@ -948,8 +1023,8 @@ Expression.prototype = {
 			(this.node || this.attribute).invalidate = true;
 		}
 	},
-	getValue: function(scope) {
-		return getValue(scope, this.pattern, this.path, this.params);
+	getValue: function(scope, getFunction, getParams) {
+		return getValue(scope, this.pattern, this.path, this.params, getFunction, getParams);
 	}
 };
 
@@ -993,6 +1068,9 @@ Template.prototype = {
 	clearWatchers: function() {
 		this.watchers.dispose();
 	},
+	clearEvents: function() {
+		this.node.clearEvents();
+	},
 	getNode: function(element) {
 		return this.node.getNode(element);
 	},
@@ -1010,14 +1088,141 @@ Template.prototype = {
 	}
 };
 
+// written by Dean Edwards, 2005
+// with input from Tino Zijdel, Matthias Miller, Diego Perini
+// http://dean.edwards.name/weblog/2005/10/add-event/
+function addEvent(element, type, handler) {
+	if (element.addEventListener) {
+		element.addEventListener(type, handler, false);
+	} else {
+		// assign each event handler a unique ID
+		if (!handler.$$guid) handler.$$guid = addEvent.guid++;
+		// create a hash table of event types for the element
+		if (!element.events) element.events = {};
+		// create a hash table of event handlers for each element/event pair
+		var handlers = element.events[type];
+		if (!handlers) {
+			handlers = element.events[type] = {};
+			// store the existing event handler (if there is one)
+			if (element["on" + type]) {
+				handlers[0] = element["on" + type];
+			}
+		}
+		// store the event handler in the hash table
+		handlers[handler.$$guid] = handler;
+		// assign a global event handler to do all the work
+		element["on" + type] = handleEvent;
+	}
+};
+// a counter used to create unique IDs
+addEvent.guid = 1;
+function removeEvent(element, type, handler) {
+	if (element.removeEventListener) {
+		element.removeEventListener(type, handler, false);
+	} else {
+		// delete the event handler from the hash table
+		if (element.events && element.events[type]) {
+			delete element.events[type][handler.$$guid];
+		}
+	}
+};
+function handleEvent(event) {
+	var returnValue = true;
+	// grab the event object (IE uses a global event object)
+	event = event || fixEvent(((this.ownerDocument || this.document || this).parentWindow || window).event);
+	// get a reference to the hash table of event handlers
+	var handlers = this.events[event.type];
+	// execute each event handler
+	for (var i in handlers) {
+		this.$$handleEvent = handlers[i];
+		if (this.$$handleEvent(event) === false) {
+			returnValue = false;
+		}
+	}
+	return returnValue;
+};
+function fixEvent(event) {
+	// add W3C standard event methods
+	event.preventDefault = fixEvent.preventDefault;
+	event.stopPropagation = fixEvent.stopPropagation;
+	return event;
+};
+fixEvent.preventDefault = function() {
+	this.returnValue = false;
+};
+fixEvent.stopPropagation = function() {
+	this.cancelBubble = true;
+};
+
+var maxDepth;
+var eventStore = [];
+
+function parseEvents(element, object, depth) {
+	maxDepth = depth === undefined ? Number.MAX_VALUE : depth;
+	parseNode(element, object, 0, true);
+}
+
+function parseNode(element, object, depth, isRoot) {
+	if (!isElement(element)) throw new Error('Error in soma.template.parseEvents, only a DOM Element can be parsed.');
+	if (isRoot) parseAttributes(element, object);
+	if (maxDepth === 0) return;
+	var child = element.firstChild;
+	while (child) {
+		if (child.nodeType === 1) {
+			if (depth < maxDepth) {
+				parseNode(child, object, ++depth);
+				parseAttributes(child, object);
+			}
+		}
+		child = child.nextSibling;
+	}
+}
+
+function parseAttributes(element, object) {
+	var attributes = [];
+	for (var attr, name, value, attrs = element.attributes, j = 0, jj = attrs && attrs.length; j < jj; j++) {
+		attr = attrs[j];
+		if (attr.specified) {
+			name = attr.name;
+			value = attr.value;
+			if (events[name]) {
+				var handler = getHandlerFromPattern(object, value, element);
+				if (handler && isFunction(handler)) {
+					addEvent(element, events[name], handler);
+					eventStore.push({element:element, type:events[name], handler:handler});
+				}
+			}
+		}
+	}
+}
+
+function getHandlerFromPattern(object, pattern, child) {
+	var parts = pattern.match(regex.func);
+	if (parts) {
+		var func = parts[1];
+		if (isFunction(object[func])) {
+			return object[func];
+		}
+	}
+}
+
+function clearEvents(element) {
+	var i = eventStore.length, l = 0;
+	while (--i >= l) {
+		var item = eventStore[i];
+		if (element === item.element || contains(element, item.element)) {
+			removeEvent(item.element, item.type, item.handler);
+			eventStore.splice(i, 1);
+		}
+	}
+}
+
+
 if (settings.autocreate) {
-	var ready = (function(ie,d){d=document;return ie?
-		function(c){var n=d.firstChild,f=function(){try{c(n.doScroll('left'))}catch(e){setTimeout(f,10)}};f()}:/webkit|safari|khtml/i.test(navigator.userAgent)?
-		function(c){var f=function(){/loaded|complete/.test(d.readyState)?c():setTimeout(f,10)};f()}:
-		function(c){d.addEventListener("DOMContentLoaded", c, false)}
-	})(/*@cc_on 1@*/);
+	// https://github.com/ded/domready
+	var ready=function(){function l(b){for(k=1;b=a.shift();)b()}var b,a=[],c=!1,d=document,e=d.documentElement,f=e.doScroll,g="DOMContentLoaded",h="addEventListener",i="onreadystatechange",j="readyState",k=/^loade|c/.test(d[j]);return d[h]&&d[h](g,b=function(){d.removeEventListener(g,b,c),l()},c),f&&d.attachEvent(i,b=function(){/^c/.test(d[j])&&(d.detachEvent(i,b),l())}),f?function(b){self!=top?k?b():a.push(b):function(){try{e.doScroll("left")}catch(a){return setTimeout(function(){ready(b)},50)}b()}()}:function(b){k?b():a.push(b)}}();
 	var parse = function(element) {
-		var child = !element ? document.body.firstChild : element.firstChild;
+		var child = !element ? document.body : element.firstChild;
 		while (child) {
 			if (child.nodeType === 1) {
 				parse(child);
@@ -1145,6 +1350,11 @@ soma.template.get = getTemplate;
 soma.template.renderAll = renderAllTemplates;
 soma.template.helpers = appendHelpers;
 soma.template.bootstrap = bootstrapTemplate;
+soma.template.addEvent = addEvent;
+soma.template.removeEvent = removeEvent;
+soma.template.parseEvents = parseEvents;
+soma.template.clearEvents = clearEvents;
+soma.template.ready = ready;
 
 // register for AMD module
 if (typeof define === 'function' && define.amd) {

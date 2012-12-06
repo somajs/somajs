@@ -10,7 +10,6 @@ var todo = window.todo || {};
 				return JSON.parse( localStorage.getItem( storeKey) || '[]' );
 			},
 			set: function( items ) {
-				console.log('set', items);
 				localStorage.setItem( storeKey, JSON.stringify( items ) );
 			}
 		}

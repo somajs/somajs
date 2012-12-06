@@ -21,37 +21,13 @@ var todo = window.todo || {};
 			// render template
 			template.render();
 
-			// update template links
-			soma.interact.parse(template.element, this);
-
 		}.bind( this ));
 
 		scope.completedClass = function( completed ) {
 			return completed ? 'completed' : '';
 		};
 
-		function getActiveItems(data) {
-			var i,
-				count = 0;
-
-			for ( i = 0; i < data.length; i++ ) {
-				if ( !data[ i ].completed ) {
-					count++;
-				}
-			}
-
-			return count;
-		};
-
-		function getLi( element ) {
-			return element && element.tagName === 'LI' ? element : getLi( element.parentNode );
-		};
-
-		function getLiId( element ) {
-			return getLi( element ).getAttribute( 'data-id' );
-		};
-
-		this.add = function( event ) {
+		scope.add = function( event ) {
 			var value = event.currentTarget.value.trim();
 			if ( event.which === ENTER_KEY && value !== '' ) {
 				dispatcher.dispatch( todo.events.ADD, value );
@@ -59,14 +35,13 @@ var todo = window.todo || {};
 			}
 		};
 
-		this.edit = function( event ) {
+		scope.edit = function( event, todo ) {
 			getLi( event.currentTarget ).classList.add( 'editing' );
 		};
 
-		this.update = function( event ) {
+		scope.update = function( event, id ) {
 			var value = event.currentTarget.value.trim();
 			if ( event.which === ENTER_KEY ) {
-				var id = getLiId( event.currentTarget );
 				if ( value ) {
 					dispatcher.dispatch( todo.events.UPDATE, {
 						id: id,
@@ -80,24 +55,34 @@ var todo = window.todo || {};
 			}
 		};
 
-		this.remove = function( event, id ) {
-			dispatcher.dispatch( todo.events.REMOVE, getLiId( event.currentTarget ) );
+		scope.remove = function( event, id ) {
+			dispatcher.dispatch( todo.events.REMOVE, id );
 		};
 
-		this.toggle = function(event) {
-			dispatcher.dispatch( todo.events.TOGGLE, getLiId(event.currentTarget) );
+		scope.toggle = function( event, id ) {
+			dispatcher.dispatch( todo.events.TOGGLE, id );
 		};
 
-		this.toggleAll = function(event) {
+		scope.toggleAll = function(event) {
 			dispatcher.dispatch( todo.events.TOGGLE_ALL, event.currentTarget.checked );
 		};
 
-		this.clearCompleted = function() {
+		scope.clearCompleted = function() {
 			dispatcher.dispatch( todo.events.CLEAR_COMPLETED );
 		};
 
-		this.clear = function(event) {
+		scope.clear = function(event) {
 			event.currentTarget.value = '';
+		};
+
+		function getActiveItems( data ) {
+			return data.filter(function( todo ) {
+				return !todo.completed;
+			}).length;
+		};
+
+		function getLi( element ) {
+			return element && element.tagName === 'LI' ? element : getLi( element.parentNode );
 		};
 
 	};

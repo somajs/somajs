@@ -9,32 +9,32 @@ var todo = window.todo || {};
 
 		var todos = scope.todos = model.get();
 
-		console.log(router.getRoute());
-
-		router.on('/', function() {
-			console.log('/');
-		});
-		router.on('/completed', function() {
-			console.log('/completed');
-		});
-		router.on('/active', function() {
-			console.log('/active');
+		router.on(/.*/, function(path) {
+			render();
 		});
 
-		var render = function(skipSave) {
+		var render = function() {
 
 			scope.active = getActiveItems( scope.todos );
 			scope.completed = scope.todos.length - scope.active;
 			scope.allCompleted = scope.todos.length > 0 && scope.active == 0 ? true : false;
 			scope.clearCompletedVisible = scope.completed > 0 ? true : false;
-			scope.footerVisible = scope.todos.length > 0 ? true : false;
+			//scope.footerVisible = scope.todos.length > 0 ? true : false;
 			scope.itemLabel = scope.active === 1 ? 'item' : 'items';
 
 			template.render();
 
-			if ( !skipSave ) model.set( todos );
+			model.set( todos );
 
 		}.bind( this );
+
+		scope.filteredTodos = function() {
+			var filter = router.getRoute()[0];
+			if (filter === '') return todos;
+			return todos.filter(function( todo ) {
+				return filter === 'active' ? !todo.completed : todo.completed;
+			});
+		};
 
 		scope.completedClass = function( completed ) {
 			return completed ? 'completed' : '';
@@ -92,6 +92,7 @@ var todo = window.todo || {};
 
 		scope.clearCompleted = function() {
 			todos = scope.todos = todos.filter(function( todo ) {
+				console.log(todo);
 				return !todo.completed;
 			});
 			render();

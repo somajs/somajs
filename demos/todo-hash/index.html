@@ -25,7 +25,7 @@
 			<input id="toggle-all" type="checkbox" data-click="toggleAll()" data-checked="{{allCompleted}}">
 			<label for="toggle-all">Mark all as complete</label>
 			<ul id="todo-list" class="data-cloak">
-				<li data-repeat="todo in todos" class="{{completedClass(todo.completed)}} {{todo.editing}}">
+				<li data-repeat="todo in filteredTodos" class="{{completedClass(todo.completed)}} {{todo.editing}}">
 					<div class="view">
 						<input class="toggle" type="checkbox" data-checked="{{todo.completed}}" data-click="toggle(todo)">
 						<label data-dblclick="edit(todo)">{{todo.title}}</label>
@@ -35,7 +35,7 @@
 				</li>
 			</ul>
 		</section>
-		<footer id="footer" class="data-cloak" data-show="{{footerVisible}}">
+		<footer id="footer" class="data-cloak">
 			<span id="todo-count"><strong>{{active}}</strong> {{itemLabel}} left</span>
 			<ul id="filters">
 				<li>

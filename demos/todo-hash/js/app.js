@@ -9,7 +9,7 @@ var todo = window.todo || {};
 			this.injector.mapClass( 'model', todo.Model, true );
 			this.injector.mapValue( 'router', new Router().init() );
 			this.createTemplate( todo.Template, document.getElementById( 'todoapp' ) );
-		},
+		}
 
 	});
 

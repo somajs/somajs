@@ -92,7 +92,6 @@ var todo = window.todo || {};
 
 		scope.clearCompleted = function() {
 			todos = scope.todos = todos.filter(function( todo ) {
-				console.log(todo);
 				return !todo.completed;
 			});
 			render();

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Snippet</title>
+	<link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.css" media="all">
+	<link rel="stylesheet" type="text/css" href="assets/styles/base.css" media="all">
+</head>
+<body>
+
+<div class="header">
+	<div class="user">
+		<h2>user</h2>
+		<button data-click="signin()" data-hide="{{isSignedIn}}">sign in with github</button>
+		<div data-show="{{isSignedIn}}">
+			<img data-src="{{user.avatar_url}}">
+			{{user.name}}
+			<button data-click="logout()">logout</button>
+		</div>
+	</div>
+	<div class="nav">
+		<h2>navigation</h2>
+		<button class="nav-list hidden" data-click="select('list')">search</button>
+		<button class="nav-manage" data-click="select('manage')">manage</button>
+	</div>
+</div>
+
+<div class="manage hidden">
+	<h2>add snippet</h2>
+	<div>
+		<textarea></textarea>
+	</div>
+	<div>
+		<button data-click="add()">add</button>
+	</div>
+</div>
+
+<div class="list">
+	<h2>search snippet</h2>
+	<input type="text" placeholder="search" autofocus data-keyup="search()">
+	<ul>
+		<li data-repeat="snippet in snippetsFiltered">{{snippet.text}}</li>
+	</ul>
+</div>
+
+<script type="text/javascript" src="../../build/soma.js"></script>
+<script type="text/javascript" src="assets/js/libs/soma-template.js"></script>
+<script type="text/javascript" src="assets/js/libs/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="assets/js/libs/amplify.min.js"></script>
+<script type="text/javascript" src="assets/js/app/services/services.js"></script>
+<script type="text/javascript" src="assets/js/app/models/models.js"></script>
+<script type="text/javascript" src="assets/js/app/views/views.js"></script>
+<script type="text/javascript" src="assets/js/app.js"></script>
+
+</body>
+</html>

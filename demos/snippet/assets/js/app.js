@@ -4,10 +4,13 @@
 
 	    init: function() {
 
+		    // services
+		    this.injector.mapClass('github', snippet.services.GithubService);
+		    this.injector.mapClass('api', snippet.services.ApiService);
+
 		    // models
 		    this.injector.mapClass('snippetModel', snippet.models.SnippetModel, true);
 		    this.injector.mapClass('userModel', snippet.models.UserModel, true);
-		    this.injector.mapClass('github', snippet.services.GithubService);
 
 		    // views
 		    this.createTemplate(snippet.views.Header, $('.header')[0]);

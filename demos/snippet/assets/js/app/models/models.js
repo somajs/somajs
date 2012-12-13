@@ -18,7 +18,7 @@
 
 	// models
 
-	function UserModel(injector, dispatcher) {
+	function UserModel(injector, dispatcher, api) {
 
 		var storeKey = 'snippet-user';
 		var url = 'oauth';
@@ -56,12 +56,56 @@
 		}
 
 		function getUserInfo() {
-			var service = injector.getValue('github');
-			service.getUser(function(data) {
-				setUser(data);
-				dispatcher.dispatch('render-nav');
-			}, function(data) {
-				console.log('Error getting the user', data);
+			var github = injector.getValue('github');
+			github.getUser(function(githubData) {
+//				setUser(data);
+				console.log(githubData);
+//				dispatcher.dispatch('render-nav');
+
+
+
+				console.log('check user in API');
+				api.getUser(githubData.login, function(result) {
+
+					if (result.error) {
+						console.log('User doesn\'t exist');
+
+						api.addUser(githubData.login, function(status) {
+							console.log('user created', status);
+
+							// todo: not receiving the snippets here
+							setUser(githubData, status);
+
+						}, function(err) {
+							console.log(err);
+						});
+
+					}
+					else {
+						console.log('user found', result);
+
+						setUser(githubData, result);
+					}
+
+				}, function(info) {
+					console.log('Error getting the user from API', info);
+
+
+
+				});
+
+
+
+
+
+
+
+
+
+
+
+			}, function(info) {
+				console.log('Error getting the user from github', info);
 			});
 		}
 

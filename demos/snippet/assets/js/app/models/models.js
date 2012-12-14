@@ -1,7 +1,11 @@
-;(function(snippet, undefined) {
+;(function(sniply, undefined) {
 
 	// package
-	snippet.models = snippet.models || {};
+	sniply.models = sniply.models || {};
+
+	// var stores
+	var storeUser = 'sniply-user';
+	var storeSnippet = 'sniply-snippet';
 
 	// utils
 	var uuid = function(a,b){for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b;}
@@ -18,107 +22,84 @@
 
 	// models
 
-	function UserModel(injector, dispatcher, api) {
+	function UserModel(injector, dispatcher, api, queue) {
 
-		var storeKey = 'snippet-user';
-		var url = 'oauth';
-		var popup, popup_interval;
-		var token = getStore('token');
-		var user = getStore('user');
+		var token = getStore('token'),
+			user = getStore('user'),
+			popup,
+			popup_interval;
 
 		if (token) injector.mapValue('token', token);
 		if (user) injector.mapValue('user', user);
 
-		if (token && !user) getUserInfo();
+		if (token && user) {
+			console.log('UPDATE USER');
+			updateUser();
+		}
 
 		function setStore() {
-			amplify.store(storeKey, {
+			amplify.store(storeUser, {
 				token: token,
 				user: user
 			});
 		}
 
 		function getStore(key) {
-			var data = amplify.store(storeKey);
+			var data = amplify.store(storeUser);
 			return !data ? data : data[key];
 		}
 
 		function setToken(value) {
 			token = value;
-			injector.removeMapping('token').mapValue('token', token);
 			setStore();
 		}
 
-		function setUser(value) {
-			user = value;
-			injector.removeMapping('user').mapValue('user', user);
+		function setUser(githubUser, apiUser) {
+			user = apiUser;
+			user.github = githubUser;
 			setStore();
+			dispatcher.dispatch('sync');
+			dispatcher.dispatch('render-list');
 		}
 
-		function getUserInfo() {
+		function updateUser() {
 			var github = injector.getValue('github');
-			github.getUser(function(githubData) {
-//				setUser(data);
-				console.log(githubData);
-//				dispatcher.dispatch('render-nav');
-
-
-
-				console.log('check user in API');
-				api.getUser(githubData.login, function(result) {
-
+			queue.add(github, 'getUser', [], function(githubData) {
+				// check if user exists in API
+				queue.add(api, 'getUser', [githubData.login], function(result) {
 					if (result.error) {
-						console.log('User doesn\'t exist');
-
-						api.addUser(githubData.login, function(status) {
-							console.log('user created', status);
-
-							// todo: not receiving the snippets here
-							setUser(githubData, status);
-
+						// user doesn't exist
+						queue.add(api, 'addUser', [githubData.login],function(data) {
+							setUser(githubData, data);
+							dispatcher.dispatch('render-nav');
 						}, function(err) {
-							console.log(err);
+							console.log('API Error creating the user');
 						});
-
 					}
 					else {
-						console.log('user found', result);
-
+						// user exists
 						setUser(githubData, result);
+						dispatcher.dispatch('render-nav');
 					}
 
-				}, function(info) {
-					console.log('Error getting the user from API', info);
-
-
-
+				}, function(err) {
+					console.log('API Error getting the user', err);
 				});
-
-
-
-
-
-
-
-
-
-
-
-			}, function(info) {
-				console.log('Error getting the user from github', info);
+			}, function(err) {
+				console.log('Github Error getting the user', err);
 			});
 		}
 
 		return {
 			signin: function(callback) {
 				if (popup) clear();
-				popup = window.open(url, 'SignIn', 'width=985,height=685,personalbar=0,toolbar=0,scrollbars=1,resizable=1');
+				popup = window.open('oauth', 'SignIn', 'width=985,height=685,personalbar=0,toolbar=0,scrollbars=1,resizable=1');
 				popup_interval = setInterval(function() {
 					if (popup.location) {
 						if (popup.token !== undefined) {
 							if (popup.token !== '') {
 								setToken(popup.token);
-								getUserInfo();
+								updateUser();
 							}
 							clear();
 						}
@@ -139,6 +120,12 @@
 			getUser: function() {
 				return user;
 			},
+			updateUserApiSnippets: function(value) {
+				if (user) {
+					user.snippets = value;
+					setStore();
+				}
+			},
 			isSignedIn: function() {
 				return token !== undefined && user !== undefined;
 			},
@@ -152,30 +139,48 @@
 		}
 	}
 
-	function SnippetModel() {
+	function SnippetModel(injector, dispatcher, api, queue) {
 
-		var storeKey = 'snippet-data';
-		var data = amplify.store(storeKey) || [];
+		var data = amplify.store(storeSnippet) || [],
+			isSyncing = false;
 
 		return {
-			add: function(value) {
+			add: function(value, id) {
 				data.push({
-					id: uuid(),
+					_id: id || uuid(),
 					text: value
 				});
 				this.set(data);
+				// sync
+				dispatcher.dispatch('sync');
+			},
+			del: function(snippet) {
+				var id = snippet._id;
+				console.log(data.length);
+				data.splice(data.indexOf(snippet), 1);
+				console.log(data.length);
+				this.set(data);
+				// remote
+				queue.add(api, 'deleteSnippet', [id], function(data) {
+					injector.getValue('userModel').updateUserApiSnippets(data);
+					//dispatcher.dispatch('sync');
+				}, function(err) {
+					console.log('API Error deleting a snippet', err);
+				});
 			},
 			get: function() {
 				return data;
 			},
 			set: function(value) {
-				amplify.store(storeKey, value);
+				amplify.store(storeSnippet, value);
+				data = value;
+				dispatcher.dispatch('render-list');
 			}
 		}
 	}
 
 	// exports
-	snippet.models.UserModel = UserModel;
-	snippet.models.SnippetModel = SnippetModel;
+	sniply.models.UserModel = UserModel;
+	sniply.models.SnippetModel = SnippetModel;
 
-})(snippet = window.snippet || {});
+})(sniply = window.sniply || {});

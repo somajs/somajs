@@ -1,7 +1,7 @@
-;(function(snippet, undefined) {
+;(function(sniply, undefined) {
 
 	// package
-	snippet.views = snippet.views || {};
+	sniply.views = sniply.views || {};
 
 	// utils
 	function target(event) {
@@ -66,6 +66,10 @@
 			template.render();
 		}
 
+		scope.del = function(event, snippet) {
+			snippetModel.del(snippet);
+		}
+
 		scope.snippetsFiltered = function() {
 			//if (inputValue === '') return snippetFiltered;
 			return scope.snippets.filter(function(snippet) {
@@ -83,13 +87,12 @@
 			if (value === '') return;
 			snippetModel.add(textarea.val());
 			textarea.val('');
-			dispatcher.dispatch('render-list');
 		}
 	}
 
 	// exports
-	snippet.views.Header = Header;
-	snippet.views.List = List;
-	snippet.views.Manage = Manage;
+	sniply.views.Header = Header;
+	sniply.views.List = List;
+	sniply.views.Manage = Manage;
 
-})(snippet = window.snippet || {});
+})(sniply = window.sniply || {});

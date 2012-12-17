@@ -8,12 +8,13 @@
 <body>
 
 <div class="header">
+	<button data-click="getCurrent()">get current</button>
 	<div class="user">
 		<h2>user</h2>
 		<button data-click="signin()" data-hide="{{isSignedIn}}">sign in with github</button>
 		<div data-show="{{isSignedIn}}">
-			<img data-src="{{user.avatar_url}}">
-			{{user.name}}
+			<img data-src="{{user.github.avatar_url}}">
+			{{user.github.name}}
 			<button data-click="logout()">logout</button>
 		</div>
 	</div>
@@ -38,7 +39,7 @@
 	<h2>search snippet</h2>
 	<input type="text" placeholder="search" autofocus data-keyup="search()">
 	<ul>
-		<li data-repeat="snippet in snippetsFiltered">{{snippet.text}}</li>
+		<li data-repeat="snippet in snippetsFiltered">{{snippet.text}} <button data-click="del(snippet)">delete</button></li>
 	</ul>
 </div>
 
@@ -46,7 +47,11 @@
 <script type="text/javascript" src="assets/js/libs/soma-template.js"></script>
 <script type="text/javascript" src="assets/js/libs/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="assets/js/libs/amplify.min.js"></script>
+<script type="text/javascript" src="assets/js/libs/underscore.js"></script>
+<script type="text/javascript" src="assets/js/app/utils/utils.js"></script>
+<script type="text/javascript" src="assets/js/app/utils/queue.js"></script>
 <script type="text/javascript" src="assets/js/app/services/services.js"></script>
+<script type="text/javascript" src="assets/js/app/controllers/commands.js"></script>
 <script type="text/javascript" src="assets/js/app/models/models.js"></script>
 <script type="text/javascript" src="assets/js/app/views/views.js"></script>
 <script type="text/javascript" src="assets/js/app.js"></script>

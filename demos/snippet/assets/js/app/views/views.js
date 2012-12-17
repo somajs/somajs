@@ -1,7 +1,7 @@
-;(function(snippet, undefined) {
+;(function(sniply, undefined) {
 
 	// package
-	snippet.views = snippet.views || {};
+	sniply.views = sniply.views || {};
 
 	// utils
 	function target(event) {
@@ -10,7 +10,7 @@
 
 	// templates
 
-	function Header(template, scope, dispatcher, userModel) {
+	function Header(template, scope, dispatcher, userModel, api) {
 
 		var list = ['list', 'manage'];
 		var current = 'list';
@@ -32,6 +32,14 @@
 				$('.' + list[i])[ list[i] === current ? 'removeClass' : 'addClass' ]('hidden');
 				$('.nav-' + list[i])[ list[i] === current ? 'addClass' : 'removeClass' ]('hidden');
 			}
+		}
+		scope.getCurrent = function() {
+			console.log('get current user');
+			api.getCurrentUser(function(data) {
+				console.log(data);
+			}, function(err) {
+				console.log('Error getting the current user', err);
+			});
 		}
 		scope.signin = function() {
 			// stay in the same function to avoid popup blocker
@@ -66,6 +74,10 @@
 			template.render();
 		}
 
+		scope.del = function(event, snippet) {
+			snippetModel.del(snippet);
+		}
+
 		scope.snippetsFiltered = function() {
 			//if (inputValue === '') return snippetFiltered;
 			return scope.snippets.filter(function(snippet) {
@@ -83,13 +95,12 @@
 			if (value === '') return;
 			snippetModel.add(textarea.val());
 			textarea.val('');
-			dispatcher.dispatch('render-list');
 		}
 	}
 
 	// exports
-	snippet.views.Header = Header;
-	snippet.views.List = List;
-	snippet.views.Manage = Manage;
+	sniply.views.Header = Header;
+	sniply.views.List = List;
+	sniply.views.Manage = Manage;
 
-})(snippet = window.snippet || {});
+})(sniply = window.sniply || {});

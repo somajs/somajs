@@ -1,7 +1,7 @@
-;(function(snippet, undefined) {
+;(function(sniply, undefined) {
 
 	// package
-	snippet.models = snippet.models || {};
+	sniply.models = sniply.models || {};
 
 	// utils
 	var uuid = function(a,b){for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b;}
@@ -18,7 +18,7 @@
 
 	// models
 
-	function UserModel(injector, dispatcher) {
+	function UserModel(injector, dispatcher, api) {
 
 		var storeKey = 'snippet-user';
 		var url = 'http://localhost:3000/oauth';
@@ -55,23 +55,25 @@
 			setStore();
 		}
 
-		function getUserInfo() {
-			var service = injector.getValue('github');
-			service.getUser(function(data) {
-				setUser(data);
-				dispatcher.dispatch('render-nav');
-			}, function(data) {
-				console.log('Error getting the user', data);
+		function getCurrentUser() {
+			console.log('get current user');
+			api.getCurrentUser(function(data) {
+				console.log(data);
+			}, function(err) {
+				console.log('Error getting the current user', err);
 			});
 		}
 
 		return {
 			signin: function(callback) {
-				if (popup) clear();
+				if (popup)  {
+					popup.close();
+					popup = null;
+				}
 				popup = window.open(url, 'SignIn', 'width=985,height=685,personalbar=0,toolbar=0,scrollbars=1,resizable=1');
 				popup.onunload = function () {
 					console.log('CLOSED');
-
+					setTimeout(getCurrentUser, 1000);
 				}
 //				popup_interval = setInterval(function() {
 //					if (popup.location) {
@@ -139,7 +141,7 @@
 	}
 
 	// exports
-	snippet.models.UserModel = UserModel;
-	snippet.models.SnippetModel = SnippetModel;
+	sniply.models.UserModel = UserModel;
+	sniply.models.SnippetModel = SnippetModel;
 
-})(snippet = window.snippet || {});
+})(sniply = window.sniply || {});

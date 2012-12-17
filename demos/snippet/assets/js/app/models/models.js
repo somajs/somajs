@@ -21,7 +21,7 @@
 	function UserModel(injector, dispatcher) {
 
 		var storeKey = 'snippet-user';
-		var url = 'oauth';
+		var url = 'http://localhost:3000/oauth';
 		var popup, popup_interval;
 		var token = getStore('token');
 		var user = getStore('user');
@@ -69,25 +69,33 @@
 			signin: function(callback) {
 				if (popup) clear();
 				popup = window.open(url, 'SignIn', 'width=985,height=685,personalbar=0,toolbar=0,scrollbars=1,resizable=1');
-				popup_interval = setInterval(function() {
-					if (popup.location) {
-						if (popup.token !== undefined) {
-							if (popup.token !== '') {
-								setToken(popup.token);
-								getUserInfo();
-							}
-							clear();
-						}
-					}
-					else {
-						clear();
-					}
-				}, 500);
-				function clear() {
-					clearInterval(popup_interval);
-					if (popup) popup.close();
-					popup = null;
+				popup.onunload = function () {
+					console.log('CLOSED');
+
 				}
+//				popup_interval = setInterval(function() {
+//					if (popup.location) {
+//						console.log(popup.location.href);
+//						if (popup.token !== undefined) {
+////							console.log('CLOSED');
+////							clear();
+//
+////							if (popup.token !== '') {
+////								setToken(popup.token);
+////								getUserInfo();
+////							}
+////							clear();
+//						}
+//					}
+//					else {
+//						//clear();
+//					}
+//				}, 500);
+//				function clear() {
+//					clearInterval(popup_interval);
+//					if (popup) popup.close();
+//					popup = null;
+//				}
 			},
 			getToken: function() {
 				return token;

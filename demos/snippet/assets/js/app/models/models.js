@@ -20,10 +20,10 @@
 
 	function UserModel(injector, dispatcher, api, queue) {
 
-		var storeKey = 'sniply-user';
-		var url = 'http://localhost:3000/oauth/client';
-		var popup, popup_interval;
-		var user = getStore();
+		var storeKey = 'sniply-user',
+			url = 'http://localhost:3000/oauth/client',
+			user = getStore(),
+			popup;
 
 		getUserFromAPI();
 
@@ -37,17 +37,13 @@
 
 		function setUser(value) {
 			user = value || undefined;
-			console.log('set user', user);
 			setStore();
 			dispatcher.dispatch('sync');
-
-			console.log('check', getStore(storeKey));
 		}
 
 		function getUserFromAPI() {
 			if (!user) return;
 			queue.add(api, 'getUser', [user._id], function(data) {
-				console.log(JSON.stringify(data));
 				setUser(data);
 			}, function(err) {
 				console.log('Error getting the user', err);
@@ -63,7 +59,6 @@
 				var id = uuid();
 				popup = window.open(url + '?uuid=' + id, 'SignIn', 'width=985,height=685,personalbar=0,toolbar=0,scrollbars=1,resizable=1');
 				popup.onunload = function () {
-					console.log('get oauth user');
 					queue.add(api, 'getOauthUser', [id], function(data) {
 						if (data.error) console.log('Error getting the current user', data);
 						else {
@@ -74,29 +69,6 @@
 						console.log('Error getting the current user', err);
 					});
 				}
-//				popup_interval = setInterval(function() {
-//					if (popup.location) {
-//						console.log(popup.location.href);
-//						if (popup.token !== undefined) {
-////							console.log('CLOSED');
-////							clear();
-//
-////							if (popup.token !== '') {
-////								setToken(popup.token);
-////								getUserInfo();
-////							}
-////							clear();
-//						}
-//					}
-//					else {
-//						//clear();
-//					}
-//				}, 500);
-//				function clear() {
-//					clearInterval(popup_interval);
-//					if (popup) popup.close();
-//					popup = null;
-//				}
 			},
 			getAccessToken: function() {
 				if (!user) return undefined;
@@ -118,7 +90,7 @@
 		}
 	}
 
-	function SnippetModel() {
+	function SnippetModel(injector, dispatcher, api, queue) {
 
 		var storeKey = 'sniply-data';
 		var data = amplify.store(storeKey) || [];
@@ -130,6 +102,18 @@
 					text: value
 				});
 				this.set(data);
+			},
+			del: function(snippet) {
+				var id = snippet._id;
+				data.splice(data.indexOf(snippet), 1);
+				this.set(data);
+				// remote
+				queue.add(api, 'deleteSnippet', [id], function(data) {
+					injector.getValue('userModel').updateUserApiSnippets(data);
+					dispatcher.dispatch('render-list');
+				}, function(err) {
+					console.log('API Error deleting a snippet', err);
+				});
 			},
 			get: function() {
 				return data;

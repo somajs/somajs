@@ -19,9 +19,7 @@
 				successCallback: successCallback,
 				errorCallback: errorCallback
 			});
-			console.log(this.requests);
 			if (this.autorun) {
-				console.log('run');
 				this.run();
 			}
 			return this;
@@ -46,14 +44,12 @@
 			this.current = this.requests[0];
 			var params = this.current.params;
 			params.push(function() {
-				console.log('success');
 				this.current.successCallback.apply(null, arguments);
 				this.requests.shift();
 				this.current = null;
 				this.run();
 			}.bind(this));
 			params.push(function() {
-				console.log('error');
 				this.current.errorCallback.apply(null, arguments);
 				this.requests.shift();
 				this.current = null;

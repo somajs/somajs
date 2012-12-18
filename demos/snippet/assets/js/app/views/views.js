@@ -40,7 +40,6 @@
 
 		function render() {
 			scope.user = userModel.getUser();
-			console.log('RENDER', scope.user);
 			template.render();
 		}
 

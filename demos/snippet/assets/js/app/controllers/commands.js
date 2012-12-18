@@ -11,17 +11,11 @@
 			var user = userModel.getUser();
 			if (user) {
 
-
 				var apiSnippets = userModel.getUser().snippets,
 					localSnippets = snippetModel.get(),
 					localSnippetsToSync = localSnippets.concat();
 
-				console.log('SYNC');
-				console.log('LOCAL SNIPPETS', localSnippets, localSnippetsToSync);
-				console.log('API SNIPPET', apiSnippets);
-
 				if (apiSnippets) {
-
 					// add remote to local
 					apiSnippets.forEach(function(item, index) {
 						var res = localSnippets.filter(function(it) {
@@ -30,7 +24,7 @@
 							return eq;
 						});
 						if (res.length === 0) {
-							console.log('> copy remote to local', item);
+//							console.log('> copy remote to local', item);
 							localSnippets.push(item);
 						}
 					});
@@ -38,14 +32,14 @@
 
 				// add local to remote
 				if (localSnippetsToSync.length > 0) {
-					console.log('> copy local to remote', localSnippetsToSync);
+//					console.log('> copy local to remote', localSnippetsToSync);
 					queue.add(api, 'addSnippets', [user._id, localSnippetsToSync], function(data) {
 						userModel.updateUserApiSnippets(localSnippets.concat());
-						console.log('synced');
 					}, function(err) {
 						console.log('Error saving the local snippets to remote');
 					});
 				}
+
 				// save local storage
 				snippetModel.set(localSnippets);
 				dispatcher.dispatch('render-list');

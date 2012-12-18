@@ -8,7 +8,7 @@
 	// services
 
 	function ApiService() {
-		this.url = 'http://localhost:3000'
+		this.url = 'http://192.168.10.121:3000'
 	}
 	ApiService.prototype.request = function(path, method, successCallback, errorCallback, data) {
 		$.ajax({

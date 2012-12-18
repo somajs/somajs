@@ -9,39 +9,42 @@
 		this.execute = function(event) {
 
 			var user = userModel.getUser();
-			if (user && !snippetModel.isSyncing) {
+			if (user) {
+
 
 				var apiSnippets = userModel.getUser().snippets,
 					localSnippets = snippetModel.get(),
 					localSnippetsToSync = localSnippets.concat();
 
-				// add remote to local
-				apiSnippets.forEach(function(item, index) {
-					var res = localSnippets.filter(function(it) {
-						var eq = item._id === it._id;
-						if (eq) localSnippetsToSync.splice(it, 1);
-						return eq;
+				console.log('SYNC');
+				console.log('LOCAL SNIPPETS', localSnippets, localSnippetsToSync);
+				console.log('API SNIPPET', apiSnippets);
+
+				if (apiSnippets) {
+
+					// add remote to local
+					apiSnippets.forEach(function(item, index) {
+						var res = localSnippets.filter(function(it) {
+							var eq = item._id === it._id;
+							if (eq) localSnippetsToSync.splice(it, 1);
+							return eq;
+						});
+						if (res.length === 0) {
+							console.log('> copy remote to local', item);
+							localSnippets.push(item);
+						}
 					});
-					if (res.length === 0) {
-//						console.log('> copy remote to local', item);
-						localSnippets.push(item);
-					}
-				});
+				}
 
 				// add local to remote
 				if (localSnippetsToSync.length > 0) {
-//					console.log('> copy local to remote', localSnippetsToSync);
+					console.log('> copy local to remote', localSnippetsToSync);
 					queue.add(api, 'addSnippets', [user._id, localSnippetsToSync], function(data) {
-						snippetModel.isSyncing = false;
-						userModel.updateUserApiSnippets(snippetModel.get());
+						userModel.updateUserApiSnippets(localSnippets.concat());
 						console.log('synced');
 					}, function(err) {
-						snippetModel.isSyncing = false;
 						console.log('Error saving the local snippets to remote');
 					});
-				}
-				else {
-					snippetModel.isSyncing = false;
 				}
 				// save local storage
 				snippetModel.set(localSnippets);
@@ -50,7 +53,17 @@
 		}
 	}
 
+	function LogoutCommand(userModel, snippetModel, dispatcher) {
+		this.execute = function(event) {
+			userModel.clear();
+			snippetModel.clear();
+			dispatcher.dispatch('render-nav');
+			dispatcher.dispatch('render-list');
+		}
+	}
+
 	// exports
 	sniply.commands.SyncCommand = SyncCommand;
+	sniply.commands.LogoutCommand = LogoutCommand;
 
 })(sniply = window.sniply || {});

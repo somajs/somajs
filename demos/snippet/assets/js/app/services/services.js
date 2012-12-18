@@ -11,11 +11,7 @@
 		this.url = 'http://localhost:3000'
 	}
 	ApiService.prototype.request = function(path, method, successCallback, errorCallback, data) {
-		//console.log('REQUEST', this.url + path, method, data);
 		$.ajax({
-			xhrFields: {
-				withCredentials: true
-			},
 			type: method,
 			url: this.url + path,
 			data: data,
@@ -24,8 +20,8 @@
 			error: errorCallback
 		});
 	};
-	ApiService.prototype.getCurrentUser = function(id, successCallback, errorCallback) {
-		this.request('/users/current', 'GET', successCallback, errorCallback);
+	ApiService.prototype.getOauthUser = function(id, successCallback, errorCallback) {
+		this.request('/oauth/' + id, 'GET', successCallback, errorCallback);
 	};
 	ApiService.prototype.getUser = function(id, successCallback, errorCallback) {
 		this.request('/users/' + id, 'GET', successCallback, errorCallback);

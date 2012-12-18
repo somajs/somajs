@@ -19,7 +19,11 @@
 				successCallback: successCallback,
 				errorCallback: errorCallback
 			});
-			if (this.autorun) this.run();
+			console.log(this.requests);
+			if (this.autorun) {
+				console.log('run');
+				this.run();
+			}
 			return this;
 		},
 		remove: function(target, method, params, successCallback, errorCallback) {

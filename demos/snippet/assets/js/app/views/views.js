@@ -23,8 +23,8 @@
 			return userModel.isSignedIn();
 		}
 		scope.logout = function() {
-			userModel.logout();
-			template.render();
+			dispatcher.dispatch('logout');
+			render();
 		}
 		scope.select = function(event, id) {
 			current = id;
@@ -33,14 +33,6 @@
 				$('.nav-' + list[i])[ list[i] === current ? 'addClass' : 'removeClass' ]('hidden');
 			}
 		}
-		scope.getCurrent = function() {
-			console.log('get current user');
-			api.getCurrentUser(function(data) {
-				console.log(data);
-			}, function(err) {
-				console.log('Error getting the current user', err);
-			});
-		}
 		scope.signin = function() {
 			// stay in the same function to avoid popup blocker
 			userModel.signin();
@@ -48,6 +40,7 @@
 
 		function render() {
 			scope.user = userModel.getUser();
+			console.log('RENDER', scope.user);
 			template.render();
 		}
 
@@ -95,6 +88,7 @@
 			if (value === '') return;
 			snippetModel.add(textarea.val());
 			textarea.val('');
+			dispatcher.dispatch('sync');
 		}
 	}
 

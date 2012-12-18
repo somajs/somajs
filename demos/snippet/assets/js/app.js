@@ -9,6 +9,7 @@
 
 		    // commands
 			this.commands.add('sync', sniply.commands.SyncCommand);
+			this.commands.add('logout', sniply.commands.LogoutCommand);
 
 		    // services
 		    this.injector.mapClass('github', sniply.services.GithubService);

@@ -18,49 +18,39 @@
 
 	// models
 
-	function UserModel(injector, dispatcher, api) {
+	function UserModel(injector, dispatcher, api, queue) {
 
-		var storeKey = 'snippet-user';
-		var url = 'http://localhost:3000/oauth';
+		var storeKey = 'sniply-user';
+		var url = 'http://localhost:3000/oauth/client';
 		var popup, popup_interval;
-		var token = getStore('token');
-		var user = getStore('user');
+		var user = getStore();
 
-		if (token) injector.mapValue('token', token);
-		if (user) injector.mapValue('user', user);
-
-		if (token && !user) getUserInfo();
+		getUserFromAPI();
 
 		function setStore() {
-			amplify.store(storeKey, {
-				token: token,
-				user: user
-			});
+			amplify.store(storeKey, user || null);
 		}
 
-		function getStore(key) {
-			var data = amplify.store(storeKey);
-			return !data ? data : data[key];
-		}
-
-		function setToken(value) {
-			token = value;
-			injector.removeMapping('token').mapValue('token', token);
-			setStore();
+		function getStore() {
+			return amplify.store(storeKey);
 		}
 
 		function setUser(value) {
-			user = value;
-			injector.removeMapping('user').mapValue('user', user);
+			user = value || undefined;
+			console.log('set user', user);
 			setStore();
+			dispatcher.dispatch('sync');
+
+			console.log('check', getStore(storeKey));
 		}
 
-		function getCurrentUser() {
-			console.log('get current user');
-			api.getCurrentUser(function(data) {
-				console.log(data);
+		function getUserFromAPI() {
+			if (!user) return;
+			queue.add(api, 'getUser', [user._id], function(data) {
+				console.log(JSON.stringify(data));
+				setUser(data);
 			}, function(err) {
-				console.log('Error getting the current user', err);
+				console.log('Error getting the user', err);
 			});
 		}
 
@@ -70,10 +60,19 @@
 					popup.close();
 					popup = null;
 				}
-				popup = window.open(url, 'SignIn', 'width=985,height=685,personalbar=0,toolbar=0,scrollbars=1,resizable=1');
+				var id = uuid();
+				popup = window.open(url + '?uuid=' + id, 'SignIn', 'width=985,height=685,personalbar=0,toolbar=0,scrollbars=1,resizable=1');
 				popup.onunload = function () {
-					console.log('CLOSED');
-					setTimeout(getCurrentUser, 1000);
+					console.log('get oauth user');
+					queue.add(api, 'getOauthUser', [id], function(data) {
+						if (data.error) console.log('Error getting the current user', data);
+						else {
+							setUser(data);
+							dispatcher.dispatch('render-nav');
+						}
+					}, function(err) {
+						console.log('Error getting the current user', err);
+					});
 				}
 //				popup_interval = setInterval(function() {
 //					if (popup.location) {
@@ -99,34 +98,35 @@
 //					popup = null;
 //				}
 			},
-			getToken: function() {
-				return token;
+			getAccessToken: function() {
+				if (!user) return undefined;
+				return user.accessToken;
 			},
 			getUser: function() {
 				return user;
 			},
 			isSignedIn: function() {
-				return token !== undefined && user !== undefined;
+				return user !== undefined;
 			},
-			logout: function() {
-				token = undefined;
-				user = undefined;
-				injector.removeMapping('token');
-				injector.removeMapping('user');
+			updateUserApiSnippets: function(value) {
+				user.snippets = value;
 				setStore();
+			},
+			clear: function() {
+				setUser(null);
 			}
 		}
 	}
 
 	function SnippetModel() {
 
-		var storeKey = 'snippet-data';
+		var storeKey = 'sniply-data';
 		var data = amplify.store(storeKey) || [];
 
 		return {
 			add: function(value) {
 				data.push({
-					id: uuid(),
+					_id: uuid(),
 					text: value
 				});
 				this.set(data);
@@ -135,7 +135,11 @@
 				return data;
 			},
 			set: function(value) {
+				data = value || [];
 				amplify.store(storeKey, value);
+			},
+			clear: function() {
+				this.set(null);
 			}
 		}
 	}

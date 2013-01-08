@@ -33,7 +33,7 @@
 				// add local to remote
 				if (localSnippetsToSync.length > 0) {
 //					console.log('> copy local to remote', localSnippetsToSync);
-					queue.add(api, 'addSnippets', [user._id, localSnippetsToSync], function(data) {
+					queue.add(api, 'addSnippets', [userModel.getAccessToken(), user._id, localSnippetsToSync], function(data) {
 						userModel.updateUserApiSnippets(localSnippets.concat());
 					}, function(err) {
 						console.log('Error saving the local snippets to remote');

@@ -8,7 +8,7 @@
 	// services
 
 	function ApiService() {
-		this.url = 'http://192.168.10.121:3000'
+		this.url = window.location.host === 'localhost' ? 'http://localhost:3000' : 'http://sniply.eu01.aws.af.cm';
 	}
 	ApiService.prototype.request = function(path, method, successCallback, errorCallback, data) {
 		$.ajax({
@@ -23,14 +23,14 @@
 	ApiService.prototype.getOauthUser = function(id, successCallback, errorCallback) {
 		this.request('/oauth/' + id, 'GET', successCallback, errorCallback);
 	};
-	ApiService.prototype.getUser = function(id, successCallback, errorCallback) {
-		this.request('/users/' + id, 'GET', successCallback, errorCallback);
+	ApiService.prototype.getUser = function(accessToken, id, successCallback, errorCallback) {
+		this.request('/users/' + id + '?accessToken=' + accessToken, 'GET', successCallback, errorCallback);
 	};
-	ApiService.prototype.addSnippets = function(id, snippets, successCallback, errorCallback) {
-		this.request('/snippets', 'POST', successCallback, errorCallback, {id:id, snippets:JSON.stringify(snippets)});
+	ApiService.prototype.addSnippets = function(accessToken, id, snippets, successCallback, errorCallback) {
+		this.request('/snippets' + '?accessToken=' + accessToken, 'POST', successCallback, errorCallback, {id:id, snippets:JSON.stringify(snippets)});
 	};
-	ApiService.prototype.deleteSnippet = function(id, successCallback, errorCallback) {
-		this.request('/snippets/' + id, 'POST', successCallback, errorCallback, {action:'delete'});
+	ApiService.prototype.deleteSnippet = function(accessToken, id, successCallback, errorCallback) {
+		this.request('/snippets/' + id + '?accessToken=' + accessToken, 'POST', successCallback, errorCallback, {action:'delete'});
 	};
 
 	function GithubService(token) {

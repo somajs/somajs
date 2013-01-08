@@ -7,3 +7,4 @@ npm install -g grunt
 
 Type in command line:
 python watch.py src/ grunt concat
+

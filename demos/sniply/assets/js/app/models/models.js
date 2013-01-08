@@ -21,7 +21,7 @@
 	function UserModel(injector, dispatcher, api, queue) {
 
 		var storeKey = 'sniply-user',
-			url = 'http://localhost:3000/oauth/client',
+			url = 'http://sniply.eu01.aws.af.cm/oauth/client',
 			user = getStore(),
 			popup;
 
@@ -36,14 +36,14 @@
 		}
 
 		function setUser(value) {
-			user = value || undefined;
+			user = value;
 			setStore();
 			dispatcher.dispatch('sync');
 		}
 
 		function getUserFromAPI() {
 			if (!user) return;
-			queue.add(api, 'getUser', [user._id], function(data) {
+			queue.add(api, 'getUser', [user.accessToken, user._id], function(data) {
 				setUser(data);
 			}, function(err) {
 				console.log('Error getting the user', err);
@@ -78,7 +78,7 @@
 				return user;
 			},
 			isSignedIn: function() {
-				return user !== undefined;
+				return user !== undefined && user !== null;
 			},
 			updateUserApiSnippets: function(value) {
 				user.snippets = value;
@@ -90,7 +90,7 @@
 		}
 	}
 
-	function SnippetModel(injector, dispatcher, api, queue) {
+	function SnippetModel(injector, dispatcher, api, queue, userModel) {
 
 		var storeKey = 'sniply-data';
 		var data = amplify.store(storeKey) || [];
@@ -108,7 +108,7 @@
 				data.splice(data.indexOf(snippet), 1);
 				this.set(data);
 				// remote
-				queue.add(api, 'deleteSnippet', [id], function(data) {
+				queue.add(api, 'deleteSnippet', [userModel.getAccessToken(), id], function(data) {
 					injector.getValue('userModel').updateUserApiSnippets(data);
 					dispatcher.dispatch('render-list');
 				}, function(err) {

@@ -27,10 +27,10 @@
 		this.request('/users/' + id + '?accessToken=' + accessToken, 'GET', successCallback, errorCallback);
 	};
 	ApiService.prototype.addSnippets = function(accessToken, id, snippets, successCallback, errorCallback) {
-		this.request('/snippets' + '?accessToken=' + accessToken, 'POST', successCallback, errorCallback, {id:id, snippets:JSON.stringify(snippets)});
+		this.request('/snippets' + '?accessToken=' + accessToken, 'POST', successCallback, errorCallback, {id:id, action:'update', snippets:JSON.stringify(snippets)});
 	};
-	ApiService.prototype.deleteSnippet = function(accessToken, id, successCallback, errorCallback) {
-		this.request('/snippets/' + id + '?accessToken=' + accessToken, 'POST', successCallback, errorCallback, {action:'delete'});
+	ApiService.prototype.deleteSnippets = function(accessToken, id, snippets, successCallback, errorCallback) {
+		this.request('/snippets' + '?accessToken=' + accessToken, 'POST', successCallback, errorCallback, {id:id, action:'delete', snippets:JSON.stringify(snippets)});
 	};
 
 	function GithubService(token) {

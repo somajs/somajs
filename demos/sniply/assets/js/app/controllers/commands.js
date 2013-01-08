@@ -11,39 +11,66 @@
 			var user = userModel.getUser();
 			if (user) {
 
-				var apiSnippets = userModel.getUser().snippets,
-					localSnippets = snippetModel.get(),
-					localSnippetsToSync = localSnippets.concat();
+				var localSnippets = snippetModel.get();
+				var remoteSnippets = userModel.getUser().snippets;
 
-				if (apiSnippets) {
-					// add remote to local
-					apiSnippets.forEach(function(item, index) {
-						var res = localSnippets.filter(function(it) {
-							var eq = item._id === it._id;
-							if (eq) localSnippetsToSync.splice(it, 1);
-							return eq;
-						});
-						if (res.length === 0) {
-//							console.log('> copy remote to local', item);
-							localSnippets.push(item);
+				// ***** REMOTE TO LOCAL
+
+				var remoteSnippets = userModel.getUser().snippets;
+				remoteSnippets.forEach(function(item, index) {
+					var found = false;
+					for (var i= 0, l=localSnippets.length; i < l; i++) {
+						if (item._id === localSnippets[i]._id) {
+							found = true;
+							break;
 						}
+					}
+					if (!found) {
+						localSnippets.push(item);
+					}
+				});
+				snippetModel.set(localSnippets);
+
+				// ***** LOCAL TO REMOTE
+
+				// delete snippets in remote
+				var deletedSnippets = [];
+				var deletedSnippetsToSync = [];
+				localSnippets.forEach(function(item, index) {
+					if (item.deleted) {
+						deletedSnippetsToSync.push(item._id);
+						deletedSnippets.push(item);
+					}
+				});
+				if (deletedSnippetsToSync.length > 0) {
+					queue.add(api, 'deleteSnippets', [userModel.getAccessToken(), user._id, deletedSnippetsToSync], function(data) {
+						snippetModel.clearDeleted(deletedSnippets);
+						userModel.updateUserApiSnippets(localSnippets.concat());
+					}, function(err) {
+						console.log('API Error deleting a snippet', err);
 					});
 				}
 
-				// add local to remote
-				if (localSnippetsToSync.length > 0) {
-//					console.log('> copy local to remote', localSnippetsToSync);
-					queue.add(api, 'addSnippets', [userModel.getAccessToken(), user._id, localSnippetsToSync], function(data) {
+				// add snippets to remote
+				var addedSnippets = [];
+				localSnippets.forEach(function(item, index) {
+					if (item.added) {
+						addedSnippets.push(item);
+					}
+				});
+				if (addedSnippets.length > 0) {
+					queue.add(api, 'addSnippets', [userModel.getAccessToken(), user._id, addedSnippets], function(data) {
+						snippetModel.clearAdded(addedSnippets);
 						userModel.updateUserApiSnippets(localSnippets.concat());
 					}, function(err) {
 						console.log('Error saving the local snippets to remote');
 					});
 				}
 
-				// save local storage
-				snippetModel.set(localSnippets);
-				dispatcher.dispatch('render-list');
 			}
+
+			dispatcher.dispatch('render-list');
+
 		}
 	}
 

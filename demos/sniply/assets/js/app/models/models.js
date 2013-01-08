@@ -99,21 +99,33 @@
 			add: function(value) {
 				data.push({
 					_id: uuid(),
-					text: value
+					text: value,
+					added: true
 				});
 				this.set(data);
 			},
 			del: function(snippet) {
 				var id = snippet._id;
-				data.splice(data.indexOf(snippet), 1);
+				var snippetIndex = data.indexOf(snippet);
+				if (snippetIndex !== -1) {
+					data[snippetIndex].deleted = true;
+				}
 				this.set(data);
-				// remote
-				queue.add(api, 'deleteSnippet', [userModel.getAccessToken(), id], function(data) {
-					injector.getValue('userModel').updateUserApiSnippets(data);
-					dispatcher.dispatch('render-list');
-				}, function(err) {
-					console.log('API Error deleting a snippet', err);
+			},
+			clearDeleted: function(deletedSnippets) {
+				deletedSnippets.forEach(function(snippet, index) {
+					data.splice(data.indexOf(snippet), 1);
 				});
+				this.set(data);
+			},
+			clearAdded: function(addedSnippets) {
+				addedSnippets.forEach(function(snippet, index) {
+					var snippetIndex = data.indexOf(snippet);
+					if (snippetIndex !== -1) {
+						delete data[snippetIndex].added;
+					}
+				});
+				this.set(data);
 			},
 			get: function() {
 				return data;

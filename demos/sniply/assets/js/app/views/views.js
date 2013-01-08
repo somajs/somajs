@@ -15,9 +15,7 @@
 		var list = ['list', 'manage'];
 		var current = 'list';
 
-		dispatcher.addEventListener('render-nav', function() {
-			render();
-		});
+		dispatcher.addEventListener('render-nav', render);
 
 		scope.isSignedIn = function() {
 			return userModel.isSignedIn();
@@ -52,14 +50,7 @@
 		var inputValue = '';
 		var snippetFiltered = [];
 
-		scope.snippets = scope.snippetsFiltered = snippetModel.get();
-
-		template.render();
-
-		dispatcher.addEventListener('render-list', function() {
-			scope.snippets = snippetModel.get();
-			template.render();
-		});
+		dispatcher.addEventListener('render-list', render);
 
 		scope.search = function(event) {
 			inputValue = target(event).value;
@@ -68,14 +59,23 @@
 
 		scope.del = function(event, snippet) {
 			snippetModel.del(snippet);
+			dispatcher.dispatch('sync');
 		}
 
 		scope.snippetsFiltered = function() {
 			//if (inputValue === '') return snippetFiltered;
 			return scope.snippets.filter(function(snippet) {
-				return snippet.text.indexOf(inputValue) !== -1;
+				return snippet.text.indexOf(inputValue) !== -1 && !snippet.deleted;
 			});
 		}
+
+		function render() {
+			scope.snippets = snippetModel.get();
+			template.render();
+		}
+
+		render();
+
 	}
 
 	function Manage(template, scope, dispatcher, snippetModel) {

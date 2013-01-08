@@ -16,6 +16,10 @@
 
 				// ***** REMOTE TO LOCAL
 
+				// todo: FORCE AN UPDATE OF THE LOCAL ONE IF NO "ADDED" or "DELETED"
+				// in case of 2 different computers, older local values must be updated
+				// might need to implement something with a modification timestamp
+
 				var remoteSnippets = userModel.getUser().snippets;
 				remoteSnippets.forEach(function(item, index) {
 					var found = false;

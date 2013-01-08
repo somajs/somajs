@@ -55,6 +55,7 @@
 				var addedSnippets = [];
 				localSnippets.forEach(function(item, index) {
 					if (item.added) {
+						console.log('ADDED>>>>', item);
 						addedSnippets.push(item);
 					}
 				});

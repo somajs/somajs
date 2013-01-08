@@ -3,7 +3,7 @@
 	'use strict';
 
 soma.template = soma.template || {};
-soma.template.version = "0.1.3";
+soma.template.version = "0.1.5";
 
 var errors = soma.template.errors = {
 	TEMPLATE_STRING_NO_ELEMENT: "Error in soma.template, a string template requirement a second parameter: an element target - soma.template.create('string', element)",
@@ -49,7 +49,8 @@ var attributes = settings.attributes = {
 	multiple: "data-multiple",
 	readonly: "data-readonly",
 	selected: "data-selected",
-	template: "data-template"
+	template: "data-template",
+	html: "data-html"
 };
 
 var vars = settings.vars = {
@@ -82,6 +83,7 @@ var regex = {
 };
 
 var ie = (function(){
+	if (typeof document !== 'object') return undefined;
 	var undef,
 		v = 3,
 		div = document.createElement('div'),
@@ -188,7 +190,7 @@ function removeClass(elm, className) {
 	removeClass(elm, className);
 }
 // jquery contains
-var contains = document.documentElement.contains ?
+var contains = typeof document !== 'object' ? function(){} : document.documentElement.contains ?
 	function( a, b ) {
 		var adown = a.nodeType === 9 ? a.documentElement : a,
 			bup = b && b.parentNode;
@@ -368,12 +370,17 @@ function getNodeFromElement(element, scope, isRepeaterDescendant) {
 			if (name === settings.attributes.skip) {
 				node.skip = (value === "" || value === "true");
 			}
+			if (name === settings.attributes.html) {
+				node.html = (value === "" || value === "true");
+			}
 			if (name === settings.attributes.repeat && !isRepeaterDescendant) {
 				node.repeater = value;
 			}
 			if (
 				hasInterpolation(name + ':' + value) ||
 					name === settings.attributes.repeat ||
+					name === settings.attributes.skip ||
+					name === settings.attributes.html ||
 					name === settings.attributes.show ||
 					name === settings.attributes.hide ||
 					name === settings.attributes.href ||
@@ -521,8 +528,12 @@ function cloneRepeaterNode(element, node) {
 	if (node.attributes) {
 		var attrs = [];
 		for (var i = 0, l = node.attributes.length; i < l; i++) {
+			newNode.renderAsHtml = node.renderAsHtml;
 			if (node.attributes[i].name === settings.attributes.skip) {
 				newNode.skip = (node.attributes[i].value === "" || node.attributes[i].value === "true");
+			}
+			if (node.attributes[i].name === settings.attributes.html) {
+				newNode.html = (node.attributes[i].value === "" || node.attributes[i].value === "true");
 			}
 			if (node.attributes[i].name !== attributes.repeat) {
 				var attribute = new Attribute(node.attributes[i].name, node.attributes[i].value, newNode);
@@ -545,7 +556,7 @@ function createRepeaterChild(node, count, data, indexVar, indexVarValue, previou
 		// can't recreate the node with a cloned element on IE7
 		// be cause the attributes are not specified annymore (attribute.specified)
 		//var newNode = getNodeFromElement(newElement, node.scope._createChild(), true);
-		var newNode = cloneRepeaterNode(newElement, node)
+		var newNode = cloneRepeaterNode(newElement, node);
 		newNode.isRepeaterChild = true;
 		newNode.parent = node.parent;
 		newNode.template = node.template;
@@ -612,10 +623,11 @@ var Node = function(element, scope) {
 	this.nextSibling = null;
 	this.template = null;
 	this.eventHandlers = {};
+	this.html = false;
 
 	if (isTextNode(this.element)) {
 		this.value = this.element.nodeValue;
-		this.interpolation = new Interpolation(this.value, this);
+		this.interpolation = new Interpolation(this.value, this, undefined);
 	}
 
 };
@@ -759,7 +771,12 @@ Node.prototype = {
 		if (this.invalidate) {
 			this.invalidate = false;
 			if (isTextNode(this.element)) {
-				this.value = this.element.nodeValue = this.interpolation.render();
+				if (this.parent && this.parent.html) {
+					this.value = this.parent.element.innerHTML = this.interpolation.render();
+				}
+				else {
+					this.value = this.element.nodeValue = this.interpolation.render();
+				}
 			}
 		}
 		if (this.attributes) {
@@ -1204,7 +1221,7 @@ function clearEvents(element) {
 }
 
 
-if (settings.autocreate) {
+if (settings.autocreate && typeof document === 'object') {
 	// https://github.com/ded/domready
 	var ready=function(){function l(b){for(k=1;b=a.shift();)b()}var b,a=[],c=!1,d=document,e=d.documentElement,f=e.doScroll,g="DOMContentLoaded",h="addEventListener",i="onreadystatechange",j="readyState",k=/^loade|c/.test(d[j]);return d[h]&&d[h](g,b=function(){d.removeEventListener(g,b,c),l()},c),f&&d.attachEvent(i,b=function(){/^c/.test(d[j])&&(d.detachEvent(i,b),l())}),f?function(b){self!=top?k?b():a.push(b):function(){try{e.doScroll("left")}catch(a){return setTimeout(function(){ready(b)},50)}b()}()}:function(b){k?b():a.push(b)}}();
 	var parse = function(element) {

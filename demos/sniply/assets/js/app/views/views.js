@@ -16,7 +16,13 @@
 		var current = 'list';
 
 		dispatcher.addEventListener('render-nav', render);
-
+		dispatcher.addEventListener('select-nav', function(event) {
+			current = event.params;
+			for (var i = 0, l = list.length; i < l; i++) {
+				$('.' + list[i])[ list[i] === current ? 'removeClass' : 'addClass' ]('hidden');
+				$('.nav-' + list[i])[ list[i] === current ? 'addClass' : 'removeClass' ]('hidden');
+			}
+		});
 		scope.isSignedIn = function() {
 			return userModel.isSignedIn();
 		}
@@ -24,12 +30,12 @@
 			dispatcher.dispatch('logout');
 			render();
 		}
-		scope.select = function(event, id) {
-			current = id;
-			for (var i = 0, l = list.length; i < l; i++) {
-				$('.' + list[i])[ list[i] === current ? 'removeClass' : 'addClass' ]('hidden');
-				$('.nav-' + list[i])[ list[i] === current ? 'addClass' : 'removeClass' ]('hidden');
-			}
+		scope.showList = function(event, id) {
+			dispatcher.dispatch('select-nav', 'list');
+		}
+		scope.showManage = function(event, id) {
+			dispatcher.dispatch('select-nav', 'manage');
+			dispatcher.dispatch('add');
 		}
 		scope.signin = function() {
 			// stay in the same function to avoid popup blocker
@@ -49,6 +55,9 @@
 
 		var inputValue = '';
 		var snippetFiltered = [];
+		var brush = new SyntaxHighlighter.brushes.JScript();
+
+		brush.init({toolbar:false});
 
 		dispatcher.addEventListener('render-list', render);
 
@@ -62,11 +71,18 @@
 			dispatcher.dispatch('sync');
 		}
 
-		scope.snippetsFiltered = function() {
-			//if (inputValue === '') return snippetFiltered;
-			return scope.snippets.filter(function(snippet) {
-				return snippet.text.indexOf(inputValue) !== -1 && !snippet.deleted;
-			});
+		scope.edit = function(event, snippet) {
+			dispatcher.dispatch('select-nav', 'manage');
+			dispatcher.dispatch('edit', snippet);
+		}
+
+		scope.isVisible = function(snippet) {
+			if (!snippet) return false;
+			return snippet.text.indexOf(inputValue) !== -1 && !snippet.deleted;
+		}
+
+		scope.getSnippetHtml = function(snippet) {
+			return brush.getHtml(snippet.text);
 		}
 
 		function render() {
@@ -81,14 +97,40 @@
 	function Manage(template, scope, dispatcher, snippetModel) {
 
 		var textarea = $('textarea', template.element);
+		var editingSnippet;
 
-		scope.add = function() {
+		scope.label = 'add';
+
+		dispatcher.addEventListener('add', function(event) {
+			editingSnippet = null;
+			scope.label = 'add';
+			template.render();
+		});
+
+		dispatcher.addEventListener('edit', function(event) {
+			editingSnippet = event.params;
+			textarea.val(editingSnippet.text);
+			scope.label = 'update';
+			template.render();
+		});
+
+		scope.update = function() {
 			var value = textarea.val().trim();
 			if (value === '') return;
-			snippetModel.add(textarea.val());
+			if (!editingSnippet) {
+				snippetModel.add(textarea.val());
+				dispatcher.dispatch('sync');
+				dispatcher.dispatch('select-nav', 'list');
+			}
+			else {
+				snippetModel.update(editingSnippet, textarea.val());
+				dispatcher.dispatch('sync');
+				dispatcher.dispatch('select-nav', 'list');
+			}
 			textarea.val('');
-			dispatcher.dispatch('sync');
 		}
+
+		template.render();
 	}
 
 	// exports

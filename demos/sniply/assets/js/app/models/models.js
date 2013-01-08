@@ -104,6 +104,15 @@
 				});
 				this.set(data);
 			},
+			update: function(snippet, value) {
+				data.forEach(function(sn, index) {
+					if (sn._id === snippet._id && sn.text !== value) {
+						sn.text = value;
+						sn.added = true;
+					}
+				});
+				this.set(data);
+			},
 			del: function(snippet) {
 				var id = snippet._id;
 				var snippetIndex = data.indexOf(snippet);

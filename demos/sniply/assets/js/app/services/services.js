@@ -33,27 +33,7 @@
 		this.request('/snippets' + '?accessToken=' + accessToken, 'POST', successCallback, errorCallback, {id:id, action:'delete', snippets:JSON.stringify(snippets)});
 	};
 
-	function GithubService(token) {
-		this.token = token;
-		this.url = 'https://api.github.com';
-	}
-	GithubService.prototype.request = function(path, method, successCallback, errorCallback, data) {
-		$.ajax({
-			type: method,
-			url: this.url + path + '?access_token=' + this.token,
-			data: data,
-			dataType: 'json',
-			success: successCallback,
-			error: errorCallback
-		});
-	};
-	GithubService.prototype.getUser = function(successCallback, errorCallback) {
-		console.log('GET USER', this, successCallback, errorCallback);
-		this.request('/user', 'GET', successCallback, errorCallback);
-	};
-
 	// exports
-	sniply.services.GithubService = GithubService;
 	sniply.services.ApiService = ApiService;
 
 })(sniply = window.sniply || {});

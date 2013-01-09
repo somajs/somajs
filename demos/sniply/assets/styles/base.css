@@ -1,16 +1,231 @@
-.hidden {
-	display: none;
+html {
+	height: 100%;
+}
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	font-family: "Helvetica Neue", sans-serif;
+	font-size: 0.8em;
+	letter-spacing: 0.6px;
+
+	overflow: hidden;
+}
+textarea {
+	resize: none;
+}
+img {
+	border: none;
 }
 ul {
 	margin: 0;
 	padding: 0;
-	border-top: 1px solid #afafaf;
 }
 li {
 	list-style-type: none;
-	border-bottom: 1px solid #afafaf;
-	padding: 0px 0px 5px 0px;
 }
 .syntaxhighlighter .toolbar {
 	display: none;
+}
+
+.header {
+	position: relative;
+	z-index: 10;
+	margin: 0;
+	padding: 0;
+	height: 52px;
+	background: #1F1F1F;
+	background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxsaW5lYXJHcmFkaWVudCBpZD0iZzEiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMTAwJSIgeTE9IjEwMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzRkNGQ0ZCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iYmxhY2siLz48L2xpbmVhckdyYWRpZW50PjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZzEpIiAvPjwvc3ZnPg==);
+	background-image: -webkit-gradient(linear, center bottom, center top, color-stop(0%, #4d4d4d), color-stop(100%, black));
+	background-image: -webkit-linear-gradient(bottom, #4d4d4d 0%, black 100%);
+	background-image: -moz-linear-gradient(bottom, #4d4d4d 0%, black 100%);
+	background-image: -ms-linear-gradient(bottom, #4d4d4d 0%, black 100%);
+	background-image: -o-linear-gradient(bottom, #4d4d4d 0%, black 100%);
+	background-image: linear-gradient(to top, #4d4d4d 0%, black 100%);
+	-moz-box-shadow:0px 0px 11px 2px rgba(119, 119, 119, 1);
+	-webkit-box-shadow:0px 0px 11px 2px rgba(119, 119, 119, 1);
+	box-shadow:0px 0px 11px 2px rgba(119, 119, 119, 1);
+}
+.header .logo {
+	float: left;
+	background-image: url(../images/logo.png);
+	width: 95px;
+	height: 48px;
+	margin: 4px 0 4px 5px;
+}
+.header .user {
+	color: #FFF;
+	float: right;
+	background: #bdbdbd;
+	background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxsaW5lYXJHcmFkaWVudCBpZD0iZzEiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMTAwJSIgeTE9IjEwMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzFmMWYxZiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0icmdiYSg3MSwgNzEsIDcxLCAwLjg2OSkiLz48L2xpbmVhckdyYWRpZW50PjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZzEpIiAvPjwvc3ZnPg==);
+	background-image: -webkit-gradient(linear, center bottom, center top, color-stop(0%, #1f1f1f), color-stop(100%, rgba(71, 71, 71, 0.869)));
+	background-image: -webkit-linear-gradient(bottom, #1f1f1f 0%, rgba(71, 71, 71, 0.869) 100%);
+	background-image: -moz-linear-gradient(bottom, #1f1f1f 0%, rgba(71, 71, 71, 0.869) 100%);
+	background-image: -ms-linear-gradient(bottom, #1f1f1f 0%, rgba(71, 71, 71, 0.869) 100%);
+	background-image: -o-linear-gradient(bottom, #1f1f1f 0%, rgba(71, 71, 71, 0.869) 100%);
+	background-image: linear-gradient(to top, #1f1f1f 0%, rgba(71, 71, 71, 0.869) 100%);
+
+	cursor: pointer;
+
+	-moz-box-shadow:0px 0px 7px 2px #000000;
+	-webkit-box-shadow:0px 0px 7px 2px #000000;
+	box-shadow:0px 0px 7px 2px #000000;
+
+	height: 30px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+
+	margin: 10px 15px 5px 0;
+}
+.header .out {
+	line-height: 30px;
+	margin: 0 10px 0 10px;
+}
+.header .profile-image {
+	float: left;
+}
+.header .profile-name {
+	float: left;
+	margin: 5px 10px 0 10px;
+	line-height: 20px;
+	white-space: nowrap;
+	text-shadow: 0 1px 0 #000;
+}
+.header .profile-image img {
+	height: 30px;
+	-webkit-border-top-left-radius: 5px;
+	border-top-left-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+.header .nav {
+	float: right;
+	margin: 11px 20px 0 0;
+}
+
+.list {
+	position: relative;
+	z-index: 0;
+	height: 100%;
+}
+.list .filter {
+	padding: 20px 0 0 0;
+	text-align: center;
+}
+.list .filter input {
+	outline: none !important;
+	background: none;
+	border: none;
+	-moz-box-shadow:inset 0px 0px 30px 1px rgba(119, 119, 119, 0.2);
+	-webkit-box-shadow:inset 0px 0px 30px 1px rgba(119, 119, 119, 0.2);
+	box-shadow:inset 0px 0px 30px 1px rgba(119, 119, 119, 0.2);
+	text-align: center;
+	font-size: 2em;
+	width: 50%;
+	color: #adadad;
+	border-radius: 10px;
+	padding: 15px;
+}
+.list .container {
+	overflow: auto;
+	position: absolute;
+	top: 100px;
+	bottom: 60px;
+	left: 0;
+	right: 0;
+}
+.list ul {
+	margin: 0 0 0 0;
+}
+
+.manage {
+	position: absolute;
+	z-index: 0;
+	top: 50px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: #f2f2f2;
+	overflow: hidden;
+}
+
+.manage .text-input {
+	font-size: 1.5em;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+.manage .text-button {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+}
+
+.hidden {
+	display: none;
+}
+
+.button {
+	font-size: 1em;
+	background-color: #eeeeee;
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #eeeeee), color-stop(100%, #cccccc));
+	background-image: -webkit-linear-gradient(top, #eeeeee, #cccccc);
+	background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+	background-image: -ms-linear-gradient(top, #eeeeee, #cccccc);
+	background-image: -o-linear-gradient(top, #eeeeee, #cccccc);
+	background-image: linear-gradient(top, #eeeeee, #cccccc);
+	border: 1px solid #ccc;
+	border-bottom: 1px solid #bbb;
+	border-radius: 3px;
+	color: #333;
+	padding: 6px 12px;
+	text-align: center;
+	text-shadow: 0 1px 0 #eee;
+}
+.button:hover {
+	background-color: #dddddd;
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dddddd), color-stop(100%, #bbbbbb));
+	background-image: -webkit-linear-gradient(top, #dddddd, #bbbbbb);
+	background-image: -moz-linear-gradient(top, #dddddd, #bbbbbb);
+	background-image: -ms-linear-gradient(top, #dddddd, #bbbbbb);
+	background-image: -o-linear-gradient(top, #dddddd, #bbbbbb);
+	background-image: linear-gradient(top, #dddddd, #bbbbbb);
+	border: 1px solid #bbb;
+	border-bottom: 1px solid #999;
+	cursor: pointer;
+	text-shadow: 0 1px 0 #ddd;
+}
+.button:active {
+	border: 1px solid #aaa;
+	border-bottom: 1px solid #888;
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+
+.clearfix {
+	display: inline-block;
+}
+
+html[xmlns] .clearfix {
+	display: block;
+}
+
+* html .clearfix {
+	height: 1%;
+}
+
+.CodeMirror {
+	height: 100%;
+}
+.CodeMirror-scroll {
+	overflow-y: hidden;
+	overflow-x: auto;
 }

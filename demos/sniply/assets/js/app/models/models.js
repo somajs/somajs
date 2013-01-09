@@ -5,16 +5,6 @@
 
 	// utils
 	var uuid = function(a,b){for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b;}
-	function getParam(url, key) {
-		if (!url) return undefined;
-		var params = url.split("?")[1].split("&");
-		var list = {};
-		for (var i = 0, l = params.length; i < l; i++) {
-			var parts = params[i].split('=');
-			list[parts[0]] = parts[1];
-		}
-		return list[key];
-	}
 
 	// models
 
@@ -38,7 +28,7 @@
 		function setUser(value) {
 			user = value;
 			setStore();
-			dispatcher.dispatch('sync');
+			dispatcher.dispatch(sniply.events.SYNC);
 		}
 
 		function getUserFromAPI() {
@@ -63,7 +53,7 @@
 						if (data.error) console.log('Error getting the current user', data);
 						else {
 							setUser(data);
-							dispatcher.dispatch('render-nav');
+							dispatcher.dispatch(sniply.events.RENDER_NAV);
 						}
 					}, function(err) {
 						console.log('Error getting the current user', err);

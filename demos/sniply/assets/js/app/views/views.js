@@ -15,27 +15,28 @@
 		var list = ['list', 'manage'];
 		var current = 'list';
 
-		dispatcher.addEventListener('render-nav', render);
-		dispatcher.addEventListener('select-nav', function(event) {
+		dispatcher.addEventListener(sniply.events.RENDER_NAV, render);
+		dispatcher.addEventListener(sniply.events.SELECT_NAV, function(event) {
 			current = event.params;
 			for (var i = 0, l = list.length; i < l; i++) {
 				$('.' + list[i])[ list[i] === current ? 'removeClass' : 'addClass' ]('hidden');
 				$('.nav-' + list[i])[ list[i] === current ? 'addClass' : 'removeClass' ]('hidden');
 			}
 		});
+
 		scope.isSignedIn = function() {
 			return userModel.isSignedIn();
 		}
 		scope.logout = function() {
-			dispatcher.dispatch('logout');
+			dispatcher.dispatch(sniply.events.LOGOUT);
 			render();
 		}
 		scope.showList = function(event, id) {
-			dispatcher.dispatch('select-nav', 'list');
+			dispatcher.dispatch(sniply.events.SELECT_NAV, 'list');
 		}
 		scope.showManage = function(event, id) {
-			dispatcher.dispatch('select-nav', 'manage');
-			dispatcher.dispatch('add');
+			dispatcher.dispatch(sniply.events.SELECT_NAV, 'manage');
+			dispatcher.dispatch(sniply.events.ADD_SNIPPET);
 		}
 		scope.signin = function() {
 			// stay in the same function to avoid popup blocker
@@ -59,7 +60,7 @@
 
 		brush.init({toolbar:false});
 
-		dispatcher.addEventListener('render-list', render);
+		dispatcher.addEventListener(sniply.events.RENDER_LIST, render);
 
 		scope.search = function(event) {
 			inputValue = target(event).value;
@@ -68,12 +69,12 @@
 
 		scope.del = function(event, snippet) {
 			snippetModel.del(snippet);
-			dispatcher.dispatch('sync');
+			dispatcher.dispatch(sniply.events.SYNC);
 		}
 
 		scope.edit = function(event, snippet) {
-			dispatcher.dispatch('select-nav', 'manage');
-			dispatcher.dispatch('edit', snippet);
+			dispatcher.dispatch(sniply.events.SELECT_NAV, 'manage');
+			dispatcher.dispatch(sniply.events.EDIT_SNIPPET, snippet);
 		}
 
 		scope.isVisible = function(snippet) {
@@ -96,38 +97,46 @@
 
 	function Manage(template, scope, dispatcher, snippetModel) {
 
-		var textarea = $('textarea', template.element);
 		var editingSnippet;
+		var editor = CodeMirror($('.text-input', template.element)[0], {
+			mode: "javascript",
+			theme: "eclipse",
+			lineNumbers: true,
+			autofocus: true
+		});
 
 		scope.label = 'add';
 
-		dispatcher.addEventListener('add', function(event) {
+		dispatcher.addEventListener(sniply.events.ADD_SNIPPET, function(event) {
 			editingSnippet = null;
+			editor.setValue('');
 			scope.label = 'add';
 			template.render();
+			editor.refresh();
 		});
 
-		dispatcher.addEventListener('edit', function(event) {
+		dispatcher.addEventListener(sniply.events.EDIT_SNIPPET, function(event) {
 			editingSnippet = event.params;
-			textarea.val(editingSnippet.text);
+			//textarea.val(editingSnippet.text);
+			editor.setValue(editingSnippet.text);
 			scope.label = 'update';
 			template.render();
+			editor.refresh();
 		});
 
 		scope.update = function() {
-			var value = textarea.val().trim();
+			var value = editor.getValue().trim();
 			if (value === '') return;
 			if (!editingSnippet) {
-				snippetModel.add(textarea.val());
-				dispatcher.dispatch('sync');
-				dispatcher.dispatch('select-nav', 'list');
+				snippetModel.add(value);
+				dispatcher.dispatch(sniply.events.SYNC);
+				dispatcher.dispatch(sniply.events.SELECT_NAV, 'list');
 			}
 			else {
-				snippetModel.update(editingSnippet, textarea.val());
-				dispatcher.dispatch('sync');
-				dispatcher.dispatch('select-nav', 'list');
+				snippetModel.update(editingSnippet, value);
+				dispatcher.dispatch(sniply.events.SYNC);
+				dispatcher.dispatch(sniply.events.SELECT_NAV, 'list');
 			}
-			textarea.val('');
 		}
 
 		template.render();

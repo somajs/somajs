@@ -1,5 +1,15 @@
 ;(function(sniply, undefined) {
 
+	sniply.events = {
+		'SELECT_NAV': 'select-nav',
+		'RENDER_NAV': 'render-nav',
+		'RENDER_LIST': 'render-list',
+		'SYNC': 'sync',
+		'LOGOUT': 'logout',
+		'ADD_SNIPPET': 'add',
+		'EDIT_SNIPPET': 'edit'
+	};
+
     var App = soma.Application.extend({
 
 	    init: function() {
@@ -12,7 +22,6 @@
 			this.commands.add('logout', sniply.commands.LogoutCommand);
 
 		    // services
-		    this.injector.mapClass('github', sniply.services.GithubService);
 		    this.injector.mapClass('api', sniply.services.ApiService);
 
 		    // models
@@ -27,15 +36,7 @@
 	    },
 
 	    start: function() {
-//		    this.dispatcher.dispatch('sync');
 
-//			var service = new sniply.services.ApiService();
-//		    var queue = new sniply.utils.Queue();
-//		    queue.add(service, 'addUser', ['soundstep1'], function(d){console.log('1a', d);}, function(d){console.log('1b', d);})
-//		    queue.add(service, 'getUser', ['soundstep1'], function(d){console.log('2a', d);}, function(d){console.log('2b', d);})
-//		    queue.add(service, 'addUser', ['soundstep2'], function(d){console.log('3a', d);}, function(d){console.log('3b', d);})
-//		    queue.add(service, 'getUser', ['soundstep2'], function(d){console.log('4a', d);}, function(d){console.log('4b', d);})
-//		    queue.run();
 	    }
 
     });

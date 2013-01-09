@@ -22,7 +22,6 @@
 				// check for deleted snippets
 
 				for (var j=localSnippets.length-1, k=0; j>=k; j--) {
-					console.log(j, k);
 					var found = false;
 					for (var s= 0, d=remoteSnippets.length; s < d; s++) {
 						if (localSnippets[j]._id === remoteSnippets[s]._id) {
@@ -51,16 +50,19 @@
 					}
 					else {
 						// snippet exists locally, compare dates
-						var localDate = new Date(parseInt(currentSnippet.modificationDate));
-						var remoteDate = new Date(parseInt(item.modificationDate));
-						if (remoteDate > localDate) {
+						var localDate = parseInt(currentSnippet.modificationDate);
+						var remoteDate = parseInt(item.modificationDate);
+						if (remoteDate === localDate) {
+							// same one, do nothing
+						}
+						else if (remoteDate > localDate) {
 							// remote more recent, overwrite local snippet
 							localSnippets[currentSnippetIndex] = item;
 						}
 						else {
-							// local more recent
-							// if not flagged as added by the user: push in the list to send to the server
 							if (!localSnippets[currentSnippetIndex].added) {
+								// local more recent
+								// if not flagged as added by the user: push in the list to send to the server
 								addedSnippets.push(localSnippets[currentSnippetIndex]);
 							}
 						}
@@ -93,7 +95,6 @@
 					}
 				});
 				if (addedSnippets.length > 0) {
-					console.log('SEND', addedSnippets);
 					queue.add(api, 'addSnippets', [userModel.getAccessToken(), user._id, addedSnippets], function(data) {
 						snippetModel.clearAdded(addedSnippets);
 						userModel.updateUserApiSnippets(localSnippets.concat());
@@ -104,7 +105,7 @@
 
 			}
 
-			dispatcher.dispatch('render-list');
+			dispatcher.dispatch(sniply.events.RENDER_LIST);
 
 		}
 	}
@@ -113,8 +114,8 @@
 		this.execute = function(event) {
 			userModel.clear();
 			snippetModel.clear();
-			dispatcher.dispatch('render-nav');
-			dispatcher.dispatch('render-list');
+			dispatcher.dispatch(sniply.events.RENDER_NAV);
+			dispatcher.dispatch(sniply.events.RENDER_LIST);
 		}
 	}
 

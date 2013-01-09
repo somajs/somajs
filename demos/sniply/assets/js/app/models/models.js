@@ -100,6 +100,8 @@
 				data.push({
 					_id: uuid(),
 					text: value,
+					creationDate: new Date().getTime(),
+					modificationDate: new Date().getTime(),
 					added: true
 				});
 				this.set(data);
@@ -108,6 +110,7 @@
 				data.forEach(function(sn, index) {
 					if (sn._id === snippet._id && sn.text !== value) {
 						sn.text = value;
+						sn.modificationDate = new Date().getTime();
 						sn.added = true;
 					}
 				});

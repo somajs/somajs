@@ -13,24 +13,57 @@
 
 				var localSnippets = snippetModel.get();
 				var remoteSnippets = userModel.getUser().snippets;
+				var deletedSnippets = [];
+				var deletedSnippetsToSync = [];
+				var addedSnippets = [];
 
 				// ***** REMOTE TO LOCAL
 
-				// todo: FORCE AN UPDATE OF THE LOCAL ONE IF NO "ADDED" or "DELETED"
-				// in case of 2 different computers, older local values must be updated
-				// might need to implement something with a modification timestamp
+				// check for deleted snippets
+
+				for (var j=localSnippets.length-1, k=0; j>=k; j--) {
+					console.log(j, k);
+					var found = false;
+					for (var s= 0, d=remoteSnippets.length; s < d; s++) {
+						if (localSnippets[j]._id === remoteSnippets[s]._id) {
+							found = true;
+						}
+					}
+					if (!found && !localSnippets[j].added && !localSnippets[j].deleted) {
+						localSnippets.splice(j, 1);
+					}
+				}
 
 				var remoteSnippets = userModel.getUser().snippets;
 				remoteSnippets.forEach(function(item, index) {
-					var found = false;
+					var currentSnippet;
+					var currentSnippetIndex;
 					for (var i= 0, l=localSnippets.length; i < l; i++) {
 						if (item._id === localSnippets[i]._id) {
-							found = true;
+							currentSnippet = localSnippets[i];
+							currentSnippetIndex = i;
 							break;
 						}
 					}
-					if (!found) {
+					if (!currentSnippet) {
+						// snippet doesn't exist locally
 						localSnippets.push(item);
+					}
+					else {
+						// snippet exists locally, compare dates
+						var localDate = new Date(parseInt(currentSnippet.modificationDate));
+						var remoteDate = new Date(parseInt(item.modificationDate));
+						if (remoteDate > localDate) {
+							// remote more recent, overwrite local snippet
+							localSnippets[currentSnippetIndex] = item;
+						}
+						else {
+							// local more recent
+							// if not flagged as added by the user: push in the list to send to the server
+							if (!localSnippets[currentSnippetIndex].added) {
+								addedSnippets.push(localSnippets[currentSnippetIndex]);
+							}
+						}
 					}
 				});
 				snippetModel.set(localSnippets);
@@ -38,8 +71,6 @@
 				// ***** LOCAL TO REMOTE
 
 				// delete snippets in remote
-				var deletedSnippets = [];
-				var deletedSnippetsToSync = [];
 				localSnippets.forEach(function(item, index) {
 					if (item.deleted) {
 						deletedSnippetsToSync.push(item._id);
@@ -56,14 +87,13 @@
 				}
 
 				// add snippets to remote
-				var addedSnippets = [];
 				localSnippets.forEach(function(item, index) {
 					if (item.added) {
-						console.log('ADDED>>>>', item);
 						addedSnippets.push(item);
 					}
 				});
 				if (addedSnippets.length > 0) {
+					console.log('SEND', addedSnippets);
 					queue.add(api, 'addSnippets', [userModel.getAccessToken(), user._id, addedSnippets], function(data) {
 						snippetModel.clearAdded(addedSnippets);
 						userModel.updateUserApiSnippets(localSnippets.concat());

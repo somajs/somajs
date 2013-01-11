@@ -109,33 +109,56 @@ li {
 	height: 100%;
 }
 .list .filter {
-	padding: 20px 0 0 0;
+	position: absolute;
+	left: 20px;
+	right: 20px;
+	height: 40px;
+	margin: 20px 0 0 0;
 	text-align: center;
 }
 .list .filter input {
 	outline: none !important;
-	background: none;
+	background: #f2f2f2;
+	width: 100%;
+	height: 100%;
 	border: none;
-	-moz-box-shadow:inset 0px 0px 30px 1px rgba(119, 119, 119, 0.2);
-	-webkit-box-shadow:inset 0px 0px 30px 1px rgba(119, 119, 119, 0.2);
-	box-shadow:inset 0px 0px 30px 1px rgba(119, 119, 119, 0.2);
 	text-align: center;
-	font-size: 2em;
-	width: 50%;
 	color: #adadad;
-	border-radius: 10px;
-	padding: 15px;
+	font-size: 2em;
+	/*background: none;*/
+	/*border: none;*/
+	/*-moz-box-shadow:inset 0px 0px 30px 1px rgba(119, 119, 119, 0.2);*/
+	/*-webkit-box-shadow:inset 0px 0px 30px 1px rgba(119, 119, 119, 0.2);*/
+	/*box-shadow:inset 0px 0px 30px 1px rgba(119, 119, 119, 0.2);*/
+	/*text-align: center;*/
+	/*font-size: 2em;*/
+	/*width: 50%;*/
+	/*color: #adadad;*/
+	/*border-radius: 10px;*/
+	/*padding: 15px;*/
 }
 .list .container {
 	overflow: auto;
 	position: absolute;
-	top: 100px;
+	top: 70px;
 	bottom: 60px;
 	left: 0;
 	right: 0;
+	padding: 0 20px 0 20px;
 }
-.list ul {
-	margin: 0 0 0 0;
+.list .item {
+	margin: 0 0 10px 0;
+	padding: 10px;
+	background: #f2f2f2;
+}
+.list .item .content {
+	margin: 0 0 10px 0;
+	-moz-box-shadow:1px 1px 4px 2px rgba(119, 119, 119, 0.54);
+	-webkit-box-shadow:1px 1px 4px 2px rgba(119, 119, 119, 0.54);
+	box-shadow:1px 1px 4px 2px rgba(119, 119, 119, 0.54);
+}
+.list .item .syntaxhighlighter {
+	padding: 10px 0;
 }
 
 .manage {
@@ -220,6 +243,13 @@ html[xmlns] .clearfix {
 
 * html .clearfix {
 	height: 1%;
+}
+
+.syntaxhighlighter {
+	margin: 0 !important;
+}
+.syntaxhighlighter .line {
+	margin: 0 !important;
 }
 
 .CodeMirror {

@@ -67,6 +67,14 @@
 			template.render();
 		}
 
+		scope.showHint = function(event) {
+			target(event).setAttribute('placeholder', 'filter');
+		}
+
+		scope.hideHint = function(event) {
+			target(event).removeAttribute('placeholder', 'filter');
+		}
+
 		scope.del = function(event, snippet) {
 			snippetModel.del(snippet);
 			dispatcher.dispatch(sniply.events.SYNC);
@@ -102,7 +110,7 @@
 			mode: "javascript",
 			theme: "eclipse",
 			lineNumbers: true,
-			autofocus: true
+			indentUnit: 4
 		});
 
 		scope.label = 'add';
@@ -113,6 +121,7 @@
 			scope.label = 'add';
 			template.render();
 			editor.refresh();
+			editor.focus();
 		});
 
 		dispatcher.addEventListener(sniply.events.EDIT_SNIPPET, function(event) {
@@ -122,6 +131,7 @@
 			scope.label = 'update';
 			template.render();
 			editor.refresh();
+			editor.focus();
 		});
 
 		scope.update = function() {

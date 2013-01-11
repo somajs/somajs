@@ -38,16 +38,13 @@
 </div>
 
 <div class="list">
-	<div class="filter"><input type="text" autofocus data-keyup="search()"></div>
+	<div class="filter"><input type="text" data-keyup="search()" placeholder="filter" data-focus="hideHint()" data-blur="showHint()"></div>
 	<div class="container">
-		<ul>
-			<li data-repeat="snippet in snippets" data-show="{{isVisible(snippet)}}">
-				<div data-html>{{getSnippetHtml(snippet)}}</div>
-				<!--<pre class="brush: js">{{snippet.text}}</pre>-->
-				<button data-click="edit(snippet)" class="button">edit</button>
-				<button data-click="del(snippet)" class="button">delete</button>
-			</li>
-		</ul>
+		<div class="item" data-repeat="snippet in snippets" data-show="{{isVisible(snippet)}}">
+			<div class="content" data-html>{{getSnippetHtml(snippet)}}</div>
+			<button data-click="edit(snippet)" class="button">edit</button>
+			<button data-click="del(snippet)" class="button">delete</button>
+		</div>
 	</div>
 </div>
 

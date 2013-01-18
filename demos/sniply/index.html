@@ -18,7 +18,7 @@
 	<div class="user">
 		<div data-click="signin()" data-hide="{{isSignedIn}}" class="out">Sign in with Github</div>
 		<div data-show="{{isSignedIn}}" class="in" data-click="logout()">
-			<div class="profile-image"><img data-src="{{user.github.avatar_url}}"></div>
+			<div class="profile-image" data-show="{{isOnline()}}"><img data-src="{{getUserAvatar(user)}}"></div>
 			<div class="profile-name">{{user.github.name}}</div>
 		</div>
 	</div>

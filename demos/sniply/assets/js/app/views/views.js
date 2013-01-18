@@ -8,6 +8,13 @@
 		return event.currentTarget ? event.currentTarget : event.srcElement;
 	}
 
+	// global helpers
+	soma.template.helpers({
+		isOnline: function() {
+			return navigator.onLine;
+		}
+	});
+
 	// templates
 
 	function Header(template, scope, dispatcher, userModel, api) {
@@ -41,6 +48,9 @@
 		scope.signin = function() {
 			// stay in the same function to avoid popup blocker
 			userModel.signin();
+		}
+		scope.getUserAvatar = function(user) {
+			return user && navigator.onLine ? user.github.avatar_url : '';
 		}
 
 		function render() {

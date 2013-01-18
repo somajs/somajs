@@ -36,7 +36,7 @@
 		}
 
 		function getUserFromAPI() {
-			if (!user) return;
+			if (!user || !navigator.onLine) return;
 			queue.add(api, 'getUser', [user.accessToken, user._id], function(data) {
 				setUser(data);
 			}, function(err) {

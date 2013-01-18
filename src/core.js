@@ -71,6 +71,27 @@ soma.Application = soma.extend({
 	},
 	start: function() {
 
+	},
+	dispose: function() {
+		// mapping
+		if (this.injector) {
+			this.injector.removeMapping('injector');
+			this.injector.removeMapping('dispatcher');
+			this.injector.removeMapping('mediators');
+			this.injector.removeMapping('commands');
+			this.injector.removeMapping('instance');
+		}
+		// variables
+		if (this.injector) this.injector.dispose();
+		if (this.dispatcher) this.dispatcher.dispose();
+		if (this.mediators) this.mediators.dispose();
+		if (this.commands) this.commands.dispose();
+		this.injector = null;
+		this.dispatcher = null;
+		this.mediators = null;
+		this.commands = null;
+		this.instance = null;
+		// todo: remove plugins
 	}
 });
 
@@ -91,12 +112,12 @@ var Mediators = soma.extend({
 				injector.mapValue("target", list[i]);
 				var mediator = injector.createInstance(cl);
 				arr.push(mediator);
-				if (isElement(list[i]) && soma.interact) {
-					soma.interact.parse(list[i], mediator);
-				}
 			}
 			return arr;
 		}
+	},
+	dispose: function() {
+		// todo dispose mediators
 	}
 });
 
@@ -162,5 +183,14 @@ var Commands = soma.extend({
 			}
 			command.execute(event);
 		}
+	},
+	dispose: function() {
+		for (var c in this.list) {
+			this.remove(c);
+		}
+		this.boundHandler = null;
+		this.dispatcher = null;
+		this.injector = null;
+		this.list = null;
 	}
 });

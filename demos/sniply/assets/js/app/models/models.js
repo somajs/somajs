@@ -15,6 +15,10 @@
 			user = getStore(),
 			popup;
 
+		if (user) {
+			dispatcher.dispatch(sniply.events.NOTIFY, "Welcome back " + user.github.name + '.');
+		}
+
 		getUserFromAPI();
 
 		function setStore() {
@@ -54,6 +58,7 @@
 						else {
 							setUser(data);
 							dispatcher.dispatch(sniply.events.RENDER_NAV);
+							dispatcher.dispatch(sniply.events.NOTIFY, "User logged in. Welcome " + data.github.name + '.');
 						}
 					}, function(err) {
 						console.log('Error getting the current user', err);
@@ -80,7 +85,7 @@
 		}
 	}
 
-	function SnippetModel(injector, dispatcher, api, queue, userModel) {
+	function SnippetModel(injector, dispatcher) {
 
 		var storeKey = 'sniply-data';
 		var data = amplify.store(storeKey) || [];

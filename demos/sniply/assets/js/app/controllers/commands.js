@@ -83,6 +83,7 @@
 					queue.add(api, 'deleteSnippets', [userModel.getAccessToken(), user._id, deletedSnippetsToSync], function(data) {
 						snippetModel.clearDeleted(deletedSnippets);
 						userModel.updateUserApiSnippets(localSnippets.concat());
+						dispatcher.dispatch(sniply.events.NOTIFY, "Snippets deleted on server.");
 					}, function(err) {
 						console.log('API Error deleting a snippet', err);
 					});
@@ -98,6 +99,7 @@
 					queue.add(api, 'addSnippets', [userModel.getAccessToken(), user._id, addedSnippets], function(data) {
 						snippetModel.clearAdded(addedSnippets);
 						userModel.updateUserApiSnippets(localSnippets.concat());
+						dispatcher.dispatch(sniply.events.NOTIFY, "Snippets saved on server.");
 					}, function(err) {
 						console.log('Error saving the local snippets to remote');
 					});
@@ -116,11 +118,21 @@
 			snippetModel.clear();
 			dispatcher.dispatch(sniply.events.RENDER_NAV);
 			dispatcher.dispatch(sniply.events.RENDER_LIST);
+			dispatcher.dispatch(sniply.events.NOTIFY, "User logged out.");
+		}
+	}
+
+	function NotifyCommand() {
+		this.execute = function(event) {
+			$('.bottom-right').notify({
+				message: { text: event.params }
+			}).show();
 		}
 	}
 
 	// exports
 	sniply.commands.SyncCommand = SyncCommand;
 	sniply.commands.LogoutCommand = LogoutCommand;
+	sniply.commands.NotifyCommand = NotifyCommand;
 
 })(sniply = window.sniply || {});

@@ -13,7 +13,7 @@
 	function Header(template, scope, dispatcher, userModel, api) {
 
 		var list = ['list', 'manage'];
-		var current = 'list';
+		var current = list[0];
 
 		dispatcher.addEventListener(sniply.events.RENDER_NAV, render);
 		dispatcher.addEventListener(sniply.events.SELECT_NAV, function(event) {
@@ -65,6 +65,24 @@
 		scope.search = function(event) {
 			inputValue = target(event).value;
 			template.render();
+		}
+
+		scope.getSnippetLength = function() {
+			var length = scope.snippets.filter(function(snippet, index, array) {
+				return snippet.text.indexOf(inputValue) !== -1 && !snippet.deleted
+			}).length;
+			var plural = length > 1 ? 's' : '';
+			return length + ' snippet' + plural + ' found.';
+		}
+
+		scope.clearFilterVisible = function() {
+			return inputValue !== '';
+		}
+
+		scope.clearFilter = function(event) {
+			inputValue = '';
+			$('.filter input', template.element).val('');
+			render();
 		}
 
 		scope.showHint = function(event) {
@@ -126,7 +144,6 @@
 
 		dispatcher.addEventListener(sniply.events.EDIT_SNIPPET, function(event) {
 			editingSnippet = event.params;
-			//textarea.val(editingSnippet.text);
 			editor.setValue(editingSnippet.text);
 			scope.label = 'update';
 			template.render();

@@ -7,7 +7,8 @@
 		'SYNC': 'sync',
 		'LOGOUT': 'logout',
 		'ADD_SNIPPET': 'add',
-		'EDIT_SNIPPET': 'edit'
+		'EDIT_SNIPPET': 'edit',
+		'NOTIFY': 'notify'
 	};
 
     var App = soma.Application.extend({
@@ -18,8 +19,9 @@
 		    this.injector.mapClass('queue', sniply.utils.Queue, true);
 
 		    // commands
-			this.commands.add('sync', sniply.commands.SyncCommand);
-			this.commands.add('logout', sniply.commands.LogoutCommand);
+			this.commands.add(sniply.events.SYNC, sniply.commands.SyncCommand);
+			this.commands.add(sniply.events.LOGOUT, sniply.commands.LogoutCommand);
+			this.commands.add(sniply.events.NOTIFY, sniply.commands.NotifyCommand);
 
 		    // services
 		    this.injector.mapClass('api', sniply.services.ApiService);

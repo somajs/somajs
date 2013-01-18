@@ -24,6 +24,9 @@ ul {
 li {
 	list-style-type: none;
 }
+input[placeholder] {
+	line-height: 32px;
+}
 .syntaxhighlighter .toolbar {
 	display: none;
 }
@@ -113,7 +116,7 @@ li {
 	left: 20px;
 	right: 20px;
 	height: 40px;
-	margin: 20px 0 0 0;
+	margin: 20px 10px 0 0;
 	text-align: center;
 }
 .list .filter input {
@@ -125,22 +128,11 @@ li {
 	text-align: center;
 	color: #adadad;
 	font-size: 2em;
-	/*background: none;*/
-	/*border: none;*/
-	/*-moz-box-shadow:inset 0px 0px 30px 1px rgba(119, 119, 119, 0.2);*/
-	/*-webkit-box-shadow:inset 0px 0px 30px 1px rgba(119, 119, 119, 0.2);*/
-	/*box-shadow:inset 0px 0px 30px 1px rgba(119, 119, 119, 0.2);*/
-	/*text-align: center;*/
-	/*font-size: 2em;*/
-	/*width: 50%;*/
-	/*color: #adadad;*/
-	/*border-radius: 10px;*/
-	/*padding: 15px;*/
 }
-.list .container {
+.list .items {
 	overflow: auto;
 	position: absolute;
-	top: 70px;
+	top: 80px;
 	bottom: 60px;
 	left: 0;
 	right: 0;
@@ -159,6 +151,12 @@ li {
 }
 .list .item .syntaxhighlighter {
 	padding: 10px 0;
+}
+.clear-search {
+	position: absolute;
+	top: 0;
+	right: 20px;
+	cursor: pointer;
 }
 
 .manage {

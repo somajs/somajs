@@ -2,12 +2,13 @@
 <html>
 <head>
 	<title>Snippet</title>
-	<!--<link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.css" media="all"/>-->
+	<link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.css" media="all"/>
 	<link rel="stylesheet" type="text/css" href="assets/styles/normalize.css" media="all"/>
 	<link rel="stylesheet" type="text/css" href="assets/syntaxhighlighter_3.0.83/styles/shCore.css" media="all"/>
 	<link rel="stylesheet" type="text/css" href="assets/syntaxhighlighter_3.0.83/styles/shThemeDefault.css" media="all"/>
 	<link rel="stylesheet" type="text/css" href="assets/codemirror-3.0/lib/codemirror.css" media="all"/>
 	<link rel="stylesheet" type="text/css" href="assets/codemirror-3.0/theme/eclipse.css" media="all"/>
+	<link rel="stylesheet" type="text/css" href="assets/bootstrap-notify/css/bootstrap-notify.css" media="all">
 	<link rel="stylesheet" type="text/css" href="assets/styles/base.css" media="all"/>
 </head>
 <body>
@@ -19,7 +20,6 @@
 		<div data-show="{{isSignedIn}}" class="in" data-click="logout()">
 			<div class="profile-image"><img data-src="{{user.github.avatar_url}}"></div>
 			<div class="profile-name">{{user.github.name}}</div>
-			<!--<div class="profile-name"><button data-click="logout()">logout</button>-->
 		</div>
 	</div>
 	<div class="nav">
@@ -29,9 +29,7 @@
 </div>
 
 <div class="manage hidden">
-	<div class="text-input">
-		<!--<textarea></textarea>-->
-	</div>
+	<div class="text-input"></div>
 	<div class="text-button">
 		<button data-click="update()" class="button">{{label}}</button>
 	</div>
@@ -39,7 +37,9 @@
 
 <div class="list">
 	<div class="filter"><input type="text" data-keyup="search()" placeholder="filter" data-focus="hideHint()" data-blur="showHint()"></div>
-	<div class="container">
+	<div class="items">
+		<div>Filter results: {{getSnippetLength()}}</div>
+		<div class="clear-search" data-show="{{clearFilterVisible()}}"><a data-click="clearFilter()">clear filter</a></div>
 		<div class="item" data-repeat="snippet in snippets" data-show="{{isVisible(snippet)}}">
 			<div class="content" data-html>{{getSnippetHtml(snippet)}}</div>
 			<button data-click="edit(snippet)" class="button">edit</button>
@@ -48,17 +48,22 @@
 	</div>
 </div>
 
+<div class='notifications bottom-right'></div>
+
 <script type="text/javascript" src="../../build/soma.js"></script>
 <script type="text/javascript" src="assets/js/libs/soma-template.js"></script>
+
+<script type="text/javascript" src="assets/js/libs/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="assets/js/libs/amplify.min.js"></script>
+
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/bootstrap-notify/js/bootstrap-notify.js"></script>
 
 <script type="text/javascript" src="assets/syntaxhighlighter_3.0.83/scripts/shCore.js"></script>
 <script type="text/javascript" src="assets/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
 
 <script type="text/javascript" src="assets/codemirror-3.0/lib/codemirror.js"></script>
 <script type="text/javascript" src="assets/codemirror-3.0/mode/javascript/javascript.js"></script>
-
-<script type="text/javascript" src="assets/js/libs/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="assets/js/libs/amplify.min.js"></script>
 
 <script type="text/javascript" src="assets/js/app/utils/utils.js"></script>
 <script type="text/javascript" src="assets/js/app/utils/queue.js"></script>

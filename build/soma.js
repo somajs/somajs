@@ -1,26 +1,26 @@
 /*
- Copyright (c) | 2012 | infuse.js | Romuald Quantin | www.soundstep.com | romu@soundstep.com
+Copyright (c) | 2012 | infuse.js | Romuald Quantin | www.soundstep.com | romu@soundstep.com
 
- Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- and associated documentation files (the "Software"), to deal in the Software without restriction,
- including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
- and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
- subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
 
- The above copyright notice and this permission notice shall be included in all copies or substantial
- portions of the Software.
+The above copyright notice and this permission notice shall be included in all copies or substantial
+portions of the Software.
 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
- LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 
 ;(function(infuse, undefined) {
-	"use strict";
+    "use strict";
 
-	infuse.version = "0.6.0";
+	infuse.version = "0.6.3";
 
 	// regex from angular JS (https://github.com/angular/angular.js)
 	var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
@@ -29,13 +29,13 @@
 	var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
 
 	if(!Array.prototype.contains) {
-		Array.prototype.contains = function(value) {
-			var i = this.length;
-			while (i--) {
-				if (this[i] === value) return true;
-			}
-			return false;
-		};
+	    Array.prototype.contains = function(value) {
+	        var i = this.length;
+	        while (i--) {
+	            if (this[i] === value) return true;
+	        }
+	        return false;
+	    };
 	}
 
 	infuse.InjectorError = {
@@ -64,7 +64,7 @@
 	};
 
 	var validateValue = function(prop, val) {
-		if (!val) {
+		if (val === undefined || val === null) {
 			throw new Error(infuse.InjectorError.MAPPING_BAD_VALUE + prop);
 		}
 	};
@@ -194,8 +194,7 @@
 				arguments[0] = vo.cl;
 				return this.getValueFromClass.apply(this, arguments);
 			}
-			if (vo.value) return vo.value;
-			return undefined;
+			return vo.value;
 		},
 
 		getClass: function(prop) {
@@ -216,7 +215,7 @@
 			var args = [null];
 			var params = infuse.getConstructorParams(TargetClass, this.mappings);
 			for (var i=0; i<params.length; i++) {
-				if (arguments[i+1]) {
+				if (arguments[i+1] !== undefined && arguments[i+1] !== null) {
 					// argument found
 					args.push(arguments[i+1]);
 				}
@@ -346,9 +345,9 @@
 
 	// register for AMD module
 	if (typeof define === 'function' && define.amd) {
-		define("infuse", infuse);
+	    define("infuse", infuse);
 	}
-
+	
 	// export for node.js
 	if (typeof exports !== 'undefined') {
 		if (typeof module !== 'undefined' && module.exports) {
@@ -589,35 +588,43 @@
 
 	soma.version = "2.0.0";
 
-	soma.applyProperties = function(target, extension, list) {
-		if (typeof list === 'object' && list instanceof Array && list.length > 0) {
-			var length = list.length;
-			for (var i = 0; i < length; i++) {
-				if (!target[list[i]]) {
-					target[list[i]] = extension[list[i]].bind(extension);
+	soma.applyProperties = function(target, extension, bindToExtension, list) {
+		if (Object.prototype.toString.apply(list) === '[object Array]') {
+			for (var i = 0, l = list.length; i < l; i++) {
+				if (target[list[i]] === undefined || target[list[i]] === null) {
+					if (bindToExtension && typeof extension[list[i]] === 'function') {
+						target[list[i]] = extension[list[i]].bind(extension);
+					}
+					else {
+						target[list[i]] = extension[list[i]];
+					}
 				}
 			}
 		}
 		else {
 			for (var prop in extension) {
-				target[prop] = extension[prop];
+				if (bindToExtension && typeof extension[prop] === 'function') {
+					target[prop] = extension[prop].bind(extension);
+				}
+				else {
+					target[prop] = extension[prop];
+				}
 			}
 		}
 	};
 
 	soma.augment = function (target, extension, list) {
 		if (!target.prototype || !extension.prototype) return;
-		if (typeof list === 'object' && list instanceof Array && list.length > 0) {
-			var length = list.length;
-			for (var i = 0; i < length; i++) {
-				if (!target.prototype[list[i]] || override) {
+		if (Object.prototype.toString.apply(list) === '[object Array]') {
+			for (var i = 0, l = list.length; i < l; i++) {
+				if (!target.prototype[list[i]]) {
 					target.prototype[list[i]] = extension.prototype[list[i]];
 				}
 			}
 		}
 		else {
 			for (var prop in extension.prototype) {
-				if (!target.prototype[list[i]] || override) {
+				if (!target.prototype[list[i]]) {
 					target.prototype[list[i] = extension.prototype[list[i]]];
 				}
 			}
@@ -643,7 +650,7 @@
 		chain.prototype = target.prototype;
 		subclass.prototype = new chain();
 		// add obj properties
-		if (obj) soma.applyProperties(subclass.prototype, obj, target.prototype);
+		if (obj) soma.applyProperties(subclass.prototype, obj);
 		// point constructor to the subclass
 		subclass.prototype.constructor = subclass;
 		// set super class reference
@@ -667,17 +674,11 @@ soma.plugins.add = function(plugin) {
 	plugins.push(plugin);
 };
 soma.plugins.remove = function(plugin) {
-	var i = -1, l = plugins.length;
-	while (++i < l) {
+	for (var i = plugins.length-1, l = 0; i >= l; i--) {
 		if (plugin === plugins[i]) {
 			plugins.splice(i, 1);
 		}
 	}
-};
-
-// helpers
-function isElement(value) {
-	return value ? value.nodeType > 0 : false;
 };
 
 // framework
@@ -692,7 +693,7 @@ soma.Application = soma.extend({
 			this.injector = new infuse.Injector(this.dispatcher);
 			// dispatcher
 			this.dispatcher = new soma.EventDispatcher();
-			soma.applyProperties(this, this.dispatcher, ['dispatchEvent', 'addEventListener', 'removeEventListener', 'hasEventListener']);
+//			soma.applyProperties(this, this.dispatcher, true, ['dispatch', 'dispatchEvent', 'addEventListener', 'removeEventListener', 'hasEventListener']);
 			// mapping
 			this.injector.mapValue('injector', this.injector);
 			this.injector.mapValue('instance', this);
@@ -704,8 +705,7 @@ soma.Application = soma.extend({
 			this.injector.mapClass('commands', Commands, true);
 			this.commands = this.injector.getValue('commands');
 			// plugins
-			var i = -1, l = plugins.length;
-			while (++i < l) {
+			for (var i = 0, l = plugins.length; i < l; i++) {
 				this.createPlugin(plugins[i]);
 			}
 		}
@@ -722,8 +722,8 @@ soma.Application = soma.extend({
 				args.push(this.injector.getValue(params[i]));
 			}
 		}
-		for (var i=1; i<arguments.length; i++) {
-			args.push(arguments[i]);
+		for (var j=1; j<arguments.length; j++) {
+			args.push(arguments[j]);
 		}
 		return this.injector.createInstance.apply(this.injector, args);
 	},
@@ -747,38 +747,48 @@ soma.Application = soma.extend({
 		if (this.dispatcher) this.dispatcher.dispose();
 		if (this.mediators) this.mediators.dispose();
 		if (this.commands) this.commands.dispose();
-		this.injector = null;
-		this.dispatcher = null;
-		this.mediators = null;
-		this.commands = null;
-		this.instance = null;
-		// todo: remove plugins
+		this.injector = undefined;
+		this.dispatcher = undefined;
+		this.mediators = undefined;
+		this.commands = undefined;
+		this.instance = undefined;
 	}
 });
 
 var Mediators = soma.extend({
 	constructor: function() {
 		this.injector = null;
+		this.dispatcher = null;
 	},
-	create: function(cl, list) {
+	create: function(cl, target) {
 		if (!cl || typeof cl !== "function") {
 			throw new Error("Error creating a mediator, the first parameter must be a function.");
 		}
-		if (typeof list === 'object' && list.length > 0) {
-			var arr = [];
-			var length = list.length;
-			for (var i=0; i<length; i++) {
-				var injector = this.injector.createChild();
-				injector.mapValue("injector", injector);
-				injector.mapValue("target", list[i]);
-				var mediator = injector.createInstance(cl);
-				arr.push(mediator);
-			}
-			return arr;
+		if (target === undefined || target === null) {
+			throw new Error("Error creating a mediator, the second parameter cannot be undefined or null.");
 		}
+		var targets = [];
+		var meds = [];
+		if (Object.prototype.toString.apply(target) === '[object Array]') {
+			targets = target;
+		}
+		else {
+			targets.push(target);
+		}
+		for (var i= 0, l=targets.length; i<l; i++) {
+			var injector = this.injector.createChild();
+			injector.mapValue("injector", injector);
+			injector.mapValue("target", targets[i]);
+			var mediator = injector.createInstance(cl);
+//			soma.applyProperties(mediator, this.dispatcher, true, ['dispatch', 'dispatchEvent', 'addEventListener', 'removeEventListener', 'hasEventListener']);
+			if (targets.length === 1) return mediator;
+			meds.push(mediator);
+		}
+		return meds;
 	},
 	dispose: function() {
-		// todo dispose mediators
+		this.injector = undefined;
+		this.dispatcher = undefined;
 	}
 });
 
@@ -790,37 +800,39 @@ var Commands = soma.extend({
 		this.list = {};
 	},
 	has: function(commandName) {
-		return this.list[ commandName ] != null;
+		return this.list[commandName] !== null && this.list[commandName] !== undefined;
 	},
 	get: function(commandName) {
-		if (this.hasCommand(commandName)) {
+		if (this.has(commandName)) {
 			return this.list[commandName];
 		}
-		return null;
+		return undefined;
 	},
 	getAll: function() {
-		var a = [];
-		var cmds = this.list;
-		for (var c in cmds) {
-			a.push(c);
+		var copy = {};
+		for (var cmd in this.list) {
+			copy[cmd] = this.list[cmd];
 		}
-		return a;
+		return copy;
 	},
 	add: function(commandName, command) {
-		if (this.has(commandName)) {
-			throw new Error("Error in " + this + " Command \"" + commandName + "\" already registered.");
+		if (typeof commandName !== 'string') {
+			throw new Error("Error adding a command, the first parameter must be a string.");
 		}
-		if (this.has(typeof command !== 'function')) {
-			throw new Error("Error in " + this + " Command \"" + command + "\" must be a function, and contain an execute public method.");
+		if (typeof command !== 'function') {
+			throw new Error("Error adding a command with the name \"" + command + "\", the second parameter must be a function, and must contain an \"execute\" public method.");
+		}
+		if (this.has(commandName)) {
+			throw new Error("Error adding a command with the name: \"" + commandName + "\", already registered.");
 		}
 		this.list[ commandName ] = command;
 		this.addInterceptor(commandName);
 	},
 	remove: function(commandName) {
-		if (!this.hasCommand(commandName)) {
+		if (!this.has(commandName)) {
 			return;
 		}
-		this.list[commandName] = null;
+		this.list[commandName] = undefined;
 		delete this.list[commandName];
 		this.removeInterceptor(commandName);
 	},
@@ -831,7 +843,7 @@ var Commands = soma.extend({
 		this.dispatcher.removeEventListener(commandName, this.boundHandler);
 	},
 	handler: function(event) {
-		if (!event.isDefaultPrevented()) {
+		if (event.isDefaultPrevented && !event.isDefaultPrevented()) {
 			this.executeCommand(event);
 		}
 	},
@@ -842,17 +854,18 @@ var Commands = soma.extend({
 			if (!command.hasOwnProperty('execute') && command['execute'] === 'function') {
 				throw new Error("Error in " + this + " Command \"" + command + "\" must contain an execute public method.");
 			}
+//			soma.applyProperties(command, this.dispatcher, true, ['dispatch', 'dispatchEvent', 'addEventListener', 'removeEventListener', 'hasEventListener']);
 			command.execute(event);
 		}
 	},
 	dispose: function() {
-		for (var c in this.list) {
-			this.remove(c);
+		for (var cmd in this.list) {
+			this.remove(cmd);
 		}
-		this.boundHandler = null;
-		this.dispatcher = null;
-		this.injector = null;
-		this.list = null;
+		this.boundHandler = undefined;
+		this.dispatcher = undefined;
+		this.injector = undefined;
+		this.list = undefined;
 	}
 });
 

@@ -6,17 +6,11 @@ soma.plugins.add = function(plugin) {
 	plugins.push(plugin);
 };
 soma.plugins.remove = function(plugin) {
-	var i = -1, l = plugins.length;
-	while (++i < l) {
+	for (var i = plugins.length-1, l = 0; i >= l; i--) {
 		if (plugin === plugins[i]) {
 			plugins.splice(i, 1);
 		}
 	}
-};
-
-// helpers
-function isElement(value) {
-	return value ? value.nodeType > 0 : false;
 };
 
 // framework
@@ -31,7 +25,7 @@ soma.Application = soma.extend({
 			this.injector = new infuse.Injector(this.dispatcher);
 			// dispatcher
 			this.dispatcher = new soma.EventDispatcher();
-			soma.applyProperties(this, this.dispatcher, ['dispatchEvent', 'addEventListener', 'removeEventListener', 'hasEventListener']);
+//			soma.applyProperties(this, this.dispatcher, true, ['dispatch', 'dispatchEvent', 'addEventListener', 'removeEventListener', 'hasEventListener']);
 			// mapping
 			this.injector.mapValue('injector', this.injector);
 			this.injector.mapValue('instance', this);
@@ -43,8 +37,7 @@ soma.Application = soma.extend({
 			this.injector.mapClass('commands', Commands, true);
 			this.commands = this.injector.getValue('commands');
 			// plugins
-			var i = -1, l = plugins.length;
-			while (++i < l) {
+			for (var i = 0, l = plugins.length; i < l; i++) {
 				this.createPlugin(plugins[i]);
 			}
 		}
@@ -61,8 +54,8 @@ soma.Application = soma.extend({
 				args.push(this.injector.getValue(params[i]));
 			}
 		}
-		for (var i=1; i<arguments.length; i++) {
-			args.push(arguments[i]);
+		for (var j=1; j<arguments.length; j++) {
+			args.push(arguments[j]);
 		}
 		return this.injector.createInstance.apply(this.injector, args);
 	},
@@ -86,38 +79,48 @@ soma.Application = soma.extend({
 		if (this.dispatcher) this.dispatcher.dispose();
 		if (this.mediators) this.mediators.dispose();
 		if (this.commands) this.commands.dispose();
-		this.injector = null;
-		this.dispatcher = null;
-		this.mediators = null;
-		this.commands = null;
-		this.instance = null;
-		// todo: remove plugins
+		this.injector = undefined;
+		this.dispatcher = undefined;
+		this.mediators = undefined;
+		this.commands = undefined;
+		this.instance = undefined;
 	}
 });
 
 var Mediators = soma.extend({
 	constructor: function() {
 		this.injector = null;
+		this.dispatcher = null;
 	},
-	create: function(cl, list) {
+	create: function(cl, target) {
 		if (!cl || typeof cl !== "function") {
 			throw new Error("Error creating a mediator, the first parameter must be a function.");
 		}
-		if (typeof list === 'object' && list.length > 0) {
-			var arr = [];
-			var length = list.length;
-			for (var i=0; i<length; i++) {
-				var injector = this.injector.createChild();
-				injector.mapValue("injector", injector);
-				injector.mapValue("target", list[i]);
-				var mediator = injector.createInstance(cl);
-				arr.push(mediator);
-			}
-			return arr;
+		if (target === undefined || target === null) {
+			throw new Error("Error creating a mediator, the second parameter cannot be undefined or null.");
 		}
+		var targets = [];
+		var meds = [];
+		if (Object.prototype.toString.apply(target) === '[object Array]') {
+			targets = target;
+		}
+		else {
+			targets.push(target);
+		}
+		for (var i= 0, l=targets.length; i<l; i++) {
+			var injector = this.injector.createChild();
+			injector.mapValue("injector", injector);
+			injector.mapValue("target", targets[i]);
+			var mediator = injector.createInstance(cl);
+//			soma.applyProperties(mediator, this.dispatcher, true, ['dispatch', 'dispatchEvent', 'addEventListener', 'removeEventListener', 'hasEventListener']);
+			if (targets.length === 1) return mediator;
+			meds.push(mediator);
+		}
+		return meds;
 	},
 	dispose: function() {
-		// todo dispose mediators
+		this.injector = undefined;
+		this.dispatcher = undefined;
 	}
 });
 
@@ -129,37 +132,39 @@ var Commands = soma.extend({
 		this.list = {};
 	},
 	has: function(commandName) {
-		return this.list[ commandName ] != null;
+		return this.list[commandName] !== null && this.list[commandName] !== undefined;
 	},
 	get: function(commandName) {
-		if (this.hasCommand(commandName)) {
+		if (this.has(commandName)) {
 			return this.list[commandName];
 		}
-		return null;
+		return undefined;
 	},
 	getAll: function() {
-		var a = [];
-		var cmds = this.list;
-		for (var c in cmds) {
-			a.push(c);
+		var copy = {};
+		for (var cmd in this.list) {
+			copy[cmd] = this.list[cmd];
 		}
-		return a;
+		return copy;
 	},
 	add: function(commandName, command) {
-		if (this.has(commandName)) {
-			throw new Error("Error in " + this + " Command \"" + commandName + "\" already registered.");
+		if (typeof commandName !== 'string') {
+			throw new Error("Error adding a command, the first parameter must be a string.");
 		}
-		if (this.has(typeof command !== 'function')) {
-			throw new Error("Error in " + this + " Command \"" + command + "\" must be a function, and contain an execute public method.");
+		if (typeof command !== 'function') {
+			throw new Error("Error adding a command with the name \"" + command + "\", the second parameter must be a function, and must contain an \"execute\" public method.");
+		}
+		if (this.has(commandName)) {
+			throw new Error("Error adding a command with the name: \"" + commandName + "\", already registered.");
 		}
 		this.list[ commandName ] = command;
 		this.addInterceptor(commandName);
 	},
 	remove: function(commandName) {
-		if (!this.hasCommand(commandName)) {
+		if (!this.has(commandName)) {
 			return;
 		}
-		this.list[commandName] = null;
+		this.list[commandName] = undefined;
 		delete this.list[commandName];
 		this.removeInterceptor(commandName);
 	},
@@ -170,7 +175,7 @@ var Commands = soma.extend({
 		this.dispatcher.removeEventListener(commandName, this.boundHandler);
 	},
 	handler: function(event) {
-		if (!event.isDefaultPrevented()) {
+		if (event.isDefaultPrevented && !event.isDefaultPrevented()) {
 			this.executeCommand(event);
 		}
 	},
@@ -181,16 +186,17 @@ var Commands = soma.extend({
 			if (!command.hasOwnProperty('execute') && command['execute'] === 'function') {
 				throw new Error("Error in " + this + " Command \"" + command + "\" must contain an execute public method.");
 			}
+//			soma.applyProperties(command, this.dispatcher, true, ['dispatch', 'dispatchEvent', 'addEventListener', 'removeEventListener', 'hasEventListener']);
 			command.execute(event);
 		}
 	},
 	dispose: function() {
-		for (var c in this.list) {
-			this.remove(c);
+		for (var cmd in this.list) {
+			this.remove(cmd);
 		}
-		this.boundHandler = null;
-		this.dispatcher = null;
-		this.injector = null;
-		this.list = null;
+		this.boundHandler = undefined;
+		this.dispatcher = undefined;
+		this.injector = undefined;
+		this.list = undefined;
 	}
 });

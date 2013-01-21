@@ -1,26 +1,26 @@
 /*
- Copyright (c) | 2012 | infuse.js | Romuald Quantin | www.soundstep.com | romu@soundstep.com
+Copyright (c) | 2012 | infuse.js | Romuald Quantin | www.soundstep.com | romu@soundstep.com
 
- Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- and associated documentation files (the "Software"), to deal in the Software without restriction,
- including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
- and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
- subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
 
- The above copyright notice and this permission notice shall be included in all copies or substantial
- portions of the Software.
+The above copyright notice and this permission notice shall be included in all copies or substantial
+portions of the Software.
 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
- LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 
 ;(function(infuse, undefined) {
-	"use strict";
+    "use strict";
 
-	infuse.version = "0.6.0";
+	infuse.version = "0.6.3";
 
 	// regex from angular JS (https://github.com/angular/angular.js)
 	var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
@@ -29,13 +29,13 @@
 	var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
 
 	if(!Array.prototype.contains) {
-		Array.prototype.contains = function(value) {
-			var i = this.length;
-			while (i--) {
-				if (this[i] === value) return true;
-			}
-			return false;
-		};
+	    Array.prototype.contains = function(value) {
+	        var i = this.length;
+	        while (i--) {
+	            if (this[i] === value) return true;
+	        }
+	        return false;
+	    };
 	}
 
 	infuse.InjectorError = {
@@ -64,7 +64,7 @@
 	};
 
 	var validateValue = function(prop, val) {
-		if (!val) {
+		if (val === undefined || val === null) {
 			throw new Error(infuse.InjectorError.MAPPING_BAD_VALUE + prop);
 		}
 	};
@@ -194,8 +194,7 @@
 				arguments[0] = vo.cl;
 				return this.getValueFromClass.apply(this, arguments);
 			}
-			if (vo.value) return vo.value;
-			return undefined;
+			return vo.value;
 		},
 
 		getClass: function(prop) {
@@ -216,7 +215,7 @@
 			var args = [null];
 			var params = infuse.getConstructorParams(TargetClass, this.mappings);
 			for (var i=0; i<params.length; i++) {
-				if (arguments[i+1]) {
+				if (arguments[i+1] !== undefined && arguments[i+1] !== null) {
 					// argument found
 					args.push(arguments[i+1]);
 				}
@@ -346,9 +345,9 @@
 
 	// register for AMD module
 	if (typeof define === 'function' && define.amd) {
-		define("infuse", infuse);
+	    define("infuse", infuse);
 	}
-
+	
 	// export for node.js
 	if (typeof exports !== 'undefined') {
 		if (typeof module !== 'undefined' && module.exports) {

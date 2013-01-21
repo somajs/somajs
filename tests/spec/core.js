@@ -97,11 +97,46 @@ describe("core", function () {
 
 	it("dispose", function () {
 		app.dispose();
-		expect(app.instance).toBeNull();
-		expect(app.commands).toBeNull();
-		expect(app.injector).toBeNull();
-		expect(app.mediators).toBeNull();
-		expect(app.dispatcher).toBeNull();
+		expect(app.instance).toBeUndefined();
+		expect(app.commands).toBeUndefined();
+		expect(app.injector).toBeUndefined();
+		expect(app.mediators).toBeUndefined();
+		expect(app.dispatcher).toBeUndefined();
 	});
+
+//	it("shortcuts dispatcher in instance", function () {
+//		expect(typeof app.dispatch).toEqual('function');
+//		expect(typeof app.dispatchEvent).toEqual('function');
+//		expect(typeof app.addEventListener).toEqual('function');
+//		expect(typeof app.removeEventListener).toEqual('function');
+//		expect(typeof app.hasEventListener).toEqual('function');
+//	});
+//
+//	it("shortcuts dispatcher in mediators", function () {
+//		var f = function(){};
+//		var m = app.mediators.create(f, 1);
+//		expect(typeof m.dispatch).toEqual('function');
+//		expect(typeof m.dispatchEvent).toEqual('function');
+//		expect(typeof m.addEventListener).toEqual('function');
+//		expect(typeof m.removeEventListener).toEqual('function');
+//		expect(typeof m.hasEventListener).toEqual('function');
+//	});
+//
+//	it("shortcuts dispatcher in commands", function () {
+//		var executed = false;
+//		var Command = function() {
+//			this.execute = function(event) {
+//				executed = true;
+//				expect(typeof this.dispatch).toEqual('function');
+//				expect(typeof this.dispatchEvent).toEqual('function');
+//				expect(typeof this.addEventListener).toEqual('function');
+//				expect(typeof this.removeEventListener).toEqual('function');
+//				expect(typeof this.hasEventListener).toEqual('function');
+//			}
+//		}
+//		app.commands.add('name', Command);
+//		app.dispatch('name');
+//		expect(executed).toBeTruthy();
+//	});
 
 });

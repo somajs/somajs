@@ -1,32 +1,40 @@
-	soma.applyProperties = function(target, extension, list) {
-		if (typeof list === 'object' && list instanceof Array && list.length > 0) {
-			var length = list.length;
-			for (var i = 0; i < length; i++) {
-				if (!target[list[i]]) {
-					target[list[i]] = extension[list[i]].bind(extension);
+	soma.applyProperties = function(target, extension, bindToExtension, list) {
+		if (Object.prototype.toString.apply(list) === '[object Array]') {
+			for (var i = 0, l = list.length; i < l; i++) {
+				if (target[list[i]] === undefined || target[list[i]] === null) {
+					if (bindToExtension && typeof extension[list[i]] === 'function') {
+						target[list[i]] = extension[list[i]].bind(extension);
+					}
+					else {
+						target[list[i]] = extension[list[i]];
+					}
 				}
 			}
 		}
 		else {
 			for (var prop in extension) {
-				target[prop] = extension[prop];
+				if (bindToExtension && typeof extension[prop] === 'function') {
+					target[prop] = extension[prop].bind(extension);
+				}
+				else {
+					target[prop] = extension[prop];
+				}
 			}
 		}
 	};
 
 	soma.augment = function (target, extension, list) {
 		if (!target.prototype || !extension.prototype) return;
-		if (typeof list === 'object' && list instanceof Array && list.length > 0) {
-			var length = list.length;
-			for (var i = 0; i < length; i++) {
-				if (!target.prototype[list[i]] || override) {
+		if (Object.prototype.toString.apply(list) === '[object Array]') {
+			for (var i = 0, l = list.length; i < l; i++) {
+				if (!target.prototype[list[i]]) {
 					target.prototype[list[i]] = extension.prototype[list[i]];
 				}
 			}
 		}
 		else {
 			for (var prop in extension.prototype) {
-				if (!target.prototype[list[i]] || override) {
+				if (!target.prototype[list[i]]) {
 					target.prototype[list[i] = extension.prototype[list[i]]];
 				}
 			}
@@ -52,7 +60,7 @@
 		chain.prototype = target.prototype;
 		subclass.prototype = new chain();
 		// add obj properties
-		if (obj) soma.applyProperties(subclass.prototype, obj, target.prototype);
+		if (obj) soma.applyProperties(subclass.prototype, obj);
 		// point constructor to the subclass
 		subclass.prototype.constructor = subclass;
 		// set super class reference

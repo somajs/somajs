@@ -7,4 +7,5 @@ guard 'livereload', :apply_js_live => false, :apply_css_live => true do
   watch(%r{libs/.+\.(css|js|html)$})
   watch(%r{src/.+\.(css|js|html)$})
   watch(%r{work/.+\.(css|js|html)$})
+  watch(%r{tests/.+\.(css|js|html)$})
 end

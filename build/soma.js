@@ -614,7 +614,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	};
 
 	soma.augment = function (target, extension, list) {
-		if (!target.prototype || !extension.prototype) return;
+		if (!extension.prototype || !target.prototype) return;
 		if (Object.prototype.toString.apply(list) === '[object Array]') {
 			for (var i = 0, l = list.length; i < l; i++) {
 				if (!target.prototype[list[i]]) {
@@ -624,8 +624,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		}
 		else {
 			for (var prop in extension.prototype) {
-				if (!target.prototype[list[i]]) {
-					target.prototype[list[i] = extension.prototype[list[i]]];
+				if (!target.prototype[prop]) {
+					target.prototype[prop] = extension.prototype[prop];
 				}
 			}
 		}
@@ -645,8 +645,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		// add super properties
 		soma.applyProperties(subclass.prototype, target.prototype);
 		// set the prototype chain to inherit from the parent without calling parent's constructor
-		var chain = function () {
-		};
+		var chain = function(){};
 		chain.prototype = target.prototype;
 		subclass.prototype = new chain();
 		// add obj properties

@@ -109,7 +109,6 @@ var Mediators = soma.extend({
 		}
 		for (var i= 0, l=targets.length; i<l; i++) {
 			var injector = this.injector.createChild();
-			injector.mapValue("injector", injector);
 			injector.mapValue("target", targets[i]);
 			var mediator = injector.createInstance(cl);
 //			soma.applyProperties(mediator, this.dispatcher, true, ['dispatch', 'dispatchEvent', 'addEventListener', 'removeEventListener', 'hasEventListener']);

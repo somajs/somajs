@@ -1,0 +1,31 @@
+.reveal {
+	font-size: 30px;
+	word-spacing: 4px;
+}
+.reveal .slides section {
+	text-align: center;
+}
+.reveal .slides > section p.mid-size,
+.reveal .slides > section div.mid-size {
+	width: 80%;
+	margin-left: 10%;
+}
+.reveal .slides .spaced {
+	margin-bottom: 40px;
+}
+.reveal .slides pre.mid-size {
+	width: 60%;
+}
+.reveal .slides pre.small-size {
+	width: 40%;
+}
+.reveal .slides section.small p {
+	font-size: 20px;
+}
+.reveal .slides section .left {
+	text-align: left;
+	margin-left: 0;
+}
+.reveal .slides section .left pre {
+	margin-left: 0;
+}

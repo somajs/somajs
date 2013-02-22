@@ -154,6 +154,34 @@ var app = new MyApplication();</code></pre>
 					</div>
 				</section>
 
+				<section>
+					<h2>Injection with infuse.js</h2>
+					<p class="mid-size spaced"><a href="https://github.com/soundstep/infuse.js" target="_blank">infuse.js</a> is an <a href="http://en.wikipedia.org/wiki/Dependency_injection" target="_blank">dependency injection</a> library that has been built for soma.js.</p>
+					<p>In order for the framework to know what you are asking for, you need to: do 2 things to defined a "mapping rule". In other words, give a name to an object, a function, a string, or anything else.</p>
+					<ul>
+						<li>defined a "mapping rule"</li>
+						<li>let the</li>
+					</ul>
+					<p>The injector is available from the application instance</p>
+				</section>
+
+				<section>
+					<h2>Injection with infuse.js</h2>
+					<p class="mid-size spaced"><a href="https://github.com/soundstep/infuse.js" target="_blank">infuse.js</a> is an <a href="http://en.wikipedia.org/wiki/Dependency_injection" target="_blank">dependency injection</a> library that has been built for soma.js.</p>
+					<p>In order for the framework to know what you are asking for, you need to defined a "mapping rule". In other words, give a name to an object, a function, a string, or anything else.</p>
+					<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var Config = {
+						language: 'en',
+						width: 960
+						}
+					</code></pre>
+						<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyApplication = soma.Application.extend({
+							init: function() {
+							this.injector.mapValue('config', Config);
+							}
+							});
+							var app = new MyApplication();</code></pre>
+				</section>
+
 				<!--what do I have to learn?-->
 				<!--what does it provides?-->
 

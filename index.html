@@ -99,19 +99,59 @@
 
 				<section>
 					<h2>Create an application instance</h2>
-					<p>The first step in using soma.js is to</p>
+					<p>This is the first step to use soma.js.</p>
+					<p>The only moment you will have to extend a function.</p>
+						<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyApplication = soma.Application.extend({
+  init: function() {
+    // do something
+  }
+});
+var app = new MyApplication();</code></pre>
 				</section>
 
-				<section class="small left">
-					<h2>Get some food</h2>
-					<!--<div class="left">-->
-						<p>Here is a simple function, it could be a model, a view, a service, or anything.</p>
-						<p>This function is just going to cook something for us.</p>
-						<pre class="mid-size"><code contenteditable style="font-size: 14px; margin-top: 20px;">function Cook() {
-  // going to cook something
-};</code></pre>
-						<p></p>
-					<!--</div>-->
+				<section>
+					<h2>Create an entity</h2>
+					<p class="mid-size">The next step could be creating a model that holds data, a view that represents a DOM element or anything that might fit your need.</p>
+					<div class="fragment">
+						<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyWidget = function() {
+  // build my view
+}
+						</code></pre>
+						<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyModel = function() {
+  // manage my data
+}
+						</code></pre>
+					</div>
+					<p class="mid-size fragment">In any case, only plain javascript is needed, which will make this entity highly re-usable.</p>
+				</section>
+
+				<section>
+					<h2>How it feels</h2>
+					<blockquote class="spaced">don't send but ask</blockquote>
+					<p class="mid-size spaced">This concept is the core of soma.js, when you need something, just ask for it. The framework will provide.</p>
+					<p class="mid-size spaced">Wouldn't it be great to say: "I need this object in that function", and just add a variable to get it?</p>
+				</section>
+
+				<section>
+					<h2>Get something</h2>
+					<p>Consider a simple config object for your application.</p>
+					<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var Config = {
+  language: 'en',
+  width: 960
+}
+					</code></pre>
+					<p class="spaced fragment">To get it somewhere else, just ask for it using its "name". A name defined by yourself, let's say in that case the name "config".</p>
+					<div class="fragment">
+						<p>Here are the two ways to ask for the config object.</p>
+						<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyModel = function(config) {
+
+}
+						</code></pre>
+						<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyModel = function() {
+  this.config = null;
+}
+						</code></pre>
+					</div>
 				</section>
 
 				<!--what do I have to learn?-->

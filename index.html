@@ -6,7 +6,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js - The HTML Presentation Framework</title>
+		<title>soma.js</title>
 
 		<meta name="description" content="">
 		<meta name="author" content="">
@@ -90,7 +90,7 @@
 					<ul class="spaced">
 						<li>An application instance (facade pattern)</li>
 						<li>A communication tool (observer pattern)</li>
-						<li>A dependency tool (injection)</li>
+						<li>A dependency tool (dependency injection)</li>
 						<li>An execution tool (command pattern)</li>
 						<li>An optional DOM plugin (template)</li>
 					</ul>
@@ -101,7 +101,7 @@
 					<h2>Create an application instance</h2>
 					<p>This is the first step to use soma.js.</p>
 					<p>The only moment you will have to extend a function.</p>
-						<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyApplication = soma.Application.extend({
+						<pre class="mid-size"><code>var MyApplication = soma.Application.extend({
   init: function() {
     // do something
   }
@@ -113,14 +113,12 @@ var app = new MyApplication();</code></pre>
 					<h2>Create an entity</h2>
 					<p class="mid-size">The next step could be creating a model that holds data, a view that represents a DOM element or anything that might fit your need.</p>
 					<div class="fragment">
-						<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyWidget = function() {
+						<pre class="mid-size"><code>var MyWidget = function() {
   // build my view
-}
-						</code></pre>
-						<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyModel = function() {
+}</code></pre>
+						<pre class="mid-size"><code>var MyModel = function() {
   // manage my data
-}
-						</code></pre>
+}</code></pre>
 					</div>
 					<p class="mid-size fragment">In any case, only plain javascript is needed, which will make this entity highly re-usable.</p>
 				</section>
@@ -135,51 +133,64 @@ var app = new MyApplication();</code></pre>
 				<section>
 					<h2>Get something</h2>
 					<p>Consider a simple config object for your application.</p>
-					<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var Config = {
+					<pre class="mid-size"><code>var Config = {
   language: 'en',
   width: 960
-}
-					</code></pre>
+}</code></pre>
 					<p class="spaced fragment">To get it somewhere else, just ask for it using its "name". A name defined by yourself, let's say in that case the name "config".</p>
 					<div class="fragment">
 						<p>Here are the two ways to ask for the config object.</p>
-						<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyModel = function(config) {
+						<pre class="mid-size"><code>var MyModel = function(config) {
 
-}
-						</code></pre>
-						<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyModel = function() {
+}</code></pre>
+						<pre class="mid-size"><code>var MyModel = function() {
   this.config = null;
-}
-						</code></pre>
+}</code></pre>
 					</div>
 				</section>
 
 				<section>
 					<h2>Injection with infuse.js</h2>
-					<p class="mid-size spaced"><a href="https://github.com/soundstep/infuse.js" target="_blank">infuse.js</a> is an <a href="http://en.wikipedia.org/wiki/Dependency_injection" target="_blank">dependency injection</a> library that has been built for soma.js.</p>
-					<p>In order for the framework to know what you are asking for, you need to: do 2 things to defined a "mapping rule". In other words, give a name to an object, a function, a string, or anything else.</p>
-					<ul>
+					<p class="mid-size spaced"><a href="https://github.com/soundstep/infuse.js" target="_blank">infuse.js</a> is a <a href="http://en.wikipedia.org/wiki/Dependency_injection" target="_blank">dependency injection</a> library that has been built for soma.js. In order for the framework to know what you are asking for, you need to:</p>
+					<ul class="spaced">
 						<li>defined a "mapping rule"</li>
-						<li>let the</li>
+						<li>use the injector to create a new object</li>
 					</ul>
-					<p>The injector is available from the application instance</p>
+					<p class="mid-size">The injector is available from the application instance, and can also be injected using its name "injector".</p>
 				</section>
 
 				<section>
-					<h2>Injection with infuse.js</h2>
-					<p class="mid-size spaced"><a href="https://github.com/soundstep/infuse.js" target="_blank">infuse.js</a> is an <a href="http://en.wikipedia.org/wiki/Dependency_injection" target="_blank">dependency injection</a> library that has been built for soma.js.</p>
-					<p>In order for the framework to know what you are asking for, you need to defined a "mapping rule". In other words, give a name to an object, a function, a string, or anything else.</p>
-					<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var Config = {
-						language: 'en',
-						width: 960
-						}
-					</code></pre>
-						<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyApplication = soma.Application.extend({
-							init: function() {
-							this.injector.mapValue('config', Config);
-							}
-							});
-							var app = new MyApplication();</code></pre>
+					<pre class="mid-size"><code>var Config = {
+  language: 'en',
+  width: 960
+}</code></pre>
+					<pre class="mid-size"><code>var MyModel = function(config, injector, instance) {
+  // console.log(config.language);
+  // injector can also be injected
+  // application instance can also be injected
+}</code></pre>
+					<pre class="mid-size"><code>var MyApplication = soma.Application.extend({
+  init: function() {
+    this.injector.mapValue('config', Config);
+    this.injector.createInstance(MyModel);
+  }
+});
+var app = new MyApplication();</code></pre>
+				</section>
+
+				<section>
+					<p class="mid-size spaced">The default injections available are:</p>
+					<ul class="spaced">
+						<li>"instance" is the framework instance you created</li>
+						<li>"injector" to manage you injection names</li>
+						<li>"dispatcher" to dispatch and listen to events</li>
+						<li>"mediators" to represents objects by others</li>
+						<li>"commands" to control behaviours</li>
+					</ul>
+					<pre class="mid-size-large"><code>function Model(instance, injector, dispatcher, mediators, commands) {
+	// do something
+}
+</code></pre>
 				</section>
 
 				<!--what do I have to learn?-->

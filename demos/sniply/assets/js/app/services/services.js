@@ -9,7 +9,7 @@
 
 	function ApiService() {
 		//this.url = window.location.host === 'localhost' ? 'http://localhost:3000' : 'http://sniply.eu01.aws.af.cm';
-		this.url = window.location.host === 'http://sniply.eu01.aws.af.cm';
+		this.url = 'http://sniply.eu01.aws.af.cm';
 	}
 	ApiService.prototype.request = function(path, method, successCallback, errorCallback, data) {
 		$.ajax({

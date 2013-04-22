@@ -86,8 +86,8 @@ describe("injection", function () {
 	it("injector injection in mediator", function () {
 		var f = function(injector){this.injector = injector};
 		var mediator = app.mediators.create(f, 1);
-		expect(mediator.injector.parent).toBeDefined();
-		expect(mediator.injector.parent).toEqual(app.injector);
+		expect(mediator.injector).toBeDefined();
+		expect(mediator.injector).toEqual(app.injector);
 	});
 
 	it("injector injection in command", function () {

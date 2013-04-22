@@ -42,23 +42,6 @@ describe("mediators", function () {
 		expect(t[1]).toEqual(2);
 	});
 
-	it("injector is child injector", function () {
-		var i;
-		var f = function(injector){i = injector;};
-		mediators.create(f, 1);
-		expect(i instanceof infuse.Injector).toBeTruthy();
-		expect(i !== app.injector).toBeTruthy();
-		expect(i.parent === app.injector).toBeTruthy();
-	});
-
-	it("child injector access parent injection", function () {
-		app.injector.mapValue('name', 'john');
-		var i;
-		var f = function(injector){i = injector;};
-		mediators.create(f, 1);
-		expect(i.getValue('name') === 'john').toBeTruthy();
-	});
-
 	it("wrong first param", function () {
 		expect(function(){mediators.create();}).toThrow();
 		expect(function(){mediators.create('string');}).toThrow();

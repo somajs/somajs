@@ -90,7 +90,7 @@
 					<ul class="spaced">
 						<li>An application instance (facade pattern)</li>
 						<li>A communication tool (observer pattern)</li>
-						<li>A dependency tool (injection)</li>
+						<li>A dependency tool (dependency injection)</li>
 						<li>An execution tool (command pattern)</li>
 						<li>An optional DOM plugin (template)</li>
 					</ul>
@@ -101,7 +101,7 @@
 					<h2>Create an application instance</h2>
 					<p>This is the first step to use soma.js.</p>
 					<p>The only moment you will have to extend a function.</p>
-						<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyApplication = soma.Application.extend({
+						<pre class="mid-size"><code>var MyApplication = soma.Application.extend({
   init: function() {
     // do something
   }
@@ -113,10 +113,10 @@ var app = new MyApplication();</code></pre>
 					<h2>Create an entity</h2>
 					<p class="mid-size">The next step could be creating a model that holds data, a view that represents a DOM element or anything that might fit your need.</p>
 					<div class="fragment">
-						<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyWidget = function() {
+						<pre class="mid-size"><code>var MyWidget = function() {
   // build my view
 }</code></pre>
-						<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyModel = function() {
+						<pre class="mid-size"><code>var MyModel = function() {
   // manage my data
 }</code></pre>
 					</div>
@@ -133,19 +133,19 @@ var app = new MyApplication();</code></pre>
 				<section>
 					<h2>Get something</h2>
 					<p>Consider a simple config object for your application.</p>
-					<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var Config = {
+					<pre class="mid-size"><code>var Config = {
   language: 'en',
   width: 960
-};</code></pre>
+}</code></pre>
 					<p class="spaced fragment">To get it somewhere else, just ask for it using its "name". A name defined by yourself, let's say in that case the name "config".</p>
 					<div class="fragment">
-						<p>Here are the two ways to ask for the config object. The framework will take care of filling up your object with what you defined.</p>
-						<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyModel = function(config) {
+						<p>Here are the two ways to ask for the config object.</p>
+						<pre class="mid-size"><code>var MyModel = function(config) {
 
-};</code></pre>
-						<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyModel = function() {
+}</code></pre>
+						<pre class="mid-size"><code>var MyModel = function() {
   this.config = null;
-};</code></pre>
+}</code></pre>
 					</div>
 				</section>
 
@@ -153,11 +153,11 @@ var app = new MyApplication();</code></pre>
 					<h2>Injection with infuse.js</h2>
 					<p class="mid-size spaced"><a href="https://github.com/soundstep/infuse.js" target="_blank">infuse.js</a> is an <a href="http://en.wikipedia.org/wiki/Dependency_injection" target="_blank">dependency injection</a> library that has been built for soma.js.</p>
 					<p>In order for the framework to know what you are asking for, you need to define a "mapping rule". In other words, to name an object, a function, a string, or anything else.</p>
-					<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var Config = {
+					<pre class="mid-size"><code>var Config = {
   language: 'en',
   width: 960
 }</code></pre>
-						<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyApplication = soma.Application.extend({
+						<pre class="mid-size"><code>var MyApplication = soma.Application.extend({
   init: function() {
     this.injector.mapValue('config', Config);
   }
@@ -168,7 +168,7 @@ var app = new MyApplication();</code></pre>
 				<section>
 					<h2>Full example</h2>
 					<p class="mid-size spaced">Now that the Config object has been named with the name "config", the framework will inject the object when it finds this name. Here is the full example.</p>
-					<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">// create a config object
+					<pre class="mid-size"><code>// create a config object
 var Config = {
   language: 'en',
   width: 960
@@ -199,7 +199,7 @@ var app = new MyApplication();</code></pre>
 				<section>
 					<h2>Access</h2>
 					<p class="mid-size spaced">The different parts of the framework can be accessed in the application instance, or using their injection name in other entities.</p>
-						<pre class="large-size"><code style="font-size: 14px; margin-top: 20px;">var MyApplication = soma.Application.extend({
+						<pre class="large-size"><code>var MyApplication = soma.Application.extend({
   init: function() {
     this.injector;
     this.dispatcher;
@@ -208,7 +208,7 @@ var app = new MyApplication();</code></pre>
     this.instance;
   }
 });</code></pre>
-						<pre class="large-size"><code style="font-size: 14px; margin-top: 20px;">var Model = function(injector, dispatcher, mediators, commands, instance) {
+						<pre class="large-size"><code>var Model = function(injector, dispatcher, mediators, commands, instance) {
 
 };</code></pre>
 				</section>
@@ -229,24 +229,24 @@ var app = new MyApplication();</code></pre>
 				<section>
 					<h2>Create objects using plain javascript</h2>
 					<p class="mid-size spaced">Nothing new here, you can create objects using plain javascript but you will not benefit from injection.</p>
-						<pre class="large-size"><code style="font-size: 14px; margin-top: 20px;">var Model = function() {
+						<pre class="large-size"><code>var Model = function() {
 
 };
 var myModel = new Model();</code></pre>
 					<p class="mid-size spaced">If you really need to create the object yourself, you can still inject your dependencies later.</p>
-						<pre class="large-size"><code style="font-size: 14px; margin-top: 20px;">this.injector.inject(myModel);</code></pre>
+						<pre class="large-size"><code>this.injector.inject(myModel);</code></pre>
 				</section>
 
 				<section>
 					<h2>Create objects using the injector</h2>
 					<p class="mid-size spaced">Usually objects are created using their "names", but there are two ways of doing it yourself using the injector.</p>
 					<p>Using the object itself.</p>
-					<pre class="large-size"><code style="font-size: 14px; margin-top: 20px;">var Model = function(dependency) {
+					<pre class="large-size"><code>var Model = function(dependency) {
 
 };
 var myModel = this.injector.createInstance(Model);</code></pre>
 					<p>Using an injection name if it has one.</p>
-					<pre class="large-size"><code style="font-size: 14px; margin-top: 20px;">var Model = function(dependency) {
+					<pre class="large-size"><code>var Model = function(dependency) {
 
 };
 this.injector.mapClass("model", Model, true);
@@ -258,7 +258,7 @@ var myModel = this.injector.getValue("model");</code></pre>
 					<h2>Create objects by "asking"</h2>
 					<p class="mid-size spaced">Asking for a dependency will create a new instance, or return one already created (mapping rule option).</p>
 					<p>Get a new Config instance every time you ask for one.</p>
-					<pre class="large-size"><code style="font-size: 14px; margin-top: 20px;">var Config = function() {
+					<pre class="large-size"><code>var Config = function() {
 
 };
 this.injector.mapClass("config", Config);
@@ -267,7 +267,7 @@ var Model = function(config) {
 };
 </code></pre>
 					<p>Get the same Config instance every time you ask for one</p>
-					<pre class="large-size"><code style="font-size: 14px; margin-top: 20px;">this.injector.mapClass("config", Config, true);</code></pre>
+					<pre class="large-size"><code>this.injector.mapClass("config", Config, true);</code></pre>
 					<p>See the <a href="https://github.com/soundstep/infuse.js" target="_blank">infuse.js documentation</a> for more information.</p>
 				</section>
 
@@ -276,7 +276,7 @@ var Model = function(config) {
 					<p class="spaced">A <a href="http://en.wikipedia.org/wiki/Mediator_pattern" target="_blank">Mediator</a> is a pattern used to reduce coupling between objects. In short, it is a function that represents something else, such as a DOM Element or another function.</p>
 					<p class="spaced">Mediators can be created using the "mediators" property of the framework instance (injectable), and will fully benefit of injection.</p>
 					<p class="mid-size spaced">The first parameter is the mediator function itself, and the second one, the object it represents.</p>
-					<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var Mediator = function(target, model) {
+					<pre class="mid-size"><code>var Mediator = function(target, model) {
   // target is a DOM Element in this example
   // model could be another dependency
 };
@@ -288,11 +288,11 @@ var mediator = this.mediators.create(Mediator, element);</code></pre>
 					<h2>Create objects using a template</h2>
 					<p class="mid-size spaced">Templates can be created to manipulate DOM Element and will also benefit of injection.</p>
 					<p class="mid-size spaced">soma-template is an optional DOM manipulation template engine (not string-based) that can be used as a plugin for soma.js.</p>
-					<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var Template = function(template, scope, element, model) {
+					<pre class="mid-size"><code>var Template = function(template, scope, element, model) {
   scope.title = "My Title";
   template.render();
 };</code></pre>
-					<pre class="mid-size"><code style="font-size: 14px; margin-top: 20px;">var MyApplication = soma.Application.extend({
+					<pre class="mid-size"><code>var MyApplication = soma.Application.extend({
   init: function() {
     var element = document.getElementById('#element');
     this.createTemplate(Template, element);
@@ -311,15 +311,15 @@ var mediator = this.mediators.create(Mediator, element);</code></pre>
 				<section>
 					<h2>Events</h2>
 					<p class="mid-size spaced">The dispatcher property (injectable) is used to dispatch and listen to events.</p>
-					<pre class="large-size"><code style="font-size: 14px; margin-top: 20px;">var MyApplication = soma.Application.extend({
+					<pre class="large-size"><code>var MyApplication = soma.Application.extend({
   init: function() {
     this.dispatcher.dispatch("something happened");
   }
 });</code></pre>
-					<pre class="large-size"><code style="font-size: 14px; margin-top: 20px;">var MyService = function(dispatcher) {
+					<pre class="large-size"><code>var MyService = function(dispatcher) {
   dispatcher.dispatch("something happened", parameters);
 };</code></pre>
-					<pre class="large-size"><code style="font-size: 14px; margin-top: 20px;">var MyView = function(dispatcher) {
+					<pre class="large-size"><code>var MyView = function(dispatcher) {
   dispatcher.addEventListener("something happened", function(event) {
     console.log(event.type, event.params);
   });
@@ -331,13 +331,13 @@ var mediator = this.mediators.create(Mediator, element);</code></pre>
 					<h2>Commands</h2>
 					<p class="mid-size spaced">Create and use <a href="http://en.wikipedia.org/wiki/Command_pattern" target="_blank">Commands</a> is another way of decoupling an application. A command is a throw-away function that will be executed and reacts to an event.</p>
 					<p class="mid-size spaced">It is another way of saying "execute this piece of code every time I dispatch this event".</p>
-					<pre class="large-size"><code style="font-size: 14px; margin-top: 20px;">var Command = function() {
+					<pre class="large-size"><code>var Command = function() {
   this.execute = function(event, model) {
     // benefits of injection, a model is injected as an example
   }
 };</code></pre>
-					<pre class="large-size"><code style="font-size: 14px; margin-top: 20px;">this.commands.add("something happened", Command);</code></pre>
-					<pre class="large-size"><code style="font-size: 14px; margin-top: 20px;">var MyView = function(dispatcher) {
+					<pre class="large-size"><code>this.commands.add("something happened", Command);</code></pre>
+					<pre class="large-size"><code>var MyView = function(dispatcher) {
   dispatcher.dispatch("something happened");
 };</code></pre>
 				</section>
@@ -345,17 +345,17 @@ var mediator = this.mediators.create(Mediator, element);</code></pre>
 				<section>
 					<h2>Flow control</h2>
 					<p class="mid-size spaced">One of the benefits of using commands and events is being able to control the application. A command can be interrupted by another entity if needed, using the same event workflow (<a href="http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-flow-cancelation" target="_blank">preventDefault</a>).</p>
-					<pre class="large-size"><code style="font-size: 14px; margin-top: 20px;">var Command = function() {
+					<pre class="large-size"><code>var Command = function() {
   this.execute = function(event, model) {
     // will not be executed
   }
 };</code></pre>
-					<pre class="large-size"><code style="font-size: 14px; margin-top: 20px;">this.commands.add("something happened", Command);</code></pre>
-					<pre class="large-size"><code style="font-size: 14px; margin-top: 20px;">var MyView = function(dispatcher) {
+					<pre class="large-size"><code>this.commands.add("something happened", Command);</code></pre>
+					<pre class="large-size"><code>var MyView = function(dispatcher) {
   // dispatch a cancelable event
   dispatcher.dispatch("something happened", false, true);
 };</code></pre>
-					<pre class="large-size"><code style="font-size: 14px; margin-top: 20px;">var MyModel = function() {
+					<pre class="large-size"><code>var MyModel = function() {
   dispatcher.addEventListener("something happened", function(event) {
     // interrupt the command for some reasons
     event.preventDefault();

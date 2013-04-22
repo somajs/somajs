@@ -33,6 +33,7 @@
 				$.ajax({
 					type:'GET',
 					url:url + '?q=' + query,
+					jsonp: "callback",
 					dataType:'jsonp',
 					success:function (data) {
 						dispatcher.dispatch(Events.SEARCH_RESULT, data);
@@ -44,8 +45,6 @@
 
 	// template to display the list of tweets
 	var TwitterTemplate = function(scope, template, element, mediators, dispatcher) {
-		// creates a mediator to handle the output (for the sake of the example)
-		mediators.create(MediatorInput, $('.queryInput', element));
 		// registers listeners to handle search and search results events
 		dispatcher.addEventListener(Events.SEARCH, searchHandler);
 		dispatcher.addEventListener(Events.SEARCH_RESULT, resultHandler.bind(this));
@@ -64,13 +63,11 @@
 		scope.visit = function(event, user, id) {
 			window.open("http://twitter.com/" + user + "/statuses/" + id);
 		}
-	};
-
-	// mediator that handles the text input
-	var MediatorInput = function (target, dispatcher) {
-		this.search = function(event) {
-			if (event.which === 13 && this.value !== "") {
-				dispatcher.dispatch(Events.SEARCH, this.value);
+		// triggers search
+		scope.search = function(event) {
+			var value = $('.queryInput', element).val();
+			if (event.which === 13 && value !== "") {
+				dispatcher.dispatch(Events.SEARCH, value);
 			}
 		}
 	};

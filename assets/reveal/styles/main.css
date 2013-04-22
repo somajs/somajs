@@ -13,6 +13,9 @@
 .reveal .slides .spaced {
 	margin-bottom: 40px;
 }
+.reveal .slides pre.large-size {
+	width: 70%;
+}
 .reveal .slides pre.mid-size {
 	width: 60%;
 }
@@ -28,4 +31,8 @@
 }
 .reveal .slides section .left pre {
 	margin-left: 0;
+}
+.reveal .navigate-up,
+.reveal .navigate-down {
+	display: none;
 }

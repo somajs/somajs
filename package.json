@@ -6,7 +6,7 @@
 		"name":"Romuald Quantin",
 		"email":"romuald@soundstep.com"
 	},
-	"scripts": {
-		"preinstall": ["sudo npm install -g grunt"]
+	"dependencies": {
+		"grunt-shell": ">= 0.1.3"
 	}
 }

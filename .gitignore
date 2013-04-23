@@ -42,6 +42,8 @@ phing
 
 # custom
 
+node_modules
+
 .project*
 .classpath*
 .idea*

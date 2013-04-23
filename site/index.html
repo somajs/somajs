@@ -1,76 +1,551 @@
-<!DOCTYPE html>
-<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
-<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
-<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-
-	<!-- Basic Page Needs
-  ================================================== -->
+	<title>soma-template by soundstep</title>
 	<meta charset="utf-8">
-	<title>Your Page Title Here :)</title>
-	<meta name="description" content="">
-	<meta name="author" content="">
-
-	<!-- Mobile Specific Metas
-  ================================================== -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-	<!-- CSS
-  ================================================== -->
-	<link rel="stylesheet" href="../assets/main/styles/base.css">
-	<link rel="stylesheet" href="../assets/main/styles/skeleton.css">
-	<link rel="stylesheet" href="../assets/main/styles/layout.css">
-
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+	<link rel="icon" type="image/png" href="favicon.png">
+	<link rel="stylesheet" href="assets/gh-buttons/gh-buttons.css">
+	<link rel="stylesheet" href="assets/styles/pygment/native.css">
+	<link rel="stylesheet" href="assets/styles/styles.css">
+	<script src="assets/js/libs/respond.js"></script>
 	<!--[if lt IE 9]>
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 
-	<!-- Favicons
-	================================================== -->
 	<link rel="shortcut icon" href="../assets/common/images/favicon.ico">
 	<link rel="apple-touch-icon" href="../assets/common/images/apple-touch-icon.png">
 	<link rel="apple-touch-icon" sizes="72x72" href="../assets/common/images/apple-touch-icon-72x72.png">
 	<link rel="apple-touch-icon" sizes="114x114" href="../assets/common/images/apple-touch-icon-114x114.png">
 
+	<script type="text/javascript">
+
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-36294101-3']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+
+	</script>
+
 </head>
 <body>
 
+<div class="wrapper">
+	<header>
+		<h1><a href="./">soma.js</a></h1>
 
+		<p>Scalable javascript framework</p>
 
-	<!-- Primary Page Layout
-	================================================== -->
+		<ul>
+			<li><a href="https://github.com/somajs/somajs/zipball/master">Download <strong>ZIP File</strong></a></li>
+			<li><a href="https://github.com/somajs/somajs/tarball/master">Download <strong>TAR Ball</strong></a></li>
+			<li><a href="https://github.com/somajs/somajs">View On <strong>GitHub</strong></a></li>
+		</ul>
 
-	<!-- Delete everything in this .container and get started on your own site! -->
+	</header>
 
-	<div class="container">
-		<div class="sixteen columns">
-			<h1 class="remove-bottom" style="margin-top: 40px">Skeleton</h1>
-			<h5>Version 1.2</h5>
-			<hr />
+	<div id="navigation">
+		<nav>
+			<ul>
+				<li><a href="#what-is-soma-js">What is soma.js?</a></li>
+				<li><a href="#download">Download</a></li>
+				<li><a href="#quick-start">Quick start</a></li>
+				<li><a href="#loose-coupling">Loose coupling</a></li>
+				<li><a href="#application-instance">Application instance</a></li>
+				<li><a href="#core-elements">Core elements</a></li>
+				<li><a href="#dependency-injection">Dependency injection</a></li>
+				<li><a href="#entities">Entities</a></li>
+				<li><a href="#communication">Communication</a></li>
+				<li><a href="#command">Command</a></li>
+				<li><a href="#template">Template</a></li>
+				<li><a href="#oop">OOP</a></li>
+				<li><a href="#plugins">Plugins</a></li>
+				<li><a href="#tools">Tools</a></li>
+				<li><a href="#demos">Demos</a></li>
+				<li><a href="#tests">Tests</a></li>
+				<li><a href="#browser-support">Browser support</a></li>
+				<!--<li><p><a href="#application-instance">Application instance</a></p>-->
+					<!--<ul class="hidden">-->
+						<!--<li><a href="#targeting-a-dom-element">Targeting a DOM element</a></li>-->
+						<!--<li><a href="#bootstrapping-from-a-dom-element">Bootstrapping from a DOM element</a></li>-->
+						<!--<li><a href="#providing-a-string">Providing a string</a></li>-->
+						<!--<li><a href="#using-a-script-tag">Using a script tag</a></li>-->
+					<!--</ul>-->
+				<!--</li>-->
+		</nav>
+		<footer>
+			<p>
+				<a href="https://twitter.com/soundstep" target="_blank">@soundstep</a><br/>
+				<a href="http://www.soundstep.com" target="_blank">www.soundstep.com</a>
+			</p>
+
+			<p>
+				<small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a>
+				</small>
+			</p>
+		</footer>
+	</div>
+
+	<section>
+
+		<div class="title">
+			<h1>What is soma.js?</h1>
+			<a class="anchor" name="what-is-soma-js"></a>
 		</div>
-		<div class="one-third column">
-			<h3>About Skeleton?</h3>
-			<p>Skeleton is a small collection of well-organized CSS files that can help you rapidly develop sites that look beautiful at any size, be it a 17" laptop screen or an iPhone. It's based on a responsive grid, but also provides very basic CSS for typography, buttons, forms and media queries. Go ahead, resize this super basic page to see the grid in action.</p>
-		</div>
-		<div class="one-third column">
-			<h3>Three Core Principles</h3>
-			<p>Skeleton is built on three core principles:</p>
-			<ul class="square">
-				<li><strong>A Responsive Grid Down To Mobile</strong>: Elegant scaling from a browser to tablets to mobile.</li>
-				<li><strong>Fast to Start</strong>: It's a tool for rapid development with best practices</li>
-				<li><strong>Style Agnostic</strong>: It provides the most basic, beautiful styles, but is meant to be overwritten.</li>
-			</ul>
-		</div>
-		<div class="one-third column">
-			<h3>Docs &amp; Support</h3>
-			<p>The easiest way to really get started with Skeleton is to check out the full docs and info at <a href="http://www.getskeleton.com">www.getskeleton.com.</a>. Skeleton is also open-source and has a <a href="https://github.com/dhgamache/skeleton">project on git</a>, so check that out if you want to report bugs or create a pull request. If you have any questions, thoughts, concerns or feedback, please don't hesitate to email me at <a href="mailto:hi@getskeleton.com">hi@getskeleton.com</a>.</p>
-		</div>
-
-	</div><!-- container -->
 
 
-<!-- End Document
-================================================== -->
+		<p>soma.js is a framework created to build scalable and maintainable javascript applications.</p>
+
+		<p>The success to build large-scale applications will rely on smaller single-purposed parts of a larger system. soma.js provides tools to create a <a href="http://en.wikipedia.org/wiki/Loose_coupling" target="_blank">loosely-coupled</a> architecture broken down into smaller pieces.</p>
+		<p>The different components of an application can be modules, models, views, plugins or widgets. soma.js will not dictate its own structure, the framework can be used as a <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller" target="_blank">model-view-controller</a> framework, can be used to create independent modules, sandboxed widgets or anything that will fit a specific need.</p>
+		<p>For a system to grow and be maintainable, its parts must have a very limited knowledge of their surrounding. The components must not be tied to each other (<a href="http://en.wikipedia.org/wiki/Law_of_Demeter" target="_blank">Law of Demeter</a>), in order to be re-usable, interchangeable and allow the system to scale up.</p>
+		<p>soma.js is a set of tools and design patterns to build a long term architecture that are decoupled and easily testable. The tools provided by the framework are <a href="http://en.wikipedia.org/wiki/Dependency_injection" target="_blank">dependency injection</a>, <a href="http://en.wikipedia.org/wiki/Observer_pattern" target="_blank">observer pattern</a>, <a href="http://en.wikipedia.org/wiki/Mediator_pattern" target="_blank">mediator pattern</a>, <a href="http://en.wikipedia.org/wiki/Facade_pattern" target="_blank">facade pattern</a>, <a href="http://en.wikipedia.org/wiki/Command_pattern" target="_blank">command pattern</a>, <a href="http://en.wikipedia.org/wiki/Object-oriented_programming" target="_blank">OOP</a> utilities and a DOM manipulation template engine as an optional plugin.</p>
+
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+	<section>
+
+		<div class="title">
+			<h1>Download</h1>
+			<a class="anchor" name="download"></a>
+		</div>
+
+		<h3>Browser</h3>
+		<p><a href="https://github.com/soundstep/soma-template/tree/master/build" class="button icon tag" target="_blank">download soma.js</a></p>
+		<p>You can also download a <a href="https://github.com/somajs/somajs/zipball/master">zip file</a> containing everything. Finally, add the script to your page:</p>
+		<div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;soma.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span></pre></div>
+		<h3>Node.js</h3>
+		<div class="highlight"><pre><span class="nx">$</span> <span class="nx">npm</span> <span class="nx">install</span> <span class="nx">soma.js</span></pre></div>
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">template</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;soma.js&quot;</span><span class="p">);</span></pre></div>
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+	<section>
+
+		<div class="title">
+			<h1>Quick start</h1>
+			<a class="anchor" name="quick-start"></a>
+		</div>
+
+		<p>Here is a example of what a soma.js application could look like. In this case, following the MVC pattern.</p>
+		<p>The application contains a model that holds data, a template that manipulate a DOM element and an application instance that hook them up. The application instance must extend a framework function, while the other entities (model and template) are plain javascript free of framework code.</p>
+		<p>The template function receives a template instance, a DOM element and the model, using dependency injection.</p>
+
+		<div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;app&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;h1&gt;</span><span class="cp">{{</span><span class="nv">content</span><span class="cp">}}</span><span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+
+  <span class="c1">// function model containing data (text to display)</span>
+  <span class="kd">var</span> <span class="nx">Model</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="s2">&quot;Hello world!&quot;</span>
+  <span class="p">};</span>
+
+  <span class="c1">// function template that will update the DOM</span>
+  <span class="kd">var</span> <span class="nx">Template</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">template</span><span class="p">,</span> <span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">scope</span><span class="p">.</span><span class="nx">content</span> <span class="o">=</span> <span class="nx">model</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
+    <span class="nx">template</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+  <span class="p">};</span>
+
+  <span class="c1">// application function</span>
+  <span class="kd">var</span> <span class="nx">QuickStartApplication</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="c1">// model mapping rule so it can be injected in the template</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">mapClass</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="nx">Model</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+      <span class="c1">// create a template for a specific DOM element</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">createTemplate</span><span class="p">(</span><span class="nx">Template</span><span class="p">,</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.app&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+
+  <span class="c1">// create application</span>
+  <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">QuickStartApplication</span><span class="p">();</span>
+
+<span class="nt">&lt;/script&gt;</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/UqqsbcqHZGM9aWzgPV50?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+	<section>
+
+		<div class="title">
+			<h1>Loose coupling</h1>
+			<a class="anchor" name="loose-coupling"></a>
+		</div>
+
+		<p></p>
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+	<section>
+
+		<div class="title">
+			<h1>Application instance</h1>
+			<a class="anchor" name="application-instance"></a>
+		</div>
+
+		<p>The first step to build a soma.js application is to create an application instance. This is the only moment a framework function has to be extended, all the other entities can be re-usable plain javascript function, and framework agnostic.</p>
+		<p>The application instance will execute two functions so you can setup the architecture needed: the init and the start functions.</p>
+		<p>Here are different syntax to create an application instance.</p>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">MyApplication</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;init&#39;</span><span class="p">);</span>
+  <span class="p">},</span>
+  <span class="nx">start</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyApplication</span><span class="p">();</span>
+</pre></div>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">MyApplication</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">();</span>
+
+<span class="nx">MyApplication</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;init&#39;</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="nx">MyApplication</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">start</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyApplication</span><span class="p">();</span>
+</pre></div>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">();</span></pre></div>
+
+		<p>The constructor of an application can be overridden to implement your own. The "parent" constructor will have to be called so the framework can bootstrap. Click here to <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/call" target="_blank">learn more about chaining constructor</a>.</p>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">MyApplication</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">constructor</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">param</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">param</span> <span class="o">=</span> <span class="nx">param</span><span class="p">;</span>
+    <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+  <span class="p">},</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;init with param:&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">param</span><span class="p">);</span>
+  <span class="p">},</span>
+  <span class="nx">start</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyApplication</span><span class="p">(</span><span class="s2">&quot;my application parameter&quot;</span><span class="p">);</span>
+</pre></div>
+
+
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+	<section>
+
+		<div class="title">
+			<h1>Core elements</h1>
+			<a class="anchor" name="core-elements"></a>
+		</div>
+
+		<p>The framework core elements to help you build your own structure are the following:</p>
+		<ul>
+			<li>Dependency injection (injector property)</li>
+			<li>Observer pattern (dispatcher property)</li>
+			<li>Command pattern (commands property)</li>
+			<li>Mediator pattern (mediators property)</li>
+			<li>Facade pattern (instance property)</li>
+		</ul>
+		<p>They are available in the application or in other entities using dependency injection.</p>
+		<p>Here is how to get their references in the application instance.</p>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">MyApplication</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">;</span> <span class="c1">// dependency injection pattern</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">;</span> <span class="c1">// observer pattern</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">commands</span><span class="p">;</span> <span class="c1">// command pattern</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">;</span> <span class="c1">// mediator pattern</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">instance</span><span class="p">;</span> <span class="c1">// facade pattern</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+		<p>Here are two different syntax to get their references in other entities. The injector will either send the core elements in the constructor or set the corresponding properties.</p>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Entity</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">injector</span><span class="p">,</span> <span class="nx">dispatcher</span><span class="p">,</span> <span class="nx">commands</span><span class="p">,</span> <span class="nx">mediators,</span> <span class="nx">instance</span><span class="p">)</span> <span class="p">{</span>
+
+<span class="p">};</span>
+</pre></div>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Entity</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">injector</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">commands</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">instance</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+	<section>
+
+		<div class="title">
+			<h1>Dependency injection</h1>
+			<a class="anchor" name="dependency-injection"></a>
+		</div>
+
+		<p><a href="http://en.wikipedia.org/wiki/Dependency_injection" target="_blank">Dependency injection</a> (DI) and <a href="http://en.wikipedia.org/wiki/Inversion_of_control" target="_blank">inversion of control</a> (IOC) are two terms often used in programming. Before explaining the benefits of dependency injection and how it is implemented in soma.js, here is a naive and hopefully accessible explanation.</p>
+		<p>The basic idea of dependency injection is to have a separate object (an injector), that will instantiate a new object and populate it with what it needs (the dependencies).</p>
+		<p><a href="https://github.com/soundstep/infuse.js" target="_blank">infuse.js</a> is the dependency injection library developed for soma.js, <a href="https://github.com/soundstep/infuse.js" target="_blank">click here to see the infuse.js documentation and tests</a>.</p>
+		<p>Using dependency injection implies creating rules. For the injector to know how it should populate the dependencies of an object, it needs to have some information to follow.</p>
+
+
+
+
+		<p>As an example, an object is asking for a "drink", you can create a rule to either send "water" or "milk". The object does not need to know what type of beverage will be sent, it just need to drink.</p>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">ThirstyDude</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">beverage</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">reduceThirstValue</span> <span class="o">=</span> <span class="nx">beverage</span><span class="p">.</span><span class="nx">drink</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">Milk</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){};</span>
+<span class="nx">Milk</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">drink</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="mi">100</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">Water</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){};</span>
+<span class="nx">Water</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">drink</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="mi">200</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+		<p>This example is well decoupled as the objects don't know about each other. There is a common interface that is the drink method, found in the Milk and Water object. These two objects are interchangeable.</p>
+		<p>To instantiate the ThirstyDude function with the injector, you must tell the injector what type of beverage it should send to the instance, this is called "mapping rules". The injection will find out what to inject using the name of the property used. A rule is nothing more than giving a name to an object so it can be injected. Anything can be named and injected, a function, a string, a boolean, a number, and so on.</p>
+
+		<div class="highlight"><pre><span class="nx">injector</span><span class="p">.</span><span class="nx">mapClass</span><span class="p">(</span><span class="s2">&quot;beverage&quot;</span><span class="p">,</span> <span class="nx">Water</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">dude</span> <span class="o">=</span> <span class="nx">injector</span><span class="p">.</span><span class="nx">createInstance</span><span class="p">(</span><span class="nx">ThirstyDude</span><span class="p">);</span>
+</pre></div>
+
+		<p>In order for an application to grow, one developer must develop it in a "defensive" way. Loose-coupling and dependency injection will help to prevent changes.</p>
+		<p>An application change has just occurred. The beverage that should be sent should be the Milk, but there is only one bottle of Milk available and the same instance should be sent regardless of the number of ThirstyDude you create. The only line that needs to be changed is the mapping rule.</p>
+
+		<div class="highlight"><pre><span class="nx">injector</span><span class="p">.</span><span class="nx">mapClass</span><span class="p">(</span><span class="s2">&quot;beverage&quot;</span><span class="p">,</span> <span class="nx">Milk</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</pre></div>
+
+		<p>The benefit is that none of the three functions have changed (ThirstyDude, Water, and Milk). The line of code needed to instantiate the object did not change either.</p>
+		<p>The third Boolean parameter is a "singleton" parameter. It tells the injector to send a new object every time it has been asked for, or to send the same object. Another benefit is called <a href="http://en.wikipedia.org/wiki/Lazy_initialization" target="_blank">lazy instantiation</a> as the object will be created only when needed and in this case, only once. The singleton parameter is particularly useful to share an instance, such as a model or a config, throughout the application.</p>
+		<p>Dependencies can also chain and become nested, making the code much harder to maintain. Here is how instantiating a function, with and without dependency injection, would look.</p>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Terran</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">unit</span><span class="p">,</span> <span class="nx">character</span><span class="p">,</span> <span class="nx">world</span><span class="p">,</span> <span class="nx">weapon</span><span class="p">)</span> <span class="p">{</span>
+
+<span class="p">};</span>
+<span class="c1">// create a terran without dependency injection</span>
+<span class="kd">var</span> <span class="nx">terran</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Terran</span><span class="p">(</span>
+  <span class="k">new</span> <span class="nx">MarineUnit</span><span class="p">(</span><span class="k">new</span> <span class="nx">HumanLife</span><span class="p">(),</span> <span class="k">new</span> <span class="nx">HumanBehavior</span><span class="p">(),</span> <span class="k">new</span> <span class="nx">HumanResistance</span><span class="p">(),</span> <span class="k">new</span> <span class="nx">HumanUtilities</span><span class="p">()),</span>
+  <span class="k">new</span> <span class="nx">JimRaynorCharacter</span><span class="p">(</span><span class="k">new</span> <span class="nx">JimRaynorHistory</span><span class="p">()),</span>
+  <span class="k">new</span> <span class="nx">BraxisWorld</span><span class="p">(</span><span class="k">new</span> <span class="nx">Weather</span><span class="p">()),</span>
+  <span class="k">new</span> <span class="nx">LaserWeapon</span><span class="p">(</span><span class="k">new</span> <span class="nx">LaserBullet</span><span class="p">(),</span> <span class="k">new</span> <span class="nx">LaserResistance</span><span class="p">())</span>
+<span class="p">);</span>
+<span class="c1">// create a terran with dependency injection</span>
+<span class="kd">var</span> <span class="nx">terran</span> <span class="o">=</span> <span class="nx">injector</span><span class="p">.</span><span class="nx">createInstance</span><span class="p">(</span><span class="nx">Terran</span><span class="p">);</span>
+</pre></div>
+
+		<p>Books are written about Dependency injection, it would take a very long time to explain all the advantages. But here are some of the benefits:</p>
+
+		<ul>
+			<li>More re-usable code (helps managing dependencies)</li>
+			<li>Improved production maintenance</li>
+			<li>More readable code (reduction of boilerplate code)</li>
+			<li>More testable code (easy testing using mock objects)</li>
+
+		</ul>
+
+
+		 - reduction of boiler plate code
+
+
+		 (Good tests = fewer bugs = good code = easy life...)
+		Reduced Dependencies
+		Reduced Dependency Carrying
+
+		that makes it easier for me to  (interface)
+
+		DI code is much easier to reuse as the 'depended' functionality is extrapolated into well defined interfaces, allowing separate objects whose configuration is handled by a suitable application platform to be plugged into other objects at will.
+		DI code is much easier to test. The functionality expressed by the object can be tested in a black box by building 'mock' objects implementing the interfaces expected by your application logic.
+		DI code is more flexible. It is innately loosely coupled code -- to an extreme. This allows the programmer to pick and choose how objects are connected based exclusively on their required interfaces on one end and their expressed interfaces on the other.
+
+		Many folks don't realize that your dependencies chain and become nested, and it quickly becomes unwieldy to wire them up manually. Even with factories, the duplication of your code is just not worth it.
+		ability to centralize the configuration of your dependencies
+
+		IoC Containers are also good for loading deeply nested class dependencies. For example if you had the following code using Depedency Injection.
+
+		The biggest benefit of using IoC containers for me (personally, I use Ninject) has been to eliminate the passing around of settings and other sorts of global state objects.
+		Without using an IoC container I would have to pass the settings and/or metadata down through 2, 3, ..., n objects before it was actually used by the object that needed it.
+
+
+		Dependency injection is a software design pattern that allows removing hard-coded dependencies and making it possible to change them, whether at run-time or compile-time.[1]
+		This can be used, for example, as a simple way to load plugins dynamically or to choose stubs or mock objects in test environments vs. real objects in production environments. This software design pattern injects the depended-on element (object or value etc) to the destination automatically by knowing the requirement of the destination. Another pattern, called dependency lookup, is a regular process and reverse process to dependency injection.
+		One of its core principles is the separation of behavior from dependency resolution.
+
+		The primary purpose of the dependency injection pattern is to allow selection among multiple implementations of a given dependency interface at runtime, or via configuration files, instead of at compile time. The pattern is particularly useful for providing stub test implementations of complex components when testing, but is often used for locating plugin components, or locating and initializing software services.
+
+
+
+
+
+
+
+
+
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+	<section>
+
+		<div class="title">
+			<h1>Entities</h1>
+			<a class="anchor" name="entities"></a>
+		</div>
+
+		<p></p>
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+	<section>
+
+		<div class="title">
+			<h1>Communication</h1>
+			<a class="anchor" name="communication"></a>
+		</div>
+
+		<p></p>
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+	<section>
+
+		<div class="title">
+			<h1>Command</h1>
+			<a class="anchor" name="command"></a>
+		</div>
+
+		<p></p>
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+	<section>
+
+		<div class="title">
+			<h1>Template</h1>
+			<a class="anchor" name="template"></a>
+		</div>
+
+		<p></p>
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+	<section>
+
+		<div class="title">
+			<h1>OOP</h1>
+			<a class="anchor" name="oop"></a>
+		</div>
+
+		<p></p>
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+	<section>
+
+		<div class="title">
+			<h1>Plugins</h1>
+			<a class="anchor" name="plugins"></a>
+		</div>
+
+		<p></p>
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+	<section>
+
+		<div class="title">
+			<h1>Tools</h1>
+			<a class="anchor" name="tools"></a>
+		</div>
+
+		<p></p>
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+	<section>
+
+		<div class="title">
+			<h1>Demos</h1>
+			<a class="anchor" name="demos"></a>
+		</div>
+
+		<p></p>
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+	<section>
+
+		<div class="title">
+			<h1>Tests</h1>
+			<a class="anchor" name="tests"></a>
+		</div>
+
+		<p></p>
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+	<section class="last">
+
+		<div class="title">
+			<h1>Browser support</h1>
+			<a class="anchor" name="browser-support"></a>
+		</div>
+
+		<p></p>
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+
+</div>
+
+<script src="assets/js/libs/jquery-1.8.2.min.js"></script>
+<script src="assets/js/libs/modernizr.js"></script>
+<script src="assets/js/libs/scale.fix.js"></script>
+<script src="assets/js/app.js"></script>
+
 </body>
 </html>

@@ -328,14 +328,14 @@ var mediator = this.mediators.create(Mediator, element);</code></pre>
 					<p class="mid-size spaced">The dispatcher property (injectable) is used to dispatch and listen to events.</p>
 					<pre class="large-size"><code>var MyApplication = soma.Application.extend({
   init: function() {
-    this.dispatcher.dispatch("something happened");
+    this.dispatcher.dispatch("some-event");
   }
 });</code></pre>
 					<pre class="large-size"><code>var MyService = function(dispatcher) {
-  dispatcher.dispatch("something happened", parameters);
+  dispatcher.dispatch("some-event", parameters);
 };</code></pre>
 					<pre class="large-size"><code>var MyView = function(dispatcher) {
-  dispatcher.addEventListener("something happened", function(event) {
+  dispatcher.addEventListener("some-event", function(event) {
     console.log(event.type, event.params);
   });
 };</code></pre>
@@ -346,14 +346,15 @@ var mediator = this.mediators.create(Mediator, element);</code></pre>
 					<h2>Commands</h2>
 					<p class="mid-size spaced">Create and use <a href="http://en.wikipedia.org/wiki/Command_pattern" target="_blank">Commands</a> is another way of decoupling an application. A command is a throw-away function that will be executed and reacts to an event.</p>
 					<p class="mid-size spaced">It is another way of saying "execute this piece of code every time I dispatch this event".</p>
-					<pre class="large-size"><code>var Command = function() {
-  this.execute = function(event, model) {
+					<pre class="large-size"><code>var Command = function(model) {
+  this.execute = function(event) {
+    // execute gets automatically called (executed) by the framework
     // benefits of injection, a model is injected as an example
   }
 };</code></pre>
-					<pre class="large-size"><code>this.commands.add("something happened", Command);</code></pre>
+					<pre class="large-size"><code>this.commands.add("some-event", Command);</code></pre>
 					<pre class="large-size"><code>var MyView = function(dispatcher) {
-  dispatcher.dispatch("something happened");
+  dispatcher.dispatch("some-event");
 };</code></pre>
 				</section>
 
@@ -365,13 +366,13 @@ var mediator = this.mediators.create(Mediator, element);</code></pre>
     // will not be executed
   }
 };</code></pre>
-					<pre class="large-size"><code>this.commands.add("something happened", Command);</code></pre>
+					<pre class="large-size"><code>this.commands.add("some-event", Command);</code></pre>
 					<pre class="large-size"><code>var MyView = function(dispatcher) {
   // dispatch a cancelable event
-  dispatcher.dispatch("something happened", false, true);
+  dispatcher.dispatch("some-event", false, true);
 };</code></pre>
 					<pre class="large-size"><code>var MyModel = function() {
-  dispatcher.addEventListener("something happened", function(event) {
+  dispatcher.addEventListener("some-event", function(event) {
     // interrupt the command for some reasons
     event.preventDefault();
   });

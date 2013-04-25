@@ -63,7 +63,14 @@
 				<li><a href="#loose-coupling">Loose coupling</a></li>
 				<li><a href="#application-instance">Application instance</a></li>
 				<li><a href="#core-elements">Core elements</a></li>
-				<li><a href="#dependency-injection">Dependency injection</a></li>
+				<li>
+					<p><a href="#dependency-injection">Dependency injection</a><p>
+					<ul class="hidden">
+						<li><a href="#what-is-dependency-injection">What is dependency injection?</a></li>
+						<li><a href="#using-dependency-injection-in-somajs">Using dependency injection in soma.js</a></li>
+						<li><a href="https://github.com/soundstep/infuse.js" target="_blank">infuse.js</a></li>
+					</ul>
+				</li>
 				<li><a href="#entities">Entities</a></li>
 				<li><a href="#communication">Communication</a></li>
 				<li><a href="#command">Command</a></li>
@@ -251,7 +258,6 @@
 <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyApplication</span><span class="p">(</span><span class="s2">&quot;my application parameter&quot;</span><span class="p">);</span>
 </pre></div>
 
-
 		<div class="back"><a href="#">top</a></div>
 
 	</section>
@@ -312,108 +318,83 @@
 			<a class="anchor" name="dependency-injection"></a>
 		</div>
 
-		<p><a href="http://en.wikipedia.org/wiki/Dependency_injection" target="_blank">Dependency injection</a> (DI) and <a href="http://en.wikipedia.org/wiki/Inversion_of_control" target="_blank">inversion of control</a> (IOC) are two terms often used in programming. Before explaining the benefits of dependency injection and how it is implemented in soma.js, here is a naive and hopefully accessible explanation.</p>
-		<p>The basic idea of dependency injection is to have a separate object (an injector), that will instantiate a new object and populate it with what it needs (the dependencies).</p>
 		<p><a href="https://github.com/soundstep/infuse.js" target="_blank">infuse.js</a> is the dependency injection library developed for soma.js, <a href="https://github.com/soundstep/infuse.js" target="_blank">click here to see the infuse.js documentation and tests</a>.</p>
-		<p>Using dependency injection implies creating rules. For the injector to know how it should populate the dependencies of an object, it needs to have some information to follow.</p>
 
+		<div class="subtitle">
+			<h1>What is dependency injection?</h1>
+			<a class="anchor" name="what-is-dependency-injection"></a>
+		</div>
 
+		<p><a href="http://en.wikipedia.org/wiki/Dependency_injection" target="_blank">Dependency injection</a> (DI) and <a href="http://en.wikipedia.org/wiki/Inversion_of_control" target="_blank">inversion of control</a> (IOC) are two terms often used in programming. Before explaining the benefits of dependency injection and how it is implemented in soma.js, here is a naive and hopefully accessible explanation.</p>
 
-
-		<p>As an example, an object is asking for a "drink", you can create a rule to either send "water" or "milk". The object does not need to know what type of beverage will be sent, it just need to drink.</p>
-
-		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">ThirstyDude</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">beverage</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">reduceThirstValue</span> <span class="o">=</span> <span class="nx">beverage</span><span class="p">.</span><span class="nx">drink</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="kd">var</span> <span class="nx">Milk</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){};</span>
-<span class="nx">Milk</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">drink</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="mi">100</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kd">var</span> <span class="nx">Water</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){};</span>
-<span class="nx">Water</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">drink</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="mi">200</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-		<p>This example is well decoupled as the objects don't know about each other. There is a common interface that is the drink method, found in the Milk and Water object. These two objects are interchangeable.</p>
-		<p>To instantiate the ThirstyDude function with the injector, you must tell the injector what type of beverage it should send to the instance, this is called "mapping rules". The injection will find out what to inject using the name of the property used. A rule is nothing more than giving a name to an object so it can be injected. Anything can be named and injected, a function, a string, a boolean, a number, and so on.</p>
-
-		<div class="highlight"><pre><span class="nx">injector</span><span class="p">.</span><span class="nx">mapClass</span><span class="p">(</span><span class="s2">&quot;beverage&quot;</span><span class="p">,</span> <span class="nx">Water</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">dude</span> <span class="o">=</span> <span class="nx">injector</span><span class="p">.</span><span class="nx">createInstance</span><span class="p">(</span><span class="nx">ThirstyDude</span><span class="p">);</span>
-</pre></div>
-
-		<p>In order for an application to grow, one developer must develop it in a "defensive" way. Loose-coupling and dependency injection will help to prevent changes.</p>
-		<p>An application change has just occurred. The beverage that should be sent should be the Milk, but there is only one bottle of Milk available and the same instance should be sent regardless of the number of ThirstyDude you create. The only line that needs to be changed is the mapping rule.</p>
-
-		<div class="highlight"><pre><span class="nx">injector</span><span class="p">.</span><span class="nx">mapClass</span><span class="p">(</span><span class="s2">&quot;beverage&quot;</span><span class="p">,</span> <span class="nx">Milk</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-</pre></div>
-
-		<p>The benefit is that none of the three functions have changed (ThirstyDude, Water, and Milk). The line of code needed to instantiate the object did not change either.</p>
-		<p>The third Boolean parameter is a "singleton" parameter. It tells the injector to send a new object every time it has been asked for, or to send the same object. Another benefit is called <a href="http://en.wikipedia.org/wiki/Lazy_initialization" target="_blank">lazy instantiation</a> as the object will be created only when needed and in this case, only once. The singleton parameter is particularly useful to share an instance, such as a model or a config, throughout the application.</p>
-		<p>Dependencies can also chain and become nested, making the code much harder to maintain. Here is how instantiating a function, with and without dependency injection, would look.</p>
-
-		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Terran</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">unit</span><span class="p">,</span> <span class="nx">character</span><span class="p">,</span> <span class="nx">world</span><span class="p">,</span> <span class="nx">weapon</span><span class="p">)</span> <span class="p">{</span>
-
-<span class="p">};</span>
-<span class="c1">// create a terran without dependency injection</span>
-<span class="kd">var</span> <span class="nx">terran</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Terran</span><span class="p">(</span>
-  <span class="k">new</span> <span class="nx">MarineUnit</span><span class="p">(</span><span class="k">new</span> <span class="nx">HumanLife</span><span class="p">(),</span> <span class="k">new</span> <span class="nx">HumanBehavior</span><span class="p">(),</span> <span class="k">new</span> <span class="nx">HumanResistance</span><span class="p">(),</span> <span class="k">new</span> <span class="nx">HumanUtilities</span><span class="p">()),</span>
-  <span class="k">new</span> <span class="nx">JimRaynorCharacter</span><span class="p">(</span><span class="k">new</span> <span class="nx">JimRaynorHistory</span><span class="p">()),</span>
-  <span class="k">new</span> <span class="nx">BraxisWorld</span><span class="p">(</span><span class="k">new</span> <span class="nx">Weather</span><span class="p">()),</span>
-  <span class="k">new</span> <span class="nx">LaserWeapon</span><span class="p">(</span><span class="k">new</span> <span class="nx">LaserBullet</span><span class="p">(),</span> <span class="k">new</span> <span class="nx">LaserResistance</span><span class="p">())</span>
-<span class="p">);</span>
-<span class="c1">// create a terran with dependency injection</span>
-<span class="kd">var</span> <span class="nx">terran</span> <span class="o">=</span> <span class="nx">injector</span><span class="p">.</span><span class="nx">createInstance</span><span class="p">(</span><span class="nx">Terran</span><span class="p">);</span>
-</pre></div>
-
-		<p>Books are written about Dependency injection, it would take a very long time to explain all the advantages. But here are some of the benefits:</p>
-
+		<p>A dependency is the relationships between two objects. This relationship is often characterized by side effects that can be problematic and undesirable at times.</p>
+		<p>Dependency injection is the process in which you are setting up rules that determine how dependencies are injected into an object automatically, as opposed to have hard-coded dependencies.</p>
+		<p>An object "A" that needs an object "B" to work has a direct dependency to it. Code where the components are dependent on nearly everything else is a "highly-coupled code". The result is an application that is hard to maintain, with components that are hard to change without impacting on others.</p>
+		<p>Dependency injection is an antidote for highly-coupled code. The cost required to wire objects together falls to next to zero.</p>
+		<p>Dependency Injection is based on the following assumptions:</p>
 		<ul>
-			<li>More re-usable code (helps managing dependencies)</li>
-			<li>Improved production maintenance</li>
-			<li>More readable code (reduction of boilerplate code)</li>
-			<li>More testable code (easy testing using mock objects)</li>
-
+			<li>Tight coupling of object implementations is always bad. </li>
+			<li>A dependent function is never a good place to create a dependency.</li>
+		</ul>
+		<p>Consider the process of using the dependency injection pattern as centralizing knowledge of all dependencies and their implementations.</p>
+		<p>A common dependency injection system has a separate object (an injector, often called container), that will instantiate new objects and populate them with what they needs: the dependencies. Dependency injection is a useful pattern to solve nested dependencies, as they can chain and be nested through several layers of the application.</p>
+		<p>The benefits of dependency injection are:</p>
+		<ul>
+			<li>More re-usable components.</li>
+			<li>Improved code maintenance.</li>
+			<li>More testable components (mocking object).</li>
+			<li>More readable code (reduction of boilerplate code).</li>
 		</ul>
 
+		<div class="subtitle">
+			<h1>Using dependency injection in soma.js</h1>
+			<a class="anchor" name="using-dependency-injection-in-somajs"></a>
+		</div>
 
-		 - reduction of boiler plate code
+		<p>Dependency injection involves a way of thinking called the <a href="http://en.wikipedia.org/wiki/Hollywood_principle" target="_blank">Hollywood principle</a> "don't call us, we'll call you". This is exactly how it works in soma.js. Entities will ask for their dependencies using properties and/or constructor parameters.</p>
+		<p>Using dependency injection implies creating rules, so the injector knows "what" and "how" to populate the dependencies.</p>
+		<p>These are called "mapping rules". A rule is simply "mapping" a name (string) to an "object" (string, number, boolean, function, object, and so on). These mapping names are used to inject the corresponding objects in either a javascript constructor or a variable.</p>
 
+		<div>
+			<h3>A simple example</h3>
+		</div>
 
-		 (Good tests = fewer bugs = good code = easy life...)
-		Reduced Dependencies
-		Reduced Dependency Carrying
+		<p>In the following example, two plain javascript functions will be instantiated and injected.</p>
+		<ul>
+			<li>The Config function has a "debugMode" constructor parameter that happened to be an injection name (mapping rule associated), the corresponding boolean value will be injected into it.</li>
+			<li>The Model function contains two constructor parameters that also are injection names. A config instance and a boolean value will be injected into the corresponding parameters.</li>
+			<li>Two mapping rules are defined, one using the "mapClass" method used to map functions and one using the "mapValue" method used to map object that are not meant to be instantiated.</li>
+			<li>In the last line, the Model instance is instantiated by the injector, which will take care of all the dependencies and nested dependencies needed.</li>
+		</ul>
 
-		that makes it easier for me to  (interface)
+		<div class="highlight"><pre><span class="c1">// simple function that will be injected into the model</span>
+<span class="c1">// a boolean dependency is injected</span>
+<span class="kd">var</span> <span class="nx">Config</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">debugMode</span><span class="p">)</span> <span class="p">{</span>
 
-		DI code is much easier to reuse as the 'depended' functionality is extrapolated into well defined interfaces, allowing separate objects whose configuration is handled by a suitable application platform to be plugged into other objects at will.
-		DI code is much easier to test. The functionality expressed by the object can be tested in a black box by building 'mock' objects implementing the interfaces expected by your application logic.
-		DI code is more flexible. It is innately loosely coupled code -- to an extreme. This allows the programmer to pick and choose how objects are connected based exclusively on their required interfaces on one end and their expressed interfaces on the other.
+<span class="p">};</span>
+<span class="c1">// simple function in which a config instance and a boolean is injected</span>
+<span class="kd">var</span> <span class="nx">Model</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">,</span> <span class="nx">debugMode</span><span class="p">)</span> <span class="p">{</span>
 
-		Many folks don't realize that your dependencies chain and become nested, and it quickly becomes unwieldy to wire them up manually. Even with factories, the duplication of your code is just not worth it.
-		ability to centralize the configuration of your dependencies
+<span class="p">};</span>
+<span class="c1">// mapping rule: map the string &quot;config&quot; to the function Config</span>
+<span class="nx">injector</span><span class="p">.</span><span class="nx">mapClass</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="nx">Config</span><span class="p">);</span>
+<span class="c1">// mapping rule: map the string &quot;debugMode&quot; to a boolean</span>
+<span class="nx">injector</span><span class="p">.</span><span class="nx">mapValue</span><span class="p">(</span><span class="s2">&quot;debugMode&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="c1">// instantiate the model using the injector</span>
+<span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">injector</span><span class="p">.</span><span class="nx">createInstance</span><span class="p">(</span><span class="nx">Model</span><span class="p">);</span>
+</pre></div>
 
-		IoC Containers are also good for loading deeply nested class dependencies. For example if you had the following code using Depedency Injection.
+		<p><a href="http://plnkr.co/edit/C7m5qE7hYpUnQK6a9rNp"class="button icon edit" target="_blank">try it yourself</a></p>
 
-		The biggest benefit of using IoC containers for me (personally, I use Ninject) has been to eliminate the passing around of settings and other sorts of global state objects.
-		Without using an IoC container I would have to pass the settings and/or metadata down through 2, 3, ..., n objects before it was actually used by the object that needed it.
+		<div>
+			<h3>Singleton injection</h3>
+		</div>
 
+		<p>By default, every single time the injector will find a dependency that needs to be instantiated (such as the Config function in the previous example), the injector will instantiate a new one. A third parameter can be used when defining the "mapClass" rule: the "singleton" parameter. The effect will be that the injector will instantiate the function the first time it is asked, and send that same instance when it is asked again. This is useful to share an instance with several other components.</p>
 
-		Dependency injection is a software design pattern that allows removing hard-coded dependencies and making it possible to change them, whether at run-time or compile-time.[1]
-		This can be used, for example, as a simple way to load plugins dynamically or to choose stubs or mock objects in test environments vs. real objects in production environments. This software design pattern injects the depended-on element (object or value etc) to the destination automatically by knowing the requirement of the destination. Another pattern, called dependency lookup, is a regular process and reverse process to dependency injection.
-		One of its core principles is the separation of behavior from dependency resolution.
+		<div class="highlight"><pre><span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">mapClass</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="nx">Config</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span></pre></div>
 
-		The primary purpose of the dependency injection pattern is to allow selection among multiple implementations of a given dependency interface at runtime, or via configuration files, instead of at compile time. The pattern is particularly useful for providing stub test implementations of complex components when testing, but is often used for locating plugin components, or locating and initializing software services.
-
-
-
-
-
-
-
-
+		<p><a href="http://plnkr.co/edit/ZLv66EglhbBGyieujxG3"class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="back"><a href="#">top</a></div>
 

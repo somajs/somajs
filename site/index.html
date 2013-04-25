@@ -384,7 +384,7 @@
 <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">injector</span><span class="p">.</span><span class="nx">createInstance</span><span class="p">(</span><span class="nx">Model</span><span class="p">);</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/C7m5qE7hYpUnQK6a9rNp"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/C7m5qE7hYpUnQK6a9rNp?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div>
 			<h3>Singleton injection</h3>
@@ -394,9 +394,48 @@
 
 		<div class="highlight"><pre><span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">mapClass</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="nx">Config</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span></pre></div>
 
-		<p><a href="http://plnkr.co/edit/ZLv66EglhbBGyieujxG3"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/ZLv66EglhbBGyieujxG3?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="back"><a href="#">top</a></div>
+
+		<div>
+			<h3>Where can injection be used?</h3>
+		</div>
+
+		<p>Injection can be used in any function instantiated by the injector:</p>
+		<ul>
+			<li>Entities manually created using the injector</li>
+			<li>Dependencies of entities as they are automatically created by the injector</li>
+			<li>Commands as they are internally created by the injector</li>
+			<li>Mediators as they are internally created by the injector</li>
+			<li>Templates as they are internally created by the injector</li>
+		</ul>
+
+		<p>In the following example, dispatching a event will instantiate and execute a Command function, which will instantiate a Model function as it needs this dependency, which will instantiate a Config function as it needs this dependency.</p>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Config</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Config instantiated&quot;</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">Model</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Model instantiated with a config injected:&quot;</span><span class="p">,</span> <span class="nx">config</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">Command</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">execute</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Command executed with a model injected:&quot;</span><span class="p">,</span> <span class="nx">model</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// mapping rule: map the string &quot;config&quot; to the function Config</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">mapClass</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="nx">Config</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="c1">// mapping rule: map the string &quot;model&quot; to the function Model</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">mapClass</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="nx">Model</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="c1">// command mapped to an event</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">commands</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s2">&quot;some-event&quot;</span><span class="p">,</span> <span class="nx">Command</span><span class="p">);</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/jN2OzC3wbcmzvHJ1XgDP?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
 
 	</section>
 

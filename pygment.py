@@ -3,29 +3,35 @@ from pygments.lexers import HtmlDjangoLexer
 from pygments.formatters import HtmlFormatter
 
 code = """<script>
-var Navigation = function() {};
-Navigation.prototype.showScreen = function(id) {
-  console.log('Display screen:', id);
-}
+var EditorModel = function(dispatcher) {
+  dispatcher.addEventListener('logout', function(event) {
+    console.log("Logout event received in EditorModel");
+    if (!this.fileSaved) {
+      console.log('Interupt logout command');
+      event.preventDefault();
+    }
+  });
+};
 
-var Command = function(navigation) {
+var LogoutCommand = function() {
   this.execute = function(event) {
-    console.log("Command executed with parameter:", event.params);
-    navigation.showScreen(event.params);
+    console.log("Logout user");
   }
 };
 
-var MyApplication = soma.Application.extend({
+var EditorApplication = soma.Application.extend({
   init: function() {
-    this.commands.add("show-screen", Command);
+    this.commands.add("logout", LogoutCommand);
+    this.injector.createInstance(EditorModel);
   },
   start: function() {
-    this.injector.mapClass("navigation", Navigation, true);
-    this.dispatcher.dispatch("show-screen", "home");
+    // dispatch a cancelable event
+    // dispatch(eventType, parameters, bubbles, cancelable)
+    this.dispatcher.dispatch("logout", null, false, true);
   }
 });
 
-var app = new MyApplication();
+var app = new EditorApplication();
 </script>
 """
 

@@ -87,6 +87,12 @@
 						<li><a href="#flow-control">Flow control</a></li>
 					</ul>
 				</li>
+				<li><p><a href="#mediator">Mediator</a></p>
+					<ul class="hidden">
+						<li><a href="#create-mediators">Create mediators</a></li>
+						<li><a href="#simple-mediator-example">Simple mediator example</a></li>
+					</ul>
+				</li>
 				<li><a href="#template">Template</a></li>
 				<li><a href="#oop">OOP</a></li>
 				<li><a href="#plugins">Plugins</a></li>
@@ -94,14 +100,6 @@
 				<li><a href="#demos">Demos</a></li>
 				<li><a href="#tests">Tests</a></li>
 				<li><a href="#browser-support">Browser support</a></li>
-				<!--<li><p><a href="#application-instance">Application instance</a></p>-->
-					<!--<ul class="hidden">-->
-						<!--<li><a href="#targeting-a-dom-element">Targeting a DOM element</a></li>-->
-						<!--<li><a href="#bootstrapping-from-a-dom-element">Bootstrapping from a DOM element</a></li>-->
-						<!--<li><a href="#providing-a-string">Providing a string</a></li>-->
-						<!--<li><a href="#using-a-script-tag">Using a script tag</a></li>-->
-					<!--</ul>-->
-				<!--</li>-->
 		</nav>
 		<footer>
 			<p>
@@ -576,7 +574,7 @@
 
 		<p>As with events dispatched from the DOM, the scope of the event handlers (this) might not be the expected scope. To solve this common javascript problem, a "bind" method can be used.</p>
 		<p><code>Function.prototype.bind</code> is part of ECMAScript 5 and soma.js has implemented a shim for older browsers. <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/bind" target="_blank">Click here for more information about the bind method</a>.</p>
-		<p>In the following example, one event is dispatched and two function are listening to it. In the first function, the "this" is the window. In the second function the "this" is the application instance as the bind function changes the scope of the event handler, making the instance variable accessible.</p>
+		<p>In the following example, one event is dispatched and two functions are listening to it. In the first function, the "this" is the window. In the second function the "this" is the application instance as the bind function changes the scope of the event handler, making the instance variable accessible.</p>
 
 		<div class="highlight"><pre><span class="c1">// instance variable</span>
 <span class="k">this</span><span class="p">.</span><span class="nx">myVariable</span> <span class="o">=</span> <span class="s2">&quot;myValue&quot;</span><span class="p">;</span>
@@ -714,6 +712,99 @@
 		<div class="subtitle">
 			<h2>Flow control</h2>
 			<a class="anchor" name="flow-control"></a>
+		</div>
+
+		<p>Being able to control the flow of an application is important. Some components might decide to execute a command, but some other components might have the need to monitor or even interrupt the application flow. A good example could be a "logout" command in an editor application. A menu component can decide to execute this command, but the editor should be able to intercept and interrupt it in case the user didn't save his current file.</p>
+		<p>As the commands are using events to be triggered, the DOM Event provides the necessary tools to monitor (addEventListener) and interrupt a command (event.preventDefault).</p>
+		<p>In the following example, a command is executed and an external <code>Monitor</code> entity is able to monitor this command by listening to the event.</p>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Monitor</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">dispatcher</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Command monitored&quot;</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">Command</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">execute</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Command executed&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">MyApplication</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">commands</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s2">&quot;some-event&quot;</span><span class="p">,</span> <span class="nx">Command</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">createInstance</span><span class="p">(</span><span class="nx">Monitor</span><span class="p">);</span>
+  <span class="p">},</span>
+  <span class="nx">start</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s2">&quot;some-event&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyApplication</span><span class="p">();</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/VHLPtSJgsBNgNFzgf1x6?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<p>In the following example, the <code>start</code> method dispatch an event to logout a user. The <code>EditorModel</code> is able to monitor the logout command and interrupt it.</p>
+		<p>The initiator of the command can decide when dispatching the event, if another component should be able to interrupt it. A DOM Event has a <code>cancelable</code> property that should be set to true when dispatched so another component can interrupt it using the <code>event.preventDefaut()</code> method.</p>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">EditorModel</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">dispatcher</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;logout&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Logout event received in EditorModel&quot;</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">fileSaved</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Interupt logout command&#39;</span><span class="p">);</span>
+      <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">LogoutCommand</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">execute</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Logout user&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">EditorApplication</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">commands</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s2">&quot;logout&quot;</span><span class="p">,</span> <span class="nx">LogoutCommand</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">createInstance</span><span class="p">(</span><span class="nx">EditorModel</span><span class="p">);</span>
+  <span class="p">},</span>
+  <span class="nx">start</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// dispatch a cancelable event</span>
+    <span class="c1">// dispatch(eventType, parameters, bubbles, cancelable)</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s2">&quot;logout&quot;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EditorApplication</span><span class="p">();</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/xQtwi2nMDAh3Z2zL1iz0?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+	<section>
+
+		<div class="title">
+			<h1>Mediator</h1>
+			<a class="anchor" name="template"></a>
+		</div>
+
+		<div class="subtitle">
+			<h2>Create mediators</h2>
+			<a class="anchor" name="create-mediators"></a>
+		</div>
+
+		<div class="subtitle">
+			<h2>Simple mediator example</h2>
+			<a class="anchor" name="simple-mediator-example"></a>
+		</div>
+
+		<div class="subtitle">
+			<h2>Create mediators</h2>
+			<a class="anchor" name="create-mediators"></a>
 		</div>
 
 		<p></p>

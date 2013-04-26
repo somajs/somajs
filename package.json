@@ -6,7 +6,10 @@
 		"name":"Romuald Quantin",
 		"email":"romuald@soundstep.com"
 	},
-	"scripts": {
-		"preinstall": ["sudo npm install -g grunt"]
+	"devDependencies": {
+		"grunt": ">=0.4.x",
+		"grunt-contrib-watch": "*",
+		"grunt-contrib-concat": "*",
+		"grunt-contrib-uglify": "*"
 	}
 }

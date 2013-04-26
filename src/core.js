@@ -199,3 +199,17 @@ var Commands = soma.extend({
 		this.list = undefined;
 	}
 });
+
+// event extend utils
+
+soma.EventDispatcher.extend = function (obj) {
+	return soma.inherit(soma.EventDispatcher, obj);
+};
+
+soma.Event.extend = function (obj) {
+	return soma.inherit(soma.Event, obj);
+};
+
+infuse.Injector.extend = function(obj) {
+	return soma.inherit(infuse.Injector, obj);
+};

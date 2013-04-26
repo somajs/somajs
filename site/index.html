@@ -73,14 +73,17 @@
 				<li><p><a href="#communication">Communication</a></p>
 					<ul class="hidden">
 						<li><a href="#native-event-system">Native event system</a></li>
-						<li><a href="#dispatch-events">Dispatch events</a></li>
-						<li><a href="#listen-to-events">Listen to events</a></li>
-						<li><a href="#flow-control">Flow control</a></li>
+						<li><a href="#creating-and-dispatching-events">Creating and dispatching events</a></li>
+						<li><a href="#listening-to-events">Listening to events</a></li>
+						<li><a href="#send-parameters">Send parameters</a></li>
 						<li><a href="https://github.com/soundstep/soma-events" target="_blank">soma-events</a></li>
 					</ul>
 				</li>
 				<li><p><a href="#command">Command</a></p>
 					<ul class="hidden">
+						<li><a href="#create-commands">Create commands</a></li>
+						<li><a href="#manage-commands">Manage commands</a></li>
+						<li><a href="#simple-command-example">Simple command example</a></li>
 						<li><a href="#flow-control">Flow control</a></li>
 					</ul>
 				</li>
@@ -119,7 +122,6 @@
 			<h1>What is soma.js?</h1>
 			<a class="anchor" name="what-is-soma-js"></a>
 		</div>
-
 
 		<p>soma.js is a framework created to build scalable and maintainable javascript applications.</p>
 
@@ -354,7 +356,7 @@
 		<p>These are called "mapping rules". A rule is simply "mapping" a name (string) to an "object" (string, number, boolean, function, object, and so on). These mapping names are used to inject the corresponding objects in either a javascript constructor or a variable.</p>
 
 		<div>
-			<h3>A simple example</h3>
+			<h4>A simple example</h4>
 		</div>
 
 		<p>In the following example, two plain javascript functions will be instantiated and injected.</p>
@@ -385,7 +387,7 @@
 		<p><a href="http://plnkr.co/edit/C7m5qE7hYpUnQK6a9rNp?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div>
-			<h3>Singleton injection</h3>
+			<h4>Singleton injection</h4>
 		</div>
 
 		<p>By default, every single time the injector will find a dependency that needs to be instantiated (such as the Config function in the previous example), the injector will instantiate a new one. A third parameter can be used when defining the "mapClass" rule: the "singleton" parameter. The effect will be that the injector will instantiate the function the first time it is asked, and send that same instance when it is asked again. This is useful to share an instance with several other components.</p>
@@ -397,7 +399,7 @@
 		<div class="back"><a href="#">top</a></div>
 
 		<div>
-			<h3>Where can injection be used?</h3>
+			<h4>Where can injection be used?</h4>
 		</div>
 
 		<p>Injection can be used in any function instantiated by the injector:</p>
@@ -459,8 +461,8 @@
 		<p>Note: the shortcuts are not part of the DOM 3 events specification).</p>
 
 		<div class="subtitle">
-			<h2>Dispatch events</h2>
-			<a class="anchor" name="dispatch-events"></a>
+			<h2>Creating and dispatching events</h2>
+			<a class="anchor" name="creating-and-dispatching-events"></a>
 		</div>
 
 		<p>To dispatch an event, the first step is to create it. There are four ways to create events:</p>
@@ -471,6 +473,10 @@
 			<li>Creating real DOM events</li>
 		</ul>
 
+		<div>
+			<h4>Create and dispatch an event using the dispatcher shortcut</h4>
+		</div>
+
 		<p>Creating an event and dispatching it with the dispatcher shortcut is the easiest way. Note that the shortcut syntax is not part of the DOM 3 specification if it matters for the application.</p>
 
 		<div class="highlight"><pre><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s2">&quot;some-event&quot;</span><span class="p">);</span>
@@ -478,6 +484,10 @@
 </pre></div>
 
 		<p><a href="http://plnkr.co/edit/ypcBB9hJEZt7UdSvVujr?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div>
+			<h4>Create and dispatch an event instantiating the event wrapper</h4>
+		</div>
 
 		<p>An instance of the event wrapper can be created, and dispatched following the DOM 3 dispatchEvent interface.</p>
 
@@ -487,10 +497,139 @@
 
 		<p><a href="http://plnkr.co/edit/eRFQuQVQRxAEGLh784a4?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
 
-		<div class="subtitle">
-			<h2>Listen to events</h2>
-			<a class="anchor" name="listen-to-events"></a>
+		<div>
+			<h4>Create and dispatch an event instantiating an extended event wrapper</h4>
 		</div>
+
+		<p>The event wrapper can also be extended to specify custom variables or change the implementation.</p>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">MyEvent</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Event</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">constructor</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">params</span><span class="p">,</span> <span class="nx">bubbles</span><span class="p">,</span> <span class="nx">cancelable</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Event</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">type</span><span class="p">,</span> <span class="nx">params</span><span class="p">,</span> <span class="nx">bubbles</span><span class="p">,</span> <span class="nx">cancelable</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+<span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="k">new</span> <span class="nx">MyEvent</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">));</span>
+<span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="k">new</span> <span class="nx">MyEvent</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">data</span><span class="o">:</span><span class="s2">&quot;parameters&quot;</span><span class="p">}));</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/f4pKAQ0YR3GWkTjYRJhk?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div>
+			<h4>Create and dispatch an event using DOM Native methods</h4>
+		</div>
+
+		<p>In case an entity requires a very strict decoupling, the dispatcher can be switch to a DOM Element (see the <a href="https://github.com/soundstep/soma-events" target="_blank">soma-event documentation</a>), and a DOM Event can be used rather than using the event wrapper.</p>
+		<p>The goal of the event wrapper is hiding the complexity of creating cross-browser events, solving cross-browser different implementations and creating objects that represents events for node.js. The following example will only work in browsers that support the "document.createEvent" method.</p>
+
+		<div class="highlight"><pre><span class="c1">// swap the dispatcher to a DOM Element (window in this example)</span>
+<span class="nx">injector</span><span class="p">.</span><span class="nx">removeMapping</span><span class="p">(</span><span class="s2">&quot;dispatcher&quot;</span><span class="p">);</span>
+<span class="nx">injector</span><span class="p">.</span><span class="nx">mapValue</span><span class="p">(</span><span class="s2">&quot;dispatcher&quot;</span><span class="p">,</span> <span class="nb">window</span><span class="p">);</span>
+<span class="c1">// listen to an event</span>
+<span class="nx">dispatcher</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;event received:&#39;</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">type</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="c1">// dispatch an event</span>
+<span class="kd">var</span> <span class="nx">event</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createEvent</span><span class="p">(</span><span class="s2">&quot;Event&quot;</span><span class="p">);</span>
+<span class="nx">event</span><span class="p">.</span><span class="nx">initEvent</span><span class="p">(</span><span class="s2">&quot;some-event&quot;</span><span class="p">);</span>
+<span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">event</span><span class="p">);</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/9oOdvqPtMdUpg6DuKCLS?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="subtitle">
+			<h2>Listening to events</h2>
+			<a class="anchor" name="listening-to-events"></a>
+		</div>
+
+		<p>The dispatcher implements the same interface as the DOM Event specification, the methods "addEventListener" and "removeEventListener" can be used to listen and stop listening to events.</p>
+
+		<div><h4>A simple example</h4></div>
+
+		<p>In the following example, an event is dispatched from the application instance, and listened to both in the application instance and a view entity.</p>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">View</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">dispatcher</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;event received in a view:&#39;</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">type</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">MyApplication</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">createInstance</span><span class="p">(</span><span class="nx">View</span><span class="p">);</span>
+  <span class="p">},</span>
+  <span class="nx">start</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// listen to an event</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;event received:&#39;</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">type</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="c1">// dispatch an event</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyApplication</span><span class="p">();</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/GXzRmRwbWNpBnykBqBpS?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div><h4>Event handlers scope and binding</h4></div>
+
+		<p>As with events dispatched from the DOM, the scope of the event handlers (this) might not be the expected scope. To solve this common javascript problem, a "bind" method can be used.</p>
+		<p><code>Function.prototype.bind</code> is part of ECMAScript 5 and soma.js has implemented a shim for older browsers. <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/bind" target="_blank">Click here for more information about the bind method</a>.</p>
+		<p>In the following example, one event is dispatched and two function are listening to it. In the first function, the "this" is the window. In the second function the "this" is the application instance as the bind function changes the scope of the event handler, making the instance variable accessible.</p>
+
+		<div class="highlight"><pre><span class="c1">// instance variable</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">myVariable</span> <span class="o">=</span> <span class="s2">&quot;myValue&quot;</span><span class="p">;</span>
+
+<span class="c1">// listen to an event without binding</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// &quot;this&quot; is window</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;instance variable not accessible:&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">myVariable</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="c1">// listen to an event with binding</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// &quot;this&quot; is the application instance</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;instance variable accessible:&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">myVariable</span><span class="p">);</span>
+<span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+
+<span class="c1">// dispatch an event</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">);</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/sYuaBogeYGgT7AeNCWme?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<p>A quick note about removing listeners. The bind method creates a new function, removing a listener using the bind method will not work as the event handler will be a new function (<a href="https://github.com/soundstep/soma-events" target="_blank">see some-event documentation</a>).</p>
+		<p>Here is the solution to properly remove listeners using the bind method.</p>
+
+		<div class="highlight"><pre><span class="c1">// event handler</span>
+<span class="kd">var</span> <span class="nx">eventHandler</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// will not be triggered as the listener is properly removed</span>
+<span class="p">}</span>
+<span class="c1">// bound event handler reference</span>
+<span class="kd">var</span> <span class="nx">boundEventHandler</span> <span class="o">=</span> <span class="nx">eventHandler</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+<span class="c1">// listen to an event</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">,</span> <span class="nx">boundEventHandler</span><span class="p">);</span>
+<span class="c1">// stop listening to an event</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">,</span> <span class="nx">boundEventHandler</span><span class="p">);</span>
+<span class="c1">// dispatch an event</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">);</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/vGRDmdxKeiGY61lDKSUt?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="subtitle">
+			<h2>Send parameters</h2>
+			<a class="anchor" name="send-parameters"></a>
+		</div>
+
+		<p>Parameters can be sent when dispatching events, so the events handlers can receive information. The parameters are store on the <code>event.params</code> property of an event.</p>
+
+		<div class="highlight"><pre><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">data</span><span class="o">:</span><span class="s1">&#39;some data&#39;</span><span class="p">});</span>
+<span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="k">new</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Event</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">data</span><span class="o">:</span><span class="s1">&#39;some data&#39;</span><span class="p">}));</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/FFv5llnIS4Tmb70MeLy5?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="back"><a href="#">top</a></div>
 
@@ -503,9 +642,78 @@
 			<a class="anchor" name="command"></a>
 		</div>
 
+		<p>A <a href="http://en.wikipedia.org/wiki/Command_pattern" target="_blank">command</a> is behavioral design pattern to help reducing dependencies. An object is used to encapsulate the information needed to call a method, including the object owning the method, the object itself and any parameters.</p>
+		<p>Concretely, a command is a function instantiated by the framework, created for any re-usable action that could be performed in various places of the application. A command is meant to be created, used and discarded straight away. A command should never be used to hold data, and should be executable at any time without causing errors in the system.</p>
+
 		<div class="subtitle">
-			<h1>Flow control</h1>
-			<a class="anchor" name="flow-controls"></a>
+			<h2>Create commands</h2>
+			<a class="anchor" name="create-commands"></a>
+		</div>
+
+		<p>A command in soma.js is nothing more than a simple function that contains an <code>execute</code> method that will receive the event instance used to trigger it. Dependency injection can be used to retrieve useful objects.</p>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Command</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">myModel</span><span class="p">,</span> <span class="nx">myView</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">execute</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+
+		<div class="subtitle">
+			<h2>Manage commands</h2>
+			<a class="anchor" name="manage-commands"></a>
+		</div>
+
+		<div><h4>Add a command</h4></div>
+
+		<p>Commands in soma.js are triggered using events. This makes possible for the application actors to, not only execute commands, but also listen to events used to trigger the commands.</p>
+		<p>The <code>commands</code> core element is used to managed the commands. It is a good practice, unless you are building self-contained modules, to add all the commands in the same place, such as the application instance. This would give a good overview for a potantial new developer to get an idea of what's possible in the application using the commands.</p>
+
+		<div class="highlight"><pre><span class="k">this</span><span class="p">.</span><span class="nx">commands</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s2">&quot;some-event&quot;</span><span class="p">,</span> <span class="nx">Command</span><span class="p">);</span></pre></div>
+
+		<div><h4>Remove a command</h4></div>
+
+		<p>The <code>commands</code> core element contains several useful methods to manage the commands, such as <code>has</code>, <code>get</code> and <code>getAll</code>. To remove a command, the <code>remove</code> method can be used.</p>
+
+		<div class="highlight"><pre><span class="k">this</span><span class="p">.</span><span class="nx">commands</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s2">&quot;some-event&quot;</span><span class="p">);</span></pre></div>
+
+		<div class="subtitle">
+			<h2>A simple command example</h2>
+			<a class="anchor" name="simple-command-example"></a>
+		</div>
+
+		<p>The following example contains a <code>Navigation</code> model, its role is to display a screen using an ID. A Command is created to call the navigation method. The command is mapped to a "show-screen" event, which is used to send the ID of a screen. This setup makes possible, for any actor of the application, to dispatch an event to show a screen.</p>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Navigation</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{};</span>
+<span class="nx">Navigation</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">showScreen</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Display screen:&#39;</span><span class="p">,</span> <span class="nx">id</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">Command</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">navigation</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">execute</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Command executed with parameter:&quot;</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">);</span>
+    <span class="nx">navigation</span><span class="p">.</span><span class="nx">showScreen</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">MyApplication</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">mapClass</span><span class="p">(</span><span class="s2">&quot;navigation&quot;</span><span class="p">,</span> <span class="nx">Navigation</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">commands</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s2">&quot;show-screen&quot;</span><span class="p">,</span> <span class="nx">Command</span><span class="p">);</span>
+  <span class="p">},</span>
+  <span class="nx">start</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s2">&quot;show-screen&quot;</span><span class="p">,</span> <span class="s2">&quot;home&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyApplication</span><span class="p">();</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/hPxftFSFhtmMe5D0hdbT?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="subtitle">
+			<h2>Flow control</h2>
+			<a class="anchor" name="flow-control"></a>
 		</div>
 
 		<p></p>

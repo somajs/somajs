@@ -867,6 +867,20 @@ var Commands = soma.extend({
 	}
 });
 
+// event extend utils
+
+soma.EventDispatcher.extend = function (obj) {
+	return soma.inherit(soma.EventDispatcher, obj);
+};
+
+soma.Event.extend = function (obj) {
+	return soma.inherit(soma.Event, obj);
+};
+
+infuse.Injector.extend = function(obj) {
+	return soma.inherit(infuse.Injector, obj);
+};
+
 
 	// register for AMD module
 	if (typeof define === 'function' && define.amd) {

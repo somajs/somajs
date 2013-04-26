@@ -104,39 +104,37 @@ describe("core", function () {
 		expect(app.dispatcher).toBeUndefined();
 	});
 
-//	it("shortcuts dispatcher in instance", function () {
-//		expect(typeof app.dispatch).toEqual('function');
-//		expect(typeof app.dispatchEvent).toEqual('function');
-//		expect(typeof app.addEventListener).toEqual('function');
-//		expect(typeof app.removeEventListener).toEqual('function');
-//		expect(typeof app.hasEventListener).toEqual('function');
-//	});
-//
-//	it("shortcuts dispatcher in mediators", function () {
-//		var f = function(){};
-//		var m = app.mediators.create(f, 1);
-//		expect(typeof m.dispatch).toEqual('function');
-//		expect(typeof m.dispatchEvent).toEqual('function');
-//		expect(typeof m.addEventListener).toEqual('function');
-//		expect(typeof m.removeEventListener).toEqual('function');
-//		expect(typeof m.hasEventListener).toEqual('function');
-//	});
-//
-//	it("shortcuts dispatcher in commands", function () {
-//		var executed = false;
-//		var Command = function() {
-//			this.execute = function(event) {
-//				executed = true;
-//				expect(typeof this.dispatch).toEqual('function');
-//				expect(typeof this.dispatchEvent).toEqual('function');
-//				expect(typeof this.addEventListener).toEqual('function');
-//				expect(typeof this.removeEventListener).toEqual('function');
-//				expect(typeof this.hasEventListener).toEqual('function');
-//			}
-//		}
-//		app.commands.add('name', Command);
-//		app.dispatch('name');
-//		expect(executed).toBeTruthy();
-//	});
+	it("extend dispatcher", function () {
+		var result = false;
+		var CustomDispatcher = soma.EventDispatcher.extend();
+		var d = new soma.EventDispatcher();
+		d.addEventListener('event', function(event) {
+			result = true;
+		});
+		d.dispatch('event');
+		expect(result).toBeTruthy();
+	});
+
+	it("extend event", function () {
+		var result = false;
+		var CustomEvent = soma.Event.extend();
+		var d = new soma.EventDispatcher();
+		d.addEventListener('event', function(event) {
+			result = true;
+		});
+		d.dispatchEvent(new CustomEvent('event'));
+		expect(result).toBeTruthy();
+	});
+
+	it("extend injector", function () {
+		var CustomInjector = new infuse.Injector.extend();
+		var injector = new CustomInjector();
+		injector.mapValue('value', true);
+		var CustomClass = function(value) {
+			this.value = value;
+		}
+		var cl = injector.createInstance(CustomClass);
+		expect(cl.value).toBeTruthy();
+	});
 
 });

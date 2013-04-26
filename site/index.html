@@ -60,7 +60,6 @@
 				<li><a href="#what-is-soma-js">What is soma.js?</a></li>
 				<li><a href="#download">Download</a></li>
 				<li><a href="#quick-start">Quick start</a></li>
-				<li><a href="#loose-coupling">Loose coupling</a></li>
 				<li><a href="#application-instance">Application instance</a></li>
 				<li><a href="#core-elements">Core elements</a></li>
 				<li>
@@ -71,9 +70,20 @@
 						<li><a href="https://github.com/soundstep/infuse.js" target="_blank">infuse.js</a></li>
 					</ul>
 				</li>
-				<li><a href="#entities">Entities</a></li>
-				<li><a href="#communication">Communication</a></li>
-				<li><a href="#command">Command</a></li>
+				<li><p><a href="#communication">Communication</a></p>
+					<ul class="hidden">
+						<li><a href="#native-event-system">Native event system</a></li>
+						<li><a href="#dispatch-events">Dispatch events</a></li>
+						<li><a href="#listen-to-events">Listen to events</a></li>
+						<li><a href="#flow-control">Flow control</a></li>
+						<li><a href="https://github.com/soundstep/soma-events" target="_blank">soma-events</a></li>
+					</ul>
+				</li>
+				<li><p><a href="#command">Command</a></p>
+					<ul class="hidden">
+						<li><a href="#flow-control">Flow control</a></li>
+					</ul>
+				</li>
 				<li><a href="#template">Template</a></li>
 				<li><a href="#oop">OOP</a></li>
 				<li><a href="#plugins">Plugins</a></li>
@@ -135,7 +145,7 @@
 		<div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;soma.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span></pre></div>
 		<h3>Node.js</h3>
 		<div class="highlight"><pre><span class="nx">$</span> <span class="nx">npm</span> <span class="nx">install</span> <span class="nx">soma.js</span></pre></div>
-		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">template</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;soma.js&quot;</span><span class="p">);</span></pre></div>
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">soma</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;soma.js&quot;</span><span class="p">);</span></pre></div>
 		<div class="back"><a href="#">top</a></div>
 
 	</section>
@@ -186,18 +196,6 @@
 
 		<p><a href="http://plnkr.co/edit/UqqsbcqHZGM9aWzgPV50?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
 
-		<div class="back"><a href="#">top</a></div>
-
-	</section>
-
-	<section>
-
-		<div class="title">
-			<h1>Loose coupling</h1>
-			<a class="anchor" name="loose-coupling"></a>
-		</div>
-
-		<p></p>
 		<div class="back"><a href="#">top</a></div>
 
 	</section>
@@ -321,7 +319,7 @@
 		<p><a href="https://github.com/soundstep/infuse.js" target="_blank">infuse.js</a> is the dependency injection library developed for soma.js, <a href="https://github.com/soundstep/infuse.js" target="_blank">click here to see the infuse.js documentation and tests</a>.</p>
 
 		<div class="subtitle">
-			<h1>What is dependency injection?</h1>
+			<h2>What is dependency injection?</h2>
 			<a class="anchor" name="what-is-dependency-injection"></a>
 		</div>
 
@@ -347,7 +345,7 @@
 		</ul>
 
 		<div class="subtitle">
-			<h1>Using dependency injection in soma.js</h1>
+			<h2>Using dependency injection in soma.js</h2>
 			<a class="anchor" name="using-dependency-injection-in-somajs"></a>
 		</div>
 
@@ -442,23 +440,58 @@
 	<section>
 
 		<div class="title">
-			<h1>Entities</h1>
-			<a class="anchor" name="entities"></a>
-		</div>
-
-		<p></p>
-		<div class="back"><a href="#">top</a></div>
-
-	</section>
-
-	<section>
-
-		<div class="title">
 			<h1>Communication</h1>
 			<a class="anchor" name="communication"></a>
 		</div>
 
-		<p></p>
+		<p><a href="https://github.com/soundstep/soma-events" target="_blank">soma-events</a> is the observer library developed for soma.js, <a href="https://github.com/soundstep/soma-events" target="_blank">click here to see the soma-events documentation and tests</a>.</p>
+
+		<div class="subtitle">
+			<h2>Native event system</h2>
+			<a class="anchor" name="native-event-system"></a>
+		</div>
+
+		<p>Communicating between entities in an application is an important part. Object orientated programming is all about states of objects and their interaction. Certain objects need to be informed about changes in others objects, some others need to inform the rest of the application and some others will do both.</p>
+		<p>The <a href="http://en.wikipedia.org/wiki/Observer_pattern" target="_blank">Observer pattern</a> is a design pattern used to communicate between objects and reduce the dependencies. One the core elements of soma.js is the "dispatcher", an event system used to dispatch and listen to events throughout the entire application.</p>
+		<p>For example, a model component that receives data can use the dispatcher to notify the rest of the application that the data has changed. A view component can use the dispatcher to inform other components that a user input has just happened.</p>
+		<p>The library used to dispatch and listen to events (<a href="https://github.com/soundstep/soma-events" target="_blank">soma-events</a>) is not a simple publish-subscribe library. In case of an application related to the DOM (in opposition to a node.js application), the events used are real <a href="http://www.w3.org/TR/DOM-Level-3-Events/" target="_blank">DOM events</a>, and the dispatcher shares a common interface to DOM 3 events. The result is that the soma.js dispatcher can be interchanged with a DOM Element for a complete application decoupling.</p>
+		<p>The <a href="https://github.com/soundstep/soma-events" target="_blank">soma-events</a> library provides a custom dispatcher (usable in non-DOM environment), a event wrapper that will create the right events depending on the environment (webkit, internet explorer, non-DOM environment), and some shortcuts for ease-of-use.</p>
+		<p>Note: the shortcuts are not part of the DOM 3 events specification).</p>
+
+		<div class="subtitle">
+			<h2>Dispatch events</h2>
+			<a class="anchor" name="dispatch-events"></a>
+		</div>
+
+		<p>To dispatch an event, the first step is to create it. There are four ways to create events:</p>
+		<ul>
+			<li>Using a "dispatch" shortcut</li>
+			<li>Instantiating the event wrapper</li>
+			<li>Extending the event wrapper and instantiating the custom event</li>
+			<li>Creating real DOM events</li>
+		</ul>
+
+		<p>Creating an event and dispatching it with the dispatcher shortcut is the easiest way. Note that the shortcut syntax is not part of the DOM 3 specification if it matters for the application.</p>
+
+		<div class="highlight"><pre><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s2">&quot;some-event&quot;</span><span class="p">);</span>
+<span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s2">&quot;another-event&quot;</span><span class="p">,</span> <span class="p">{</span><span class="nx">data</span><span class="o">:</span><span class="s2">&quot;parameters&quot;</span><span class="p">});</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/ypcBB9hJEZt7UdSvVujr?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<p>An instance of the event wrapper can be created, and dispatched following the DOM 3 dispatchEvent interface.</p>
+
+		<div class="highlight"><pre><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="k">new</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Event</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">));</span>
+<span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="k">new</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Event</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">data</span><span class="o">:</span><span class="s2">&quot;parameters&quot;</span><span class="p">}));</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/eRFQuQVQRxAEGLh784a4?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="subtitle">
+			<h2>Listen to events</h2>
+			<a class="anchor" name="listen-to-events"></a>
+		</div>
+
 		<div class="back"><a href="#">top</a></div>
 
 	</section>
@@ -468,6 +501,11 @@
 		<div class="title">
 			<h1>Command</h1>
 			<a class="anchor" name="command"></a>
+		</div>
+
+		<div class="subtitle">
+			<h1>Flow control</h1>
+			<a class="anchor" name="flow-controls"></a>
 		</div>
 
 		<p></p>

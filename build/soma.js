@@ -768,7 +768,7 @@ var Mediators = soma.extend({
 		}
 		var targets = [];
 		var meds = [];
-		if (Object.prototype.toString.apply(target) === '[object Array]') {
+		if (target.length > 0) {
 			targets = target;
 		}
 		else {
@@ -777,6 +777,7 @@ var Mediators = soma.extend({
 		for (var i= 0, l=targets.length; i<l; i++) {
 			var injector = this.injector.createChild();
 			injector.mapValue("target", targets[i]);
+			//var mediator = injector.createInstance.apply(this.injector, params);
 			var mediator = injector.createInstance(cl);
 //			soma.applyProperties(mediator, this.dispatcher, true, ['dispatch', 'dispatchEvent', 'addEventListener', 'removeEventListener', 'hasEventListener']);
 			if (targets.length === 1) return mediator;

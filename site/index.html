@@ -91,9 +91,16 @@
 					<ul class="hidden">
 						<li><a href="#create-mediators">Create mediators</a></li>
 						<li><a href="#simple-mediator-example">Simple mediator example</a></li>
+						<li><a href="#decoupling-communication">Decoupling communication</a></li>
 					</ul>
 				</li>
-				<li><a href="#template">Template</a></li>
+				<li><p><a href="#template">Template</a></p>
+					<ul class="hidden">
+						<li><a href="#load-template-plugin">Load the template plugin</a></li>
+						<li><a href="#create-a-template">Create a template</a></li>
+						<li><a href="#simple-template-example">Simple template example</a></li>
+					</ul>
+				</li>
 				<li><a href="#oop">OOP</a></li>
 				<li><a href="#plugins">Plugins</a></li>
 				<li><a href="#tools">Tools</a></li>
@@ -789,21 +796,120 @@
 
 		<div class="title">
 			<h1>Mediator</h1>
-			<a class="anchor" name="template"></a>
+			<a class="anchor" name="mediator"></a>
 		</div>
 
-		<p>A mediator is a behavioral design pattern that is used to reduce dependencies. A mediator is an object that represents another object, the communication between objects can be encapsulated within the mediators rather than the objects it represents.</p>
-		<p>A "view" is a good example of an object that can be represented by a mediator. A view can offer a set of methods that will update its content, and nothing more, and the mediator role will be to listen to events that happen in the application to provide the right content to the view.</p>
+		<p>A mediator is a behavioral design pattern that is used to reduce dependencies. Concretely, a mediator is an object that represents another object, the communication between objects can be encapsulated within the mediators rather than the objects it represents, reducing coupling.</p>
 
 		<div class="subtitle">
 			<h2>Create mediators</h2>
 			<a class="anchor" name="create-mediators"></a>
 		</div>
 
+		<p>The core element <code>mediators</code> can be used to create mediators. It contains a single <code>create</code> method as the mediators and objects represented are not stored by the framework.</p>
+		<p>The <code>create</code> method requires two parameters. The first parameter is a function instantiated by the framework, the mediator itself. The second parameter is either a single object or a list of objects (array, node list, and so on).</p>
+		<p>Mediators are also useful to represent several targets with the same function (<a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself" target="_blank">DRY</a>). The <code>create</code> method will instantiate as many mediators needed and return them.</p>
+		<p>A <code>target</code> parameter will be injected to get a reference of the object represented.</p>
+
+		<div class="highlight"><pre><span class="kd">function</span> <span class="nx">Mediator</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// target is the object represented</span>
+<span class="p">};</span>
+<span class="c1">// create mediator with a single object</span>
+<span class="kd">var</span> <span class="nx">mediators</span> <span class="o">=</span> <span class="nx">mediators</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">MyMediator</span><span class="p">,</span> <span class="nx">object</span><span class="p">);</span>
+<span class="c1">// create mediator with a list of objects</span>
+<span class="kd">var</span> <span class="nx">mediators</span> <span class="o">=</span> <span class="nx">mediators</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">MyMediator</span><span class="p">,</span> <span class="p">[</span><span class="nx">object1</span><span class="p">,</span> <span class="nx">object2</span><span class="p">,</span> <span class="nx">object3</span><span class="p">]);</span>
+</pre></div>
+
 		<div class="subtitle">
 			<h2>Simple mediator example</h2>
 			<a class="anchor" name="simple-mediator-example"></a>
 		</div>
+
+		<p>In the following example, a mediator that represents a DOM Element is created, paradoxically called "view" on purpose (see next example).</p>
+		<p>The mediator updates its target, a DOM Element, when it receives a specific event.</p>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">TitleView</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">dispatcher</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// listen to the event &quot;render-title&quot; to update the target (DOM Element)</span>
+  <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;render title&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">target</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">;</span>
+  <span class="p">});</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">Application</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// create a mediator that represents a DOM Element</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">TitleView</span><span class="p">,</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">));</span>
+  <span class="p">},</span>
+  <span class="nx">start</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// dispatch an event to trigger an action in the mediator</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s1">&#39;render title&#39;</span><span class="p">,</span> <span class="s2">&quot;This is a title&quot;</span><span class="p">);</span>
+  <span class="p">},</span>
+<span class="p">});</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/E9PND7pyY81QT9u8cRlH?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="subtitle">
+			<h2>Decoupling communication</h2>
+			<a class="anchor" name="decoupling-communication"></a>
+		</div>
+
+		<p>The previous example can be taken even further to create a highly re-usable object. The view can provide a set of methods to update its content, and the communication with the framework can be moved to another mediator.</p>
+		<p>Responsibilities will be completely separated as the view will only take care of displaying content, and the mediator will be responsible of providing the view the right content, at the right moment.</p>
+		<p>The following example also show how to use a single view function and a single mediator function, to handle multiple DOM Elements.</p>
+
+		<div class="highlight"><pre><span class="nt">&lt;h1</span> <span class="na">data-id=</span><span class="s">&#39;first&#39;</span><span class="nt">&gt;&lt;/h1&gt;</span>
+<span class="nt">&lt;h1</span> <span class="na">data-id=</span><span class="s">&#39;second&#39;</span><span class="nt">&gt;&lt;/h1&gt;</span>
+<span class="nt">&lt;h1</span> <span class="na">data-id=</span><span class="s">&#39;third&#39;</span><span class="nt">&gt;&lt;/h1&gt;</span>
+
+<span class="c1">// model containing title strings</span>
+<span class="kd">var</span> <span class="nx">TitleModel</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">first</span><span class="o">:</span> <span class="s1">&#39;First title&#39;</span><span class="p">,</span>
+    <span class="nx">second</span><span class="o">:</span> <span class="s1">&#39;Second title&#39;</span><span class="p">,</span>
+    <span class="nx">third</span><span class="o">:</span> <span class="s1">&#39;Third title&#39;</span>
+  <span class="p">};</span>
+<span class="p">};</span>
+<span class="nx">TitleModel</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">getTitle</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="nx">id</span><span class="p">];</span>
+<span class="p">};</span>
+
+<span class="c1">// view representing a DOM element</span>
+<span class="kd">var</span> <span class="nx">TitleView</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">element</span> <span class="o">=</span> <span class="nx">target</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="nx">TitleView</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">setTitle</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// mediator representing a view</span>
+<span class="kd">var</span> <span class="nx">TitleMediator</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">dispatcher</span><span class="p">,</span> <span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;render title&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">id</span> <span class="o">=</span> <span class="nx">target</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;data-id&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">title</span> <span class="o">=</span> <span class="nx">model</span><span class="p">.</span><span class="nx">getTitle</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
+    <span class="nx">target</span><span class="p">.</span><span class="nx">setTitle</span><span class="p">(</span><span class="nx">title</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">Application</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// map model to inject in mediators</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">mapClass</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="nx">TitleModel</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="c1">// create views (mediators representing a DOM element)</span>
+    <span class="kd">var</span> <span class="nx">views</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">TitleView</span><span class="p">,</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;h1&#39;</span><span class="p">));</span>
+    <span class="c1">// create mediators (mediators representing a view)</span>
+    <span class="kd">var</span> <span class="nx">mediators</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">TitleMediator</span><span class="p">,</span> <span class="nx">views</span><span class="p">);</span>
+  <span class="p">},</span>
+  <span class="nx">start</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// dispatch an event to render the titles</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s1">&#39;render title&#39;</span><span class="p">,</span> <span class="s2">&quot;This is a title&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">();</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/vb4jexiMS6oejbWHPAvi?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="back"><a href="#">top</a></div>
 
@@ -816,7 +922,79 @@
 			<a class="anchor" name="template"></a>
 		</div>
 
-		<p></p>
+		<p><a href="http://soundstep.github.io/soma-template/" target="_blank">soma-template</a> is an optional DOM template engine library implemented in soma.js, <a href="http://soundstep.github.io/soma-template/" target="_blank">click here to see the soma-template documentation and tests</a>.</p>
+
+		<div class="subtitle">
+			<h2>Load the soma-template plugin</h2>
+			<a class="anchor" name="load-template-plugin"></a>
+		</div>
+
+		<p>Simply load the template engine just after loading the soma.js framework. No further actions are needed to use the soma-template library.</p>
+
+		<div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;soma.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;soma-template.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+
+		<div class="subtitle">
+			<h2>Create a template</h2>
+			<a class="anchor" name="create-a-template"></a>
+		</div>
+
+		<p>The framework provides a method <code>createTemplate</code> that will instantiate a mediator and receive a <code>template</code>, <code>scope</code> and <code>element</code> parameters so that the DOM can be manipulated in an easy way.</p>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Template</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">template</span><span class="p">,</span> <span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+
+<span class="p">};</span>
+
+<span class="k">this</span><span class="p">.</span><span class="nx">createTemplate</span><span class="p">(</span><span class="nx">Template</span><span class="p">,</span> <span class="nx">domElement</span><span class="p">);</span>
+</pre></div>
+
+		<div class="subtitle">
+			<h2>Simple template example</h2>
+			<a class="anchor" name="simple-template-example"></a>
+		</div>
+
+		<p>In the following example a template is created using a template function and a reference to a DOM Element. The template will ask the injector a model that contains the data to be displayed.</p>
+
+		<div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;app&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;h1&gt;</span><span class="cp">{{</span><span class="nv">content.title</span><span class="cp">}}</span><span class="nt">&lt;/h1&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">data-repeat=</span><span class="s">&quot;item in content.items&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span><span class="nv">$index</span><span class="cp">}}</span> - <span class="cp">{{</span><span class="nv">item</span><span class="cp">}}</span><span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="c1">// function model containing data (text to display)</span>
+<span class="kd">var</span> <span class="nx">Model</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">title</span><span class="o">:</span> <span class="s2">&quot;This is a title&quot;</span><span class="p">,</span>
+    <span class="nx">items</span><span class="o">:</span> <span class="p">[</span>
+      <span class="s2">&quot;First item&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Second item&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Third item&quot;</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// function template that will update the DOM</span>
+<span class="kd">var</span> <span class="nx">Template</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">template</span><span class="p">,</span> <span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">scope</span><span class="p">.</span><span class="nx">content</span> <span class="o">=</span> <span class="nx">model</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
+  <span class="nx">template</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+<span class="p">};</span>
+
+<span class="c1">// application function</span>
+<span class="kd">var</span> <span class="nx">Application</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// model mapping rule so it can be injected in the template</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">mapClass</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="nx">Model</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="c1">// create a template for a specific DOM element</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">createTemplate</span><span class="p">(</span><span class="nx">Template</span><span class="p">,</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.app&#39;</span><span class="p">));</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="c1">// create application</span>
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">();</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/jqNzBAow23H7uZrZ974m?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+
 		<div class="back"><a href="#">top</a></div>
 
 	</section>
@@ -828,7 +1006,18 @@
 			<a class="anchor" name="oop"></a>
 		</div>
 
+		<p>Javascript is an object oriented language, but do not have built-in classes, private members, inheritance, interfaces and other common features found in other languages.</p>
+		<p>There are a lot of debates whether you should emulate classes, but the fact is, some inheritance capabilities are needed not to duplicate code.</p>
+
+		<div class="subtitle">
+			<h2>Inheritance</h2>
+			<a class="anchor" name="inheritance"></a>
+		</div>
+
 		<p></p>
+
+
+
 		<div class="back"><a href="#">top</a></div>
 
 	</section>

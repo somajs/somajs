@@ -41,7 +41,7 @@
 		}
 	};
 
-	soma.inherit = function (target, obj) {
+	soma.inherit = function (parent, obj) {
 		var subclass;
 		if (obj && obj.hasOwnProperty('constructor')) {
 			// use constructor if defined
@@ -49,21 +49,19 @@
 		} else {
 			// call the super constructor
 			subclass = function () {
-				return target.apply(this, arguments);
+				return parent.apply(this, arguments);
 			};
 		}
-		// add super properties
-		soma.applyProperties(subclass.prototype, target.prototype);
 		// set the prototype chain to inherit from the parent without calling parent's constructor
 		var chain = function(){};
-		chain.prototype = target.prototype;
+		chain.prototype = parent.prototype;
 		subclass.prototype = new chain();
 		// add obj properties
 		if (obj) soma.applyProperties(subclass.prototype, obj);
 		// point constructor to the subclass
 		subclass.prototype.constructor = subclass;
 		// set super class reference
-		subclass.parent = target.prototype;
+		subclass.parent = parent.prototype;
 		// add extend shortcut
 		subclass.extend = function (obj) {
 			return soma.inherit(subclass, obj);

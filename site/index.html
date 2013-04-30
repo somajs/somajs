@@ -854,8 +854,8 @@
 			<a class="anchor" name="decoupling-communication"></a>
 		</div>
 
-		<p>The previous example can be taken even further to create a highly re-usable object. The view can provide a set of methods to update its content, and the communication with the framework can be moved to another mediator.</p>
-		<p>Responsibilities will be completely separated as the view will only take care of displaying content, and the mediator will be responsible of providing the view the right content, at the right moment.</p>
+		<p>The previous example can be taken even further to create a highly re-usable object. The goal is to create a view that is only a DOM Element wrapper and stripped off any framework and communication code. The view can provide a set of methods to update its content, and the communication with the framework can be moved to another mediator.</p>
+		<p>Responsibilities will be completely separated as the view will only take care of displaying content, and the mediator will be responsible of providing the view the right content, at the right moment. The result are components that are highly decoupled and more maintainable.</p>
 		<p>The following example also show how to use a single view function and a single mediator function, to handle multiple DOM Elements.</p>
 
 		<div class="highlight"><pre><span class="nt">&lt;h1</span> <span class="na">data-id=</span><span class="s">&#39;first&#39;</span><span class="nt">&gt;&lt;/h1&gt;</span>

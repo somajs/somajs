@@ -108,7 +108,14 @@
 						<li><a href="#call-super-constructor-and-methods">Call super constructors and methods</a></li>
 					</ul>
 				</li>
-				<li><a href="#plugins">Plugins</a></li>
+				<li><p><a href="#plugins">Plugins</a></p>
+					<ul class="hidden">
+						<li><a href="#create-a-plugin">Create a plugin</a></li>
+						<li><a href="#mouse-plugin">Mouse plugin</a></li>
+						<li><a href="#ready-plugin">Ready plugin (auto-regitration)</a></li>
+						<li><a href="#orientation-plugin">Orientation plugin</a></li>
+					</ul>
+				</li>
 				<li><a href="#tools">Tools</a></li>
 				<li><a href="#demos">Demos</a></li>
 				<li><a href="#tests">Tests</a></li>
@@ -1201,6 +1208,54 @@
 		<p><a href="http://plnkr.co/edit/aGTAeUm42GxCGgA1RxVZ?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="subtitle">
+			<h2>Ready plugin (auto-registration)</h2>
+			<a class="anchor" name="ready-plugin"></a>
+		</div>
+
+		<p>The following plugin (<code>ReadyPlugin</code>) alters the prototype of the soma.js application and add a <code>ready</code> method to it. The <code>ready</code> method is used to add callbacks for the application to know when the DOM has been fully loaded.</p>
+		<p>An event could have been dispatched but for the sake of the demonstration. the application prototype has been altered to show a direct use of a plugin. The <code>ready</code> function is used both in the application instance and in the view.</p>
+		<p>The plugin is also not created by the user application instance. The plugin is "auto-registered" and will be made available by the framework automatically. This makes the creation of a plugin possible without further actions, by executing its code, or by loading a javascript file containing the plugin.</p>
+
+		<div class="highlight"><pre><span class="c1">// plugin to add callbacks when the dom is ready</span>
+<span class="kd">var</span> <span class="nx">ReadyPlugin</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">instance</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// ready function to add callbacks when the DOM is loaded (https://github.com/ded/domready)</span>
+  <span class="kd">var</span> <span class="nx">ready</span><span class="o">=</span><span class="kd">function</span><span class="p">(){</span><span class="kd">function</span> <span class="nx">l</span><span class="p">(</span><span class="nx">b</span><span class="p">){</span><span class="k">for</span><span class="p">(</span><span class="nx">k</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="nx">b</span><span class="o">=</span><span class="nx">a</span><span class="p">.</span><span class="nx">shift</span><span class="p">();)</span><span class="nx">b</span><span class="p">()}</span><span class="kd">var</span> <span class="nx">b</span><span class="p">,</span><span class="nx">a</span><span class="o">=</span><span class="p">[],</span><span class="nx">c</span><span class="o">=!</span><span class="mi">1</span><span class="p">,</span><span class="nx">d</span><span class="o">=</span><span class="nb">document</span><span class="p">,</span><span class="nx">e</span><span class="o">=</span><span class="nx">d</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">,</span><span class="nx">f</span><span class="o">=</span><span class="nx">e</span><span class="p">.</span><span class="nx">doScroll</span><span class="p">,</span><span class="nx">g</span><span class="o">=</span><span class="s2">&quot;DOMContentLoaded&quot;</span><span class="p">,</span><span class="nx">h</span><span class="o">=</span><span class="s2">&quot;addEventListener&quot;</span><span class="p">,</span><span class="nx">i</span><span class="o">=</span><span class="s2">&quot;onreadystatechange&quot;</span><span class="p">,</span><span class="nx">j</span><span class="o">=</span><span class="s2">&quot;readyState&quot;</span><span class="p">,</span><span class="nx">k</span><span class="o">=</span><span class="sr">/^loade|c/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">d</span><span class="p">[</span><span class="nx">j</span><span class="p">]);</span><span class="k">return</span> <span class="nx">d</span><span class="p">[</span><span class="nx">h</span><span class="p">]</span><span class="o">&amp;&amp;</span><span class="nx">d</span><span class="p">[</span><span class="nx">h</span><span class="p">](</span><span class="nx">g</span><span class="p">,</span><span class="nx">b</span><span class="o">=</span><span class="kd">function</span><span class="p">(){</span><span class="nx">d</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="nx">g</span><span class="p">,</span><span class="nx">b</span><span class="p">,</span><span class="nx">c</span><span class="p">),</span><span class="nx">l</span><span class="p">()},</span><span class="nx">c</span><span class="p">),</span><span class="nx">f</span><span class="o">&amp;&amp;</span><span class="nx">d</span><span class="p">.</span><span class="nx">attachEvent</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="nx">b</span><span class="o">=</span><span class="kd">function</span><span class="p">(){</span><span class="sr">/^c/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">d</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">detachEvent</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="nx">b</span><span class="p">),</span><span class="nx">l</span><span class="p">())}),</span><span class="nx">f</span><span class="o">?</span><span class="kd">function</span><span class="p">(</span><span class="nx">b</span><span class="p">){</span><span class="nx">self</span><span class="o">!=</span><span class="nx">top</span><span class="o">?</span><span class="nx">k</span><span class="o">?</span><span class="nx">b</span><span class="p">()</span><span class="o">:</span><span class="nx">a</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">b</span><span class="p">)</span><span class="o">:</span><span class="kd">function</span><span class="p">(){</span><span class="k">try</span><span class="p">{</span><span class="nx">e</span><span class="p">.</span><span class="nx">doScroll</span><span class="p">(</span><span class="s2">&quot;left&quot;</span><span class="p">)}</span><span class="k">catch</span><span class="p">(</span><span class="nx">a</span><span class="p">){</span><span class="k">return</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span><span class="nx">ready</span><span class="p">(</span><span class="nx">b</span><span class="p">)},</span><span class="mi">50</span><span class="p">)}</span><span class="nx">b</span><span class="p">()}()}</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">b</span><span class="p">){</span><span class="nx">k</span><span class="o">?</span><span class="nx">b</span><span class="p">()</span><span class="o">:</span><span class="nx">a</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">b</span><span class="p">)}}();</span>
+  <span class="c1">// add the ready function to the prototype of the soma.js application for a direct use</span>
+  <span class="nx">instance</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">ready</span> <span class="o">=</span> <span class="nx">ready</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// auto-registration, the plugin will be instantiated automatically by soma.js</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">soma</span><span class="p">.</span><span class="nx">plugins</span> <span class="o">&amp;&amp;</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="nx">add</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">soma</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">ReadyPlugin</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// view</span>
+<span class="kd">var</span> <span class="nx">View</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">instance</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">instance</span><span class="p">.</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">target</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;DOM is loaded&#39;</span><span class="p">;</span>
+  <span class="p">});</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">Application</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// use the plugin</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;DOM READY&#39;</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">},</span>
+  <span class="nx">start</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// create a view</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">View</span><span class="p">,</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.report&#39;</span><span class="p">));</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">();</span>
+</pre></div>
+
+
+		<p><a href="http://plnkr.co/edit/oTsfM594TXVKo1HmROLL?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="subtitle">
 			<h2>Orientation plugin</h2>
 			<a class="anchor" name="orientation-plugin"></a>
 		</div>
@@ -1275,7 +1330,7 @@
 <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">();</span>
 </pre></div>
 
-		<p><a href="../demos/orientation" class="button icon edit" target="_blank">Test on a mobile device</a></p>
+		<p><a href="http://run.plnkr.co/plunks/qJthopgArZx8t5yusxKn/" class="button icon edit" target="_blank">Test on a mobile device</a></p>
 		<p><a href="http://plnkr.co/edit/qJthopgArZx8t5yusxKn?p=preview" class="button icon edit" target="_blank">Try it yourself</a></p>
 
 		<div class="back"><a href="#">top</a></div>

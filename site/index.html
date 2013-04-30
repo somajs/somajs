@@ -101,7 +101,13 @@
 						<li><a href="#simple-template-example">Simple template example</a></li>
 					</ul>
 				</li>
-				<li><a href="#oop">OOP</a></li>
+				<li><p><a href="#oop">OOP</a></p>
+					<ul class="hidden">
+						<li><a href="#inheritance">Inheritance</a></li>
+						<li><a href="#extend-method-shortcut">Extend method shortcut</a></li>
+						<li><a href="#call-super-constructor-and-methods">Call super constructors and methods</a></li>
+					</ul>
+				</li>
 				<li><a href="#plugins">Plugins</a></li>
 				<li><a href="#tools">Tools</a></li>
 				<li><a href="#demos">Demos</a></li>
@@ -1007,16 +1013,106 @@
 		</div>
 
 		<p>Javascript is an object oriented language, but do not have built-in classes, private members, inheritance, interfaces and other common features found in other languages.</p>
-		<p>There are a lot of debates whether you should emulate classes, but the fact is, some inheritance capabilities are needed not to duplicate code.</p>
+		<p>There are a lot of debates whether you should emulate classes, but the fact is, some inheritance capabilities are sometimes needed not to duplicate code (<a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself" target="_blank">DRY principle</a>).</p>
+		<p>Inheritance is very useful in many cases but must not be overused, <a href="http://en.wikipedia.org/wiki/Composition_over_inheritance" target="_blank">composition over inheritance</a> is usually a better design in the long term. The solution is using the right pattern for the right problem.</p>
 
 		<div class="subtitle">
 			<h2>Inheritance</h2>
 			<a class="anchor" name="inheritance"></a>
 		</div>
 
-		<p></p>
+		<p>In the following example, a function <code>Person</code> is created, along with a <code>say</code> method. A second function <code>Man</code> is created and inherits from its parent.</p>
+		<p>The <code>Man</code> constructor calls its parent constructor sending a parameter (<code>name</code>) so the assignment is not broken. The <code>Man.prototype.say</code> overrides its parent <code>say</code> method so it can display a more specific message.</p>
 
+		<div class="highlight"><pre><span class="c1">// create &quot;super class&quot;</span>
+<span class="kd">var</span> <span class="nx">Person</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">say</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;I&#39;m a Person, my name is:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+<span class="p">}</span>
 
+<span class="c1">// create &quot;child class&quot; that will inherit from its parent</span>
+<span class="kd">var</span> <span class="nx">Man</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">Person</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">name</span><span class="p">);</span> <span class="c1">// call super constructor</span>
+<span class="p">}</span>
+<span class="nx">Man</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">say</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// Person.prototype.say.call(this); // call super say method</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;I&#39;m a Man, my name is:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// apply inheritance</span>
+<span class="nx">soma</span><span class="p">.</span><span class="nx">inherit</span><span class="p">(</span><span class="nx">Person</span><span class="p">,</span> <span class="nx">Man</span><span class="p">.</span><span class="nx">prototype</span><span class="p">);</span>
+
+<span class="c1">// create Person</span>
+<span class="kd">var</span> <span class="nx">person</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s2">&quot;Doe&quot;</span><span class="p">);</span>
+<span class="nx">person</span><span class="p">.</span><span class="nx">say</span><span class="p">();</span>
+
+<span class="c1">// create Man</span>
+<span class="kd">var</span> <span class="nx">john</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Man</span><span class="p">(</span><span class="s2">&quot;John Doe&quot;</span><span class="p">);</span>
+<span class="nx">john</span><span class="p">.</span><span class="nx">say</span><span class="p">();</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/IIHqPwNuikn5E7MoQoLM?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<p>Here is a different syntax using an object to create the <code>Man</code> function. The result is exactly the same as the previous example.</p>
+
+		<div class="highlight"><pre><span class="c1"><span class="c1">// create &quot;child class&quot; that will inherit from its parent</span>
+<span class="c1">// apply inheritance using an object that will become the prototype</span>
+<span class="kd">var</span> <span class="nx">Man</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">inherit</span><span class="p">(</span><span class="nx">Person</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">Person</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">name</span><span class="p">);</span> <span class="c1">// call super constructor</span>
+  <span class="p">},</span>
+  <span class="nx">say</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Person.prototype.say.call(this); // call super say method</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;I&#39;m a Man, my name is:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/atRF1AA5SRs5EnEhpFZV?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="subtitle">
+			<h2>Extend method shortcut</h2>
+			<a class="anchor" name="extend-method-shortcut"></a>
+		</div>
+
+		<p>Here is small snippet to attach a method and easily apply inheritance on a function.</p>
+
+		<div class="highlight"><pre><span class="c1">// create shortcut extend method</span>
+<span class="nx">Person</span><span class="p">.</span><span class="nx">extend</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">inherit</span><span class="p">(</span><span class="nx">Person</span><span class="p">,</span> <span class="nx">obj</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="c1">// create &quot;child class&quot; using the extend shortcut</span>
+<span class="kd">var</span> <span class="nx">Man</span> <span class="o">=</span> <span class="nx">Person</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+
+<span class="p">});</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/ipL2XpdgS6BvjVYJvcYD?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="subtitle">
+			<h2>Call super constructor and methods</h2>
+			<a class="anchor" name="call-super-constructor-and-methods"></a>
+		</div>
+
+		<p>The way used to call a parent constructor and a method up in the prototypal chain in the previous example is the native javascript way of doing it.</p>
+
+		<div class="highlight"><pre><span class="c1">// call parent constructor</span>
+<span class="nx">ParentFunction</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">param</span><span class="p">);</span>
+<span class="c1">// call parent prototype method</span>
+<span class="nx">ParentFunction</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">myMethod</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">param</span><span class="p">);</span>
+</pre></div>
+
+		<p>soma.js offers a slightly different way of writing calls to the parents. Note that this syntax is not pure javascript, this is a soma.js enhancement, use it only if the application benefit of not writing the parent function name explicitly.</p>
+
+		<div class="highlight"><pre><span class="c1">// call parent constructor</span>
+<span class="nx">CurrentFunction</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">param</span><span class="p">);</span>
+<span class="c1">// call parent prototype method</span>
+<span class="nx">CurrentFunction</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">myMethod</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">param</span><span class="p">);</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/AFeM5fIlUlUO5OhKpI94?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="back"><a href="#">top</a></div>
 

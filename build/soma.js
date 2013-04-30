@@ -631,7 +631,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		}
 	};
 
-	soma.inherit = function (target, obj) {
+	soma.inherit = function (parent, obj) {
 		var subclass;
 		if (obj && obj.hasOwnProperty('constructor')) {
 			// use constructor if defined
@@ -639,21 +639,19 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		} else {
 			// call the super constructor
 			subclass = function () {
-				return target.apply(this, arguments);
+				return parent.apply(this, arguments);
 			};
 		}
-		// add super properties
-		soma.applyProperties(subclass.prototype, target.prototype);
 		// set the prototype chain to inherit from the parent without calling parent's constructor
 		var chain = function(){};
-		chain.prototype = target.prototype;
+		chain.prototype = parent.prototype;
 		subclass.prototype = new chain();
 		// add obj properties
 		if (obj) soma.applyProperties(subclass.prototype, obj);
 		// point constructor to the subclass
 		subclass.prototype.constructor = subclass;
 		// set super class reference
-		subclass.parent = target.prototype;
+		subclass.parent = parent.prototype;
 		// add extend shortcut
 		subclass.extend = function (obj) {
 			return soma.inherit(subclass, obj);
@@ -768,7 +766,7 @@ var Mediators = soma.extend({
 		}
 		var targets = [];
 		var meds = [];
-		if (Object.prototype.toString.apply(target) === '[object Array]') {
+		if (target.length > 0) {
 			targets = target;
 		}
 		else {
@@ -777,6 +775,7 @@ var Mediators = soma.extend({
 		for (var i= 0, l=targets.length; i<l; i++) {
 			var injector = this.injector.createChild();
 			injector.mapValue("target", targets[i]);
+			//var mediator = injector.createInstance.apply(this.injector, params);
 			var mediator = injector.createInstance(cl);
 //			soma.applyProperties(mediator, this.dispatcher, true, ['dispatch', 'dispatchEvent', 'addEventListener', 'removeEventListener', 'hasEventListener']);
 			if (targets.length === 1) return mediator;

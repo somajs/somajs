@@ -5,6 +5,7 @@
 </head>
 <body>
 
+<p>Turn your device to change the orientation.</p>
 <div class='report'></div>
 
 <script src="../../build/soma.js"></script>
@@ -27,13 +28,13 @@
 			switch(window.orientation) {
 				case 90:
 				case -90:
-					return 'lanscape';
+					return 'landscape';
 					break;
 
 				case 0:
 				case 180:
 				default:
-					return 'portait';
+					return 'portrait';
 			}
 		}
 		// return plugin API

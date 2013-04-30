@@ -112,6 +112,7 @@
 				<li><a href="#tools">Tools</a></li>
 				<li><a href="#demos">Demos</a></li>
 				<li><a href="#tests">Tests</a></li>
+				<li><a href="https://groups.google.com/forum/#!forum/somajs" target="_blank">Questions</a></li>
 				<li><a href="#browser-support">Browser support</a></li>
 		</nav>
 		<footer>
@@ -207,7 +208,7 @@
 <span class="nt">&lt;/script&gt;</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/UqqsbcqHZGM9aWzgPV50?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/UqqsbcqHZGM9aWzgPV50?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="back"><a href="#">top</a></div>
 
@@ -395,7 +396,7 @@
 <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">injector</span><span class="p">.</span><span class="nx">createInstance</span><span class="p">(</span><span class="nx">Model</span><span class="p">);</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/C7m5qE7hYpUnQK6a9rNp?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/C7m5qE7hYpUnQK6a9rNp?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div>
 			<h4>Singleton injection</h4>
@@ -405,7 +406,7 @@
 
 		<div class="highlight"><pre><span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">mapClass</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="nx">Config</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span></pre></div>
 
-		<p><a href="http://plnkr.co/edit/ZLv66EglhbBGyieujxG3?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/ZLv66EglhbBGyieujxG3?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="back"><a href="#">top</a></div>
 
@@ -422,7 +423,7 @@
 			<li>Templates as they are internally created by the injector</li>
 		</ul>
 
-		<p>In the following example, dispatching a event will instantiate and execute a Command function, which will instantiate a Model function as it needs this dependency, which will instantiate a Config function as it needs this dependency.</p>
+		<p>In the following example, dispatching an event will instantiate and execute a Command function, which will instantiate a Model function as it needs this dependency, which will instantiate a Config function as it needs this dependency.</p>
 
 		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Config</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Config instantiated&quot;</span><span class="p">);</span>
@@ -446,7 +447,7 @@
 <span class="k">this</span><span class="p">.</span><span class="nx">commands</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s2">&quot;some-event&quot;</span><span class="p">,</span> <span class="nx">Command</span><span class="p">);</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/jN2OzC3wbcmzvHJ1XgDP?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/jN2OzC3wbcmzvHJ1XgDP?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 	</section>
 
@@ -494,7 +495,7 @@
 <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s2">&quot;another-event&quot;</span><span class="p">,</span> <span class="p">{</span><span class="nx">data</span><span class="o">:</span><span class="s2">&quot;parameters&quot;</span><span class="p">});</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/ypcBB9hJEZt7UdSvVujr?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/ypcBB9hJEZt7UdSvVujr?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div>
 			<h4>Create and dispatch an event instantiating the event wrapper</h4>
@@ -506,7 +507,7 @@
 <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="k">new</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Event</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">data</span><span class="o">:</span><span class="s2">&quot;parameters&quot;</span><span class="p">}));</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/eRFQuQVQRxAEGLh784a4?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/eRFQuQVQRxAEGLh784a4?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div>
 			<h4>Create and dispatch an event instantiating an extended event wrapper</h4>
@@ -523,7 +524,7 @@
 <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="k">new</span> <span class="nx">MyEvent</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">data</span><span class="o">:</span><span class="s2">&quot;parameters&quot;</span><span class="p">}));</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/f4pKAQ0YR3GWkTjYRJhk?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/f4pKAQ0YR3GWkTjYRJhk?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div>
 			<h4>Create and dispatch an event using DOM Native methods</h4>
@@ -545,7 +546,7 @@
 <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">event</span><span class="p">);</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/9oOdvqPtMdUpg6DuKCLS?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/9oOdvqPtMdUpg6DuKCLS?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="subtitle">
 			<h2>Listening to events</h2>
@@ -581,7 +582,7 @@
 <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyApplication</span><span class="p">();</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/GXzRmRwbWNpBnykBqBpS?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/GXzRmRwbWNpBnykBqBpS?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div><h4>Event handlers scope and binding</h4></div>
 
@@ -608,7 +609,7 @@
 <span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">);</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/sYuaBogeYGgT7AeNCWme?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/sYuaBogeYGgT7AeNCWme?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<p>A quick note about removing listeners. The bind method creates a new function, removing a listener using the bind method will not work as the event handler will be a new function (<a href="https://github.com/soundstep/soma-events" target="_blank">see some-event documentation</a>).</p>
 		<p>Here is the solution to properly remove listeners using the bind method.</p>
@@ -627,7 +628,7 @@
 <span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">);</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/vGRDmdxKeiGY61lDKSUt?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/vGRDmdxKeiGY61lDKSUt?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="subtitle">
 			<h2>Send parameters</h2>
@@ -640,7 +641,7 @@
 <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="k">new</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Event</span><span class="p">(</span><span class="s1">&#39;some-event&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">data</span><span class="o">:</span><span class="s1">&#39;some data&#39;</span><span class="p">}));</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/FFv5llnIS4Tmb70MeLy5?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/FFv5llnIS4Tmb70MeLy5?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="back"><a href="#">top</a></div>
 
@@ -678,7 +679,7 @@
 		<div><h4>Add a command</h4></div>
 
 		<p>Commands in soma.js are triggered using events. This makes possible for the application actors to, not only execute commands, but also listen to events used to trigger the commands.</p>
-		<p>The <code>commands</code> core element is used to managed the commands. It is a good practice, unless you are building self-contained modules, to add all the commands in the same place, such as the application instance. This would give a good overview for a potantial new developer to get an idea of what's possible in the application using the commands.</p>
+		<p>The <code>commands</code> core element is used to managed the commands. It is a good practice, unless you are building self-contained modules, to add all the commands in the same place, such as the application instance. This would give a good overview for a potential new developer to get an idea of what is possible to do in the application using the commands.</p>
 
 		<div class="highlight"><pre><span class="k">this</span><span class="p">.</span><span class="nx">commands</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s2">&quot;some-event&quot;</span><span class="p">,</span> <span class="nx">Command</span><span class="p">);</span></pre></div>
 
@@ -720,7 +721,7 @@
 <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyApplication</span><span class="p">();</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/hPxftFSFhtmMe5D0hdbT?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/hPxftFSFhtmMe5D0hdbT?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="subtitle">
 			<h2>Flow control</h2>
@@ -756,7 +757,7 @@
 <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyApplication</span><span class="p">();</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/VHLPtSJgsBNgNFzgf1x6?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/VHLPtSJgsBNgNFzgf1x6?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<p>In the following example, the <code>start</code> method dispatch an event to logout a user. The <code>EditorModel</code> is able to monitor the logout command and interrupt it.</p>
 		<p>The initiator of the command can decide when dispatching the event, if another component should be able to interrupt it. A DOM Event has a <code>cancelable</code> property that should be set to true when dispatched so another component can interrupt it using the <code>event.preventDefaut()</code> method.</p>
@@ -792,7 +793,7 @@
 <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EditorApplication</span><span class="p">();</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/xQtwi2nMDAh3Z2zL1iz0?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/xQtwi2nMDAh3Z2zL1iz0?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="back"><a href="#">top</a></div>
 
@@ -853,7 +854,7 @@
 <span class="p">});</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/E9PND7pyY81QT9u8cRlH?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/E9PND7pyY81QT9u8cRlH?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="subtitle">
 			<h2>Decoupling communication</h2>
@@ -915,7 +916,7 @@
 <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">();</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/vb4jexiMS6oejbWHPAvi?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/vb4jexiMS6oejbWHPAvi?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="back"><a href="#">top</a></div>
 
@@ -999,7 +1000,7 @@
 <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">();</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/jqNzBAow23H7uZrZ974m?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/jqNzBAow23H7uZrZ974m?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="back"><a href="#">top</a></div>
 
@@ -1015,6 +1016,7 @@
 		<p>Javascript is an object oriented language, but do not have built-in classes, private members, inheritance, interfaces and other common features found in other languages.</p>
 		<p>There are a lot of debates whether you should emulate classes, but the fact is, some inheritance capabilities are sometimes needed not to duplicate code (<a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself" target="_blank">DRY principle</a>).</p>
 		<p>Inheritance is very useful in many cases but must not be overused, <a href="http://en.wikipedia.org/wiki/Composition_over_inheritance" target="_blank">composition over inheritance</a> is usually a better design in the long term. The solution is using the right pattern for the right problem.</p>
+		<p>soma.js provides some useful utility functions to emulate inheritance.</p>
 
 		<div class="subtitle">
 			<h2>Inheritance</h2>
@@ -1053,7 +1055,7 @@
 <span class="nx">john</span><span class="p">.</span><span class="nx">say</span><span class="p">();</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/IIHqPwNuikn5E7MoQoLM?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/IIHqPwNuikn5E7MoQoLM?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<p>Here is a different syntax using an object to create the <code>Man</code> function. The result is exactly the same as the previous example.</p>
 
@@ -1070,7 +1072,7 @@
 <span class="p">});</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/atRF1AA5SRs5EnEhpFZV?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/atRF1AA5SRs5EnEhpFZV?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="subtitle">
 			<h2>Extend method shortcut</h2>
@@ -1089,7 +1091,7 @@
 <span class="p">});</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/ipL2XpdgS6BvjVYJvcYD?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/ipL2XpdgS6BvjVYJvcYD?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="subtitle">
 			<h2>Call super constructor and methods</h2>
@@ -1112,7 +1114,7 @@
 <span class="nx">CurrentFunction</span><span class="p">.</span><span class="nx">parent</span><span class="p">.</span><span class="nx">myMethod</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">param</span><span class="p">);</span>
 </pre></div>
 
-		<p><a href="http://plnkr.co/edit/AFeM5fIlUlUO5OhKpI94?p=preview"class="button icon edit" target="_blank">try it yourself</a></p>
+		<p><a href="http://plnkr.co/edit/AFeM5fIlUlUO5OhKpI94?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="back"><a href="#">top</a></div>
 
@@ -1125,7 +1127,156 @@
 			<a class="anchor" name="plugins"></a>
 		</div>
 
-		<p></p>
+		<p>soma.js provide an interface to create plugins to add new features to the framework.</p>
+		<p>The <a href="http://soundstep.github.io/soma-template/" target="_blank">soma-template</a> plugin is a self-contained library with no dependency, but can also be added to soma.js as a plugin. soma-template is adding DOM manipulation capabilities and a custom method to create template directly in the framework (<code>instance.createTemplate</code>).</p>
+		<p>A plugin is a function that can receive framework core elements and custom parameters. The plugin can be instantiated using the method <code>createPlugin</code>, the first parameter is the plugin function to be instantiated and the others parameters will be sent the plugin constructor.</p>
+
+		<div class="subtitle">
+			<h2>Create a plugin</h2>
+			<a class="anchor" name="create-a-plugin"></a>
+		</div>
+
+		<p>Plugins can be either dependent or independent to the framework, it is only a matter of choice. The following example show a simple structure to create a plugin.</p>
+
+		<div class="highlight"><pre><span class="nt">&lt;script&gt;</span>
+<span class="c1">// plugin</span>
+<span class="kd">var</span> <span class="nx">Plugin</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">instance</span><span class="p">,</span> <span class="nx">dispatcher</span><span class="p">,</span> <span class="nx">injector</span><span class="p">,</span> <span class="nx">customParameter</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// framework core elements can be injected as well custom parameters</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Plugin created with&#39;</span><span class="p">,</span> <span class="nx">customParameter</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">Application</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// create a plugin</span>
+    <span class="kd">var</span> <span class="nx">plugin</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">createPlugin</span><span class="p">(</span><span class="nx">Plugin</span><span class="p">,</span> <span class="s1">&#39;custom parameter&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">();</span>
+<span class="nt">&lt;/script&gt;</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/zpv15klrAJ2eTIRWGV6i?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="subtitle">
+			<h2>Mouse plugin</h2>
+			<a class="anchor" name="mouse-plugin"></a>
+		</div>
+
+		<p>The following example creates a <code>MousePlugin</code> and an injection mapping rule so it can be used anywhere in the application. The MousePlugin provide a <code>getPosition</code> method to retrieve the mouse coordinates, as well as a dispose function to "destroy" the plugin.</p>
+		<p>Providing a <code>dispose</code> method is a good practice to properly destroy an object. Listeners can be removed, internal objects can be destroyed, so the object can be <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Memory_Management" target="_blank">garbage collected</a>.</p>
+
+		<div class="highlight"><pre><span class="c1">// plugin to retrieve the mouse coordinates</span>
+<span class="kd">var</span> <span class="nx">MousePlugin</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// object holding mouse position</span>
+  <span class="kd">var</span> <span class="nx">position</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">x</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nx">y</span><span class="o">:</span> <span class="mi">0</span>
+  <span class="p">};</span>
+  <span class="c1">// event handler storing the mouse position</span>
+  <span class="kd">var</span> <span class="nx">handler</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">position</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">;</span>
+    <span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="c1">//add event</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;mousemove&#39;</span><span class="p">,</span> <span class="nx">handler</span><span class="p">);</span>
+  <span class="c1">// returns a getPosition method to retrieve the mouse position</span>
+  <span class="c1">// returns a dispose method to remove the listener</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">getPosition</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">position</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">dispose</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nb">window</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="s1">&#39;mousemove&#39;</span><span class="p">,</span> <span class="nx">handler</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// create the plugin</span>
+<span class="kd">var</span> <span class="nx">mouse</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">createPlugin</span><span class="p">(</span><span class="nx">MousePlugin</span><span class="p">);</span>
+<span class="c1">// create a mapping rule</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">mapValue</span><span class="p">(</span><span class="s1">&#39;mouse&#39;</span><span class="p">,</span> <span class="nx">mouse</span><span class="p">);</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/aGTAeUm42GxCGgA1RxVZ?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="subtitle">
+			<h2>Orientation plugin</h2>
+			<a class="anchor" name="orientation-plugin"></a>
+		</div>
+
+		<p>The role of the following plugin (<code>OrientationPlugin</code>), is to detect an orientation change on a mobile device, either portait or landscape. The orientation can be retrieve at any moment from the plugin, but the plugin will also dispatch an event when the device orientation changes. This makes possible for another entities to simply listen to this events to update its state.</p>
+
+		<div class="highlight"><pre><span class="c1">// plugin to retrieve the mouse coordinates</span>
+<span class="kd">var</span> <span class="nx">OrientationPlugin</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">dispatcher</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// hold current orientation</span>
+  <span class="kd">var</span> <span class="nx">orientation</span> <span class="o">=</span> <span class="nx">detectDeviceOrientation</span><span class="p">();</span>
+  <span class="c1">// add listener to detect orientation change</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;orientationchange&#39;</span><span class="p">,</span> <span class="nx">handler</span><span class="p">);</span>
+  <span class="c1">// store the new orientation and dispatch an event</span>
+  <span class="kd">function</span> <span class="nx">handler</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">orientation</span> <span class="o">=</span> <span class="nx">detectDeviceOrientation</span><span class="p">();</span>
+    <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s1">&#39;orientation&#39;</span><span class="p">,</span> <span class="nx">orientation</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="c1">// return the orientation, portait or landscape</span>
+  <span class="kd">function</span> <span class="nx">detectDeviceOrientation</span><span class="p">(){</span>
+    <span class="k">switch</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">orientation</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">case</span> <span class="mi">90</span><span class="o">:</span>
+      <span class="k">case</span> <span class="o">-</span><span class="mi">90</span><span class="o">:</span>
+        <span class="k">return</span> <span class="s1">&#39;lanscape&#39;</span><span class="p">;</span>
+      <span class="k">break</span><span class="p">;</span>
+      <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
+      <span class="k">case</span> <span class="mi">180</span><span class="o">:</span>
+      <span class="k">default</span><span class="o">:</span>
+        <span class="k">return</span> <span class="s1">&#39;portait&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="c1">// return plugin API</span>
+  <span class="c1">// getOrientation returns either landscape or portait</span>
+  <span class="c1">// dispose removes the listener</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">getOrientation</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">orientation</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">dispose</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nb">window</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="s1">&#39;orientationchange&#39;</span><span class="p">,</span> <span class="nx">handler</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// view</span>
+<span class="kd">var</span> <span class="nx">View</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">dispatcher</span><span class="p">,</span> <span class="nx">orientation</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// display the orientation when the view is created</span>
+  <span class="nx">updateOrientation</span><span class="p">(</span><span class="nx">orientation</span><span class="p">.</span><span class="nx">getOrientation</span><span class="p">());</span>
+  <span class="c1">// listen to the event dispatched by the plugin</span>
+  <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;orientation&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// display the orientation when a change happened</span>
+    <span class="nx">updateOrientation</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">);</span>
+  <span class="p">})</span>
+  <span class="c1">// display the orientation in the DOM Element</span>
+  <span class="kd">function</span> <span class="nx">updateOrientation</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">target</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;Current orientation: &#39;</span> <span class="o">+</span> <span class="nx">value</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">Application</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// create the plugin</span>
+    <span class="kd">var</span> <span class="nx">plugin</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">createPlugin</span><span class="p">(</span><span class="nx">OrientationPlugin</span><span class="p">);</span>
+    <span class="c1">// create a mapping rule</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">mapValue</span><span class="p">(</span><span class="s1">&#39;orientation&#39;</span><span class="p">,</span> <span class="nx">plugin</span><span class="p">);</span>
+  <span class="p">},</span>
+  <span class="nx">start</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// create a view</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">View</span><span class="p">,</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">&#39;.report&#39;</span><span class="p">));</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">();</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/qJthopgArZx8t5yusxKn?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
 		<div class="back"><a href="#">top</a></div>
 
 	</section>

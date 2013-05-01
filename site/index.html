@@ -183,7 +183,7 @@
 		</div>
 
 		<p>Here is an example of what a soma.js application could look like. In this case, following the MVC pattern.</p>
-		<p>The application contains a model that holds data, a template that manipulate a DOM element and an application instance that hook them up. The application instance must extend a framework function, while the other entities (model and template) are plain javascript function free of framework code.</p>
+		<p>The application contains a model that holds data, a template that manipulate a DOM element and an application instance that hook them up. The application instance must extend a framework function (<code>soma.Application</code>), while the other entities (model and template) are plain javascript function free of framework code.</p>
 		<p>The template function receives a template instance, a DOM element and the model, using dependency injection.</p>
 
 		<div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;app&quot;</span><span class="nt">&gt;</span>
@@ -294,11 +294,11 @@
 
 		<p>The framework core elements to help you build your own structure are the following:</p>
 		<ul>
-			<li>Dependency injection (injector property)</li>
-			<li>Observer pattern (dispatcher property)</li>
-			<li>Command pattern (commands property)</li>
-			<li>Mediator pattern (mediators property)</li>
-			<li>Facade pattern (instance property)</li>
+			<li>Dependency injection (<code>injector</code> property)</li>
+			<li>Observer pattern (<code>dispatcher</code> property)</li>
+			<li>Command pattern (<code>commands</code> property)</li>
+			<li>Mediator pattern (<code>mediators</code> property)</li>
+			<li>Facade pattern (<code>instance</code> property)</li>
 		</ul>
 		<p>They are available in the application or in other entities using dependency injection.</p>
 		<p>Here is how to get their references in the application instance.</p>
@@ -329,6 +329,8 @@
   <span class="k">this</span><span class="p">.</span><span class="nx">instance</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
 <span class="p">};</span>
 </pre></div>
+
+		<p>Note: in case of injected variables (versus constructor parameters), it is necessary to set properties to a value (such as null), <code>undefined</code> properties are ignored by the injector.</p>
 
 		<div class="back"><a href="#">top</a></div>
 
@@ -369,6 +371,8 @@
 			<li>More readable code (reduction of boilerplate code).</li>
 		</ul>
 
+		<div class="back"><a href="#">top</a></div>
+
 		<div class="subtitle">
 			<h2>Using dependency injection in soma.js</h2>
 			<a class="anchor" name="using-dependency-injection-in-somajs"></a>
@@ -384,9 +388,9 @@
 
 		<p>In the following example, two plain javascript functions will be instantiated and injected.</p>
 		<ul>
-			<li>The Config function has a "debugMode" constructor parameter that happened to be an injection name (mapping rule associated), the corresponding boolean value will be injected into it.</li>
-			<li>The Model function contains two constructor parameters that also are injection names. A config instance and a boolean value will be injected into the corresponding parameters.</li>
-			<li>Two mapping rules are defined, one using the "mapClass" method used to map functions and one using the "mapValue" method used to map objects that are not meant to be instantiated.</li>
+			<li>The <code>Config</code> function has a <code>debugMode</code> constructor parameter that happened to be an injection name (mapping rule associated), the corresponding boolean value will be injected into it.</li>
+			<li>The <code>Model</code> function contains two constructor parameters that also are injection names. A config instance and a boolean value will be injected into the corresponding parameters.</li>
+			<li>Two mapping rules are defined, one using the <code>mapClass</code> method used to map functions and one using the <code>mapValue</code> method used to map objects that are not meant to be instantiated.</li>
 			<li>In the last line, the Model instance is instantiated by the injector, which will take care of all the dependencies and nested dependencies needed.</li>
 		</ul>
 
@@ -409,11 +413,14 @@
 
 		<p><a href="http://plnkr.co/edit/C7m5qE7hYpUnQK6a9rNp?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
+		<div class="back"><a href="#">top</a></div>
+
 		<div>
 			<h4>Singleton injection</h4>
 		</div>
 
-		<p>By default, every single time the injector will find a dependency that needs to be instantiated (such as the Config function in the previous example), the injector will instantiate a new one. A third parameter can be used when defining the "mapClass" rule: the "singleton" parameter. The effect will be that the injector will instantiate the function the first time it is asked, and send that same instance when it is asked again. This is useful to share an instance with several other components.</p>
+		<p>By default, every single time the injector will find a dependency that needs to be instantiated (such as the <code>Config</code> function in the previous example), the injector will instantiate a new one. A third parameter can be used when defining the <code>mapClass</code> rule: the "singleton" parameter.</p>
+		<p>The effect will be that the injector will instantiate the function the first time it is asked, and send that same instance when it is asked again. This is useful to share an instance with several other components.</p>
 
 		<div class="highlight"><pre><span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">mapClass</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="nx">Config</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span></pre></div>
 
@@ -434,7 +441,7 @@
 			<li>Templates as they are internally created by the injector</li>
 		</ul>
 
-		<p>In the following example, dispatching an event will instantiate and execute a Command function, which will instantiate a Model function as it needs this dependency, which will instantiate a Config function as it needs this dependency.</p>
+		<p>In the following example, dispatching an event will instantiate and execute a <code>Command</code> function, which will instantiate a <code>Model</code> function as it needs this dependency, which will instantiate a <code>Config</code> function as it needs this dependency.</p>
 
 		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Config</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Config instantiated&quot;</span><span class="p">);</span>
@@ -460,6 +467,8 @@
 
 		<p><a href="http://plnkr.co/edit/jN2OzC3wbcmzvHJ1XgDP?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
+		<div class="back"><a href="#">top</a></div>
+
 	</section>
 
 	<section>
@@ -481,7 +490,9 @@
 		<p>For example, a model component that receives data can use the dispatcher to notify the rest of the application that the data has changed. A view component can use the dispatcher to inform other components that a user input has just happened.</p>
 		<p>The library used to dispatch and listen to events (<a href="https://github.com/soundstep/soma-events" target="_blank">soma-events</a>) is not a simple publish-subscribe library. In case of an application related to the DOM (in opposition to a node.js application), the events used are real <a href="http://www.w3.org/TR/DOM-Level-3-Events/" target="_blank">DOM events</a>, and the dispatcher shares a common interface to DOM 3 events. The result is that the soma.js dispatcher can be interchanged with a DOM Element for a complete application decoupling.</p>
 		<p>The <a href="https://github.com/soundstep/soma-events" target="_blank">soma-events</a> library provides a custom dispatcher (usable in non-DOM environment), a event wrapper that will create the right events depending on the environment (webkit, internet explorer, non-DOM environment), and some shortcuts for ease-of-use.</p>
-		<p>Note: the shortcuts are not part of the DOM 3 events specification).</p>
+		<p>Note: the shortcuts are not part of the DOM 3 events specification.</p>
+
+		<div class="back"><a href="#">top</a></div>
 
 		<div class="subtitle">
 			<h2>Creating and dispatching events</h2>
@@ -490,11 +501,13 @@
 
 		<p>To dispatch an event, the first step is to create it. There are four ways to create events:</p>
 		<ul>
-			<li>Using a "dispatch" shortcut</li>
+			<li>Using a <code>dispatch</code> method shortcut</li>
 			<li>Instantiating the event wrapper</li>
 			<li>Extending the event wrapper and instantiating the custom event</li>
 			<li>Creating real DOM events</li>
 		</ul>
+
+		<div class="back"><a href="#">top</a></div>
 
 		<div>
 			<h4>Create and dispatch an event using the dispatcher shortcut</h4>
@@ -508,6 +521,8 @@
 
 		<p><a href="http://plnkr.co/edit/ypcBB9hJEZt7UdSvVujr?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
+		<div class="back"><a href="#">top</a></div>
+
 		<div>
 			<h4>Create and dispatch an event instantiating the event wrapper</h4>
 		</div>
@@ -519,6 +534,8 @@
 </pre></div>
 
 		<p><a href="http://plnkr.co/edit/eRFQuQVQRxAEGLh784a4?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="back"><a href="#">top</a></div>
 
 		<div>
 			<h4>Create and dispatch an event instantiating an extended event wrapper</h4>
@@ -536,6 +553,8 @@
 </pre></div>
 
 		<p><a href="http://plnkr.co/edit/f4pKAQ0YR3GWkTjYRJhk?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="back"><a href="#">top</a></div>
 
 		<div>
 			<h4>Create and dispatch an event using DOM Native methods</h4>
@@ -558,6 +577,8 @@
 </pre></div>
 
 		<p><a href="http://plnkr.co/edit/9oOdvqPtMdUpg6DuKCLS?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="back"><a href="#">top</a></div>
 
 		<div class="subtitle">
 			<h2>Listening to events</h2>
@@ -594,6 +615,8 @@
 </pre></div>
 
 		<p><a href="http://plnkr.co/edit/GXzRmRwbWNpBnykBqBpS?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="back"><a href="#">top</a></div>
 
 		<div><h4>Event handlers scope and binding</h4></div>
 
@@ -641,6 +664,8 @@
 
 		<p><a href="http://plnkr.co/edit/vGRDmdxKeiGY61lDKSUt?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
+		<div class="back"><a href="#">top</a></div>
+
 		<div class="subtitle">
 			<h2>Send parameters</h2>
 			<a class="anchor" name="send-parameters"></a>
@@ -682,6 +707,8 @@
 <span class="p">};</span>
 </pre></div>
 
+		<div class="back"><a href="#">top</a></div>
+
 		<div class="subtitle">
 			<h2>Manage commands</h2>
 			<a class="anchor" name="manage-commands"></a>
@@ -699,6 +726,8 @@
 		<p>The <code>commands</code> core element contains several useful methods to manage the commands, such as <code>has</code>, <code>get</code> and <code>getAll</code>. To remove a command, the <code>remove</code> method can be used.</p>
 
 		<div class="highlight"><pre><span class="k">this</span><span class="p">.</span><span class="nx">commands</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s2">&quot;some-event&quot;</span><span class="p">);</span></pre></div>
+
+		<div class="back"><a href="#">top</a></div>
 
 		<div class="subtitle">
 			<h2>A simple command example</h2>
@@ -733,6 +762,8 @@
 </pre></div>
 
 		<p><a href="http://plnkr.co/edit/hPxftFSFhtmMe5D0hdbT?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="back"><a href="#">top</a></div>
 
 		<div class="subtitle">
 			<h2>Flow control</h2>
@@ -838,6 +869,8 @@
 <span class="kd">var</span> <span class="nx">mediators</span> <span class="o">=</span> <span class="nx">mediators</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">MyMediator</span><span class="p">,</span> <span class="p">[</span><span class="nx">object1</span><span class="p">,</span> <span class="nx">object2</span><span class="p">,</span> <span class="nx">object3</span><span class="p">]);</span>
 </pre></div>
 
+		<div class="back"><a href="#">top</a></div>
+
 		<div class="subtitle">
 			<h2>Simple mediator example</h2>
 			<a class="anchor" name="simple-mediator-example"></a>
@@ -866,6 +899,8 @@
 </pre></div>
 
 		<p><a href="http://plnkr.co/edit/E9PND7pyY81QT9u8cRlH?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="back"><a href="#">top</a></div>
 
 		<div class="subtitle">
 			<h2>Decoupling communication</h2>
@@ -942,6 +977,8 @@
 
 		<p><a href="http://soundstep.github.io/soma-template/" target="_blank">soma-template</a> is an optional DOM template engine library implemented in soma.js, <a href="http://soundstep.github.io/soma-template/" target="_blank">click here to see the soma-template documentation and tests</a>.</p>
 
+		<div class="back"><a href="#">top</a></div>
+
 		<div class="subtitle">
 			<h2>Load the soma-template plugin</h2>
 			<a class="anchor" name="load-template-plugin"></a>
@@ -952,6 +989,8 @@
 		<div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;soma.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
 <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;soma-template.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
 </pre></div>
+
+		<div class="back"><a href="#">top</a></div>
 
 		<div class="subtitle">
 			<h2>Create a template</h2>
@@ -966,6 +1005,8 @@
 
 <span class="k">this</span><span class="p">.</span><span class="nx">createTemplate</span><span class="p">(</span><span class="nx">Template</span><span class="p">,</span> <span class="nx">domElement</span><span class="p">);</span>
 </pre></div>
+
+		<div class="back"><a href="#">top</a></div>
 
 		<div class="subtitle">
 			<h2>Simple template example</h2>
@@ -1029,6 +1070,8 @@
 		<p>Inheritance is very useful in many cases but must not be overused, <a href="http://en.wikipedia.org/wiki/Composition_over_inheritance" target="_blank">composition over inheritance</a> is usually a better design in the long term. The solution is using the right pattern for the right problem.</p>
 		<p>soma.js provides some useful utility functions to emulate inheritance.</p>
 
+		<div class="back"><a href="#">top</a></div>
+
 		<div class="subtitle">
 			<h2>Inheritance</h2>
 			<a class="anchor" name="inheritance"></a>
@@ -1085,6 +1128,8 @@
 
 		<p><a href="http://plnkr.co/edit/atRF1AA5SRs5EnEhpFZV?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
+		<div class="back"><a href="#">top</a></div>
+
 		<div class="subtitle">
 			<h2>Extend method shortcut</h2>
 			<a class="anchor" name="extend-method-shortcut"></a>
@@ -1103,6 +1148,8 @@
 </pre></div>
 
 		<p><a href="http://plnkr.co/edit/ipL2XpdgS6BvjVYJvcYD?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="back"><a href="#">top</a></div>
 
 		<div class="subtitle">
 			<h2>Call super constructor and methods</h2>
@@ -1142,6 +1189,8 @@
 		<p>The <a href="http://soundstep.github.io/soma-template/" target="_blank">soma-template</a> plugin is a self-contained library with no dependency, but can also be added to soma.js as a plugin. soma-template is adding DOM manipulation capabilities and a custom method to create template directly in the framework (<code>instance.createTemplate</code>).</p>
 		<p>A plugin is a function that can receive framework core elements and custom parameters. The plugin can be instantiated using the method <code>createPlugin</code>, the first parameter is the plugin function to be instantiated and the others parameters will be sent the plugin constructor.</p>
 
+		<div class="back"><a href="#">top</a></div>
+
 		<div class="subtitle">
 			<h2>Create a plugin</h2>
 			<a class="anchor" name="create-a-plugin"></a>
@@ -1168,6 +1217,8 @@
 </pre></div>
 
 		<p><a href="http://plnkr.co/edit/zpv15klrAJ2eTIRWGV6i?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="back"><a href="#">top</a></div>
 
 		<div class="subtitle">
 			<h2>Mouse plugin</h2>
@@ -1210,6 +1261,8 @@
 </pre></div>
 
 		<p><a href="http://plnkr.co/edit/aGTAeUm42GxCGgA1RxVZ?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="back"><a href="#">top</a></div>
 
 		<div class="subtitle">
 			<h2>Ready plugin (auto-registration)</h2>
@@ -1256,8 +1309,9 @@
 <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">();</span>
 </pre></div>
 
-
 		<p><a href="http://plnkr.co/edit/oTsfM594TXVKo1HmROLL?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="back"><a href="#">top</a></div>
 
 		<div class="subtitle">
 			<h2>Orientation plugin</h2>

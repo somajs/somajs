@@ -1,6 +1,14 @@
 ;(function(sniply, undefined) {
 
-	function equals(o1, o2) {
+	sniply.utils = sniply.utils || {};
+
+	sniply.utils.uuid = function(a,b){for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b;}
+
+	sniply.utils.target = function(event) {
+		return event.currentTarget ? event.currentTarget : event.srcElement;
+	};
+
+	sniply.utils.equals = function(o1, o2) {
 		if (o1 === o2) return true;
 		if (o1 === null || o2 === null) return false;
 		if (o1 !== o1 && o2 !== o2) return true; // NaN === NaN
@@ -33,7 +41,7 @@
 			}
 		}
 		return false;
-	}
+	};
 
 	if (!('trim' in String.prototype)) {
 		String.prototype.trim= function() {

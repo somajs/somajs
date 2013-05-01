@@ -3,13 +3,13 @@
 	// package
 	sniply.utils = sniply.utils || {};
 
-	// queue
-	function Queue() {
+	var Queue = function() {
 		this.requests = [];
 		this.current = null;
 		this.running = false;
 		this.autorun = true;
-	}
+	};
+
 	Queue.prototype = {
 		add: function(target, method, params, successCallback, errorCallback) {
 			this.requests.push({

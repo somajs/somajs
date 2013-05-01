@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Snippet</title>
-	<link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.css" media="all"/>
+	<title>Sniply</title>
+	<link rel="stylesheet" type="text/css" href="assets/libs/bootstrap/css/bootstrap.css" media="all"/>
+	<link rel="stylesheet" type="text/css" href="assets/libs/syntaxhighlighter_3.0.83/styles/shCore.css" media="all"/>
+	<link rel="stylesheet" type="text/css" href="assets/libs/syntaxhighlighter_3.0.83/styles/shThemeDefault.css" media="all"/>
+	<link rel="stylesheet" type="text/css" href="assets/libs/codemirror-3.0/lib/codemirror.css" media="all"/>
+	<link rel="stylesheet" type="text/css" href="assets/libs/codemirror-3.0/theme/eclipse.css" media="all"/>
+	<link rel="stylesheet" type="text/css" href="assets/libs/bootstrap-notify/css/bootstrap-notify.css" media="all">
 	<link rel="stylesheet" type="text/css" href="assets/styles/normalize.css" media="all"/>
-	<link rel="stylesheet" type="text/css" href="assets/syntaxhighlighter_3.0.83/styles/shCore.css" media="all"/>
-	<link rel="stylesheet" type="text/css" href="assets/syntaxhighlighter_3.0.83/styles/shThemeDefault.css" media="all"/>
-	<link rel="stylesheet" type="text/css" href="assets/codemirror-3.0/lib/codemirror.css" media="all"/>
-	<link rel="stylesheet" type="text/css" href="assets/codemirror-3.0/theme/eclipse.css" media="all"/>
-	<link rel="stylesheet" type="text/css" href="assets/bootstrap-notify/css/bootstrap-notify.css" media="all">
 	<link rel="stylesheet" type="text/css" href="assets/styles/base.css" media="all"/>
 </head>
 <body>
@@ -50,28 +50,34 @@
 
 <div class='notifications bottom-right'></div>
 
-<script type="text/javascript" src="../../build/soma.js"></script>
-<script type="text/javascript" src="assets/js/libs/soma-template.js"></script>
+<script src="../../build/soma.js"></script>
+<script src="assets/js/libs/soma-template.js"></script>
 
-<script type="text/javascript" src="assets/js/libs/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="assets/js/libs/amplify.min.js"></script>
+<script src="assets/js/libs/jquery-1.8.3.min.js"></script>
+<script src="assets/js/libs/amplify.min.js"></script>
 
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="assets/bootstrap-notify/js/bootstrap-notify.js"></script>
+<script src="assets/libs/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/libs/bootstrap-notify/js/bootstrap-notify.js"></script>
 
-<script type="text/javascript" src="assets/syntaxhighlighter_3.0.83/scripts/shCore.js"></script>
-<script type="text/javascript" src="assets/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
+<script src="assets/libs/syntaxhighlighter_3.0.83/scripts/shCore.js"></script>
+<script src="assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js"></script>
 
-<script type="text/javascript" src="assets/codemirror-3.0/lib/codemirror.js"></script>
-<script type="text/javascript" src="assets/codemirror-3.0/mode/javascript/javascript.js"></script>
+<script src="assets/libs/codemirror-3.0/lib/codemirror.js"></script>
+<script src="assets/libs/codemirror-3.0/mode/javascript/javascript.js"></script>
 
-<script type="text/javascript" src="assets/js/app/utils/utils.js"></script>
-<script type="text/javascript" src="assets/js/app/utils/queue.js"></script>
-<script type="text/javascript" src="assets/js/app/services/services.js"></script>
-<script type="text/javascript" src="assets/js/app/controllers/commands.js"></script>
-<script type="text/javascript" src="assets/js/app/models/models.js"></script>
-<script type="text/javascript" src="assets/js/app/views/views.js"></script>
-<script type="text/javascript" src="assets/js/app.js"></script>
+<script src="assets/js/app/config/config.js"></script>
+<script src="assets/js/app/utils/utils.js"></script>
+<script src="assets/js/app/utils/queue.js"></script>
+<script src="assets/js/app/services/api.js"></script>
+<script src="assets/js/app/controllers/logout.js"></script>
+<script src="assets/js/app/controllers/notify.js"></script>
+<script src="assets/js/app/controllers/sync.js"></script>
+<script src="assets/js/app/models/user.js"></script>
+<script src="assets/js/app/models/snippet.js"></script>
+<script src="assets/js/app/views/header.js"></script>
+<script src="assets/js/app/views/list.js"></script>
+<script src="assets/js/app/views/manage.js"></script>
+<script src="assets/js/app.js"></script>
 
 </body>
 </html>

@@ -16,6 +16,8 @@
 	    init: function() {
 
 		    // utils
+		    this.injector.mapValue('config', sniply.config);
+		    this.injector.mapValue('utils', sniply.utils);
 		    this.injector.mapClass('queue', sniply.utils.Queue, true);
 
 		    // commands

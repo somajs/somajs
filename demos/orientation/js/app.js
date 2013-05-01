@@ -1,5 +1,7 @@
 ;(function(undefined) {
 
+	'use strict';
+
 	var View = function(target, dispatcher, orientation) {
 		// display the orientation when the view is created
 		updateOrientation(orientation.getOrientation());

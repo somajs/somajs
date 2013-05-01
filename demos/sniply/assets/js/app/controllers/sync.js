@@ -1,5 +1,7 @@
 ;(function(sniply, undefined) {
 
+	'use strict';
+
 	// package
 	sniply.commands = sniply.commands || {};
 
@@ -32,7 +34,6 @@
 					}
 				}
 
-				var remoteSnippets = userModel.getUser().snippets;
 				remoteSnippets.forEach(function(item, index) {
 					var currentSnippet;
 					var currentSnippetIndex;
@@ -49,12 +50,9 @@
 					}
 					else {
 						// snippet exists locally, compare dates
-						var localDate = parseInt(currentSnippet.modificationDate);
-						var remoteDate = parseInt(item.modificationDate);
-						if (remoteDate === localDate) {
-							// same one, do nothing
-						}
-						else if (remoteDate > localDate) {
+						var localDate = parseInt(currentSnippet.modificationDate, 10);
+						var remoteDate = parseInt(item.modificationDate, 10);
+						if (remoteDate > localDate) {
 							// remote more recent, overwrite local snippet
 							localSnippets[currentSnippetIndex] = item;
 						}
@@ -108,10 +106,10 @@
 
 			dispatcher.dispatch(sniply.events.RENDER_LIST);
 
-		}
+		};
 	};
 
 	// exports
 	sniply.commands.SyncCommand = SyncCommand;
 
-})(sniply = window.sniply || {});
+})(window.sniply = window.sniply || {});

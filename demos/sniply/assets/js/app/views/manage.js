@@ -1,12 +1,14 @@
 ;(function(sniply, undefined) {
 
+	'use strict';
+
 	// package
 	sniply.views = sniply.views || {};
 
 	var Manage = function (template, scope, dispatcher, snippetModel) {
 
 		var editingSnippet;
-		var editor = CodeMirror($('.text-input', template.element)[0], {
+		var editor = new CodeMirror($('.text-input', template.element)[0], {
 			mode: "javascript",
 			theme: "eclipse",
 			lineNumbers: true,
@@ -35,7 +37,9 @@
 
 		scope.update = function() {
 			var value = editor.getValue().trim();
-			if (value === '') return;
+			if (value === '') {
+				return;
+			}
 			if (!editingSnippet) {
 				snippetModel.add(value);
 				dispatcher.dispatch(sniply.events.SYNC);
@@ -46,7 +50,7 @@
 				dispatcher.dispatch(sniply.events.SYNC);
 				dispatcher.dispatch(sniply.events.SELECT_NAV, 'list');
 			}
-		}
+		};
 
 		template.render();
 	};
@@ -54,4 +58,4 @@
 	// exports
 	sniply.views.Manage = Manage;
 
-})(sniply = window.sniply || {});
+})(window.sniply = window.sniply || {});

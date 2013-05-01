@@ -1,6 +1,7 @@
 var todo = window.todo || {};
 
 (function( window ) {
+
 	'use strict';
 
 	var ENTER_KEY = 13;
@@ -13,7 +14,7 @@ var todo = window.todo || {};
 			scope.todos = event.params;
 			scope.active = getActiveItems( event.params );
 			scope.completed = scope.todos.length - scope.active;
-			scope.allCompleted = scope.todos.length > 0 && scope.active == 0 ? true : false;
+			scope.allCompleted = scope.todos.length > 0 && scope.active === 0 ? true : false;
 			scope.clearCompletedVisible = scope.completed > 0 ? true : false;
 			scope.footerVisible = scope.todos.length > 0 ? true : false;
 			scope.itemLabel = scope.active === 1 ? 'item' : 'items';
@@ -79,11 +80,11 @@ var todo = window.todo || {};
 			return data.filter(function( todo ) {
 				return !todo.completed;
 			}).length;
-		};
+		}
 
 		function getLi( element ) {
 			return element && element.tagName === 'LI' ? element : getLi( element.parentNode );
-		};
+		}
 
 	};
 

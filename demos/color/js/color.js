@@ -1,4 +1,6 @@
-;(function(ns, undefined) {
+;(function(undefined) {
+
+	'use strict';
 
 	var ColorModel = function(dispatcher) {
 
@@ -24,7 +26,7 @@
 			getColor: function() {
 				return color;
 			}
-		}
+		};
 	};
 
 	var ContainerMediator = function(target, mediators) {
@@ -63,4 +65,4 @@
 
 	var app = new App();
 
-})(this['ns'] = this['ns'] || {});
+})();

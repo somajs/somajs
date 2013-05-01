@@ -1,5 +1,7 @@
 ;(function(sniply, undefined) {
 
+	'use strict';
+
 	// package
 	sniply.models = sniply.models || {};
 
@@ -62,10 +64,10 @@
 			clear: function() {
 				this.set(null);
 			}
-		}
+		};
 	};
 
 	// exports
 	sniply.models.SnippetModel = SnippetModel;
 
-})(sniply = window.sniply || {});
+})(window.sniply = window.sniply || {});

@@ -7,22 +7,20 @@ var Navigation = function(router, dispatcher) {
 
   // setup routes and dispatch views ids
 
+  router.init('/home');
+
   router.on('/home', function() {
     dispatchRoute('home');
   });
 
   router.on('/page1', function() {
+    console.log('page 1')
     dispatchRoute('page1');
   });
 
   router.on('/page2', function() {
     dispatchRoute('page2');
   });
-
-  // show default view
-  if (router.getRoute()[0] === '') {
-    dispatchRoute('home');
-  }
 
   // in this demo, all routes could have been handled with this single regex route
   // router.on(/.*/, function() {
@@ -37,14 +35,15 @@ var Navigation = function(router, dispatcher) {
 
 var View = function(target, dispatcher) {
   dispatcher.addEventListener('show-view', function(event) {
-    target.style.display = target.className.indexOf(event.params) === -1 ? 'none' : 'block';
+    var isCurrentView = target.className.indexOf(event.params) !== -1;
+    target.style.display = isCurrentView ? 'block' : 'none';
   });
 }
 
 var Application = soma.Application.extend({
   init: function() {
     // create the Director router and make it available through the framework
-    this.injector.mapValue('router', new Router().init());
+    this.injector.mapValue('router', new Router());
     // create mediators for the views (DOM Element)
     this.mediators.create(View, document.querySelectorAll('.view'))
   },

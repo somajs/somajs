@@ -1357,6 +1357,8 @@
 
   <span class="c1">// setup routes and dispatch views ids</span>
 
+  <span class="nx">router</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="s1">&#39;/home&#39;</span><span class="p">);</span>
+
   <span class="nx">router</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;/home&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="nx">dispatchRoute</span><span class="p">(</span><span class="s1">&#39;home&#39;</span><span class="p">);</span>
   <span class="p">});</span>
@@ -1368,11 +1370,6 @@
   <span class="nx">router</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;/page2&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="nx">dispatchRoute</span><span class="p">(</span><span class="s1">&#39;page2&#39;</span><span class="p">);</span>
   <span class="p">});</span>
-
-  <span class="c1">// show default view</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">router</span><span class="p">.</span><span class="nx">getRoute</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">dispatchRoute</span><span class="p">(</span><span class="s1">&#39;home&#39;</span><span class="p">);</span>
-  <span class="p">}</span>
 
   <span class="c1">// in this demo, all routes could have been handled with this single regex route</span>
   <span class="c1">// router.on(/.*/, function() {</span>
@@ -1387,14 +1384,15 @@
 
 <span class="kd">var</span> <span class="nx">View</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">dispatcher</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;show-view&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">target</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="nx">target</span><span class="p">.</span><span class="nx">className</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span> <span class="o">?</span> <span class="s1">&#39;none&#39;</span> <span class="o">:</span> <span class="s1">&#39;block&#39;</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">isCurrentView</span> <span class="o">=</span> <span class="nx">target</span><span class="p">.</span><span class="nx">className</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="nx">target</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="nx">isCurrentView</span> <span class="o">?</span> <span class="s1">&#39;block&#39;</span> <span class="o">:</span> <span class="s1">&#39;none&#39;</span><span class="p">;</span>
   <span class="p">});</span>
 <span class="p">}</span>
 
 <span class="kd">var</span> <span class="nx">Application</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// create the Director router and make it available through the framework</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">mapValue</span><span class="p">(</span><span class="s1">&#39;router&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Router</span><span class="p">().</span><span class="nx">init</span><span class="p">());</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">mapValue</span><span class="p">(</span><span class="s1">&#39;router&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Router</span><span class="p">());</span>
     <span class="c1">// create mediators for the views (DOM Element)</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">View</span><span class="p">,</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;.view&#39;</span><span class="p">))</span>
   <span class="p">},</span>

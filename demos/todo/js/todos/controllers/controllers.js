@@ -1,6 +1,7 @@
 var todo = window.todo || {};
 
 (function( window ) {
+
 	'use strict';
 
 	todo.events = {
@@ -35,7 +36,7 @@ var todo = window.todo || {};
 					model.clearCompleted();
 					break;
 			}
-		}
+		};
 	};
 
 })( window );

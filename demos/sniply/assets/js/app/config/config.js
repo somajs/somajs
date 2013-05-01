@@ -1,5 +1,7 @@
 ;(function(sniply, undefined) {
 
+	'use strict';
+
 	sniply.config = {
 		apiUrl: 'http://sniply.eu01.aws.af.cm',
 		oauthCallback: 'http://sniply.eu01.aws.af.cm/oauth/client',
@@ -9,4 +11,4 @@
 		}
 	};
 
-})(sniply = window.sniply || {});
+})(window.sniply = window.sniply || {});

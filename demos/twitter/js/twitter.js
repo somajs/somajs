@@ -1,5 +1,7 @@
 ;(function (twitter, undefined) {
 
+	'use strict';
+
 	// application
 	var App = soma.Application.extend({
 		init:function () {
@@ -12,7 +14,7 @@
 	var Events = {
 		"SEARCH": "search",
 		"SEARCH_RESULT": "search_result"
-	}
+	};
 
 	// command that triggers the search
 	// can be used from anywhere
@@ -21,7 +23,7 @@
 			execute:function (event) {
 				service.search(event.params);
 			}
-		}
+		};
 	};
 
 	// service that retrieves the list of tweets from the twitter API
@@ -40,7 +42,7 @@
 					}
 				});
 			}
-		}
+		};
 	};
 
 	// template to display the list of tweets
@@ -62,14 +64,14 @@
 		// opens a new window to the selected tweet
 		scope.visit = function(event, user, id) {
 			window.open("http://twitter.com/" + user + "/statuses/" + id);
-		}
+		};
 		// triggers search
 		scope.search = function(event) {
 			var value = $('.queryInput', element).val();
 			if (event.which === 13 && value !== "") {
 				dispatcher.dispatch(Events.SEARCH, value);
 			}
-		}
+		};
 	};
 
 	// create application
@@ -78,4 +80,4 @@
 	// exports
 	twitter.TwitterTemplate = TwitterTemplate;
 
-})(this['twitter'] = this['twitter'] || {});
+})(window.twitter = window.twitter || {});

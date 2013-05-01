@@ -17,7 +17,7 @@ var todo = window.todo || {};
 
 			scope.active = getActiveItems( scope.todos );
 			scope.completed = scope.todos.length - scope.active;
-			scope.allCompleted = scope.todos.length > 0 && scope.active == 0 ? true : false;
+			scope.allCompleted = scope.todos.length > 0 && scope.active === 0 ? true : false;
 			scope.clearCompletedVisible = scope.completed > 0 ? true : false;
 			//scope.footerVisible = scope.todos.length > 0 ? true : false;
 			scope.itemLabel = scope.active === 1 ? 'item' : 'items';
@@ -30,7 +30,9 @@ var todo = window.todo || {};
 
 		scope.filteredTodos = function() {
 			var filter = router.getRoute()[0];
-			if (filter === '') return todos;
+			if (filter === '') {
+				return todos;
+			}
 			return todos.filter(function( todo ) {
 				return filter === 'active' ? !todo.completed : todo.completed;
 			});
@@ -105,7 +107,7 @@ var todo = window.todo || {};
 			return todos.filter(function( todo ) {
 				return !todo.completed;
 			}).length;
-		};
+		}
 
 		render();
 

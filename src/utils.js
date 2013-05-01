@@ -24,7 +24,9 @@
 	};
 
 	soma.augment = function (target, extension, list) {
-		if (!extension.prototype || !target.prototype) return;
+		if (!extension.prototype || !target.prototype) {
+			return;
+		}
 		if (Object.prototype.toString.apply(list) === '[object Array]') {
 			for (var i = 0, l = list.length; i < l; i++) {
 				if (!target.prototype[list[i]]) {
@@ -42,31 +44,31 @@
 	};
 
 	soma.inherit = function (parent, obj) {
-		var subclass;
+		var Subclass;
 		if (obj && obj.hasOwnProperty('constructor')) {
 			// use constructor if defined
-			subclass = obj.constructor;
+			Subclass = obj.constructor;
 		} else {
 			// call the super constructor
-			subclass = function () {
+			Subclass = function () {
 				return parent.apply(this, arguments);
 			};
 		}
 		// set the prototype chain to inherit from the parent without calling parent's constructor
-		var chain = function(){};
-		chain.prototype = parent.prototype;
-		subclass.prototype = new chain();
+		var Chain = function(){};
+		Chain.prototype = parent.prototype;
+		Subclass.prototype = new Chain();
 		// add obj properties
-		if (obj) soma.applyProperties(subclass.prototype, obj);
-		// point constructor to the subclass
-		subclass.prototype.constructor = subclass;
+		if (obj) soma.applyProperties(Subclass.prototype, obj);
+		// point constructor to the Subclass
+		Subclass.prototype.constructor = Subclass;
 		// set super class reference
-		subclass.parent = parent.prototype;
+		Subclass.parent = parent.prototype;
 		// add extend shortcut
-		subclass.extend = function (obj) {
-			return soma.inherit(subclass, obj);
+		Subclass.extend = function (obj) {
+			return soma.inherit(Subclass, obj);
 		};
-		return subclass;
+		return Subclass;
 	};
 
 	soma.extend = function (obj) {

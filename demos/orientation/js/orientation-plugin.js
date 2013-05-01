@@ -1,5 +1,7 @@
 ;(function(undefined) {
 
+	'use strict';
+
 	var OrientationPlugin = function(dispatcher) {
 		// hold current orientation
 		var orientation = detectDeviceOrientation();
@@ -16,10 +18,9 @@
 				case 90:
 				case -90:
 					return 'landscape';
-					break;
-
 				case 0:
 				case 180:
+					break;
 				default:
 					return 'portrait';
 			}
@@ -34,7 +35,7 @@
 			dispose: function() {
 				window.removeEventListener('orientationchange', handler);
 			}
-		}
+		};
 	};
 
 	if (soma && soma.plugins) {

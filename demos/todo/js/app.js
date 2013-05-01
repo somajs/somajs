@@ -1,6 +1,7 @@
 var todo = window.todo || {};
 
 (function( window ) {
+
 	'use strict';
 
 	todo.TodoApp = soma.Application.extend({

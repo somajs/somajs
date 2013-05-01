@@ -2,6 +2,8 @@
 
 	var Navigation = function(router, dispatcher) {
 
+		'use strict';
+
 		// setup routes and dispatch views ids
 
 		router.on('/home', function() {
@@ -34,14 +36,14 @@
 			var isCurrentView = target.className.indexOf(event.params) !== -1;
 			target.style.display = isCurrentView ? 'block' : 'none';
 		});
-	}
+	};
 
 	var Application = soma.Application.extend({
 		init: function() {
 			// create the Director router and make it available through the framework
 			this.injector.mapValue('router', new Router());
 			// create mediators for the views (DOM Element)
-			this.mediators.create(View, document.querySelectorAll('.view'))
+			this.mediators.create(View, document.querySelectorAll('.view'));
 		},
 		start: function() {
 			// instantiate Navigation to start the app

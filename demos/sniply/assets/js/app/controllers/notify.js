@@ -1,5 +1,7 @@
 ;(function(sniply, undefined) {
 
+	'use strict';
+
 	// package
 	sniply.commands = sniply.commands || {};
 
@@ -9,11 +11,11 @@
 			$('.bottom-right').notify({
 				message: { text: event.params }
 			}).show();
-		}
+		};
 
 	};
 
 	// exports
 	sniply.commands.NotifyCommand = NotifyCommand;
 
-})(sniply = window.sniply || {});
+})(window.sniply = window.sniply || {});

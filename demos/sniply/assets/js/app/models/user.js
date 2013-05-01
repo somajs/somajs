@@ -1,5 +1,7 @@
 ;(function(sniply, undefined) {
 
+	'use strict';
+
 	// package
 	sniply.models = sniply.models || {};
 
@@ -31,7 +33,9 @@
 		}
 
 		function getUserFromAPI() {
-			if (!user || !navigator.onLine) return;
+			if (!user || !navigator.onLine) {
+				return;
+			}
 			queue.add(api, 'getUser', [user.accessToken, user._id], function(data) {
 				setUser(data);
 			}, function(err) {
@@ -58,10 +62,12 @@
 					}, function(err) {
 						console.log('Error getting the current user', err);
 					});
-				}
+				};
 			},
 			getAccessToken: function() {
-				if (!user) return undefined;
+				if (!user) {
+					return undefined;
+				}
 				return user.accessToken;
 			},
 			getUser: function() {
@@ -77,10 +83,10 @@
 			clear: function() {
 				setUser(null);
 			}
-		}
+		};
 	};
 
 	// exports
 	sniply.models.UserModel = UserModel;
 
-})(sniply = window.sniply || {});
+})(window.sniply = window.sniply || {});

@@ -1,6 +1,7 @@
 var todo = window.todo || {};
 
 (function( window ) {
+
 	'use strict';
 
 	todo.Model = function() {
@@ -12,7 +13,7 @@ var todo = window.todo || {};
 			set: function( items ) {
 				localStorage.setItem( storeKey, JSON.stringify( items ) );
 			}
-		}
+		};
 	};
 
 })( window );

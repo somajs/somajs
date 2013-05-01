@@ -1,5 +1,7 @@
 ;(function(sniply, undefined) {
 
+//	'use strict';
+
 	sniply.events = {
 		'SELECT_NAV': 'select-nav',
 		'RENDER_NAV': 'render-nav',
@@ -13,38 +15,38 @@
 
     var App = soma.Application.extend({
 
-	    init: function() {
+		init: function() {
 
-		    // utils
-		    this.injector.mapValue('config', sniply.config);
-		    this.injector.mapValue('utils', sniply.utils);
-		    this.injector.mapClass('queue', sniply.utils.Queue, true);
+			// utils
+			this.injector.mapValue('config', sniply.config);
+			this.injector.mapValue('utils', sniply.utils);
+			this.injector.mapClass('queue', sniply.utils.Queue, true);
 
-		    // commands
+			// commands
 			this.commands.add(sniply.events.SYNC, sniply.commands.SyncCommand);
 			this.commands.add(sniply.events.LOGOUT, sniply.commands.LogoutCommand);
 			this.commands.add(sniply.events.NOTIFY, sniply.commands.NotifyCommand);
 
-		    // services
-		    this.injector.mapClass('api', sniply.services.ApiService);
+			// services
+			this.injector.mapClass('api', sniply.services.ApiService);
 
-		    // models
-		    this.injector.mapClass('snippetModel', sniply.models.SnippetModel, true);
-		    this.injector.mapClass('userModel', sniply.models.UserModel, true);
+			// models
+			this.injector.mapClass('snippetModel', sniply.models.SnippetModel, true);
+			this.injector.mapClass('userModel', sniply.models.UserModel, true);
 
-		    // views
-		    this.createTemplate(sniply.views.Header, $('.header')[0]);
-		    this.createTemplate(sniply.views.List, $('.list')[0]);
-		    this.createTemplate(sniply.views.Manage, $('.manage')[0]);
+			// views
+			this.createTemplate(sniply.views.Header, $('.header')[0]);
+			this.createTemplate(sniply.views.List, $('.list')[0]);
+			this.createTemplate(sniply.views.Manage, $('.manage')[0]);
 
-	    },
+		},
 
-	    start: function() {
+		start: function() {
 
-	    }
+		}
 
     });
 
 	var app = new App();
 
-})(sniply = window.sniply || {});
+})(window.sniply = window.sniply || {});

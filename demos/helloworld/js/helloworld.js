@@ -1,5 +1,7 @@
 ;(function(undefined) {
 
+	'use strict';
+
 	var Model = function() {};
 	Model.prototype.getData = function() {
 		return "Hello soma.js!";

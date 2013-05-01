@@ -116,7 +116,7 @@
 						<li><a href="#orientation-plugin">Orientation plugin</a></li>
 					</ul>
 				</li>
-				<li><a href="#tools">Tools</a></li>
+				<li><a href="#router">Router</a></li>
 				<li><a href="#demos">Demos</a></li>
 				<li><a href="#tests">Tests</a></li>
 				<li><a href="https://groups.google.com/forum/#!forum/somajs" target="_blank">Questions</a></li>
@@ -1340,11 +1340,76 @@
 	<section>
 
 		<div class="title">
-			<h1>Tools</h1>
-			<a class="anchor" name="tools"></a>
+			<h1>Router</h1>
+			<a class="anchor" name="router"></a>
 		</div>
 
-		<p></p>
+		<p>soma.js does not provide a built-in router to take care of path and url. However, <a href="https://github.com/flatiron/director" target="_blank">Director</a> is a great library that is focused on routing.</p>
+		<p>The library is very featured, fully tested, does not have any dependency and can be seamlessly integrated in the framework. Director also support the <a href="https://github.com/flatiron/director#history-api" target="_blank">HTML 5 history API</a>.</p>
+
+		<p><a href="https://github.com/flatiron/director" class="button icon tag" target="_blank">Get Director</a></p>
+		
+		<p><a href="../demos/todo-hash" target="_blank">Click here to see the todo app</a> that integrates Director.</p>
+
+		<p>Here is a simple example to implement Director in a soma.js application.</p>
+
+		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Navigation</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">router</span><span class="p">,</span> <span class="nx">dispatcher</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">// setup routes and dispatch views ids</span>
+
+  <span class="nx">router</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;/home&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">dispatchRoute</span><span class="p">(</span><span class="s1">&#39;home&#39;</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">router</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;/page1&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">dispatchRoute</span><span class="p">(</span><span class="s1">&#39;page1&#39;</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">router</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;/page2&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">dispatchRoute</span><span class="p">(</span><span class="s1">&#39;page2&#39;</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="c1">// show default view</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">router</span><span class="p">.</span><span class="nx">getRoute</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">dispatchRoute</span><span class="p">(</span><span class="s1">&#39;home&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// in this demo, all routes could have been handled with this single regex route</span>
+  <span class="c1">// router.on(/.*/, function() {</span>
+  <span class="c1">//   dispatchRoute(router.getRoute()[0]);</span>
+  <span class="c1">// });</span>
+
+  <span class="kd">function</span> <span class="nx">dispatchRoute</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s1">&#39;show-view&#39;</span><span class="p">,</span> <span class="nx">id</span><span class="p">);</span>
+  <span class="p">}</span>
+
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">View</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">dispatcher</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">dispatcher</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;show-view&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">target</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="nx">target</span><span class="p">.</span><span class="nx">className</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span> <span class="o">?</span> <span class="s1">&#39;none&#39;</span> <span class="o">:</span> <span class="s1">&#39;block&#39;</span><span class="p">;</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">Application</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// create the Director router and make it available through the framework</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">mapValue</span><span class="p">(</span><span class="s1">&#39;router&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Router</span><span class="p">().</span><span class="nx">init</span><span class="p">());</span>
+    <span class="c1">// create mediators for the views (DOM Element)</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">View</span><span class="p">,</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;.view&#39;</span><span class="p">))</span>
+  <span class="p">},</span>
+  <span class="nx">start</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// instantiate Navigation to start the app</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">createInstance</span><span class="p">(</span><span class="nx">Navigation</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">();</span>
+</pre></div>
+
+
+		<p><a href="http://plnkr.co/edit/7QwQFHhITvXN9U7zkfcW?p=preview" class="button icon edit" target="_blank">Try it yourself</a></p>
+
 		<div class="back"><a href="#">top</a></div>
 
 	</section>

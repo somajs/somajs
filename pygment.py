@@ -3,36 +3,54 @@ from pygments.lexers import HtmlDjangoLexer
 from pygments.formatters import HtmlFormatter
 
 code = """<script>
-// plugin to add callbacks when the dom is ready
-var ReadyPlugin = function(instance) {
-  // ready function to add callbacks when the DOM is loaded (https://github.com/ded/domready)
-  var ready=function(){function l(b){for(k=1;b=a.shift();)b()}var b,a=[],c=!1,d=document,e=d.documentElement,f=e.doScroll,g="DOMContentLoaded",h="addEventListener",i="onreadystatechange",j="readyState",k=/^loade|c/.test(d[j]);return d[h]&&d[h](g,b=function(){d.removeEventListener(g,b,c),l()},c),f&&d.attachEvent(i,b=function(){/^c/.test(d[j])&&(d.detachEvent(i,b),l())}),f?function(b){self!=top?k?b():a.push(b):function(){try{e.doScroll("left")}catch(a){return setTimeout(function(){ready(b)},50)}b()}()}:function(b){k?b():a.push(b)}}();
-  // add the ready function to the prototype of the soma.js application for a direct use
-  instance.constructor.prototype.ready = ready;
-};
+var Navigation = function(router, dispatcher) {
 
-// auto-registration, the plugin will be instantiated automatically by soma.js
-if (soma.plugins && soma.plugins.add) {
-  soma.plugins.add(ReadyPlugin);
-}
+  // setup routes and dispatch views ids
 
-// view
-var View = function(target, instance) {
-  instance.ready(function() {
-    target.innerHTML = 'DOM is loaded';
+  router.on('/home', function() {
+    dispatchRoute('home');
   });
+
+  router.on('/page1', function() {
+    dispatchRoute('page1');
+  });
+
+  router.on('/page2', function() {
+    dispatchRoute('page2');
+  });
+
+  // show default view
+  if (router.getRoute()[0] === '') {
+    dispatchRoute('home');
+  }
+
+  // in this demo, all routes could have been handled with this single regex route
+  // router.on(/.*/, function() {
+  //   dispatchRoute(router.getRoute()[0]);
+  // });
+
+  function dispatchRoute(id) {
+    dispatcher.dispatch('show-view', id);
+  }
+
 };
+
+var View = function(target, dispatcher) {
+  dispatcher.addEventListener('show-view', function(event) {
+    target.style.display = target.className.indexOf(event.params) === -1 ? 'none' : 'block';
+  });
+}
 
 var Application = soma.Application.extend({
   init: function() {
-    // use the plugin
-    this.ready(function() {
-      console.log('DOM READY');
-    });
+    // create the Director router and make it available through the framework
+    this.injector.mapValue('router', new Router().init());
+    // create mediators for the views (DOM Element)
+    this.mediators.create(View, document.querySelectorAll('.view'))
   },
   start: function() {
-    // create a view
-    this.mediators.create(View, document.querySelector('.report'));
+    // instantiate Navigation to start the app
+    this.injector.createInstance(Navigation);
   }
 });
 

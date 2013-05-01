@@ -9,6 +9,8 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="chrome=1">
 	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+	<meta name="description" content="soma.js is a javascript scalable framework that is meant to help developers to write loosely-coupled applications to increase scalability and maintainability.">
+	<meta name="keywords" content="soma soma.js js javascript framework mvc somacore soundstep design pattern events tools toolset html css ria mobile desktop prototype loose-coupling model view controller native development">
 	<link rel="icon" type="image/png" href="favicon.png">
 	<link rel="stylesheet" href="assets/gh-buttons/gh-buttons.css">
 	<link rel="stylesheet" href="assets/styles/pygment/native.css">
@@ -99,6 +101,7 @@
 						<li><a href="#load-template-plugin">Load the template plugin</a></li>
 						<li><a href="#create-a-template">Create a template</a></li>
 						<li><a href="#simple-template-example">Simple template example</a></li>
+						<li><a href="http://soundstep.github.io/soma-template/" target="_blank">soma-template</a></li>
 					</ul>
 				</li>
 				<li><p><a href="#oop">OOP</a></p>
@@ -118,6 +121,7 @@
 				</li>
 				<li><a href="#router">Router</a></li>
 				<li><a href="#demos">Demos</a></li>
+				<li><a href="#recommended-tools">Recommended tools</a></li>
 				<li><a href="#tests">Tests</a></li>
 				<li><a href="https://groups.google.com/forum/#!forum/somajs" target="_blank">Questions</a></li>
 				<li><a href="#browser-support">Browser support</a></li>
@@ -1420,14 +1424,80 @@
 		</div>
 
 		<ul>
-			<li><a href="../demos/helloworld" target="_blank">Hello world</a></li>
-			<li><a href="../demos/twitter" target="_blank">Twitter search</a></li>
-			<li><a href="../demos/todo" target="_blank">Todo app</a></li>
-			<li><a href="../demos/todo-hash" target="_blank">Todo app (lighter version)</a></li>
-			<li><a href="../demos/todo-light" target="_blank">Todo app (with routes)</a></li>
-			<li><a href="../demos/sniply" target="_blank">Sniply (snippet app)</a></li>
-			<li><a href="../demos/orientation" target="_blank">Orientation (plugin)</a></li>
-			<li><a href="../demos/router" target="_blank">Router (director)</a></li>
+			<li>
+				<a href="../demos/helloworld" target="_blank">Hello world</a>
+				<p>Demo displaying a string. The application contains a model, a mediator and uses an event to display the string in a DOM Element.</p>
+			</li>
+			<li>
+				<a href="../demos/twitter" target="_blank">Twitter search</a>
+				<p>Demo searching in the Twitter API and displaying a list of tweets. The search is performed using a command and a service to get data from a remote location. The result is displayed in the DOM with the soma-template plugin.</p>
+			</li>
+			<li>
+				<a href="../demos/todo" target="_blank">Todo app</a>
+				<p>Demo managing a list to todo items that can be added, removed, set as completed, and stored in the local storage. The application contains a model holding the data, a view using soma-template and a command to handle the different type of user events.</p>
+			</li>
+			<li>
+				<a href="../demos/todo-light" target="_blank">Todo app light</a>
+				<p>Same todo app demo with a much lighter code. There's no command and no model API. The view updates the set of data directly using the soma-template function calls capability.</p>
+			</li>
+			<li>
+				<a href="../demos/todo-hash" target="_blank">Todo app light with router</a>
+				<p>Another version of the todo app light, with routes to filter the completed and active todo items. Director.js has been used as a router.</p>
+			</li>
+			<li>
+				<a href="../demos/sniply" target="_blank">Sniply</a>
+				<p>A complex web app that manage a list of snippets that are saved both in the local storage and on a remote server. The application can sign to the Github API (oauth 2.0) and is composed of a config, commands, models, a service, several views and some utils methods.</p>
+			</li>
+			<li>
+				<a href="../demos/orientation" target="_blank">Orientation plugin</a>
+				<p>Demo using a custom mobile plugin that dispatches events on a device orientation change (portrait and landscape).</p>
+			</li>
+			<li>
+				<a href="../demos/router" target="_blank">Router with Director</a>
+				<p>Demo using the recommended router library: <a href="https://github.com/flatiron/director" target="_blank">Director.js</a>.</p>
+			</li>
+		</ul>
+
+		<div class="back"><a href="#">top</a></div>
+
+	</section>
+
+	<section>
+
+		<div class="title">
+			<h1>Recommended tools</h1>
+			<a class="anchor" name="recommended-tools"></a>
+		</div>
+
+		<p>soma.js is very lightweight and some tools might be needed to performed some actions, such as handling routes in a one-page application, making DOM manipulations or making ajax requests.</p>
+		<p>Developers are free to use the libraries they like but here are some recommended libraries that are very efficient and well-tested.</p>
+
+		<p><h4>Router</h4></p>
+
+		<ul>
+			<li><a href="https://github.com/flatiron/director" target="_blank">Director</a></li>
+		</ul>
+
+		<p><h4>Ajax requests</h4></p>
+
+		<ul>
+			<li><a href="https://github.com/ded/reqwest" target="_blank">Reqwest</a></li>
+			<li><a href="http://api.jquery.com/jQuery.ajax/" target="_blank">jQuery</a></li>
+		</ul>
+
+		<p><h4>DOM manipulation</h4></p>
+
+		<ul>
+			<li><a href="http://soundstep.github.io/soma-template/" target="_blank">soma-template</a> (plugin)</li>
+			<li><a href="http://handlebarsjs.com/" target="_blank">Handlebars</a></li>
+		</ul>
+
+		<p><h4>DOM selector</h4></p>
+
+		<ul>
+			<li><a href="https://github.com/ded/qwery" target="_blank">Qwery</a></li>
+			<li><a href="http://zeptojs.com/" target="_blank">Zepto</a> (mobile)</li>
+			<li><a href="http://jquery.com/" target="_blank">jQuery</a></li>
 		</ul>
 
 		<div class="back"><a href="#">top</a></div>
@@ -1441,7 +1511,15 @@
 			<a class="anchor" name="tests"></a>
 		</div>
 
-		<p></p>
+		<p>soma.js, as well its internal libraries (infuse.js, soma-events and soma-template), are all fully tested. There is no such a thing as a bug-free library, if something does not work as intended, Github is the best place to report it.</p>
+
+		<ul>
+			<li><a href="../tests" target="_blank">soma.js tests</a></li>
+			<li><a href="http://soundstep.github.io/soma-template/tests/" target="_blank">soma-template tests</a> (<a href="http://soundstep.github.io/soma-template/tests/internal.html" target="_blank">internal tests</a>)</li>
+			<li><a href="https://github.com/soundstep/soma-events/tree/master/tests" target="_blank">soma-events tests</a></li>
+			<li><a href="https://github.com/soundstep/infuse.js/tree/master/tests" target="_blank">infuse.js tests</a></li>
+		</ul>
+
 		<div class="back"><a href="#">top</a></div>
 
 	</section>
@@ -1453,7 +1531,8 @@
 			<a class="anchor" name="browser-support"></a>
 		</div>
 
-		<p></p>
+		<p>soma.js and its internal libraries (infuse.js, soma-events and soma-template) support all browsers and should work anywhere, with the exception of Internet Explorer 6.</p>
+
 		<div class="back"><a href="#">top</a></div>
 
 	</section>

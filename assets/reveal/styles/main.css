@@ -43,3 +43,21 @@
 .reveal .navigate-down {
 	display: none;
 }
+footer {
+	display: none;
+	position: absolute;
+	bottom: 20px;
+	width: 100%;
+	text-align: center;
+	z-index:100;
+}
+footer a {
+	color: #13DAEC;
+	text-decoration: none;
+	font-family: Arial, sans-serif;
+	letter-spacing: 3px;
+	font-size: 12px;
+}
+footer a:hover {
+	color: #71E9F4;
+}

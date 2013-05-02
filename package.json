@@ -1,10 +1,26 @@
 {
 	"name":"soma.js",
 	"version":"2.0.0",
-	"description":"soma.js is a scalable javascript framework",
+	"description":"soma.js is a javascript framework created to build scalable and maintainable applications.",
+	"keywords": [
+		"soma.js",
+		"soma",
+		"javascript",
+		"js",
+		"framework",
+		"mvc",
+		"lightweight",
+		"dependency injection",
+		"injection"
+	],
 	"author":{
 		"name":"Romuald Quantin",
-		"email":"romuald@soundstep.com"
+		"email":"romu@soundstep.com"
+	},
+	"main": "build/soma.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/somajs/somajs.git"
 	},
 	"devDependencies": {
 		"grunt": ">=0.4.x",

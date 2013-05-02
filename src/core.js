@@ -25,7 +25,6 @@
 				this.injector = new infuse.Injector(this.dispatcher);
 				// dispatcher
 				this.dispatcher = new soma.EventDispatcher();
-	//			soma.applyProperties(this, this.dispatcher, true, ['dispatch', 'dispatchEvent', 'addEventListener', 'removeEventListener', 'hasEventListener']);
 				// mapping
 				this.injector.mapValue('injector', this.injector);
 				this.injector.mapValue('instance', this);
@@ -75,10 +74,18 @@
 				this.injector.removeMapping('instance');
 			}
 			// variables
-			if (this.injector) this.injector.dispose();
-			if (this.dispatcher) this.dispatcher.dispose();
-			if (this.mediators) this.mediators.dispose();
-			if (this.commands) this.commands.dispose();
+			if (this.injector) {
+				this.injector.dispose();
+			}
+			if (this.dispatcher) {
+				this.dispatcher.dispose();
+			}
+			if (this.mediators) {
+				this.mediators.dispose();
+			}
+			if (this.commands) {
+				this.commands.dispose();
+			}
 			this.injector = undefined;
 			this.dispatcher = undefined;
 			this.mediators = undefined;

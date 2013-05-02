@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-demo",
+  "name": "somajs-nodejs-demo",
   "version": "0.0.0",
   "description": "soma.js soma-template node.js demo",
   "main": "app.js",

@@ -1,7 +1,7 @@
 {
 	"name":"soma.js",
 	"version":"2.0.0",
-	"description":"soma.js is a minimalist javascript mvc framework",
+	"description":"soma.js is a scalable javascript framework",
 	"author":{
 		"name":"Romuald Quantin",
 		"email":"romuald@soundstep.com"

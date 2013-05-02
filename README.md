@@ -2,7 +2,7 @@
 
 soma.js is a scalable javascript framework created to help developers to write loosely-coupled applications to increase scalability and maintainability.
 
-	"http://somajs.github.com/somajs/":http://somajs.github.com/somajs/
+[http://somajs.github.com/somajs/](http://somajs.github.com/somajs/)
 
 ## License
 

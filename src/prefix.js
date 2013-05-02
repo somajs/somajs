@@ -1,4 +1,4 @@
-;(function (soma, undefined) {
+;(function (soma, infuse, undefined) {
 
 	'use strict';
 

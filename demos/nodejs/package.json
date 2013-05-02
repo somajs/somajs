@@ -1,0 +1,14 @@
+{
+  "name": "nodejs-demo",
+  "version": "0.0.0",
+  "description": "soma.js soma-template node.js demo",
+  "main": "app.js",
+  "repository": "",
+  "author": "",
+  "dependencies": {
+	  "soma.js": "*",
+	  "soma-template": "*",
+	  "express": "3.x",
+	  "jsdom": "*"
+  }
+}

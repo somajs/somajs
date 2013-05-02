@@ -12,4 +12,4 @@
 		exports = soma;
 	}
 
-})(this['soma'] = this['soma'] || {});
+})(this['soma'] = this['soma'] || {}, this['infuse']);

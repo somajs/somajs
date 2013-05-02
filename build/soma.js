@@ -584,7 +584,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 })(this['soma'] = this['soma'] || {});
 
 
-;(function (soma, undefined) {
+;(function (soma, infuse, undefined) {
 
 	'use strict';
 
@@ -905,4 +905,4 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		exports = soma;
 	}
 
-})(this['soma'] = this['soma'] || {});
+})(this['soma'] = this['soma'] || {}, this['infuse']);

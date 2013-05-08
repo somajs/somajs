@@ -43,6 +43,7 @@ phing
 # custom
 
 node_modules*
+components
 
 .project*
 .classpath*

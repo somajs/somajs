@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>soma.js - Clock demo</title>
+</head>
+<body>
+
+<div class="clock-app">
+	<div class="clock-selector">
+		<button data-click="select('DigitalView')">Digital clock</button>
+		<button data-click="select('AnalogView')">Analog clock</button>
+		<button data-click="select('PolarView')">Polar clock</button>
+	</div>
+	<div class="clock"></div>
+</div>
+
+<script type="text/javascript" src="../../build/soma.js"></script>
+<script type="text/javascript" src="js/libs/soma-template.js"></script>
+
+<script type="text/javascript" src="js/app/models/timer.js"></script>
+<script type="text/javascript" src="js/app/mediators/clock.js"></script>
+<script type="text/javascript" src="js/app/views/selector.js"></script>
+<script type="text/javascript" src="js/app/views/clocks/digital.js"></script>
+<script type="text/javascript" src="js/app/views/clocks/analog.js"></script>
+<script type="text/javascript" src="js/app/views/clocks/polar.js"></script>
+<script type="text/javascript" src="js/app/clock.js"></script>
+
+</body>
+</html>

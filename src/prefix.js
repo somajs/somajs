@@ -1,5 +1,5 @@
-;(function (soma, infuse, undefined) {
+(function (soma, infuse) {
 
 	'use strict';
 
-	soma.version = "2.0.0";
+	soma.version = '2.0.1';

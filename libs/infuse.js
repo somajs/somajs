@@ -1,5 +1,5 @@
 /*
-Copyright (c) | 2012 | infuse.js | Romuald Quantin | www.soundstep.com | romu@soundstep.com
+Copyright (c) | 2013 | infuse.js | Romuald Quantin | www.soundstep.com | romu@soundstep.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -17,10 +17,11 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-;(function(infuse, undefined) {
-    "use strict";
+(function(infuse) {
 
-	infuse.version = "0.6.3";
+    'use strict';
+
+	infuse.version = '0.6.7';
 
 	// regex from angular JS (https://github.com/angular/angular.js)
 	var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
@@ -29,25 +30,27 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
 
 	if(!Array.prototype.contains) {
-	    Array.prototype.contains = function(value) {
-	        var i = this.length;
-	        while (i--) {
-	            if (this[i] === value) return true;
-	        }
-	        return false;
-	    };
+		Array.prototype.contains = function(value) {
+			var i = this.length;
+			while (i--) {
+				if (this[i] === value) {
+					return true;
+				}
+			}
+			return false;
+		};
 	}
 
 	infuse.InjectorError = {
-		MAPPING_BAD_PROP: "[Error infuse.Injector.mapClass/mapValue] the first parameter is invalid, a string is expected",
-		MAPPING_BAD_VALUE: "[Error infuse.Injector.mapClass/mapValue] the second parameter is invalid, it can't null or undefined, with property: ",
-		MAPPING_BAD_CLASS: "[Error infuse.Injector.mapClass/mapValue] the second parameter is invalid, a function is expected, with property: ",
-		MAPPING_BAD_SINGLETON: "[Error infuse.Injector.mapClass] the third parameter is invalid, a boolean is expected, with property: ",
-		MAPPING_ALREADY_EXISTS: "[Error infuse.Injector.mapClass/mapValue] this mapping already exists, with property: ",
-		CREATE_INSTANCE_INVALID_PARAM: "[Error infuse.Injector.createInstance] invalid parameter, a function is expected",
-		NO_MAPPING_FOUND: "[Error infuse.Injector.getInstance] no mapping found",
-		INJECT_INSTANCE_IN_ITSELF_PROPERTY: "[Error infuse.Injector.getInjectedValue] A matching property has been found in the target, you can't inject an instance in itself",
-		INJECT_INSTANCE_IN_ITSELF_CONSTRUCTOR: "[Error infuse.Injector.getInjectedValue] A matching constructor parameter has been found in the target, you can't inject an instance in itself"
+		MAPPING_BAD_PROP: '[Error infuse.Injector.mapClass/mapValue] the first parameter is invalid, a string is expected',
+		MAPPING_BAD_VALUE: '[Error infuse.Injector.mapClass/mapValue] the second parameter is invalid, it can\'t null or undefined, with property: ',
+		MAPPING_BAD_CLASS: '[Error infuse.Injector.mapClass/mapValue] the second parameter is invalid, a function is expected, with property: ',
+		MAPPING_BAD_SINGLETON: '[Error infuse.Injector.mapClass] the third parameter is invalid, a boolean is expected, with property: ',
+		MAPPING_ALREADY_EXISTS: '[Error infuse.Injector.mapClass/mapValue] this mapping already exists, with property: ',
+		CREATE_INSTANCE_INVALID_PARAM: '[Error infuse.Injector.createInstance] invalid parameter, a function is expected',
+		NO_MAPPING_FOUND: '[Error infuse.Injector.getInstance] no mapping found',
+		INJECT_INSTANCE_IN_ITSELF_PROPERTY: '[Error infuse.Injector.getInjectedValue] A matching property has been found in the target, you can\'t inject an instance in itself',
+		INJECT_INSTANCE_IN_ITSELF_CONSTRUCTOR: '[Error infuse.Injector.getInjectedValue] A matching constructor parameter has been found in the target, you can\'t inject an instance in itself'
 	};
 
 	var MappingVO = function(prop, value, cl, singleton) {
@@ -58,7 +61,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	};
 
 	var validateProp = function(prop) {
-		if (typeof prop !== "string") {
+		if (typeof prop !== 'string') {
 			throw new Error(infuse.InjectorError.MAPPING_BAD_PROP);
 		}
 	};
@@ -70,13 +73,13 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	};
 
 	var validateClass = function(prop, val) {
-		if (typeof val !== "function") {
+		if (typeof val !== 'function') {
 			throw new Error(infuse.InjectorError.MAPPING_BAD_CLASS + prop);
 		}
 	};
 
 	var validateBooleanSingleton = function(prop, singleton) {
-		if (typeof singleton !== "boolean") {
+		if (typeof singleton !== 'boolean') {
 			throw new Error(infuse.InjectorError.MAPPING_BAD_SINGLETON + prop);
 		}
 	};
@@ -94,18 +97,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		}
 	};
 
-	var instantiateIgnoringConstructor = function() {
-		if (typeof arguments[0] !== "function") {
-			throw new Error(infuse.InjectorError.CREATE_INSTANCE_INVALID_PARAM);
-		}
-		var TargetClass = arguments[0];
-		var args = [null];
-		for (var i=1; i<arguments.length; i++) {
-			args.push(arguments[i]);
-		}
-		return new (Function.prototype.bind.apply(TargetClass, args));
-	};
-
 	infuse.Injector = function() {
 		this.mappings = {};
 		this.parent = null;
@@ -113,14 +104,15 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 	infuse.getConstructorParams = function(cl) {
 		var args = [];
+		function extractName(all, underscore, name) {
+			args.push(name);
+		}
 		var clStr = cl.toString().replace(STRIP_COMMENTS, '');
 		var argsFlat = clStr.match(FN_ARGS);
 		var spl = argsFlat[1].split(FN_ARG_SPLIT);
 		for (var i=0; i<spl.length; i++) {
 			var arg = spl[i];
-			arg.replace(FN_ARG, function(all, underscore, name){
-				args.push(name);
-			});
+			arg.replace(FN_ARG, extractName);
 		}
 		return args;
 	};
@@ -134,9 +126,15 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		},
 
 		getMappingVo: function(prop) {
-			if (!this.mappings) return null;
-			if (this.mappings[prop]) return this.mappings[prop];
-			if (this.parent) return this.parent.getMappingVo(prop);
+			if (!this.mappings) {
+				return null;
+			}
+			if (this.mappings[prop]) {
+				return this.mappings[prop];
+			}
+			if (this.parent) {
+				return this.parent.getMappingVo(prop);
+			}
 			return null;
 		},
 
@@ -146,7 +144,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 			validateProp(prop);
 			validateValue(prop, val);
-			this.mappings[prop] = new MappingVO(prop, val);
+			this.mappings[prop] = new MappingVO(prop, val, undefined, undefined);
 			return this;
 		},
 
@@ -156,7 +154,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 			validateProp(prop);
 			validateClass(prop, cl);
-			if (singleton) validateBooleanSingleton(prop, singleton);
+			if (singleton) {
+				validateBooleanSingleton(prop, singleton);
+			}
 			this.mappings[prop] = new MappingVO(prop, null, cl, singleton);
 			return this;
 		},
@@ -177,22 +177,30 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 		getMapping: function(value) {
 			for (var name in this.mappings) {
-				var vo = this.mappings[name];
-				if (vo.value === value || vo.cl === value) {
-					return vo.prop;
+				if (this.mappings.hasOwnProperty(name)) {
+					var vo = this.mappings[name];
+					if (vo.value === value || vo.cl === value) {
+						return vo.prop;
+					}
 				}
 			}
+			return undefined;
 		},
 
 		getValue: function(prop) {
 			var vo = this.mappings[prop];
 			if (!vo) {
-				if (this.parent) return this.parent.getValue.apply(this.parent, arguments);
-				else throw new Error(infuse.InjectorError.NO_MAPPING_FOUND);
+				if (this.parent) {
+					return this.parent.getValue.apply(this.parent, arguments);
+				}
+				else {
+					throw new Error(infuse.InjectorError.NO_MAPPING_FOUND);
+				}
 			}
 			if (vo.cl) {
-				arguments[0] = vo.cl;
-				return this.getValueFromClass.apply(this, arguments);
+				var args = Array.prototype.slice.call(arguments);
+				args[0] = vo.cl;
+				return this.getValueFromClass.apply(this, args);
 			}
 			return vo.value;
 		},
@@ -200,20 +208,25 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		getClass: function(prop) {
 			var vo = this.mappings[prop];
 			if (!vo) {
-				if (this.parent) return this.parent.getClass(prop);
-				else return undefined;
+				if (this.parent) {
+					return this.parent.getClass(prop);
+				}
+				else {
+					return undefined;
+				}
 			}
-			if (vo.cl) return vo.cl;
+			if (vo.cl) {
+				return vo.cl;
+			}
 			return undefined;
 		},
 
 		instantiate: function(TargetClass) {
-			if (typeof TargetClass !== "function") {
+			if (typeof TargetClass !== 'function') {
 				throw new Error(infuse.InjectorError.CREATE_INSTANCE_INVALID_PARAM);
 			}
-			var TargetClass = arguments[0];
 			var args = [null];
-			var params = infuse.getConstructorParams(TargetClass, this.mappings);
+			var params = infuse.getConstructorParams(TargetClass);
 			for (var i=0; i<params.length; i++) {
 				if (arguments[i+1] !== undefined && arguments[i+1] !== null) {
 					// argument found
@@ -234,7 +247,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 					}
 				}
 			}
-			return new (Function.prototype.bind.apply(TargetClass, args));
+			return new (Function.prototype.bind.apply(TargetClass, args))();
 		},
 
 		inject: function (target, isParent) {
@@ -242,10 +255,11 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				this.parent.inject(target, true);
 			}
 			for (var name in this.mappings) {
-				var vo = this.getMappingVo(name);
-				if (target.hasOwnProperty(vo.prop)) {
-					var val = this.getInjectedValue(vo, name);
-					target[name] = val;
+				if (this.mappings.hasOwnProperty(name)) {
+					var vo = this.getMappingVo(name);
+					if (target.hasOwnProperty(vo.prop)) {
+						target[name] = this.getInjectedValue(vo, name);
+					}
 				}
 			}
 			if (typeof target.postConstruct === 'function' && !isParent) {
@@ -258,7 +272,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			var val = vo.value;
 			var injectee;
 			if (vo.cl) {
-				var params = infuse.getConstructorParams(vo.cl);
 				if (vo.singleton) {
 					if (!vo.value) {
 						validateConstructorInjectionLoop(name, vo.cl);
@@ -288,14 +301,18 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 		getValueFromClass: function(cl) {
 			for (var name in this.mappings) {
-				var vo = this.mappings[name];
-				if (vo.cl == cl) {
-					if (vo.singleton) {
-						if (!vo.value) vo.value = this.createInstance.apply(this, arguments);
-						return vo.value;
-					}
-					else {
-						return this.createInstance.apply(this, arguments);
+				if (this.mappings.hasOwnProperty(name)) {
+					var vo = this.mappings[name];
+					if (vo.cl === cl) {
+						if (vo.singleton) {
+							if (!vo.value) {
+								vo.value = this.createInstance.apply(this, arguments);
+							}
+							return vo.value;
+						}
+						else {
+							return this.createInstance.apply(this, arguments);
+						}
 					}
 				}
 			}
@@ -315,15 +332,15 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	if (!Function.prototype.bind) {
 		Function.prototype.bind = function bind(that) {
 			var target = this;
-			if (typeof target != "function") {
-				throw new Error("Error, you must bind a function.");
+			if (typeof target !== 'function') {
+				throw new Error('Error, you must bind a function.');
 			}
 			var args = Array.prototype.slice.call(arguments, 1); // for normal call
 			var bound = function () {
 				if (this instanceof bound) {
 					var F = function(){};
 					F.prototype = target.prototype;
-					var self = new F;
+					var self = new F();
 					var result = target.apply(
 						self,
 						args.concat(Array.prototype.slice.call(arguments))
@@ -344,17 +361,16 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	}
 
 	// register for AMD module
-	if (typeof define === 'function' && define.amd) {
-	    define("infuse", infuse);
+	if (typeof define === 'function' && typeof define.amd !== 'undefined') {
+		define("infuse", infuse);
 	}
-	
+
 	// export for node.js
+	if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+		module.exports = infuse;
+	}
 	if (typeof exports !== 'undefined') {
-		if (typeof module !== 'undefined' && module.exports) {
-			exports = module.exports = infuse;
-		}
 		exports = infuse;
 	}
 
 })(this['infuse'] = this['infuse'] || {});
-

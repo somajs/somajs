@@ -59,7 +59,9 @@
 		Chain.prototype = parent.prototype;
 		Subclass.prototype = new Chain();
 		// add obj properties
-		if (obj) soma.applyProperties(Subclass.prototype, obj);
+		if (obj) {
+			soma.applyProperties(Subclass.prototype, obj);
+		}
 		// point constructor to the Subclass
 		Subclass.prototype.constructor = Subclass;
 		// set super class reference

@@ -4,9 +4,15 @@
 
 	clock.ClockMediator = function(target, dispatcher, mediators) {
 
+		var currentClock;
+
 		dispatcher.addEventListener('create', function(event) {
-			target.innerHTML = "";
-			mediators.create(clock[event.params], target);
+			// destroy previous clock
+			if (currentClock) {
+				currentClock.dispose();
+			}
+			// create clock
+			currentClock = mediators.create(clock[event.params], target);
 		});
 
 	};

@@ -9,16 +9,20 @@
 			soma.Application.call(this);
 		},
 		init: function() {
+			// mapping rules
 			this.injector.mapClass('timer', clock.TimerModel, true);
+			this.injector.mapClass('face', clock.AnalogFaceView, true);
+			// clock mediator
 			this.mediators.create(clock.ClockMediator, this.element.querySelector('.clock'));
+			// clock selector template
 			this.createTemplate(clock.SelectorView, this.element.querySelector('.clock-selector'));
 		},
 		start: function() {
-			this.dispatcher.dispatch('create', 'DigitalView');
+			this.dispatcher.dispatch('create', 'AnalogView');
 		}
 	});
 
-	var clockInstance = new ClockDemo(document.querySelector('.clock-app'));
+	var clock = new ClockDemo(document.querySelector('.clock-app'));
 
 
 })(window.clock = window.clock || {}, soma);

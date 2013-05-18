@@ -21,7 +21,7 @@
 		}
 
 		this.timer.add(this.update);
-		this.update();
+		this.update(timer.time);
 	};
 
 	clock.AnalogView.prototype.dispose = function() {

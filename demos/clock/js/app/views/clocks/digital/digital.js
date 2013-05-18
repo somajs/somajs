@@ -8,23 +8,12 @@
 		this.timer = timer;
 		this.update = tick.bind(this);
 
-		function format(value) {
-			if (value < 10) {
-				return '0' + value;
-			}
-			return value;
-		}
-
-		function tick() {
-			var now = new Date();
-			var hours = format(now.getHours());
-			var minutes = format(now.getMinutes());
-			var seconds = format(now.getSeconds());
-			this.element.innerHTML = hours + ':' + minutes + ':' + seconds;
+		function tick(time) {
+			this.element.innerHTML = time.hours + ':' + time.minutes + ':' + time.seconds;
 		}
 
 		this.timer.add(this.update);
-		this.update();
+		this.update(timer.time);
 
 	};
 

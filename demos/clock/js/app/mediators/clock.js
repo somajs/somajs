@@ -12,7 +12,7 @@
 				currentClock.dispose();
 			}
 			// create clock
-			currentClock = mediators.create(clock[event.params], target);
+			currentClock = mediators.create(event.params, target);
 		});
 
 	};

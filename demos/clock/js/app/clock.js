@@ -21,7 +21,7 @@
 			this.createTemplate(clock.SelectorView, this.element.querySelector('.clock-selector'));
 		},
 		start: function() {
-			this.dispatcher.dispatch('create', 'PolarView');
+			this.dispatcher.dispatch('create', clock.AnalogView);
 		}
 	});
 

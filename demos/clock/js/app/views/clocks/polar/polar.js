@@ -77,7 +77,7 @@
 	};
 
 	clock.PolarView.prototype.dispose = function () {
-		this.element.innerHTML = '';
+		this.element.removeChild(this.element.firstChild);
 		this.timer.remove(this.update);
 	};
 

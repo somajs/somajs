@@ -1,5 +1,5 @@
 /*global soma:false*/
-;(function(clock, soma) {
+(function(clock, soma) {
 
 	'use strict';
 
@@ -21,11 +21,11 @@
 			this.createTemplate(clock.SelectorView, this.element.querySelector('.clock-selector'));
 		},
 		start: function() {
-			this.dispatcher.dispatch('create', 'AnalogView');
+			this.dispatcher.dispatch('create', 'PolarView');
 		}
 	});
 
-	var clock = new ClockDemo(document.querySelector('.clock-app'));
+	var clockDemo = new ClockDemo(document.querySelector('.clock-app'));
 
 
 })(window.clock = window.clock || {}, soma);

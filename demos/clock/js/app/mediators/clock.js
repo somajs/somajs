@@ -1,4 +1,4 @@
-;(function(clock) {
+(function(clock) {
 
 	'use strict';
 

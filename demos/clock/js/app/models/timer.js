@@ -1,4 +1,4 @@
-;(function(clock) {
+(function(clock) {
 
 	'use strict';
 
@@ -10,20 +10,15 @@
 		var i, l;
 
 		setInterval(function() {
-
 			this.update();
-
 			i = 0;
 			l = this.callbacks.length;
-
 			for (; i < l;  i++) {
 				this.callbacks[i](this.time);
 			}
-
 		}.bind(this), 1000);
 
 		this.update();
-
 	};
 
 	clock.TimerModel.prototype.update = function() {
@@ -31,17 +26,13 @@
 		this.time.hours = this.time.now.getHours();
 		this.time.minutes = this.time.now.getMinutes();
 		this.time.seconds = this.time.now.getSeconds();
-		this.time.hoursFormatted = this.format(this.time.hours);
-		this.time.minutesFormatted = this.format(this.time.minutes);
-		this.time.secondsFormatted = this.format(this.time.seconds);
+		this.time.milliseconds = this.time.now.getMilliseconds();
+		this.time.day = this.time.now.getDay() + 1;
+		this.time.date = this.time.now.getDate();
+		this.time.month = this.time.now.getMonth() + 1;
 	};
 
-	clock.TimerModel.prototype.format = function(value) {
-		if (value < 10) {
-			return '0' + value;
-		}
-		return value;
-	};
+
 
 	clock.TimerModel.prototype.add = function(callback) {
 		this.callbacks.push(callback);

@@ -1,4 +1,4 @@
-;(function(clock) {
+(function(clock) {
 
 	'use strict';
 
@@ -23,11 +23,11 @@
 		function tick(time) {
 			face.draw(context);
 			needleSeconds.update(time.seconds);
-			needleSeconds.draw(context)
+			needleSeconds.draw(context);
 			needleMinutes.update(time.minutes, time.seconds);
-			needleMinutes.draw(context)
+			needleMinutes.draw(context);
 			needleHours.update(time.hours, time.minutes, time.seconds);
-			needleHours.draw(context)
+			needleHours.draw(context);
 		}
 
 		this.timer.add(this.update);

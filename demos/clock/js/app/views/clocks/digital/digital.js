@@ -1,4 +1,4 @@
-;(function(clock) {
+(function(clock) {
 
 	'use strict';
 
@@ -9,7 +9,14 @@
 		this.update = tick.bind(this);
 
 		function tick(time) {
-			this.element.innerHTML = time.hours + ':' + time.minutes + ':' + time.seconds;
+			target.innerHTML = format(time.hours) + ':' + format(time.minutes) + ':' + format(time.seconds);
+		}
+
+		function format(value) {
+			if (value < 10) {
+				return '0' + value;
+			}
+			return value;
 		}
 
 		this.timer.add(this.update);

@@ -1,4 +1,4 @@
-;(function(clock) {
+(function(clock) {
 
 	'use strict';
 
@@ -28,8 +28,8 @@
 		context.save();
 		context.lineWidth = 2;
 		context.strokeStyle = '#015666';
-		context.lineJoin = "round";
-		context.lineCap = "round";
+		context.lineJoin = 'round';
+		context.lineCap = 'round';
 		context.beginPath();
 		context.moveTo(x,y);
 		context.lineTo(this.center, this.center);

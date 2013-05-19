@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	clock.AnalogView = function(target, timer, face) {
+	clock.AnalogView = function(target, timer, face, needleSeconds, needleMinutes, needleHours) {
 
 		this.element = target;
 		this.timer = timer;
@@ -14,10 +14,20 @@
 
 		canvas.width = canvas.height = radius;
 		target.appendChild(canvas);
-		face.initialize(radius);
 
-		function tick() {
+		face.initialize(radius);
+		needleSeconds.initialize(radius);
+		needleMinutes.initialize(radius);
+		needleHours.initialize(radius);
+
+		function tick(time) {
 			face.draw(context);
+			needleSeconds.update(time.seconds);
+			needleSeconds.draw(context)
+			needleMinutes.update(time.minutes, time.seconds);
+			needleMinutes.draw(context)
+			needleHours.update(time.hours, time.minutes, time.seconds);
+			needleHours.draw(context)
 		}
 
 		this.timer.add(this.update);

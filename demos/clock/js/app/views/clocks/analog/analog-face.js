@@ -16,21 +16,30 @@
 		context.save();
 		context.clearRect(0,0,this.center*2,this.center*2);
 		context.lineWidth = 4.0;
-		context.strokeStyle = "#567";
+		context.strokeStyle = "#015666";
 		context.beginPath();
 		context.arc(this.center,this.center,this.radius,0,Math.PI * 2,true);
 		context.closePath();
 		context.stroke();
 		this.drawDots(context);
 		this.drawHourDots(context);
+		this.drawCenter(context);
 		context.restore();
+	};
+
+	clock.AnalogFaceView.prototype.drawCenter = function(context) {
+		context.fillStyle = "#015666";
+		context.beginPath();
+		context.arc(this.center,this.center,5,0,Math.PI * 2,false);
+		context.closePath();
+		context.fill();
 	};
 
 	clock.AnalogFaceView.prototype.drawDots = function(context) {
 		var theta = 0;
 		var distance = this.radius * 0.9; // 90% from the center
 		context.lineWidth = 0.5;
-		context.strokeStyle = "#137";
+		context.strokeStyle = "#04859D";
 		for (var i=0; i<60; i++) {
 			theta = theta + (6 * Math.PI / 180);
 			var x = this.center + distance * Math.cos(theta);

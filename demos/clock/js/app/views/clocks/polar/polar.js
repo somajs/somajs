@@ -2,13 +2,14 @@
 
 	'use strict';
 
-	clock.PolarView = function(target, dispatcher) {
+	clock.PolarView = function(target) {
 
-		target.innerHTML = 'polar';
+		this.element = target;
+		this.element.innerHTML = 'polar';
 
 	};
 
-	clock.AnalogView.prototype.dispose = function() {
+	clock.PolarView.prototype.dispose = function() {
 		this.element.innerHTML = '';
 	};
 

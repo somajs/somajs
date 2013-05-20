@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>soma.js - snake demo</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+	<p>Use arrow keys</p>
+	<canvas class="canvas" width="800" height="576"></canvas>
+
+	<!--LIBS-->
+
+	<script src="../../build/soma.js"></script>
+
+	<!--APP-->
+
+	<script src="js/app/commands/start.js"></script>
+	<script src="js/app/commands/end.js"></script>
+
+	<script src="js/app/models/config.js"></script>
+	<script src="js/app/models/time.js"></script>
+	<script src="js/app/models/grid.js"></script>
+	<script src="js/app/models/path.js"></script>
+	<script src="js/app/models/input.js"></script>
+	<script src="js/app/models/collision.js"></script>
+
+	<script src="js/app/views/canvas.js"></script>
+	<script src="js/app/views/layers/grid.js"></script>
+	<script src="js/app/views/layers/snake.js"></script>
+	<script src="js/app/views/layers/food.js"></script>
+	<script src="js/app/views/entities/snake.js"></script>
+	<script src="js/app/views/entities/food.js"></script>
+
+	<script src="js/app/vo/cell.js"></script>
+
+	<script src="js/app/main.js"></script>
+
+	<script type="text/javascript">
+
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-36294101-3']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+
+	</script>
+
+</body>
+</html>

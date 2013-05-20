@@ -11,10 +11,10 @@
 		init: function() {
 			// mapping rules
 			this.injector.mapClass('timer', clock.TimerModel, true);
-			this.injector.mapClass('face', clock.AnalogFaceView);
-			this.injector.mapClass('needleSeconds', clock.AnalogNeedleSecondsView);
-			this.injector.mapClass('needleMinutes', clock.AnalogNeedleMinutesView);
-			this.injector.mapClass('needleHours', clock.AnalogNeedleHoursView);
+			this.injector.mapClass('face', clock.FaceView);
+			this.injector.mapClass('needleSeconds', clock.NeedleSeconds);
+			this.injector.mapClass('needleMinutes', clock.NeedleMinutes);
+			this.injector.mapClass('needleHours', clock.NeedleHours);
 			// clock mediator
 			this.mediators.create(clock.ClockMediator, this.element.querySelector('.clock'));
 			// clock selector template

@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	clock.TimerModel = function() {
+	var TimerModel = function() {
 
 		this.callbacks = [];
 		this.time = {};
@@ -21,7 +21,7 @@
 		this.update();
 	};
 
-	clock.TimerModel.prototype.update = function() {
+	TimerModel.prototype.update = function() {
 		this.time.now = new Date();
 		this.time.hours = this.time.now.getHours();
 		this.time.minutes = this.time.now.getMinutes();
@@ -32,14 +32,14 @@
 		this.time.month = this.time.now.getMonth() + 1;
 	};
 
-
-
-	clock.TimerModel.prototype.add = function(callback) {
+	TimerModel.prototype.add = function(callback) {
 		this.callbacks.push(callback);
 	};
 
-	clock.TimerModel.prototype.remove = function(callback) {
+	TimerModel.prototype.remove = function(callback) {
 		this.callbacks.splice(this.callbacks.indexOf(callback), 1);
 	};
+
+	clock.TimerModel = TimerModel;
 
 })(window.clock = window.clock || {});

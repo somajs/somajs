@@ -2,10 +2,9 @@
 
 	'use strict';
 
-	clock.PolarView = function (target, timer) {
+	var PolarView = function (target) {
 
 		this.element = target;
-		this.timer = timer;
 		this.update = tick.bind(this);
 
 		var width = 300;
@@ -71,14 +70,12 @@
 			return 'rgba(' + Math.round(red) + ',' + Math.round(green) + ',' + Math.round(blue) + ',1)';
 		}
 
-		this.timer.add(this.update);
-		this.update(timer.time);
-
 	};
 
-	clock.PolarView.prototype.dispose = function () {
+	PolarView.prototype.dispose = function () {
 		this.element.removeChild(this.element.firstChild);
-		this.timer.remove(this.update);
 	};
+
+	clock.PolarView = PolarView;
 
 })(window.clock = window.clock || {});

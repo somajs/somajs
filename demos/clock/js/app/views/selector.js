@@ -2,7 +2,7 @@
 
 	'use strict';
 
-    clock.SelectorView = function(scope, dispatcher) {
+    var SelectorView = function(scope, dispatcher) {
 
 		var views = {
 			'digital': clock.DigitalView,
@@ -15,5 +15,7 @@
 		};
 
     };
+
+	clock.SelectorView = SelectorView;
 
 })(window.clock = window.clock || {});

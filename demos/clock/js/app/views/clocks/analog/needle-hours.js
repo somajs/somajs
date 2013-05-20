@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	clock.AnalogNeedleHoursView = function() {
+	var NeedleHours = function() {
 
 		this.seconds = 0;
 		this.minutes = 0;
@@ -13,19 +13,19 @@
 
 	};
 
-	clock.AnalogNeedleHoursView.prototype.initialize = function(radius) {
+	NeedleHours.prototype.initialize = function(radius) {
 		this.radius = radius;
 		this.center = this.radius / 2;
 		this.size = this.center * 0.4;
 	};
 
-	clock.AnalogNeedleHoursView.prototype.update = function(hours, minutes, seconds) {
+	NeedleHours.prototype.update = function(hours, minutes, seconds) {
 		this.hours = hours;
 		this.minutes = minutes;
 		this.seconds = seconds;
 	};
 
-	clock.AnalogNeedleHoursView.prototype.draw = function(context) {
+	NeedleHours.prototype.draw = function(context) {
 		var theta = (30 * Math.PI / 180);
 		var x = this.center + this.size * Math.cos(((this.hours + this.minutes/60 + this.seconds/3600) * theta) - Math.PI/2);
 		var y = this.center + this.size * Math.sin(((this.hours + this.minutes/60 + this.seconds/3600) * theta) - Math.PI/2);
@@ -42,8 +42,10 @@
 		context.restore();
 	};
 
-	clock.AnalogNeedleHoursView.prototype.dispose = function() {
+	NeedleHours.prototype.dispose = function() {
 
 	};
+
+	clock.NeedleHours = NeedleHours;
 
 })(window.clock = window.clock || {});

@@ -2,10 +2,9 @@
 
 	'use strict';
 
-	clock.DigitalView = function(target, timer) {
+	var DigitalView = function(target) {
 
 		this.element = target;
-		this.timer = timer;
 		this.update = tick.bind(this);
 
 		function tick(time) {
@@ -19,14 +18,12 @@
 			return value;
 		}
 
-		this.timer.add(this.update);
-		this.update(timer.time);
-
 	};
 
-	clock.DigitalView.prototype.dispose = function() {
+	DigitalView.prototype.dispose = function() {
 		this.element.innerHTML = '';
-		this.timer.remove(this.update);
 	};
+
+	clock.DigitalView = DigitalView;
 
 })(window.clock = window.clock || {});

@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	clock.AnalogNeedleSecondsView = function() {
+	var NeedleSeconds = function() {
 
 		this.seconds = 0;
 		this.radius = 0;
@@ -11,17 +11,17 @@
 
 	};
 
-	clock.AnalogNeedleSecondsView.prototype.initialize = function(radius) {
+	NeedleSeconds.prototype.initialize = function(radius) {
 		this.radius = radius;
 		this.center = this.radius / 2;
 		this.size = this.center * 0.8;
 	};
 
-	clock.AnalogNeedleSecondsView.prototype.update = function(seconds) {
+	NeedleSeconds.prototype.update = function(seconds) {
 		this.seconds = seconds;
 	};
 
-	clock.AnalogNeedleSecondsView.prototype.draw = function(context) {
+	NeedleSeconds.prototype.draw = function(context) {
 		var theta = (6 * Math.PI / 180);// - (Math.PI / 2);
 		var x = this.center + this.size * Math.cos(this.seconds * theta - Math.PI/2);
 		var y = this.center + this.size * Math.sin(this.seconds * theta - Math.PI/2);
@@ -38,8 +38,10 @@
 		context.restore();
 	};
 
-	clock.AnalogNeedleSecondsView.prototype.dispose = function() {
+	NeedleSeconds.prototype.dispose = function() {
 
 	};
+
+	clock.NeedleSeconds = NeedleSeconds;
 
 })(window.clock = window.clock || {});

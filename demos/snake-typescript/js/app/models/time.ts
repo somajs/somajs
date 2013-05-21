@@ -1,8 +1,9 @@
 ///<reference path='../models/config.ts'/>
+///<reference path='../interfaces/time.ts'/>
 
 module snake {
 
-	export class Time {
+	export class Time implements ITime {
 
 		private speedHandlers:any[] = null;
 		private speedTimeoutId:number = 0;

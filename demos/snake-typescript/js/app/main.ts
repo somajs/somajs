@@ -1,4 +1,4 @@
-///<reference path='../soma.d.ts'/>
+///<reference path='../../../../build/soma.d.ts'/>
 ///<reference path='commands/start.ts'/>
 ///<reference path='commands/end.ts'/>
 ///<reference path='models/config.ts'/>

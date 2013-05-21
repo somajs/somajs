@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'ds-digitalbold';
+    src: url('../fonts/ds-digib-webfont.eot');
+    src: url('../fonts/ds-digib-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/ds-digib-webfont.woff') format('woff'),
+         url('../fonts/ds-digib-webfont.ttf') format('truetype'),
+         url('../fonts/ds-digib-webfont.svg#ds-digitalbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+.clock-app .clock {
+	margin-top: 20px;
+	font-family: 'ds-digitalbold', monospace;
+	font-size: 80px;
+}

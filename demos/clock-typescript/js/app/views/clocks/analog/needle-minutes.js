@@ -13,7 +13,7 @@ var clock;
             this.center = this.radius / 2;
             this.size = this.center * 0.65;
         };
-        NeedleMinutes.prototype.update = function (minutes, seconds) {
+        NeedleMinutes.prototype.update = function (seconds, minutes) {
             this.minutes = minutes;
             this.seconds = seconds;
         };

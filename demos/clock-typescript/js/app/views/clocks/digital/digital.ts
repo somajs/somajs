@@ -1,8 +1,9 @@
 ///<reference path='../../../vo/time.ts'/>
+///<reference path='../../../interfaces/IClockView.ts'/>
 
 module clock {
 
-	export class DigitalView {
+	export class DigitalView implements IClockView {
 
 		private element:HTMLElement = null;
 
@@ -10,18 +11,18 @@ module clock {
 			this.element = target;
 		}
 
-		update(time:TimeVO) {
+		public update(time:TimeVO):void {
 			this.element.innerHTML = this.format(time.hours) + ':' + this.format(time.minutes) + ':' + this.format(time.seconds);
 		}
 
-		format(value:number):string {
+		public format(value:number):string {
 			if (value < 10) {
 				return '0' + value.toString();
 			}
 			return value.toString();
 		}
 
-		dispose() {
+		public dispose():void {
 			this.element.innerHTML = '';
 		}
 

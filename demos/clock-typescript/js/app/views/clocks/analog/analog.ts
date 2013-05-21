@@ -1,25 +1,24 @@
 ///<reference path='face.ts'/>
-///<reference path='needle-hours.ts'/>
-///<reference path='needle-minutes.ts'/>
-///<reference path='needle-seconds.ts'/>
 ///<reference path='../../../vo/time.ts'/>
+///<reference path='../../../interfaces/IClockView.ts'/>
+///<reference path='../../../interfaces/IAnalogNeedle.ts'/>
 
 module clock {
 
-	export class AnalogView {
+	export class AnalogView implements IClockView {
 
 		private element:HTMLElement = null;
 
 		private faceView:FaceView;
-		private needleHoursView:NeedleHours;
-		private needleMinutesView:NeedleMinutes;
-		private needleSecondsView:NeedleSeconds;
+		private needleHoursView:IAnalogNeedle;
+		private needleMinutesView:IAnalogNeedle;
+		private needleSecondsView:IAnalogNeedle;
 
 		private radius:number = 0;
 		private canvas:HTMLCanvasElement = null;
 		private context:CanvasRenderingContext2D = null;
 
-		constructor(target:HTMLElement, face:FaceView, needleSeconds:NeedleSeconds, needleMinutes:NeedleMinutes, needleHours:NeedleHours) {
+		constructor(target:HTMLElement, face:FaceView, needleSeconds:IAnalogNeedle, needleMinutes:IAnalogNeedle, needleHours:IAnalogNeedle) {
 
 			this.element = target;
 			this.faceView = face;

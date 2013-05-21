@@ -1,14 +1,16 @@
 ///<reference path='../../../../../build/soma.d.ts'/>
 ///<reference path='../models/timer.ts'/>
+///<reference path='../interfaces/ITimer.ts'/>
+///<reference path='../interfaces/IClockView.ts'/>
 
 module clock {
 
 	export class ClockMediator {
 
-		public currentClock:any;
+		public currentClock:IClockView;
 		public currentClockUpdateMethod:any;
 
-		constructor(target:any, dispatcher:soma.EventDispatcher, mediators:soma.Mediators, timer:TimerModel) {
+		constructor(target:HTMLElement, dispatcher:soma.EventDispatcher, mediators:soma.Mediators, timer:ITimer) {
 
 			dispatcher.addEventListener('create', function (event) {
 

@@ -1,6 +1,8 @@
+///<reference path='../../../interfaces/IAnalogNeedle.ts'/>
+
 module clock {
 
-	export class NeedleSeconds {
+	export class NeedleSeconds implements IAnalogNeedle {
 
 		public seconds:number = 0;
 		public radius:number = 0;

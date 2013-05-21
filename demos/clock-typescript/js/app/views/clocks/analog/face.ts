@@ -5,12 +5,12 @@ module clock {
 		public radius:number = 0;
 		public center:number = 0;
 
-		initialize(radius:number):void {
+		public initialize(radius:number):void {
 			this.radius = radius / 2 - 5;
 			this.center = radius / 2;
 		}
 
-		draw(context:CanvasRenderingContext2D):void {
+		public draw(context:CanvasRenderingContext2D):void {
 			context.save();
 			context.clearRect(0, 0, this.center * 2, this.center * 2);
 			context.lineWidth = 4.0;
@@ -25,7 +25,7 @@ module clock {
 			context.restore();
 		}
 
-		drawCenter(context:CanvasRenderingContext2D):void {
+		public drawCenter(context:CanvasRenderingContext2D):void {
 			context.fillStyle = '#015666';
 			context.beginPath();
 			context.arc(this.center, this.center, 5, 0, Math.PI * 2, false);
@@ -33,7 +33,7 @@ module clock {
 			context.fill();
 		}
 
-		drawDots(context:CanvasRenderingContext2D):void {
+		public drawDots(context:CanvasRenderingContext2D):void {
 			var theta = 0;
 			var distance = this.radius * 0.9; // 90% from the center
 			context.lineWidth = 0.5;
@@ -49,7 +49,7 @@ module clock {
 			}
 		}
 
-		drawHourDots(context:CanvasRenderingContext2D):void {
+		public drawHourDots(context:CanvasRenderingContext2D):void {
 			var theta = 0;
 			var distance = this.radius * 0.9; // 90% from the center
 			context.lineWidth = 5.0;
@@ -65,7 +65,7 @@ module clock {
 			}
 		}
 
-		dispose():void {
+		public dispose():void {
 
 		}
 

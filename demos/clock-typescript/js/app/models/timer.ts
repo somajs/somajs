@@ -1,8 +1,9 @@
 ///<reference path='../vo/time.ts'/>
+///<reference path='../interfaces/ITimer.ts'/>
 
 module clock {
 
-	export class TimerModel {
+	export class TimerModel implements ITimer {
 
 		public callbacks:any[] = null;
 		public time:TimeVO = null;
@@ -27,7 +28,7 @@ module clock {
 			this.update();
 		}
 
-		update() {
+		public update():void {
 			this.time.now = new Date();
 			this.time.hours = this.time.now.getHours();
 			this.time.minutes = this.time.now.getMinutes();
@@ -38,11 +39,11 @@ module clock {
 			this.time.month = this.time.now.getMonth() + 1;
 		}
 
-		add(callback:any) {
+		public add(callback:any):void {
 			this.callbacks.push(callback);
 		}
 
-		remove(callback:any) {
+		public remove(callback:any):void {
 			this.callbacks.splice(this.callbacks.indexOf(callback), 1);
 		}
 

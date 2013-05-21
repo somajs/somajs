@@ -1,8 +1,9 @@
 ///<reference path='../../../vo/time.ts'/>
+///<reference path='../../../interfaces/IClockView.ts'/>
 
 module clock {
 
-	export class PolarView {
+	export class PolarView implements IClockView {
 
 		private element:HTMLElement = null;
 
@@ -28,7 +29,7 @@ module clock {
 
 		}
 
-		update(time:TimeVO):void {
+		public update(time:TimeVO):void {
 			this.context.save();
 			this.context.clearRect(0, 0, this.width, this.height);
 			this.context.translate(this.width * 0.5, this.width * 0.5);
@@ -65,7 +66,7 @@ module clock {
 			this.context.restore();
 		}
 
-		writeTime(context:CanvasRenderingContext2D, radius:number, per:number):void {
+		public writeTime(context:CanvasRenderingContext2D, radius:number, per:number):void {
 			context.save();
 			context.strokeStyle = this.calculateColor(per);
 			context.beginPath();
@@ -74,7 +75,7 @@ module clock {
 			context.restore();
 		}
 
-		calculateColor(per:number):string {
+		public calculateColor(per:number):string {
 			var brightness = 255;
 			var red = 0,
 				blue = per * brightness,
@@ -82,7 +83,7 @@ module clock {
 			return 'rgba(' + Math.round(red) + ',' + Math.round(green) + ',' + Math.round(blue) + ',1)';
 		}
 
-		dispose():void {
+		public dispose():void {
 			this.element.removeChild(this.element.firstChild);
 		}
 	}

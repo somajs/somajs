@@ -1,6 +1,8 @@
+///<reference path='../../../interfaces/IAnalogNeedle.ts'/>
+
 module clock {
 
-	export class NeedleMinutes {
+	export class NeedleMinutes implements IAnalogNeedle {
 
 		public seconds:number = 0;
 		public minutes:number = 0;
@@ -14,7 +16,7 @@ module clock {
 			this.size = this.center * 0.65;
 		}
 
-		public update(minutes:number, seconds:number):void {
+		public update(seconds:number, minutes:number):void {
 			this.minutes = minutes;
 			this.seconds = seconds;
 		}

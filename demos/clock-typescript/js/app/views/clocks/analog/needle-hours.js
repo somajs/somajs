@@ -14,7 +14,7 @@ var clock;
             this.center = this.radius / 2;
             this.size = this.center * 0.4;
         };
-        NeedleHours.prototype.update = function (hours, minutes, seconds) {
+        NeedleHours.prototype.update = function (seconds, minutes, hours) {
             this.hours = hours;
             this.minutes = minutes;
             this.seconds = seconds;

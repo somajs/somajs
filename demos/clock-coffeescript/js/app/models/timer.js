@@ -3,26 +3,26 @@
   (function(clock) {
     "use strict";    return clock.TimerModel = (function() {
       function TimerModel() {
-        var i, l, tick, tickHandler;
+        var i, l, tick,
+          _this = this;
 
         this.callbacks = [];
         this.time = {};
         i = 0;
         l = 0;
-        tickHandler = function() {
+        tick = function() {
           var _results;
 
-          this.update();
+          _this.update();
           i = 0;
-          l = this.callbacks.length;
+          l = _this.callbacks.length;
           _results = [];
           while (i < l) {
-            this.callbacks[i](this.time);
+            _this.callbacks[i](_this.time);
             _results.push(i++);
           }
           return _results;
         };
-        tick = tickHandler.bind(this);
         setInterval(tick, 1000);
         this.update();
       }

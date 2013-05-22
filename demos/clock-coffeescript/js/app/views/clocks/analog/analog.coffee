@@ -15,7 +15,7 @@
 			needleSeconds.initialize radius
 			needleMinutes.initialize radius
 			needleHours.initialize radius
-			tick = (time) ->
+			tick = (time) =>
 				face.draw context
 				needleSeconds.update time.seconds
 				needleSeconds.draw context

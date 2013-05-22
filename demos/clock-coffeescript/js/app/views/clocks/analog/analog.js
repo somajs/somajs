@@ -3,7 +3,8 @@
   (function(clock) {
     "use strict";    return clock.AnalogView = (function() {
       function AnalogView(target, face, needleSeconds, needleMinutes, needleHours) {
-        var canvas, context, radius, tick;
+        var canvas, context, radius, tick,
+          _this = this;
 
         this.element = target;
         radius = 250;

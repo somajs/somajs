@@ -9,14 +9,13 @@
 			@time = {}
 			i = 0
 			l = 0
-			tickHandler = () ->
+			tick = () =>
 				@update()
 				i = 0
 				l = @callbacks.length
 				while i < l
 					@callbacks[i] @time
 					i++
-			tick = tickHandler.bind @
 			setInterval tick, 1000
 			@update()
 

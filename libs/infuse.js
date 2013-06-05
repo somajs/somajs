@@ -21,7 +21,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     'use strict';
 
-	infuse.version = '0.6.7';
+	infuse.version = '0.6.8';
 
 	// regex from angular JS (https://github.com/angular/angular.js)
 	var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
@@ -200,7 +200,15 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			if (vo.cl) {
 				var args = Array.prototype.slice.call(arguments);
 				args[0] = vo.cl;
-				return this.getValueFromClass.apply(this, args);
+				if (vo.singleton) {
+					if (!vo.value) {
+						vo.value = this.createInstance.apply(this, args);
+					}
+					return vo.value;
+				}
+				else {
+					return this.createInstance.apply(this, args);
+				}
 			}
 			return vo.value;
 		},

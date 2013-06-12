@@ -21,7 +21,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     'use strict';
 
-	infuse.version = '0.6.8';
+	infuse.version = '0.6.9';
 
 	// regex from angular JS (https://github.com/angular/angular.js)
 	var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
@@ -265,7 +265,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			for (var name in this.mappings) {
 				if (this.mappings.hasOwnProperty(name)) {
 					var vo = this.getMappingVo(name);
-					if (target.hasOwnProperty(vo.prop)) {
+					if (target.hasOwnProperty(vo.prop) || (target.constructor && target.constructor.prototype && target.constructor.prototype.hasOwnProperty(vo.prop)) ) {
 						target[name] = this.getInjectedValue(vo, name);
 					}
 				}

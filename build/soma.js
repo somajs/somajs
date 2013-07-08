@@ -821,6 +821,9 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		constructor: function() {
 			this.injector = null;
 			this.dispatcher = null;
+			this.isObserving = false;
+			this.observer = null;
+			this.mappings = {};
 		},
 		create: function(cl, target) {
 			if (!cl || typeof cl !== 'function') {
@@ -848,9 +851,69 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 			return meds;
 		},
+		map: function(id, mediator) {
+			if (!this.mappings[id] && typeof mediator === 'function') {
+				this.mappings[id] = mediator;
+			}
+		},
+		unmap: function(id) {
+			if (this.mappings[id]) {
+				delete this.mappings[id];
+			}
+		},
+		hasMapping: function(id) {
+			return this.mappings[id] !== undefined && this.mappings[id] !== null;
+		},
+		getMapping: function(id) {
+			return this.mappings[id];
+		},
+		observe: function(element, config) {
+			if (typeof MutationObserver !== 'undefined' && element) {
+				this.observer = new MutationObserver(function(mutations) {
+					console.log(mutations);
+
+					for (var i= 0, l=mutations.length; i<l; i++) {
+
+						console.log(mutations[i]);
+						console.log('added', mutations[i].addedNodes);
+
+						var added = mutations[i].addedNodes;
+						var removed = mutations[i].removedNodes;
+
+						for (var j= 0, k=added.length; j<k; j++) {
+							var element = mutations[i].addedNodes[j];
+							console.log(element);
+							var attr = element.getAttribute('data-mediator');
+							console.log(this);
+							if (attr && this.mappings[attr]) {
+								console.log('mediator found', this.mappings[attr]);
+								this.create(this.mappings[attr], element);
+							}
+						}
+
+
+
+					}
+
+				}.bind(this));
+				this.observer.observe(element, config || {childList: true});
+				this.isObserving = true;
+			}
+			else {
+				if (this.observer) {
+					this.observer.disconnect();
+				}
+				this.observer = null;
+				this.isObserving = false;
+			}
+		},
 		dispose: function() {
+			if (this.observer) {
+				this.observer.disconnect();
+			}
 			this.injector = undefined;
 			this.dispatcher = undefined;
+			this.observer = undefined;
 		}
 	});
 

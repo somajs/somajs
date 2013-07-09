@@ -19,7 +19,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	'use strict';
 
 	soma.events = {};
-	soma.events.version = '0.5.5';
+	soma.events.version = '0.5.6';
 
     if (!Function.prototype.bind) {
         Function.prototype.bind = function bind(that) {
@@ -59,13 +59,13 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		}
 		e.isCloned = false;
 		e.clone = this.clone.bind(e);
-		e.isIE9 = this.isIE9;
+		e.isIE9orIE10 = this.isIE9orIE10;
 		e.isDefaultPrevented = this.isDefaultPrevented;
-		if (this.isIE9() || !e.preventDefault || (e.getDefaultPrevented === undefined && e.defaultPrevented === undefined )) {
+		if (this.isIE9orIE10() || !e.preventDefault || (e.getDefaultPrevented === undefined && e.defaultPrevented === undefined )) {
 			e.preventDefault = this.preventDefault.bind(e);
 		}
-		if (this.isIE9()) {
-			e.IE9PreventDefault = false;
+		if (this.isIE9orIE10()) {
+			e.IE9or10PreventDefault = false;
 		}
 		return e;
 	};
@@ -76,9 +76,9 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		e.isCloned = true;
 		e.clone = this.clone;
 		e.isDefaultPrevented = this.isDefaultPrevented;
-		e.isIE9 = this.isIE9;
-		if (this.isIE9()) {
-			e.IE9PreventDefault = this.IE9PreventDefault;
+		e.isIE9orIE10 = this.isIE9orIE10;
+		if (this.isIE9orIE10()) {
+			e.IE9or10PreventDefault = this.IE9or10PreventDefault;
 		}
 		return e;
 	};
@@ -87,9 +87,11 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		if (!this.cancelable) {
 			return false;
 		}
-		this.defaultPrevented = true;
-		if (this.isIE9()) {
-			this.IE9PreventDefault = true;
+		if (this.isIE9orIE10()) {
+			this.IE9or10PreventDefault = true;
+		}
+		else {
+			this.defaultPrevented = true;
 		}
 		return this;
 	};
@@ -98,8 +100,8 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		if (!this.cancelable) {
 			return false;
 		}
-		if (this.isIE9()) {
-			return this.IE9PreventDefault;
+		if (this.isIE9orIE10()) {
+			return this.IE9or10PreventDefault;
 		}
 		if (this.defaultPrevented !== undefined) {
 			return this.defaultPrevented;
@@ -126,11 +128,11 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		return event;
 	};
 
-	soma.Event.prototype.isIE9 = function() {
+	soma.Event.prototype.isIE9orIE10 = function() {
         if (typeof document !== 'object') {
 			return false;
         }
-		return document.body.style.scrollbar3dLightColor !== undefined && document.body.style.opacity !== undefined;
+		return (document.body.style.scrollbar3dLightColor !== undefined && document.body.style.opacity !== undefined) || document.body.style.msTouchAction !== undefined;
     };
 
 	soma.Event.prototype.toString = function() {

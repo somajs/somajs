@@ -13,6 +13,14 @@
 		}
 	};
 
+	// mutation observers
+	// TODO: check with node.js
+	if (typeof MutationObserver === 'undefined') {
+		if (typeof window !== 'undefined' && typeof window.WebKitMutationObserver !== 'undefined') {
+			window.MutationObserver = window.WebKitMutationObserver;
+		}
+	}
+
 	// framework
 	soma.Application = soma.extend({
 		constructor: function() {
@@ -99,11 +107,13 @@
 
 	var Mediators = soma.extend({
 		constructor: function() {
+			this.attribute = 'data-mediator';
 			this.injector = null;
 			this.dispatcher = null;
 			this.isObserving = false;
 			this.observer = null;
 			this.mappings = {};
+			this.list = {};
 		},
 		create: function(cl, target) {
 			if (!cl || typeof cl !== 'function') {
@@ -147,32 +157,23 @@
 		getMapping: function(id) {
 			return this.mappings[id];
 		},
-		observe: function(element, config) {
+		observe: function(element, parse, config) {
+			if (parse === undefined || parse === null || parse) {
+				this.parse(element);
+			}
 			if (typeof MutationObserver !== 'undefined' && element) {
 				this.observer = new MutationObserver(function(mutations) {
-					console.log(mutations);
-
 					for (var i= 0, l=mutations.length; i<l; i++) {
-
-						console.log(mutations[i]);
-						console.log('added', mutations[i].addedNodes);
-
+						// added
 						var added = mutations[i].addedNodes;
-						var removed = mutations[i].removedNodes;
-
 						for (var j= 0, k=added.length; j<k; j++) {
-							var element = mutations[i].addedNodes[j];
-							console.log(element);
-							var attr = element.getAttribute('data-mediator');
-							console.log(this);
-							if (attr && this.mappings[attr]) {
-								console.log('mediator found', this.mappings[attr]);
-								this.create(this.mappings[attr], element);
-							}
+							this.parse(added[j]);
 						}
-
-
-
+						// removed
+						var removed = mutations[i].removedNodes;
+						for (var d= 0, f=removed.length; d<f; d++) {
+							this.parseToRemove(removed[j]);
+						}
 					}
 
 				}.bind(this));
@@ -187,10 +188,66 @@
 				this.isObserving = false;
 			}
 		},
+		parseToRemove: function(element) {
+			if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
+				return;
+			}
+			var attr = element.getAttribute(this.attribute);
+			if (attr && this.has(element)) {
+				this.remove(element);
+			}
+			var child = element.firstChild;
+			while (child) {
+				this.parseToRemove(child);
+				child = child.nextSibling;
+			}
+		},
+		parse: function(element) {
+			if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
+				return;
+			}
+			var attr = element.getAttribute(this.attribute);
+			if (attr && this.mappings[attr] && !this.has(element)) {
+				this.add(element, this.create(this.mappings[attr], element));
+			}
+			var child = element.firstChild;
+			while (child) {
+				this.parse(child);
+				child = child.nextSibling;
+			}
+		},
+		add: function(element, mediator) {
+			if (!this.list[element]) {
+				this.list[element] = mediator;
+			}
+		},
+		remove: function(element) {
+			if (this.list[element]) {
+				if (typeof this.list[element]['dispose'] === 'function') {
+					this.list[element].dispose();
+				}
+				this.list[element] = undefined;
+				delete this.list[element];
+			}
+		},
+		get: function(element) {
+			return this.list[element];
+		},
+		has: function(element) {
+			return this.list[element] !== undefined && this.list[element] !== null;
+		},
+		removeAll: function() {
+			for (var el in this.list) {
+				if (this.list.hasOwnProperty(el)) {
+					this.remove(el);
+				}
+			}
+		},
 		dispose: function() {
 			if (this.observer) {
 				this.observer.disconnect();
 			}
+			this.removeAll();
 			this.injector = undefined;
 			this.dispatcher = undefined;
 			this.observer = undefined;
@@ -243,6 +300,13 @@
 			delete this.list[commandName];
 			this.removeInterceptor(commandName);
 		},
+		removeAll: function() {
+			for (var cmd in this.list) {
+				if (this.list.hasOwnProperty(cmd)) {
+					this.remove(cmd);
+				}
+			}
+		},
 		addInterceptor: function(commandName) {
 			this.dispatcher.addEventListener(commandName, this.boundHandler, -Number.MAX_VALUE);
 		},
@@ -265,11 +329,7 @@
 			}
 		},
 		dispose: function() {
-			for (var cmd in this.list) {
-				if (this.list.hasOwnProperty(cmd)) {
-					this.remove(cmd);
-				}
-			}
+			this.removeAll();
 			this.boundHandler = undefined;
 			this.dispatcher = undefined;
 			this.injector = undefined;

@@ -1,4 +1,4 @@
-describe("mediators", function () {
+describe("plugins", function () {
 
 	var app;
 

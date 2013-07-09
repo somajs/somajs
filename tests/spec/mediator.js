@@ -67,8 +67,6 @@ describe("mediators", function () {
 	it("is observing", function () {
 		mediators.observe(document);
 		expect(mediators.isObserving).toBeTruthy();
-		console.log('ABC');
-		console.log(typeof MutationObserver);
 		expect(mediators.observer instanceof MutationObserver).toBeTruthy();
 	});
 

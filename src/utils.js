@@ -77,3 +77,71 @@
 		return soma.inherit(function () {
 		}, obj);
 	};
+
+	soma.browsers = soma.browsers || {};
+	soma.browsers.ie = (function () {
+
+		if (typeof document === 'undefined') {
+			return undefined;
+		}
+
+		var div = document.createElement('div');
+
+		if (typeof div.style.msTouchAction !== 'undefined') {
+			return 10;
+		}
+
+		var v = 3, all = div.getElementsByTagName('i');
+
+		while (
+			div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
+				all[0]
+			);
+
+		return v > 4 ? v : undefined;
+
+	}());
+
+	soma.utils = soma.utils || {};
+	soma.utils.HashMap = function() {
+		var items = {};
+		var id = 1;
+		//var uuid = function(a,b){for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b;}
+		function uuid() { return ++id; }
+		function getKey(target) {
+			if (!target) {
+				return;
+			}
+			if (typeof target !== 'object') {
+				return target;
+			}
+			var result;
+			try {
+				// IE 7-8 needs a try catch, seems like I can't add a property on text nodes
+				result = target.hashkey ? target.hashkey : target.hashkey = uuid();
+			} catch(err){}
+			return result;
+		}
+		this.remove = function(key) {
+			delete items[getKey(key)];
+		};
+		this.get = function(key) {
+			return items[getKey(key)];
+		};
+		this.put = function(key, value) {
+			items[getKey(key)] = value;
+		};
+		this.has = function(key) {
+			return typeof items[getKey(key)] !== 'undefined';
+		};
+		this.getData = function() {
+			return items;
+		};
+		this.dispose = function() {
+			for (var key in items) {
+				if (items.hasOwnProperty(key)) {
+					delete items[key];
+				}
+			}
+		};
+	}

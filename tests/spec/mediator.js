@@ -64,11 +64,13 @@ describe("mediators", function () {
 		expect(mediators.dispatcher).toBeUndefined();
 	});
 
-	it("is observing", function () {
-		mediators.observe(document);
-		expect(mediators.isObserving).toBeTruthy();
-		expect(mediators.observer instanceof MutationObserver).toBeTruthy();
-	});
+	if (typeof MutationObserver !== 'undefined') {
+		it("is observing", function () {
+			mediators.observe(document);
+			expect(mediators.isObserving).toBeTruthy();
+			expect(mediators.observer instanceof MutationObserver).toBeTruthy();
+		});
+	}
 
 	it("is not observing", function () {
 		mediators.observe();
@@ -129,13 +131,14 @@ describe("mediators", function () {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator);
 			div.innerHTML = '<div data-mediator="Mediator"/>';
-			//mediators.parse(div)
+			if (soma.browsers.ie) mediators.parse(div);
 		});
 		waitsFor(function() {
 			return isCreated;
 		}, "The mediator should be created", 5000);
 		runs(function() {
-			expect(mediators.has(div)).toBeTruthy();
+			console.log(1, mediators.get(div.firstChild));
+			expect(mediators.has(div.firstChild)).toBeTruthy();
 		});
 	});
 
@@ -151,13 +154,14 @@ describe("mediators", function () {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator);
 			div.innerHTML = '<div data-mediator="Mediator"/>';
+			if (soma.browsers.ie) mediators.parse(div);
 		});
 		waitsFor(function() {
 			return isCreated;
 		}, "The mediator should be created", 5000);
 		runs(function() {
-			expect(mediators.get(div) instanceof Mediator).toBeTruthy();
-			expect(mediators.get(div).target).toEqual(div.firstChild);
+			expect(mediators.get(div.firstChild) instanceof Mediator).toBeTruthy();
+			expect(mediators.get(div.firstChild).target).toEqual(div.firstChild);
 		});
 	});
 
@@ -172,6 +176,7 @@ describe("mediators", function () {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator);
 			div.innerHTML = '<div data-mediator="Mediator"/>';
+			if (soma.browsers.ie) mediators.parse(div);
 		});
 		waitsFor(function() {
 			return isCreated;
@@ -186,12 +191,15 @@ describe("mediators", function () {
 		var check = false;
 		var div = document.createElement('div');
 		var Mediator = function(target) {
+			console.log('COUNT', count);
 			count++;
 		};
 		runs(function() {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator);
 			div.innerHTML = '<div data-mediator="Mediator"><p data-mediator="Mediator"></p></div>';
+			if (soma.browsers.ie) mediators.parse(div);
+			'BIG END BIG END'
 			setTimeout(function() {
 				check = true;
 			}, 100);
@@ -219,12 +227,14 @@ describe("mediators", function () {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator);
 			div.innerHTML = '<div data-mediator="Mediator"/>';
+			if (soma.browsers.ie) mediators.parse(div);
 		});
 		waitsFor(function() {
 			return isCreated;
 		}, "The mediator should be created", 5000);
 		runs(function() {
 			div.innerHTML = '';
+			if (soma.browsers.ie) mediators.parse(div);
 			expect(isCreated).toBeTruthy();
 		});
 		waitsFor(function() {
@@ -249,12 +259,14 @@ describe("mediators", function () {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator);
 			div.innerHTML = '<div data-mediator="Mediator"><p data-mediator="Mediator"></p></div>';
+			if (soma.browsers.ie) mediators.parse(div);
 		});
 		waitsFor(function() {
 			return countCreated === 2;
 		}, "2 mediators should be created", 5000);
 		runs(function() {
 			div.innerHTML = '';
+			if (soma.browsers.ie) mediators.parse(div);
 			expect(countCreated === 2).toBeTruthy();
 		});
 		waitsFor(function() {

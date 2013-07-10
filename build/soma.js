@@ -721,6 +721,74 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		}, obj);
 	};
 
+	soma.browsers = soma.browsers || {};
+	soma.browsers.ie = (function () {
+
+		if (typeof document === 'undefined') {
+			return undefined;
+		}
+
+		var div = document.createElement('div');
+
+		if (typeof div.style.msTouchAction !== 'undefined') {
+			return 10;
+		}
+
+		var v = 3, all = div.getElementsByTagName('i');
+
+		while (
+			div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
+				all[0]
+			);
+
+		return v > 4 ? v : undefined;
+
+	}());
+
+	soma.utils = soma.utils || {};
+	soma.utils.HashMap = function() {
+		var items = {};
+		var id = 1;
+		//var uuid = function(a,b){for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b;}
+		function uuid() { return ++id; }
+		function getKey(target) {
+			if (!target) {
+				return;
+			}
+			if (typeof target !== 'object') {
+				return target;
+			}
+			var result;
+			try {
+				// IE 7-8 needs a try catch, seems like I can't add a property on text nodes
+				result = target.hashkey ? target.hashkey : target.hashkey = uuid();
+			} catch(err){}
+			return result;
+		}
+		this.remove = function(key) {
+			delete items[getKey(key)];
+		};
+		this.get = function(key) {
+			return items[getKey(key)];
+		};
+		this.put = function(key, value) {
+			items[getKey(key)] = value;
+		};
+		this.has = function(key) {
+			return typeof items[getKey(key)] !== 'undefined';
+		};
+		this.getData = function() {
+			return items;
+		};
+		this.dispose = function() {
+			for (var key in items) {
+				if (items.hasOwnProperty(key)) {
+					delete items[key];
+				}
+			}
+		};
+	}
+
 	// plugins
 
 	var plugins = [];
@@ -740,7 +808,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	// TODO: check with node.js
 	if (typeof MutationObserver === 'undefined') {
 		if (typeof window !== 'undefined' && typeof window.WebKitMutationObserver !== 'undefined') {
-			window.MutationObserver = window.WebKitMutationObserver;
+			window.MutationObserver = window.WebKitMutationObserver || window.MozMutationObserver;
 		}
 	}
 
@@ -836,7 +904,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			this.isObserving = false;
 			this.observer = null;
 			this.mappings = {};
-			this.list = {};
+			this.list = new soma.utils.HashMap();
 		},
 		create: function(cl, target) {
 			if (!cl || typeof cl !== 'function') {
@@ -929,41 +997,62 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
 				return;
 			}
-			var attr = element.getAttribute(this.attribute);
-			if (attr && this.mappings[attr] && !this.has(element)) {
-				this.add(element, this.create(this.mappings[attr], element));
+			console.log('PARSE', element);
+			var mediatorFound = new soma.utils.HashMap();
+			var parseDOM = (function (self) {
+				function parseDOM(element) {
+					if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
+						return;
+					}
+					var attr = element.getAttribute(self.attribute);
+					if (attr && self.mappings[attr]) {
+						if (!self.has(element)) {
+							self.add(element, self.create(self.mappings[attr], element));
+						}
+						mediatorFound.put(element, true);
+					}
+					var child = element.firstChild;
+					while (child) {
+						parseDOM(child);
+						child = child.nextSibling;
+					}
+				}
+				return parseDOM;
+			})(this);
+			parseDOM(element);
+			if (soma.browsers.ie) {
+				for (var el in this.list.getData()) {
+					if (!mediatorFound.get(el)) {
+						this.remove(el);
+					}
+				}
 			}
-			var child = element.firstChild;
-			while (child) {
-				this.parse(child);
-				child = child.nextSibling;
-			}
+			mediatorFound.dispose();
+			mediatorFound = null;
 		},
 		add: function(element, mediator) {
-			if (!this.list[element]) {
-				this.list[element] = mediator;
+			if (!this.list.has(element)) {
+				this.list.put(element, mediator);
 			}
 		},
 		remove: function(element) {
-			if (this.list[element]) {
-				if (typeof this.list[element]['dispose'] === 'function') {
-					this.list[element].dispose();
+			var item = this.list.get(element);
+			if (item) {
+				if (typeof item['dispose'] === 'function') {
+					item.dispose();
 				}
-				this.list[element] = undefined;
-				delete this.list[element];
+				this.list.remove(element);
 			}
 		},
 		get: function(element) {
-			return this.list[element];
+			return this.list.get(element);
 		},
 		has: function(element) {
-			return this.list[element] !== undefined && this.list[element] !== null;
+			return this.list.has(element);
 		},
 		removeAll: function() {
-			for (var el in this.list) {
-				if (this.list.hasOwnProperty(el)) {
-					this.remove(el);
-				}
+			if (this.list) {
+				this.list.dispose();
 			}
 		},
 		dispose: function() {
@@ -971,9 +1060,13 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				this.observer.disconnect();
 			}
 			this.removeAll();
+			if (this.list) {
+				this.list.dispose();
+			}
 			this.injector = undefined;
 			this.dispatcher = undefined;
 			this.observer = undefined;
+			this.list = undefined;
 		}
 	});
 

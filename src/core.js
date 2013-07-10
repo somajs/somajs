@@ -17,7 +17,7 @@
 	// TODO: check with node.js
 	if (typeof MutationObserver === 'undefined') {
 		if (typeof window !== 'undefined' && typeof window.WebKitMutationObserver !== 'undefined') {
-			window.MutationObserver = window.WebKitMutationObserver;
+			window.MutationObserver = window.WebKitMutationObserver || window.MozMutationObserver;
 		}
 	}
 
@@ -113,7 +113,7 @@
 			this.isObserving = false;
 			this.observer = null;
 			this.mappings = {};
-			this.list = {};
+			this.list = new soma.utils.HashMap();
 		},
 		create: function(cl, target) {
 			if (!cl || typeof cl !== 'function') {
@@ -206,41 +206,62 @@
 			if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
 				return;
 			}
-			var attr = element.getAttribute(this.attribute);
-			if (attr && this.mappings[attr] && !this.has(element)) {
-				this.add(element, this.create(this.mappings[attr], element));
+			console.log('PARSE', element);
+			var mediatorFound = new soma.utils.HashMap();
+			var parseDOM = (function (self) {
+				function parseDOM(element) {
+					if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
+						return;
+					}
+					var attr = element.getAttribute(self.attribute);
+					if (attr && self.mappings[attr]) {
+						if (!self.has(element)) {
+							self.add(element, self.create(self.mappings[attr], element));
+						}
+						mediatorFound.put(element, true);
+					}
+					var child = element.firstChild;
+					while (child) {
+						parseDOM(child);
+						child = child.nextSibling;
+					}
+				}
+				return parseDOM;
+			})(this);
+			parseDOM(element);
+			if (soma.browsers.ie) {
+				for (var el in this.list.getData()) {
+					if (!mediatorFound.get(el)) {
+						this.remove(el);
+					}
+				}
 			}
-			var child = element.firstChild;
-			while (child) {
-				this.parse(child);
-				child = child.nextSibling;
-			}
+			mediatorFound.dispose();
+			mediatorFound = null;
 		},
 		add: function(element, mediator) {
-			if (!this.list[element]) {
-				this.list[element] = mediator;
+			if (!this.list.has(element)) {
+				this.list.put(element, mediator);
 			}
 		},
 		remove: function(element) {
-			if (this.list[element]) {
-				if (typeof this.list[element]['dispose'] === 'function') {
-					this.list[element].dispose();
+			var item = this.list.get(element);
+			if (item) {
+				if (typeof item['dispose'] === 'function') {
+					item.dispose();
 				}
-				this.list[element] = undefined;
-				delete this.list[element];
+				this.list.remove(element);
 			}
 		},
 		get: function(element) {
-			return this.list[element];
+			return this.list.get(element);
 		},
 		has: function(element) {
-			return this.list[element] !== undefined && this.list[element] !== null;
+			return this.list.has(element);
 		},
 		removeAll: function() {
-			for (var el in this.list) {
-				if (this.list.hasOwnProperty(el)) {
-					this.remove(el);
-				}
+			if (this.list) {
+				this.list.dispose();
 			}
 		},
 		dispose: function() {
@@ -248,9 +269,13 @@
 				this.observer.disconnect();
 			}
 			this.removeAll();
+			if (this.list) {
+				this.list.dispose();
+			}
 			this.injector = undefined;
 			this.dispatcher = undefined;
 			this.observer = undefined;
+			this.list = undefined;
 		}
 	});
 

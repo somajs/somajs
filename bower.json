@@ -1,6 +1,6 @@
 {
 	"name": "soma.js",
-	"version": "2.0.3",
+	"version": "2.0.4",
 	"main": "./build/soma.js",
 	"dependencies": {}
 }

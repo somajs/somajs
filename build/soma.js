@@ -761,7 +761,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			var result;
 			try {
 				// IE 7-8 needs a try catch, seems like I can't add a property on text nodes
-				result = target.hashkey ? target.hashkey : target.hashkey = uuid();
+				result = target.somaHashkey ? target.somaHashkey : target.somaHashkey = uuid();
 			} catch(err){}
 			return result;
 		}

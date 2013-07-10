@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<div class="app">
+<div class="app" data-mediator="root">
 
 	<div class="signin hidden" data-mediator="signin">
 		<div id="gConnect">
@@ -25,18 +25,21 @@
 		<button data-click="disconnect()">Disconnect application from Google+</button>
 	</div>
 
-
 </div>
 
 <script type="text/javascript" src="../../build/soma.js"></script>
 <script type="text/javascript" src="js/libs/soma-template.js"></script>
 <script type="text/javascript" src="js/libs/jquery-1.10.2.min.js"></script>
 
+<script type="text/javascript" src="js/app/services/partial.js"></script>
 <script type="text/javascript" src="js/app/models/user.js"></script>
 <script type="text/javascript" src="js/app/models/oauth.js"></script>
+<script type="text/javascript" src="js/app/mediators/root.js"></script>
 <script type="text/javascript" src="js/app/mediators/signin.js"></script>
 <script type="text/javascript" src="js/app/mediators/signout.js"></script>
+<script type="text/javascript" src="js/app/mediators/profile.js"></script>
 <script type="text/javascript" src="js/app/commands/oauth.js"></script>
+<script type="text/javascript" src="js/app/commands/user.js"></script>
 <script type="text/javascript" src="js/app/app.js"></script>
 
 </body>

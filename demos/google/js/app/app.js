@@ -18,15 +18,20 @@
 			// mapping rules
 			this.injector.mapClass('user', gp.UserModel, true);
 			this.injector.mapClass('oauth', gp.OAuthModel, true);
+			this.injector.mapClass('partial', gp.PartialService);
 			this.injector.mapValue('ajax', $.ajax);
+			this.injector.mapValue('rootElement', this.element);
 			// mediators
 			this.mediators.map('signout', gp.SignOutMediator);
 			this.mediators.map('signin', gp.SignInMediator);
+			this.mediators.map('root', gp.RootMediator);
+			this.mediators.map('profile', gp.ProfileMediator);
 			this.mediators.observe(this.element);
 			// commands
 			this.commands.add('oauth', gp.OAuthCommand);
 			this.commands.add('signin', gp.OAuthCommand);
 			this.commands.add('signout', gp.OAuthCommand);
+			this.commands.add('authenticate', gp.UserCommand);
 		},
 		start: function() {
 			this.dispatcher.dispatch('oauth');

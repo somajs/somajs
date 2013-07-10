@@ -3,7 +3,6 @@
 	var OAuthModel = function() {
 		this.dispatcher = null;
 		this.gapi = null;
-		this.oauthResult = null;
 		this.signedIn = false;
 		this.ajax = null;
 	};
@@ -22,15 +21,15 @@
 
 	OAuthModel.prototype.signin = function(data) {
 		this.gapi = global.gapi;
-		this.oauthResult = data;
-		if (data['access_token']) {
-			this.dispatcher.dispatch('authenticate', true);
-			this.signedIn = true;
-		}
-		else if (data['error']) {
-			this.dispatcher.dispatch('authenticate', false);
-			this.signedIn = false;
-		}
+		this.gapi.client.load('plus','v1', function() {
+			if (data['access_token']) {
+				this.signedIn = true;
+				this.dispatcher.dispatch('authenticate', true);
+			} else if (data['error']) {
+				this.signedIn = false;
+				this.dispatcher.dispatch('authenticate', false);
+			}
+		}.bind(this));
 	};
 
 	OAuthModel.prototype.getToken = function() {
@@ -40,7 +39,6 @@
 	};
 
 	OAuthModel.prototype.signout = function() {
-		console.log('signout', this.getToken());
 		this.ajax({
 			type: 'GET',
 			url: 'https://accounts.google.com/o/oauth2/revoke?token=' + this.getToken(),
@@ -52,10 +50,10 @@
 
 		function error(err) {
 			console.log(err);
+			this.dispatcher.dispatch('error', err);
 		}
 
-		function success(result) {
-			console.log(result);
+		function success() {
 			this.signedIn = false;
 			this.dispatcher.dispatch('authenticate', false);
 

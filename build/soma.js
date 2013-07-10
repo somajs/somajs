@@ -997,7 +997,6 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
 				return;
 			}
-			console.log('PARSE', element);
 			var mediatorFound = new soma.utils.HashMap();
 			var parseDOM = (function (self) {
 				function parseDOM(element) {

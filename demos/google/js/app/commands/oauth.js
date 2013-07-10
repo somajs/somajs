@@ -13,6 +13,9 @@
 				case 'signin':
 					oauth.signin(event.params);
 					break;
+				case 'signout':
+					oauth.signout();
+					break;
 			}
 
 		}

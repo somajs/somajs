@@ -1,4 +1,4 @@
-(function(global) {
+(function(global, $) {
 
 	'use strict';
 
@@ -18,12 +18,15 @@
 			// mapping rules
 			this.injector.mapClass('user', gp.UserModel, true);
 			this.injector.mapClass('oauth', gp.OAuthModel, true);
+			this.injector.mapValue('ajax', $.ajax);
 			// mediators
-			this.mediators.map('SignOutMediator', gp.SignOutMediator);
+			this.mediators.map('signout', gp.SignOutMediator);
+			this.mediators.map('signin', gp.SignInMediator);
 			this.mediators.observe(this.element);
 			// commands
 			this.commands.add('oauth', gp.OAuthCommand);
 			this.commands.add('signin', gp.OAuthCommand);
+			this.commands.add('signout', gp.OAuthCommand);
 		},
 		start: function() {
 			this.dispatcher.dispatch('oauth');
@@ -35,4 +38,4 @@
 
 	var app = new GPApp(document.querySelector('.app'));
 
-})(this);
+})(this, $);

@@ -129,6 +129,7 @@ describe("mediators", function () {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator);
 			div.innerHTML = '<div data-mediator="Mediator"/>';
+			//mediators.parse(div)
 		});
 		waitsFor(function() {
 			return isCreated;

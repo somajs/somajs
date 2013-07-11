@@ -137,7 +137,6 @@ describe("mediators", function () {
 			return isCreated;
 		}, "The mediator should be created", 5000);
 		runs(function() {
-			console.log(1, mediators.get(div.firstChild));
 			expect(mediators.has(div.firstChild)).toBeTruthy();
 		});
 	});
@@ -191,7 +190,6 @@ describe("mediators", function () {
 		var check = false;
 		var div = document.createElement('div');
 		var Mediator = function(target) {
-			console.log('COUNT', count);
 			count++;
 		};
 		runs(function() {
@@ -415,6 +413,29 @@ describe("mediators", function () {
 		}, "The mediator should be created", 5000);
 		runs(function() {
 			expect(count).toEqual(1);
+		});
+	});
+
+	it("observer watch subtree", function () {
+		var isCreated = false;
+		var div = document.createElement('div');
+		div.innerHTML = '<div/>';
+		var divChild = div.firstChild;
+		var Mediator = function(target) {
+			isCreated = true;
+			expect(divChild.firstChild).toEqual(target);
+		};
+		runs(function() {
+			mediators.observe(div);
+			mediators.map('Mediator', Mediator);
+			divChild.innerHTML = '<div data-mediator="Mediator"/>';
+			if (soma.browsers.ie) mediators.parse(div);
+		});
+		waitsFor(function() {
+			return isCreated;
+		}, "The mediator should be created", 5000);
+		runs(function() {
+			expect(mediators.has(divChild.firstChild)).toBeTruthy();
 		});
 	});
 

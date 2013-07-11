@@ -746,11 +746,11 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	}());
 
 	soma.utils = soma.utils || {};
-	soma.utils.HashMap = function() {
+	soma.utils.HashMap = function(id) {
 		var items = {};
-		var id = 1;
+		var count = 0;
 		//var uuid = function(a,b){for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b;}
-		function uuid() { return ++id; }
+		function uuid() { return ++count; }
 		function getKey(target) {
 			if (!target) {
 				return;
@@ -761,7 +761,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			var result;
 			try {
 				// IE 7-8 needs a try catch, seems like I can't add a property on text nodes
-				result = target.somaHashkey ? target.somaHashkey : target.somaHashkey = uuid();
+				result = target[id] ? target[id] : target[id] = uuid();
 			} catch(err){}
 			return result;
 		}
@@ -787,7 +787,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				}
 			}
 		};
-	}
+	};
 
 	// plugins
 
@@ -904,7 +904,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			this.isObserving = false;
 			this.observer = null;
 			this.mappings = {};
-			this.list = new soma.utils.HashMap();
+			this.list = new soma.utils.HashMap('somaHashkey');
 		},
 		create: function(cl, target) {
 			if (!cl || typeof cl !== 'function') {
@@ -914,7 +914,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				throw new Error('Error creating a mediator, the second parameter cannot be undefined or null.');
 			}
 			var targets = [];
-			var meds = [];
+			var list = [];
 			if (target.length > 0) {
 				targets = target;
 			}
@@ -928,9 +928,9 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				if (targets.length === 1) {
 					return mediator;
 				}
-				meds.push(mediator);
+				list.push(mediator);
 			}
-			return meds;
+			return list;
 		},
 		map: function(id, mediator) {
 			if (!this.mappings[id] && typeof mediator === 'function') {
@@ -968,7 +968,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 					}
 
 				}.bind(this));
-				this.observer.observe(element, config || {childList: true});
+				this.observer.observe(element, config || {childList: true, subtree: true});
 				this.isObserving = true;
 			}
 			else {

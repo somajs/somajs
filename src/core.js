@@ -113,7 +113,7 @@
 			this.isObserving = false;
 			this.observer = null;
 			this.mappings = {};
-			this.list = new soma.utils.HashMap();
+			this.list = new soma.utils.HashMap('somaHashkey');
 		},
 		create: function(cl, target) {
 			if (!cl || typeof cl !== 'function') {
@@ -123,7 +123,7 @@
 				throw new Error('Error creating a mediator, the second parameter cannot be undefined or null.');
 			}
 			var targets = [];
-			var meds = [];
+			var list = [];
 			if (target.length > 0) {
 				targets = target;
 			}
@@ -137,9 +137,9 @@
 				if (targets.length === 1) {
 					return mediator;
 				}
-				meds.push(mediator);
+				list.push(mediator);
 			}
-			return meds;
+			return list;
 		},
 		map: function(id, mediator) {
 			if (!this.mappings[id] && typeof mediator === 'function') {
@@ -177,7 +177,7 @@
 					}
 
 				}.bind(this));
-				this.observer.observe(element, config || {childList: true});
+				this.observer.observe(element, config || {childList: true, subtree: true});
 				this.isObserving = true;
 			}
 			else {

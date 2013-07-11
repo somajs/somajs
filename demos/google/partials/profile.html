@@ -1,5 +1,10 @@
-<div><img data-src="{{user.image.url}}" /></div>
-<p>{{user.displayName}}</p>
-<ul data-repeat="org in user.organizations">
-	<li>{{org.name}} ({{org.title}})</li>
-</ul>
+<div class="profile" data-mediator="profile">
+	<h3>{{user.displayName}}'s profile</h3>
+	<div><img data-src="{{user.image.url}}" /></div>
+	<ul data-repeat="org in user.organizations">
+		<li>{{org.name}} ({{org.title}})</li>
+	</ul>
+	<div>
+		<button data-click="getPeople()">Get people</button>
+	</div>
+</div>

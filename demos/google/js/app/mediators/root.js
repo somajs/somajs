@@ -1,28 +1,36 @@
 (function(global) {
 
-	var RootMediator = function(target, dispatcher, rootElement, mediators) {
+	var RootMediator = function(target, dispatcher, partial, rootElement, mediators) {
 
-		var profileElement = null;
+		var wrapper = document.createElement('div');
+		var modules = {};
 
-		dispatcher.addEventListener('create-profile', function(event) {
-			createProfile();
+		dispatcher.addEventListener('create-module', function(event) {
+			createModule(event.params);
 		});
 
 		dispatcher.addEventListener('authenticate', function(event) {
-			if (!event.params && profileElement) {
-				destroyProfile();
+			if (!event.params) {
+				for (var m in modules) {
+					removeModule(m);
+				}
 			}
 		});
 
-		function createProfile() {
-			profileElement = document.createElement('div');
-			profileElement.setAttribute('data-mediator', 'profile');
-			profileElement.setAttribute('class', 'profile');
-			rootElement.appendChild(profileElement);
+		function createModule(id) {
+			if (!modules[id]) {
+				partial.load('partials/' + id + '.html', function(html) {
+					wrapper.innerHTML = html;
+					modules[id] = wrapper.firstChild;
+					target.appendChild(wrapper.firstChild);
+				});
+			}
 		}
 
-		function destroyProfile() {
-			rootElement.removeChild(profileElement);
+		function removeModule(id) {
+			if (modules[id]) {
+				target.removeChild(modules[id]);
+			}
 		}
 
 	};

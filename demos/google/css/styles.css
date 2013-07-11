@@ -1,3 +1,27 @@
+body {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 13px;
+}
 .hidden {
 	display: none;
+}
+.people .list {
+	clear: both;
+}
+.people .person {
+	border: 1px solid #787878;
+	width: 80px;
+	height: 80px;
+	overflow: hidden;
+	float: left;
+	margin: 0 5px 5px 0;
+}
+.people .person .name {
+	font-size: 11px;
+}
+.people .nav div {
+	float: left;
+}
+.people .nav div:first-child {
+	margin-right: 10px;
 }

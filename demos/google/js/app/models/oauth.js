@@ -20,6 +20,8 @@
 	};
 
 	OAuthModel.prototype.signin = function(data) {
+		console.log(data);
+		console.log('TOKEN', data['access_token']);
 		this.gapi = global.gapi;
 		this.gapi.client.load('plus','v1', function() {
 			if (data['access_token']) {

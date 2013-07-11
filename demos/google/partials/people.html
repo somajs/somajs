@@ -1,0 +1,10 @@
+<div class="people" data-mediator="people">
+	<h3>{{people.title}}</h3>
+	<p>Number of items: {{itemsLength}} / {{people.totalItems}}</p>
+	<div class="list">
+		<div class="person" data-repeat="person in people.items">
+			<div class="img"><img data-src="{{person.image.url}}"/></div>
+			<div class="name"><a data-href="{{person.url}}" target="_blank">{{person.displayName}}</a></div>
+		</div>
+	</div>
+</div>

@@ -26,12 +26,14 @@
 			this.mediators.map('signin', gp.SignInMediator);
 			this.mediators.map('root', gp.RootMediator);
 			this.mediators.map('profile', gp.ProfileMediator);
+			this.mediators.map('people', gp.PeopleMediator);
 			this.mediators.observe(this.element);
 			// commands
 			this.commands.add('oauth', gp.OAuthCommand);
 			this.commands.add('signin', gp.OAuthCommand);
 			this.commands.add('signout', gp.OAuthCommand);
 			this.commands.add('authenticate', gp.UserCommand);
+			this.commands.add('request-people', gp.UserCommand);
 		},
 		start: function() {
 			this.dispatcher.dispatch('oauth');

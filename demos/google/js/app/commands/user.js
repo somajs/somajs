@@ -12,6 +12,9 @@
 						user.initialize(oauth.gapi);
 					}
 					break;
+				case 'request-people':
+					user.getPeople();
+					break;
 			}
 
 		}

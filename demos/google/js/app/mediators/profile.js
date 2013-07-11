@@ -1,21 +1,23 @@
 (function(global) {
 
-	var ProfileMediator = function(target, profile, partial) {
+	var ProfileMediator = function(target, profile, dispatcher) {
 
-		console.log('create profile', profile);
-		var template = null;
-		var scope = null;
+		console.log('Profile created', profile);
 
-		partial.load('partials/profile.html', function(data) {
-			target.innerHTML = data;
-			template = soma.template.create(target);
-			scope = template.scope;
-			scope.user = profile;
-			template.render();
-		});
+		var template = soma.template.create(target);
+		scope = template.scope;
+		scope.user = profile;
+
+		template.render();
+
+		scope.getPeople = function() {
+			dispatcher.dispatch('request-people');
+		};
 
 		this.dispose = function() {
-			console.log('Profile properly removed');
+			console.log('Profile removed');
+			template.dispose();
+			template = null;
 		};
 
 	};

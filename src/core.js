@@ -108,14 +108,16 @@
 	var Mediators = soma.extend({
 		constructor: function() {
 			this.attribute = 'data-mediator';
+			this.attributeSeparator = '|';
 			this.injector = null;
 			this.dispatcher = null;
 			this.isObserving = false;
 			this.observer = null;
 			this.mappings = {};
-			this.list = new soma.utils.HashMap();
+			this.mappingsData = {};
+			this.list = new soma.utils.HashMap('shk');
 		},
-		create: function(cl, target) {
+		create: function(cl, target, data) {
 			if (!cl || typeof cl !== 'function') {
 				throw new Error('Error creating a mediator, the first parameter must be a function.');
 			}
@@ -123,7 +125,7 @@
 				throw new Error('Error creating a mediator, the second parameter cannot be undefined or null.');
 			}
 			var targets = [];
-			var meds = [];
+			var list = [];
 			if (target.length > 0) {
 				targets = target;
 			}
@@ -133,17 +135,21 @@
 			for (var i= 0, l=targets.length; i<l; i++) {
 				var injector = this.injector.createChild();
 				injector.mapValue('target', targets[i]);
+				if (data) {
+					injector.mapValue('data', data);
+				}
 				var mediator = injector.createInstance(cl);
 				if (targets.length === 1) {
 					return mediator;
 				}
-				meds.push(mediator);
+				list.push(mediator);
 			}
-			return meds;
+			return list;
 		},
-		map: function(id, mediator) {
+		map: function(id, mediator, data) {
 			if (!this.mappings[id] && typeof mediator === 'function') {
 				this.mappings[id] = mediator;
+				this.mappingsData[id] = data;
 			}
 		},
 		unmap: function(id) {
@@ -177,7 +183,7 @@
 					}
 
 				}.bind(this));
-				this.observer.observe(element, config || {childList: true});
+				this.observer.observe(element, config || {childList: true, subtree: true});
 				this.isObserving = true;
 			}
 			else {
@@ -193,8 +199,11 @@
 				return;
 			}
 			var attr = element.getAttribute(this.attribute);
-			if (attr && this.has(element)) {
-				this.remove(element);
+			if (attr) {
+				var parts = attr.split(this.attributeSeparator);
+				if (parts[0] && this.has(element)) {
+					this.remove(element);
+				}
 			}
 			var child = element.firstChild;
 			while (child) {
@@ -206,18 +215,44 @@
 			if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
 				return;
 			}
-			var mediatorFound = new soma.utils.HashMap();
 			var parseDOM = (function (self) {
 				function parseDOM(element) {
 					if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
 						return;
 					}
 					var attr = element.getAttribute(self.attribute);
-					if (attr && self.mappings[attr]) {
-						if (!self.has(element)) {
-							self.add(element, self.create(self.mappings[attr], element));
+					if (attr) {
+						var parts = attr.split(self.attributeSeparator);
+						var mediatorId = parts[0];
+						var dataPath = parts[1];
+						if (mediatorId && self.mappings[mediatorId]) {
+							if (!self.has(element)) {
+								var dataValue = self.getMappingData(mediatorId);
+								if (dataPath) {
+									var step, val = dataValue;
+									var path = dataPath.split('.');
+									while (step = path.shift()) {
+										var reg = /(.*)\((.*)\)/;
+										var parts = step.match(reg);
+										if (parts) {
+											var params = parts[2];
+											params = params.replace(/,\s+/g, '').split(',');
+											for (var i=0, l=params.length; i<l; i++) {
+												if (/^(\"|\')(.*)(\"|\')$/.test(params[i])) {
+													params[i] = params[i].substr(1, params[i].length-2);
+												}
+											}
+											val = val[parts[1]].call(null, params);
+										}
+										else {
+											val = val[step];
+										}
+									}
+									dataValue = val;
+								}
+								self.add(element, self.create(self.mappings[mediatorId], element, dataValue));
+							}
 						}
-						mediatorFound.put(element, true);
 					}
 					var child = element.firstChild;
 					while (child) {
@@ -229,33 +264,52 @@
 			})(this);
 			parseDOM(element);
 			if (soma.browsers.ie) {
-				for (var el in this.list.getData()) {
-					if (!mediatorFound.get(el)) {
-						this.remove(el);
+				var dataList = this.list.getData();
+				for (var el in dataList) {
+					var item = dataList[el];
+					var element = item.element;
+					if (!element.parentNode || (typeof HTMLDocument !== 'undefined' && element.parentNode && element.parentNode instanceof HTMLDocument) ) {
+						this.remove(element);
 					}
 				}
 			}
-			mediatorFound.dispose();
-			mediatorFound = null;
+		},
+		support: function(element) {
+			if (soma.browsers.ie) {
+				this.parse(element);
+			}
 		},
 		add: function(element, mediator) {
 			if (!this.list.has(element)) {
-				this.list.put(element, mediator);
+				this.list.put(element, {
+					mediator: mediator,
+					element: element
+				});
 			}
 		},
 		remove: function(element) {
 			var item = this.list.get(element);
 			if (item) {
-				if (typeof item['dispose'] === 'function') {
-					item.dispose();
+				if (item.mediator) {
+					if (typeof item.mediator['dispose'] === 'function') {
+						item.mediator.dispose();
+					}
 				}
+				delete item.mediator;
+				delete item.element;
 				this.list.remove(element);
 			}
 		},
 		get: function(element) {
-			return this.list.get(element);
+			var item = this.list.get(element);
+			return item && item.mediator ? item.mediator : undefined;
+		},
+		getMappingData: function(id) {
+			var data = this.mappingsData[id];
+			return typeof data === 'string' ? this.injector.getValue(data) : data;
 		},
 		has: function(element) {
+
 			return this.list.has(element);
 		},
 		removeAll: function() {

@@ -103,11 +103,11 @@
 	}());
 
 	soma.utils = soma.utils || {};
-	soma.utils.HashMap = function() {
+	soma.utils.HashMap = function(id) {
 		var items = {};
-		var id = 1;
+		var count = 0;
 		//var uuid = function(a,b){for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b;}
-		function uuid() { return ++id; }
+		function uuid() { return ++count; }
 		function getKey(target) {
 			if (!target) {
 				return;
@@ -118,7 +118,7 @@
 			var result;
 			try {
 				// IE 7-8 needs a try catch, seems like I can't add a property on text nodes
-				result = target.somaHashkey ? target.somaHashkey : target.somaHashkey = uuid();
+				result = target[id] ? target[id] : target[id] = uuid();
 			} catch(err){}
 			return result;
 		}
@@ -144,4 +144,4 @@
 				}
 			}
 		};
-	}
+	};

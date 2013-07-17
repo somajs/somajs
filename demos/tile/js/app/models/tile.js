@@ -2,9 +2,9 @@
 
 	'use strict';
 
-	var TileModel = function(dispatcher) {
+	var TileModel = function() {
 
-		var index=  0;
+		var index = 0;
 		var data = {};
 
 		this.add = function() {

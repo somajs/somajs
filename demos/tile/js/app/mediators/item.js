@@ -3,7 +3,6 @@
 	'use strict';
 
 	var ItemMediator = function(target, dispatcher, tpl, data) {
-		this.id = data.id;
 
 		console.log('item mediator created, with data:', data.id);
 

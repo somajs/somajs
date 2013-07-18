@@ -923,7 +923,6 @@ describe("mediators", function () {
 			var data = ['data1', 'data2'];
 			this.get = function(id){
 				expect(id).toEqual('0');
-				console.log('p', id, typeof id);
 				return data[id];
 			};
 		};
@@ -932,7 +931,6 @@ describe("mediators", function () {
 		var div = document.createElement('div');
 		var Mediator = function(target, data) {
 			expect(data).toEqual('data1');
-			console.log(data);
 			done = true;
 		};
 		runs(function() {
@@ -952,7 +950,6 @@ describe("mediators", function () {
 			this.get = function(id, path){
 				expect(id).toEqual('0');
 				expect(path).toEqual('title');
-				console.log('p', id, typeof id);
 				return data[id][path];
 			};
 		};
@@ -961,7 +958,6 @@ describe("mediators", function () {
 		var div = document.createElement('div');
 		var Mediator = function(target, data) {
 			expect(data).toEqual('data1');
-			console.log(data);
 			done = true;
 		};
 		runs(function() {
@@ -981,7 +977,6 @@ describe("mediators", function () {
 			this.get = function(id, path){
 				expect(id).toEqual('0');
 				expect(path).toEqual('title');
-				console.log('p', id, typeof id);
 				return data[id][path];
 			};
 		};
@@ -990,7 +985,6 @@ describe("mediators", function () {
 		var div = document.createElement('div');
 		var Mediator = function(target, data) {
 			expect(data).toEqual('data1');
-			console.log(data);
 			done = true;
 		};
 		runs(function() {
@@ -1010,7 +1004,6 @@ describe("mediators", function () {
 			this.get = function(id, path){
 				expect(id).toEqual('0');
 				expect(path).toEqual('title');
-				console.log('p', id, typeof id);
 				return data[id][path];
 			};
 		};
@@ -1019,7 +1012,6 @@ describe("mediators", function () {
 		var div = document.createElement('div');
 		var Mediator = function(target, data) {
 			expect(data).toEqual('data1');
-			console.log(data);
 			done = true;
 		};
 		runs(function() {
@@ -1060,7 +1052,6 @@ describe("mediators", function () {
 		var div = document.createElement('div');
 		var Mediator = function(target, data) {
 			expect(data).toEqual('list2');
-			console.log(data);
 			done = true;
 		};
 		runs(function() {

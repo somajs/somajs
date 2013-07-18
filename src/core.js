@@ -102,7 +102,7 @@
 			this.injector = null;
 			this.dispatcher = null;
 		},
-		create: function(cl, target) {
+		create: function(cl, target, data) {
 			if (!cl || typeof cl !== 'function') {
 				throw new Error('Error creating a mediator, the first parameter must be a function.');
 			}
@@ -120,6 +120,15 @@
 			for (var i= 0, l=targets.length; i<l; i++) {
 				var injector = this.injector.createChild();
 				injector.mapValue('target', targets[i]);
+				if (typeof data === 'function') {
+					var result = data(injector, i);
+					if (result !== undefined && result !== null) {
+						injector.mapValue('data', result);
+					}
+				}
+				else if (data !== undefined && data !== null) {
+					injector.mapValue('data', data);
+				}
 				var mediator = injector.createInstance(cl);
 				if (targets.length === 1) {
 					return mediator;

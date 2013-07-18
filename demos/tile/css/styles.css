@@ -28,7 +28,7 @@ body {
 }
 
 .header {
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 }
 
 .list div {
@@ -66,9 +66,13 @@ body {
 .log {
 	background: #FFF;
 	position: absolute;
-	left: 200px;
-	top: 10px;
-	width: 60%;
+	left: 300px;
+	top: 12px;
+	width: 250px;
+	height: 70px;
+	overflow: auto;
+	padding: 3px;
+	border-radius: 3px;
 }
 
 button.clean-gray {

@@ -789,6 +789,57 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		};
 	};
 
+	var regexFunction = /(.*)\((.*)\)/;
+	var regexParams = /^(\"|\')(.*)(\"|\')$/;
+
+	function parsePath(dataValue, dataPath) {
+		if (dataPath) {
+			var step, val = dataValue;
+			var path = dataPath.split('.');
+			while (step = path.shift()) {
+				var parts = step.match(regexFunction);
+				if (parts) {
+					var params = parts[2];
+					params = params.replace(/,\s+/g, '').split(',');
+					for (var i=0, l=params.length; i<l; i++) {
+						if (regexParams.test(params[i])) {
+							params[i] = params[i].substr(1, params[i].length-2);
+						}
+					}
+					val = val[parts[1]].apply(null, params);
+				}
+				else {
+					val = val[step];
+				}
+			}
+			dataValue = val;
+		}
+		return dataValue;
+	}
+
+	function parseDOM(self, element) {
+		if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
+			return;
+		}
+		var attr = element.getAttribute(self.attribute);
+		if (attr) {
+			var parts = attr.split(self.attributeSeparator);
+			var mediatorId = parts[0];
+			var dataPath = parts[1];
+			if (mediatorId && self.mappings[mediatorId]) {
+				if (!self.has(element)) {
+					var dataValue = parsePath(self.getMappingData(mediatorId), dataPath);
+					self.add(element, self.create(self.mappings[mediatorId], element, dataValue));
+				}
+			}
+		}
+		var child = element.firstChild;
+		while (child) {
+			parseDOM(self, child);
+			child = child.nextSibling;
+		}
+	}
+
 	// plugins
 
 	var plugins = [];
@@ -926,7 +977,13 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			for (var i= 0, l=targets.length; i<l; i++) {
 				var injector = this.injector.createChild();
 				injector.mapValue('target', targets[i]);
-				if (data) {
+				if (typeof data === 'function') {
+					var result = data(injector, i);
+					if (result !== undefined && result !== null) {
+						injector.mapValue('data', result);
+					}
+				}
+				else if (data !== undefined && data !== null) {
 					injector.mapValue('data', data);
 				}
 				var mediator = injector.createInstance(cl);
@@ -1006,55 +1063,8 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
 				return;
 			}
-			var parseDOM = (function (self) {
-				function parseDOM(element) {
-					if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
-						return;
-					}
-					var attr = element.getAttribute(self.attribute);
-					if (attr) {
-						var parts = attr.split(self.attributeSeparator);
-						var mediatorId = parts[0];
-						var dataPath = parts[1];
-						if (mediatorId && self.mappings[mediatorId]) {
-							if (!self.has(element)) {
-								var dataValue = self.getMappingData(mediatorId);
-								if (dataPath) {
-									var step, val = dataValue;
-									var path = dataPath.split('.');
-									while (step = path.shift()) {
-										var reg = /(.*)\((.*)\)/;
-										var parts = step.match(reg);
-										if (parts) {
-											var params = parts[2];
-											params = params.replace(/,\s+/g, '').split(',');
-											for (var i=0, l=params.length; i<l; i++) {
-												if (/^(\"|\')(.*)(\"|\')$/.test(params[i])) {
-													params[i] = params[i].substr(1, params[i].length-2);
-												}
-											}
-											val = val[parts[1]].call(null, params);
-										}
-										else {
-											val = val[step];
-										}
-									}
-									dataValue = val;
-								}
-								self.add(element, self.create(self.mappings[mediatorId], element, dataValue));
-							}
-						}
-					}
-					var child = element.firstChild;
-					while (child) {
-						parseDOM(child);
-						child = child.nextSibling;
-					}
-				}
-				return parseDOM;
-			})(this);
-			parseDOM(element);
-			if (soma.browsers.ie) {
+			parseDOM(this, element);
+			if (typeof MutationObserver === 'undefined') {
 				var dataList = this.list.getData();
 				for (var el in dataList) {
 					var item = dataList[el];
@@ -1066,7 +1076,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 		},
 		support: function(element) {
-			if (soma.browsers.ie) {
+			if (typeof MutationObserver === 'undefined') {
 				this.parse(element);
 			}
 		},
@@ -1097,7 +1107,10 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		},
 		getMappingData: function(id) {
 			var data = this.mappingsData[id];
-			return typeof data === 'string' ? this.injector.getValue(data) : data;
+			if (typeof data === 'string' && this.injector.hasMapping(data)) {
+				return this.injector.getValue(data);
+			}
+			return data;
 		},
 		has: function(element) {
 

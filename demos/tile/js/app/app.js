@@ -10,19 +10,20 @@
 			soma.Application.call(this);
 		},
 		init: function() {
-			console.log('init');
-
+			// mapping rule (model containing a list)
 			this.injector.mapClass('model', tile.TileModel, true);
-			this.injector.mapValue('tpl', soma.template.create);
-
+			// mapping rule (shortcut to abstract and create templates)
+			this.injector.mapValue('tpl', soma.template.create); //
+			// mediator mapping for mediator auto creation and removal (Mutation Observers)
+			this.mediators.map('log', tile.LogMediator);
 			this.mediators.map('header', tile.HeaderMediator);
 			this.mediators.map('list', tile.ListMediator);
 			this.mediators.map('item', tile.ItemMediator, 'model');
+			// observe an element (Mutation Observers)
 			this.mediators.observe(this.element);
-
 		},
 		start: function() {
-			this.dispatcher.dispatch('render');
+
 		}
 	});
 

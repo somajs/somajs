@@ -2,9 +2,9 @@
 
 	'use strict';
 
-	var HeaderMediator = function(target, tpl, dispatcher, mediators) {
+	var HeaderMediator = function(target, tpl, dispatcher) {
 
-		console.log('tile mediator created');
+		dispatcher.dispatch('log', 'tile mediator created');
 
 		var template = tpl(target);
 		var scope = template.scope;

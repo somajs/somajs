@@ -4,7 +4,7 @@
 
 	var ListMediator = function(target, tpl, model, dispatcher, mediators) {
 
-		console.log('list mediator created');
+		dispatcher.dispatch('log', 'list mediator created');
 
 		var html = '<div data-id="{{data.id}}">{{data.title}}<img data-src="{{data.img}}" /><button data-click="remove()"></button></div>';
 

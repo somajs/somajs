@@ -4,7 +4,7 @@
 
 	var ItemMediator = function(target, dispatcher, tpl, data) {
 
-		console.log('item mediator created, with data:', data.id);
+		dispatcher.dispatch('log', 'item mediator created, with data: ' + data.id);
 
 		var template = tpl(target);
 		var scope = template.scope;
@@ -18,7 +18,7 @@
 		};
 
 		this.dispose = function() {
-			console.log('item mediator removed', data.id);
+			dispatcher.dispatch('log', 'item mediator removed, id: ' + data.id);
 			template.dispose();
 			template = null;
 		};

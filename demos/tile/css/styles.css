@@ -63,6 +63,13 @@ body {
 	content: "\2718";
 }
 
+.log {
+	background: #FFF;
+	position: absolute;
+	left: 200px;
+	top: 10px;
+	width: 60%;
+}
 
 button.clean-gray {
 	background-color: #eeeeee;

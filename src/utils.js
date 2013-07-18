@@ -145,3 +145,54 @@
 			}
 		};
 	};
+
+	var regexFunction = /(.*)\((.*)\)/;
+	var regexParams = /^(\"|\')(.*)(\"|\')$/;
+
+	function parsePath(dataValue, dataPath) {
+		if (dataPath) {
+			var step, val = dataValue;
+			var path = dataPath.split('.');
+			while (step = path.shift()) {
+				var parts = step.match(regexFunction);
+				if (parts) {
+					var params = parts[2];
+					params = params.replace(/,\s+/g, '').split(',');
+					for (var i=0, l=params.length; i<l; i++) {
+						if (regexParams.test(params[i])) {
+							params[i] = params[i].substr(1, params[i].length-2);
+						}
+					}
+					val = val[parts[1]].apply(null, params);
+				}
+				else {
+					val = val[step];
+				}
+			}
+			dataValue = val;
+		}
+		return dataValue;
+	}
+
+	function parseDOM(self, element) {
+		if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
+			return;
+		}
+		var attr = element.getAttribute(self.attribute);
+		if (attr) {
+			var parts = attr.split(self.attributeSeparator);
+			var mediatorId = parts[0];
+			var dataPath = parts[1];
+			if (mediatorId && self.mappings[mediatorId]) {
+				if (!self.has(element)) {
+					var dataValue = parsePath(self.getMappingData(mediatorId), dataPath);
+					self.add(element, self.create(self.mappings[mediatorId], element, dataValue));
+				}
+			}
+		}
+		var child = element.firstChild;
+		while (child) {
+			parseDOM(self, child);
+			child = child.nextSibling;
+		}
+	}

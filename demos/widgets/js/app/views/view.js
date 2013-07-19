@@ -12,18 +12,27 @@
 
 		function loadModule(id) {
 
-			module.load('module' + id, function(Module, Model, html) {
+			var moduleName = 'module' + id;
 
-				console.log('module1 loaded', Module, Model, html);
+			module.load(moduleName, function(Module, Model, html, image, externalImage) {
+
+				console.log('module loaded', Module, Model, html, image, externalImage);
+
+				console.log('module assets', module.getAssets(moduleName));
 
 				var wrapper = document.createElement('div');
 				wrapper.innerHTML = html;
 				var moduleHTML = wrapper.firstChild;
 				moduleContainer.appendChild(moduleHTML);
 
-				injector.mapClass('modelText', Model);
-				mediators.create(Module, moduleHTML, Model);
-				injector.removeMapping('modelText');
+				mediators.create(Module, moduleHTML, function(childInjector) {
+
+					console.log(childInjector);
+
+					childInjector.mapClass('modelText', Model, true);
+					childInjector.mapValue('image', image);
+					childInjector.mapValue('externalImage', externalImage.src);
+				});
 
 			});
 

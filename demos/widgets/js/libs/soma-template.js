@@ -1476,7 +1476,6 @@
 			if (!cl || typeof cl !== 'function') {
 				throw new Error('Error creating a template, the first parameter must be a function.');
 			}
-			console.log('TEST', cl, domElement && isElement(domElement), domElement, isElement(domElement));
 			if (domElement && isElement(domElement)) {
 				var template = soma.template.create(domElement);
 				for (var key in template) {

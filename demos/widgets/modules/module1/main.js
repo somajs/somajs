@@ -1,8 +1,17 @@
 (function(global) {
 
-	var Module1 = function(target, modelText) {
+	var Module1 = function(target, modelText, image, externalImage) {
 
-		console.log('[module1] created', target, modelText);
+		console.log('[module1] created', target, modelText, image, externalImage);
+
+		target.appendChild(image.cloneNode(true));
+
+		var template = soma.template.create(target);
+		var scope = template.scope;
+
+		scope.img = externalImage;
+
+		template.render();
 
 	};
 

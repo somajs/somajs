@@ -8,13 +8,6 @@
 
 	};
 
-	// exports require.js
-	if (typeof define === 'function' && typeof define.amd !== 'undefined') {
-		define(function() {
-			return Model2;
-		});
-	}
-
 	// export browser
 	global.widgets = global.widgets || {};
 	global.widgets.Model2 = Model2;

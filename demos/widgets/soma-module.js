@@ -94,7 +94,7 @@
 	};
 
 	ModuleLoader.prototype.print = function() {
-		return JSON.stringify(this.config);
+//		return JSON.stringify(this.config);
 	};
 
 	// **************************************************************************************

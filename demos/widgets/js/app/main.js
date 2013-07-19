@@ -16,7 +16,9 @@
 					models: 'js/app/models',
 					libs: 'js/libs',
 					text: 'js/libs/require-text',
-					image: 'js/libs/require-image'
+					image: 'js/libs/require-image',
+					css: 'js/libs/require-css',
+					normalize: 'js/libs/normalize'
 				}
 //				shim: {
 //					'modules/module2/main': {
@@ -70,10 +72,11 @@
 
 			loader.add('module1', [
 				'modules/module1/main',
-				'modules/module1/model',
-				'text!modules/module1/module.html',
-				'image!modules/module1/nature.jpg',
-				'image!images/nature2.jpg'
+				'modules/module1/js/model',
+				'text!modules/module1/partials/module.html',
+				'image!modules/module1/images/nature.jpg',
+				'image!images/nature2.jpg',
+				'css!modules/module1/styles/styles.css'
 			]);
 
 			loader.add('module2', {
@@ -81,8 +84,15 @@
 				'widgets.Model2': 'modules/module2/model',
 				'html': 'text!modules/module2/module.html',
 				'img': 'image!modules/module2/nature.jpg',
-				'external-img': 'image!images/nature3.jpg'
+				'external-img': 'image!images/nature3.jpg',
+				'styles': 'css!modules/module2/styles.css'
 			});
+
+			loader.add('module3', [
+				'modules/module3/main',
+				'modules/module3/model',
+				'text!modules/module3/module.html'
+			]);
 
 //			module.add('module2', [
 //				'modules/module2/main',
@@ -99,12 +109,12 @@
 				this.createTemplate(View, this.element);
 			}.bind(this));
 
-			this.injector.mapValue('module', loader);
+			this.injector.mapValue('loader', loader);
 
 		}
 	});
 
-	var app = new Application(document.querySelector('.app'));
+	var app = new Application(document.getElementById('app'));
 
 })(this);
 

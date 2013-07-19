@@ -1,6 +1,6 @@
 (function(global) {
 
-	var Module2 = function(target, modelText) {
+	var Module2 = function(target, modelText, image, externalImage) {
 
 		console.log('[module2] created', target, modelText, image, externalImage);
 

@@ -13,6 +13,14 @@
 		}
 	};
 
+	// mutation observers
+	// TODO: check with node.js
+	if (typeof MutationObserver === 'undefined') {
+		if (typeof window !== 'undefined' && typeof window.WebKitMutationObserver !== 'undefined') {
+			window.MutationObserver = window.WebKitMutationObserver || window.MozMutationObserver;
+		}
+	}
+
 	// framework
 	soma.Application = soma.extend({
 		constructor: function() {
@@ -99,10 +107,17 @@
 
 	var Mediators = soma.extend({
 		constructor: function() {
+			this.attribute = 'data-mediator';
+			this.attributeSeparator = '|';
 			this.injector = null;
 			this.dispatcher = null;
+			this.isObserving = false;
+			this.observer = null;
+			this.mappings = {};
+			this.mappingsData = {};
+			this.list = new soma.utils.HashMap('shk');
 		},
-		create: function(cl, target) {
+		create: function(cl, target, data) {
 			if (!cl || typeof cl !== 'function') {
 				throw new Error('Error creating a mediator, the first parameter must be a function.');
 			}
@@ -110,7 +125,7 @@
 				throw new Error('Error creating a mediator, the second parameter cannot be undefined or null.');
 			}
 			var targets = [];
-			var meds = [];
+			var list = [];
 			if (target.length > 0) {
 				targets = target;
 			}
@@ -120,17 +135,162 @@
 			for (var i= 0, l=targets.length; i<l; i++) {
 				var injector = this.injector.createChild();
 				injector.mapValue('target', targets[i]);
+				if (typeof data === 'function') {
+					var result = data(injector, i);
+					if (result !== undefined && result !== null) {
+						injector.mapValue('data', result);
+					}
+				}
+				else if (data !== undefined && data !== null) {
+					injector.mapValue('data', data);
+				}
 				var mediator = injector.createInstance(cl);
 				if (targets.length === 1) {
 					return mediator;
 				}
-				meds.push(mediator);
+				list.push(mediator);
 			}
-			return meds;
+			return list;
+		},
+		map: function(id, mediator, data) {
+			if (!this.mappings[id] && typeof mediator === 'function') {
+				this.mappings[id] = mediator;
+				this.mappingsData[id] = data;
+			}
+		},
+		unmap: function(id) {
+			if (this.mappings[id]) {
+				delete this.mappings[id];
+			}
+		},
+		hasMapping: function(id) {
+			return this.mappings[id] !== undefined && this.mappings[id] !== null;
+		},
+		getMapping: function(id) {
+			return this.mappings[id];
+		},
+		observe: function(element, parse, config) {
+			if (parse === undefined || parse === null || parse) {
+				this.parse(element);
+			}
+			if (typeof MutationObserver !== 'undefined' && element) {
+				this.observer = new MutationObserver(function(mutations) {
+					for (var i= 0, l=mutations.length; i<l; i++) {
+						// added
+						var added = mutations[i].addedNodes;
+						for (var j= 0, k=added.length; j<k; j++) {
+							this.parse(added[j]);
+						}
+						// removed
+						var removed = mutations[i].removedNodes;
+						for (var d= 0, f=removed.length; d<f; d++) {
+							this.parseToRemove(removed[j]);
+						}
+					}
+
+				}.bind(this));
+				this.observer.observe(element, config || {childList: true, subtree: true});
+				this.isObserving = true;
+			}
+			else {
+				if (this.observer) {
+					this.observer.disconnect();
+				}
+				this.observer = null;
+				this.isObserving = false;
+			}
+		},
+		parseToRemove: function(element) {
+			if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
+				return;
+			}
+			var attr = element.getAttribute(this.attribute);
+			if (attr) {
+				var parts = attr.split(this.attributeSeparator);
+				if (parts[0] && this.has(element)) {
+					this.remove(element);
+				}
+			}
+			var child = element.firstChild;
+			while (child) {
+				this.parseToRemove(child);
+				child = child.nextSibling;
+			}
+		},
+		parse: function(element) {
+			if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
+				return;
+			}
+			parseDOM(this, element);
+			if (typeof MutationObserver === 'undefined') {
+				var dataList = this.list.getData();
+				for (var el in dataList) {
+					var item = dataList[el];
+					var element = item.element;
+					if (!element.parentNode || (typeof HTMLDocument !== 'undefined' && element.parentNode && element.parentNode instanceof HTMLDocument) ) {
+						this.remove(element);
+					}
+				}
+			}
+		},
+		support: function(element) {
+			if (typeof MutationObserver === 'undefined') {
+				this.parse(element);
+			}
+		},
+		add: function(element, mediator) {
+			if (!this.list.has(element)) {
+				this.list.put(element, {
+					mediator: mediator,
+					element: element
+				});
+			}
+		},
+		remove: function(element) {
+			var item = this.list.get(element);
+			if (item) {
+				if (item.mediator) {
+					if (typeof item.mediator['dispose'] === 'function') {
+						item.mediator.dispose();
+					}
+				}
+				delete item.mediator;
+				delete item.element;
+				this.list.remove(element);
+			}
+		},
+		get: function(element) {
+			var item = this.list.get(element);
+			return item && item.mediator ? item.mediator : undefined;
+		},
+		getMappingData: function(id) {
+			var data = this.mappingsData[id];
+			if (typeof data === 'string' && this.injector.hasMapping(data)) {
+				return this.injector.getValue(data);
+			}
+			return data;
+		},
+		has: function(element) {
+
+			return this.list.has(element);
+		},
+		removeAll: function() {
+			if (this.list) {
+				this.list.dispose();
+			}
 		},
 		dispose: function() {
+			if (this.observer) {
+				this.observer.disconnect();
+			}
+			this.removeAll();
+			if (this.list) {
+				this.list.dispose();
+			}
 			this.injector = undefined;
 			this.dispatcher = undefined;
+			this.observer = undefined;
+			this.list = undefined;
 		}
 	});
 
@@ -180,6 +340,13 @@
 			delete this.list[commandName];
 			this.removeInterceptor(commandName);
 		},
+		removeAll: function() {
+			for (var cmd in this.list) {
+				if (this.list.hasOwnProperty(cmd)) {
+					this.remove(cmd);
+				}
+			}
+		},
 		addInterceptor: function(commandName) {
 			this.dispatcher.addEventListener(commandName, this.boundHandler, -Number.MAX_VALUE);
 		},
@@ -202,11 +369,7 @@
 			}
 		},
 		dispose: function() {
-			for (var cmd in this.list) {
-				if (this.list.hasOwnProperty(cmd)) {
-					this.remove(cmd);
-				}
-			}
+			this.removeAll();
 			this.boundHandler = undefined;
 			this.dispatcher = undefined;
 			this.injector = undefined;

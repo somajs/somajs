@@ -1,10 +1,10 @@
 (function(global) {
 
-	var View = function(element, model, scope, module, mediators, injector) {
+	var View = function(element, model, scope, loader, mediators, injector) {
 
 		console.log('[main] view created', element, model);
 
-		var moduleContainer = element.querySelector('.modules');
+		var moduleContainer = document.getElementById('modules');
 
 		scope.load = function(event, id) {
 			loadModule(id);
@@ -14,24 +14,26 @@
 
 			var moduleName = 'module' + id;
 
-			module.load(moduleName, function(Module, Model, html, image, externalImage) {
+			loader.load(moduleName, function(Module, Model, html, image, externalImage) {
 
 				console.log('module loaded', Module, Model, html, image, externalImage);
-
-				console.log('module assets', module.getAssets(moduleName));
+				console.log('module assets', loader.getAssets(moduleName));
 
 				var wrapper = document.createElement('div');
 				wrapper.innerHTML = html;
 				var moduleHTML = wrapper.firstChild;
 				moduleContainer.appendChild(moduleHTML);
 
+				console.log('HTML', moduleHTML);
+
 				mediators.create(Module, moduleHTML, function(childInjector) {
-
-					console.log(childInjector);
-
 					childInjector.mapClass('modelText', Model, true);
-					childInjector.mapValue('image', image);
-					childInjector.mapValue('externalImage', externalImage.src);
+					if (image) {
+						childInjector.mapValue('image', image);
+					}
+					if (externalImage) {
+						childInjector.mapValue('externalImage', externalImage.src);
+					}
 				});
 
 			});

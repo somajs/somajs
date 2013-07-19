@@ -11,6 +11,8 @@
 
 		scope.img = externalImage;
 
+		console.log('PROCESS IMAGE', externalImage);
+
 		template.render();
 
 	};

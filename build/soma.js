@@ -720,6 +720,126 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		return soma.inherit(function () {
 		}, obj);
 	};
+
+	soma.browsers = soma.browsers || {};
+	soma.browsers.ie = (function () {
+
+		if (typeof document === 'undefined') {
+			return undefined;
+		}
+
+		var div = document.createElement('div');
+
+		if (typeof div.style.msTouchAction !== 'undefined') {
+			return 10;
+		}
+
+		var v = 3, all = div.getElementsByTagName('i');
+
+		while (
+			div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
+				all[0]
+			);
+
+		return v > 4 ? v : undefined;
+
+	}());
+
+	soma.utils = soma.utils || {};
+	soma.utils.HashMap = function(id) {
+		var items = {};
+		var count = 0;
+		//var uuid = function(a,b){for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b;}
+		function uuid() { return ++count; }
+		function getKey(target) {
+			if (!target) {
+				return;
+			}
+			if (typeof target !== 'object') {
+				return target;
+			}
+			var result;
+			try {
+				// IE 7-8 needs a try catch, seems like I can't add a property on text nodes
+				result = target[id] ? target[id] : target[id] = uuid();
+			} catch(err){}
+			return result;
+		}
+		this.remove = function(key) {
+			delete items[getKey(key)];
+		};
+		this.get = function(key) {
+			return items[getKey(key)];
+		};
+		this.put = function(key, value) {
+			items[getKey(key)] = value;
+		};
+		this.has = function(key) {
+			return typeof items[getKey(key)] !== 'undefined';
+		};
+		this.getData = function() {
+			return items;
+		};
+		this.dispose = function() {
+			for (var key in items) {
+				if (items.hasOwnProperty(key)) {
+					delete items[key];
+				}
+			}
+		};
+	};
+
+	var regexFunction = /(.*)\((.*)\)/;
+	var regexParams = /^(\"|\')(.*)(\"|\')$/;
+
+	function parsePath(dataValue, dataPath) {
+		if (dataPath) {
+			var step, val = dataValue;
+			var path = dataPath.split('.');
+			while (step = path.shift()) {
+				var parts = step.match(regexFunction);
+				if (parts) {
+					var params = parts[2];
+					params = params.replace(/,\s+/g, '').split(',');
+					for (var i=0, l=params.length; i<l; i++) {
+						if (regexParams.test(params[i])) {
+							params[i] = params[i].substr(1, params[i].length-2);
+						}
+					}
+					val = val[parts[1]].apply(null, params);
+				}
+				else {
+					val = val[step];
+				}
+			}
+			dataValue = val;
+		}
+		return dataValue;
+	}
+
+	function parseDOM(self, element) {
+		if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
+			return;
+		}
+		var attr = element.getAttribute(self.attribute);
+		if (attr) {
+			var parts = attr.split(self.attributeSeparator);
+			var mediatorId = parts[0];
+			var dataPath = parts[1];
+			if (mediatorId && self.mappings[mediatorId]) {
+				if (!self.has(element)) {
+					var dataValue = parsePath(self.getMappingData(mediatorId), dataPath);
+					self.add(element, self.create(self.mappings[mediatorId], element, dataValue));
+				}
+			}
+		}
+		var child = element.firstChild;
+		while (child) {
+			parseDOM(self, child);
+			child = child.nextSibling;
+		}
+	}
+
 	// plugins
 
 	var plugins = [];
@@ -734,6 +854,14 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 		}
 	};
+
+	// mutation observers
+	// TODO: check with node.js
+	if (typeof MutationObserver === 'undefined') {
+		if (typeof window !== 'undefined' && typeof window.WebKitMutationObserver !== 'undefined') {
+			window.MutationObserver = window.WebKitMutationObserver || window.MozMutationObserver;
+		}
+	}
 
 	// framework
 	soma.Application = soma.extend({
@@ -821,10 +949,17 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 	var Mediators = soma.extend({
 		constructor: function() {
+			this.attribute = 'data-mediator';
+			this.attributeSeparator = '|';
 			this.injector = null;
 			this.dispatcher = null;
+			this.isObserving = false;
+			this.observer = null;
+			this.mappings = {};
+			this.mappingsData = {};
+			this.list = new soma.utils.HashMap('shk');
 		},
-		create: function(cl, target) {
+		create: function(cl, target, data) {
 			if (!cl || typeof cl !== 'function') {
 				throw new Error('Error creating a mediator, the first parameter must be a function.');
 			}
@@ -832,7 +967,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				throw new Error('Error creating a mediator, the second parameter cannot be undefined or null.');
 			}
 			var targets = [];
-			var meds = [];
+			var list = [];
 			if (target.length > 0) {
 				targets = target;
 			}
@@ -842,17 +977,162 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			for (var i= 0, l=targets.length; i<l; i++) {
 				var injector = this.injector.createChild();
 				injector.mapValue('target', targets[i]);
+				if (typeof data === 'function') {
+					var result = data(injector, i);
+					if (result !== undefined && result !== null) {
+						injector.mapValue('data', result);
+					}
+				}
+				else if (data !== undefined && data !== null) {
+					injector.mapValue('data', data);
+				}
 				var mediator = injector.createInstance(cl);
 				if (targets.length === 1) {
 					return mediator;
 				}
-				meds.push(mediator);
+				list.push(mediator);
 			}
-			return meds;
+			return list;
+		},
+		map: function(id, mediator, data) {
+			if (!this.mappings[id] && typeof mediator === 'function') {
+				this.mappings[id] = mediator;
+				this.mappingsData[id] = data;
+			}
+		},
+		unmap: function(id) {
+			if (this.mappings[id]) {
+				delete this.mappings[id];
+			}
+		},
+		hasMapping: function(id) {
+			return this.mappings[id] !== undefined && this.mappings[id] !== null;
+		},
+		getMapping: function(id) {
+			return this.mappings[id];
+		},
+		observe: function(element, parse, config) {
+			if (parse === undefined || parse === null || parse) {
+				this.parse(element);
+			}
+			if (typeof MutationObserver !== 'undefined' && element) {
+				this.observer = new MutationObserver(function(mutations) {
+					for (var i= 0, l=mutations.length; i<l; i++) {
+						// added
+						var added = mutations[i].addedNodes;
+						for (var j= 0, k=added.length; j<k; j++) {
+							this.parse(added[j]);
+						}
+						// removed
+						var removed = mutations[i].removedNodes;
+						for (var d= 0, f=removed.length; d<f; d++) {
+							this.parseToRemove(removed[j]);
+						}
+					}
+
+				}.bind(this));
+				this.observer.observe(element, config || {childList: true, subtree: true});
+				this.isObserving = true;
+			}
+			else {
+				if (this.observer) {
+					this.observer.disconnect();
+				}
+				this.observer = null;
+				this.isObserving = false;
+			}
+		},
+		parseToRemove: function(element) {
+			if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
+				return;
+			}
+			var attr = element.getAttribute(this.attribute);
+			if (attr) {
+				var parts = attr.split(this.attributeSeparator);
+				if (parts[0] && this.has(element)) {
+					this.remove(element);
+				}
+			}
+			var child = element.firstChild;
+			while (child) {
+				this.parseToRemove(child);
+				child = child.nextSibling;
+			}
+		},
+		parse: function(element) {
+			if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
+				return;
+			}
+			parseDOM(this, element);
+			if (typeof MutationObserver === 'undefined') {
+				var dataList = this.list.getData();
+				for (var el in dataList) {
+					var item = dataList[el];
+					var element = item.element;
+					if (!element.parentNode || (typeof HTMLDocument !== 'undefined' && element.parentNode && element.parentNode instanceof HTMLDocument) ) {
+						this.remove(element);
+					}
+				}
+			}
+		},
+		support: function(element) {
+			if (typeof MutationObserver === 'undefined') {
+				this.parse(element);
+			}
+		},
+		add: function(element, mediator) {
+			if (!this.list.has(element)) {
+				this.list.put(element, {
+					mediator: mediator,
+					element: element
+				});
+			}
+		},
+		remove: function(element) {
+			var item = this.list.get(element);
+			if (item) {
+				if (item.mediator) {
+					if (typeof item.mediator['dispose'] === 'function') {
+						item.mediator.dispose();
+					}
+				}
+				delete item.mediator;
+				delete item.element;
+				this.list.remove(element);
+			}
+		},
+		get: function(element) {
+			var item = this.list.get(element);
+			return item && item.mediator ? item.mediator : undefined;
+		},
+		getMappingData: function(id) {
+			var data = this.mappingsData[id];
+			if (typeof data === 'string' && this.injector.hasMapping(data)) {
+				return this.injector.getValue(data);
+			}
+			return data;
+		},
+		has: function(element) {
+
+			return this.list.has(element);
+		},
+		removeAll: function() {
+			if (this.list) {
+				this.list.dispose();
+			}
 		},
 		dispose: function() {
+			if (this.observer) {
+				this.observer.disconnect();
+			}
+			this.removeAll();
+			if (this.list) {
+				this.list.dispose();
+			}
 			this.injector = undefined;
 			this.dispatcher = undefined;
+			this.observer = undefined;
+			this.list = undefined;
 		}
 	});
 
@@ -902,6 +1182,13 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			delete this.list[commandName];
 			this.removeInterceptor(commandName);
 		},
+		removeAll: function() {
+			for (var cmd in this.list) {
+				if (this.list.hasOwnProperty(cmd)) {
+					this.remove(cmd);
+				}
+			}
+		},
 		addInterceptor: function(commandName) {
 			this.dispatcher.addEventListener(commandName, this.boundHandler, -Number.MAX_VALUE);
 		},
@@ -924,11 +1211,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 		},
 		dispose: function() {
-			for (var cmd in this.list) {
-				if (this.list.hasOwnProperty(cmd)) {
-					this.remove(cmd);
-				}
-			}
+			this.removeAll();
 			this.boundHandler = undefined;
 			this.dispatcher = undefined;
 			this.injector = undefined;

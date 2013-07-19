@@ -17,8 +17,13 @@
 					libs: 'js/libs',
 					text: 'js/libs/require-text',
 					image: 'js/libs/require-image',
-					css: 'js/libs/require-css',
+//					css: 'js/libs/require-css',
 					normalize: 'js/libs/normalize'
+				},
+				map: {
+					'*': {
+						css: 'js/libs/require-css'
+					}
 				}
 //				shim: {
 //					'modules/module2/main': {

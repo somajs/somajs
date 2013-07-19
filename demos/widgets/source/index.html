@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>soma.js | widgets | module loader</title>
+</head>
+<body>
+
+<div id="app">
+	<button data-click="load('1')">load module 1</button>
+	<button data-click="load('2')">load module 2</button>
+	<button data-click="load('3')">load module 3</button>
+	<div id="modules">
+
+	</div>
+</div>
+
+<!--&lt;!&ndash;[if IE 7]>-->
+<!--<script type="text/javascript" src="json.js"></script>-->
+<!--<![endif]&ndash;&gt;-->
+
+<script type="text/javascript" src="../../../build/soma.js"></script>
+
+<script type="text/javascript" src="js/libs/require.js"></script>
+
+<script type="text/javascript" src="soma-module.js"></script>
+
+<script type="text/javascript" src="js/app/main.js"></script>
+
+</body>
+</html>

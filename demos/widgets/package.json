@@ -1,0 +1,15 @@
+{
+	"name": "soma-module-demo",
+	"version": "0.0.0",
+	"description": "soma-module demo",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Romuald Quantin",
+	"devDependencies": {
+		"grunt": "~0.4.0",
+		"grunt-contrib-uglify": "~0.1.2",
+		"grunt-contrib-requirejs": "~0.4.0",
+		"grunt-contrib-cssmin": "~0.4.1"
+	}
+}

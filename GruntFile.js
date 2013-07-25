@@ -3,6 +3,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-karma');
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -43,7 +45,26 @@ module.exports = function(grunt) {
 				],
 				tasks:['concat', 'uglify']
 			}
-		}
+		},
+		karma: {
+  			unit: {
+    			configFile: 'karma.conf.js',
+    			runnerPort: 9999,
+    			singleRun: true,
+    			background: false,
+    			browsers: ['PhantomJS']
+  			}
+		},
+		jshint: {
+	    	allFiles: [
+	        	'Gruntfile.js',
+	        	'src/*.js',
+	        	'libs/*.js'
+	      	],
+	      	options: {
+	        	jshintrc: '.jshintrc'
+	      	}
+	    }
 	});
 
 	grunt.registerTask('default', ['concat', 'uglify']);

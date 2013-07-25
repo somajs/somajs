@@ -47,23 +47,23 @@ module.exports = function(grunt) {
 			}
 		},
 		karma: {
-			unit: {
-			configFile: 'karma.conf.js',
-			runnerPort: 9999,
-			singleRun: true,
-			background: false,
-			browsers: ['PhantomJS']
-			}
+  			unit: {
+    			configFile: 'karma.conf.js',
+    			runnerPort: 9999,
+    			singleRun: true,
+    			background: false,
+    			browsers: ['PhantomJS']
+  			}
 		},
 		jshint: {
-		allFiles: [
-			'Gruntfile.js',
-			'src/*.js',
-			'libs/*.js'
-		],
-		options: {
-			jshintrc: '.jshintrc'
-		}
+	    	allFiles: [
+	        	'Gruntfile.js',
+	        	'src/*.js',
+	        	'libs/*.js'
+	      	],
+	      	options: {
+	        	jshintrc: '.jshintrc'
+	      	}
 	    }
 	});
 

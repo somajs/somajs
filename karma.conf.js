@@ -3,10 +3,10 @@ basePath = './';
 
 // list of files / patterns to load in the browser
 files = [
-	JASMINE,
-	JASMINE_ADAPTER,
-	'build/soma.js',
-	'tests/spec/*.js'
+ 	JASMINE,
+ 	JASMINE_ADAPTER,
+ 	'build/soma.js',
+  	'tests/spec/*.js'
 ];
 
 // list of files to exclude

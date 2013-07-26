@@ -29,5 +29,8 @@
     "grunt-contrib-uglify": "*",
     "grunt-karma": "~0.4.5",
     "grunt-contrib-jshint": "~0.6.0"
+  },
+  "scripts": {
+	"test": "grunt karma"
   }
 }

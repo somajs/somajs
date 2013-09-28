@@ -10,7 +10,8 @@
   "author": "Romuald Quantin",
   "license": "BSD",
   "devDependencies": {
-    "grunt-html2js": "~0.1.7",
-    "grunt": "~0.4.1"
+    "grunt-html-convert": "~0.0.1",
+    "grunt": "~0.4.1",
+    "grunt-contrib-watch": "~0.5.3"
   }
 }

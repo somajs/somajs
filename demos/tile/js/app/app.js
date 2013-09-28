@@ -10,8 +10,9 @@
 			soma.Application.call(this);
 		},
 		init: function() {
-			// mapping rule (model containing a list)
+			// mapping rule (model containing a list of items)
 			this.injector.mapClass('model', tile.TileModel, true);
+			// mapping rule (templates object containing html)
 			this.injector.mapValue('templates', tile.templates);
 			// mapping rule (shortcut to abstract and create templates)
 			this.injector.mapValue('tpl', soma.template.create);

@@ -48,7 +48,7 @@
 				}
 			}
 
-			setup.bind(this)();
+			setup();
 			this.init();
 			this.start();
 
@@ -155,7 +155,7 @@
 		map: function(id, mediator, data) {
 			if (!this.mappings[id] && typeof mediator === 'function') {
 				this.mappings[id] = mediator;
-				this.mappingsData[id] = data;
+				this.setMappingData(id, data);
 			}
 		},
 		unmap: function(id) {
@@ -270,8 +270,10 @@
 			}
 			return data;
 		},
+		setMappingData: function(id, data) {
+			this.mappingsData[id] = data;
+		},
 		has: function(element) {
-
 			return this.list.has(element);
 		},
 		removeAll: function() {

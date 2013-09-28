@@ -3,6 +3,7 @@
 	'use strict';
 
 	var templates = {};
+
 	templates['tile-item.tpl.html'] = '<div data-id="{{data.id}}">\n' +
 		'	{{data.title}}\n' +
 		'	<img data-src="{{data.img}}" />\n' +
@@ -11,6 +12,7 @@
 		'';
 
 	// export
+
 	global.tile = global.tile || {};
 	global.tile.templates = templates;
 

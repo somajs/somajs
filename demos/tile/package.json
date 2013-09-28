@@ -1,0 +1,16 @@
+{
+  "name": "tile",
+  "version": "0.0.0",
+  "description": "ERROR: No README.md file found!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "Romuald Quantin",
+  "license": "BSD",
+  "devDependencies": {
+    "grunt-html2js": "~0.1.7",
+    "grunt": "~0.4.1"
+  }
+}

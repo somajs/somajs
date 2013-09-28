@@ -12,8 +12,9 @@
 		init: function() {
 			// mapping rule (model containing a list)
 			this.injector.mapClass('model', tile.TileModel, true);
+			this.injector.mapValue('templates', tile.templates);
 			// mapping rule (shortcut to abstract and create templates)
-			this.injector.mapValue('tpl', soma.template.create); //
+			this.injector.mapValue('tpl', soma.template.create);
 			// mediator mapping for mediator auto creation and removal (Mutation Observers)
 			this.mediators.map('log', tile.LogMediator);
 			this.mediators.map('header', tile.HeaderMediator);

@@ -27,6 +27,7 @@
 			var wrapper = document.createElement('div');
 			wrapper.innerHTML = partials['tile-item.tpl.html'];
 			wrapper.firstChild.setAttribute('data-mediator', 'item|get(' + item.id + ')');
+			wrapper.firstChild.setAttribute('data-tile-hover', 'hover|get(' + item.id + ')');
 			return wrapper.firstChild;
 		};
 

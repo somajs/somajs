@@ -107,7 +107,7 @@
 
 	var Mediators = soma.extend({
 		constructor: function() {
-			this.attribute = 'data-mediator';
+			this.types = {};
 			this.attributeSeparator = '|';
 			this.injector = null;
 			this.dispatcher = null;
@@ -115,7 +115,17 @@
 			this.observer = null;
 			this.mappings = {};
 			this.mappingsData = {};
-			this.list = new soma.utils.HashMap('shk');
+			this.defaultType = 'data-mediator';
+			this.describe(this.defaultType);
+		},
+		describe: function(name) {
+			if (this.types[name]) {
+				throw new Error('The type of mediator has been described already (' + name + ').');
+			}
+			this.types[name] = {
+				id: name,
+				list: new soma.utils.HashMap('shk')
+			};
 		},
 		create: function(cl, target, data) {
 			if (!cl || typeof cl !== 'function') {
@@ -238,9 +248,11 @@
 				this.parse(element);
 			}
 		},
-		add: function(element, mediator) {
-			if (!this.list.has(element)) {
-				this.list.put(element, {
+		add: function(element, mediator, type) {
+			var typeTarget = type ? type : this.defaultType;
+			var list = this.types[typeTarget].list;
+			if (!list.has(element)) {
+				list.put(element, {
 					mediator: mediator,
 					element: element
 				});
@@ -273,8 +285,9 @@
 		setMappingData: function(id, data) {
 			this.mappingsData[id] = data;
 		},
-		has: function(element) {
-			return this.list.has(element);
+		has: function(element, type) {
+			var typeTarget = type ? type : this.defaultType;
+			return this.types[typeTarget].list.has(element);
 		},
 		removeAll: function() {
 			if (this.list) {

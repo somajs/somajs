@@ -817,22 +817,52 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		return dataValue;
 	}
 
+	function getTypedAttributes(self, element) {
+		var list = [];
+		for (var attr, name, value, attrs = element.attributes, j = 0, jj = attrs && attrs.length; j < jj; j++) {
+			attr = attrs[j];
+			if (attr.specified) {
+				name = attr.name;
+				value = attr.value;
+				if (self.types[name]) {
+					list.push(attr);
+				}
+			}
+		}
+		return list;
+	}
+
 	function parseDOM(self, element) {
 		if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
 			return;
 		}
-		var attr = element.getAttribute(self.attribute);
-		if (attr) {
-			var parts = attr.split(self.attributeSeparator);
-			var mediatorId = parts[0];
-			var dataPath = parts[1];
-			if (mediatorId && self.mappings[mediatorId]) {
-				if (!self.has(element)) {
-					var dataValue = parsePath(self.getMappingData(mediatorId), dataPath);
-					self.add(element, self.create(self.mappings[mediatorId], element, dataValue));
+
+		console.log('attribute list', getTypedAttributes(self, element));
+
+		var typedList = getTypedAttributes(self, element);
+
+		for (var i=0, l=typedList.length; i<l; i++) {
+
+			var attr = typedList[i];
+			console.log('----- attr', attr);
+			console.log('----- type', self.types[attr.name]);
+			var type = self.types[attr.name].id;
+			if (attr) {
+				var parts = attr.value.split(self.attributeSeparator);
+				var mediatorId = parts[0];
+				var dataPath = parts[1];
+				console.log('mediatorId', mediatorId);
+				if (mediatorId && self.mappings[mediatorId]) {
+					if (!self.has(element, type)) {
+						var dataValue = parsePath(self.getMappingData(mediatorId), dataPath);
+						console.log('CREATE');
+						self.add(element, self.create(self.mappings[mediatorId], element, dataValue), type);
+					}
 				}
 			}
+
 		}
+
 		var child = element.firstChild;
 		while (child) {
 			parseDOM(self, child);
@@ -949,7 +979,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 	var Mediators = soma.extend({
 		constructor: function() {
-			this.attribute = 'data-mediator';
+			this.types = {};
 			this.attributeSeparator = '|';
 			this.injector = null;
 			this.dispatcher = null;
@@ -957,7 +987,17 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			this.observer = null;
 			this.mappings = {};
 			this.mappingsData = {};
-			this.list = new soma.utils.HashMap('shk');
+			this.defaultType = 'data-mediator';
+			this.describe(this.defaultType);
+		},
+		describe: function(name) {
+			if (this.types[name]) {
+				throw new Error('The type of mediator has been described already (' + name + ').');
+			}
+			this.types[name] = {
+				id: name,
+				list: new soma.utils.HashMap('shk')
+			};
 		},
 		create: function(cl, target, data) {
 			if (!cl || typeof cl !== 'function') {
@@ -1080,9 +1120,11 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				this.parse(element);
 			}
 		},
-		add: function(element, mediator) {
-			if (!this.list.has(element)) {
-				this.list.put(element, {
+		add: function(element, mediator, type) {
+			var typeTarget = type ? type : this.defaultType;
+			var list = this.types[typeTarget].list;
+			if (!list.has(element)) {
+				list.put(element, {
 					mediator: mediator,
 					element: element
 				});
@@ -1115,8 +1157,9 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		setMappingData: function(id, data) {
 			this.mappingsData[id] = data;
 		},
-		has: function(element) {
-			return this.list.has(element);
+		has: function(element, type) {
+			var typeTarget = type ? type : this.defaultType;
+			return this.types[typeTarget].list.has(element);
 		},
 		removeAll: function() {
 			if (this.list) {

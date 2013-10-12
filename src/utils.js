@@ -174,22 +174,52 @@
 		return dataValue;
 	}
 
+	function getTypedAttributes(self, element) {
+		var list = [];
+		for (var attr, name, value, attrs = element.attributes, j = 0, jj = attrs && attrs.length; j < jj; j++) {
+			attr = attrs[j];
+			if (attr.specified) {
+				name = attr.name;
+				value = attr.value;
+				if (self.types[name]) {
+					list.push(attr);
+				}
+			}
+		}
+		return list;
+	}
+
 	function parseDOM(self, element) {
 		if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
 			return;
 		}
-		var attr = element.getAttribute(self.attribute);
-		if (attr) {
-			var parts = attr.split(self.attributeSeparator);
-			var mediatorId = parts[0];
-			var dataPath = parts[1];
-			if (mediatorId && self.mappings[mediatorId]) {
-				if (!self.has(element)) {
-					var dataValue = parsePath(self.getMappingData(mediatorId), dataPath);
-					self.add(element, self.create(self.mappings[mediatorId], element, dataValue));
+
+		console.log('attribute list', getTypedAttributes(self, element));
+
+		var typedList = getTypedAttributes(self, element);
+
+		for (var i=0, l=typedList.length; i<l; i++) {
+
+			var attr = typedList[i];
+			console.log('----- attr', attr);
+			console.log('----- type', self.types[attr.name]);
+			var type = self.types[attr.name].id;
+			if (attr) {
+				var parts = attr.value.split(self.attributeSeparator);
+				var mediatorId = parts[0];
+				var dataPath = parts[1];
+				console.log('mediatorId', mediatorId);
+				if (mediatorId && self.mappings[mediatorId]) {
+					if (!self.has(element, type)) {
+						var dataValue = parsePath(self.getMappingData(mediatorId), dataPath);
+						console.log('CREATE');
+						self.add(element, self.create(self.mappings[mediatorId], element, dataValue), type);
+					}
 				}
 			}
+
 		}
+
 		var child = element.firstChild;
 		while (child) {
 			parseDOM(self, child);

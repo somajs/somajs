@@ -21,6 +21,9 @@
 			this.mediators.map('header', tile.HeaderMediator);
 			this.mediators.map('list', tile.ListMediator);
 			this.mediators.map('item', tile.ItemMediator, 'model');
+			this.mediators.map('hover', tile.TileHover);
+			// add custom mediator attributes
+			this.mediators.describe('data-tile-hover');
 			// observe an element (Mutation Observers)
 			this.mediators.observe(this.element);
 		},

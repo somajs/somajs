@@ -23,11 +23,11 @@ module.exports = function(grunt) {
 				indentString: '	',
 				indentGlobal: '	',
 				prefix: '(function(global) {\n\n	\'use strict\';\n\n',
-				suffix: '\n	// export\n\n	global.tile = global.tile || {};\n	global.tile.templates = templates;\n\n})(this);'
+				suffix: '\n	// export\n\n	global.tile = global.tile || {};\n	global.tile.partials = partials;\n\n})(this);'
 			},
-			templates: {
+			partials: {
 				src: ['partials/*.tpl.html'],
-				dest: 'js/app/models/templates.js'
+				dest: 'js/app/models/partials.js'
 			}
 		}
 	});

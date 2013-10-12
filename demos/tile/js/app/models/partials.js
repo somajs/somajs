@@ -2,9 +2,9 @@
 
 	'use strict';
 
-	var templates = {};
+	var partials = {};
 
-	templates['tile-item.tpl.html'] = '<div data-id="{{data.id}}">\n' +
+	partials['tile-item.tpl.html'] = '<div data-id="{{data.id}}">\n' +
 		'	{{data.title}}\n' +
 		'	<img data-src="{{data.img}}" />\n' +
 		'	<button data-click="remove()"></button>\n' +
@@ -14,6 +14,6 @@
 	// export
 
 	global.tile = global.tile || {};
-	global.tile.templates = templates;
+	global.tile.partials = partials;
 
 })(this);

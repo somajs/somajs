@@ -4,12 +4,12 @@
 
 	var ItemMediator = function(target, dispatcher, tpl, data) {
 
-		dispatcher.dispatch('log', 'item mediator created, with data: ' + data.id);
+		dispatcher.dispatch('log', 'item mediator created, with data: ' + data);
 
 		var template = tpl(target);
 		var scope = template.scope;
 
-		scope.data = data;
+		scope.item = data;
 		template.render();
 
 		scope.remove = function() {

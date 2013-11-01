@@ -2,9 +2,22 @@
 
 	'use strict';
 
-	var TileHover = function(target) {
+	var TileHover = function(target, data, dispatcher) {
 
-		console.log('tile hover created', target);
+		dispatcher.dispatch('log', 'hover mediator created, with data: ' + data);
+
+		target.addEventListener('mouseover', function() {
+			target.style.backgroundColor = data;
+		});
+
+		target.addEventListener('mouseout', function() {
+			target.style.backgroundColor = '#FFF';
+		});
+
+
+		this.dispose = function() {
+
+		}
 
 	};
 

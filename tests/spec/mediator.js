@@ -195,6 +195,9 @@ describe("mediators", function () {
 		var Mediator = function() {};
 		mediators.observe(document);
 		mediators.map('Mediator', Mediator);
+
+		console.log('>>>>>>>>>>', mediators.hasMapping('Mediator'));
+
 		expect(mediators.hasMapping('Mediator')).toBeTruthy();
 	});
 
@@ -202,7 +205,7 @@ describe("mediators", function () {
 		var Mediator = function() {};
 		mediators.observe(document);
 		mediators.map('Mediator', Mediator);
-		expect(mediators.getMapping('Mediator')).toEqual(Mediator);
+		expect(mediators.getMapping('Mediator').mediator).toEqual(Mediator);
 	});
 
 	it("unmap mediator", function () {

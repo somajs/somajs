@@ -1,3 +1,6 @@
+* {
+	outline: none;
+}
 body {
 	background: #F1F1F1;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -6,7 +9,8 @@ body {
 .hidden {
 	display: none;
 }
-.people .list {
+.list {
+	overflow: hidden;
 	clear: both;
 }
 .people .person {
@@ -31,7 +35,7 @@ body {
 	margin-bottom: 20px;
 }
 
-.list div {
+.list .item {
 	position: relative;
 	background: #fff;
 	-webkit-border-radius: 3px;
@@ -48,10 +52,10 @@ body {
 	padding: 10px;
 	font-weight: bold;
 }
-.list div img {
+.list .item img {
 	margin-top: 10px;
 }
-.list div button {
+.list .item button {
 	position: absolute;
 	border: none;
 	background: none;
@@ -59,7 +63,7 @@ body {
 	top: 7px;
 	cursor: pointer;
 }
-.list div button:before {
+.list .item button:before {
 	content: "\2718";
 }
 
@@ -68,7 +72,7 @@ body {
 	position: absolute;
 	left: 300px;
 	top: 12px;
-	width: 250px;
+	width: 350px;
 	height: 70px;
 	overflow: auto;
 	padding: 3px;

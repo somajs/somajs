@@ -105,27 +105,118 @@
 		}
 	});
 
+	var MediatorType = soma.extend({
+		constructor: function(name, injector) {
+			this.name = name;
+			this.injector = injector;
+			this.mappings = {};
+			this.list = new soma.utils.HashMap('hm-'+name);
+		},
+		map: function(id, mediator, data) {
+			console.log('ADD', id, mediator, data);
+			if (!this.mappings[id] && typeof mediator === 'function') {
+				console.log('SET MAPPING', this.name, id);
+				this.mappings[id] = {
+					mediator: mediator,
+					data: data
+				};
+			}
+			return this;
+		},
+		unmap: function(id) {
+			console.log('UNMAP', this.mappings[id]);
+			if (this.mappings[id]) {
+				delete this.mappings[id].mediator;
+				delete this.mappings[id].data;
+				delete this.mappings[id];
+			}
+			return this;
+		},
+		hasMapping: function(id) {
+			console.log('HAS MAPPING', id, this.mappings[id]);
+			return this.mappings[id] !== undefined && this.mappings[id] !== null;
+		},
+		getMapping: function(id) {
+			return this.mappings[id];
+		},
+		getMappingData: function(id) {
+			if (this.mappings[id]) {
+				var data = this.mappings[id].data;
+				if (data) {
+					var resolvedData = {};
+					for (var name in data) {
+						console.log('> resolve mapping name', name, data[name]);
+						if (typeof data[name] === 'string' && this.injector.hasMapping(data[name])) {
+							resolvedData[name] = this.injector.getValue(data[name]);
+						}
+						else {
+							resolvedData[name] = data[name];
+						}
+					}
+					return resolvedData;
+				}
+			}
+		},
+		has: function(element) {
+			console.log('HAS', this.list.has(element));
+			return this.list.has(element);
+		},
+		add: function(element, mediator) {
+			console.log('ADD', element, mediator, this.list.has(element));
+			if (!this.list.has(element)) {
+				this.list.put(element, {
+					mediator: mediator,
+					element: element
+				});
+			}
+		},
+		remove: function(element) {
+			var item = this.list.get(element);
+			if (item) {
+				if (item.mediator) {
+					if (typeof item.mediator['dispose'] === 'function') {
+						item.mediator.dispose();
+					}
+				}
+				delete item.mediator;
+				delete item.element;
+				this.list.remove(element);
+			}
+		},
+		get: function(element) {
+			var item = this.list.get(element);
+			console.log('GET', item);
+			return item && item.mediator ? item.mediator : undefined;
+		},
+		removeAll: function() {
+			if (this.list) {
+				this.list.dispose();
+			}
+		},
+		dispose: function() {
+			// todo
+		}
+	});
+
 	var Mediators = soma.extend({
 		constructor: function() {
 			this.types = {};
+			this.defaultType = 'data-mediator';
 			this.attributeSeparator = '|';
 			this.injector = null;
 			this.dispatcher = null;
 			this.isObserving = false;
 			this.observer = null;
-			this.mappings = {};
-			this.mappingsData = {};
-			this.defaultType = 'data-mediator';
+		},
+		postConstruct: function() {
 			this.describe(this.defaultType);
 		},
 		describe: function(name) {
 			if (this.types[name]) {
 				throw new Error('The type of mediator has been described already (' + name + ').');
 			}
-			this.types[name] = {
-				id: name,
-				list: new soma.utils.HashMap('shk')
-			};
+			this.types[name] = new MediatorType(name, this.injector);
+			return this.types[name];
 		},
 		create: function(cl, target, data) {
 			if (!cl || typeof cl !== 'function') {
@@ -145,14 +236,18 @@
 			for (var i= 0, l=targets.length; i<l; i++) {
 				var injector = this.injector.createChild();
 				injector.mapValue('target', targets[i]);
+				console.log('data', data);
 				if (typeof data === 'function') {
 					var result = data(injector, i);
+					console.log('data-result', result);
 					if (result !== undefined && result !== null) {
-						injector.mapValue('data', result);
+						//injector.mapValue('data', result);
+						applyMappingData(injector, result);
 					}
 				}
 				else if (data !== undefined && data !== null) {
-					injector.mapValue('data', data);
+					//injector.mapValue('data', data);
+					applyMappingData(injector, data);
 				}
 				var mediator = injector.createInstance(cl);
 				if (targets.length === 1) {
@@ -162,22 +257,30 @@
 			}
 			return list;
 		},
-		map: function(id, mediator, data) {
-			if (!this.mappings[id] && typeof mediator === 'function') {
-				this.mappings[id] = mediator;
-				this.setMappingData(id, data);
+		getType: function(name) {
+			var typeId = name ? name : this.defaultType;
+			if (!this.types[typeId]) {
+				throw new Error('The type of mediator has been not been found (' + typeId + ').');
 			}
+			return this.types[typeId];
 		},
-		unmap: function(id) {
-			if (this.mappings[id]) {
-				delete this.mappings[id];
-			}
+		removeType: function(name) {
+			// todo
 		},
-		hasMapping: function(id) {
-			return this.mappings[id] !== undefined && this.mappings[id] !== null;
+		map: function(id, mediator, data, type) {
+			return this.getType(type).map(id, mediator, data);
 		},
-		getMapping: function(id) {
-			return this.mappings[id];
+		unmap: function(id, type) {
+			return this.getType(type).unmap(id);
+		},
+		hasMapping: function(id, type) {
+			return this.getType(type).hasMapping(id);
+		},
+		getMapping: function(id, type) {
+			return this.getType(type).getMapping(id);
+		},
+		getMappingData: function(id, type) {
+			return this.getType(type).getMappingData(id);
 		},
 		observe: function(element, parse, config) {
 			if (parse === undefined || parse === null || parse) {
@@ -249,58 +352,53 @@
 			}
 		},
 		add: function(element, mediator, type) {
-			var typeTarget = type ? type : this.defaultType;
-			var list = this.types[typeTarget].list;
-			if (!list.has(element)) {
-				list.put(element, {
-					mediator: mediator,
-					element: element
-				});
-			}
+			this.getType(type).add(element, mediator);
 		},
-		remove: function(element) {
-			var item = this.list.get(element);
-			if (item) {
-				if (item.mediator) {
-					if (typeof item.mediator['dispose'] === 'function') {
-						item.mediator.dispose();
+		remove: function(element, type) {
+			this.getType(type).remove(element);
+		},
+		get: function(element, type) {
+			var mediator = this.getType(type).get(element);
+			if (mediator) {
+				return mediator;
+			}
+			else {
+				for (var typeId in this.types) {
+					var m = this.types[typeId].get(element);
+					if (m) {
+						return m;
 					}
 				}
-				delete item.mediator;
-				delete item.element;
-				this.list.remove(element);
 			}
 		},
-		get: function(element) {
-			var item = this.list.get(element);
-			return item && item.mediator ? item.mediator : undefined;
-		},
-		getMappingData: function(id) {
-			var data = this.mappingsData[id];
-			if (typeof data === 'string' && this.injector.hasMapping(data)) {
-				return this.injector.getValue(data);
-			}
-			return data;
-		},
-		setMappingData: function(id, data) {
-			this.mappingsData[id] = data;
-		},
+//		getMappingData: function(id, type) {
+//			var typeTarget = type ? type : this.defaultType;
+//			console.log('-- getMappingData', id);
+//			var mData = this.types[typeTarget] ? this.types[typeTarget].data : {};
+//			if (typeof mData === 'string' && this.injector.hasMapping(mData)) {
+//				return this.injector.getValue(mData);
+//			}
+//			return mData;
+//		},
+//		setMappingData: function(id, data, type) {
+//			console.log('-- setMappingData', id, data, type);
+//			var typeId = type ? type : this.defaultType;
+//			if (this.types[typeId]) {
+//				this.types[typeId].data[id] = data;
+//			}
+//		},
 		has: function(element, type) {
-			var typeTarget = type ? type : this.defaultType;
-			return this.types[typeTarget].list.has(element);
+			return this.getType(type).has(element);
 		},
-		removeAll: function() {
-			if (this.list) {
-				this.list.dispose();
-			}
+		removeAll: function(type) {
+			this.getType(type).removeAll();
 		},
 		dispose: function() {
 			if (this.observer) {
 				this.observer.disconnect();
 			}
-			this.removeAll();
-			if (this.list) {
-				this.list.dispose();
+			for (var id in this.types) {
+				this.types[id].removeAll();
 			}
 			this.injector = undefined;
 			this.dispatcher = undefined;

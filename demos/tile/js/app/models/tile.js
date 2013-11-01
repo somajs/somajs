@@ -6,6 +6,7 @@
 
 		var index = 0;
 		var data = {};
+		var colors = ['#FF9A3E', '#00CF9B', '#CC006A']
 
 		this.add = function() {
 
@@ -26,8 +27,8 @@
 			var item = add();
 			var wrapper = document.createElement('div');
 			wrapper.innerHTML = partials['tile-item.tpl.html'];
-			wrapper.firstChild.setAttribute('data-mediator', 'item|get(' + item.id + ')');
-			wrapper.firstChild.setAttribute('data-tile-hover', 'hover|get(' + item.id + ')');
+			wrapper.firstChild.setAttribute('data-mediator', 'item|data:get(' + item.id + ')');
+//			wrapper.firstChild.setAttribute('data-hover', 'hover|getColor(' + item.id + ')');
 			return wrapper.firstChild;
 		};
 
@@ -39,9 +40,17 @@
 			return data[id];
 		};
 
+		this.add = function() {
+			add();
+		};
+
 		this.getData = function() {
 			return data;
 		};
+
+		this.getColor = function(count) {
+			return colors[count % 3];
+		}
 
 	};
 

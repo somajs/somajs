@@ -113,9 +113,8 @@
 			this.list = new soma.utils.HashMap('hm-'+name);
 		},
 		map: function(id, mediator, data) {
-			console.log('ADD', id, mediator, data);
 			if (!this.mappings[id] && typeof mediator === 'function') {
-				console.log('SET MAPPING', this.name, id);
+				console.log('MAP', id, data);
 				this.mappings[id] = {
 					mediator: mediator,
 					data: data
@@ -124,7 +123,6 @@
 			return this;
 		},
 		unmap: function(id) {
-			console.log('UNMAP', this.mappings[id]);
 			if (this.mappings[id]) {
 				delete this.mappings[id].mediator;
 				delete this.mappings[id].data;
@@ -133,7 +131,6 @@
 			return this;
 		},
 		hasMapping: function(id) {
-			console.log('HAS MAPPING', id, this.mappings[id]);
 			return this.mappings[id] !== undefined && this.mappings[id] !== null;
 		},
 		getMapping: function(id) {
@@ -142,10 +139,12 @@
 		getMappingData: function(id) {
 			if (this.mappings[id]) {
 				var data = this.mappings[id].data;
-				if (data) {
+				if (data !== undefined) {
+					if (typeof data === 'function') {
+						return data;
+					}
 					var resolvedData = {};
 					for (var name in data) {
-						console.log('> resolve mapping name', name, data[name]);
 						if (typeof data[name] === 'string' && this.injector.hasMapping(data[name])) {
 							resolvedData[name] = this.injector.getValue(data[name]);
 						}
@@ -158,11 +157,9 @@
 			}
 		},
 		has: function(element) {
-			console.log('HAS', this.list.has(element));
 			return this.list.has(element);
 		},
 		add: function(element, mediator) {
-			console.log('ADD', element, mediator, this.list.has(element));
 			if (!this.list.has(element)) {
 				this.list.put(element, {
 					mediator: mediator,
@@ -185,7 +182,6 @@
 		},
 		get: function(element) {
 			var item = this.list.get(element);
-			console.log('GET', item);
 			return item && item.mediator ? item.mediator : undefined;
 		},
 		removeAll: function() {
@@ -236,10 +232,9 @@
 			for (var i= 0, l=targets.length; i<l; i++) {
 				var injector = this.injector.createChild();
 				injector.mapValue('target', targets[i]);
-				console.log('data', data);
 				if (typeof data === 'function') {
 					var result = data(injector, i);
-					console.log('data-result', result);
+					console.log('result', result);
 					if (result !== undefined && result !== null) {
 						//injector.mapValue('data', result);
 						applyMappingData(injector, result);
@@ -268,6 +263,7 @@
 			// todo
 		},
 		map: function(id, mediator, data, type) {
+			console.log('MAIN MAP', id, mediator, data, type);
 			return this.getType(type).map(id, mediator, data);
 		},
 		unmap: function(id, type) {
@@ -314,14 +310,17 @@
 			}
 		},
 		parseToRemove: function(element) {
+			console.log('PARSE TO REMOVE', element);
 			if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
 				return;
 			}
-			var attr = element.getAttribute(this.attribute);
-			if (attr) {
-				var parts = attr.split(this.attributeSeparator);
-				if (parts[0] && this.has(element)) {
-					this.remove(element);
+			for (var typeId in this.types) {
+				var attr = element.getAttribute(typeId);
+				if (attr) {
+					var parts = attr.split(this.attributeSeparator);
+					if (parts[0] && this.types[typeId].has(element) && this.types[typeId].hasMapping(parts[0])) {
+						this.types[typeId].remove(element);
+					}
 				}
 			}
 			var child = element.firstChild;
@@ -371,22 +370,6 @@
 				}
 			}
 		},
-//		getMappingData: function(id, type) {
-//			var typeTarget = type ? type : this.defaultType;
-//			console.log('-- getMappingData', id);
-//			var mData = this.types[typeTarget] ? this.types[typeTarget].data : {};
-//			if (typeof mData === 'string' && this.injector.hasMapping(mData)) {
-//				return this.injector.getValue(mData);
-//			}
-//			return mData;
-//		},
-//		setMappingData: function(id, data, type) {
-//			console.log('-- setMappingData', id, data, type);
-//			var typeId = type ? type : this.defaultType;
-//			if (this.types[typeId]) {
-//				this.types[typeId].data[id] = data;
-//			}
-//		},
 		has: function(element, type) {
 			return this.getType(type).has(element);
 		},

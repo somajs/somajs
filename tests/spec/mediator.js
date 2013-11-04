@@ -54,12 +54,12 @@ describe("mediators", function () {
 	it("single mediator data", function () {
 		var t, d;
 		var dataSource = {info:'data'};
-		var f = function(target, data){t=target;d=data};
+		var f = function(target, info){t=target;d=info};
 		var m = mediators.create(f, 1, dataSource);
 		expect(m instanceof f).toBeTruthy();
 		expect(t).toEqual(1);
 		expect(d).toBeDefined();
-		expect(d).toEqual(dataSource);
+		expect(d).toEqual(dataSource.info);
 	});
 
 	it("single mediator boolean", function () {
@@ -86,16 +86,16 @@ describe("mediators", function () {
 	it("multiple mediator data", function () {
 		var t = [], d = [];
 		var dataSource = {info:'data'};
-		var f = function(target, data){t.push(target);d.push(data);};
+		var f = function(target, info){t.push(target);d.push(info);};
 		var m = mediators.create(f, [1, 2], dataSource);
 		expect(m[0] instanceof f).toBeTruthy();
 		expect(m[1] instanceof f).toBeTruthy();
 		expect(t[0]).toEqual(1);
 		expect(t[1]).toEqual(2);
 		expect(d[0]).toBeDefined();
-		expect(d[0]).toEqual(dataSource);
+		expect(d[0]).toEqual(dataSource.info);
 		expect(d[1]).toBeDefined();
-		expect(d[1]).toEqual(dataSource);
+		expect(d[1]).toEqual(dataSource.info);
 	});
 
 	it("single mediator precall child injector mapping", function () {
@@ -135,7 +135,7 @@ describe("mediators", function () {
 			expect(childInjector instanceof infuse.Injector).toBeTruthy();
 			expect(childInjector.parent).toEqual(app.injector);
 			expect(index).toEqual(0);
-			return 'some data';
+			return {data:'some data'};
 		});
 		expect(d).toEqual('some data');
 	});
@@ -149,7 +149,7 @@ describe("mediators", function () {
 			expect(childInjector instanceof infuse.Injector).toBeTruthy();
 			expect(childInjector.parent).toEqual(app.injector);
 			expect(index).toEqual(count++);
-			return sourceData[index];
+			return {data: sourceData[index]};
 		});
 		expect(d[0]).toEqual('data1');
 		expect(d[1]).toEqual('data2');
@@ -195,9 +195,6 @@ describe("mediators", function () {
 		var Mediator = function() {};
 		mediators.observe(document);
 		mediators.map('Mediator', Mediator);
-
-		console.log('>>>>>>>>>>', mediators.hasMapping('Mediator'));
-
 		expect(mediators.hasMapping('Mediator')).toBeTruthy();
 	});
 
@@ -343,6 +340,7 @@ describe("mediators", function () {
 			mediators.support(div);
 		});
 		waitsFor(function() {
+			console.log('is created', isCreated);
 			return isCreated;
 		}, "The mediator should be created", 5000);
 		runs(function() {
@@ -351,6 +349,7 @@ describe("mediators", function () {
 			mediators.support(div);
 		});
 		waitsFor(function() {
+			console.log('is removed', isCreated);
 			return isRemoved;
 		}, "The mediator should be removed", 5000);
 		runs(function() {
@@ -565,7 +564,7 @@ describe("mediators", function () {
 		};
 		runs(function() {
 			mediators.observe(div);
-			mediators.map('Mediator', Mediator, dataSource);
+			mediators.map('Mediator', Mediator, {data:dataSource});
 			div.innerHTML = '<div data-mediator="Mediator"/>';
 			mediators.support(div);
 		});
@@ -585,7 +584,7 @@ describe("mediators", function () {
 		};
 		runs(function() {
 			mediators.observe(div);
-			mediators.map('Mediator', Mediator, dataSource);
+			mediators.map('Mediator', Mediator, {data:dataSource});
 			div.innerHTML = '<div data-mediator="Mediator"/>';
 			mediators.support(div);
 		});
@@ -606,7 +605,7 @@ describe("mediators", function () {
 		};
 		runs(function() {
 			mediators.observe(div);
-			mediators.map('Mediator', Mediator, 'mapped');
+			mediators.map('Mediator', Mediator, {data: 'mapped'});
 			div.innerHTML = '<div data-mediator="Mediator"/>';
 			mediators.support(div);
 		});
@@ -633,7 +632,7 @@ describe("mediators", function () {
 		};
 		runs(function() {
 			mediators.observe(div);
-			mediators.map('Mediator', Mediator, 'model');
+			mediators.map('Mediator', Mediator, {data:'model'});
 			div.innerHTML = '<div data-mediator="Mediator"></div><div data-mediator="Mediator"></div>';
 			mediators.support(div);
 		});
@@ -708,32 +707,6 @@ describe("mediators", function () {
 		}, "The mediator should be created", 5000);
 	});
 
-	it("observer precall child injector mapping", function () {
-		var done = false;
-		var div = document.createElement('div');
-		var Mediator = function(target, data, data1, data2) {
-			expect(data).toBeUndefined();
-			expect(data1).toEqual('data1');
-			expect(data2).toEqual('data2');
-			done = true;
-		};
-		runs(function() {
-			mediators.observe(div);
-			mediators.map('Mediator', Mediator, function(childInjector, index) {
-				expect(childInjector instanceof infuse.Injector).toBeTruthy();
-				expect(childInjector.parent).toEqual(app.injector);
-				expect(index).toEqual(0);
-				childInjector.mapValue('data1', 'data1');
-				childInjector.mapValue('data2', 'data2');
-			});
-			div.innerHTML = '<div data-mediator="Mediator"/>';
-			mediators.support(div);
-		});
-		waitsFor(function() {
-			return done;
-		}, "The mediator should be created", 5000);
-	});
-
 	it("observer precall return value", function () {
 		var done = false;
 		var div = document.createElement('div');
@@ -747,7 +720,7 @@ describe("mediators", function () {
 				expect(childInjector instanceof infuse.Injector).toBeTruthy();
 				expect(childInjector.parent).toEqual(app.injector);
 				expect(index).toEqual(0);
-				return 'some data';
+				return {data: 'some data'};
 			});
 			div.innerHTML = '<div data-mediator="Mediator"/>';
 			mediators.support(div);
@@ -761,8 +734,8 @@ describe("mediators", function () {
 		var dataSource = {info:'info'};
 		var done = false;
 		var div = document.createElement('div');
-		var Mediator = function(target, data) {
-			expect(data).toEqual(dataSource);
+		var Mediator = function(target, info) {
+			expect(info).toEqual('info');
 			done = true;
 		};
 		runs(function() {
@@ -780,8 +753,8 @@ describe("mediators", function () {
 		var dataSource = {info:'info'};
 		var done = false;
 		var div = document.createElement('div');
-		var Mediator = function(target, data) {
-			expect(data).toBeUndefined();
+		var Mediator = function(target, info) {
+			expect(info).toEqual('info');
 			done = true;
 		};
 		runs(function() {
@@ -800,13 +773,14 @@ describe("mediators", function () {
 		var done = false;
 		var div = document.createElement('div');
 		var Mediator = function(target, data) {
+			console.log('data', data);
 			expect(data).toEqual('info');
 			done = true;
 		};
 		runs(function() {
 			mediators.observe(div);
-			mediators.map('Mediator', Mediator, dataSource);
-			div.innerHTML = '<div data-mediator="Mediator|info"/>';
+			mediators.map('Mediator', Mediator, {data: dataSource});
+			div.innerHTML = '<div data-mediator="Mediator|data:info"/>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -827,8 +801,8 @@ describe("mediators", function () {
 		};
 		runs(function() {
 			mediators.observe(div);
-			mediators.map('Mediator', Mediator, dataSource);
-			div.innerHTML = '<div data-mediator="Mediator|0"></div><div data-mediator="Mediator|1"></div><div data-mediator="Mediator|2"></div>';
+			mediators.map('Mediator', Mediator, {data: dataSource});
+			div.innerHTML = '<div data-mediator="Mediator|data:0"></div><div data-mediator="Mediator|data:1"></div><div data-mediator="Mediator|data:2"></div>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -856,8 +830,8 @@ describe("mediators", function () {
 		};
 		runs(function() {
 			mediators.observe(div);
-			mediators.map('Mediator', Mediator, 'model');
-			div.innerHTML = '<div data-mediator="Mediator|get()"/>';
+			mediators.map('Mediator', Mediator, {data:'model'});
+			div.innerHTML = '<div data-mediator="Mediator|data:get()"/>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -880,8 +854,8 @@ describe("mediators", function () {
 		};
 		runs(function() {
 			mediators.observe(div);
-			mediators.map('Mediator', Mediator, 'model');
-			div.innerHTML = '<div data-mediator="Mediator|get().info"/>';
+			mediators.map('Mediator', Mediator, {data:'model'});
+			div.innerHTML = '<div data-mediator="Mediator|data:get().info"/>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -907,8 +881,8 @@ describe("mediators", function () {
 		};
 		runs(function() {
 			mediators.observe(div);
-			mediators.map('Mediator', Mediator, 'model');
-			div.innerHTML = '<div data-mediator="Mediator|get().0"></div><div data-mediator="Mediator|get().1"></div>';
+			mediators.map('Mediator', Mediator, {data:'model'});
+			div.innerHTML = '<div data-mediator="Mediator|data:get().0"></div><div data-mediator="Mediator|data:get().1"></div>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -938,8 +912,8 @@ describe("mediators", function () {
 		};
 		runs(function() {
 			mediators.observe(div);
-			mediators.map('Mediator', Mediator, 'model');
-			div.innerHTML = '<div data-mediator="Mediator|get(0)"></div>';
+			mediators.map('Mediator', Mediator, {data:'model'});
+			div.innerHTML = '<div data-mediator="Mediator|data:get(0)"></div>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -951,6 +925,8 @@ describe("mediators", function () {
 		var Model = function() {
 			var data = [{title:'data1', label:'data2'}];
 			this.get = function(id, path){
+				console.log('ID', id);
+				console.log('PATH', path);
 				expect(id).toEqual('0');
 				expect(path).toEqual('title');
 				return data[id][path];
@@ -965,8 +941,8 @@ describe("mediators", function () {
 		};
 		runs(function() {
 			mediators.observe(div);
-			mediators.map('Mediator', Mediator, 'model');
-			div.innerHTML = '<div data-mediator="Mediator|get(0,title)"></div>';
+			mediators.map('Mediator', Mediator, {data:'model'});
+			div.innerHTML = '<div data-mediator="Mediator|data:get(0,title)"></div>';
 			mediators.support(div);
 		});
 		waitsFor(function() {

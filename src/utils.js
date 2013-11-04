@@ -150,7 +150,6 @@
 	var regexParams = /^(\"|\')(.*)(\"|\')$/;
 
 	function parsePath(dataValue, dataPath) {
-		console.log('PARSE PATH', dataValue, dataPath);
 		if (dataPath !== undefined && dataValue !== undefined) {
 			var step, val = dataValue;
 			var path = dataPath.split('.');
@@ -164,8 +163,6 @@
 							params[i] = params[i].substr(1, params[i].length-2);
 						}
 					}
-					console.log('VAL', val);
-					console.log('VAL', parts);
 					val = val[parts[1]].apply(null, params);
 				}
 				else {
@@ -193,11 +190,9 @@
 	}
 
 	function getDataFromParentMediators(self, element, dataPath) {
-		console.log('> getDataFromParentMediators', dataPath);
 		var target = element.parentNode;
 		if (target) {
 			var mediator = self.get(target);
-			console.log(':::::::', mediator, typeof mediator);
 			if (mediator) {
 				var value = parsePath(mediator, dataPath);
 				if (value !== undefined) {
@@ -208,148 +203,52 @@
 				}
 			}
 		}
-
-
-//		var attr = element.getAttribute(this.attribute);
-//		if (attr) {
-//			var parts = attr.split(this.attributeSeparator);
-//			if (parts[0] && this.has(element)) {
-//				this.remove(element);
-//			}
-//		}
-//		var child = element.firstChild;
-//		while (child) {
-//			this.parseToRemove(child);
-//			child = child.nextSibling;
-//		}
 	}
 
 	function parseDOM(self, element) {
 		if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
 			return;
 		}
-
-		console.log('attribute list', getTypedAttributes(self, element));
-
 		var typedList = getTypedAttributes(self, element);
-
 		for (var i=0, l=typedList.length; i<l; i++) {
-
 			var attr = typedList[i];
-			console.log('----- attr', attr);
-			console.log('----- type', self.types[attr.name]);
 			var type = self.types[attr.name];
 			if (attr && type) {
 				var parts = attr.value.split(self.attributeSeparator);
 				var mediatorId = parts[0];
 				var dataPath = parts[1];
-				console.log('-- data path', dataPath);
-				console.log('mediatorId', mediatorId, type.mappings[mediatorId]);
 				if (mediatorId && type.mappings[mediatorId]) {
-					console.log('type.has(element)', type.has(element));
 					if (!type.has(element)) {
+
+						console.log('GET MAPPING DATA', mediatorId, type.getMappingData(mediatorId));
+
 						var dataSource = type.getMappingData(mediatorId) || {};
+
+						console.log('DATA PATH', dataPath);
+
 						if (!dataPath) {
 							type.add(element, self.create(type.mappings[mediatorId].mediator, element, dataSource));
 						}
 						else {
-							console.log('DATA PATH', dataPath);
-							var dataPathList = dataPath.split(/\s?,\s?/g);
-							console.log('DATA PATH LIST', dataPathList);
+							var dataPathList = dataPath.match(/([:\/a-zA-Z0-9$\[\]._-]+\(.*?\)|'[^'\\]*(?:\\.[^'\\]*)*'|"[^"\\]*(?:\\.[^"\\]*)*"|[:\/a-zA-Z0-9$\[\]._-]+)/g);
 							for (var s=0, d=dataPathList.length; s<d; s++) {
-								console.log('>>>>', s, dataPathList[s]);
 								var p = dataPathList[s].split(':');
+								console.log('LIST', p);
 								var name = p[0];
-								console.log('----------- dataSource[name]', name, dataSource[name]);
 								if (dataSource[name]) {
-									console.log('p.length', p.length, p);
 									dataSource[name] = parsePath(dataSource[name], p[1]);
 								}
 								else {
 									dataSource[name] = getDataFromParentMediators(self, element, p[1]);
-									console.log('FOUND', name, dataSource[name]);
 								}
 							}
 							type.add(element, self.create(type.mappings[mediatorId].mediator, element, dataSource));
 						}
-
-
-
-//
-//
-//
-//
-//
-//
-//
-//						var dataSource = type.getMappingData(mediatorId);
-//						console.log('DATA SOURCE', dataSource);
-//						if (dataSource) {
-//							if (dataPath) {
-//								console.log('DATA PATH', dataPath);
-//								var dataPathList = dataPath.split(/\s?,\s?/g);
-//								console.log('DATA PATH LIST', dataPathList);
-//								for (var s=0, d=dataPathList.length; s<d; s++) {
-//									var p = dataPathList[i].split(':');
-//									var name = p[0];
-//									console.log('dataSource[name]', dataSource[name]);
-//									if (dataSource[name]) {
-//										console.log('p.length', p.length, p);
-//										if (p.length > 0) {
-//											console.log('has path');
-//											dataSource[name] = parsePath(dataSource[name], p[1]);
-//										}
-//										else {
-//											console.log('has no path');
-//										}
-//									}
-//								}
-//							}
-//							type.add(element, self.create(type.mappings[mediatorId].mediator, element, dataSource));
-//						}
-//						else {
-//							dataSource = getDataFromParentMediators(self, element, dataPath);
-//							type.add(element, self.create(type.mappings[mediatorId].mediator, element));
-//						}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//						var dataSource = type.getMappingData(mediatorId);
-//						if (dataSource) {
-//							var dataValue = parsePath(dataSource, dataPath);
-//							console.log('CREATE WITH DATA SOURCE', dataValue);
-//							type.add(element, self.create(type.mappings[mediatorId].mediator, element, dataValue));
-//						}
-//						else {
-//							if (!dataPath) {
-//								type.add(element, self.create(type.mappings[mediatorId].mediator, element));
-//							}
-//							else {
-//								// has a data path but not data source
-//								console.log('FOUND IT!!!', getDataFromParentMediators(self, element, dataPath));
-//								type.add(element, self.create(type.mappings[mediatorId].mediator, element, getDataFromParentMediators(self, element, dataPath)));
-//							}
-//						}
-
 					}
 				}
 			}
 
 		}
-
 		var child = element.firstChild;
 		while (child) {
 			parseDOM(self, child);
@@ -359,8 +258,7 @@
 
 	function applyMappingData(injector, obj) {
 		for (var name in obj) {
-			if (typeof name === 'string') {
-				console.log('APPLY', name, obj[name]);
+			if (typeof name === 'string' && obj[name] !== undefined && obj[name] !== null) {
 				injector.mapValue(name, obj[name]);
 			}
 		}

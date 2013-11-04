@@ -793,7 +793,6 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	var regexParams = /^(\"|\')(.*)(\"|\')$/;
 
 	function parsePath(dataValue, dataPath) {
-		console.log('PARSE PATH', dataValue, dataPath);
 		if (dataPath !== undefined && dataValue !== undefined) {
 			var step, val = dataValue;
 			var path = dataPath.split('.');
@@ -807,8 +806,6 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 							params[i] = params[i].substr(1, params[i].length-2);
 						}
 					}
-					console.log('VAL', val);
-					console.log('VAL', parts);
 					val = val[parts[1]].apply(null, params);
 				}
 				else {
@@ -836,11 +833,9 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	}
 
 	function getDataFromParentMediators(self, element, dataPath) {
-		console.log('> getDataFromParentMediators', dataPath);
 		var target = element.parentNode;
 		if (target) {
 			var mediator = self.get(target);
-			console.log(':::::::', mediator, typeof mediator);
 			if (mediator) {
 				var value = parsePath(mediator, dataPath);
 				if (value !== undefined) {
@@ -851,148 +846,52 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				}
 			}
 		}
-
-
-//		var attr = element.getAttribute(this.attribute);
-//		if (attr) {
-//			var parts = attr.split(this.attributeSeparator);
-//			if (parts[0] && this.has(element)) {
-//				this.remove(element);
-//			}
-//		}
-//		var child = element.firstChild;
-//		while (child) {
-//			this.parseToRemove(child);
-//			child = child.nextSibling;
-//		}
 	}
 
 	function parseDOM(self, element) {
 		if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
 			return;
 		}
-
-		console.log('attribute list', getTypedAttributes(self, element));
-
 		var typedList = getTypedAttributes(self, element);
-
 		for (var i=0, l=typedList.length; i<l; i++) {
-
 			var attr = typedList[i];
-			console.log('----- attr', attr);
-			console.log('----- type', self.types[attr.name]);
 			var type = self.types[attr.name];
 			if (attr && type) {
 				var parts = attr.value.split(self.attributeSeparator);
 				var mediatorId = parts[0];
 				var dataPath = parts[1];
-				console.log('-- data path', dataPath);
-				console.log('mediatorId', mediatorId, type.mappings[mediatorId]);
 				if (mediatorId && type.mappings[mediatorId]) {
-					console.log('type.has(element)', type.has(element));
 					if (!type.has(element)) {
+
+						console.log('GET MAPPING DATA', mediatorId, type.getMappingData(mediatorId));
+
 						var dataSource = type.getMappingData(mediatorId) || {};
+
+						console.log('DATA PATH', dataPath);
+
 						if (!dataPath) {
 							type.add(element, self.create(type.mappings[mediatorId].mediator, element, dataSource));
 						}
 						else {
-							console.log('DATA PATH', dataPath);
-							var dataPathList = dataPath.split(/\s?,\s?/g);
-							console.log('DATA PATH LIST', dataPathList);
+							var dataPathList = dataPath.match(/([:\/a-zA-Z0-9$\[\]._-]+\(.*?\)|'[^'\\]*(?:\\.[^'\\]*)*'|"[^"\\]*(?:\\.[^"\\]*)*"|[:\/a-zA-Z0-9$\[\]._-]+)/g);
 							for (var s=0, d=dataPathList.length; s<d; s++) {
-								console.log('>>>>', s, dataPathList[s]);
 								var p = dataPathList[s].split(':');
+								console.log('LIST', p);
 								var name = p[0];
-								console.log('----------- dataSource[name]', name, dataSource[name]);
 								if (dataSource[name]) {
-									console.log('p.length', p.length, p);
 									dataSource[name] = parsePath(dataSource[name], p[1]);
 								}
 								else {
 									dataSource[name] = getDataFromParentMediators(self, element, p[1]);
-									console.log('FOUND', name, dataSource[name]);
 								}
 							}
 							type.add(element, self.create(type.mappings[mediatorId].mediator, element, dataSource));
 						}
-
-
-
-//
-//
-//
-//
-//
-//
-//
-//						var dataSource = type.getMappingData(mediatorId);
-//						console.log('DATA SOURCE', dataSource);
-//						if (dataSource) {
-//							if (dataPath) {
-//								console.log('DATA PATH', dataPath);
-//								var dataPathList = dataPath.split(/\s?,\s?/g);
-//								console.log('DATA PATH LIST', dataPathList);
-//								for (var s=0, d=dataPathList.length; s<d; s++) {
-//									var p = dataPathList[i].split(':');
-//									var name = p[0];
-//									console.log('dataSource[name]', dataSource[name]);
-//									if (dataSource[name]) {
-//										console.log('p.length', p.length, p);
-//										if (p.length > 0) {
-//											console.log('has path');
-//											dataSource[name] = parsePath(dataSource[name], p[1]);
-//										}
-//										else {
-//											console.log('has no path');
-//										}
-//									}
-//								}
-//							}
-//							type.add(element, self.create(type.mappings[mediatorId].mediator, element, dataSource));
-//						}
-//						else {
-//							dataSource = getDataFromParentMediators(self, element, dataPath);
-//							type.add(element, self.create(type.mappings[mediatorId].mediator, element));
-//						}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//						var dataSource = type.getMappingData(mediatorId);
-//						if (dataSource) {
-//							var dataValue = parsePath(dataSource, dataPath);
-//							console.log('CREATE WITH DATA SOURCE', dataValue);
-//							type.add(element, self.create(type.mappings[mediatorId].mediator, element, dataValue));
-//						}
-//						else {
-//							if (!dataPath) {
-//								type.add(element, self.create(type.mappings[mediatorId].mediator, element));
-//							}
-//							else {
-//								// has a data path but not data source
-//								console.log('FOUND IT!!!', getDataFromParentMediators(self, element, dataPath));
-//								type.add(element, self.create(type.mappings[mediatorId].mediator, element, getDataFromParentMediators(self, element, dataPath)));
-//							}
-//						}
-
 					}
 				}
 			}
 
 		}
-
 		var child = element.firstChild;
 		while (child) {
 			parseDOM(self, child);
@@ -1002,8 +901,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 	function applyMappingData(injector, obj) {
 		for (var name in obj) {
-			if (typeof name === 'string') {
-				console.log('APPLY', name, obj[name]);
+			if (typeof name === 'string' && obj[name] !== undefined && obj[name] !== null) {
 				injector.mapValue(name, obj[name]);
 			}
 		}
@@ -1123,9 +1021,8 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			this.list = new soma.utils.HashMap('hm-'+name);
 		},
 		map: function(id, mediator, data) {
-			console.log('ADD', id, mediator, data);
 			if (!this.mappings[id] && typeof mediator === 'function') {
-				console.log('SET MAPPING', this.name, id);
+				console.log('MAP', id, data);
 				this.mappings[id] = {
 					mediator: mediator,
 					data: data
@@ -1134,7 +1031,6 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			return this;
 		},
 		unmap: function(id) {
-			console.log('UNMAP', this.mappings[id]);
 			if (this.mappings[id]) {
 				delete this.mappings[id].mediator;
 				delete this.mappings[id].data;
@@ -1143,7 +1039,6 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			return this;
 		},
 		hasMapping: function(id) {
-			console.log('HAS MAPPING', id, this.mappings[id]);
 			return this.mappings[id] !== undefined && this.mappings[id] !== null;
 		},
 		getMapping: function(id) {
@@ -1152,10 +1047,12 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		getMappingData: function(id) {
 			if (this.mappings[id]) {
 				var data = this.mappings[id].data;
-				if (data) {
+				if (data !== undefined) {
+					if (typeof data === 'function') {
+						return data;
+					}
 					var resolvedData = {};
 					for (var name in data) {
-						console.log('> resolve mapping name', name, data[name]);
 						if (typeof data[name] === 'string' && this.injector.hasMapping(data[name])) {
 							resolvedData[name] = this.injector.getValue(data[name]);
 						}
@@ -1168,11 +1065,9 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 		},
 		has: function(element) {
-			console.log('HAS', this.list.has(element));
 			return this.list.has(element);
 		},
 		add: function(element, mediator) {
-			console.log('ADD', element, mediator, this.list.has(element));
 			if (!this.list.has(element)) {
 				this.list.put(element, {
 					mediator: mediator,
@@ -1195,7 +1090,6 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		},
 		get: function(element) {
 			var item = this.list.get(element);
-			console.log('GET', item);
 			return item && item.mediator ? item.mediator : undefined;
 		},
 		removeAll: function() {
@@ -1246,10 +1140,9 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			for (var i= 0, l=targets.length; i<l; i++) {
 				var injector = this.injector.createChild();
 				injector.mapValue('target', targets[i]);
-				console.log('data', data);
 				if (typeof data === 'function') {
 					var result = data(injector, i);
-					console.log('data-result', result);
+					console.log('result', result);
 					if (result !== undefined && result !== null) {
 						//injector.mapValue('data', result);
 						applyMappingData(injector, result);
@@ -1278,6 +1171,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			// todo
 		},
 		map: function(id, mediator, data, type) {
+			console.log('MAIN MAP', id, mediator, data, type);
 			return this.getType(type).map(id, mediator, data);
 		},
 		unmap: function(id, type) {
@@ -1324,14 +1218,17 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 		},
 		parseToRemove: function(element) {
+			console.log('PARSE TO REMOVE', element);
 			if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
 				return;
 			}
-			var attr = element.getAttribute(this.attribute);
-			if (attr) {
-				var parts = attr.split(this.attributeSeparator);
-				if (parts[0] && this.has(element)) {
-					this.remove(element);
+			for (var typeId in this.types) {
+				var attr = element.getAttribute(typeId);
+				if (attr) {
+					var parts = attr.split(this.attributeSeparator);
+					if (parts[0] && this.types[typeId].has(element) && this.types[typeId].hasMapping(parts[0])) {
+						this.types[typeId].remove(element);
+					}
 				}
 			}
 			var child = element.firstChild;
@@ -1381,22 +1278,6 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				}
 			}
 		},
-//		getMappingData: function(id, type) {
-//			var typeTarget = type ? type : this.defaultType;
-//			console.log('-- getMappingData', id);
-//			var mData = this.types[typeTarget] ? this.types[typeTarget].data : {};
-//			if (typeof mData === 'string' && this.injector.hasMapping(mData)) {
-//				return this.injector.getValue(mData);
-//			}
-//			return mData;
-//		},
-//		setMappingData: function(id, data, type) {
-//			console.log('-- setMappingData', id, data, type);
-//			var typeId = type ? type : this.defaultType;
-//			if (this.types[typeId]) {
-//				this.types[typeId].data[id] = data;
-//			}
-//		},
 		has: function(element, type) {
 			return this.getType(type).has(element);
 		},

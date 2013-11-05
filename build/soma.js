@@ -862,21 +862,15 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				var dataPath = parts[1];
 				if (mediatorId && type.mappings[mediatorId]) {
 					if (!type.has(element)) {
-
-						console.log('GET MAPPING DATA', mediatorId, type.getMappingData(mediatorId));
-
 						var dataSource = type.getMappingData(mediatorId) || {};
-
-						console.log('DATA PATH', dataPath);
-
 						if (!dataPath) {
 							type.add(element, self.create(type.mappings[mediatorId].mediator, element, dataSource));
 						}
 						else {
-							var dataPathList = dataPath.match(/([:\/a-zA-Z0-9$\[\]._-]+\(.*?\)|'[^'\\]*(?:\\.[^'\\]*)*'|"[^"\\]*(?:\\.[^"\\]*)*"|[:\/a-zA-Z0-9$\[\]._-]+)/g);
+							// http://regex101.com/r/nI3zQ7
+							var dataPathList = dataPath.split(/,(?![\w\s'",\\]*\))/g);
 							for (var s=0, d=dataPathList.length; s<d; s++) {
 								var p = dataPathList[s].split(':');
-								console.log('LIST', p);
 								var name = p[0];
 								if (dataSource[name]) {
 									dataSource[name] = parsePath(dataSource[name], p[1]);
@@ -1192,21 +1186,91 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 			if (typeof MutationObserver !== 'undefined' && element) {
 				this.observer = new MutationObserver(function(mutations) {
+					console.log('--------------------');
 					for (var i= 0, l=mutations.length; i<l; i++) {
-						// added
-						var added = mutations[i].addedNodes;
-						for (var j= 0, k=added.length; j<k; j++) {
-							this.parse(added[j]);
-						}
-						// removed
-						var removed = mutations[i].removedNodes;
-						for (var d= 0, f=removed.length; d<f; d++) {
-							this.parseToRemove(removed[j]);
+						console.log('    [Mutation][' + i + ']', mutations[i]);
+						var mutationType = mutations[i].type;
+						switch(mutationType) {
+							case 'childList':
+								// added
+								var added = mutations[i].addedNodes;
+								for (var j= 0, k=added.length; j<k; j++) {
+									this.parse(added[j]);
+								}
+								// removed
+								var removed = mutations[i].removedNodes;
+								for (var d= 0, f=removed.length; d<f; d++) {
+									this.parseToRemove(removed[j]);
+								}
+								break;
+							case 'attributes':
+								console.log('********* ATTRIBUTE');
+								var attrName = mutations[i].attributeName;
+								var type = this.types[attrName];
+								var target = mutations[i].target;
+								if (type && type.has(target)) {
+									console.log('FOUND', type);
+									var attrValue = mutations[i].target.getAttribute(attrName);
+									console.log('VALUE', attrValue);
+									var parts = attrValue.split(this.attributeSeparator);
+									var mediatorId = parts[0];
+									var dataPath = parts[1];
+									console.log('mediator-id', mediatorId);
+									var mapping = type.getMapping(mediatorId);
+									var mediator = type.get(target);
+									if (mapping) {
+										console.log('MAPPING', mapping);
+
+										var dataSource = type.getMappingData(mediatorId) || {};
+										if (dataPath) {
+											var dataPathList = dataPath.split(/,(?![\w\s'",\\]*\))/g);
+											for (var s=0, d=dataPathList.length; s<d; s++) {
+												var p = dataPathList[s].split(':');
+												var name = p[0];
+												if (dataSource[name]) {
+													dataSource[name] = parsePath(dataSource[name], p[1]);
+												}
+												else {
+													dataSource[name] = getDataFromParentMediators(this, element, p[1]);
+												}
+											}
+										}
+
+
+										var injector = this.injector.createChild();
+										injector.mapValue('target', target);
+										if (typeof dataSource === 'function') {
+											var result = dataSource(injector, i);
+											console.log('result', result);
+											if (result !== undefined && result !== null) {
+												//injector.mapValue('data', result);
+												applyMappingData(injector, result);
+											}
+										}
+										else if (dataSource !== undefined && dataSource !== null) {
+											//injector.mapValue('data', data);
+											applyMappingData(injector, dataSource);
+										}
+
+										injector.inject(mediator, false);
+
+
+									}
+
+
+
+								}
+//								var mediator = this.get(mutations[i].target)
+//								console.log('mediator', mediator);
+//								if (mediator) {
+//
+//								}
+								break;
 						}
 					}
 
 				}.bind(this));
-				this.observer.observe(element, config || {childList: true, subtree: true});
+				this.observer.observe(element, config || {childList: true, subtree: true, attributes: true});
 				this.isObserving = true;
 			}
 			else {

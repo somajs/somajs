@@ -219,21 +219,15 @@
 				var dataPath = parts[1];
 				if (mediatorId && type.mappings[mediatorId]) {
 					if (!type.has(element)) {
-
-						console.log('GET MAPPING DATA', mediatorId, type.getMappingData(mediatorId));
-
 						var dataSource = type.getMappingData(mediatorId) || {};
-
-						console.log('DATA PATH', dataPath);
-
 						if (!dataPath) {
 							type.add(element, self.create(type.mappings[mediatorId].mediator, element, dataSource));
 						}
 						else {
-							var dataPathList = dataPath.match(/([:\/a-zA-Z0-9$\[\]._-]+\(.*?\)|'[^'\\]*(?:\\.[^'\\]*)*'|"[^"\\]*(?:\\.[^"\\]*)*"|[:\/a-zA-Z0-9$\[\]._-]+)/g);
+							// http://regex101.com/r/nI3zQ7
+							var dataPathList = dataPath.split(/,(?![\w\s'",\\]*\))/g);
 							for (var s=0, d=dataPathList.length; s<d; s++) {
 								var p = dataPathList[s].split(':');
-								console.log('LIST', p);
 								var name = p[0];
 								if (dataSource[name]) {
 									dataSource[name] = parsePath(dataSource[name], p[1]);

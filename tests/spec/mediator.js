@@ -954,6 +954,8 @@ describe("mediators", function () {
 		var Model = function() {
 			var data = [{title:'data1', label:'data2'}];
 			this.get = function(id, path){
+				console.log('ID', id);
+				console.log('PATH', path);
 				expect(id).toEqual('0');
 				expect(path).toEqual('title');
 				return data[id][path];
@@ -968,8 +970,8 @@ describe("mediators", function () {
 		};
 		runs(function() {
 			mediators.observe(div);
-			mediators.map('Mediator', Mediator, 'model');
-			div.innerHTML = '<div data-mediator="Mediator|get(\'0\',\'title\')"></div>';
+			mediators.map('Mediator', Mediator, {data:'model'});
+			div.innerHTML = '<div data-mediator="Mediator|data:get(\'0\',\'title\')"></div>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -995,8 +997,8 @@ describe("mediators", function () {
 		};
 		runs(function() {
 			mediators.observe(div);
-			mediators.map('Mediator', Mediator, 'model');
-			div.innerHTML = "<div data-mediator='Mediator|get(\"0\",\"title\")'></div>";
+			mediators.map('Mediator', Mediator, {data:'model'});
+			div.innerHTML = "<div data-mediator='Mediator|data:get(\"0\",\"title\")'></div>";
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -1035,8 +1037,8 @@ describe("mediators", function () {
 		};
 		runs(function() {
 			mediators.observe(div);
-			mediators.map('Mediator', Mediator, 'model');
-			div.innerHTML = '<div data-mediator="Mediator|get(path).0.func(1,list)"></div>';
+			mediators.map('Mediator', Mediator, {data:'model'});
+			div.innerHTML = '<div data-mediator="Mediator|data:get(path).0.func(1,list)"></div>';
 			mediators.support(div);
 		});
 		waitsFor(function() {

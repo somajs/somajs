@@ -2,11 +2,11 @@
 
 	'use strict';
 
-	var ItemPtlMediator = function(target, dispatcher, tpl, parentTemplate, parentScope, data, partials) {
+	var ItemPtlMediator = function(target, dispatcher, tpl, parentTemplate, parentScope, partials) {
 
-		dispatcher.dispatch('log', 'item template mediator created, with data: ' + data);
+		this.data = null;
 
-		console.log('>>>>>>>>>>>>>', data);
+
 		console.log('>>>>>>>>>>>>>', parentScope);
 		console.log('>>>>>>>>>>>>>', parentTemplate);
 
@@ -16,8 +16,6 @@
 		var template = tpl(target.firstChild);
 		var scope = template.scope;
 
-		scope.item = data;
-		template.render();
 
 		console.log('----------------------------------------CREATED');
 
@@ -35,8 +33,22 @@
 //			};
 //		}
 
+		scope.remove = function() {
+//			target.parentNode.removeChild(target);
+			console.log(this);
+			dispatcher.dispatch('remove', scope.item.id);
+		};
+
+		this.postConstruct = function() {
+			dispatcher.dispatch('log', 'item template mediator created, with data: ' + this.data);
+			console.log('MEDIATOR DATA HAS CHANGED!!!!!!!');
+			console.log(this.data);
+			scope.item = this.data;
+			template.render();
+		};
+
 		this.dispose = function() {
-			dispatcher.dispatch('log', 'item template mediator removed, id: ' + data.id);
+			dispatcher.dispatch('log', 'item template mediator removed, id: ' + this.data.id);
 //			template.dispose();
 //			template = null;
 		};

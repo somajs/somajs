@@ -22,14 +22,9 @@
 			this.mediators.map('list', tile.ListMediator);
 			this.mediators.map('list-tpl', tile.ListTplMediator);
 			this.mediators.map('item', tile.ItemMediator, {data: 'model'});
-//			this.mediators.map('item', tile.ItemMediator, function(injector, i) {
-//				console.log('>>>> get data', injector, i)
-//				return 'Hey';
-//			});
 			this.mediators.map('item-tpl', tile.ItemPtlMediator, {data: 'model'});
 			// add custom mediator attributes
-			this.mediators.describe('data-hover')
-				.map('hover', tile.TileHover, 'model');
+			this.mediators.describe('data-hover').map('hover', tile.TileHover, {color:'model'});
 			// observe an element (Mutation Observers)
 			this.mediators.observe(this.element);
 		},

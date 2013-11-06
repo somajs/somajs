@@ -18,12 +18,7 @@
 
 	<div class="list" data-mediator="list"></div>
 	<div class="list" data-mediator="list-tpl">
-        <div data-repeat="item in items" data-mediator="item-tpl|parentScope:scope,parentTemplate:template,data:get({{item.id}})">HEY {{item.id}}</div>
-        <!--<div class="item" data-id="{{item.id}}" data-repeat="item in items" data-mediator="item-tpl|get({{item.id}})">-->
-            <!--{{item.title}}-->
-            <!--<img data-src="{{item.img}}" />-->
-            <!--<button data-click="remove()"></button>-->
-        <!--</div>-->
+        <div data-repeat="item in items" data-mediator="item-tpl|data:get({{item.id}})"></div>
         <pre>{{itemsRaw}}</pre>
 	</div>
 

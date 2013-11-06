@@ -114,7 +114,6 @@
 		},
 		map: function(id, mediator, data) {
 			if (!this.mappings[id] && typeof mediator === 'function') {
-				console.log('MAP', id, data);
 				this.mappings[id] = {
 					mediator: mediator,
 					data: data
@@ -234,7 +233,6 @@
 				injector.mapValue('target', targets[i]);
 				if (typeof data === 'function') {
 					var result = data(injector, i);
-					console.log('result', result);
 					if (result !== undefined && result !== null) {
 						//injector.mapValue('data', result);
 						applyMappingData(injector, result);
@@ -263,7 +261,6 @@
 			// todo
 		},
 		map: function(id, mediator, data, type) {
-			console.log('MAIN MAP', id, mediator, data, type);
 			return this.getType(type).map(id, mediator, data);
 		},
 		unmap: function(id, type) {
@@ -284,12 +281,11 @@
 			}
 			if (typeof MutationObserver !== 'undefined' && element) {
 				this.observer = new MutationObserver(function(mutations) {
-					console.log('--------------------');
 					for (var i= 0, l=mutations.length; i<l; i++) {
-						console.log('    [Mutation][' + i + ']', mutations[i]);
 						var mutationType = mutations[i].type;
 						switch(mutationType) {
 							case 'childList':
+								console.log('>> [mutation][childList]', mutations[i]);
 								// added
 								var added = mutations[i].addedNodes;
 								for (var j= 0, k=added.length; j<k; j++) {
@@ -302,73 +298,38 @@
 								}
 								break;
 							case 'attributes':
-								console.log('********* ATTRIBUTE');
+								console.log('>> [mutation][attribute]', mutations[i]);
 								var attrName = mutations[i].attributeName;
 								var type = this.types[attrName];
 								var target = mutations[i].target;
 								if (type && type.has(target)) {
-									console.log('FOUND', type);
+									console.log('type has target:', type.has(target));
 									var attrValue = mutations[i].target.getAttribute(attrName);
-									console.log('VALUE', attrValue);
-									var parts = attrValue.split(this.attributeSeparator);
-									var mediatorId = parts[0];
-									var dataPath = parts[1];
-									console.log('mediator-id', mediatorId);
-									var mapping = type.getMapping(mediatorId);
+									var dataSource = getDataSource(this, element, type, attrValue);
 									var mediator = type.get(target);
-									if (mapping) {
-										console.log('MAPPING', mapping);
-
-										var dataSource = type.getMappingData(mediatorId) || {};
-										if (dataPath) {
-											var dataPathList = dataPath.split(/,(?![\w\s'",\\]*\))/g);
-											for (var s=0, d=dataPathList.length; s<d; s++) {
-												var p = dataPathList[s].split(':');
-												var name = p[0];
-												if (dataSource[name]) {
-													dataSource[name] = parsePath(dataSource[name], p[1]);
-												}
-												else {
-													dataSource[name] = getDataFromParentMediators(this, element, p[1]);
-												}
-											}
-										}
-
-
+									if (dataSource && mediator) {
 										var injector = this.injector.createChild();
 										injector.mapValue('target', target);
 										if (typeof dataSource === 'function') {
 											var result = dataSource(injector, i);
-											console.log('result', result);
 											if (result !== undefined && result !== null) {
-												//injector.mapValue('data', result);
 												applyMappingData(injector, result);
 											}
 										}
 										else if (dataSource !== undefined && dataSource !== null) {
-											//injector.mapValue('data', data);
 											applyMappingData(injector, dataSource);
 										}
 
 										injector.inject(mediator, false);
-
-
 									}
-
-
-
 								}
-//								var mediator = this.get(mutations[i].target)
-//								console.log('mediator', mediator);
-//								if (mediator) {
-//
-//								}
 								break;
 						}
 					}
 
 				}.bind(this));
-				this.observer.observe(element, config || {childList: true, subtree: true, attributes: true});
+				// todo remove specific attribute
+				this.observer.observe(element, config || {childList: true, subtree: true, attributes: true, attributeOldValue: true, attributeFilter:['data-mediator', 'data-hover']});
 				this.isObserving = true;
 			}
 			else {
@@ -380,7 +341,6 @@
 			}
 		},
 		parseToRemove: function(element) {
-			console.log('PARSE TO REMOVE', element);
 			if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
 				return;
 			}

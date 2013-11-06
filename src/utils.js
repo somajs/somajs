@@ -163,7 +163,9 @@
 							params[i] = params[i].substr(1, params[i].length-2);
 						}
 					}
-					val = val[parts[1]].apply(null, params);
+					if (val[parts[1]] !== undefined) {
+						val = val[parts[1]].apply(null, params);
+					}
 				}
 				else {
 					val = val[step];
@@ -214,30 +216,12 @@
 			var attr = typedList[i];
 			var type = self.types[attr.name];
 			if (attr && type) {
-				var parts = attr.value.split(self.attributeSeparator);
-				var mediatorId = parts[0];
-				var dataPath = parts[1];
-				if (mediatorId && type.mappings[mediatorId]) {
-					if (!type.has(element)) {
-						var dataSource = type.getMappingData(mediatorId) || {};
-						if (!dataPath) {
-							type.add(element, self.create(type.mappings[mediatorId].mediator, element, dataSource));
-						}
-						else {
-							// http://regex101.com/r/nI3zQ7
-							var dataPathList = dataPath.split(/,(?![\w\s'",\\]*\))/g);
-							for (var s=0, d=dataPathList.length; s<d; s++) {
-								var p = dataPathList[s].split(':');
-								var name = p[0];
-								if (dataSource[name]) {
-									dataSource[name] = parsePath(dataSource[name], p[1]);
-								}
-								else {
-									dataSource[name] = getDataFromParentMediators(self, element, p[1]);
-								}
-							}
-							type.add(element, self.create(type.mappings[mediatorId].mediator, element, dataSource));
-						}
+				var mediatorId = attr.value.split(self.attributeSeparator)[0];
+				var mapping = type.getMapping(mediatorId);
+				if (mapping) {
+					var dataSource = getDataSource(self, element, type, attr.value);
+					if (!type.get(element)) {
+						type.add(element, self.create(type.mappings[mediatorId].mediator, element, dataSource));
 					}
 				}
 			}
@@ -248,6 +232,36 @@
 			parseDOM(self, child);
 			child = child.nextSibling;
 		}
+	}
+
+	function getDataSource(self, element, type, attrValue) {
+		var dataSource;
+		var parts = attrValue.split(self.attributeSeparator);
+		var mediatorId = parts[0];
+		var dataPath = parts[1];
+		var mapping = type.getMapping(mediatorId);
+		if (mapping) {
+			dataSource = resolveDataSource(self, element, type, mediatorId, dataPath);
+		}
+		return dataSource;
+	}
+
+	function resolveDataSource(self, element, mediatorType, mediatorId, dataPath) {
+		var dataSource = mediatorType.getMappingData(mediatorId) || {};
+		if (dataPath) {
+			var dataPathList = dataPath.split(/,(?![\w\s'",\\]*\))/g);
+			for (var s=0, d=dataPathList.length; s<d; s++) {
+				var p = dataPathList[s].split(':');
+				var name = p[0];
+				if (dataSource[name]) {
+					dataSource[name] = parsePath(dataSource[name], p[1]);
+				}
+				else {
+					dataSource[name] = getDataFromParentMediators(self, element, p[1]);
+				}
+			}
+		}
+		return dataSource;
 	}
 
 	function applyMappingData(injector, obj) {

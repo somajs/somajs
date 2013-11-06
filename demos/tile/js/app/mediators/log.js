@@ -5,6 +5,7 @@
 	var LogMediator = function(target, dispatcher) {
 
 		dispatcher.addEventListener('log', function(event) {
+			console.log('[LOG]', event.params);
 			target.innerHTML = event.params + '<br/>' + target.innerHTML;
 		});
 

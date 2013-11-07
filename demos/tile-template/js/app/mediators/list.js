@@ -23,7 +23,6 @@
 
 		function render() {
 			scope.items = model.getData();
-			scope.itemsRaw = JSON.stringify(model.getData(), undefined, 2);
 			template.render();
 		}
 

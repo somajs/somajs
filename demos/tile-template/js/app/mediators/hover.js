@@ -21,14 +21,26 @@
 
 
 		this.postConstruct = function() {
-			this.target.addEventListener('mouseover', mouseOver);
-			this.target.addEventListener('mouseout', mouseOut);
+			if (!this.target.addEventListener) {
+				this.target.attachEvent("onmouseover", mouseOver);
+				this.target.attachEvent("onmouseout", mouseOut);
+			}
+			else {
+				this.target.addEventListener('mouseover', mouseOver);
+				this.target.addEventListener('mouseout', mouseOut);
+			}
 			dispatcher.dispatch('log', 'hover mediator updated with data: ' + this.color);
 		};
 
 		this.dispose = function() {
-			this.target.removeEventListener('mouseover', mouseOver);
-			this.target.removeEventListener('mouseout', mouseOut);
+			if (!this.target.removeEventListener) {
+				this.target.detachEvent("onmouseover", mouseOver);
+				this.target.detachEvent("onmouseout", mouseOut);
+			}
+			else {
+				this.target.removeEventListener('mouseover', mouseOver);
+				this.target.removeEventListener('mouseout', mouseOut);
+			}
 		}
 
 	};

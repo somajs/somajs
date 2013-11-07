@@ -21,7 +21,7 @@
 		this.postConstruct = function() {
 			scope.item = this.data;
 			template.render();
-			dispatcher.dispatch('log', 'item template mediator updated with data', this.data);
+			dispatcher.dispatch('log', 'item template mediator updated with data' + this.data.id);
 		};
 
 		this.dispose = function() {

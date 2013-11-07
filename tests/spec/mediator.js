@@ -347,7 +347,6 @@ describe("mediators", function () {
 			mediators.support(div);
 		});
 		waitsFor(function() {
-			console.log('is created', isCreated);
 			return isCreated;
 		}, "The mediator should be created", 5000);
 		runs(function() {
@@ -779,7 +778,6 @@ describe("mediators", function () {
 		var done = false;
 		var div = document.createElement('div');
 		var Mediator = function(target, data) {
-			console.log('data', data);
 			expect(data).toEqual('info');
 			done = true;
 		};
@@ -931,8 +929,6 @@ describe("mediators", function () {
 		var Model = function() {
 			var data = [{title:'data1', label:'data2'}];
 			this.get = function(id, path){
-				console.log('ID', id);
-				console.log('PATH', path);
 				expect(id).toEqual('0');
 				expect(path).toEqual('title');
 				return data[id][path];
@@ -960,8 +956,6 @@ describe("mediators", function () {
 		var Model = function() {
 			var data = [{title:'data1', label:'data2'}];
 			this.get = function(id, path){
-				console.log('ID', id);
-				console.log('PATH', path);
 				expect(id).toEqual('0');
 				expect(path).toEqual('title');
 				return data[id][path];

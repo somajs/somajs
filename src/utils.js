@@ -168,27 +168,14 @@
 					}
 				}
 				else {
-					val = val[step];
+					if (typeof val !== 'undefined' && typeof val[step] !== 'undefined') {
+						val = val[step];
+					}
 				}
 			}
 			dataValue = val;
 		}
 		return dataValue;
-	}
-
-	function getTypedAttributes(self, element) {
-		var list = [];
-		for (var attr, name, value, attrs = element.attributes, j = 0, jj = attrs && attrs.length; j < jj; j++) {
-			attr = attrs[j];
-			if (attr.specified) {
-				name = attr.name;
-				value = attr.value;
-				if (self.types[name]) {
-					list.push(attr);
-				}
-			}
-		}
-		return list;
 	}
 
 	function getDataFromParentMediators(self, element, dataPath) {
@@ -211,21 +198,21 @@
 		if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
 			return;
 		}
-		var typedList = getTypedAttributes(self, element);
-		for (var i=0, l=typedList.length; i<l; i++) {
-			var attr = typedList[i];
-			var type = self.types[attr.name];
-			if (attr && type) {
-				var mediatorId = attr.value.split(self.attributeSeparator)[0];
+		for (var typeId in self.types) {
+			var type = self.types[typeId];
+			var name = type.name;
+			var attrValue = element.getAttribute(name);
+			if (attrValue !== undefined && attrValue !== null && attrValue !== '') {
+				var mediatorId = attrValue.split(self.attributeSeparator)[0];
 				var mapping = type.getMapping(mediatorId);
 				if (mapping) {
-					var dataSource = getDataSource(self, element, type, attr.value);
+					var dataSource = getDataSource(self, element, type, attrValue);
 					if (!type.get(element)) {
 						type.add(element, self.create(type.mappings[mediatorId].mediator, element, dataSource));
 					}
 					else {
 						if (updateData) {
-							updateMediatorData(self, type, attr.value, element);
+							updateMediatorData(self, type, attrValue, element);
 						}
 					}
 				}
@@ -254,6 +241,7 @@
 	function resolveDataSource(self, element, mediatorType, mediatorId, dataPath) {
 		var dataSource = mediatorType.getMappingData(mediatorId) || {};
 		if (dataPath) {
+			// http://regex101.com/r/nI3zQ7
 			var dataPathList = dataPath.split(/,(?![\w\s'",\\]*\))/g);
 			for (var s=0, d=dataPathList.length; s<d; s++) {
 				var p = dataPathList[s].split(':');

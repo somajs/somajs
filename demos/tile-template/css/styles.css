@@ -9,10 +9,6 @@ body {
 .hidden {
 	display: none;
 }
-.list {
-	overflow: hidden;
-	clear: both;
-}
 .people .person {
 	border: 1px solid #787878;
 	width: 80px;

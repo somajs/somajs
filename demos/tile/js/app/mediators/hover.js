@@ -6,8 +6,14 @@
 
 		dispatcher.dispatch('log', 'hover mediator created with ' + color);
 
-		target.addEventListener('mouseover', mouseOver);
-		target.addEventListener('mouseout', mouseOut);
+		if (!target.addEventListener) {
+			target.attachEvent("onmouseover", mouseOver);
+			target.attachEvent("onmouseout", mouseOut);
+		}
+		else {
+			target.addEventListener('mouseover', mouseOver);
+			target.addEventListener('mouseout', mouseOut);
+		}
 
 		function mouseOver() {
 			target.style.backgroundColor = color;
@@ -19,8 +25,14 @@
 
 
 		this.dispose = function() {
-			target.removeEventListener('mouseover', mouseOver);
-			target.removeEventListener('mouseout', mouseOut);
+			if (!target.removeEventListener) {
+				target.detachEvent("onmouseover", mouseOver);
+				target.detachEvent("onmouseout", mouseOut);
+			}
+			else {
+				target.removeEventListener('mouseover', mouseOver);
+				target.removeEventListener('mouseout', mouseOut);
+			}
 		}
 
 	};

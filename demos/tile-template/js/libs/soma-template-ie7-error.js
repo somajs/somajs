@@ -1,12 +1,9 @@
-/**
- * Created by romualdquantin on 07/11/2013.
- */
 (function (soma) {
 
 	'use strict';
 
 	soma.template = soma.template || {};
-	soma.template.version = '0.2.4';
+	soma.template.version = '0.2.1';
 
 	soma.template.errors = {
 		TEMPLATE_STRING_NO_ELEMENT: 'Error in soma.template, a string template requirement a second parameter: an element target - soma.template.create(\'string\', element)',
@@ -199,7 +196,7 @@
 	}
 	function removeClass(elm, className) {
 		var rmc;
-		if (typeof document === 'object' && document.documentElement.classList) {
+		if (document.documentElement.classList) {
 			rmc = function (elm, className) {
 				elm.classList.remove(className);
 			};
@@ -417,7 +414,7 @@
 		var eventsArray = [];
 		for (var attr, name, value, attrs = element.attributes, j = 0, jj = attrs && attrs.length; j < jj; j++) {
 			attr = attrs[j];
-			if (attr.specified || attr.name === 'value') {
+			if (attr.specified) {
 				name = attr.name;
 				value = attr.value;
 				if (name === settings.attributes.skip) {
@@ -489,6 +486,7 @@
 	}
 
 	function compile(template, element, parent, nodeTarget) {
+		console.log('->> COMPILE' + element.outerHTML);
 		if (!isElementValid(element)) {
 			return;
 		}
@@ -511,9 +509,12 @@
 		}
 		var child = element.firstChild;
 		while (child) {
+			console.log('->> CHILD', child.outerHTML);
 			var childNode = compile(template, child, node);
+			console.log('CHILD NODE', childNode);
 			if (childNode) {
 				childNode.parent = node;
+				console.log('->> COMPILE PUSH', childNode);
 				node.children.push(childNode);
 			}
 			child = child.nextSibling;
@@ -546,6 +547,9 @@
 			return;
 		}
 		for (var i = 0, l = node.children.length; i < l; i++) {
+			console.log('UPDATE NODE CHILD ' + node.children[i].element.outerHTML);
+			console.log('NODE CHILD HAS ATTRIBUTES ' + node.children[i].attributes.length);
+			console.log('NODE CHILD HAS INTERPOLATION ' + node.children[i].interpolation);
 			node.children[i].update();
 		}
 	}
@@ -598,11 +602,44 @@
 		}
 	}
 
+	function parseToCloneAttributes(node, newNode) {
+		if (node && newNode) {
+			console.log('>>> ATTEMPT TO CLONE');
+			if (node.attributes) {
+				newNode.attributes = [];
+				for (var i = 0, l = node.attributes.length; i < l; i++) {
+					console.log('<><><><><><><><><>CLONE ATTRIBUTE', node.attributes[i].name);
+					newNode.renderAsHtml = node.renderAsHtml;
+					if (node.attributes[i].name === settings.attributes.skip) {
+						newNode.skip = normalizeBoolean(node.attributes[i].value);
+					}
+					if (node.attributes[i].name === settings.attributes.html) {
+						newNode.html = normalizeBoolean(node.attributes[i].value);
+					}
+					if (node.attributes[i].name !== attributes.repeat) {
+						var attribute = new Attribute(node.attributes[i].name, node.attributes[i].value, newNode);
+						newNode.attributes.push(attribute);
+					}
+					if (events[node.attributes[i].name]) {
+						newNode.addEvent(events[node.attributes[i].name], node.attributes[i].value);
+					}
+				}
+			}
+			console.log('CLONED NODE HAS CHILDREN ' + node.children.length + ' - ' + node.attributes.length);
+			for (var a = 0, b = node.children.length; a < b; a++) {
+				console.log('CLONE CHILD ATTRIBUTE FROM NODE ' + node.children[a]);
+				parseToCloneAttributes(node.children[a], newNode.children[a]);
+			}
+		}
+	}
+
 	function cloneRepeaterNode(element, node) {
+		console.log('CLONE NODE ' + node.attributes.length);
 		var newNode = new Node(element, node.scope._createChild());
 		if (node.attributes) {
 			var attrs = [];
 			for (var i = 0, l = node.attributes.length; i < l; i++) {
+				console.log('ADD ATTRIBUTE', node.attributes[i].name);
 				newNode.renderAsHtml = node.renderAsHtml;
 				if (node.attributes[i].name === settings.attributes.skip) {
 					newNode.skip = normalizeBoolean(node.attributes[i].value);
@@ -629,8 +666,9 @@
 			// no existing node
 			var newElement = node.element.cloneNode(true);
 			// can't recreate the node with a cloned element on IE7
-			// be cause the attributes are not specified annymore (attribute.specified)
+			// be cause the attributes are not specified anymore (attribute.specified)
 			//var newNode = getNodeFromElement(newElement, node.scope._createChild(), true);
+
 			var newNode = cloneRepeaterNode(newElement, node);
 			newNode.isRepeaterChild = true;
 			newNode.parent = node.parent;
@@ -639,7 +677,14 @@
 			updateScopeWithRepeaterData(node.repeater, newNode.scope, data);
 			newNode.scope[indexVar] = indexVarValue;
 			compile(node.template, newElement, node.parent, newNode);
+//			if (ie === 7) {
+				parseToCloneAttributes(node, newNode);
+//			}
+			console.log('START CLONE ATTRIBUTE', node, newNode);
+			console.log('NODE CHILDREN', newNode.children.length);
+			console.log('NEW NODE UPDATE' + newNode.element.outerHTML);
 			newNode.update();
+			console.log('NEW NODE RENDER' + newNode.element.outerHTML);
 			newNode.render();
 			if (!previousElement) {
 				if (node.previousSibling) {
@@ -787,9 +832,11 @@
 			}
 		},
 		update: function() {
+			console.log('childNodeIsTemplate(this) ' + childNodeIsTemplate(this));
 			if (childNodeIsTemplate(this)) {
 				return;
 			}
+			console.log('isDefined(this.interpolation) ' + isDefined(this.interpolation));
 			if (isDefined(this.interpolation)) {
 				this.interpolation.update();
 			}
@@ -863,6 +910,7 @@
 			}
 		},
 		render: function() {
+			console.log('THIS>ELEMENT ' + childNodeIsTemplate(this) + this.element);
 			if (childNodeIsTemplate(this)) {
 				return;
 			}
@@ -928,11 +976,8 @@
 				return;
 			}
 			// normal attribute
-			function renderAttribute(name, value, node) {
-				if (name === 'value' && node.element['value'] !== undefined) {
-					element.value = value;
-				}
-				else if (ie === 7 && name === 'class') {
+			function renderAttribute(name, value) {
+				if (ie === 7 && name === 'class') {
 					element.className = value;
 				}
 				else {
@@ -987,7 +1032,7 @@
 							}
 						}
 					}
-					renderAttribute(this.name, this.value, this.node);
+					renderAttribute(this.name, this.value, this.previousName);
 				}
 			}
 			// cloak
@@ -997,29 +1042,29 @@
 			// hide
 			if (this.name === attributes.hide) {
 				var bool = normalizeBoolean(this.value);
-				renderAttribute(this.name, bool, this.node);
+				renderAttribute(this.name, bool);
 				element.style.display = bool ? 'none' : '';
 			}
 			// show
 			if (this.name === attributes.show) {
 				var bool = normalizeBoolean(this.value);
-				renderAttribute(this.name, bool, this.node);
+				renderAttribute(this.name, bool);
 				element.style.display = bool ? '' : 'none';
 			}
 			// checked
 			if (this.name === attributes.checked) {
 				renderSpecialAttribute(this.value, 'checked');
-				renderAttribute(this.name, normalizeBoolean(this.value) ? true : false, this.node);
+				renderAttribute(this.name, normalizeBoolean(this.value) ? true : false);
 			}
 			// disabled
 			if (this.name === attributes.disabled) {
 				renderSpecialAttribute(this.value, 'disabled');
-				renderAttribute(this.name, normalizeBoolean(this.value) ? true : false, this.node);
+				renderAttribute(this.name, normalizeBoolean(this.value) ? true : false);
 			}
 			// multiple
 			if (this.name === attributes.multiple) {
 				renderSpecialAttribute(this.value, 'multiple');
-				renderAttribute(this.name, normalizeBoolean(this.value) ? true : false, this.node);
+				renderAttribute(this.name, normalizeBoolean(this.value) ? true : false);
 			}
 			// readonly
 			if (this.name === attributes.readonly) {
@@ -1030,12 +1075,12 @@
 				else {
 					renderSpecialAttribute(this.value, 'readonly');
 				}
-				renderAttribute(this.name, bool ? true : false, this.node);
+				renderAttribute(this.name, bool ? true : false);
 			}
 			// selected
 			if (this.name === attributes.selected) {
 				renderSpecialAttribute(this.value, 'selected');
-				renderAttribute(this.name, normalizeBoolean(this.value) ? true : false, this.node);
+				renderAttribute(this.name, normalizeBoolean(this.value) ? true : false);
 			}
 		}
 	};
@@ -1047,6 +1092,7 @@
 		this.sequence = [];
 		this.expressions = [];
 		var parts = this.value.match(regex.sequence);
+		console.log('PARTS' + parts.length + this.value + ' - ' +  attribute);
 		if (parts) {
 			for (var i = 0, l = parts.length; i < l; i++) {
 				if (parts[i].match(regex.token)) {

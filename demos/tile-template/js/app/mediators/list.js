@@ -2,38 +2,37 @@
 
 	'use strict';
 
-	var ListTplMediator = function(target, tpl, model, dispatcher, mediators) {
+	var ListMediator = function(target, tpl, model, dispatcher, mediators) {
 
 		dispatcher.dispatch('log', 'list template mediator created');
 
 		var template = tpl(target);
 		var scope = template.scope;
 
-		this.scope = scope;
-		this.template = template;
-
 		dispatcher.addEventListener('add', function() {
-//			model.add();
-			update();
+			model.add();
+			render();
+			mediators.support(target); // IE
 		});
 
 		dispatcher.addEventListener('remove', function(event) {
-//			model.remove(event.params);
-			update();
+			model.remove(event.params);
+			render();
+			mediators.support(target); // IE
 		});
 
-		function update() {
+		function render() {
 			scope.items = model.getData();
 			scope.itemsRaw = JSON.stringify(model.getData(), undefined, 2);
 			template.render();
 		}
 
-		update();
+		render();
 
 	};
 
 	// export
 	global.tile = global.tile || {};
-	global.tile.ListTplMediator = ListTplMediator;
+	global.tile.ListMediator = ListMediator;
 
 })(this);

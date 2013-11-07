@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	var TileModel = function(partials) {
+	var TileModel = function() {
 
 		var index = 0;
 		var data = {};
@@ -22,15 +22,6 @@
 			index++;
 			return item;
 		}
-
-		this.create = function() {
-			var item = add();
-			var wrapper = document.createElement('div');
-			wrapper.innerHTML = partials['tile-item.tpl.html'];
-			wrapper.firstChild.setAttribute('data-mediator', 'item|data:get(' + item.id + ')');
-			wrapper.firstChild.setAttribute('data-hover', 'hover|color:getColor(' + item.id + ')');
-			return wrapper.firstChild;
-		};
 
 		this.remove = function(id) {
 			delete data[id];

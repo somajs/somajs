@@ -185,6 +185,13 @@ describe("mediators", function () {
 		});
 	}
 
+	if (typeof MutationObserver === 'undefined') {
+		it("is not observing", function () {
+			mediators.observe(document);
+			expect(mediators.isObserving).toBeFalsy();
+		});
+	}
+
 	it("is not observing", function () {
 		mediators.observe();
 		expect(mediators.isObserving).toBeFalsy();
@@ -243,7 +250,7 @@ describe("mediators", function () {
 		runs(function() {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator);
-			div.innerHTML = '<div data-mediator="Mediator"/>';
+			div.innerHTML = '<div data-mediator="Mediator"></div>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -349,7 +356,6 @@ describe("mediators", function () {
 			mediators.support(div);
 		});
 		waitsFor(function() {
-			console.log('is removed', isCreated);
 			return isRemoved;
 		}, "The mediator should be removed", 5000);
 		runs(function() {

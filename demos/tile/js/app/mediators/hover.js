@@ -2,33 +2,25 @@
 
 	'use strict';
 
-	var TileHover = function(dispatcher) {
+	var TileHover = function(target, dispatcher, color) {
 
-		this.color = null;
-		this.target = null;
+		dispatcher.dispatch('log', 'hover mediator created with ' + color);
 
-		dispatcher.dispatch('log', 'hover mediator created');
-
-		var self = this;
+		target.addEventListener('mouseover', mouseOver);
+		target.addEventListener('mouseout', mouseOut);
 
 		function mouseOver() {
-			self.target.style.backgroundColor = self.color;
+			target.style.backgroundColor = color;
 		}
 
 		function mouseOut() {
-			self.target.style.backgroundColor = '#FFF';
+			target.style.backgroundColor = '#FFF';
 		}
 
 
-		this.postConstruct = function() {
-			this.target.addEventListener('mouseover', mouseOver);
-			this.target.addEventListener('mouseout', mouseOut);
-			dispatcher.dispatch('log', 'hover mediator updated with data: ' + this.color);
-		};
-
 		this.dispose = function() {
-			this.target.removeEventListener('mouseover', mouseOver);
-			this.target.removeEventListener('mouseout', mouseOut);
+			target.removeEventListener('mouseover', mouseOver);
+			target.removeEventListener('mouseout', mouseOut);
 		}
 
 	};

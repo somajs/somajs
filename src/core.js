@@ -285,7 +285,7 @@
 						var mutationType = mutations[i].type;
 						switch(mutationType) {
 							case 'childList':
-								console.log('>> [mutation][childList]', mutations[i]);
+//								console.log('>> [mutation][childList]', mutations[i]);
 								// added
 								var added = mutations[i].addedNodes;
 								for (var j= 0, k=added.length; j<k; j++) {
@@ -298,31 +298,12 @@
 								}
 								break;
 							case 'attributes':
-								console.log('>> [mutation][attribute]', mutations[i]);
-								var attrName = mutations[i].attributeName;
-								var type = this.types[attrName];
+//								console.log('>> [mutation][attribute]', mutations[i]);
 								var target = mutations[i].target;
-								if (type && type.has(target)) {
-									console.log('type has target:', type.has(target));
-									var attrValue = mutations[i].target.getAttribute(attrName);
-									var dataSource = getDataSource(this, element, type, attrValue);
-									var mediator = type.get(target);
-									if (dataSource && mediator) {
-										var injector = this.injector.createChild();
-										injector.mapValue('target', target);
-										if (typeof dataSource === 'function') {
-											var result = dataSource(injector, i);
-											if (result !== undefined && result !== null) {
-												applyMappingData(injector, result);
-											}
-										}
-										else if (dataSource !== undefined && dataSource !== null) {
-											applyMappingData(injector, dataSource);
-										}
-
-										injector.inject(mediator, false);
-									}
-								}
+								var attrName = mutations[i].attributeName;
+								var attrValue = target.getAttribute(attrName);
+								var type = this.types[attrName];
+								updateMediatorData(this, type, attrValue, target);
 								break;
 						}
 					}
@@ -359,25 +340,24 @@
 				child = child.nextSibling;
 			}
 		},
-		parse: function(element) {
-			if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
-				return;
-			}
-			parseDOM(this, element);
+		parse: function(element, updateData) {
+			parseDOM(this, element, updateData);
 			if (typeof MutationObserver === 'undefined') {
-				var dataList = this.list.getData();
-				for (var el in dataList) {
-					var item = dataList[el];
-					var element = item.element;
-					if (!element.parentNode || (typeof HTMLDocument !== 'undefined' && element.parentNode && element.parentNode instanceof HTMLDocument) ) {
-						this.remove(element);
+				for (var typeId in this.types) {
+					var dataList = this.types[typeId].list.getData();
+					for (var el in dataList) {
+						var item = dataList[el];
+						var element = item.element;
+						if (!element.parentNode || (typeof HTMLDocument !== 'undefined' && element.parentNode && element.parentNode instanceof HTMLDocument) ) {
+							this.remove(element);
+						}
 					}
 				}
 			}
 		},
 		support: function(element) {
 			if (typeof MutationObserver === 'undefined') {
-				this.parse(element);
+				this.parse(element, true);
 			}
 		},
 		add: function(element, mediator, type) {

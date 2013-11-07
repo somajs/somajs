@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	var ItemPtlMediator = function(target, dispatcher, tpl, parentTemplate, parentScope, partials) {
+	var ItemMediator = function(target, dispatcher, tpl, parentTemplate, parentScope, partials) {
 
 		this.data = null;
 
@@ -34,6 +34,6 @@
 
 	// export
 	global.tile = global.tile || {};
-	global.tile.ItemPtlMediator = ItemPtlMediator;
+	global.tile.ItemMediator = ItemMediator;
 
 })(this);

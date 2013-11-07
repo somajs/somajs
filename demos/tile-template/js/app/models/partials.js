@@ -4,7 +4,7 @@
 
 	var partials = {};
 
-	partials['tile-item.tpl.html'] = '<div class="item" data-id="{{item.id}}">\n' +
+	partials['tile-item.tpl.html'] = '<div class="item" data-id="{{item.id}}" data-hover="hover|color:getColor({{item.id}})">\n' +
 		'    {{item.title}}\n' +
 		'    <img data-src="{{item.img}}" />\n' +
 		'    <button data-click="remove()"></button>\n' +

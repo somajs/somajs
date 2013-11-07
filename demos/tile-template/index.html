@@ -16,7 +16,9 @@
 		<button class="clean-gray" data-click="add()">Add Tile</button>
 	</div>
 
-	<div class="list" data-mediator="list"></div>
+	<div class="list" data-mediator="list">
+        <div data-repeat="item in items" data-mediator="item|data:get({{item.id}})"></div>
+	</div>
 
 </div>
 

@@ -207,7 +207,7 @@
 		}
 	}
 
-	function parseDOM(self, element) {
+	function parseDOM(self, element, updateData) {
 		if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
 			return;
 		}
@@ -223,13 +223,18 @@
 					if (!type.get(element)) {
 						type.add(element, self.create(type.mappings[mediatorId].mediator, element, dataSource));
 					}
+					else {
+						if (updateData) {
+							updateMediatorData(self, type, attr.value, element);
+						}
+					}
 				}
 			}
 
 		}
 		var child = element.firstChild;
 		while (child) {
-			parseDOM(self, child);
+			parseDOM(self, child, updateData);
 			child = child.nextSibling;
 		}
 	}
@@ -268,6 +273,27 @@
 		for (var name in obj) {
 			if (typeof name === 'string' && obj[name] !== undefined && obj[name] !== null) {
 				injector.mapValue(name, obj[name]);
+			}
+		}
+	}
+
+	function updateMediatorData(self, type, attrValue, target) {
+		if (type && type.has(target)) {
+			var dataSource = getDataSource(self, target, type, attrValue);
+			var mediator = type.get(target);
+			if (dataSource && mediator) {
+				var injector = self.injector.createChild();
+				injector.mapValue('target', target);
+				if (typeof dataSource === 'function') {
+					var result = dataSource(injector, i);
+					if (result !== undefined && result !== null) {
+						applyMappingData(injector, result);
+					}
+				}
+				else if (dataSource !== undefined && dataSource !== null) {
+					applyMappingData(injector, dataSource);
+				}
+				injector.inject(mediator, false);
 			}
 		}
 	}

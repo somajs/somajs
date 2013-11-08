@@ -1,12 +1,9 @@
-/**
- * Created by romualdquantin on 07/11/2013.
- */
 (function (soma) {
 
 	'use strict';
 
 	soma.template = soma.template || {};
-	soma.template.version = '0.2.4';
+	soma.template.version = '0.2.5';
 
 	soma.template.errors = {
 		TEMPLATE_STRING_NO_ELEMENT: 'Error in soma.template, a string template requirement a second parameter: an element target - soma.template.create(\'string\', element)',
@@ -234,12 +231,11 @@
 				return false;
 			};
 
-
-	function HashMap() {
+	function HashMap(id) {
 		var items = {};
-		var id = 1;
+		var count = 0;
 		//var uuid = function(a,b){for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b;}
-		function uuid() { return ++id; }
+		function uuid() { return ++count + id; }
 		function getKey(target) {
 			if (!target) {
 				return;
@@ -250,7 +246,7 @@
 			var result;
 			try {
 				// IE 7-8 needs a try catch, seems like I can't add a property on text nodes
-				result = target.hashkey ? target.hashkey : target.hashkey = uuid();
+				result = target[id] ? target[id] : target[id] = uuid();
 			} catch(err){}
 			return result;
 		}
@@ -409,52 +405,49 @@
 		return !matches ? 0 : matches.length;
 	}
 
+	function addAttribute(node, name, value, isRepeaterDescendant) {
+		node.attributes = node.attributes || [];
+		if (name === settings.attributes.skip) {
+			node.skip = normalizeBoolean(value);
+		}
+		if (name === settings.attributes.html) {
+			node.html = normalizeBoolean(value);
+		}
+		if (name === settings.attributes.repeat && !isRepeaterDescendant) {
+			node.repeater = value;
+		}
+		if (
+			hasInterpolation(name + ':' + value) ||
+				name === settings.attributes.repeat ||
+				name === settings.attributes.skip ||
+				name === settings.attributes.html ||
+				name === settings.attributes.show ||
+				name === settings.attributes.hide ||
+				name === settings.attributes.href ||
+				name === settings.attributes.checked ||
+				name === settings.attributes.disabled ||
+				name === settings.attributes.multiple ||
+				name === settings.attributes.readonly ||
+				name === settings.attributes.selected ||
+				value.indexOf(settings.attributes.cloak) !== -1
+			) {
+			node.attributes.push(new Attribute(name, value, node));
+		}
+		if (events[name]) {
+			node.addEvent(events[name], value);
+			node.attributes.push(new Attribute(name, value, node));
+		}
+	}
+
 	function getNodeFromElement(element, scope, isRepeaterDescendant) {
 		var node = new Node(element, scope);
 		node.previousSibling = element.previousSibling;
 		node.nextSibling = element.nextSibling;
-		var attributes = [];
-		var eventsArray = [];
-		for (var attr, name, value, attrs = element.attributes, j = 0, jj = attrs && attrs.length; j < jj; j++) {
+		for (var attr, attrs = element.attributes, j = 0, jj = attrs && attrs.length; j < jj; j++) {
 			attr = attrs[j];
 			if (attr.specified || attr.name === 'value') {
-				name = attr.name;
-				value = attr.value;
-				if (name === settings.attributes.skip) {
-					node.skip = normalizeBoolean(value);
-				}
-				if (name === settings.attributes.html) {
-					node.html = normalizeBoolean(value);
-				}
-				if (name === settings.attributes.repeat && !isRepeaterDescendant) {
-					node.repeater = value;
-				}
-				if (
-					hasInterpolation(name + ':' + value) ||
-						name === settings.attributes.repeat ||
-						name === settings.attributes.skip ||
-						name === settings.attributes.html ||
-						name === settings.attributes.show ||
-						name === settings.attributes.hide ||
-						name === settings.attributes.href ||
-						name === settings.attributes.checked ||
-						name === settings.attributes.disabled ||
-						name === settings.attributes.multiple ||
-						name === settings.attributes.readonly ||
-						name === settings.attributes.selected ||
-						value.indexOf(settings.attributes.cloak) !== -1
-					) {
-					attributes.push(new Attribute(name, value, node));
-				}
-				if (events[name] && !isRepeaterDescendant) {
-					eventsArray.push({name:events[name], value:value});
-					attributes.push(new Attribute(name, value, node));
-				}
+				addAttribute(node, attr.name, attr.value, isRepeaterDescendant);
 			}
-		}
-		node.attributes = attributes;
-		for (var i = 0, l = eventsArray.length; i < l; i++) {
-			node.addEvent(eventsArray[i].name, eventsArray[i].value);
 		}
 		return node;
 	}
@@ -598,63 +591,86 @@
 		}
 	}
 
+	function compileClone(node, newNode, masterNode) {
+		if (!isElementValid(newNode.element)) {
+			return;
+		}
+		// create attribute
+		if (node.attributes) {
+			for (var i= 0, l=node.attributes.length; i<l; i++) {
+				var attr = node.attributes[i];
+				addAttribute(newNode, attr.name, attr.value, newNode.isRepeaterDescendant);
+			}
+		}
+		// children
+		var child = node.element.firstChild;
+		var newChild = newNode.element.firstChild;
+		// loop
+		while (child, newChild) {
+			var childNode = node.getNode(child);
+			var newChildNode = new Node(newChild, newNode.scope);
+			newNode.children.push(newChildNode);
+			newChildNode.parent = newNode;
+			newChildNode.template = newNode.template;
+			newChildNode.isRepeaterChild = true;
+			var compiledNode = compileClone(childNode, newChildNode, masterNode);
+			if (compiledNode) {
+				compiledNode.parent = newChildNode;
+				compiledNode.template = newChildNode.template;
+				newChildNode.children.push(compiledNode);
+			}
+			child = child.nextSibling;
+			newChild = newChild.nextSibling;
+		}
+		return newChildNode;
+	}
+
 	function cloneRepeaterNode(element, node) {
 		var newNode = new Node(element, node.scope._createChild());
-		if (node.attributes) {
-			var attrs = [];
-			for (var i = 0, l = node.attributes.length; i < l; i++) {
-				newNode.renderAsHtml = node.renderAsHtml;
-				if (node.attributes[i].name === settings.attributes.skip) {
-					newNode.skip = normalizeBoolean(node.attributes[i].value);
-				}
-				if (node.attributes[i].name === settings.attributes.html) {
-					newNode.html = normalizeBoolean(node.attributes[i].value);
-				}
-				if (node.attributes[i].name !== attributes.repeat) {
-					var attribute = new Attribute(node.attributes[i].name, node.attributes[i].value, newNode);
-					attrs.push(attribute);
-				}
-				if (events[node.attributes[i].name]) {
-					newNode.addEvent(events[node.attributes[i].name], node.attributes[i].value);
-				}
-			}
-			newNode.attributes = attrs;
-		}
+		newNode.template = node.template;
+		newNode.parent = node;
+		newNode.isRepeaterDescendant = true;
+		compileClone(node, newNode, node);
 		return newNode;
+	}
+
+	function appendRepeaterElement(previousElement, node, newElement) {
+		if (!previousElement) {
+			if (node.element.previousSibling) {
+				insertAfter(node.element.previousSibling, newElement);
+			}
+			else if (node.element.nextSibling) {
+				insertBefore(node.element.nextSibling, newElement);
+			}
+			else {
+				node.parent.element.appendChild(newElement);
+			}
+		}
+		else {
+			insertAfter(previousElement, newElement);
+		}
 	}
 
 	function createRepeaterChild(node, count, data, indexVar, indexVarValue, previousElement) {
 		var existingChild = node.childrenRepeater[count];
 		if (!existingChild) {
-			// no existing node
 			var newElement = node.element.cloneNode(true);
+			// need to append the cloned element to the DOM
+			// before changing attributes or IE will crash
+			appendRepeaterElement(previousElement, node, newElement);
 			// can't recreate the node with a cloned element on IE7
-			// be cause the attributes are not specified annymore (attribute.specified)
+			// be cause the attributes are not specified anymore (attribute.specified)
 			//var newNode = getNodeFromElement(newElement, node.scope._createChild(), true);
 			var newNode = cloneRepeaterNode(newElement, node);
 			newNode.isRepeaterChild = true;
 			newNode.parent = node.parent;
 			newNode.template = node.template;
+			newNode.isRepeaterChild = true;
 			node.childrenRepeater[count] = newNode;
 			updateScopeWithRepeaterData(node.repeater, newNode.scope, data);
 			newNode.scope[indexVar] = indexVarValue;
-			compile(node.template, newElement, node.parent, newNode);
 			newNode.update();
 			newNode.render();
-			if (!previousElement) {
-				if (node.previousSibling) {
-					insertAfter(node.previousSibling, newElement);
-				}
-				else if (node.nextSibling) {
-					insertBefore(node.nextSibling, newElement);
-				}
-				else {
-					node.parent.element.appendChild(newElement);
-				}
-			}
-			else {
-				insertAfter(previousElement, newElement);
-			}
 			return newElement;
 		}
 		else {
@@ -754,11 +770,16 @@
 			this.eventHandlers = null;
 		},
 		getNode: function(element) {
+//			console.log('SEARCH IN ', this.element);
+//			console.log('SEARCH FOR ', element);
+//			console.log('IS REPEATER ', this.repeater);
 			var node;
+//			console.log('>> this.childrenRepeater', this.childrenRepeater);
+//			console.log('>> this.children', this.children);
 			if (element === this.element) {
 				return this;
 			}
-			else if (this.childrenRepeater.length > 0) {
+			if (this.childrenRepeater.length > 0) {
 				for (var k = 0, kl = this.childrenRepeater.length; k < kl; k++) {
 					node = this.childrenRepeater[k].getNode(element);
 					if (node) {
@@ -766,12 +787,10 @@
 					}
 				}
 			}
-			else {
-				for (var i = 0, l = this.children.length; i < l; i++) {
-					node = this.children[i].getNode(element);
-					if (node) {
-						return node;
-					}
+			for (var i = 0, l = this.children.length; i < l; i++) {
+				node = this.children[i].getNode(element);
+				if (node) {
+					return node;
 				}
 			}
 			return null;
@@ -1158,10 +1177,10 @@
 		}
 	};
 
-	var templates = new HashMap();
+	var templates = new HashMap('st');
 
 	var Template = function(element) {
-		this.watchers = new HashMap();
+		this.watchers = new HashMap('stw');
 		this.node = null;
 		this.scope = null;
 		this.compile(element);

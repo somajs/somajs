@@ -793,7 +793,7 @@ describe("mediators", function () {
 	});
 
 	it("observer data path array", function () {
-		var dataSource = ['data1', 'data2'];
+		var dataSource = ['data1', 'data2', 'data3'];
 		var d = [];
 		var done = false;
 		var div = document.createElement('div');

@@ -750,7 +750,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		var items = {};
 		var count = 0;
 		//var uuid = function(a,b){for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b;}
-		function uuid() { return ++count; }
+		function uuid() { return ++count + id; }
 		function getKey(target) {
 			if (!target) {
 				return;
@@ -786,8 +786,9 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 					delete items[key];
 				}
 			}
+			this.length = 0;
 		};
-	};
+	}
 
 	var regexFunction = /(.*)\((.*)\)/;
 	var regexParams = /^(\"|\')(.*)(\"|\')$/;

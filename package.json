@@ -1,31 +1,36 @@
 {
-	"name":"soma.js",
-	"version":"2.0.4",
-	"description":"soma.js is a javascript framework created to build scalable and maintainable applications.",
-	"keywords": [
-		"soma.js",
-		"soma",
-		"javascript",
-		"js",
-		"framework",
-		"mvc",
-		"lightweight",
-		"dependency injection",
-		"injection"
-	],
-	"author":{
-		"name":"Romuald Quantin",
-		"email":"romu@soundstep.com"
-	},
-	"main": "build/soma.js",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/somajs/somajs.git"
-	},
-	"devDependencies": {
-		"grunt": ">=0.4.x",
-		"grunt-contrib-watch": "*",
-		"grunt-contrib-concat": "*",
-		"grunt-contrib-uglify": "*"
-	}
+  "name": "soma.js",
+  "version": "2.0.4",
+  "description": "soma.js is a javascript framework created to build scalable and maintainable applications.",
+  "keywords": [
+    "soma.js",
+    "soma",
+    "javascript",
+    "js",
+    "framework",
+    "mvc",
+    "lightweight",
+    "dependency injection",
+    "injection"
+  ],
+  "author": {
+    "name": "Romuald Quantin",
+    "email": "romu@soundstep.com"
+  },
+  "main": "build/soma.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/somajs/somajs.git"
+  },
+  "devDependencies": {
+    "grunt": ">=0.4.x",
+    "grunt-contrib-watch": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-karma": "~0.4.5",
+    "grunt-contrib-jshint": "~0.6.0"
+  },
+  "scripts": {
+	"test": "grunt karma"
+  }
 }

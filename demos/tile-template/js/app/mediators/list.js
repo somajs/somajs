@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	var ListMediator = function(target, tpl, model, dispatcher, mediators) {
+	var ListMediator = function(target, tpl, model, dispatcher, mediatorSupport) {
 
 		dispatcher.dispatch('log', 'list template mediator created');
 
@@ -12,13 +12,13 @@
 		dispatcher.addEventListener('add', function() {
 			model.add();
 			render();
-			mediators.support(target); // IE
+			mediatorSupport(target); // IE
 		});
 
 		dispatcher.addEventListener('remove', function(event) {
 			model.remove(event.params);
 			render();
-			mediators.support(target); // IE
+			mediatorSupport(target); // IE
 		});
 
 		function render() {

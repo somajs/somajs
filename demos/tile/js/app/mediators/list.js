@@ -2,19 +2,19 @@
 
 	'use strict';
 
-	var ListMediator = function(target, model, dispatcher, mediators) {
+	var ListMediator = function(target, model, dispatcher, mediatorSupport) {
 
 		dispatcher.dispatch('log', 'list mediator created');
 
 		dispatcher.addEventListener('add', function() {
 			// append html to the current element
 			target.appendChild(model.create());
-			mediators.support(target); // for IE
+			mediatorSupport(target); // for IE
 		});
 
 		dispatcher.addEventListener('remove', function(event) {
 			model.remove(event.params);
-			mediators.support(target); // for IE
+			mediatorSupport(target); // for IE
 		});
 
 	};

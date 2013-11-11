@@ -39,6 +39,7 @@
 				// mediator
 				self.injector.mapClass('mediators', Mediators, true);
 				self.mediators = self.injector.getValue('mediators');
+				self.injector.mapValue('mediatorSupport', self.mediators.support.bind(self.mediators));
 				// commands
 				self.injector.mapClass('commands', Commands, true);
 				self.commands = self.injector.getValue('commands');

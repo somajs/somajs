@@ -375,16 +375,16 @@ describe("mediators", function () {
 		runs(function() {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator);
-			div.innerHTML = '<div data-mediator="Mediator"><p data-mediator="Mediator"></p></div>';
+			div.innerHTML = '<div data-mediator="Mediator"><p data-mediator="Mediator">asdfasdf</p></div>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
 			return countCreated === 2;
 		}, "2 mediators should be created", 5000);
 		runs(function() {
+			expect(countCreated === 2).toBeTruthy();
 			div.innerHTML = '';
 			mediators.support(div);
-			expect(countCreated === 2).toBeTruthy();
 		});
 		waitsFor(function() {
 			return countRemoved === 2;
@@ -423,6 +423,7 @@ describe("mediators", function () {
 		var count = 0;
 		var check = false;
 		var Mediator = function() {
+			console.log('created');
 			count++;
 		};
 		var div = document.createElement('div');
@@ -442,7 +443,7 @@ describe("mediators", function () {
 		});
 		waitsFor(function() {
 			return check;
-		}, "The mediator should be removed", 5000);
+		}, "The mediators should be created", 5000);
 		runs(function() {
 			expect(count).toEqual(0);
 		});

@@ -218,7 +218,6 @@
 					}
 				}
 			}
-
 		}
 		var child = element.firstChild;
 		while (child) {
@@ -286,3 +285,33 @@
 			}
 		}
 	}
+
+	function inDOM(element) {
+		if (!element.parentNode) {
+//			console.log(element instanceof HTMLDocument);
+			console.log(Object.prototype.toString.call(element));
+			return typeof HTMLDocument !== 'undefined' && element instanceof HTMLDocument;
+		}
+		else {
+			return inDOM(element.parentNode);
+		}
+	}
+
+	var contains = typeof document !== 'object' ? function(){} : document.documentElement.contains ?
+		function( a, b ) {
+			var adown = a.nodeType === 9 ? a.documentElement : a,
+				bup = b && b.parentNode;
+			return a === bup || !!( bup && bup.nodeType === 1 && adown.contains && adown.contains(bup) );
+		} :
+		document.documentElement.compareDocumentPosition ?
+			function( a, b ) {
+				return b && !!( a.compareDocumentPosition( b ) & 16 );
+			} :
+			function( a, b ) {
+				while ( (b = b.parentNode) ) {
+					if ( b === a ) {
+						return true;
+					}
+				}
+				return false;
+			};

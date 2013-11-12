@@ -861,7 +861,6 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 					}
 				}
 			}
-
 		}
 		var child = element.firstChild;
 		while (child) {
@@ -929,6 +928,37 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 		}
 	}
+
+	function inDOM(element) {
+		if (!element.parentNode) {
+//			console.log(element instanceof HTMLDocument);
+			console.log(Object.prototype.toString.call(element));
+			return typeof HTMLDocument !== 'undefined' && element instanceof HTMLDocument;
+		}
+		else {
+			return inDOM(element.parentNode);
+		}
+	}
+
+	var contains = typeof document !== 'object' ? function(){} : document.documentElement.contains ?
+		function( a, b ) {
+			var adown = a.nodeType === 9 ? a.documentElement : a,
+				bup = b && b.parentNode;
+			return a === bup || !!( bup && bup.nodeType === 1 && adown.contains && adown.contains(bup) );
+		} :
+		document.documentElement.compareDocumentPosition ?
+			function( a, b ) {
+				return b && !!( a.compareDocumentPosition( b ) & 16 );
+			} :
+			function( a, b ) {
+				while ( (b = b.parentNode) ) {
+					if ( b === a ) {
+						return true;
+					}
+				}
+				return false;
+			};
+
 	// plugins
 
 	var plugins = [];
@@ -1242,7 +1272,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 				}.bind(this));
 				// todo remove specific attribute
-				this.observer.observe(element, config || {childList: true, subtree: true, attributes: true, attributeOldValue: true, attributeFilter:['data-mediator', 'data-hover']});
+				this.observer.observe(element, config || {childList: true, subtree: true, attributes: true, attributeOldValue: true});
 				this.isObserving = true;
 			}
 			else {
@@ -1279,9 +1309,9 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 					var dataList = this.types[typeId].list.getData();
 					for (var el in dataList) {
 						var item = dataList[el];
-						var element = item.element;
-						if (!element.parentNode || (typeof HTMLDocument !== 'undefined' && element.parentNode && element.parentNode instanceof HTMLDocument) ) {
-							this.remove(element);
+						var el = item.element;
+						if (!contains(element, el)) {
+							this.remove(el);
 						}
 					}
 				}

@@ -311,7 +311,7 @@
 
 				}.bind(this));
 				// todo remove specific attribute
-				this.observer.observe(element, config || {childList: true, subtree: true, attributes: true, attributeOldValue: true, attributeFilter:['data-mediator', 'data-hover']});
+				this.observer.observe(element, config || {childList: true, subtree: true, attributes: true, attributeOldValue: true});
 				this.isObserving = true;
 			}
 			else {
@@ -348,9 +348,9 @@
 					var dataList = this.types[typeId].list.getData();
 					for (var el in dataList) {
 						var item = dataList[el];
-						var element = item.element;
-						if (!element.parentNode || (typeof HTMLDocument !== 'undefined' && element.parentNode && element.parentNode instanceof HTMLDocument) ) {
-							this.remove(element);
+						var el = item.element;
+						if (!contains(element, el)) {
+							this.remove(el);
 						}
 					}
 				}

@@ -1,1 +1,1 @@
-{"version":3,"file":"time.js","sources":["time.ts"],"names":["clock","clock.TimeVO","clock.TimeVO.constructor"],"mappings":"AAAA,IAAO,KAAK;AAeX,CAfD,UAAO,KAAK;IAEXA;QAAAC;AAWCA,QAADA;AAACA,IAADA,CAACA,IAAAD;IAXDA,sBAWCA,IAAAA;AAEFA,CAACA,yBAAA"}
+{"version":3,"file":"time.js","sourceRoot":"","sources":["time.ts"],"names":["clock","clock.TimeVO","clock.TimeVO.constructor"],"mappings":"AAAA,IAAO,KAAK;AAeX,CAfD,UAAO,KAAK;IAEXA;QAAAC;;AAWCA,QAADA;AAACA,IAADA,CAACA,IAAAD;IAXDA,sBAWCA;AAEFA,CAACA,yBAAA"}

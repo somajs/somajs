@@ -1,3 +1,4 @@
+///<reference path='../../../../../build/soma.d.ts'/>
 var clock;
 (function (clock) {
     var SelectorView = (function () {
@@ -8,6 +9,6 @@ var clock;
         }
         return SelectorView;
     })();
-    clock.SelectorView = SelectorView;    
+    clock.SelectorView = SelectorView;
 })(clock || (clock = {}));
-//@ sourceMappingURL=selector.js.map
+//# sourceMappingURL=selector.js.map

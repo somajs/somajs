@@ -1,3 +1,4 @@
+///<reference path='../../../interfaces/IAnalogNeedle.ts'/>
 var clock;
 (function (clock) {
     var NeedleHours = (function () {
@@ -14,11 +15,13 @@ var clock;
             this.center = this.radius / 2;
             this.size = this.center * 0.4;
         };
-        NeedleHours.prototype.update = function (seconds, minutes, hours) {
-            this.hours = hours;
-            this.minutes = minutes;
-            this.seconds = seconds;
+
+        NeedleHours.prototype.update = function (time) {
+            this.hours = time.hours;
+            this.minutes = time.minutes;
+            this.seconds = time.seconds;
         };
+
         NeedleHours.prototype.draw = function (context) {
             var theta = (30 * Math.PI / 180);
             var x = this.center + this.size * Math.cos(((this.hours + this.minutes / 60 + this.seconds / 3600) * theta) - Math.PI / 2);
@@ -35,10 +38,11 @@ var clock;
             context.stroke();
             context.restore();
         };
+
         NeedleHours.prototype.dispose = function () {
         };
         return NeedleHours;
     })();
-    clock.NeedleHours = NeedleHours;    
+    clock.NeedleHours = NeedleHours;
 })(clock || (clock = {}));
-//@ sourceMappingURL=needle-hours.js.map
+//# sourceMappingURL=needle-hours.js.map

@@ -1,2 +1,2 @@
-mo;
-//@ sourceMappingURL=IClockView.js.map
+///<reference path='../vo/time.ts'/>
+//# sourceMappingURL=IClockView.js.map

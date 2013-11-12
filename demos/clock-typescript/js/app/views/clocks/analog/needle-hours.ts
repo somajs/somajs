@@ -17,10 +17,10 @@ module clock {
 			this.size = this.center * 0.4;
 		}
 
-		public update(seconds:number, minutes:number, hours:number):void {
-			this.hours = hours;
-			this.minutes = minutes;
-			this.seconds = seconds;
+		public update(time:TimeVO):void {
+			this.hours = time.hours;
+			this.minutes = time.minutes;
+			this.seconds = time.seconds;
 		}
 
 		public draw(context:CanvasRenderingContext2D):void {

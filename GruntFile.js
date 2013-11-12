@@ -44,6 +44,16 @@ module.exports = function(grunt) {
 					'grunt.js'
 				],
 				tasks:['concat', 'uglify']
+			},
+			tests:{
+				files:[
+					'libs/*.js',
+					'src/*.js',
+					'tests/**/*.js',
+					'plugins/**/*.js',
+					'grunt.js'
+				],
+				tasks:['karma']
 			}
 		},
 		karma: {
@@ -68,5 +78,7 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('default', ['concat', 'uglify']);
+	grunt.registerTask('watch:all', ['watch:scripts', 'watch:tests']);
+	grunt.registerTask('tests', ['karma']);
 
 }

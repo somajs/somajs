@@ -175,6 +175,9 @@ describe("mediators", function () {
 		mediators.dispose();
 		expect(mediators.injector).toBeUndefined();
 		expect(mediators.dispatcher).toBeUndefined();
+		expect(mediators.injector).toBeUndefined();
+		expect(mediators.observer).toBeUndefined();
+		expect(mediators.types).toBeUndefined();
 	});
 
 	if (typeof MutationObserver !== 'undefined') {
@@ -774,6 +777,25 @@ describe("mediators", function () {
 		}, "The mediator should be created", 5000);
 	});
 
+	it("observer data path separator simple path", function () {
+		var dataSource = {info:'info'};
+		var done = false;
+		var div = document.createElement('div');
+		var Mediator = function(target, info) {
+			expect(info).toEqual('info');
+			done = true;
+		};
+		runs(function() {
+			mediators.observe(div);
+			mediators.map('Mediator', Mediator, dataSource);
+			div.innerHTML = '<div data-mediator="Mediator|info"/>';
+			mediators.support(div);
+		});
+		waitsFor(function() {
+			return done;
+		}, "The mediator should be created", 5000);
+	});
+
 	it("observer data path object", function () {
 		var dataSource = {info:'info'};
 		var done = false;
@@ -1045,6 +1067,186 @@ describe("mediators", function () {
 		waitsFor(function() {
 			return done;
 		}, "The mediator should be created", 5000);
+	});
+
+	it("describe type", function () {
+		var type = mediators.describe('custom-mediator');
+		expect(type).toEqual(mediators.getType('custom-mediator'));
+		expect(type.name).toEqual('custom-mediator');
+		expect(type.injector).toEqual(app.injector);
+		expect(type.mappings).toEqual(jasmine.any(Object));
+		expect(type.list).toBeDefined();
+	});
+
+	it("create type mapping", function () {
+		var Mediator = function(){};
+		var type = mediators.describe('custom-mediator').map('Mediator', Mediator);
+		expect(type.mappings['Mediator']).toBeDefined();
+		expect(type.mappings['Mediator'].mediator).toEqual(Mediator);
+		expect(type.mappings['Mediator'].data).toBeUndefined();
+	});
+
+	it("create type mapping with data", function () {
+		var Mediator = function(){};
+		var data = {};
+		var type = mediators.describe('custom-mediator').map('Mediator', Mediator, data);
+		expect(type.mappings['Mediator'].data).toEqual(data);
+	});
+
+	it("unmap from type", function () {
+		var Mediator = function(){};
+		var type = mediators.describe('custom-mediator').map('Mediator', Mediator);
+		expect(type.getMapping('Mediator')).toBeDefined();
+		type.unmap('Mediator');
+		expect(type.mappings['Mediator']).toBeUndefined();
+		expect(type.getMapping('Mediator')).toBeUndefined();
+	});
+
+	it("type get mapping", function () {
+		var Mediator = function(){};
+		var type = mediators.describe('custom-mediator').map('Mediator', Mediator);
+		expect(type.getMapping('Mediator')).toBeDefined();
+	});
+
+	it("type has mapping", function () {
+		var Mediator = function(){};
+		var type = mediators.describe('custom-mediator').map('Mediator', Mediator);
+		expect(type.hasMapping('Mediator')).toBeTruthy();
+	});
+
+	it("type get mapping data", function () {
+		var data = {};
+		var Mediator = function(){};
+		var type = mediators.describe('custom-mediator').map('Mediator', Mediator, data);
+		expect(type.getMappingData('Mediator')).toEqual(data);
+	});
+
+	it("create a typed mediator", function () {
+		var created = 0;
+		var data = {};
+		var Mediator = function(target, data){
+			this.data = data;
+			this.target = target;
+			created++;
+		};
+		var type = mediators.describe('custom-mediator').map('Mediator', Mediator, {data:data});
+		var div = document.createElement('div');
+		div.innerHTML = '<div custom-mediator="Mediator|data"></div>'
+		runs(function() {
+			mediators.parse(div);
+		});
+		waitsFor(function() {
+			return created === 1;
+		}, "The mediator should be created", 5000);
+		runs(function() {
+			expect(created).toEqual(1);
+			var m = type.get(div.firstChild);
+			expect(m).toBeDefined();
+			expect(type.has(div.firstChild)).toBeTruthy();
+			expect(m.target).toEqual(div.firstChild);
+			expect(m.data).toEqual(data);
+		});
+	});
+
+	it("manually add a typed mediator", function () {
+		var created = 0;
+		var data = "some data";
+		var Mediator = function(target, data) {
+			this.target = target;
+			this.data = data;
+			created++;
+		};
+		var div = document.createElement('div');
+		var type = mediators.describe('custom-mediator');
+		var med = mediators.create(Mediator, div, {data:data});
+		type.add(div, med);
+		waitsFor(function() {
+			return created === 1;
+		}, "The mediator should be created", 5000);
+		runs(function() {
+			expect(created).toEqual(1);
+			expect(type.get(div)).toEqual(med);
+		});
+	});
+
+	it("manually remove a typed mediator", function () {
+		var created = 0;
+		var disposed = 0;
+		var data = "some data";
+		var Mediator = function(target, data) {
+			this.target = target;
+			this.data = data;
+			this.dispose = function(){disposed++};
+			created++;
+		};
+		var div = document.createElement('div');
+		var type = mediators.describe('custom-mediator');
+		var med = mediators.create(Mediator, div, {data:data});
+		type.add(div, med);
+		waitsFor(function() {
+			return created === 1;
+		}, "The mediator should be created", 5000);
+		runs(function() {
+			expect(created).toEqual(1);
+			expect(disposed).toEqual(0);
+			expect(type.get(div)).toEqual(med);
+			type.remove(div);
+			expect(disposed).toEqual(1);
+			expect(type.get(div)).toBeUndefined();
+			expect(type.has(div)).toBeFalsy();
+		});
+	});
+
+	it("remove all mediators", function () {
+		var created = 0;
+		var disposed = 0;
+		var data = "some data";
+		var Mediator = function(target, data) {
+			this.target = target;
+			this.data = data;
+			this.dispose = function(){disposed++};
+			created++;
+		};
+		var div = document.createElement('div');
+		var type = mediators.describe('custom-mediator').map('Mediator', Mediator, {data: data});
+		div.innerHTML = '<div custom-mediator="Mediator|data"><div custom-mediator="Mediator|data"></div></div>'
+		mediators.parse(div);
+		waitsFor(function() {
+			return created === 2;
+		}, "The mediator should be created", 5000);
+		runs(function() {
+			expect(created).toEqual(2);
+			type.removeAll();
+			expect(disposed).toEqual(2);
+		});
+	});
+
+	it("dispose type", function () {
+		var created = 0;
+		var disposed = 0;
+		var data = "some data";
+		var Mediator = function(target, data) {
+			this.target = target;
+			this.data = data;
+			this.dispose = function(){disposed++};
+			created++;
+		};
+		var div = document.createElement('div');
+		var type = mediators.describe('custom-mediator').map('Mediator', Mediator, {data: data});
+		div.innerHTML = '<div custom-mediator="Mediator|data"><div custom-mediator="Mediator|data"></div></div>'
+		mediators.parse(div);
+		waitsFor(function() {
+			return created === 2;
+		}, "The mediator should be created", 5000);
+		runs(function() {
+			expect(created).toEqual(2);
+			type.dispose();
+			expect(disposed).toEqual(2);
+			expect(type.name).toBeUndefined();
+			expect(type.injector).toBeUndefined();
+			expect(type.mappings).toBeUndefined();
+			expect(type.list).toBeUndefined();
+		});
 	});
 
 });

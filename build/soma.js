@@ -1127,6 +1127,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 					element: element
 				});
 			}
+			return this;
 		},
 		remove: function(element) {
 			var item = this.list.get(element);
@@ -1140,6 +1141,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				delete item.element;
 				this.list.remove(element);
 			}
+			return this;
 		},
 		get: function(element) {
 			var item = this.list.get(element);
@@ -1147,11 +1149,23 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		},
 		removeAll: function() {
 			if (this.list) {
+				var dataList = this.list.getData();
+				for (var el in dataList) {
+					this.remove(el);
+				}
 				this.list.dispose();
 			}
+			return this;
 		},
 		dispose: function() {
-			// todo
+			this.removeAll();
+			this.name = undefined;
+			this.injector = undefined;
+			this.mappings = undefined;
+			if (this.list) {
+				this.list.dispose();
+			}
+			this.list = undefined;
 		}
 	});
 
@@ -1351,14 +1365,15 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		dispose: function() {
 			if (this.observer) {
 				this.observer.disconnect();
+				this.isObserving = false;
 			}
 			for (var id in this.types) {
-				this.types[id].removeAll();
+				this.types[id].dispose();
 			}
 			this.injector = undefined;
 			this.dispatcher = undefined;
 			this.observer = undefined;
-			this.list = undefined;
+			this.types = undefined;
 		}
 	});
 

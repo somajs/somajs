@@ -43,11 +43,11 @@ module clock {
 
 		public update(time:TimeVO):void {
 			this.faceView.draw(this.context);
-			this.needleSecondsView.update(time.seconds);
+			this.needleSecondsView.update(time);
 			this.needleSecondsView.draw(this.context);
-			this.needleMinutesView.update(time.minutes, time.seconds);
+			this.needleMinutesView.update(time);
 			this.needleMinutesView.draw(this.context);
-			this.needleHoursView.update(time.hours, time.minutes, time.seconds);
+			this.needleHoursView.update(time);
 			this.needleHoursView.draw(this.context);
 		}
 

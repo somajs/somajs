@@ -9,6 +9,7 @@ var clock;
             this.radius = radius / 2 - 5;
             this.center = radius / 2;
         };
+
         FaceView.prototype.draw = function (context) {
             context.save();
             context.clearRect(0, 0, this.center * 2, this.center * 2);
@@ -23,6 +24,7 @@ var clock;
             this.drawCenter(context);
             context.restore();
         };
+
         FaceView.prototype.drawCenter = function (context) {
             context.fillStyle = '#015666';
             context.beginPath();
@@ -30,12 +32,13 @@ var clock;
             context.closePath();
             context.fill();
         };
+
         FaceView.prototype.drawDots = function (context) {
             var theta = 0;
             var distance = this.radius * 0.9;
             context.lineWidth = 0.5;
             context.strokeStyle = '#04859D';
-            for(var i = 0; i < 60; i++) {
+            for (var i = 0; i < 60; i++) {
                 theta = theta + (6 * Math.PI / 180);
                 var x = this.center + distance * Math.cos(theta);
                 var y = this.center + distance * Math.sin(theta);
@@ -45,12 +48,13 @@ var clock;
                 context.stroke();
             }
         };
+
         FaceView.prototype.drawHourDots = function (context) {
             var theta = 0;
             var distance = this.radius * 0.9;
             context.lineWidth = 5.0;
             context.strokeStyle = '#137';
-            for(var i = 0; i < 12; i++) {
+            for (var i = 0; i < 12; i++) {
                 theta = theta + (30 * Math.PI / 180);
                 var x = this.center + distance * Math.cos(theta);
                 var y = this.center + distance * Math.sin(theta);
@@ -60,10 +64,11 @@ var clock;
                 context.stroke();
             }
         };
+
         FaceView.prototype.dispose = function () {
         };
         return FaceView;
     })();
-    clock.FaceView = FaceView;    
+    clock.FaceView = FaceView;
 })(clock || (clock = {}));
-//@ sourceMappingURL=face.js.map
+//# sourceMappingURL=face.js.map

@@ -1,3 +1,5 @@
+///<reference path='../../../vo/time.ts'/>
+///<reference path='../../../interfaces/IClockView.ts'/>
 var clock;
 (function (clock) {
     var PolarView = (function () {
@@ -8,12 +10,15 @@ var clock;
             this.canvas = null;
             this.context = null;
             this.element = target;
+
             this.width = 300;
             this.height = 300;
             this.canvas = document.createElement('canvas');
             this.context = this.canvas.getContext('2d');
+
             this.canvas.width = this.width;
             this.canvas.height = this.height;
+
             this.element.appendChild(this.canvas);
         }
         PolarView.prototype.update = function (time) {
@@ -35,9 +40,9 @@ var clock;
             var dowPer = dow / 7;
             var monthPer = month / 12;
             var dayPer = 0;
-            if(month === 2) {
+            if (month === 2) {
                 dayPer = day / 29;
-            } else if(month === 1 || month === 3 || month === 5 || month === 7 || month === 8 || month === 10 || month === 12) {
+            } else if (month === 1 || month === 3 || month === 5 || month === 7 || month === 8 || month === 10 || month === 12) {
                 dayPer = day / 31;
             } else {
                 dayPer = day / 30;
@@ -50,6 +55,7 @@ var clock;
             this.writeTime(this.context, 140, secPer);
             this.context.restore();
         };
+
         PolarView.prototype.writeTime = function (context, radius, per) {
             context.save();
             context.strokeStyle = this.calculateColor(per);
@@ -58,16 +64,17 @@ var clock;
             context.stroke();
             context.restore();
         };
+
         PolarView.prototype.calculateColor = function (per) {
             var brightness = 255;
             var red = 0, blue = per * brightness, green = brightness - blue;
             return 'rgba(' + Math.round(red) + ',' + Math.round(green) + ',' + Math.round(blue) + ',1)';
         };
+
         PolarView.prototype.dispose = function () {
             this.element.removeChild(this.element.firstChild);
         };
         return PolarView;
     })();
-    clock.PolarView = PolarView;    
+    clock.PolarView = PolarView;
 })(clock || (clock = {}));
-//@ sourceMappingURL=polar.js.map

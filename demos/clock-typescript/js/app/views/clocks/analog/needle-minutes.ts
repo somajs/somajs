@@ -16,9 +16,9 @@ module clock {
 			this.size = this.center * 0.65;
 		}
 
-		public update(seconds:number, minutes:number):void {
-			this.minutes = minutes;
-			this.seconds = seconds;
+		public update(time:TimeVO):void {
+			this.minutes = time.minutes;
+			this.seconds = time.seconds;
 		}
 
 		public draw(context:CanvasRenderingContext2D):void {

@@ -286,10 +286,29 @@
 		}
 	}
 
+	function resolveMediatorData(injector, data) {
+		if (typeof data === 'function') {
+			return data;
+		}
+		var resolvedData = {};
+		if (typeof data !== 'object' || Object.prototype.toString.call(data) === '[object Array]') {
+			resolvedData['data'] = data;
+		}
+		else {
+			for (var name in data) {
+				if (typeof data[name] === 'string' && injector.hasMapping(data[name])) {
+					resolvedData[name] = injector.getValue(data[name]);
+				}
+				else {
+					resolvedData[name] = data[name];
+				}
+			}
+		}
+		return resolvedData;
+	}
+
 	function inDOM(element) {
 		if (!element.parentNode) {
-//			console.log(element instanceof HTMLDocument);
-			console.log(Object.prototype.toString.call(element));
 			return typeof HTMLDocument !== 'undefined' && element instanceof HTMLDocument;
 		}
 		else {

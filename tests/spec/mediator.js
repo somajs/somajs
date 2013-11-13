@@ -62,11 +62,26 @@ describe("mediators", function () {
 		expect(d).toEqual(dataSource.info);
 	});
 
-	it("single mediator boolean", function () {
+	it("single mediator data boolean", function () {
 		var d;
 		var f = function(target, data){d=data;};
 		var m = mediators.create(f, 1, false);
-		expect(d).toBeFalsy();
+		expect(d).toEqual(false);
+	});
+
+	it("single mediator data number", function () {
+		var d;
+		var f = function(target, data){d=data;};
+		var m = mediators.create(f, 1, 9);
+		expect(d).toEqual(9);
+	});
+
+	it("single mediator data array", function () {
+		var d;
+		var arr =  [1, 2, 3];
+		var f = function(target, data){d=data;};
+		var m = mediators.create(f, 1, arr);
+		expect(d).toEqual(arr);
 	});
 
 	it("single mediator data undefined", function () {
@@ -96,6 +111,17 @@ describe("mediators", function () {
 		expect(d[0]).toEqual(dataSource.info);
 		expect(d[1]).toBeDefined();
 		expect(d[1]).toEqual(dataSource.info);
+	});
+
+	it("single mediator mapped data", function () {
+		var t, d;
+		app.injector.mapValue('model', {some:'data'});
+		var f = function(target, info){t=target;d=info};
+		var m = mediators.create(f, 1, {info:'model'});
+		expect(m instanceof f).toBeTruthy();
+		expect(t).toEqual(1);
+		expect(d).toBeDefined();
+		expect(d).toEqual(app.injector.getValue('model'));
 	});
 
 	it("single mediator precall child injector mapping", function () {
@@ -426,7 +452,6 @@ describe("mediators", function () {
 		var count = 0;
 		var check = false;
 		var Mediator = function() {
-			console.log('created');
 			count++;
 		};
 		var div = document.createElement('div');
@@ -563,7 +588,7 @@ describe("mediators", function () {
 	});
 
 	it("observer data", function () {
-		var dataSource = [1, 2, 3];
+		var dataSource = {data:'data'};
 		var done = false;
 		var div = document.createElement('div');
 		var Mediator = function(target, data) {
@@ -594,6 +619,166 @@ describe("mediators", function () {
 		runs(function() {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator, {data:dataSource});
+			div.innerHTML = '<div data-mediator="Mediator"/>';
+			mediators.support(div);
+		});
+		waitsFor(function() {
+			return done;
+		}, "The mediator should be created", 5000);
+	});
+
+	it("observer data number", function () {
+		var dataSource = 0;
+		var done = false;
+		var div = document.createElement('div');
+		var Mediator = function(target, data) {
+			expect(div.firstChild).toEqual(target);
+			expect(data).toEqual(dataSource);
+			done = true;
+		};
+		runs(function() {
+			mediators.observe(div);
+			mediators.map('Mediator', Mediator, {data:dataSource});
+			div.innerHTML = '<div data-mediator="Mediator"/>';
+			mediators.support(div);
+		});
+		waitsFor(function() {
+			return done;
+		}, "The mediator should be created", 5000);
+	});
+
+	it("observer data boolean", function () {
+		var dataSource = false;
+		var done = false;
+		var div = document.createElement('div');
+		var Mediator = function(target, data) {
+			expect(div.firstChild).toEqual(target);
+			expect(data).toEqual(dataSource);
+			done = true;
+		};
+		runs(function() {
+			mediators.observe(div);
+			mediators.map('Mediator', Mediator, {data:dataSource});
+			div.innerHTML = '<div data-mediator="Mediator"/>';
+			mediators.support(div);
+		});
+		waitsFor(function() {
+			return done;
+		}, "The mediator should be created", 5000);
+	});
+
+	it("observer data array", function () {
+		var dataSource = [1, 2, 3];
+		var done = false;
+		var div = document.createElement('div');
+		var Mediator = function(target, data) {
+			expect(div.firstChild).toEqual(target);
+			expect(data).toEqual(dataSource);
+			done = true;
+		};
+		runs(function() {
+			mediators.observe(div);
+			mediators.map('Mediator', Mediator, {data:dataSource});
+			div.innerHTML = '<div data-mediator="Mediator"/>';
+			mediators.support(div);
+		});
+		waitsFor(function() {
+			return done;
+		}, "The mediator should be created", 5000);
+	});
+
+	it("observer no name data string", function () {
+		var dataSource = 'data';
+		var done = false;
+		var div = document.createElement('div');
+		var Mediator = function(target, data) {
+			expect(div.firstChild).toEqual(target);
+			expect(data).toEqual(dataSource);
+			done = true;
+		};
+		runs(function() {
+			mediators.observe(div);
+			mediators.map('Mediator', Mediator, dataSource);
+			div.innerHTML = '<div data-mediator="Mediator"/>';
+			mediators.support(div);
+		});
+		waitsFor(function() {
+			return done;
+		}, "The mediator should be created", 5000);
+	});
+
+	it("observer no name", function () {
+		var dataSource = {data:'data'};
+		var done = false;
+		var div = document.createElement('div');
+		var Mediator = function(target, data) {
+			expect(div.firstChild).toEqual(target);
+			expect(data).toEqual('data');
+			done = true;
+		};
+		runs(function() {
+			mediators.observe(div);
+			mediators.map('Mediator', Mediator, dataSource);
+			div.innerHTML = '<div data-mediator="Mediator"/>';
+			mediators.support(div);
+		});
+		waitsFor(function() {
+			return done;
+		}, "The mediator should be created", 5000);
+	});
+
+	it("observer no name data number", function () {
+		var dataSource = 9;
+		var done = false;
+		var div = document.createElement('div');
+		var Mediator = function(target, data) {
+			expect(div.firstChild).toEqual(target);
+			expect(data).toEqual(dataSource);
+			done = true;
+		};
+		runs(function() {
+			mediators.observe(div);
+			mediators.map('Mediator', Mediator, dataSource);
+			div.innerHTML = '<div data-mediator="Mediator"/>';
+			mediators.support(div);
+		});
+		waitsFor(function() {
+			return done;
+		}, "The mediator should be created", 5000);
+	});
+
+	it("observer no name data boolean", function () {
+		var dataSource = false;
+		var done = false;
+		var div = document.createElement('div');
+		var Mediator = function(target, data) {
+			expect(div.firstChild).toEqual(target);
+			expect(data).toEqual(dataSource);
+			done = true;
+		};
+		runs(function() {
+			mediators.observe(div);
+			mediators.map('Mediator', Mediator, dataSource);
+			div.innerHTML = '<div data-mediator="Mediator"/>';
+			mediators.support(div);
+		});
+		waitsFor(function() {
+			return done;
+		}, "The mediator should be created", 5000);
+	});
+
+	it("observer no name data boolean", function () {
+		var dataSource = [1, 2, 3];
+		var done = false;
+		var div = document.createElement('div');
+		var Mediator = function(target, data) {
+			expect(div.firstChild).toEqual(target);
+			expect(data).toEqual(dataSource);
+			done = true;
+		};
+		runs(function() {
+			mediators.observe(div);
+			mediators.map('Mediator', Mediator, dataSource);
 			div.innerHTML = '<div data-mediator="Mediator"/>';
 			mediators.support(div);
 		});

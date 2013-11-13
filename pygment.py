@@ -10,9 +10,10 @@ var TitleView = function(target, dispatcher, titleValue) {
 
 var Application = soma.Application.extend({
   init: function() {
+    this.injector.mapValue('mapped', 'This is a title');
     // data that will be injected into the mediator
     var mediatorData = {
-      titleValue: 'This is a title'
+      titleValue: 'mapped'
     };
     // create a mediator that represents a DOM Element
     this.mediators.create(TitleView, document.getElementById('title'), mediatorData);

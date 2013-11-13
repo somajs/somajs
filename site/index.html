@@ -946,6 +946,32 @@
 
 		<div class="back"><a href="#">top</a></div>
 
+        <p>Injection name used in the data mapping object will be resolved.</p>
+
+        <div class="highlight"><pre><span class="kd">var</span> <span class="nx">TitleView</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">dispatcher</span><span class="p">,</span> <span class="nx">titleValue</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// titleValue has been injected when creating the mediator</span>
+  <span class="nx">target</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">titleValue</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">Application</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">injector</span><span class="p">.</span><span class="nx">mapValue</span><span class="p">(</span><span class="s1">&#39;mapped&#39;</span><span class="p">,</span> <span class="s1">&#39;This is a title&#39;</span><span class="p">);</span>
+    <span class="c1">// data that will be injected into the mediator</span>
+    <span class="kd">var</span> <span class="nx">mediatorData</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">titleValue</span><span class="o">:</span> <span class="s1">&#39;mapped&#39;</span>
+    <span class="p">};</span>
+    <span class="c1">// create a mediator that represents a DOM Element</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">TitleView</span><span class="p">,</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">),</span> <span class="nx">mediatorData</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">();</span>
+</pre></div>
+
+        <p><a href="http://plnkr.co/edit/4dm9wQEOxMKN8cPAmKWZ?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+        <div class="back"><a href="#">top</a></div>
+
 		<div class="subtitle">
 			<h2>Decoupling communication</h2>
 			<a class="anchor" name="decoupling-communication"></a>

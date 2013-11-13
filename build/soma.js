@@ -929,10 +929,29 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		}
 	}
 
+	function resolveMediatorData(injector, data) {
+		if (typeof data === 'function') {
+			return data;
+		}
+		var resolvedData = {};
+		if (typeof data !== 'object' || Object.prototype.toString.call(data) === '[object Array]') {
+			resolvedData['data'] = data;
+		}
+		else {
+			for (var name in data) {
+				if (typeof data[name] === 'string' && injector.hasMapping(data[name])) {
+					resolvedData[name] = injector.getValue(data[name]);
+				}
+				else {
+					resolvedData[name] = data[name];
+				}
+			}
+		}
+		return resolvedData;
+	}
+
 	function inDOM(element) {
 		if (!element.parentNode) {
-//			console.log(element instanceof HTMLDocument);
-			console.log(Object.prototype.toString.call(element));
 			return typeof HTMLDocument !== 'undefined' && element instanceof HTMLDocument;
 		}
 		else {
@@ -958,7 +977,6 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				}
 				return false;
 			};
-
 	// plugins
 
 	var plugins = [];
@@ -1101,19 +1119,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			if (this.mappings[id]) {
 				var data = this.mappings[id].data;
 				if (data !== undefined) {
-					if (typeof data === 'function') {
-						return data;
-					}
-					var resolvedData = {};
-					for (var name in data) {
-						if (typeof data[name] === 'string' && this.injector.hasMapping(data[name])) {
-							resolvedData[name] = this.injector.getValue(data[name]);
-						}
-						else {
-							resolvedData[name] = data[name];
-						}
-					}
-					return resolvedData;
+					return resolveMediatorData(this.injector, data);
 				}
 			}
 		},
@@ -1207,16 +1213,15 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			for (var i= 0, l=targets.length; i<l; i++) {
 				var injector = this.injector.createChild();
 				injector.mapValue('target', targets[i]);
-				if (typeof data === 'function') {
-					var result = data(injector, i);
+				var mData = data;
+				if (typeof mData === 'function') {
+					var result = mData(injector, i);
 					if (result !== undefined && result !== null) {
-						//injector.mapValue('data', result);
 						applyMappingData(injector, result);
 					}
 				}
-				else if (data !== undefined && data !== null) {
-					//injector.mapValue('data', data);
-					applyMappingData(injector, data);
+				else {
+					applyMappingData(injector, resolveMediatorData(this.injector, mData));
 				}
 				var mediator = injector.createInstance(cl);
 				if (targets.length === 1) {
@@ -1473,7 +1478,6 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	infuse.Injector.extend = function(obj) {
 		return soma.inherit(infuse.Injector, obj);
 	};
-
 
 	// register for AMD module
 	/* globals define:false */

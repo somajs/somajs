@@ -720,6 +720,245 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		return soma.inherit(function () {
 		}, obj);
 	};
+
+	soma.browsers = soma.browsers || {};
+	soma.browsers.ie = (function () {
+
+		if (typeof document === 'undefined') {
+			return undefined;
+		}
+
+		var div = document.createElement('div');
+
+		if (typeof div.style.msTouchAction !== 'undefined') {
+			return 10;
+		}
+
+		var v = 3, all = div.getElementsByTagName('i');
+
+		while (
+			div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
+				all[0]
+			);
+
+		return v > 4 ? v : undefined;
+
+	}());
+
+	soma.utils = soma.utils || {};
+	soma.utils.HashMap = function(id) {
+		var items = {};
+		var count = 0;
+		//var uuid = function(a,b){for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b;}
+		function uuid() { return ++count + id; }
+		function getKey(target) {
+			if (!target) {
+				return;
+			}
+			if (typeof target !== 'object') {
+				return target;
+			}
+			var result;
+			try {
+				// IE 7-8 needs a try catch, seems like I can't add a property on text nodes
+				result = target[id] ? target[id] : target[id] = uuid();
+			} catch(err){}
+			return result;
+		}
+		this.remove = function(key) {
+			delete items[getKey(key)];
+		};
+		this.get = function(key) {
+			return items[getKey(key)];
+		};
+		this.put = function(key, value) {
+			items[getKey(key)] = value;
+		};
+		this.has = function(key) {
+			return typeof items[getKey(key)] !== 'undefined';
+		};
+		this.getData = function() {
+			return items;
+		};
+		this.dispose = function() {
+			for (var key in items) {
+				if (items.hasOwnProperty(key)) {
+					delete items[key];
+				}
+			}
+			this.length = 0;
+		};
+	}
+
+	var regexFunction = /(.*)\((.*)\)/;
+	var regexParams = /^(\"|\')(.*)(\"|\')$/;
+
+	function parsePath(dataValue, dataPath) {
+		if (dataPath !== undefined && dataValue !== undefined) {
+			var step, val = dataValue;
+			var path = dataPath.split('.');
+			while (step = path.shift()) {
+				var parts = step.match(regexFunction);
+				if (parts) {
+					var params = parts[2];
+					params = params.replace(/,\s+/g, '').split(',');
+					for (var i=0, l=params.length; i<l; i++) {
+						if (regexParams.test(params[i])) {
+							params[i] = params[i].substr(1, params[i].length-2);
+						}
+					}
+					if (val[parts[1]] !== undefined) {
+						val = val[parts[1]].apply(null, params);
+					}
+				}
+				else {
+					if (typeof val !== 'undefined' && typeof val[step] !== 'undefined') {
+						val = val[step];
+					}
+				}
+			}
+			dataValue = val;
+		}
+		return dataValue;
+	}
+
+	function getDataFromParentMediators(self, element, dataPath) {
+		var target = element.parentNode;
+		if (target) {
+			var mediator = self.get(target);
+			if (mediator) {
+				var value = parsePath(mediator, dataPath);
+				if (value !== undefined) {
+					return value;
+				}
+				else {
+					return getDataFromParentMediators(self, target, dataPath);
+				}
+			}
+		}
+	}
+
+	function parseDOM(self, element, updateData) {
+		if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
+			return;
+		}
+		for (var typeId in self.types) {
+			var type = self.types[typeId];
+			var name = type.name;
+			var attrValue = element.getAttribute(name);
+			if (attrValue !== undefined && attrValue !== null && attrValue !== '') {
+				var mediatorId = attrValue.split(self.attributeSeparator)[0];
+				var mapping = type.getMapping(mediatorId);
+				if (mapping) {
+					var dataSource = getDataSource(self, element, type, attrValue);
+					if (!type.get(element)) {
+						type.add(element, self.create(type.mappings[mediatorId].mediator, element, dataSource));
+					}
+					else {
+						if (updateData) {
+							updateMediatorData(self, type, attrValue, element);
+						}
+					}
+				}
+			}
+		}
+		var child = element.firstChild;
+		while (child) {
+			parseDOM(self, child, updateData);
+			child = child.nextSibling;
+		}
+	}
+
+	function getDataSource(self, element, type, attrValue) {
+		var dataSource;
+		var parts = attrValue.split(self.attributeSeparator);
+		var mediatorId = parts[0];
+		var dataPath = parts[1];
+		var mapping = type.getMapping(mediatorId);
+		if (mapping) {
+			dataSource = resolveDataSource(self, element, type, mediatorId, dataPath);
+		}
+		return dataSource;
+	}
+
+	function resolveDataSource(self, element, mediatorType, mediatorId, dataPath) {
+		var dataSource = mediatorType.getMappingData(mediatorId) || {};
+		if (dataPath) {
+			// http://regex101.com/r/nI3zQ7
+			var dataPathList = dataPath.split(/,(?![\w\s'",\\]*\))/g);
+			for (var s=0, d=dataPathList.length; s<d; s++) {
+				var p = dataPathList[s].split(':');
+				var name = p[0];
+				if (dataSource[name]) {
+					dataSource[name] = parsePath(dataSource[name], p[1]);
+				}
+				else {
+					dataSource[name] = getDataFromParentMediators(self, element, p[1]);
+				}
+			}
+		}
+		return dataSource;
+	}
+
+	function applyMappingData(injector, obj) {
+		for (var name in obj) {
+			if (typeof name === 'string' && obj[name] !== undefined && obj[name] !== null) {
+				injector.mapValue(name, obj[name]);
+			}
+		}
+	}
+
+	function updateMediatorData(self, type, attrValue, target) {
+		if (type && type.has(target)) {
+			var dataSource = getDataSource(self, target, type, attrValue);
+			var mediator = type.get(target);
+			if (dataSource && mediator) {
+				var injector = self.injector.createChild();
+				injector.mapValue('target', target);
+				if (typeof dataSource === 'function') {
+					var result = dataSource(injector, i);
+					if (result !== undefined && result !== null) {
+						applyMappingData(injector, result);
+					}
+				}
+				else if (dataSource !== undefined && dataSource !== null) {
+					applyMappingData(injector, dataSource);
+				}
+				injector.inject(mediator, false);
+			}
+		}
+	}
+
+	function inDOM(element) {
+		if (!element.parentNode) {
+//			console.log(element instanceof HTMLDocument);
+			console.log(Object.prototype.toString.call(element));
+			return typeof HTMLDocument !== 'undefined' && element instanceof HTMLDocument;
+		}
+		else {
+			return inDOM(element.parentNode);
+		}
+	}
+
+	var contains = typeof document !== 'object' ? function(){} : document.documentElement.contains ?
+		function( a, b ) {
+			var adown = a.nodeType === 9 ? a.documentElement : a,
+				bup = b && b.parentNode;
+			return a === bup || !!( bup && bup.nodeType === 1 && adown.contains && adown.contains(bup) );
+		} :
+		document.documentElement.compareDocumentPosition ?
+			function( a, b ) {
+				return b && !!( a.compareDocumentPosition( b ) & 16 );
+			} :
+			function( a, b ) {
+				while ( (b = b.parentNode) ) {
+					if ( b === a ) {
+						return true;
+					}
+				}
+				return false;
+			};
+
 	// plugins
 
 	var plugins = [];
@@ -734,6 +973,14 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 		}
 	};
+
+	// mutation observers
+	// TODO: check with node.js
+	if (typeof MutationObserver === 'undefined') {
+		if (typeof window !== 'undefined' && typeof window.WebKitMutationObserver !== 'undefined') {
+			window.MutationObserver = window.WebKitMutationObserver || window.MozMutationObserver;
+		}
+	}
 
 	// framework
 	soma.Application = soma.extend({
@@ -753,6 +1000,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				// mediator
 				self.injector.mapClass('mediators', Mediators, true);
 				self.mediators = self.injector.getValue('mediators');
+				self.injector.mapValue('mediatorSupport', self.mediators.support.bind(self.mediators));
 				// commands
 				self.injector.mapClass('commands', Commands, true);
 				self.commands = self.injector.getValue('commands');
@@ -762,7 +1010,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				}
 			}
 
-			setup.bind(this)();
+			setup();
 			this.init();
 			this.start();
 
@@ -819,12 +1067,129 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		}
 	});
 
+	var MediatorType = soma.extend({
+		constructor: function(name, injector) {
+			this.name = name;
+			this.injector = injector;
+			this.mappings = {};
+			this.list = new soma.utils.HashMap('hm-'+name);
+		},
+		map: function(id, mediator, data) {
+			if (!this.mappings[id] && typeof mediator === 'function') {
+				this.mappings[id] = {
+					mediator: mediator,
+					data: data
+				};
+			}
+			return this;
+		},
+		unmap: function(id) {
+			if (this.mappings[id]) {
+				delete this.mappings[id].mediator;
+				delete this.mappings[id].data;
+				delete this.mappings[id];
+			}
+			return this;
+		},
+		hasMapping: function(id) {
+			return this.mappings[id] !== undefined && this.mappings[id] !== null;
+		},
+		getMapping: function(id) {
+			return this.mappings[id];
+		},
+		getMappingData: function(id) {
+			if (this.mappings[id]) {
+				var data = this.mappings[id].data;
+				if (data !== undefined) {
+					if (typeof data === 'function') {
+						return data;
+					}
+					var resolvedData = {};
+					for (var name in data) {
+						if (typeof data[name] === 'string' && this.injector.hasMapping(data[name])) {
+							resolvedData[name] = this.injector.getValue(data[name]);
+						}
+						else {
+							resolvedData[name] = data[name];
+						}
+					}
+					return resolvedData;
+				}
+			}
+		},
+		has: function(element) {
+			return this.list.has(element);
+		},
+		add: function(element, mediator) {
+			if (!this.list.has(element)) {
+				this.list.put(element, {
+					mediator: mediator,
+					element: element
+				});
+			}
+			return this;
+		},
+		remove: function(element) {
+			var item = this.list.get(element);
+			if (item) {
+				if (item.mediator) {
+					if (typeof item.mediator['dispose'] === 'function') {
+						item.mediator.dispose();
+					}
+				}
+				delete item.mediator;
+				delete item.element;
+				this.list.remove(element);
+			}
+			return this;
+		},
+		get: function(element) {
+			var item = this.list.get(element);
+			return item && item.mediator ? item.mediator : undefined;
+		},
+		removeAll: function() {
+			if (this.list) {
+				var dataList = this.list.getData();
+				for (var el in dataList) {
+					this.remove(el);
+				}
+				this.list.dispose();
+			}
+			return this;
+		},
+		dispose: function() {
+			this.removeAll();
+			this.name = undefined;
+			this.injector = undefined;
+			this.mappings = undefined;
+			if (this.list) {
+				this.list.dispose();
+			}
+			this.list = undefined;
+		}
+	});
+
 	var Mediators = soma.extend({
 		constructor: function() {
+			this.types = {};
+			this.defaultType = 'data-mediator';
+			this.attributeSeparator = '|';
 			this.injector = null;
 			this.dispatcher = null;
+			this.isObserving = false;
+			this.observer = null;
 		},
-		create: function(cl, target) {
+		postConstruct: function() {
+			this.describe(this.defaultType);
+		},
+		describe: function(name) {
+			if (this.types[name]) {
+				throw new Error('The type of mediator has been described already (' + name + ').');
+			}
+			this.types[name] = new MediatorType(name, this.injector);
+			return this.types[name];
+		},
+		create: function(cl, target, data) {
 			if (!cl || typeof cl !== 'function') {
 				throw new Error('Error creating a mediator, the first parameter must be a function.');
 			}
@@ -832,7 +1197,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				throw new Error('Error creating a mediator, the second parameter cannot be undefined or null.');
 			}
 			var targets = [];
-			var meds = [];
+			var list = [];
 			if (target.length > 0) {
 				targets = target;
 			}
@@ -842,17 +1207,173 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			for (var i= 0, l=targets.length; i<l; i++) {
 				var injector = this.injector.createChild();
 				injector.mapValue('target', targets[i]);
+				if (typeof data === 'function') {
+					var result = data(injector, i);
+					if (result !== undefined && result !== null) {
+						//injector.mapValue('data', result);
+						applyMappingData(injector, result);
+					}
+				}
+				else if (data !== undefined && data !== null) {
+					//injector.mapValue('data', data);
+					applyMappingData(injector, data);
+				}
 				var mediator = injector.createInstance(cl);
 				if (targets.length === 1) {
 					return mediator;
 				}
-				meds.push(mediator);
+				list.push(mediator);
 			}
-			return meds;
+			return list;
+		},
+		getType: function(name) {
+			var typeId = name ? name : this.defaultType;
+			if (!this.types[typeId]) {
+				throw new Error('The type of mediator has been not been found (' + typeId + ').');
+			}
+			return this.types[typeId];
+		},
+		removeType: function(name) {
+			// todo
+		},
+		map: function(id, mediator, data, type) {
+			return this.getType(type).map(id, mediator, data);
+		},
+		unmap: function(id, type) {
+			return this.getType(type).unmap(id);
+		},
+		hasMapping: function(id, type) {
+			return this.getType(type).hasMapping(id);
+		},
+		getMapping: function(id, type) {
+			return this.getType(type).getMapping(id);
+		},
+		getMappingData: function(id, type) {
+			return this.getType(type).getMappingData(id);
+		},
+		observe: function(element, parse, config) {
+			if (parse === undefined || parse === null || parse) {
+				this.parse(element);
+			}
+			if (typeof MutationObserver !== 'undefined' && element) {
+				this.observer = new MutationObserver(function(mutations) {
+					for (var i= 0, l=mutations.length; i<l; i++) {
+						var mutationType = mutations[i].type;
+						switch(mutationType) {
+							case 'childList':
+//								console.log('>> [mutation][childList]', mutations[i]);
+								// added
+								var added = mutations[i].addedNodes;
+								for (var j= 0, k=added.length; j<k; j++) {
+									this.parse(added[j]);
+								}
+								// removed
+								var removed = mutations[i].removedNodes;
+								for (var d= 0, f=removed.length; d<f; d++) {
+									this.parseToRemove(removed[j]);
+								}
+								break;
+							case 'attributes':
+//								console.log('>> [mutation][attribute]', mutations[i]);
+								var target = mutations[i].target;
+								var attrName = mutations[i].attributeName;
+								var attrValue = target.getAttribute(attrName);
+								var type = this.types[attrName];
+								updateMediatorData(this, type, attrValue, target);
+								break;
+						}
+					}
+
+				}.bind(this));
+				// todo remove specific attribute
+				this.observer.observe(element, config || {childList: true, subtree: true, attributes: true, attributeOldValue: true});
+				this.isObserving = true;
+			}
+			else {
+				if (this.observer) {
+					this.observer.disconnect();
+				}
+				this.observer = null;
+				this.isObserving = false;
+			}
+		},
+		parseToRemove: function(element) {
+			if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
+				return;
+			}
+			for (var typeId in this.types) {
+				var attr = element.getAttribute(typeId);
+				if (attr) {
+					var parts = attr.split(this.attributeSeparator);
+					if (parts[0] && this.types[typeId].has(element) && this.types[typeId].hasMapping(parts[0])) {
+						this.types[typeId].remove(element);
+					}
+				}
+			}
+			var child = element.firstChild;
+			while (child) {
+				this.parseToRemove(child);
+				child = child.nextSibling;
+			}
+		},
+		parse: function(element, updateData) {
+			parseDOM(this, element, updateData);
+			if (typeof MutationObserver === 'undefined') {
+				for (var typeId in this.types) {
+					var dataList = this.types[typeId].list.getData();
+					for (var el in dataList) {
+						var item = dataList[el];
+						var el = item.element;
+						if (!contains(element, el)) {
+							this.remove(el);
+						}
+					}
+				}
+			}
+		},
+		support: function(element) {
+			if (typeof MutationObserver === 'undefined') {
+				this.parse(element, true);
+			}
+		},
+		add: function(element, mediator, type) {
+			this.getType(type).add(element, mediator);
+		},
+		remove: function(element, type) {
+			this.getType(type).remove(element);
+		},
+		get: function(element, type) {
+			var mediator = this.getType(type).get(element);
+			if (mediator) {
+				return mediator;
+			}
+			else {
+				for (var typeId in this.types) {
+					var m = this.types[typeId].get(element);
+					if (m) {
+						return m;
+					}
+				}
+			}
+		},
+		has: function(element, type) {
+			return this.getType(type).has(element);
+		},
+		removeAll: function(type) {
+			this.getType(type).removeAll();
 		},
 		dispose: function() {
+			if (this.observer) {
+				this.observer.disconnect();
+				this.isObserving = false;
+			}
+			for (var id in this.types) {
+				this.types[id].dispose();
+			}
 			this.injector = undefined;
 			this.dispatcher = undefined;
+			this.observer = undefined;
+			this.types = undefined;
 		}
 	});
 
@@ -902,6 +1423,13 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			delete this.list[commandName];
 			this.removeInterceptor(commandName);
 		},
+		removeAll: function() {
+			for (var cmd in this.list) {
+				if (this.list.hasOwnProperty(cmd)) {
+					this.remove(cmd);
+				}
+			}
+		},
 		addInterceptor: function(commandName) {
 			this.dispatcher.addEventListener(commandName, this.boundHandler, -Number.MAX_VALUE);
 		},
@@ -924,11 +1452,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 		},
 		dispose: function() {
-			for (var cmd in this.list) {
-				if (this.list.hasOwnProperty(cmd)) {
-					this.remove(cmd);
-				}
-			}
+			this.removeAll();
 			this.boundHandler = undefined;
 			this.dispatcher = undefined;
 			this.injector = undefined;

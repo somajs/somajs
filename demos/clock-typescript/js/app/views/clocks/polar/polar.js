@@ -78,3 +78,4 @@ var clock;
     })();
     clock.PolarView = PolarView;
 })(clock || (clock = {}));
+//# sourceMappingURL=polar.js.map

@@ -25,3 +25,4 @@ var clock;
     })();
     clock.DigitalView = DigitalView;
 })(clock || (clock = {}));
+//# sourceMappingURL=digital.js.map

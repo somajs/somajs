@@ -10,7 +10,7 @@ module.exports = function(grunt) {
 				stdout: true
 			},
 			update_build_from_master: {
-				command: 'git checkout master build/',
+				command: 'git checkout dev-mutator build/',
 				stdout: true
 			},
 			delete_demos_folder: {
@@ -18,7 +18,7 @@ module.exports = function(grunt) {
 				stdout: true
 			},
 			update_demos_from_master: {
-				command: 'git checkout master demos/',
+				command: 'git checkout dev-mutator demos/',
 				stdout: true
 			},
 			delete_tests_folder: {
@@ -26,7 +26,7 @@ module.exports = function(grunt) {
 				stdout: true
 			},
 			update_tests_from_master: {
-				command: 'git checkout master tests/',
+				command: 'git checkout dev-mutator tests/',
 				stdout: true
 			}
 		}

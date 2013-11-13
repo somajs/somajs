@@ -89,13 +89,23 @@
 						<li><a href="#flow-control">Flow control</a></li>
 					</ul>
 				</li>
-				<li><p><a href="#mediator">Mediator</a></p>
-					<ul class="hidden">
-						<li><a href="#create-mediators">Create mediators</a></li>
-						<li><a href="#simple-mediator-example">Simple mediator example</a></li>
-						<li><a href="#decoupling-communication">Decoupling communication</a></li>
-					</ul>
-				</li>
+                <li><p><a href="#mediator">Mediator</a></p>
+                    <ul class="hidden">
+                        <li><a href="#create-mediators">Create mediators</a></li>
+                        <li><a href="#simple-mediator-example">Simple mediator example</a></li>
+                        <li><a href="#send-data-to-a-mediator">Send data to a mediator</a></li>
+                        <li><a href="#decoupling-communication">Decoupling communication</a></li>
+                    </ul>
+                </li>
+                <li><p><a href="#mediator-from-the-DOM">Mediator from the DOM</a></p>
+                    <ul class="hidden">
+                        <li><a href="#create-mediator-from-the-DOM">Create a mediator from the DOM</a></li>
+                        <li><a href="#mapping-mediators">Mapping mediators</a></li>
+                        <li><a href="#mediators-types">Mediators types</a></li>
+                        <li><a href="#mapping-data-to-a-mediator">Mapping data to a mediator</a></li>
+                        <li><a href="#mapping-data-path">Mapping data path</a></li>
+                    </ul>
+                </li>
 				<li><p><a href="#template">Template</a></p>
 					<ul class="hidden">
 						<li><a href="#load-template-plugin">Load the template plugin</a></li>
@@ -879,7 +889,7 @@
 			<a class="anchor" name="simple-mediator-example"></a>
 		</div>
 
-		<p>In the following example, a mediator that represents a DOM Element is created, paradoxically called "view" on purpose (see next example).</p>
+		<p>In the following example, a mediator that represents a DOM Element is created.</p>
 		<p>The mediator updates its target, a DOM Element, when it receives a specific event.</p>
 
 		<div class="highlight"><pre><span class="kd">var</span> <span class="nx">TitleView</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">dispatcher</span><span class="p">)</span> <span class="p">{</span>
@@ -897,11 +907,42 @@
   <span class="nx">start</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// dispatch an event to trigger an action in the mediator</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span><span class="s1">&#39;render title&#39;</span><span class="p">,</span> <span class="s2">&quot;This is a title&quot;</span><span class="p">);</span>
-  <span class="p">},</span>
+  <span class="p">}</span>
 <span class="p">});</span>
 </pre></div>
 
 		<p><a href="http://plnkr.co/edit/E9PND7pyY81QT9u8cRlH?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+		<div class="back"><a href="#">top</a></div>
+
+		<div class="subtitle">
+			<h2>Send data to a mediator</h2>
+			<a class="anchor" name="send-data-to-a-mediator"></a>
+		</div>
+
+		<p>Data can be mapped and sent to a mediator using dependency injection.</p>
+		<p>The third parameter of the <code>create</code> method can receive an object where keys are representing a injection name, and the values what will be injected.</p>
+
+        <div class="highlight"><pre><span class="kd">var</span> <span class="nx">TitleView</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">dispatcher</span><span class="p">,</span> <span class="nx">titleValue</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// titleValue has been injected when creating the mediator</span>
+  <span class="nx">target</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">titleValue</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">Application</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// data that will be injected into the mediator</span>
+    <span class="kd">var</span> <span class="nx">mediatorData</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">titleValue</span><span class="o">:</span> <span class="s1">&#39;This is a title&#39;</span>
+    <span class="p">};</span>
+    <span class="c1">// create a mediator that represents a DOM Element</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">TitleView</span><span class="p">,</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">),</span> <span class="nx">mediatorData</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">();</span>
+</pre></div>
+
+		<p><a href="http://plnkr.co/edit/x1LFPw6i7bSQvsBGGxI1?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
 		<div class="back"><a href="#">top</a></div>
 
@@ -970,6 +1011,64 @@
 		<div class="back"><a href="#">top</a></div>
 
 	</section>
+
+    <section>
+
+        <div class="title">
+            <h1>Mediator from the DOM</h1>
+            <a class="anchor" name="mediator-from-the-DOM"></a>
+        </div>
+
+        <p>Mediators can be directly created and removed depending on what is happening in the DOM.</p>
+        <p>This provides a way of having javascript objects created when an element is appended to the DOM, and javascript objects removed when the element is removed from it.</p>
+        <p>This process is completely automated. The framework makes uses of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver" target="_blank">Mutation Observers API</a> and an easy support with older browsers that doesn't support the API.</p>
+
+        <div class="subtitle">
+            <h2>Create mediators from the DOM</h2>
+            <a class="anchor" name="create-mediator-from-the-DOM"></a>
+        </div>
+
+        <p><a href="http://plnkr.co/edit/E9PND7pyY81QT9u8cRlH?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+        <div class="back"><a href="#">top</a></div>
+
+        <div class="subtitle">
+            <h2>Create mediators from the DOM</h2>
+            <a class="anchor" name="mapping-mediators"></a>
+        </div>
+
+        <p><a href="http://plnkr.co/edit/E9PND7pyY81QT9u8cRlH?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+        <div class="back"><a href="#">top</a></div>
+
+        <div class="subtitle">
+            <h2>Create mediators from the DOM</h2>
+            <a class="anchor" name="mediators-types"></a>
+        </div>
+
+        <p><a href="http://plnkr.co/edit/E9PND7pyY81QT9u8cRlH?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+        <div class="back"><a href="#">top</a></div>
+
+        <div class="subtitle">
+            <h2>Create mediators from the DOM</h2>
+            <a class="anchor" name="mapping-data-to-a-mediator"></a>
+        </div>
+
+        <p><a href="http://plnkr.co/edit/E9PND7pyY81QT9u8cRlH?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+        <div class="back"><a href="#">top</a></div>
+
+        <div class="subtitle">
+            <h2>Create mediators from the DOM</h2>
+            <a class="anchor" name="mapping-data-path"></a>
+        </div>
+
+        <p><a href="http://plnkr.co/edit/E9PND7pyY81QT9u8cRlH?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+
+        <div class="back"><a href="#">top</a></div>
+
+    </section>
 
 	<section>
 

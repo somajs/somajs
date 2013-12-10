@@ -152,9 +152,10 @@
 
 	function parsePath(dataValue, dataPath) {
 		if (dataPath !== undefined && dataValue !== undefined) {
-			var step, val = dataValue;
+			var val = dataValue;
 			var path = dataPath.split('.');
-			while (step = path.shift()) {
+			var step = path.shift();
+			while (step !== undefined) {
 				var parts = step.match(regexFunction);
 				if (parts) {
 					var params = parts[2];
@@ -169,10 +170,12 @@
 					}
 				}
 				else {
-					if (typeof val !== 'undefined' && typeof val[step] !== 'undefined') {
-						val = val[step];
-					}
+					val = val[step];
 				}
+				if (val === undefined || val === undefined) {
+					break;
+				}
+				step = path.shift()
 			}
 			dataValue = val;
 		}
@@ -241,18 +244,22 @@
 	function resolveDataSource(self, element, mediatorType, mediatorId, dataPath) {
 		var dataSource = mediatorType.getMappingData(mediatorId) || {};
 		if (dataPath) {
+			var resultData = {};
 			// http://regex101.com/r/nI3zQ7
 			var dataPathList = dataPath.split(/,(?![\w\s'",\\]*\))/g);
 			for (var s=0, d=dataPathList.length; s<d; s++) {
 				var p = dataPathList[s].split(':');
 				var name = p[0];
-				if (dataSource[name]) {
-					dataSource[name] = parsePath(dataSource[name], p[1]);
+				var path = p[1];
+				if (path) {
+					// has injection name
+					resultData[name] = parsePath(dataSource, path);
 				}
 				else {
-					dataSource[name] = getDataFromParentMediators(self, element, p[1]);
+					resultData['data'] = parsePath(dataSource, name);
 				}
 			}
+			return resultData;
 		}
 		return dataSource;
 	}
@@ -295,6 +302,7 @@
 			resolvedData['data'] = data;
 		}
 		else {
+			resolvedData = data;
 			for (var name in data) {
 				if (typeof data[name] === 'string' && injector.hasMapping(data[name])) {
 					resolvedData[name] = injector.getValue(data[name]);

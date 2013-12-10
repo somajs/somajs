@@ -99,8 +99,8 @@
                 </li>
                 <li><p><a href="#dom-mediator">DOM Mediator</a></p>
                     <ul class="hidden">
-                        <li><a href="#create-mediator-from-the-DOM">Create a mediator from the DOM</a></li>
-                        <li><a href="#handle-mediator-removal">Handle mediator removal</a></li>
+                        <li><a href="#create-mediators-from-the-DOM">Create a mediator from the DOM</a></li>
+                        <li><a href="#handle-mediators-removal">Handle mediator removal</a></li>
                         <li><a href="#mapping-mediators">Mapping mediators</a></li>
                         <li><a href="#mediators-types">Mediator types</a></li>
                         <li><a href="#mapping-data-to-a-mediator">Mapping data to a mediator</a></li>
@@ -1042,19 +1042,23 @@
     <section>
 
         <div class="title">
-            <h1>Mediator from the DOM</h1>
+            <h1>DOM Mediator</h1>
             <a class="anchor" name="dom-mediator"></a>
         </div>
 
         <p>Mediators can be created and destroyed automatically when "described" DOM elements are appended to the DOM and removed from the DOM. Javascript objects (the mediators) representing these elements are instantiated and removed. This is an automatic process handled by the framework.</p>
-        <p>The framework makes uses of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver" target="_blank">Mutation Observers API</a> and provides an easy support with older browsers that doesn't support the API.</p>
+        <p>The framework makes uses of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver" target="_blank">Mutation Observers API</a> and provides an easy support for older browsers that doesn't support the API.</p>
 
         <div class="subtitle">
             <h2>Create mediators from the DOM</h2>
-            <a class="anchor" name="create-mediator-from-the-DOM"></a>
+            <a class="anchor" name="create-mediators-from-the-DOM"></a>
         </div>
 
-        <p></p>
+        <p>In order to have mediators instantiated by the framework, you need to:</p>
+        <ul>
+            <li>describe a mediator mapping and observe a DOM Element (<a href="#mapping-mediators">see mapping section</a>)</li>
+            <li>append a DOM Element with a <code>data-mediator</code> attribute</li>
+        </ul>
 
         <div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">data-mediator=</span><span class="s">&quot;Mediator&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
 <span class="nt">&lt;div</span> <span class="na">data-mediator=</span><span class="s">&quot;Mediator&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
@@ -1078,12 +1082,40 @@
         <div class="back"><a href="#">top</a></div>
 
         <div class="subtitle">
-            <h2>Handle mediator removal</h2>
-            <a class="anchor" name="handle-mediator-removal"></a>
+            <h2>Handle mediators removal</h2>
+            <a class="anchor" name="handle-mediators-removal"></a>
         </div>
 
-        <p><a href="http://plnkr.co/edit/E9PND7pyY81QT9u8cRlH?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+        <p>The framework will automatically call a <code>dispose</code> method when the corresponding DOM Element is removed from the tree so you can handle some custom actions.</p>
 
+        <div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">data-mediator=</span><span class="s">&quot;Mediator&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-mediator=</span><span class="s">&quot;Mediator&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-mediator=</span><span class="s">&quot;Mediator&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+
+<span class="kd">var</span> <span class="nx">Mediator</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">target</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;I&#39;m a DOM Element with a mediator.&quot;</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="nx">Mediator</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">dispose</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// method called when the corresponding DOM Element has been removed</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;The mediator has been removed!&#39;</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">Application</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// set mediator mapping</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="s1">&#39;Mediator&#39;</span><span class="p">,</span> <span class="nx">Mediator</span><span class="p">);</span>
+    <span class="c1">// observe an element</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">observe</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">();</span>
+
+<span class="nt">&lt;/script&gt;</span> </pre></div>
+        <p><a href="http://plnkr.co/edit/vdTC8at0QwHfBQ56ZSCR?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
         <div class="back"><a href="#">top</a></div>
 
         <div class="subtitle">
@@ -1091,8 +1123,42 @@
             <a class="anchor" name="mapping-mediators"></a>
         </div>
 
-        <p><a href="http://plnkr.co/edit/E9PND7pyY81QT9u8cRlH?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+        <p>Mapping a mediator is similar to a dependency injection mapping: a name (unique string) is assigned to a javascript function.</p>
+        <p>When a DOM Element is appended to the DOM and match a mapping, the corresponding javascript function is instantiated and the DOM element is injected in the mediator (target).</p>
 
+        <div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">data-mediator=</span><span class="s">&quot;MyMediator&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-mediator=</span><span class="s">&quot;AnotherMediator&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-mediator=</span><span class="s">&quot;CustomMediator&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+
+<span class="kd">var</span> <span class="nx">MyMediator</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">target</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;I&#39;m a mediator, my name is: MyMediator&quot;</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">AnotherMediator</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">target</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;I&#39;m a mediator, my name is: AnotherMediator&quot;</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">CustomMediator</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">target</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;I&#39;m a mediator, my name is: CustomMediator&quot;</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">Application</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// set mediator mapping</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="s1">&#39;MyMediator&#39;</span><span class="p">,</span> <span class="nx">MyMediator</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="s1">&#39;AnotherMediator&#39;</span><span class="p">,</span> <span class="nx">AnotherMediator</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="s1">&#39;CustomMediator&#39;</span><span class="p">,</span> <span class="nx">CustomMediator</span><span class="p">);</span>
+    <span class="c1">// observe an element</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">observe</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">();</span>
+
+<span class="nt">&lt;/script&gt;</span></pre></div>
+        <p><a href="http://plnkr.co/edit/tCYzLLUpoO9CVldTuwVH?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
         <div class="back"><a href="#">top</a></div>
 
         <div class="subtitle">
@@ -1100,8 +1166,42 @@
             <a class="anchor" name="mediators-types"></a>
         </div>
 
-        <p><a href="http://plnkr.co/edit/E9PND7pyY81QT9u8cRlH?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+        <p>A mediator type is the attribute name used in the HTML to create the mediators, <code>data-mediator</code> is the default type used by the framework.</p>
+        <p>More types can be created using the <code>describe</code> method</p>.
 
+        <div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">select=</span><span class="s">&quot;SelectMediator&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">choose=</span><span class="s">&quot;ChooseMediator&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">pick=</span><span class="s">&quot;PickMediator&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+
+<span class="kd">var</span> <span class="nx">SelectMediator</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">target</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;I&#39;m a mediator, my name is: SelectMediator&quot;</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">ChooseMediator</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">target</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;I&#39;m a mediator, my name is: ChooseMediator&quot;</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">PickMediator</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">target</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;I&#39;m a mediator, my name is: PickMediator&quot;</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">Application</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// set mediator mapping</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;select&#39;</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="s1">&#39;SelectMediator&#39;</span><span class="p">,</span> <span class="nx">SelectMediator</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;choose&#39;</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="s1">&#39;ChooseMediator&#39;</span><span class="p">,</span> <span class="nx">ChooseMediator</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;pick&#39;</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="s1">&#39;PickMediator&#39;</span><span class="p">,</span> <span class="nx">PickMediator</span><span class="p">);</span>
+    <span class="c1">// observe an element</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">observe</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">();</span>
+
+<span class="nt">&lt;/script&gt;</span></pre></div>
+        <p><a href="http://plnkr.co/edit/PgxMmZQ1kshAFud0DKp6?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
         <div class="back"><a href="#">top</a></div>
 
         <div class="subtitle">
@@ -1109,7 +1209,7 @@
             <a class="anchor" name="mapping-data-to-a-mediator"></a>
         </div>
 
-        <p><a href="http://plnkr.co/edit/E9PND7pyY81QT9u8cRlH?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+        <p><a href="http://plnkr.co/edit/GJEJORRn8qMypXQ7ZIQp?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
 
         <div class="back"><a href="#">top</a></div>
 

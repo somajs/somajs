@@ -1209,8 +1209,46 @@
             <a class="anchor" name="mapping-data-to-a-mediator"></a>
         </div>
 
-        <p><a href="http://plnkr.co/edit/GJEJORRn8qMypXQ7ZIQp?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+        <p>TODO</p>
 
+        <div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">data-mediator=</span><span class="s">&quot;FirstNameMediator|firstname&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-mediator=</span><span class="s">&quot;LastNameMediator|lastname&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-mediator=</span><span class="s">&quot;AgeMediator|age&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+
+<span class="kd">var</span> <span class="nx">FirstNameMediator</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">target</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;I&#39;m a mediator, my first name is: &quot;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">LastNameMediator</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">target</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span>  <span class="s2">&quot;I&#39;m a mediator, my last name is: &quot;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">AgeMediator</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">target</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;I&#39;m a mediator, my age is: &quot;</span> <span class="o">+</span>  <span class="nx">data</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">Application</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">person</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">firstname</span><span class="o">:</span> <span class="s1">&#39;John&#39;</span><span class="p">,</span>
+      <span class="nx">lastname</span><span class="o">:</span> <span class="s1">&#39;Doe&#39;</span><span class="p">,</span>
+      <span class="nx">age</span><span class="o">:</span> <span class="s1">&#39;31&#39;</span><span class="p">,</span>
+    <span class="p">};</span>
+    <span class="c1">// set mediator mapping</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="s1">&#39;FirstNameMediator&#39;</span><span class="p">,</span> <span class="nx">FirstNameMediator</span><span class="p">,</span> <span class="nx">person</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="s1">&#39;LastNameMediator&#39;</span><span class="p">,</span> <span class="nx">LastNameMediator</span><span class="p">,</span> <span class="nx">person</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="s1">&#39;AgeMediator&#39;</span><span class="p">,</span> <span class="nx">AgeMediator</span><span class="p">,</span> <span class="nx">person</span><span class="p">);</span>
+    <span class="c1">// observe an element</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">observe</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">();</span>
+
+<span class="nt">&lt;/script&gt;</span></pre></div>
+        <p><a href="http://plnkr.co/edit/GJEJORRn8qMypXQ7ZIQp?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
         <div class="back"><a href="#">top</a></div>
 
         <div class="subtitle">

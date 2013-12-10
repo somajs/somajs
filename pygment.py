@@ -2,30 +2,35 @@ from pygments import highlight
 from pygments.lexers import HtmlDjangoLexer
 from pygments.formatters import HtmlFormatter
 
-code = """<div select="SelectMediator"></div>
-<div choose="ChooseMediator"></div>
-<div pick="PickMediator"></div>
+code = """<div data-mediator="FirstNameMediator|firstname"></div>
+<div data-mediator="LastNameMediator|lastname"></div>
+<div data-mediator="AgeMediator|age"></div>
 
 <script>
 
-var SelectMediator = function(target) {
-  target.innerHTML = "I'm a mediator, my name is: SelectMediator";
+var FirstNameMediator = function(target, data) {
+  target.innerHTML = "I'm a mediator, my first name is: " + data;
 };
 
-var ChooseMediator = function(target) {
-  target.innerHTML = "I'm a mediator, my name is: ChooseMediator";
+var LastNameMediator = function(target, data) {
+  target.innerHTML =  "I'm a mediator, my last name is: " + data;
 };
 
-var PickMediator = function(target) {
-  target.innerHTML = "I'm a mediator, my name is: PickMediator";
+var AgeMediator = function(target, data) {
+  target.innerHTML = "I'm a mediator, my age is: " +  data;
 };
 
 var Application = soma.Application.extend({
   init: function() {
+    var person = {
+      firstname: 'John',
+      lastname: 'Doe',
+      age: '31',
+    };
     // set mediator mapping
-    this.mediators.describe('select').map('SelectMediator', SelectMediator);
-    this.mediators.describe('choose').map('ChooseMediator', ChooseMediator);
-    this.mediators.describe('pick').map('PickMediator', PickMediator);
+    this.mediators.map('FirstNameMediator', FirstNameMediator, person);
+    this.mediators.map('LastNameMediator', LastNameMediator, person);
+    this.mediators.map('AgeMediator', AgeMediator, person);
     // observe an element
     this.mediators.observe(document.body);
   }

@@ -369,18 +369,7 @@
 			this.getType(type).remove(element);
 		},
 		get: function(element, type) {
-			var mediator = this.getType(type).get(element);
-			if (mediator) {
-				return mediator;
-			}
-			else {
-				for (var typeId in this.types) {
-					var m = this.types[typeId].get(element);
-					if (m) {
-						return m;
-					}
-				}
-			}
+			return this.getType(type).get(element);
 		},
 		has: function(element, type) {
 			return this.getType(type).has(element);

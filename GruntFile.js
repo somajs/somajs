@@ -40,8 +40,9 @@ module.exports = function(grunt) {
 				files:[
 					'libs/*.js',
 					'src/*.js',
+					'tests/**/*.js',
 					'plugins/**/*.js',
-					'grunt.js'
+					'GruntFile.js'
 				],
 				tasks:['concat', 'uglify'],
 				options: {
@@ -54,7 +55,7 @@ module.exports = function(grunt) {
 					'src/*.js',
 					'tests/**/*.js',
 					'plugins/**/*.js',
-					'grunt.js'
+					'GruntFile.js'
 				],
 				tasks:['karma'],
 				options: {

@@ -97,11 +97,12 @@
                         <li><a href="#decoupling-communication">Decoupling communication</a></li>
                     </ul>
                 </li>
-                <li><p><a href="#mediator-from-the-DOM">Mediator from the DOM</a></p>
+                <li><p><a href="#dom-mediator">DOM Mediator</a></p>
                     <ul class="hidden">
                         <li><a href="#create-mediator-from-the-DOM">Create a mediator from the DOM</a></li>
+                        <li><a href="#handle-mediator-removal">Handle mediator removal</a></li>
                         <li><a href="#mapping-mediators">Mapping mediators</a></li>
-                        <li><a href="#mediators-types">Mediators types</a></li>
+                        <li><a href="#mediators-types">Mediator types</a></li>
                         <li><a href="#mapping-data-to-a-mediator">Mapping data to a mediator</a></li>
                         <li><a href="#mapping-data-path">Mapping data path</a></li>
                     </ul>
@@ -1042,16 +1043,43 @@
 
         <div class="title">
             <h1>Mediator from the DOM</h1>
-            <a class="anchor" name="mediator-from-the-DOM"></a>
+            <a class="anchor" name="dom-mediator"></a>
         </div>
 
-        <p>Mediators can be directly created and removed depending on what is happening in the DOM.</p>
-        <p>This provides a way of having javascript objects created when an element is appended to the DOM, and javascript objects removed when the element is removed from it.</p>
-        <p>This process is completely automated. The framework makes uses of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver" target="_blank">Mutation Observers API</a> and an easy support with older browsers that doesn't support the API.</p>
+        <p>Mediators can be created and destroyed automatically when "described" DOM elements are appended to the DOM and removed from the DOM. Javascript objects (the mediators) representing these elements are instantiated and removed. This is an automatic process handled by the framework.</p>
+        <p>The framework makes uses of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver" target="_blank">Mutation Observers API</a> and provides an easy support with older browsers that doesn't support the API.</p>
 
         <div class="subtitle">
             <h2>Create mediators from the DOM</h2>
             <a class="anchor" name="create-mediator-from-the-DOM"></a>
+        </div>
+
+        <p></p>
+
+        <div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">data-mediator=</span><span class="s">&quot;Mediator&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-mediator=</span><span class="s">&quot;Mediator&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-mediator=</span><span class="s">&quot;Mediator&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+  <span class="kd">var</span> <span class="nx">Mediator</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">target</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;I&#39;m a DOM Element with a mediator.&quot;</span><span class="p">;</span>
+  <span class="p">};</span>
+  <span class="kd">var</span> <span class="nx">Application</span> <span class="o">=</span> <span class="nx">soma</span><span class="p">.</span><span class="nx">Application</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="c1">// set mediator mapping</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="s1">&#39;Mediator&#39;</span><span class="p">,</span> <span class="nx">Mediator</span><span class="p">);</span>
+      <span class="c1">// observe an element</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">mediators</span><span class="p">.</span><span class="nx">observe</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+  <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">();</span>
+<span class="nt">&lt;/script&gt;</span></pre></div>
+        <p><a href="http://plnkr.co/edit/mxhyijMrHxEM9OnNbwtO?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
+        <div class="back"><a href="#">top</a></div>
+
+        <div class="subtitle">
+            <h2>Handle mediator removal</h2>
+            <a class="anchor" name="handle-mediator-removal"></a>
         </div>
 
         <p><a href="http://plnkr.co/edit/E9PND7pyY81QT9u8cRlH?p=preview" class="button icon edit" target="_blank">try it yourself</a></p>
@@ -1059,7 +1087,7 @@
         <div class="back"><a href="#">top</a></div>
 
         <div class="subtitle">
-            <h2>Create mediators from the DOM</h2>
+            <h2>Mapping mediators</h2>
             <a class="anchor" name="mapping-mediators"></a>
         </div>
 
@@ -1068,7 +1096,7 @@
         <div class="back"><a href="#">top</a></div>
 
         <div class="subtitle">
-            <h2>Create mediators from the DOM</h2>
+            <h2>Mediator types</h2>
             <a class="anchor" name="mediators-types"></a>
         </div>
 
@@ -1077,7 +1105,7 @@
         <div class="back"><a href="#">top</a></div>
 
         <div class="subtitle">
-            <h2>Create mediators from the DOM</h2>
+            <h2>Mapping data to a mediator</h2>
             <a class="anchor" name="mapping-data-to-a-mediator"></a>
         </div>
 
@@ -1086,7 +1114,7 @@
         <div class="back"><a href="#">top</a></div>
 
         <div class="subtitle">
-            <h2>Create mediators from the DOM</h2>
+            <h2>Mapping data path</h2>
             <a class="anchor" name="mapping-data-path"></a>
         </div>
 

@@ -1,4 +1,4 @@
-describe("commands", function () {
+describe("hashmaps", function () {
 
 	var map;
 

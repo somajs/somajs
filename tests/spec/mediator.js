@@ -1018,36 +1018,36 @@ describe("mediators", function () {
 		}, "The mediator should be created", 5000);
 	});
 
-//	it("observer data path separator get data from parent", function () {
-//		var dataSource = {info:'info'};
-//		var count = 0;
-//		var done = false;
-//		var div = document.createElement('div');
-//		var ParentMediator = function(target, data) {
-//			console.log('parent data', data);
-//			expect(data).toEqual(dataSource);
-//			if (++count === 2) {
-//				done = true;
-//			}
-//		};
-//		var ChildMediator = function(target, data) {
-//			console.log('child data', data);
-//			expect(data).toEqual(dataSource.info);
-//			if (++count === 2) {
-//				done = true;
-//			}
-//		};
-//		runs(function() {
-//			mediators.observe(div);
-//			mediators.map('ParentMediator', ParentMediator, dataSource);
-//			mediators.map('ChildMediator', ChildMediator, {});
-//			div.innerHTML = '<div data-mediator="ParentMediator"><div><div data-mediator="ChildMediator|info"></div></div></div>';
-//			mediators.support(div);
-//		});
-//		waitsFor(function() {
-//			return done;
-//		}, "The mediator should be created", 5000);
-//	});
+	it("observer data path separator get data from parent", function () {
+		var dataSource = {info:'info'};
+		var count = 0;
+		var done = false;
+		var div = document.createElement('div');
+		var ParentMediator = function(target, data) {
+			console.log('parent data', data);
+			expect(data).toEqual(dataSource);
+			if (++count === 2) {
+				done = true;
+			}
+		};
+		var ChildMediator = function(target, data) {
+			console.log('child data', data);
+			expect(data).toEqual(dataSource.info);
+			if (++count === 2) {
+				done = true;
+			}
+		};
+		runs(function() {
+			mediators.observe(div);
+			mediators.map('ParentMediator', ParentMediator, dataSource);
+			mediators.map('ChildMediator', ChildMediator, {});
+			div.innerHTML = '<div data-mediator="ParentMediator"><div><div data-mediator="ChildMediator|info"></div></div></div>';
+			mediators.support(div);
+		});
+		waitsFor(function() {
+			return done;
+		}, "The mediator should be created", 5000);
+	});
 
 	it("observer data path separator simple path with injection name", function () {
 		var dataSource = {info:'info'};

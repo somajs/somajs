@@ -148,6 +148,7 @@
 			return this.list.has(element);
 		},
 		add: function(element, mediator) {
+			console.log('ADD', element);
 			if (!this.list.has(element)) {
 				this.list.put(element, {
 					mediator: mediator,

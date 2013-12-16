@@ -147,41 +147,6 @@
 		};
 	}
 
-	var regexFunction = /(.*)\((.*)\)/;
-	var regexParams = /^(\"|\')(.*)(\"|\')$/;
-
-	function parsePath(dataValue, dataPath) {
-		if (dataPath !== undefined && dataValue !== undefined) {
-			var val = dataValue;
-			var path = dataPath.split('.');
-			var step = path.shift();
-			while (step !== undefined) {
-				var parts = step.match(regexFunction);
-				if (parts) {
-					var params = parts[2];
-					params = params.replace(/,\s+/g, '').split(',');
-					for (var i=0, l=params.length; i<l; i++) {
-						if (regexParams.test(params[i])) {
-							params[i] = params[i].substr(1, params[i].length-2);
-						}
-					}
-					if (val[parts[1]] !== undefined) {
-						val = val[parts[1]].apply(null, params);
-					}
-				}
-				else {
-					val = val[step];
-				}
-				if (val === undefined || val === undefined) {
-					break;
-				}
-				step = path.shift()
-			}
-			dataValue = val;
-		}
-		return dataValue;
-	}
-
 	function parseDOM(self, element, updateData) {
 		if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
 			return;
@@ -213,6 +178,113 @@
 		}
 	}
 
+	var regexFunction = /(.*)\((.*)\)/;
+	var regexParams = /^(\"|\')(.*)(\"|\')$/;
+
+	function parsePath(dataValue, dataPath) {
+		console.log('======= PARSE DATA VALUE');
+		console.log('======= dataValue', dataValue);
+		console.log('======= dataPath', dataPath);
+		if (dataPath !== undefined && dataValue !== undefined) {
+			var val = dataValue;
+			var path = dataPath.split('.');
+			var step = path.shift();
+			while (step !== undefined) {
+				var parts = step.match(regexFunction);
+				if (parts) {
+					var params = parts[2];
+					params = params.replace(/,\s+/g, '').split(',');
+					for (var i=0, l=params.length; i<l; i++) {
+						if (regexParams.test(params[i])) {
+							params[i] = params[i].substr(1, params[i].length-2);
+						}
+					}
+					if (val[parts[1]] !== undefined) {
+						val = val[parts[1]].apply(null, params);
+					}
+				}
+				else {
+					val = val[step];
+				}
+				console.log('VAL', val);
+				if (val === undefined || val === undefined) {
+					break;
+				}
+				step = path.shift()
+			}
+			dataValue = val;
+		}
+		return dataValue;
+	}
+
+	function parsePathParent(self, element, dataPath) {
+		console.log('-------------');
+		var result;
+		var el = element.parentNode;
+		while (el) {
+
+			console.log('element', el);
+			console.log('dataPath', dataPath);
+
+			// do something
+
+//			result = parsePath(dataValue, dataPath, self, el);
+
+			//console.log('TYPES', self.types);
+
+
+			for (var typeId in self.types) {
+				var type = self.types[typeId];
+				console.log('type', type);
+				console.log('type.name', type.name);
+				console.log('mediator', type.get(el));
+				console.log('mediator', type.list.get(el));
+
+				var listData = type.list.getData();
+
+				for (var m in listData) {
+					console.log(m, listData[m]);
+				}
+
+				var attrValue = el.getAttribute(type.name);
+				if (attrValue) {
+
+					var parts = attrValue.split(self.attributeSeparator);
+					var mediatorId = parts[0];
+
+					return resolveDataSource(self, el, type, mediatorId, dataPath);
+
+					console.log('RES', result);
+
+					//result = parsePath(dataSource, dataPath, self, el);
+
+					if (result !== undefined) {
+						break;
+					}
+
+				}
+
+//				if (result !== undefined) {
+//					return result;
+//				}
+
+			}
+
+			console.log('PARENT RESULT', result);
+
+			if (result !== undefined) {
+				return result;
+			}
+			else {
+				return parsePathParent(self, el, dataPath);
+			}
+//
+
+
+			el = el.nextSibling;
+		}
+	}
+
 	function getDataSource(self, element, type, attrValue) {
 		var dataSource;
 		var parts = attrValue.split(self.attributeSeparator);
@@ -227,6 +299,9 @@
 
 	function resolveDataSource(self, element, mediatorType, mediatorId, dataPath) {
 		var dataSource = mediatorType.getMappingData(mediatorId);
+		console.log('DATA PATH', dataPath);
+		console.log('DATA SOURCE', dataSource);
+		console.log('MEDIATOR ID', mediatorId);
 		if (dataPath) {
 			var resultData = {};
 			// http://regex101.com/r/nI3zQ7
@@ -240,15 +315,24 @@
 					// has injection name
 					parsedData = parsePath(dataSource, path);
 					resultData[name] = parsedData;
+					if (parsedData === undefined) {
+						resultData[name] = parsePathParent(self, element, path);
+					}
 				}
 				else {
 					parsedData = parsePath(dataSource, name);
+					resultData['data'] = parsedData;
+					if (parsedData === undefined) {
+						parsedData = parsePathParent(self, element, name);
+						console.log('-_-_-_- pARENT PARSED DATA', element, parsedData);
+						resultData = parsedData;
+					}
 					if (parsedData === undefined || parsedData === null) {
 						return parsedData;
 					}
-					resultData['data'] = parsedData
 				}
 			}
+			console.log('>>>>>>>>>>>', element, resultData);
 			return resultData;
 		}
 		return dataSource;

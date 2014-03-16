@@ -139,6 +139,7 @@
 		getMappingData: function(id) {
 			if (this.mappings[id]) {
 				var data = this.mappings[id].data;
+                console.log('this.mappings[id].data', this.mappings[id].data);
 				if (data !== undefined) {
 					return resolveMediatorData(this.injector, data);
 				}

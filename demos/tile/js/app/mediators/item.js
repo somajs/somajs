@@ -12,6 +12,8 @@
 		scope.item = data;
 		template.render();
 
+        console.log('>>> DATA', data);
+
 		scope.remove = function() {
 			target.parentNode.removeChild(target);
 			dispatcher.dispatch('remove', data.id);

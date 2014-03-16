@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	var ItemMediator = function(target, dispatcher, tpl, parentTemplate, parentScope, partials) {
+	var ItemMediator = function(target, dispatcher, tpl, parentTemplate, parentScope, partials, data) {
 
 		this.data = null;
 

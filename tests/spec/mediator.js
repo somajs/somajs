@@ -1142,14 +1142,14 @@ describe("mediators", function () {
 		app.injector.mapClass('model', Model, true);
 		var done = false;
 		var div = document.createElement('div');
-		var Mediator = function(target, data) {
-			expect(data).toEqual('some data');
+		var Mediator = function(target, mappingName) {
+			expect(mappingName).toEqual('some data');
 			done = true;
 		};
 		runs(function() {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator, {data:'model'});
-			div.innerHTML = '<div data-mediator="Mediator|data:data.get()"/>';
+			div.innerHTML = '<div data-mediator="Mediator|mappingName:data.get()"/>';
 			mediators.support(div);
 		});
 		waitsFor(function() {

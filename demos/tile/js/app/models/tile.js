@@ -5,7 +5,7 @@
 	var TileModel = function(partials) {
 
 		var index = 0;
-		var data = {};
+		var items = {};
 		var colors = ['#FF9A3E', '#00CF9B', '#CC006A'];
 
 		this.add = function() {
@@ -18,7 +18,7 @@
 				img: 'images/nature' + index % 5 + '.jpg',
 				title: 'Tile ' + index
 			};
-			data[index] = item;
+			items[index] = item;
 			index++;
 			return item;
 		}
@@ -27,17 +27,17 @@
 			var item = add();
 			var wrapper = document.createElement('div');
 			wrapper.innerHTML = partials['tile-item.tpl.html'];
-			wrapper.firstChild.setAttribute('data-mediator', 'item|data:get(' + item.id + ')');
-			wrapper.firstChild.setAttribute('data-hover', 'hover|color:getColor(' + item.id + ')');
+			wrapper.firstChild.setAttribute('data-mediator', 'item|data:data.get(' + item.id + ')');
+//			wrapper.firstChild.setAttribute('data-hover', 'hover|color:getColor(' + item.id + ')');
 			return wrapper.firstChild;
 		};
 
 		this.remove = function(id) {
-			delete data[id];
+			delete items[id];
 		};
 
 		this.get = function(id) {
-			return data[id];
+			return items[id];
 		};
 
 		this.add = function() {
@@ -45,7 +45,7 @@
 		};
 
 		this.getData = function() {
-			return data;
+			return items;
 		};
 
 		this.getColor = function(count) {

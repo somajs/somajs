@@ -832,9 +832,11 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			var val = dataValue;
 			var path = dataPath.split('.');
 			var step = path.shift();
+            console.log('   step', step);
 			while (step !== undefined) {
 				var parts = step.match(regexFunction);
 				if (parts) {
+                    console.log('parts', parts);
 					var params = parts[2];
 					params = params.replace(/,\s+/g, '').split(',');
 					for (var i=0, l=params.length; i<l; i++) {
@@ -842,6 +844,11 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 							params[i] = params[i].substr(1, params[i].length-2);
 						}
 					}
+                    console.log('params', params);
+                    console.log('compute on', val[parts[1]]);
+                    console.log(111, val);
+                    console.log(222, parts[1]);
+                    console.log(333, val[parts[1]]);
 					if (val[parts[1]] !== undefined) {
 						val = val[parts[1]].apply(null, params);
 					}
@@ -889,38 +896,46 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 					console.log(m, listData[m]);
 				}
 
-				var attrValue = el.getAttribute(type.name);
-				if (attrValue) {
+                console.log('EL', el);
 
-					var parts = attrValue.split(self.attributeSeparator);
-					var mediatorId = parts[0];
+                if (typeof el.getAttribute === 'function') {
 
-					return resolveDataSource(self, el, type, mediatorId, dataPath);
+                    var attrValue = el.getAttribute(type.name);
+                    if (attrValue) {
 
-					console.log('RES', result);
+                        var parts = attrValue.split(self.attributeSeparator);
+                        var mediatorId = parts[0];
 
-					//result = parsePath(dataSource, dataPath, self, el);
+                        return resolveDataSource(self, el, type, mediatorId, dataPath);
 
-					if (result !== undefined) {
-						break;
-					}
+                        console.log('RES', result);
 
-				}
+                        //result = parsePath(dataSource, dataPath, self, el);
 
-//				if (result !== undefined) {
-//					return result;
-//				}
+    //					if (result !== undefined) {
+    //						break;
+    //					}
+
+                        }
+
+    //				if (result !== undefined) {
+    //					return result;
+    //				}
+
+                }
+
+
 
 			}
 
 			console.log('PARENT RESULT', result);
 
-			if (result !== undefined) {
-				return result;
-			}
-			else {
+//			if (result !== undefined) {
+//				return result;
+//			}
+//			else {
 				return parsePathParent(self, el, dataPath);
-			}
+//			}
 //
 
 
@@ -1208,6 +1223,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		getMappingData: function(id) {
 			if (this.mappings[id]) {
 				var data = this.mappings[id].data;
+                console.log('this.mappings[id].data', this.mappings[id].data);
 				if (data !== undefined) {
 					return resolveMediatorData(this.injector, data);
 				}

@@ -588,7 +588,7 @@ describe("mediators", function () {
 	});
 
 	it("observer data", function () {
-		var dataSource = {data:'data'};
+		var dataSource = {somedata:'some data'};
 		var done = false;
 		var div = document.createElement('div');
 		var Mediator = function(target, data) {
@@ -841,26 +841,6 @@ describe("mediators", function () {
 		});
 	});
 
-	it("observer data boolean", function () {
-		var dataSource = false;
-		var done = false;
-		var div = document.createElement('div');
-		var Mediator = function(target, data) {
-			expect(div.firstChild).toEqual(target);
-			expect(data).toBeFalsy();
-			done = true;
-		};
-		runs(function() {
-			mediators.observe(div);
-			mediators.map('Mediator', Mediator, dataSource);
-			div.innerHTML = '<div data-mediator="Mediator"/>';
-			mediators.support(div);
-		});
-		waitsFor(function() {
-			return done;
-		}, "The mediator should be created", 5000);
-	});
-
 	it("observer data undefined", function () {
 		var dataSource = undefined;
 		var done = false;
@@ -924,18 +904,56 @@ describe("mediators", function () {
 		}, "The mediator should be created", 5000);
 	});
 
-	it("observer data path separator no path", function () {
-		var dataSource = {info:'info'};
+	it("observer data path separator no path string", function () {
+		var dataSource = 'some data';
 		var done = false;
 		var div = document.createElement('div');
-		var Mediator = function(target, info) {
-			expect(info).toEqual('info');
+		var Mediator = function(target, data) {
+			expect(data).toEqual(dataSource);
 			done = true;
 		};
 		runs(function() {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator, dataSource);
-			div.innerHTML = '<div data-mediator="Mediator|"/>';
+			div.innerHTML = '<div data-mediator="Mediator"/>';
+			mediators.support(div);
+		});
+		waitsFor(function() {
+			return done;
+		}, "The mediator should be created", 5000);
+	});
+
+	it("observer data path separator no path object", function () {
+		var dataSource = {info:'info', test: 'test'};
+		var done = false;
+		var div = document.createElement('div');
+		var Mediator = function(target, data) {
+			expect(data).toEqual(dataSource);
+			done = true;
+		};
+		runs(function() {
+			mediators.observe(div);
+			mediators.map('Mediator', Mediator, dataSource);
+			div.innerHTML = '<div data-mediator="Mediator"/>';
+			mediators.support(div);
+		});
+		waitsFor(function() {
+			return done;
+		}, "The mediator should be created", 5000);
+	});
+
+	it("observer data wrong path is undefined", function () {
+		var dataSource = {info:'info', test: 'test'};
+		var done = false;
+		var div = document.createElement('div');
+		var Mediator = function(target, data) {
+			expect(data).toBeUndefined();
+			done = true;
+		};
+		runs(function() {
+			mediators.observe(div);
+			mediators.map('Mediator', Mediator, dataSource);
+			div.innerHTML = '<div data-mediator="Mediator|wrong"></div>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -948,13 +966,32 @@ describe("mediators", function () {
 		var done = false;
 		var div = document.createElement('div');
 		var Mediator = function(target, info) {
-			expect(info).toEqual('info');
+			expect(info).toBeUndefined();
 			done = true;
 		};
 		runs(function() {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator, dataSource);
-			div.innerHTML = '<div data-mediator="Mediator|wrong"/>';
+			div.innerHTML = '<div data-mediator="Mediator|info:wrong"/>';
+			mediators.support(div);
+		});
+		waitsFor(function() {
+			return done;
+		}, "The mediator should be created", 5000);
+	});
+
+	it("observer data path separator wrong path deep", function () {
+		var dataSource = {info:'info'};
+		var done = false;
+		var div = document.createElement('div');
+		var Mediator = function(target, info) {
+			expect(info).toBeUndefined();
+			done = true;
+		};
+		runs(function() {
+			mediators.observe(div);
+			mediators.map('Mediator', Mediator, dataSource);
+			div.innerHTML = '<div data-mediator="Mediator|info:wrong.wrong"/>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -966,8 +1003,8 @@ describe("mediators", function () {
 		var dataSource = {info:'info'};
 		var done = false;
 		var div = document.createElement('div');
-		var Mediator = function(target, info) {
-			expect(info).toEqual('info');
+		var Mediator = function(target, data) {
+			expect(data).toEqual('info');
 			done = true;
 		};
 		runs(function() {
@@ -981,18 +1018,87 @@ describe("mediators", function () {
 		}, "The mediator should be created", 5000);
 	});
 
-	it("observer data path object", function () {
+	it("observer data path separator get data from parent", function () {
+		var dataSource = {info:'info'};
+		var count = 0;
+		var done = false;
+		var div = document.createElement('div');
+		var ParentMediator = function(target, data) {
+			console.log('parent data', data);
+			expect(data).toEqual(dataSource);
+			if (++count === 2) {
+				done = true;
+			}
+		};
+		var ChildMediator = function(target, data) {
+			console.log('child data', data);
+			expect(data).toEqual(dataSource.info);
+			if (++count === 2) {
+				done = true;
+			}
+		};
+		runs(function() {
+			mediators.observe(div);
+			mediators.map('ParentMediator', ParentMediator, dataSource);
+			mediators.map('ChildMediator', ChildMediator, {});
+			div.innerHTML = '<div data-mediator="ParentMediator"><div><div data-mediator="ChildMediator|info"></div></div></div>';
+			mediators.support(div);
+		});
+		waitsFor(function() {
+			return done;
+		}, "The mediator should be created", 5000);
+	});
+
+	it("observer data path separator simple path with injection name", function () {
 		var dataSource = {info:'info'};
 		var done = false;
 		var div = document.createElement('div');
-		var Mediator = function(target, data) {
-			expect(data).toEqual('info');
+		var Mediator = function(target, custom) {
+			expect(custom).toEqual('info');
 			done = true;
 		};
 		runs(function() {
 			mediators.observe(div);
-			mediators.map('Mediator', Mediator, {data: dataSource});
-			div.innerHTML = '<div data-mediator="Mediator|data:info"/>';
+			mediators.map('Mediator', Mediator, dataSource);
+			div.innerHTML = '<div data-mediator="Mediator|custom:info"/>';
+			mediators.support(div);
+		});
+		waitsFor(function() {
+			return done;
+		}, "The mediator should be created", 5000);
+	});
+
+	it("observer custom mapping", function () {
+		var dataSource = {info:'info'};
+		var done = false;
+		var div = document.createElement('div');
+		var Mediator = function(target, custom) {
+			expect(custom).toEqual('info');
+			done = true;
+		};
+		runs(function() {
+			mediators.observe(div);
+			mediators.map('Mediator', Mediator, {'somedata': dataSource});
+			div.innerHTML = '<div data-mediator="Mediator|custom:somedata.info"/>';
+			mediators.support(div);
+		});
+		waitsFor(function() {
+			return done;
+		}, "The mediator should be created", 5000);
+	});
+
+	it("observer data path object", function () {
+		var dataSource = {info:'info'};
+		var done = false;
+		var div = document.createElement('div');
+		var Mediator = function(target, custom) {
+			expect(custom).toEqual('info');
+			done = true;
+		};
+		runs(function() {
+			mediators.observe(div);
+			mediators.map('Mediator', Mediator, dataSource);
+			div.innerHTML = '<div data-mediator="Mediator|custom:info"/>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -1014,7 +1120,7 @@ describe("mediators", function () {
 		runs(function() {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator, {data: dataSource});
-			div.innerHTML = '<div data-mediator="Mediator|data:0"></div><div data-mediator="Mediator|data:1"></div><div data-mediator="Mediator|data:2"></div>';
+			div.innerHTML = '<div data-mediator="Mediator|data:data.0"></div><div data-mediator="Mediator|data:data.1"></div><div data-mediator="Mediator|data:data.2"></div>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -1023,7 +1129,7 @@ describe("mediators", function () {
 		runs(function() {
 			expect(d[0]).toEqual(dataSource[0]);
 			expect(d[1]).toEqual(dataSource[1]);
-			expect(d[2]).toEqual(dataSource[2]); // undefined
+			expect(d[2]).toEqual(dataSource[2]);
 		});
 	});
 
@@ -1036,14 +1142,14 @@ describe("mediators", function () {
 		app.injector.mapClass('model', Model, true);
 		var done = false;
 		var div = document.createElement('div');
-		var Mediator = function(target, data) {
-			expect(data).toEqual('some data');
+		var Mediator = function(target, mappingName) {
+			expect(mappingName).toEqual('some data');
 			done = true;
 		};
 		runs(function() {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator, {data:'model'});
-			div.innerHTML = '<div data-mediator="Mediator|data:get()"/>';
+			div.innerHTML = '<div data-mediator="Mediator|mappingName:data.get()"/>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -1067,7 +1173,7 @@ describe("mediators", function () {
 		runs(function() {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator, {data:'model'});
-			div.innerHTML = '<div data-mediator="Mediator|data:get().info"/>';
+			div.innerHTML = '<div data-mediator="Mediator|data:data.get().info"/>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -1094,7 +1200,7 @@ describe("mediators", function () {
 		runs(function() {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator, {data:'model'});
-			div.innerHTML = '<div data-mediator="Mediator|data:get().0"></div><div data-mediator="Mediator|data:get().1"></div>';
+			div.innerHTML = '<div data-mediator="Mediator|data:data.get().0"></div><div data-mediator="Mediator|data:data.get().1"></div>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -1125,7 +1231,7 @@ describe("mediators", function () {
 		runs(function() {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator, {data:'model'});
-			div.innerHTML = '<div data-mediator="Mediator|data:get(0)"></div>';
+			div.innerHTML = '<div data-mediator="Mediator|data:data.get(0)"></div>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -1152,7 +1258,7 @@ describe("mediators", function () {
 		runs(function() {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator, {data:'model'});
-			div.innerHTML = '<div data-mediator="Mediator|data:get(0,title)"></div>';
+			div.innerHTML = '<div data-mediator="Mediator|data:data.get(0,title)"></div>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -1179,7 +1285,7 @@ describe("mediators", function () {
 		runs(function() {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator, {data:'model'});
-			div.innerHTML = '<div data-mediator="Mediator|data:get(\'0\',\'title\')"></div>';
+			div.innerHTML = '<div data-mediator="Mediator|data:data.get(\'0\',\'title\')"></div>';
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -1206,7 +1312,7 @@ describe("mediators", function () {
 		runs(function() {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator, {data:'model'});
-			div.innerHTML = "<div data-mediator='Mediator|data:get(\"0\",\"title\")'></div>";
+			div.innerHTML = "<div data-mediator='Mediator|data:data.get(\"0\",\"title\")'></div>";
 			mediators.support(div);
 		});
 		waitsFor(function() {
@@ -1246,7 +1352,7 @@ describe("mediators", function () {
 		runs(function() {
 			mediators.observe(div);
 			mediators.map('Mediator', Mediator, {data:'model'});
-			div.innerHTML = '<div data-mediator="Mediator|data:get(path).0.func(1,list)"></div>';
+			div.innerHTML = '<div data-mediator="Mediator|data:data.get(path).0.func(1,list)"></div>';
 			mediators.support(div);
 		});
 		waitsFor(function() {

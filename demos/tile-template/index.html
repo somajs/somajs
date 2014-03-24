@@ -18,7 +18,7 @@
 
 	<div class="list" data-mediator="list">
         <div data-repeat="item in items">
-            <div data-mediator="item|data:get({{item.id}})"></div>
+            <div data-mediator="item|data:data.get({{item.id}})"></div>
         </div>
 	</div>
 

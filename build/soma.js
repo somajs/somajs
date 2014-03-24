@@ -790,54 +790,6 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		};
 	}
 
-	var regexFunction = /(.*)\((.*)\)/;
-	var regexParams = /^(\"|\')(.*)(\"|\')$/;
-
-	function parsePath(dataValue, dataPath) {
-		if (dataPath !== undefined && dataValue !== undefined) {
-			var step, val = dataValue;
-			var path = dataPath.split('.');
-			while (step = path.shift()) {
-				var parts = step.match(regexFunction);
-				if (parts) {
-					var params = parts[2];
-					params = params.replace(/,\s+/g, '').split(',');
-					for (var i=0, l=params.length; i<l; i++) {
-						if (regexParams.test(params[i])) {
-							params[i] = params[i].substr(1, params[i].length-2);
-						}
-					}
-					if (val[parts[1]] !== undefined) {
-						val = val[parts[1]].apply(null, params);
-					}
-				}
-				else {
-					if (typeof val !== 'undefined' && typeof val[step] !== 'undefined') {
-						val = val[step];
-					}
-				}
-			}
-			dataValue = val;
-		}
-		return dataValue;
-	}
-
-	function getDataFromParentMediators(self, element, dataPath) {
-		var target = element.parentNode;
-		if (target) {
-			var mediator = self.get(target);
-			if (mediator) {
-				var value = parsePath(mediator, dataPath);
-				if (value !== undefined) {
-					return value;
-				}
-				else {
-					return getDataFromParentMediators(self, target, dataPath);
-				}
-			}
-		}
-	}
-
 	function parseDOM(self, element, updateData) {
 		if (!element || !element.nodeType || element.nodeType === 8 || element.nodeType === 3 || typeof element['getAttribute'] === 'undefined') {
 			return;
@@ -869,6 +821,128 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		}
 	}
 
+	var regexFunction = /(.*)\((.*)\)/;
+	var regexParams = /^(\"|\')(.*)(\"|\')$/;
+
+	function parsePath(dataValue, dataPath) {
+		console.log('======= PARSE DATA VALUE');
+		console.log('======= dataValue', dataValue);
+		console.log('======= dataPath', dataPath);
+		if (dataPath !== undefined && dataValue !== undefined) {
+			var val = dataValue;
+			var path = dataPath.split('.');
+			var step = path.shift();
+            console.log('   step', step);
+			while (step !== undefined) {
+				var parts = step.match(regexFunction);
+				if (parts) {
+                    console.log('parts', parts);
+					var params = parts[2];
+					params = params.replace(/,\s+/g, '').split(',');
+					for (var i=0, l=params.length; i<l; i++) {
+						if (regexParams.test(params[i])) {
+							params[i] = params[i].substr(1, params[i].length-2);
+						}
+					}
+                    console.log('params', params);
+                    console.log('compute on', val[parts[1]]);
+                    console.log(111, val);
+                    console.log(222, parts[1]);
+                    console.log(333, val[parts[1]]);
+					if (val[parts[1]] !== undefined) {
+						val = val[parts[1]].apply(null, params);
+					}
+				}
+				else {
+					val = val[step];
+				}
+				console.log('VAL', val);
+				if (val === undefined || val === undefined) {
+					break;
+				}
+				step = path.shift()
+			}
+			dataValue = val;
+		}
+		return dataValue;
+	}
+
+	function parsePathParent(self, element, dataPath) {
+		console.log('-------------');
+		var result;
+		var el = element.parentNode;
+		while (el) {
+
+			console.log('element', el);
+			console.log('dataPath', dataPath);
+
+			// do something
+
+//			result = parsePath(dataValue, dataPath, self, el);
+
+			//console.log('TYPES', self.types);
+
+
+			for (var typeId in self.types) {
+				var type = self.types[typeId];
+				console.log('type', type);
+				console.log('type.name', type.name);
+				console.log('mediator', type.get(el));
+				console.log('mediator', type.list.get(el));
+
+				var listData = type.list.getData();
+
+				for (var m in listData) {
+					console.log(m, listData[m]);
+				}
+
+                console.log('EL', el);
+
+                if (typeof el.getAttribute === 'function') {
+
+                    var attrValue = el.getAttribute(type.name);
+                    if (attrValue) {
+
+                        var parts = attrValue.split(self.attributeSeparator);
+                        var mediatorId = parts[0];
+
+                        return resolveDataSource(self, el, type, mediatorId, dataPath);
+
+                        console.log('RES', result);
+
+                        //result = parsePath(dataSource, dataPath, self, el);
+
+    //					if (result !== undefined) {
+    //						break;
+    //					}
+
+                        }
+
+    //				if (result !== undefined) {
+    //					return result;
+    //				}
+
+                }
+
+
+
+			}
+
+			console.log('PARENT RESULT', result);
+
+//			if (result !== undefined) {
+//				return result;
+//			}
+//			else {
+				return parsePathParent(self, el, dataPath);
+//			}
+//
+
+
+			el = el.nextSibling;
+		}
+	}
+
 	function getDataSource(self, element, type, attrValue) {
 		var dataSource;
 		var parts = attrValue.split(self.attributeSeparator);
@@ -882,29 +956,59 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	}
 
 	function resolveDataSource(self, element, mediatorType, mediatorId, dataPath) {
-		var dataSource = mediatorType.getMappingData(mediatorId) || {};
+		var dataSource = mediatorType.getMappingData(mediatorId);
+		console.log('DATA PATH', dataPath);
+		console.log('DATA SOURCE', dataSource);
+		console.log('MEDIATOR ID', mediatorId);
 		if (dataPath) {
+			var resultData = {};
 			// http://regex101.com/r/nI3zQ7
 			var dataPathList = dataPath.split(/,(?![\w\s'",\\]*\))/g);
 			for (var s=0, d=dataPathList.length; s<d; s++) {
 				var p = dataPathList[s].split(':');
 				var name = p[0];
-				if (dataSource[name]) {
-					dataSource[name] = parsePath(dataSource[name], p[1]);
+				var path = p[1];
+				var parsedData;
+				if (path) {
+					// has injection name
+					parsedData = parsePath(dataSource, path);
+					resultData[name] = parsedData;
+					if (parsedData === undefined) {
+						resultData[name] = parsePathParent(self, element, path);
+					}
 				}
 				else {
-					dataSource[name] = getDataFromParentMediators(self, element, p[1]);
+					parsedData = parsePath(dataSource, name);
+					resultData['data'] = parsedData;
+					if (parsedData === undefined) {
+						parsedData = parsePathParent(self, element, name);
+						console.log('-_-_-_- pARENT PARSED DATA', element, parsedData);
+						resultData = parsedData;
+					}
+					if (parsedData === undefined || parsedData === null) {
+						return parsedData;
+					}
 				}
 			}
+			console.log('>>>>>>>>>>>', element, resultData);
+			return resultData;
 		}
 		return dataSource;
 	}
 
-	function applyMappingData(injector, obj) {
-		for (var name in obj) {
-			if (typeof name === 'string' && obj[name] !== undefined && obj[name] !== null) {
-				injector.mapValue(name, obj[name]);
+	function applyMappingData(injector, data) {
+		if (data === undefined || data === null) {
+			return;
+		}
+		if (typeof data === 'object' && Object.prototype.toString.call(data) !== '[object Array]') {
+			for (var name in data) {
+				if (typeof name === 'string' && data[name] !== undefined && data[name] !== null) {
+					injector.mapValue(name, data[name]);
+				}
 			}
+		}
+		if (!injector.hasMapping('data')) {
+			injector.mapValue('data', data);
 		}
 	}
 
@@ -930,14 +1034,15 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	}
 
 	function resolveMediatorData(injector, data) {
-		if (typeof data === 'function') {
+		if (typeof data === 'function' || data === undefined || data === null) {
 			return data;
 		}
-		var resolvedData = {};
+		var resolvedData;
 		if (typeof data !== 'object' || Object.prototype.toString.call(data) === '[object Array]') {
-			resolvedData['data'] = data;
+			resolvedData = data;
 		}
 		else {
+			resolvedData = {};
 			for (var name in data) {
 				if (typeof data[name] === 'string' && injector.hasMapping(data[name])) {
 					resolvedData[name] = injector.getValue(data[name]);
@@ -1118,6 +1223,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		getMappingData: function(id) {
 			if (this.mappings[id]) {
 				var data = this.mappings[id].data;
+                console.log('this.mappings[id].data', this.mappings[id].data);
 				if (data !== undefined) {
 					return resolveMediatorData(this.injector, data);
 				}
@@ -1127,6 +1233,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			return this.list.has(element);
 		},
 		add: function(element, mediator) {
+			console.log('ADD', element);
 			if (!this.list.has(element)) {
 				this.list.put(element, {
 					mediator: mediator,
@@ -1348,18 +1455,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			this.getType(type).remove(element);
 		},
 		get: function(element, type) {
-			var mediator = this.getType(type).get(element);
-			if (mediator) {
-				return mediator;
-			}
-			else {
-				for (var typeId in this.types) {
-					var m = this.types[typeId].get(element);
-					if (m) {
-						return m;
-					}
-				}
-			}
+			return this.getType(type).get(element);
 		},
 		has: function(element, type) {
 			return this.getType(type).has(element);

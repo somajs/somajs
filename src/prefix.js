@@ -2,4 +2,4 @@
 
 	'use strict';
 
-	soma.version = '2.0.4';
+	soma.version = '2.1.0';

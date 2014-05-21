@@ -36,6 +36,14 @@ describe("injection", function () {
 		expect(mediator.instance).toEqual(app);
 	});
 
+	it("instance injection in mediator with inject property", function () {
+		var f = function(){console.log(arguments);this.args = arguments};
+        f.inject = ['instance'];
+		var mediator = app.mediators.create(f, 1);
+		expect(mediator.args[0]).toBeDefined();
+		expect(mediator.args[0]).toEqual(app);
+	});
+
 	it("instance injection in command", function () {
 		var injected;
 		var f = function(instance) {
@@ -43,6 +51,19 @@ describe("injection", function () {
 				injected = instance;
 			}
 		};
+		app.commands.add('name', f);
+		app.dispatcher.dispatch('name');
+		expect(injected).toEqual(app);
+	});
+
+	it("instance injection in command with inject property", function () {
+		var injected;
+		var f = function(inst) {
+			this.execute = function(event) {
+                injected = inst;
+			}
+		};
+        f.inject = ['instance'];
 		app.commands.add('name', f);
 		app.dispatcher.dispatch('name');
 		expect(injected).toEqual(app);
@@ -56,11 +77,28 @@ describe("injection", function () {
 		expect(i.commands).toEqual(app.commands);
 	});
 
+	it("commands injection with inject property", function () {
+		expect(injector.getValue('commands')).toEqual(app.commands);
+		var f = function(){this.args = arguments};
+        f.inject = ['commands'];
+		var i = injector.createInstance(f);
+		expect(i.args[0]).toBeDefined();
+		expect(i.args[0]).toEqual(app.commands);
+	});
+
 	it("commands injection in mediator", function () {
 		var f = function(commands){this.commands = commands};
 		var mediator = app.mediators.create(f, 1);
 		expect(mediator.commands).toBeDefined();
 		expect(mediator.commands).toEqual(app.commands);
+	});
+
+	it("commands injection in mediator with inject property", function () {
+		var f = function(){this.args = arguments};
+        f.inject = ['commands'];
+		var mediator = app.mediators.create(f, 1);
+		expect(mediator.args[0]).toBeDefined();
+		expect(mediator.args[0]).toEqual(app.commands);
 	});
 
 	it("commands injection in command", function () {
@@ -75,6 +113,19 @@ describe("injection", function () {
 		expect(injected).toEqual(app.commands);
 	});
 
+	it("commands injection in command with inject property", function () {
+		var injected;
+		var f = function(com) {
+			this.execute = function(event) {
+				injected = com;
+			}
+		};
+        f.inject = ['commands'];
+		app.commands.add('name', f);
+		app.dispatcher.dispatch('name');
+		expect(injected).toEqual(app.commands);
+	});
+
 	it("injector injection", function () {
 		expect(injector.getValue('injector')).toEqual(app.injector);
 		var f = function(injector){this.injector = injector};
@@ -83,11 +134,28 @@ describe("injection", function () {
 		expect(i.injector).toEqual(app.injector);
 	});
 
+	it("injector injection with inject property", function () {
+		expect(injector.getValue('injector')).toEqual(app.injector);
+		var f = function(){this.args = arguments};
+        f.inject = ['injector'];
+		var i = injector.createInstance(f);
+		expect(i.args[0]).toBeDefined();
+		expect(i.args[0]).toEqual(app.injector);
+	});
+
 	it("injector injection in mediator", function () {
 		var f = function(injector){this.injector = injector};
 		var mediator = app.mediators.create(f, 1);
 		expect(mediator.injector).toBeDefined();
 		expect(mediator.injector).toEqual(app.injector);
+	});
+
+	it("injector injection in mediator with inject property", function () {
+		var f = function(inj){this.inj = inj};
+        f.inject = ['injector'];
+		var mediator = app.mediators.create(f, 1);
+		expect(mediator.inj).toBeDefined();
+		expect(mediator.inj).toEqual(app.injector);
 	});
 
 	it("injector injection in command", function () {
@@ -102,6 +170,19 @@ describe("injection", function () {
 		expect(injected).toEqual(app.injector);
 	});
 
+	it("injector injection in command with inject property", function () {
+		var injected;
+		var f = function(inj) {
+			this.execute = function(event) {
+				injected = inj;
+			}
+		};
+        f.inject = ['injector'];
+		app.commands.add('name', f);
+		app.dispatcher.dispatch('name');
+		expect(injected).toEqual(app.injector);
+	});
+
 	it("mediators injection", function () {
 		expect(injector.getValue('mediators')).toEqual(app.mediators);
 		var f = function(mediators){this.mediators = mediators};
@@ -110,11 +191,28 @@ describe("injection", function () {
 		expect(i.mediators).toEqual(app.mediators);
 	});
 
+	it("mediators injection with injector property", function () {
+		expect(injector.getValue('mediators')).toEqual(app.mediators);
+		var f = function(){this.args = arguments};
+        f.inject = ['mediators'];
+		var i = injector.createInstance(f);
+		expect(i.args[0]).toBeDefined();
+		expect(i.args[0]).toEqual(app.mediators);
+	});
+
 	it("mediators injection in mediator", function () {
 		var f = function(mediators){this.mediators = mediators};
 		var mediator = app.mediators.create(f, 1);
 		expect(mediator.mediators).toBeDefined();
 		expect(mediator.mediators).toEqual(app.mediators);
+	});
+
+	it("mediators injection in mediator with inject property", function () {
+		var f = function(){this.args = arguments};
+        f.inject = ['mediators'];
+		var mediator = app.mediators.create(f, 1);
+		expect(mediator.args[0]).toBeDefined();
+		expect(mediator.args[0]).toEqual(app.mediators);
 	});
 
 	it("mediators injection in command", function () {
@@ -129,12 +227,34 @@ describe("injection", function () {
 		expect(injected).toEqual(app.mediators);
 	});
 
+	it("mediators injection in command with inject property", function () {
+		var injected;
+		var f = function(meds) {
+			this.execute = function(event) {
+				injected = meds;
+			}
+		};
+        f.inject = ['mediators'];
+		app.commands.add('name', f);
+		app.dispatcher.dispatch('name');
+		expect(injected).toEqual(app.mediators);
+	});
+
 	it("dispatcher injection", function () {
 		expect(injector.getValue('dispatcher')).toEqual(app.dispatcher);
 		var f = function(dispatcher){this.dispatcher = dispatcher};
 		var i = injector.createInstance(f);
 		expect(i.dispatcher).toBeDefined();
 		expect(i.dispatcher).toEqual(app.dispatcher);
+	});
+
+	it("dispatcher injection with inject property", function () {
+		expect(injector.getValue('dispatcher')).toEqual(app.dispatcher);
+		var f = function(){this.args = arguments};
+        f.inject = ['dispatcher'];
+		var i = injector.createInstance(f);
+		expect(i.args[0]).toBeDefined();
+		expect(i.args[0]).toEqual(app.dispatcher);
 	});
 
 	it("dispatcher injection in mediator", function () {
@@ -144,6 +264,14 @@ describe("injection", function () {
 		expect(mediator.dispatcher).toEqual(app.dispatcher);
 	});
 
+	it("dispatcher injection in mediator with inject property", function () {
+		var f = function(){this.args = arguments};
+        f.inject = ['dispatcher'];
+		var mediator = app.mediators.create(f, 1);
+		expect(mediator.args[0]).toBeDefined();
+		expect(mediator.args[0]).toEqual(app.dispatcher);
+	});
+
 	it("dispatcher injection in command", function () {
 		var injected;
 		var f = function(dispatcher) {
@@ -151,6 +279,19 @@ describe("injection", function () {
 				injected = dispatcher;
 			}
 		};
+		app.commands.add('name', f);
+		app.dispatcher.dispatch('name');
+		expect(injected).toEqual(app.dispatcher);
+	});
+
+	it("dispatcher injection in command with inject property", function () {
+		var injected;
+		var f = function(disp) {
+			this.execute = function(event) {
+				injected = disp;
+			}
+		};
+        f.inject = ['dispatcher'];
 		app.commands.add('name', f);
 		app.dispatcher.dispatch('name');
 		expect(injected).toEqual(app.dispatcher);

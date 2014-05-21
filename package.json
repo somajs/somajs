@@ -1,0 +1,28 @@
+{
+  "name": "soma.js_gh-pages",
+  "version": "2.1.0",
+  "description": "soma.js is a javascript framework created to build scalable and maintainable applications.",
+  "keywords": [
+    "soma.js",
+    "soma",
+    "javascript",
+    "js",
+    "framework",
+    "mvc",
+    "lightweight",
+    "dependency injection",
+    "injection"
+  ],
+  "author": {
+    "name": "Romuald Quantin",
+    "email": "romu@soundstep.com"
+  },
+  "main": "build/soma.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/somajs/somajs.git"
+  },
+  "devDependencies": {
+    "grunt-shell": "^0.7.0"
+  }
+}

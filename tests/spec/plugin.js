@@ -20,6 +20,7 @@ describe("plugins", function () {
 	it("injections and parameters", function () {
 		app.injector.mapValue('prop', 'propValue');
 		var Plugin = function(injector, commands, mediators, dispatcher, injector, prop, p1, p2, p3, p4, p5, p6, p7) {
+			console.log(arguments);
 			expect(injector).toEqual(app.injector);
 			expect(commands).toEqual(app.commands);
 			expect(mediators).toEqual(app.mediators);
@@ -34,6 +35,22 @@ describe("plugins", function () {
 			expect(p7).toBeUndefined();
 		};
 		var p = app.createPlugin(Plugin, 'param1', 1, false, [1, 2, 3], {name:'john'}, '');
+		expect(p instanceof Plugin).toBeTruthy();
+	});
+
+	it("missing injection", function () {
+		app.injector.mapValue('prop', 'propValue');
+		var Plugin = function(injector, dispatcher, missingProperty, injection1, injection2) {
+			console.log(arguments);
+			expect(injector).toEqual(app.injector);
+			expect(dispatcher).toEqual(app.dispatcher);
+			expect(missingProperty).toBeUndefined();
+			expect(injection1).toEqual('inj1');
+			expect(injection2).toEqual('inj2');
+		};
+		app.injector.mapValue('injection1', 'inj1');
+		app.injector.mapValue('injection2', 'inj2');
+		var p = app.createPlugin(Plugin);
 		expect(p instanceof Plugin).toBeTruthy();
 	});
 

@@ -37,7 +37,7 @@ describe("injection", function () {
 	});
 
 	it("instance injection in mediator with inject property", function () {
-		var f = function(){console.log(arguments);this.args = arguments};
+		var f = function(){this.args = arguments};
         f.inject = ['instance'];
 		var mediator = app.mediators.create(f, 1);
 		expect(mediator.args[0]).toBeDefined();

@@ -126,7 +126,8 @@
 			}
 			var targets = [];
 			var meds = [];
-			if ((Object.prototype.toString.call(target) === '[object Array]' || Object.prototype.toString.call(target) === '[object NodeList]') && target.length > 0) {
+			var targetToString = Object.prototype.toString.call(target);
+			if ((targetToString === '[object Array]' || targetToString === '[object NodeList]') && target.length > 0) {
 				targets = [].concat(target);
 			}
 			else {

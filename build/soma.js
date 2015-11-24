@@ -21,7 +21,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     'use strict';
 
-	infuse.version = '0.7.0';
+	infuse.version = '0.7.4';
 
 	// regex from angular JS (https://github.com/angular/angular.js)
 	var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
@@ -108,8 +108,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		}
 
 		// Override arg name with inject array values if present
-		if( cl.hasOwnProperty('inject') && toString.call(cl.inject) === '[object Array]' && cl.inject.length > 0)
-		  inject = cl.inject;
+		if( cl.hasOwnProperty('inject') && Object.prototype.toString.call(cl.inject) === '[object Array]' && cl.inject.length > 0) {
+    		inject = cl.inject;
+        }
 
 		var clStr = cl.toString().replace(STRIP_COMMENTS, '');
 		var argsFlat = clStr.match(FN_ARGS);
@@ -196,7 +197,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			var vo = this.mappings[prop];
 			if (!vo) {
 				if (this.parent) {
-					return this.parent.getValue.apply(this.parent, arguments);
+                    vo = this.parent.getMappingVo.apply(this.parent, arguments);
 				}
 				else {
 					throw new Error(infuse.InjectorError.NO_MAPPING_FOUND);
@@ -222,7 +223,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			var vo = this.mappings[prop];
 			if (!vo) {
 				if (this.parent) {
-					return this.parent.getClass(prop);
+					vo = this.parent.getMappingVo.apply(this.parent, arguments);
 				}
 				else {
 					return undefined;
@@ -241,7 +242,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			var args = [null];
 			var params = infuse.getConstructorParams(TargetClass);
 			for (var i=0; i<params.length; i++) {
-				if (arguments[i+1] !== undefined && arguments[i+1] !== null) {
+                if (arguments.length > i+1 && arguments[i+1] !== undefined && arguments[i+1] !== null) {
 					// argument found
 					args.push(arguments[i+1]);
 				}
@@ -387,6 +388,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	}
 
 })(this['infuse'] = this['infuse'] || {});
+
 /*
 Copyright (c) | 2013 | soma-events | Romuald Quantin | www.soundstep.com
 
@@ -643,7 +645,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 	'use strict';
 
-	soma.version = '2.1.1';
+	soma.version = '2.1.2';
 
 	soma.applyProperties = function(target, extension, bindToExtension, list) {
 		if (Object.prototype.toString.apply(list) === '[object Array]') {
@@ -852,8 +854,8 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 			var targets = [];
 			var meds = [];
-			if (target.length > 0) {
-				targets = target;
+			if ((Object.prototype.toString.call(target) === '[object Array]' || Object.prototype.toString.call(target) === '[object NodeList]') && target.length > 0) {
+				targets = [].concat(target);
 			}
 			else {
 				targets.push(target);

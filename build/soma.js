@@ -645,7 +645,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 	'use strict';
 
-	soma.version = '2.1.2';
+	soma.version = '2.1.3';
 
 	soma.applyProperties = function(target, extension, bindToExtension, list) {
 		if (Object.prototype.toString.apply(list) === '[object Array]') {
@@ -854,7 +854,8 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 			var targets = [];
 			var meds = [];
-			if ((Object.prototype.toString.call(target) === '[object Array]' || Object.prototype.toString.call(target) === '[object NodeList]') && target.length > 0) {
+			var targetToString = Object.prototype.toString.call(target);
+			if ((targetToString === '[object Array]' || targetToString === '[object NodeList]') && target.length > 0) {
 				targets = [].concat(target);
 			}
 			else {

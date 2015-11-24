@@ -58,6 +58,16 @@ describe("mediators", function () {
 		expect(function(){mediators.create(f, undefined);}).toThrow();
 	});
 
+	it("should not treat form elements as a target list", function () {
+		var fo = document.createElement('form');
+		fo.innerHTML = '<input type="text"/><input type="radio"/>';
+		expect(fo.length).toEqual(2);
+		var t;
+		var f = function(target){t = target;};
+		mediators.create(f, fo);
+		expect(t).toEqual(fo);
+	});
+
 	it("dispose", function () {
 		mediators.dispose();
 		expect(mediators.injector).toBeUndefined();

@@ -1,7 +1,7 @@
 declare module infuse {
 
 	var version: string;
-	export function getConstructorParams(cl: any);
+	export function getDependencies(cl: any);
 
 	export class Injector {
 		createChild():Injector;

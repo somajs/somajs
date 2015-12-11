@@ -49,7 +49,7 @@
 			if (arguments.length === 0 || !arguments[0]) {
 				throw new Error('Error creating a plugin, plugin class is missing.');
 			}
-			var params = infuse.getConstructorParams(arguments[0]);
+			var params = infuse.getDependencies(arguments[0]);
 			// add plugin function
 			var args = [arguments[0]];
 			// add injection mappings

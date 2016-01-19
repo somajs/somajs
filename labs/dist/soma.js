@@ -13,7 +13,7 @@ var Application = function Application() {
     console.log('constructor app');
 };
 
-exports.default = Application;
+exports.Application = Application;
 
 },{}]},{},[1])(1)
 });

@@ -27,9 +27,15 @@ module.exports = function(grunt) {
                     'dist/soma.js': ['dist/soma-es6.js']
                 }
             }
+        },
+        jshint: {
+            options: {
+                jshintrc: true
+            },
+            all: ['src/**/*.js']
         }
     });
 
-    grunt.registerTask('build', ['babel', 'browserify']);
+    grunt.registerTask('build', ['jshint', 'babel', 'browserify']);
 
 };

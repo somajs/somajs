@@ -4,4 +4,4 @@ class Application {
     }
 }
 
-export default Application;
+export {Application};

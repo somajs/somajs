@@ -1,6 +1,11 @@
+import {Injector} from './libs/infuse';
+
 class Application {
     constructor() {
-        console.log('constructor app');
+        const injector = new Injector();
+        console.log('constructor app', injector);
+        injector.mapValue('something', {});
+        console.log('mapping', injector.getValue('something'));
     }
 }
 

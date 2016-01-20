@@ -5,6 +5,14 @@ module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
 
     grunt.initConfig({
+        copy: {
+            libs: {
+                files: [
+                    {src: ['node_modules/infuse.js/src/infuse.js'], dest: 'tmp/libs/infuse.js', filter: 'isFile'}
+                    // {src: ['node_modules/soma-events/src/soma-events.js'], dest: 'dist/libs/soma-events.js', filter: 'isFile'}
+                ]
+            }
+        },
         babel: {
             options: {
                 sourceMap: false,
@@ -12,19 +20,22 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'dist/soma-es6.js': 'src/main.js'
+                    'tmp/soma.js': 'src/main.js'
                 }
             }
         },
         browserify: {
-            options: {
-                browserifyOptions: {
-                    standalone: 'soma'
-                }
-            },
             dist: {
+                options: {
+                    browserifyOptions: {
+                        standalone: 'soma'
+                    }
+                },
                 files: {
-                    'dist/soma.js': ['dist/soma-es6.js']
+                    'dist/soma.js': [
+                        'tmp/soma.js',
+                        'tmp/libs/infuse.js'
+                    ]
                 }
             }
         },
@@ -36,6 +47,6 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('build', ['jshint', 'babel', 'browserify']);
+    grunt.registerTask('build', ['jshint', 'copy', 'babel', 'browserify']);
 
 };
